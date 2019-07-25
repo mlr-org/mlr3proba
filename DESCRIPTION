@@ -1,0 +1,20 @@
+Package: mlrpro
+Title: Probabilistic Supervised Learning
+Version: 0.0.0.9000
+Authors@R: 
+      c(person(given = "Raphael",
+             family = "Sonabend",
+             role = c("aut","cre"),
+             email = "raphael.sonabend.15@ucl.ac.uk",
+             comment = c(ORCID = "0000-0001-9225-4654")),
+      person(given = "Franz",
+             family = "Kiraly",
+             role = "aut",
+             email = "f.kiraly@ucl.ac.uk"))
+Description: Placeholder description.
+License: MIT + file LICENSE
+LazyData: true
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
+RoxygenNote: 6.1.1
