@@ -13,14 +13,14 @@ register_mlr3 = function() {
   x$default_measures$density = "classif.logloss"
 
   # tasks
-  # x = utils::getFromNamespace("mlr_tasks", ns = "mlr3")
-  # x$add("rats", load_rats)
+   x = utils::getFromNamespace("mlr_tasks", ns = "mlr3")
+   x$add("precip", load_task_precip)
   # x$add("lung", load_lung)
   # x$add("unemployment", load_unemployment)
 
   # generators
-  # x = utils::getFromNamespace("mlr_task_generators", ns = "mlr3")
-  # x$add("simsurv", TaskGeneratorSimsurv)
+   x = utils::getFromNamespace("mlr_task_generators", ns = "mlr3")
+   x$add("friedman1dens", TaskGeneratorFriedman1Dens)
 
   # learners
    x = utils::getFromNamespace("mlr_learners", ns = "mlr3")
