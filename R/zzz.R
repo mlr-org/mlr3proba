@@ -1,3 +1,12 @@
+#' @import data.table
+#' @import checkmate
+#' @import paradox
+#' @import mlr3misc
+#' @importFrom R6 R6Class is.R6
+#' @importFrom utils data head tail
+#' @importFrom stats reformulate
+"_PACKAGE"
+
 register_mlr3 = function() {
 
   # let mlr3 know about density, probs
@@ -10,7 +19,29 @@ register_mlr3 = function() {
   x$task_properties$density = c("weights", "groups")
   x$learner_properties$density = x$learner_properties$regr
   x$learner_predict_types$density$prob = "prob"
-  x$default_measures$density = "classif.logloss"
+  x$default_measures$density = "density.logloss"
+
+  x$task_types = data.table::setkeyv(rbind(x$task_types, rowwise_table(
+    ~type,  ~package,       ~task,      ~learner,      ~prediction,      ~measure,
+    "probreg", "mlr3pro", "TaskProbreg", "LearnerProbreg", "PredictionProbreg", "MeasureProbreg"
+  )), "type")
+  x$task_col_roles$probreg = x$task_col_roles$regr
+  x$task_properties$probreg = c("weights", "groups")
+  x$learner_properties$probreg = x$learner_properties$regr
+  x$learner_predict_types$probreg$prob = "prob"
+  x$default_measures$probreg = "probreg.logloss"
+
+  x$learner_predict_types$regr$prob = "prob"
+
+  x$task_types = setkeyv(rbind(x$task_types, rowwise_table(
+    ~type,  ~package,       ~task,      ~learner,      ~prediction,      ~measure,
+    "surv", "mlr3survival", "TaskSurv", "LearnerSurv", "PredictionSurv", "MeasureSurv"
+  )), "type")
+  x$task_col_roles$surv = c("feature", "target", "label", "order", "groups", "weights")
+  x$task_properties$surv = c("weights", "groups")
+  x$learner_properties$surv = x$learner_properties$regr
+  x$learner_predict_types$surv$distribution = "distribution"
+  x$default_measures$surv = "surv.brier"
 
   # tasks
    x = utils::getFromNamespace("mlr_tasks", ns = "mlr3")
@@ -25,6 +56,8 @@ register_mlr3 = function() {
   # learners
    x = utils::getFromNamespace("mlr_learners", ns = "mlr3")
    x$add("density.kde", LearnerDensityKDE)
+   x$add("probreg.gaussian", LearnerProbregGaussian)
+   x$add("surv.coxph", LearnerSurvCoxPH)
   # x$add("surv.glmnet", LearnerSurvGlmnet)
   # x$add("surv.rpart", LearnerSurvRpart)
   # x$add("surv.ranger", LearnerSurvRanger)
@@ -32,12 +65,13 @@ register_mlr3 = function() {
 
   # measures
    x = utils::getFromNamespace("mlr_measures", ns = "mlr3")
-   x$add("classif.logloss", MeasureClassifLogloss)
+   x$add("density.logloss", MeasureDensityLogloss)
+   x$add("probreg.logloss", MeasureProbregLogloss)
+   x$add("surv.brier", MeasureSurvBrier)
   # x$add("surv.unos_c", MeasureSurvUnosC)
 }
 
 .onLoad = function(libname, pkgname) {
-  library(checkmate)
   # nocov start
   register_mlr3()
   setHook(packageEvent("mlr3", "onLoad"), function(...) register_mlr3(), action = "append")

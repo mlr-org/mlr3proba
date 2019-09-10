@@ -2,3 +2,13 @@
 
 S3method(as.data.table,PredictionDensity)
 S3method(c,PredictionDensity)
+import(checkmate)
+import(data.table)
+import(mlr3misc)
+import(paradox)
+importFrom(R6,R6Class)
+importFrom(R6,is.R6)
+importFrom(stats,reformulate)
+importFrom(utils,data)
+importFrom(utils,head)
+importFrom(utils,tail)

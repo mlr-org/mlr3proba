@@ -2,7 +2,7 @@ LearnerDensityKDE = R6::R6Class("LearnerDensityKDE", inherit = LearnerDensity)
 LearnerDensityKDE$set("public", "initialize", function(id = "density.KDE") {
   super$initialize(
     id = id,
-    param_set = ParamSet$new(list(ParamFct$new("kernel",levels = as.character(subset(listKernels(),
+    param_set = ParamSet$new(list(ParamFct$new("kernel",levels = as.character(subset(distr6::listKernels(),
                                                                                      select="ShortName")[[1]]),
                                                tags = "train"),
                                   ParamDbl$new("bandwidth", lower = 0, tags = "train"))),

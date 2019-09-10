@@ -13,8 +13,22 @@ Authors@R:
              email = "f.kiraly@ucl.ac.uk"))
 Description: Placeholder description.
 License: MIT + file LICENSE
+Depends:
+    R (>= 3.1.0),
+    mlr3,
+    distr6 (>= 1.1.0)
+Imports:
+    checkmate,
+    data.table,
+    mlr3misc,
+    paradox,
+    R6,
+    survival
+Suggests:
+    testthat
 LazyData: true
-VignetteBuilder: 
-    knitr
-Encoding: UTF-8
+NeedsCompilation: no
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
+Encoding: UTF-8
+

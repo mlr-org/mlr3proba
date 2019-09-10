@@ -9,7 +9,6 @@ test_that("Construction", {
 })
 
 test_that("Internally constructed Prediction", {
-
   p = lrn$train(task)$predict(task)
   expect_prediction_density(p)
 })
