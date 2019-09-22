@@ -8,7 +8,7 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
             ParamFct$new(id = "ties", default = "efron", levels = c("efron", "breslow", "exact"), tags = "train")
           )
         ),
-        predict_types = "distribution",
+        predict_types = "distr",
         feature_types = c("logical", "integer", "numeric", "factor"),
         properties = c("weights"),
         packages = c("survival", "distr6")
@@ -26,20 +26,23 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
 
     predict_internal = function(task) {
       newdata = task$data(cols = task$feature_names)
-
+      linpred = unname(predict(self$model$fit, newdata = newdata, type = "lp"))
       risk =  predict(self$model$fit, type = "risk", newdata = newdata)
+      # Is this correct? Or should basehaz use covariates = 0?
       basehaz = survival::basehaz(self$model$fit)
+      colnames(basehaz)[1] = "cumhazard"
+      basehaz$hazard = c(basehaz$cumhazard[1], diff(basehaz$cumhazard))
 
-      distribution = lapply(risk, function(x){
+      distr = lapply(risk, function(x){
         cdf = function(x1){}
         body(cdf) = substitute({
-          1 - exp(-(bh[findInterval(x1, time)] * lp))
-        }, list(bh = basehaz$hazard, time = basehaz$time, lp = x))
+          1 - exp(-(bch[findInterval(x1, time)] * lp))
+        }, list(bch = basehaz$cumhazard, time = basehaz$time, lp = x))
 
         pdf = function(x1){}
         body(pdf) = substitute({
-          1 - exp(-(bh[findInterval(x1, time)] * lp))
-        }, list(bh = basehaz$hazard, time = basehaz$time, lp = x))
+          exp(-(bch[findInterval(x1, time)] * lp)) * (bh[findInterval(x1, time)] * lp)
+        }, list(bch = basehaz$hazard, time = basehaz$time, lp = x, bh = basehaz$hazard))
 
         suppressMessages(distr6::Distribution$new("coxph", pdf = pdf, cdf = cdf,
                                                   type = Reals$new(zero = TRUE),
@@ -47,7 +50,7 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
                                  valueSupport = "continuous", variateForm = "univariate",
                                  decorators = c(CoreStatistics, ExoticStatistics)))
       })
-      PredictionSurv$new(task = task, distribution = distribution)
+      PredictionSurv$new(task = task, distr = distr, risk = linpred)
     }
 
     # importance = function() {

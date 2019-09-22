@@ -1,0 +1,48 @@
+LearnerSurvNelsonAalen = R6Class("LearnerSurvNelsonAalen", inherit = LearnerSurv,
+                                 public = list(
+                                   initialize = function() {
+                                     super$initialize(
+                                       id = "surv.na",
+                                       predict_types = "distr",
+                                       feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
+                                       properties = c("missings", "importance", "selected_features"),
+                                       packages = c("survival", "distr6")
+                                     )
+                                   },
+
+                                   train_internal = function(task) {
+                                     fit = invoke(survival::survfit, formula = task$formula(1), data = task$data())
+                                     set_class(list(fit = fit), "surv.na")
+                                   },
+
+                                   predict_internal = function(task) {
+                                     cumhaz = c(0, self$model$fit$cumhaz)
+                                     time = c(0, self$model$fit$time)
+
+                                     cdf = function(x1){}
+                                     body(cdf) = substitute(1 - exp(-cumhaz[findInterval(x1, time, all.inside = TRUE)]))
+
+                                     distr = suppressMessages(distr6::Distribution$new("Nelson-Aalen","na", cdf = cdf,
+                                                                                       type = PosReals$new(zero = TRUE),
+                                                                                       support = PosReals$new(zero = TRUE),
+                                                                                       valueSupport = "continuous",
+                                                                                       variateForm = "univariate",
+                                                                                       decorators = c(CoreStatistics,
+                                                                                                      ExoticStatistics)))
+
+                                     PredictionSurv$new(task = task, distr = rep(list(distr), task$nrow))
+                                   },
+
+                                   importance = function() {
+                                     if (is.null(self$model)) {
+                                       stopf("No model stored")
+                                     }
+                                     fn = self$model$features
+                                     named_vector(fn, 0)
+                                   },
+
+                                   selected_features = function() {
+                                     character(0L)
+                                   }
+                                 )
+)

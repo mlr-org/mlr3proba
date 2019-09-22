@@ -9,8 +9,9 @@
 
 register_mlr3 = function() {
 
-  # let mlr3 know about density, probs
   x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
+
+  # add density task
   x$task_types = data.table::setkeyv(rbind(x$task_types, rowwise_table(
     ~type,  ~package,       ~task,      ~learner,      ~prediction,      ~measure,
     "density", "mlr3pro", "TaskDensity", "LearnerDensity", "PredictionDensity", "MeasureDensity"
@@ -21,18 +22,12 @@ register_mlr3 = function() {
   x$learner_predict_types$density$prob = "prob"
   x$default_measures$density = "density.logloss"
 
-  x$task_types = data.table::setkeyv(rbind(x$task_types, rowwise_table(
-    ~type,  ~package,       ~task,      ~learner,      ~prediction,      ~measure,
-    "probreg", "mlr3pro", "TaskProbreg", "LearnerProbreg", "PredictionProbreg", "MeasureProbreg"
-  )), "type")
-  x$task_col_roles$probreg = x$task_col_roles$regr
-  x$task_properties$probreg = c("weights", "groups")
-  x$learner_properties$probreg = x$learner_properties$regr
-  x$learner_predict_types$probreg$prob = "prob"
-  x$default_measures$probreg = "probreg.logloss"
+  # add distr and interval to regression task
+  x$learner_predict_types$regr$distr = "distr"
+  x$learner_predict_types$regr$interval = "interval"
 
-  x$learner_predict_types$regr$prob = "prob"
-
+  # add survival task
+  x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
   x$task_types = setkeyv(rbind(x$task_types, rowwise_table(
     ~type,  ~package,       ~task,      ~learner,      ~prediction,      ~measure,
     "surv", "mlr3survival", "TaskSurv", "LearnerSurv", "PredictionSurv", "MeasureSurv"
@@ -40,8 +35,8 @@ register_mlr3 = function() {
   x$task_col_roles$surv = c("feature", "target", "label", "order", "groups", "weights")
   x$task_properties$surv = c("weights", "groups")
   x$learner_properties$surv = x$learner_properties$regr
-  x$learner_predict_types$surv$distribution = "distribution"
-  x$default_measures$surv = "surv.brier"
+  x$learner_predict_types$surv = list(distr = "distr", risk = "risk")
+  x$default_measures$surv = "surv.harrells_c"
 
   # tasks
    x = utils::getFromNamespace("mlr_tasks", ns = "mlr3")
@@ -58,6 +53,8 @@ register_mlr3 = function() {
    x$add("density.kde", LearnerDensityKDE)
    x$add("probreg.gaussian", LearnerProbregGaussian)
    x$add("surv.coxph", LearnerSurvCoxPH)
+   x$add("surv.km", LearnerSurvKaplanMeier)
+   x$add("surv.na", LearnerSurvNelsonAalen)
   # x$add("surv.glmnet", LearnerSurvGlmnet)
   # x$add("surv.rpart", LearnerSurvRpart)
   # x$add("surv.ranger", LearnerSurvRanger)
@@ -66,8 +63,9 @@ register_mlr3 = function() {
   # measures
    x = utils::getFromNamespace("mlr_measures", ns = "mlr3")
    x$add("density.logloss", MeasureDensityLogloss)
-   x$add("probreg.logloss", MeasureProbregLogloss)
+   x$add("regr.logloss", MeasureRegrLogloss)
    x$add("surv.brier", MeasureSurvBrier)
+   x$add("surv.logloss", MeasureSurvLogloss)
   # x$add("surv.unos_c", MeasureSurvUnosC)
 }
 

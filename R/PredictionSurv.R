@@ -1,21 +1,23 @@
 PredictionSurv = R6Class("PredictionSurv", inherit = Prediction,
   public = list(
     initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(),
-                          distribution = NULL) {
+                          distr = NULL, risk = NULL) {
       self$data$row_ids = assert_atomic_vector(row_ids)
       self$data$truth = truth # assert_surv(truth)
-      self$data$distribution = distr6::assertDistributionList(distribution)
+      self$data$distr = distr6::assertDistributionList(distr)
+      self$data$risk = assert_numeric(risk, null.ok = TRUE)
       self$task_type = "surv"
     }
   ),
 
   active = list(
-    distribution = function() self$data$distribution,
+    risk = function() self$data$risk,
+    distr = function() self$data$distr,
     missing = function() {
-      if (is.null(self$data$distribution)) {
+      if (is.null(self$data$distr)) {
         return(self$data_row_ids[0L])
       }
-      self$data$row_ids[is.na(self$data$distribution)]
+      self$data$row_ids[is.na(self$data$distr)]
     }
   )
 )
@@ -23,7 +25,7 @@ PredictionSurv = R6Class("PredictionSurv", inherit = Prediction,
 
 #' @export
 as.data.table.PredictionSurv = function(x, ...) {
-  tab = data.table(row_id = x$data$row_ids, distribution = x$data$distribution)
+  tab = data.table(row_id = x$data$row_ids, distr = x$data$distr)
   if (!is.null(x$data$truth)) {
     tab[, c("time", "status") := list(x$data$truth[, 1L], x$data$truth[, 2L])]
     setcolorder(tab, c("row_id", "time", "status"))[]
@@ -49,7 +51,7 @@ c.PredictionSurv = function(..., keep_duplicates = TRUE) {
     truth = truth[keep]
   }
 
-  PredictionSurv$new(row_ids = x$row_ids, truth = truth, distribution = x$distribution)
+  PredictionSurv$new(row_ids = x$row_ids, truth = truth, distr = x$distr)
 }
 
 

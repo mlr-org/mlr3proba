@@ -1,12 +1,12 @@
-MeasureProbregLogloss = R6::R6Class("MeasureProbregLogloss",
-                            inherit = MeasureProbreg,
+MeasureRegrLogloss = R6::R6Class("MeasureRegrLogloss",
+                            inherit = MeasureRegr,
                             public = list(
                               initialize = function() {
                                 super$initialize(
-                                  id = "probreg.logloss",
+                                  id = "regr.logloss",
                                   range = c(0, Inf),
                                   minimize = TRUE,
-                                  predict_type = "prob"
+                                  predict_type = "distr"
                           #        task_properties = "twoclass",
                           #        packages = "Metrics"
                                 )
