@@ -8,7 +8,7 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
             ParamFct$new(id = "ties", default = "efron", levels = c("efron", "breslow", "exact"), tags = "train")
           )
         ),
-        predict_types = "distr",
+        predict_types = c("distr","risk"),
         feature_types = c("logical", "integer", "numeric", "factor"),
         properties = c("weights"),
         packages = c("survival", "distr6")
@@ -20,36 +20,38 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
       if ("weights" %in% task$properties) {
         pv$weights = task$weights$weight
       }
-      fit = invoke(survival::coxph, formula = task$formula(), data = task$data(), .args = pv, x = TRUE)
-      set_class(list(fit = fit), "surv.coxph")
+      invoke(survival::coxph, formula = task$formula(), data = task$data(), .args = pv, x = TRUE)
+      # set_class(list(fit = fit), "surv.coxph")
     },
 
     predict_internal = function(task) {
       newdata = task$data(cols = task$feature_names)
-      linpred = unname(predict(self$model$fit, newdata = newdata, type = "lp"))
-      risk =  predict(self$model$fit, type = "risk", newdata = newdata)
+      linpred = unname(predict(self$model, newdata = newdata, type = "lp"))
+      risk =  predict(self$model, type = "risk", newdata = newdata)
       # Is this correct? Or should basehaz use covariates = 0?
-      basehaz = survival::basehaz(self$model$fit)
+      basehaz = survival::basehaz(self$model)
       colnames(basehaz)[1] = "cumhazard"
       basehaz$hazard = c(basehaz$cumhazard[1], diff(basehaz$cumhazard))
+      basehaz = rbind(data.frame(cumhazard = 0, time = 0, hazard = 0), basehaz)
+
 
       distr = lapply(risk, function(x){
         cdf = function(x1){}
         body(cdf) = substitute({
-          1 - exp(-(bch[findInterval(x1, time)] * lp))
+          1 - exp(-(bch[findInterval(x1, time, all.inside = TRUE)] * lp))
         }, list(bch = basehaz$cumhazard, time = basehaz$time, lp = x))
 
         pdf = function(x1){}
         body(pdf) = substitute({
-          exp(-(bch[findInterval(x1, time)] * lp)) * (bh[findInterval(x1, time)] * lp)
-        }, list(bch = basehaz$hazard, time = basehaz$time, lp = x, bh = basehaz$hazard))
+          exp(-(bch[findInterval(x1, time, all.inside = TRUE)] * lp)) * (bh[match(x1, time)] * lp)
+        }, list(bch = basehaz$cumhazard, time = basehaz$time, lp = x, bh = basehaz$hazard))
 
-        suppressMessages(distr6::Distribution$new("coxph", pdf = pdf, cdf = cdf,
-                                                  type = Reals$new(zero = TRUE),
-                                 support = PosReals$new(zero = TRUE),
-                                 valueSupport = "continuous", variateForm = "univariate",
-                                 decorators = c(CoreStatistics, ExoticStatistics)))
-      })
+        # Should be discrete not continuous, but need to update distr6 bug
+      suppressWarnings(suppressMessages(distr6::Distribution$new(name = "Cox Proportional Hazards",
+        short_name = "coxph", pdf = pdf, cdf = cdf, type = Reals$new(zero = TRUE),
+        support = PosReals$new(zero = TRUE), valueSupport = "continuous",
+        variateForm = "univariate", decorators = c(CoreStatistics, ExoticStatistics))))
+       })
       PredictionSurv$new(task = task, distr = distr, risk = linpred)
     }
 

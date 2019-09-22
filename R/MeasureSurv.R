@@ -4,19 +4,19 @@
 #' @format [R6::R6Class] object inheriting from [mlr3::Measure].
 #'
 #' @description
-#' This measure specializes [mlr3::Measure] for classification problems.
+#' This measure specializes [mlr3::Measure] for survival problems.
 #' Predefined measures can be found in the [mlr3misc::Dictionary] [mlr3::mlr_measures].
 #'
-#' The `task_type` is set to `"classif"`.
+#' The `task_type` is set to `"surv"`.
 #'
 #' @section Construction:
 #' ```
-#' m = MeasureSurv$new(id, range, minimize, predict_type = "risk",
-#'      task_properties = character(0L), na_score = FALSE, packages = character(0L))
+#' m = MeasureSurv$new(id, range, minimize, aggregator = NULL, properties = character(), predict_type = "distr",
+#'      task_properties = character(), packages = character())
 #' ```
 #' For a description of the arguments, see [mlr3::Measure].
 #' The `task_type` is set to `"surv"`.
-#' Currently only possible value for `predict_types` is "risk".
+#' Possible values for `predict_type` are `"distr"` and `"risk"`.
 #'
 #' @section Fields:
 #' See [Measure].
@@ -25,13 +25,13 @@
 #' See [Measure].
 #'
 #' @family Measure
-#' @seealso Example survival measure: [`surv.harrells_c`][mlr_measures_surv.harrells_c].
+#' @seealso Example survival measures: [`surv.brier`][mlr_measures_surv.brier].
 #' @export
 MeasureSurv = R6Class("MeasureSurv", inherit = Measure, cloneable = FALSE,
-  public = list(
-    initialize = function(id, range, minimize = NA, aggregator = NULL, properties = character(), predict_type = "risk", task_properties = character(0L), na_score = FALSE, packages = character(0L)) {
-      super$initialize(id, task_type = "surv", range = range, minimize = minimize, aggregator = aggregator,
-        properties = properties, predict_type = predict_type, task_properties = task_properties, na_score = na_score, packages = packages)
-    }
-  )
+                      public = list(
+                        initialize = function(id, range, minimize = NA, aggregator = NULL, properties = character(), predict_type = "distr", task_properties = character(), packages = character()) {
+                          super$initialize(id, task_type = "surv", range = range, minimize = minimize, aggregator = aggregator,
+                                           properties = properties, predict_type = predict_type, task_properties = task_properties, packages = packages)
+                        }
+                      )
 )

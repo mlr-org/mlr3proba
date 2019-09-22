@@ -1,23 +1,109 @@
+#' @title Prediction Object for Survival
+#'
+#' @usage NULL
+#' @format [R6::R6Class] object inheriting from [mlr3::Prediction].
+#'
+#' @description
+#' This object stores the predictions returned by a learner of class [LearnerSurv].
+#'
+#' The `task_type` is set to `"surv"`.
+#'
+#' @section Construction:
+#' ```
+#' p = PredictionSurv$new(task = NULL, row_ids = task$row_ids,
+#'   truth = task$truth(), risk = NULL)
+#' ```
+#'
+#' * `task` :: [TaskSurv]\cr
+#'   Task, used to extract defaults for `row_ids` and `truth`.
+#'
+#' * `row_ids` :: (`integer()` | `character()`)\cr
+#'   Row ids of the task. Per default, these are extracted from the `task`.
+#'
+#' * `truth` :: `survival::Surv()`\cr
+#'   Observed survival times. Per default, these are extracted from the `task`.
+#'
+#' * `risk` :: `numeric()`\cr
+#'   Vector of risk scores. One element for each observation in the test set.
+#'   The higher the risk, the more likely is an event.
+#'   Used in measures like [mlr_measures_surv.harrells_c].
+#'
+#' * `distr` :: `distr6::Distribution()`\cr
+#'   List of R6 distributions. One distribution for each observation in the test set.
+#'   Each distribution contains the hazard, survival, and cumulative hazard (and other
+#'   common functions) for all predictions.
+#'   Used in measures like [mlr_measures_surv.brier].
+#'
+#' @section Fields:
+#' See [mlr3::Prediction].
+#'
+#' The field `task_type` is set to `"surv"`.
+#'
+#' @family Prediction
+#' @export
+#' @examples
+#' library(mlr3)
+#' task = mlr_tasks$get("lung")
+#' learner = mlr_learners$get("surv.rpart")
+#' p = learner$train(task)$predict(task)
+#' head(as.data.table(p))
 PredictionSurv = R6Class("PredictionSurv", inherit = Prediction,
   public = list(
-    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(),
-                          distr = NULL, risk = NULL) {
-      self$data$row_ids = assert_atomic_vector(row_ids)
-      self$data$truth = truth # assert_surv(truth)
-      self$data$distr = distr6::assertDistributionList(distr)
-      self$data$risk = assert_numeric(risk, null.ok = TRUE)
+    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), distr = NULL, risk = NULL) {
+      assert_row_ids(row_ids)
+      n = length(row_ids)
+
       self$task_type = "surv"
+      self$predict_types = c("risk", "distr")[c(!is.null(risk), !is.null(distr))]
+      self$data$tab = data.table(
+        row_id = row_ids
+      )
+      if (!is.null(truth)) {
+        assert_surv(truth)
+        self$data$tab[, c("time", "status") := list(truth[, 1L], as.logical(truth[, 2L]))]
+      }
+
+      if (!is.null(risk)) {
+        self$data$tab$risk = assert_numeric(risk, len = n, any.missing = FALSE)
+      }
+
+      if (!is.null(distr)) {
+        self$data$tab$distr = distr6::assertDistributionList(distr)
+      }
+
+    },
+
+    print = function(){
+      x = as.data.table(self)
+      x$distr = lapply(x$distr, distr6::strprint)
+      print(x)
     }
   ),
 
   active = list(
-    risk = function() self$data$risk,
-    distr = function() self$data$distr,
+    truth = function() {
+      Surv(self$data$tab$time, self$data$tab$status, type = "right")
+    },
+
+    risk = function() {
+      self$data$tab$risk %??% rep(NA_real_, length(self$data$row_ids))
+    },
+
+    distr = function() {
+      self$data$tab$distr %??% rep(NA_real_, length(self$data$row_ids))
+    },
+
     missing = function() {
-      if (is.null(self$data$distr)) {
-        return(self$data_row_ids[0L])
+      miss = logical(nrow(self$data$tab))
+      if ("risk" %in% self$predict_types) {
+        miss = is.na(self$data$tab$risk)
       }
-      self$data$row_ids[is.na(self$data$distr)]
+
+      if ("distr" %in% self$predict_types) {
+        miss = miss | is.na(self$data$tab$distr)
+      }
+
+      self$data$tab$row_id[miss]
     }
   )
 )
@@ -25,33 +111,30 @@ PredictionSurv = R6Class("PredictionSurv", inherit = Prediction,
 
 #' @export
 as.data.table.PredictionSurv = function(x, ...) {
-  tab = data.table(row_id = x$data$row_ids, distr = x$data$distr)
-  if (!is.null(x$data$truth)) {
-    tab[, c("time", "status") := list(x$data$truth[, 1L], x$data$truth[, 2L])]
-    setcolorder(tab, c("row_id", "time", "status"))[]
-  }
-  tab
+  copy(x$data$tab)
 }
 
 #' @export
 c.PredictionSurv = function(..., keep_duplicates = TRUE) {
-
   dots = list(...)
   assert_list(dots, "PredictionSurv")
   assert_flag(keep_duplicates)
-
-  x = map_dtr(dots, function(p) {
-    list(row_ids = p$data$row_ids, risk = p$data$risk)
-  }, .fill = FALSE)
-  truth = do.call(c, map(dots, "truth"))
-
-  if (!keep_duplicates) {
-    keep = !duplicated(x$row_ids, fromLast = TRUE)
-    x = x[keep]
-    truth = truth[keep]
+  if (length(dots) == 1L) {
+    return(dots[[1L]])
   }
 
-  PredictionSurv$new(row_ids = x$row_ids, truth = truth, distr = x$distr)
+  predict_types = map(dots, "predict_types")
+  if (!every(predict_types[-1L], setequal, y = predict_types[[1L]])) {
+    stopf("Cannot rbind predictions: Probabilities for some predictions, not all")
+  }
+
+  tab = map_dtr(dots, function(p) p$data$tab, .fill = FALSE)
+
+  if (!keep_duplicates) {
+    tab = unique(tab, by = "row_id", fromLast = TRUE)
+  }
+
+  PredictionSurv$new(row_ids = tab$row_id, truth = Surv(tab$time, tab$status), risk = tab$risk, distr = tab$distr)
 }
 
 

@@ -1,10 +1,13 @@
 #' @import data.table
 #' @import checkmate
+#' @import distr6
 #' @import paradox
+#' @import mlr3
 #' @import mlr3misc
-#' @importFrom R6 R6Class is.R6
+#' @importFrom R6 R6Class
 #' @importFrom utils data head tail
 #' @importFrom stats reformulate
+#' @importFrom survival Surv survfit
 "_PACKAGE"
 
 register_mlr3 = function() {
@@ -35,30 +38,35 @@ register_mlr3 = function() {
   x$task_col_roles$surv = c("feature", "target", "label", "order", "groups", "weights")
   x$task_properties$surv = c("weights", "groups")
   x$learner_properties$surv = x$learner_properties$regr
-  x$learner_predict_types$surv = list(distr = "distr", risk = "risk")
-  x$default_measures$surv = "surv.harrells_c"
+  x$measure_properties$surv = x$measure_properties$regr
+  x$learner_predict_types$surv = list(risk = "risk", distr = c("risk", "distr"))
+  x$default_measures$surv = "surv.brier"
 
   # tasks
    x = utils::getFromNamespace("mlr_tasks", ns = "mlr3")
    x$add("precip", load_task_precip)
-  # x$add("lung", load_lung)
-  # x$add("unemployment", load_unemployment)
+   x$add("rats", load_rats)
+   x$add("lung", load_lung)
+   x$add("unemployment", load_unemployment)
 
   # generators
    x = utils::getFromNamespace("mlr_task_generators", ns = "mlr3")
    x$add("friedman1dens", TaskGeneratorFriedman1Dens)
+   x$add("simsurv", TaskGeneratorSimsurv)
 
   # learners
    x = utils::getFromNamespace("mlr_learners", ns = "mlr3")
    x$add("density.kde", LearnerDensityKDE)
+
    x$add("probreg.gaussian", LearnerProbregGaussian)
+
    x$add("surv.coxph", LearnerSurvCoxPH)
    x$add("surv.km", LearnerSurvKaplanMeier)
    x$add("surv.na", LearnerSurvNelsonAalen)
   # x$add("surv.glmnet", LearnerSurvGlmnet)
   # x$add("surv.rpart", LearnerSurvRpart)
-  # x$add("surv.ranger", LearnerSurvRanger)
-  # x$add("surv.featureless", LearnerSurvFeatureless)
+   x$add("surv.ranger", LearnerSurvRanger)
+   x$add("surv.featureless", LearnerSurvFeatureless)
 
   # measures
    x = utils::getFromNamespace("mlr_measures", ns = "mlr3")
@@ -66,7 +74,8 @@ register_mlr3 = function() {
    x$add("regr.logloss", MeasureRegrLogloss)
    x$add("surv.brier", MeasureSurvBrier)
    x$add("surv.logloss", MeasureSurvLogloss)
-  # x$add("surv.unos_c", MeasureSurvUnosC)
+   x$add("surv.unosc", MeasureSurvUnosC)
+   x$add("surv.harrellsc", MeasureSurvHarrellsC)
 }
 
 .onLoad = function(libname, pkgname) {

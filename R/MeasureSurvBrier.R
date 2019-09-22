@@ -6,7 +6,7 @@ MeasureSurvBrier = R6::R6Class("MeasureSurvBrier",
                                   id = "surv.brier",
                                   range = c(0, Inf),
                                   minimize = TRUE,
-                                  predict_type = "distribution"
+                                  predict_type = "distr"
                           #        task_properties = "twoclass",
                           #        packages = "Metrics"
                                 )
@@ -22,7 +22,7 @@ MeasureSurvBrier = R6::R6Class("MeasureSurvBrier",
                                 ind = matrix(as.numeric(rep(prediction$truth[,1], each = nc) >
                                   rep(times, nr)), nrow = nr, ncol = nc)
 
-                                surv = transpose(data.table::rbindlist(list(lapply(prediction$distribution,
+                                surv = transpose(data.table::rbindlist(list(lapply(prediction$distr,
                                                                             function(x) x$survival(times)))))
 
                                 mean(unlist((ind - surv)^2))

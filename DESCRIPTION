@@ -1,4 +1,4 @@
-Package: mlr3pro
+Package: mlr3proba
 Title: Probabilistic Supervised Learning
 Version: 0.0.0.9000
 Authors@R: 
@@ -14,20 +14,26 @@ Authors@R:
 Description: Placeholder description.
 License: MIT + file LICENSE
 Depends:
-    R (>= 3.1.0),
-    mlr3,
-    distr6 (>= 1.1.0)
+    R (>= 3.1.0)
 Imports:
     checkmate,
     data.table,
+    distr6 (>= 1.1.0),
+    mlr3,
     mlr3misc,
     paradox,
     R6,
     survival
 Suggests:
+    glmnet,
+    lgr,
+    ranger,
+    rpart,
+    simsurv,
+    survAUC,
     testthat
 LazyData: true
-NeedsCompilation: no
+NeedsCompilation: yes
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
 Encoding: UTF-8
