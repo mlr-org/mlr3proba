@@ -2,7 +2,7 @@ LearnerSurvKaplanMeier = R6Class("LearnerSurvKaplanMeier", inherit = LearnerSurv
   public = list(
     initialize = function() {
       super$initialize(
-        id = "surv.km",
+        id = "surv.kaplan",
         predict_types = "distr",
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         properties = c("missings", "importance", "selected_features"),
@@ -11,24 +11,16 @@ LearnerSurvKaplanMeier = R6Class("LearnerSurvKaplanMeier", inherit = LearnerSurv
     },
 
     train_internal = function(task) {
-      fit = invoke(survival::survfit, formula = task$formula(1), data = task$data())
-      set_class(list(fit = fit), "surv.km")
+      invoke(survival::survfit, formula = task$formula(1), data = task$data())
     },
 
     predict_internal = function(task) {
-      surv = c(1, self$model$fit$surv)
-      time = c(0, self$model$fit$time)
+      surv = c(1, self$model$surv)
+      time = c(0, self$model$time)
 
-      cdf = function(x1){}
-      body(cdf) = substitute(1 - surv[findInterval(x1, time, all.inside = TRUE)])
-
-      distr = suppressMessages(distr6::Distribution$new("Kaplan-Meier","km", cdf = cdf,
-                                                type = PosReals$new(zero = TRUE),
-                                                support = PosReals$new(zero = TRUE),
-                                                valueSupport = "continuous",
-                                                variateForm = "univariate",
-                                                decorators = c(CoreStatistics,
-                                                               ExoticStatistics)))
+      distr = suppressAll(
+        distr6::WeightedDiscrete$new(data.frame(x = time, cdf = 1 - surv),
+                                     decorators = c(CoreStatistics, ExoticStatistics)))
 
       PredictionSurv$new(task = task, distr = rep(list(distr), task$nrow))
     },

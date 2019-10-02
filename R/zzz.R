@@ -1,6 +1,5 @@
 #' @import data.table
 #' @import checkmate
-#' @import distr6
 #' @import paradox
 #' @import mlr3
 #' @import mlr3misc
@@ -8,6 +7,7 @@
 #' @importFrom utils data head tail
 #' @importFrom stats reformulate
 #' @importFrom survival Surv survfit
+#' @importFrom BBmisc suppressAll
 "_PACKAGE"
 
 register_mlr3 = function() {
@@ -39,7 +39,7 @@ register_mlr3 = function() {
   x$task_properties$surv = c("weights", "groups")
   x$learner_properties$surv = x$learner_properties$regr
   x$measure_properties$surv = x$measure_properties$regr
-  x$learner_predict_types$surv = list(risk = "risk", distr = c("risk", "distr"))
+  x$learner_predict_types$surv = list(distr = "distr", risk = c("distr","risk"), lp = c("distr","risk","lp"))
   x$default_measures$surv = "surv.brier"
 
   # tasks
@@ -61,12 +61,16 @@ register_mlr3 = function() {
    x$add("probreg.gaussian", LearnerProbregGaussian)
 
    x$add("surv.coxph", LearnerSurvCoxPH)
-   x$add("surv.km", LearnerSurvKaplanMeier)
-   x$add("surv.na", LearnerSurvNelsonAalen)
-  # x$add("surv.glmnet", LearnerSurvGlmnet)
-  # x$add("surv.rpart", LearnerSurvRpart)
+   x$add("surv.kaplan", LearnerSurvKaplanMeier)
+   x$add("surv.nelson", LearnerSurvNelsonAalen)
+   x$add("surv.glmnet", LearnerSurvGlmnet)
+   x$add("surv.penalized", LearnerSurvPenalized)
+   x$add("surv.rpart", LearnerSurvRpart)
    x$add("surv.ranger", LearnerSurvRanger)
-   x$add("surv.featureless", LearnerSurvFeatureless)
+   x$add("surv.randomForestSRC", LearnerSurvRandomForestSRC)
+   x$add("surv.svm", LearnerSurvSVM)
+   x$add("surv.parametric", LearnerSurvParametric)
+   x$add("surv.flexible", LearnerSurvFlexible)
 
   # measures
    x = utils::getFromNamespace("mlr_measures", ns = "mlr3")

@@ -5,7 +5,9 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
         id = "surv.coxph",
         param_set = ParamSet$new(
           params = list(
-            ParamFct$new(id = "ties", default = "efron", levels = c("efron", "breslow", "exact"), tags = "train")
+            ParamFct$new(id = "ties", default = "efron", levels = c("efron", "breslow", "exact"), tags = "train"),
+            ParamLgl$new(id = "singular.ok", default = TRUE, tags = "train"),
+            ParamFct$new(id = "type", default = "efron", levels = c("efron", "aalen", "kalbfleisch-prentice"), tags = "predict")
           )
         ),
         predict_types = c("distr","risk"),
@@ -20,39 +22,27 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
       if ("weights" %in% task$properties) {
         pv$weights = task$weights$weight
       }
+
       invoke(survival::coxph, formula = task$formula(), data = task$data(), .args = pv, x = TRUE)
-      # set_class(list(fit = fit), "surv.coxph")
     },
 
     predict_internal = function(task) {
       newdata = task$data(cols = task$feature_names)
-      linpred = unname(predict(self$model, newdata = newdata, type = "lp"))
+
+      if(any(is.na(data.frame(task$data(cols = task$feature_names)))))
+        stop(sprintf("Learner %s on task %s failed to predict: Missing values in new data (line(s) %s)\n",
+                     self$id, task$id, which(is.na(data.frame(task$data(cols = task$feature_names))))))
+
+
       risk =  predict(self$model, type = "risk", newdata = newdata)
-      # Is this correct? Or should basehaz use covariates = 0?
-      basehaz = survival::basehaz(self$model)
-      colnames(basehaz)[1] = "cumhazard"
-      basehaz$hazard = c(basehaz$cumhazard[1], diff(basehaz$cumhazard))
-      basehaz = rbind(data.frame(cumhazard = 0, time = 0, hazard = 0), basehaz)
+      pv = self$param_set$get_values(tags = "predict")
+      fit = invoke(survival::survfit, formula = self$model, newdata = newdata, se.fit = FALSE, .args = pv)
 
+      distr = suppressAll(apply(fit$surv, 2, function(x)
+        distr6::WeightedDiscrete$new(data.frame(x = fit$time, cdf = 1 - x),
+                                     decorators = c(CoreStatistics, ExoticStatistics))))
 
-      distr = lapply(risk, function(x){
-        cdf = function(x1){}
-        body(cdf) = substitute({
-          1 - exp(-(bch[findInterval(x1, time, all.inside = TRUE)] * lp))
-        }, list(bch = basehaz$cumhazard, time = basehaz$time, lp = x))
-
-        pdf = function(x1){}
-        body(pdf) = substitute({
-          exp(-(bch[findInterval(x1, time, all.inside = TRUE)] * lp)) * (bh[match(x1, time)] * lp)
-        }, list(bch = basehaz$cumhazard, time = basehaz$time, lp = x, bh = basehaz$hazard))
-
-        # Should be discrete not continuous, but need to update distr6 bug
-      suppressWarnings(suppressMessages(distr6::Distribution$new(name = "Cox Proportional Hazards",
-        short_name = "coxph", pdf = pdf, cdf = cdf, type = Reals$new(zero = TRUE),
-        support = PosReals$new(zero = TRUE), valueSupport = "continuous",
-        variateForm = "univariate", decorators = c(CoreStatistics, ExoticStatistics))))
-       })
-      PredictionSurv$new(task = task, distr = distr, risk = linpred)
+      PredictionSurv$new(task = task, distr = distr, risk = risk, lp = log(risk))
     }
 
     # importance = function() {

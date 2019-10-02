@@ -2,7 +2,7 @@ LearnerSurvNelsonAalen = R6Class("LearnerSurvNelsonAalen", inherit = LearnerSurv
                                  public = list(
                                    initialize = function() {
                                      super$initialize(
-                                       id = "surv.na",
+                                       id = "surv.nelson",
                                        predict_types = "distr",
                                        feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
                                        properties = c("missings", "importance", "selected_features"),
@@ -11,24 +11,16 @@ LearnerSurvNelsonAalen = R6Class("LearnerSurvNelsonAalen", inherit = LearnerSurv
                                    },
 
                                    train_internal = function(task) {
-                                     fit = invoke(survival::survfit, formula = task$formula(1), data = task$data())
-                                     set_class(list(fit = fit), "surv.na")
+                                     invoke(survival::survfit, formula = task$formula(1), data = task$data())
                                    },
 
                                    predict_internal = function(task) {
-                                     cumhaz = c(0, self$model$fit$cumhaz)
-                                     time = c(0, self$model$fit$time)
+                                     cumhaz = c(0, self$model$cumhaz)
+                                     time = c(0, self$model$time)
 
-                                     cdf = function(x1){}
-                                     body(cdf) = substitute(1 - exp(-cumhaz[findInterval(x1, time, all.inside = TRUE)]))
-
-                                     distr = suppressMessages(distr6::Distribution$new("Nelson-Aalen","na", cdf = cdf,
-                                                                                       type = PosReals$new(zero = TRUE),
-                                                                                       support = PosReals$new(zero = TRUE),
-                                                                                       valueSupport = "continuous",
-                                                                                       variateForm = "univariate",
-                                                                                       decorators = c(CoreStatistics,
-                                                                                                      ExoticStatistics)))
+                                     distr = suppressAll(
+                                       WeightedDiscrete$new(data.frame(x = time, cdf = 1 - exp(-cumhaz)),
+                                                            decorators = c(CoreStatistics, ExoticStatistics)))
 
                                      PredictionSurv$new(task = task, distr = rep(list(distr), task$nrow))
                                    },

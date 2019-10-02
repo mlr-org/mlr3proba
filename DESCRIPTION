@@ -14,7 +14,7 @@ Authors@R:
 Description: Placeholder description.
 License: MIT + file LICENSE
 Depends:
-    R (>= 3.1.0)
+    R (>= 3.1.0),
 Imports:
     checkmate,
     data.table,
@@ -32,9 +32,52 @@ Suggests:
     simsurv,
     survAUC,
     testthat
+Remotes:
+    Alan-turing-institute/distr6
 LazyData: true
 NeedsCompilation: yes
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
 Encoding: UTF-8
-
+Collate: 
+    'LearnerDensity.R'
+    'LearnerDensityHist.R'
+    'LearnerDensityKDE.R'
+    'LearnerProbreg.R'
+    'LearnerProbregGaussian.R'
+    'LearnerSurv.R'
+    'LearnerSurvCoxPH.R'
+    'predict.flexsurvreg.R'
+    'LearnerSurvFlexible.R'
+    'LearnerSurvGlmnet.R'
+    'LearnerSurvKaplanMeier.R'
+    'LearnerSurvNelsonAalen.R'
+    'predict_survreg.R'
+    'LearnerSurvParametric.R'
+    'LearnerSurvPenalized.R'
+    'LearnerSurvRandomForestSRC.R'
+    'LearnerSurvRanger.R'
+    'LearnerSurvRpart.R'
+    'LearnerSurvSVM.R'
+    'MeasureDensity.R'
+    'MeasureDensityLogloss.R'
+    'MeasureRegrLogloss.R'
+    'MeasureSurv.R'
+    'MeasureSurvBrier.R'
+    'MeasureSurvHarrellsC.R'
+    'MeasureSurvLogloss.R'
+    'MeasureSurvUnosC.R'
+    'PredictionDensity.R'
+    'PredictionProbreg.R'
+    'PredictionSurv.R'
+    'TaskDensity.R'
+    'TaskDensity_precip.R'
+    'TaskGeneratorFriedman1Dens.R'
+    'TaskGeneratorSimsurv.R'
+    'TaskProbreg.R'
+    'TaskSurv.R'
+    'TaskSurv_lung.R'
+    'TaskSurv_rats.R'
+    'TaskSurv_unemployment.R'
+    'assertions.R'
+    'zzz.R'

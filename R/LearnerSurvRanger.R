@@ -60,7 +60,7 @@ LearnerSurvRanger = R6Class("LearnerSurvRanger", inherit = LearnerSurv,
         predict_types = c("risk","distr"),
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         properties = c("weights", "importance", "oob_error"),
-        packages = "ranger"
+        packages = c("ranger", "distr6")
       )
     },
 
@@ -80,22 +80,15 @@ LearnerSurvRanger = R6Class("LearnerSurvRanger", inherit = LearnerSurv,
 
     predict_internal = function(task) {
       newdata = task$data(cols = task$feature_names)
-      p = predict(object = self$model, data = newdata)
+      fit = predict(object = self$model, data = newdata)
 
       # Bottleneck. Avoidable or not? 4s time diff when returning risk only.
-      distr = apply(p$survival, 1, function(x){
-          cdf = function(x1){}
-          body(cdf) = substitute({
-            (1 - x)[findInterval(x1, time)]
-          }, list(time = p$unique.death.times))
+      distr = suppressAll(apply(fit$survival, 1, function(x)
+        WeightedDiscrete$new(data.frame(x = fit$unique.death.times, cdf = 1 - x),
+                             decorators = c(CoreStatistics, ExoticStatistics))))
 
-          suppressWarnings(suppressMessages(distr6::Distribution$new(name = "Random Forest(Ranger)",
-             short_name = "ranfor(ranger)", cdf = cdf, type = Reals$new(zero = TRUE),
-             support = PosReals$new(zero = TRUE), valueSupport = "continuous",
-             variateForm = "univariate", decorators = c(CoreStatistics, ExoticStatistics))))
-      })
       # Is it correct that the mean over time of the CHF is an estimate for risk?
-      PredictionSurv$new(task = task, risk = rowMeans(p$chf), distr = distr)
+      PredictionSurv$new(task = task, distr = distr, risk = rowMeans(fit$chf))
     },
 
     importance = function() {
