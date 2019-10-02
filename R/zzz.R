@@ -8,8 +8,6 @@
 #' @importFrom stats reformulate model.matrix model.frame
 #' @importFrom survival Surv survfit
 #' @importFrom BBmisc suppressAll
-#' @importFrom penalized contr.none contr.diff
-#' @importFrom checkmate expect_list
 "_PACKAGE"
 
 register_mlr3 = function() {
