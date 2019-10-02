@@ -6,7 +6,7 @@ data$censor1 = as.integer(data$censor1)
 data$tenure = as.integer(data$tenure)
 
 saveRDS(data,
-  file = file.path(system.file("extdata", package = "mlr3survival"), "unemployment.rds"),
+  file = file.path(system.file("extdata", package = "mlr3proba"), "unemployment.rds"),
   compress = "xz",
   version = 2L
 )

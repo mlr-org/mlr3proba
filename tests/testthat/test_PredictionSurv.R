@@ -25,5 +25,5 @@ test_that("c", {
   expect_prediction_surv(pred)
 
   dt = as.data.table(pred)
-  expect_data_table(dt, nrows = task$nrow, ncols = 4L, any.missing = FALSE)
+  expect_data_table(dt, nrows = task$nrow, ncols = 5L, any.missing = FALSE)
 })

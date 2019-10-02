@@ -8,8 +8,8 @@
 #' @section Construction:
 #' ```
 #' MeasureSurvHarrellsC$new()
-#' mlr_measures$get("surv.harrells_c")
-#' msr("surv.harrells_c")
+#' mlr_measures$get("surv.harrellsc")
+#' msr("surv.harrellsc")
 #' ```
 #'
 #' @description
@@ -34,7 +34,7 @@ MeasureSurvHarrellsC = R6Class("MeasureSurvHarrellsC",
   )
 )
 
-#' @useDynLib mlr3survival c_cindex
+#' @useDynLib mlr3proba c_cindex
 cindex = function(S, x) {
 
   assert_surv(S)
@@ -48,5 +48,5 @@ cindex = function(S, x) {
   status = as.logical(S[, 2L])[ord]
   x = -as.double(x)[ord]
 
-  .Call(c_cindex, time, status, x, PACKAGE = "mlr3survival")
+  .Call(c_cindex, time, status, x, PACKAGE = "mlr3proba")
 }

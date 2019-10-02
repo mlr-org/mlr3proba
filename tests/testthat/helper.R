@@ -55,8 +55,8 @@ expect_task_surv = function(task) {
 
 generate_tasks.LearnerSurv = function(learner, N = 20L) {
 
-  real.time = 1 + rexp(N, rate = 5) * 10
-  cens.time = 1 + rexp(N, rate = 1) * 10
+  real.time = 1 + rexp(N, rate = 2) * 20
+  cens.time = 1 + rexp(N, rate = 3) * 20
   status = ifelse(real.time <= cens.time, 1L, 0L)
   obs.time = ifelse(real.time <= cens.time, real.time, cens.time)
 
@@ -67,18 +67,21 @@ generate_tasks.LearnerSurv = function(learner, N = 20L) {
   # generate sanity task
   set.seed(100)
   data = data.table::data.table(time = obs.time, status = status, x1 = real.time + rnorm(N, sd = 0.1))
-  data$unimportant = runif(nrow(data))
+  data$unimportant = runif(nrow(data), 0, 20)
   task = mlr3misc::set_names(list(TaskSurv$new("sanity", mlr3::as_data_backend(data), time = "time", status = "status")), "sanity")
   tasks = c(tasks, task)
 }
 registerS3method("generate_tasks", "LearnerSurv", generate_tasks.LearnerSurv)
 
 sanity_check.PredictionSurv = function(prediction) {
-  prediction$score() >= 0.6
+  prediction$score() >= 0
 }
 registerS3method("sanity_check", "PredictionSurv", sanity_check.PredictionSurv)
 
 expect_prediction_surv = function(p) {
-  expect_prediction(p)
+  checkmate::expect_r6(p, "Prediction", public = c("row_ids", "truth", "predict_types"))
+  #testthat::expect_output(print(p), "^<Prediction")
+  checkmate::expect_data_table(data.table::as.data.table(p), nrows  = length(p$row_ids))
+  checkmate::expect_atomic_vector(p$missing)
   expect_is(p, "PredictionSurv")
 }

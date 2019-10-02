@@ -5,7 +5,7 @@
 #' @import mlr3misc
 #' @importFrom R6 R6Class
 #' @importFrom utils data head tail
-#' @importFrom stats reformulate
+#' @importFrom stats reformulate model.matrix model.frame
 #' @importFrom survival Surv survfit
 #' @importFrom BBmisc suppressAll
 "_PACKAGE"
@@ -33,14 +33,16 @@ register_mlr3 = function() {
   x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
   x$task_types = setkeyv(rbind(x$task_types, rowwise_table(
     ~type,  ~package,       ~task,      ~learner,      ~prediction,      ~measure,
-    "surv", "mlr3survival", "TaskSurv", "LearnerSurv", "PredictionSurv", "MeasureSurv"
+    "surv", "mlr3proba", "TaskSurv", "LearnerSurv", "PredictionSurv", "MeasureSurv"
   )), "type")
   x$task_col_roles$surv = c("feature", "target", "label", "order", "groups", "weights")
   x$task_properties$surv = c("weights", "groups")
   x$learner_properties$surv = x$learner_properties$regr
   x$measure_properties$surv = x$measure_properties$regr
-  x$learner_predict_types$surv = list(distr = "distr", risk = c("distr","risk"), lp = c("distr","risk","lp"))
-  x$default_measures$surv = "surv.brier"
+  x$learner_predict_types$surv = list(distr = c("risk","distr","lp"),
+                                      risk = c("risk","distr","lp"),
+                                      lp = c("risk","distr","lp"))
+  x$default_measures$surv = "surv.harrellsc"
 
   # tasks
    x = utils::getFromNamespace("mlr_tasks", ns = "mlr3")

@@ -2,7 +2,7 @@ context("single-step")
 
 test_that("single-step", {
   task = mlr_tasks$get("unemployment")
-  learner = mlr_learners$get("surv.rpart")
+  learner = mlr_learners$get("surv.kaplan")
 
   train_task = task$clone()$filter(1:3000)
   learner$train(train_task)

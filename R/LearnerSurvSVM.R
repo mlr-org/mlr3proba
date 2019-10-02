@@ -27,13 +27,13 @@
 #'
 #'
 #' @references
-#' Van Belle, V., Pelcmans, K., Van Huffel S. and Suykens J. A.K. (2011a). Improved performance on
-#' high-dimensional survival data by application of Survival-SVM.
-#' Bioinformatics (Oxford, England) 27, 87-94.
+#' Van Belle, V., Pelcmans, K., Van Huffel S. and Suykens J. A.K. (2011a).
+#' Improved performance on high-dimensional survival data by application of Survival-SVM.
+#' Bioinformatics, 27, 87-94.
 #'
-#' Van Belle, V., Pelcmans, K., Van Huffel S. and Suykens J. A.K. (2011b). Support vector methods
-#' for survival analysis: a comparaison between ranking and regression approaches.
-#' Artificial Intelligence in medecine 53, 107-118.
+#' Van Belle, V., Pelcmans, K., Van Huffel S. and Suykens J. A.K. (2011b).
+#' Support vector methods for survival analysis: a comparison between ranking and regression approaches.
+#' Artificial Intelligence in Medicine, 53, 107-118.
 #'
 #' @export
 #' @template seealso_learner
@@ -66,7 +66,7 @@ LearnerSurvSVM = R6Class("LearnerSurvSVM", inherit = LearnerSurv,
             ParamDbl$new(id = "posd.tol", default = 1e-08, lower = 0, tags = "train")
             )
           ),
-        feature_types = c("integer", "numeric","factor"),
+        feature_types = c("integer", "numeric"),
         #   properties = "importance",
         predict_types = c("risk"),
         packages = c("survivalsvm")

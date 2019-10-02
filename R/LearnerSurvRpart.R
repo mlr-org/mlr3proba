@@ -13,8 +13,12 @@
 #' ```
 #'
 #' @description
-#' A [LearnerSurv] for a regression tree implemented in [rpart::rpart()] in package \CRANpkg{rpart}.
+#' A [LearnerSurv] for a regression tree implemented in [rpart::rpart()] in package \CRANpkg{rpart},
+#' through [pec::pecRpart()] in package \CRANpkg{pec}.
 #' Parameter `xval` is set to 0 in order to save some computation time.
+#'
+#' @details
+#' The \code{distr6} return type is composed using [pec::predictSurvProb()].
 #'
 #' @references
 #' Breiman, L. (1984).
@@ -40,7 +44,7 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart", inherit = LearnerSurv,
       super$initialize(
         id = "surv.rpart",
         param_set = ps,
-        predict_types = "risk",
+        predict_types = c("risk", "distr"),
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         properties = c("weights", "missings", "importance", "selected_features"),
         packages = c("rpart","distr6","survival")
@@ -72,18 +76,18 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart", inherit = LearnerSurv,
       # }))
 
       distr = suppressAll(apply(surv, 1, function(x)
-        WeightedDiscrete$new(data.frame(x = self$model$times, cdf = 1 - x),
-                             decorators = c(CoreStatistics, ExoticStatistics))))
+        distr6::WeightedDiscrete$new(data.frame(x = self$model$times, cdf = 1 - x),
+                             decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))))
 
       PredictionSurv$new(task = task, risk = risk, distr = distr)
     },
 
     importance = function() {
-      if (is.null(self$model)) {
+      if (is.null(self$model$fit$rpart)) {
         stopf("No model stored")
       }
       # importance is only present if there is at least on split
-      sort(self$model$variable.importance %??% set_names(numeric()), decreasing = TRUE)
+      sort(self$model$fit$rpart$variable.importance %??% set_names(numeric()), decreasing = TRUE)
     },
 
     selected_features = function() {

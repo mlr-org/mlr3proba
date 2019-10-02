@@ -8,7 +8,7 @@ predict_survreg = function(object, task, type = "aft", predict_type = "all"){
 
   newdata = task$data(cols = task$feature_names)
 
-  x = model.matrix(formulate(rhs = task$feature_names), data = newdata, xlev = task$levels())[,-1]
+  x = stats::model.matrix(formulate(rhs = task$feature_names), data = newdata, xlev = task$levels())[,-1]
 
   lp = matrix(fit$coefficients[-1], nrow = 1) %*% t(x)
 
@@ -19,13 +19,13 @@ predict_survreg = function(object, task, type = "aft", predict_type = "all"){
       pdf = function(x1) haz(x1) * (1 - cdf(x1))
       distr6::Distribution$new(name = paste(fit$dist, "Proportional Hazards Model"),
                                short_name = paste0(fit$dist,"PH"),
-                               type = PosReals$new(), support = PosReals$new(),
+                               type = distr6::PosReals$new(), support = distr6::PosReals$new(),
                                pdf = pdf, cdf = cdf, valueSupport = "continuous",
                                variateForm = "univariate",
                                description = paste(fit$dist, "Proportional Hazards Model with log-likelihood",
                                                    fit$loglik[2]),
                                .suppressChecks = TRUE, suppressMoments = TRUE,
-                               decorators = c(CoreStatistics, ExoticStatistics))
+                               decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))
     })
     risk = exp(lp)
   } else if(type == "aft"){
@@ -35,13 +35,13 @@ predict_survreg = function(object, task, type = "aft", predict_type = "all"){
       pdf = function(x1) haz(x1) * (1 - cdf(x1))
       distr6::Distribution$new(name = paste(fit$dist, "Accelerated Failure Time Model"),
                                short_name = paste0(fit$dist,"AFT"),
-                               type = PosReals$new(), support = PosReals$new(),
+                               type = distr6::PosReals$new(), support = distr6::PosReals$new(),
                                pdf = pdf, cdf = cdf, valueSupport = "continuous",
                                variateForm = "univariate",
                                description = paste(fit$dist, "Accelerated Failure Time Model with log-likelihood",
                                                    fit$loglik[2]),
                                .suppressChecks = TRUE, suppressMoments = TRUE,
-                               decorators = c(CoreStatistics, ExoticStatistics))
+                               decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))
     })
     risk = exp(-lp)
   } else if(type == "odds"){
@@ -51,13 +51,13 @@ predict_survreg = function(object, task, type = "aft", predict_type = "all"){
       pdf = function(x1) haz(x1) * (1 - cdf(x1))
       distr6::Distribution$new(name = paste(fit$dist, "Proportional Odds Model"),
                                short_name = paste0(fit$dist,"PO"),
-                               type = PosReals$new(), support = PosReals$new(),
+                               type = distr6::PosReals$new(), support = distr6::PosReals$new(),
                                pdf = pdf, cdf = cdf, valueSupport = "continuous",
                                variateForm = "univariate",
                                description = paste(fit$dist, "Proportional Odds Model with log-likelihood",
                                                    fit$loglik[2]),
                                .suppressChecks = TRUE, suppressMoments = TRUE,
-                               decorators = c(CoreStatistics, ExoticStatistics))
+                               decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))
     })
     risk = exp(lp)
   }

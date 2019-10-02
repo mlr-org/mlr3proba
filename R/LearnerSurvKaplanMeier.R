@@ -1,11 +1,37 @@
+#' @title Kaplan Meier Estimator Survival Learner
+#'
+#' @usage NULL
+#' @aliases mlr_learners_surv.kaplan
+#' @format [R6::R6Class()] inheriting from [LearnerSurv].
+#' @include LearnerSurv.R
+#'
+#' @section Construction:
+#' ```
+#' LearnerSurvKaplanMeier$new()
+#' mlr_learners$get("surv.kaplan")
+#' lrn("surv.kaplan")
+#' ```
+#'
+#' @description
+#' Kaplan Meier estimator called from [survival::survfit()] in package \CRANpkg{survival}.
+#'
+#' @references
+#' Kaplan, E. L. and Meier, P. (1958).
+#' Nonparametric Estimation from Incomplete Observations.
+#' Journal of the American Statistical Association, 53(282), 457-481.
+#' \doi{10.2307/2281868}.
+#'
+#' @template seealso_learner
+#'
+#' @export
 LearnerSurvKaplanMeier = R6Class("LearnerSurvKaplanMeier", inherit = LearnerSurv,
   public = list(
     initialize = function() {
       super$initialize(
         id = "surv.kaplan",
-        predict_types = "distr",
+        predict_types = c("risk", "distr"),
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
-        properties = c("missings", "importance", "selected_features"),
+        properties = "missings",
         packages = c("survival", "distr6")
       )
     },
@@ -20,21 +46,11 @@ LearnerSurvKaplanMeier = R6Class("LearnerSurvKaplanMeier", inherit = LearnerSurv
 
       distr = suppressAll(
         distr6::WeightedDiscrete$new(data.frame(x = time, cdf = 1 - surv),
-                                     decorators = c(CoreStatistics, ExoticStatistics)))
+                                     decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics)))
 
-      PredictionSurv$new(task = task, distr = rep(list(distr), task$nrow))
-    },
+      risk = distr$mean()
 
-    importance = function() {
-      if (is.null(self$model)) {
-        stopf("No model stored")
-      }
-      fn = self$model$features
-      named_vector(fn, 0)
-    },
-
-    selected_features = function() {
-      character(0L)
+      PredictionSurv$new(task = task, risk = rep(risk, task$nrow), distr = rep(list(distr), task$nrow))
     }
   )
 )

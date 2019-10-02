@@ -84,8 +84,8 @@ LearnerSurvRanger = R6Class("LearnerSurvRanger", inherit = LearnerSurv,
 
       # Bottleneck. Avoidable or not? 4s time diff when returning risk only.
       distr = suppressAll(apply(fit$survival, 1, function(x)
-        WeightedDiscrete$new(data.frame(x = fit$unique.death.times, cdf = 1 - x),
-                             decorators = c(CoreStatistics, ExoticStatistics))))
+        distr6::WeightedDiscrete$new(data.frame(x = fit$unique.death.times, cdf = 1 - x),
+                             decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))))
 
       # Is it correct that the mean over time of the CHF is an estimate for risk?
       PredictionSurv$new(task = task, distr = distr, risk = rowMeans(fit$chf))

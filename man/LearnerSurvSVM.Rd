@@ -32,13 +32,13 @@ resampling = rsmp("cv", folds = 3)
 resample(task, learner, resampling)
 }
 \references{
-Van Belle, V., Pelcmans, K., Van Huffel S. and Suykens J. A.K. (2011a). Improved performance on
-high-dimensional survival data by application of Survival-SVM.
-Bioinformatics (Oxford, England) 27, 87-94.
+Van Belle, V., Pelcmans, K., Van Huffel S. and Suykens J. A.K. (2011a).
+Improved performance on high-dimensional survival data by application of Survival-SVM.
+Bioinformatics, 27, 87-94.
 
-Van Belle, V., Pelcmans, K., Van Huffel S. and Suykens J. A.K. (2011b). Support vector methods
-for survival analysis: a comparaison between ranking and regression approaches.
-Artificial Intelligence in medecine 53, 107-118.
+Van Belle, V., Pelcmans, K., Van Huffel S. and Suykens J. A.K. (2011b).
+Support vector methods for survival analysis: a comparison between ranking and regression approaches.
+Artificial Intelligence in Medicine, 53, 107-118.
 }
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Learner]{Learners}: \link[mlr3:mlr_learners]{mlr3::mlr_learners}

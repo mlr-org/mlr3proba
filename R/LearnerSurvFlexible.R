@@ -1,4 +1,35 @@
 #' @include predict.flexsurvreg.R
+#' @title Flexible Parametric Spline Survival Learner
+#'
+#' @usage NULL
+#' @aliases mlr_learners_surv.flexible
+#' @format [R6::R6Class] inheriting from [LearnerSurv].
+#' @include LearnerSurv.R
+#'
+#' @section Construction:
+#' ```
+#' LearnerSurvFlexible$new()
+#' mlr_learners$get("surv.flexible")
+#' lrn("surv.flexible")
+#' ```
+#'
+#' @description
+#' A [LearnerSurv] for a Flexible Parametric Spline model partially implemented in
+#' [flexsurv::flexsurvspline()] in package \CRANpkg{flexsurv}.
+#'
+#' @details
+#' The predict method is based on [flexsurv::summary.flexsurvreg()] but adapts the return type
+#' to be compatible with \CRANpkg{distr6}.
+#'
+#' @references
+#' Royston, P. and Parmar, M. (2002).
+#' Flexible parametric proportional-hazards and proportional-odds models for censored survival data,
+#' with application to prognostic modelling and estimation of treatment effects.
+#' Statistics in Medicine, 21(15), 2175-2197.
+#' \doi{10.1002/sim.1203}.
+#'
+#' @template seealso_learner
+#' @export
 LearnerSurvFlexible = R6Class("LearnerSurvFlexible", inherit = LearnerSurv,
   public = list(
     initialize = function() {

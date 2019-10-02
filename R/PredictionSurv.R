@@ -54,12 +54,12 @@
 #' head(as.data.table(p))
 PredictionSurv = R6Class("PredictionSurv", inherit = Prediction,
   public = list(
-    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), distr = NULL, risk = NULL, lp = NULL) {
+    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), risk = NULL, distr = NULL, lp = NULL) {
       assert_row_ids(row_ids)
       n = length(row_ids)
 
       self$task_type = "surv"
-      self$predict_types = c("distr","risk","lp")[c(!is.null(distr),!is.null(risk),!is.null(lp))]
+      self$predict_types = c("risk","distr","lp")[c(!is.null(risk),!is.null(distr),!is.null(lp))]
       self$data$tab = data.table(
         row_id = row_ids
       )
@@ -68,25 +68,25 @@ PredictionSurv = R6Class("PredictionSurv", inherit = Prediction,
         self$data$tab[, c("time", "status") := list(truth[, 1L], as.logical(truth[, 2L]))]
       }
 
-      if (!is.null(distr)) {
-        self$data$tab$distr = distr6::assertDistributionList(distr)
-      }
-
       if (!is.null(risk)) {
         self$data$tab$risk = assert_numeric(risk, len = n, any.missing = FALSE)
+      }
+
+      if (!is.null(distr)) {
+        self$data$tab$distr = distr6::assertDistributionList(distr)
       }
 
       if (!is.null(lp)) {
         self$data$tab$lp = assert_numeric(lp, len = n, any.missing = FALSE)
       }
 
-    },
-
-    print = function(){
-      x = as.data.table(self)
-      x$distr = lapply(x$distr, distr6::strprint)
-      print(x)
     }
+#
+#     print = function(){
+#       x = as.data.table(self)
+#       x$distr = lapply(x$distr, distr6::strprint)
+#       print(x)
+#     }
   ),
 
   active = list(
@@ -94,12 +94,12 @@ PredictionSurv = R6Class("PredictionSurv", inherit = Prediction,
       Surv(self$data$tab$time, self$data$tab$status, type = "right")
     },
 
-    distr = function() {
-      self$data$tab$distr %??% rep(NA_real_, length(self$data$row_ids))
-    },
-
     risk = function() {
       self$data$tab$risk %??% rep(NA_real_, length(self$data$row_ids))
+    },
+
+    distr = function() {
+      self$data$tab$distr %??% rep(NA_real_, length(self$data$row_ids))
     },
 
     lp = function() {
@@ -109,12 +109,13 @@ PredictionSurv = R6Class("PredictionSurv", inherit = Prediction,
     missing = function() {
       miss = logical(nrow(self$data$tab))
 
-      if ("distr" %in% self$predict_types) {
-        miss = is.na(self$data$tab$distr)
+      if ("risk" %in% self$predict_types) {
+        miss = is.na(self$data$tab$risk)
+
       }
 
-      if ("risk" %in% self$predict_types) {
-        miss = miss | is.na(self$data$tab$risk)
+      if ("distr" %in% self$predict_types) {
+        miss = miss | is.na(self$data$tab$distr)
       }
 
       if ("lp" %in% self$predict_types) {
@@ -152,7 +153,7 @@ c.PredictionSurv = function(..., keep_duplicates = TRUE) {
     tab = unique(tab, by = "row_id", fromLast = TRUE)
   }
 
-  PredictionSurv$new(row_ids = tab$row_id, truth = Surv(tab$time, tab$status), distr = tab$distr, risk = tab$risk, lp = tab$lp)
+  PredictionSurv$new(row_ids = tab$row_id, truth = Surv(tab$time, tab$status), risk = tab$risk, distr = tab$distr, lp = tab$lp)
 }
 
 

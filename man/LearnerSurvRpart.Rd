@@ -7,8 +7,12 @@
 \title{Survival Tree Learner}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{LearnerSurv}.}
 \description{
-A \link{LearnerSurv} for a regression tree implemented in \code{\link[rpart:rpart]{rpart::rpart()}} in package \CRANpkg{rpart}.
+A \link{LearnerSurv} for a regression tree implemented in \code{\link[rpart:rpart]{rpart::rpart()}} in package \CRANpkg{rpart},
+through \code{\link[pec:pecRpart]{pec::pecRpart()}} in package \CRANpkg{pec}.
 Parameter \code{xval} is set to 0 in order to save some computation time.
+}
+\details{
+The \code{distr6} return type is composed using \code{\link[pec:predictSurvProb]{pec::predictSurvProb()}}.
 }
 \section{Construction}{
 \preformatted{LearnerSurvRpart$new()

@@ -23,7 +23,7 @@
 #' 2. chf - Cumulative hazard function, estimated via a bootstrapped Nelson-Aalen estimator (Ishwaran, 2008)
 #' 3. surv - Survival function, estimated via a bootrstrapped Kaplan-Meier estimate (https://kogalur.github.io/randomForestSRC/theory.html)
 #'
-#' Only the second two of these are returned in the 'distr' predict.type, as Nelson-Aalen and Kaplan-Meier
+#' Only the second two of these are returned in the \code{distr} predict.type, as Nelson-Aalen and Kaplan-Meier
 #' will give different results, the estimator can be chosen in the parameter set under "estimator".
 #'
 #' The 'risk' predict.type is here defined as the mean of the cumulative hazard over all unique death times.
@@ -85,8 +85,8 @@ LearnerSurvRandomForestSRC = R6Class("LearnerSurvRandomForestSRC", inherit = Lea
           )
         ),
         predict_types = c("risk","distr"),
-        feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
-        properties = c("weights", "missings", "importance", "oob_error"),
+        feature_types = c("logical", "integer", "numeric", "factor", "ordered"),
+        properties = c("weights", "missings", "importance"),
         packages = c("randomForestSRC", "distr6")
       )
     },
@@ -122,7 +122,7 @@ LearnerSurvRandomForestSRC = R6Class("LearnerSurvRandomForestSRC", inherit = Lea
 
       distr = suppressAll(apply(cdf, 1, function(x)
         distr6::WeightedDiscrete$new(data.frame(x = self$model$times, cdf = x),
-                             decorators = c(CoreStatistics, ExoticStatistics))))
+                             decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))))
 
       # Is it correct that the mean over time of the CHF is an estimate for risk?
       PredictionSurv$new(task = task, distr = distr, risk = rowMeans(-log(1 - cdf)))
@@ -149,5 +149,9 @@ LearnerSurvRandomForestSRC = R6Class("LearnerSurvRandomForestSRC", inherit = Lea
 
       self$model$fit$var.used
     }
+
+    # oob_error = function() {
+    #   self$model$prediction.error
+    # }
   )
 )

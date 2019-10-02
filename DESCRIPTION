@@ -16,14 +16,17 @@ License: MIT + file LICENSE
 Depends:
     R (>= 3.1.0),
 Imports:
+    BBmisc,
     checkmate,
     data.table,
-    distr6 (>= 1.1.0),
+    distr6 (>= 1.2.0),
     mlr3,
     mlr3misc,
     paradox,
     R6,
-    survival
+    penalized,
+    survival,
+    survivalsvm
 Suggests:
     glmnet,
     lgr,
@@ -33,7 +36,7 @@ Suggests:
     survAUC,
     testthat
 Remotes:
-    Alan-turing-institute/distr6
+    alan-turing-institute/distr6
 LazyData: true
 NeedsCompilation: yes
 Roxygen: list(markdown = TRUE)
@@ -52,7 +55,6 @@ Collate:
     'LearnerSurvGlmnet.R'
     'LearnerSurvKaplanMeier.R'
     'LearnerSurvNelsonAalen.R'
-    'predict_survreg.R'
     'LearnerSurvParametric.R'
     'LearnerSurvPenalized.R'
     'LearnerSurvRandomForestSRC.R'
@@ -80,4 +82,6 @@ Collate:
     'TaskSurv_rats.R'
     'TaskSurv_unemployment.R'
     'assertions.R'
+    'check_subsetpattern.R'
+    'predict_survreg.R'
     'zzz.R'

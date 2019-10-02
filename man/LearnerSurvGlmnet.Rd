@@ -10,6 +10,11 @@
 Generalized linear models with elastic net regularization.
 Calls \code{\link[glmnet:cv.glmnet]{glmnet::cv.glmnet()}} from package \CRANpkg{glmnet}.
 }
+\details{
+The \code{distr} predict.type is derived by multiplying the risk returned from \code{\link[glmnet:cv.glmnet]{glmnet::cv.glmnet()}}
+with a baseline hazard/survival calculated from \code{\link[survival:survfit]{survival::survfit()}}. The choice of estimator
+can be determined by the \code{estimator} hyper-parameter.
+}
 \section{Construction}{
 \preformatted{LearnerSurvGlmnet$new()
 mlr_learners$get("surv.glmnet")

@@ -16,6 +16,11 @@
 #' Generalized linear models with elastic net regularization.
 #' Calls [glmnet::cv.glmnet()] from package \CRANpkg{glmnet}.
 #'
+#' @details
+#' The \code{distr} predict.type is derived by multiplying the risk returned from [glmnet::cv.glmnet()]
+#' with a baseline hazard/survival calculated from [survival::survfit()]. The choice of estimator
+#' can be determined by the \code{estimator} hyper-parameter.
+#'
 #' @references
 #' Jerome Friedman, Trevor Hastie, Robert Tibshirani (2010).
 #' Regularization Paths for Generalized Linear Models via Coordinate Descent.
@@ -69,7 +74,7 @@ LearnerSurvGlmnet = R6Class("LearnerSurvGlmnet", inherit = LearnerSurv,
           )
         ),
         feature_types = c("integer", "numeric"),
-        predict_types = c("distr","risk"),
+        predict_types = c("distr","risk","lp"),
         properties = "weights",
         packages = c("glmnet","distr6","survival")
       )
@@ -118,9 +123,9 @@ LearnerSurvGlmnet = R6Class("LearnerSurvGlmnet", inherit = LearnerSurv,
       risk = exp(invoke(predict, self$model$fit, newx = newdata, type = "link", .args = pars))
 
       distr = lapply(risk, function(x){
-        suppressAll(WeightedDiscrete$new(data.frame(x = self$model$times,
+        suppressAll(distr6::WeightedDiscrete$new(data.frame(x = self$model$times,
                                                     cdf = ((1 - self$model$basesurv)*x)),
-                                         decorators = c(CoreStatistics, ExoticStatistics)))
+                                         decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics)))
       })
 
       PredictionSurv$new(task = task, distr = distr, risk = drop(risk), lp = drop(log(risk)))

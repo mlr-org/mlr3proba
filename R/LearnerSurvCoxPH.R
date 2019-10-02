@@ -1,3 +1,28 @@
+#' @title Cox Proportional Hazard Learner
+#'
+#' @usage NULL
+#' @aliases mlr_learners_surv.coxph
+#' @format [R6::R6Class] inheriting from [LearnerSurv].
+#' @include LearnerSurv.R
+#'
+#' @section Construction:
+#' ```
+#' LearnerSurvCoxPH$new()
+#' mlr_learners$get("surv.coxph")
+#' lrn("surv.coxph")
+#' ```
+#'
+#' @description
+#' A [LearnerSurv] for a Cox PH model implemented in [survival::coxph()] in package \CRANpkg{survival}.
+#'
+#' @references
+#' Cox, David R. (1972).
+#' Regression models and life‐tables.
+#' Journal of the Royal Statistical Society: Series B (Methodological) 34.2 (1972): 187-202.
+#' \doi{10.1111/j.2517-6161.1972.tb00899.x}.
+#'
+#' @template seealso_learner
+#' @export
 LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
   public = list(
     initialize = function() {
@@ -10,15 +35,16 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
             ParamFct$new(id = "type", default = "efron", levels = c("efron", "aalen", "kalbfleisch-prentice"), tags = "predict")
           )
         ),
-        predict_types = c("distr","risk"),
+        predict_types = c("distr","risk","lp"),
         feature_types = c("logical", "integer", "numeric", "factor"),
-        properties = c("weights"),
+        properties = c("weights","importance"),
         packages = c("survival", "distr6")
       )
     },
 
     train_internal = function(task) {
       pv = self$param_set$get_values(tags = "train")
+
       if ("weights" %in% task$properties) {
         pv$weights = task$weights$weight
       }
@@ -40,27 +66,26 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
 
       distr = suppressAll(apply(fit$surv, 2, function(x)
         distr6::WeightedDiscrete$new(data.frame(x = fit$time, cdf = 1 - x),
-                                     decorators = c(CoreStatistics, ExoticStatistics))))
+                                     decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))))
 
       PredictionSurv$new(task = task, distr = distr, risk = risk, lp = log(risk))
+    },
+
+    importance = function() {
+     if (is.null(self$model)) {
+       stopf("No model stored")
+     }
+      sort(1-summary(self$model)$coefficients[,5L], decreasing = TRUE)
+    },
+
+    selected_features = function() {
+
+    if (is.null(self$model)) {
+      stopf("No model stored")
     }
 
-    # importance = function() {
-    #   # TODO: renames factors and logicals, so the returned names are not valid
-    #   if (is.null(self$model)) {
-    #     stopf("No model stored")
-    #   }
-    #   p = summary(self$model)$coefficients[, 5L]
-    #   sort(1 - p, decreasing = TRUE)
-    # },
-
-    # selected_features = function() {
-    #   # TODO: renames factors and logicals, so the returned names are not valid
-    #   if (is.null(self$model)) {
-    #     stopf("No model stored")
-    #   }
-    #   beta = coef(self$model)
-    #   names(beta)[!is.na(beta)]
-    # }
+    beta = coef(self$model)
+    names(beta)[!is.na(beta)]
+    }
   )
 )

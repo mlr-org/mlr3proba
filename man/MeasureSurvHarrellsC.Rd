@@ -11,8 +11,8 @@ Calculates Harrell's C, equivalent to the Fortran implementation in \CRANpkg{Hmi
 }
 \section{Construction}{
 \preformatted{MeasureSurvHarrellsC$new()
-mlr_measures$get("surv.harrells_c")
-msr("surv.harrells_c")
+mlr_measures$get("surv.harrellsc")
+msr("surv.harrellsc")
 }
 }
 

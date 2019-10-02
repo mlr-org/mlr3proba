@@ -1,3 +1,5 @@
+#' @importFrom penalized contr.none contr.diff
+#'
 #' @title L1 and L2 Penalized Estiamtion in GLMs Survival Learner
 #'
 #' @usage NULL
@@ -40,6 +42,8 @@ LearnerSurvPenalized = R6Class("LearnerSurvPenalized", inherit = LearnerSurv,
             ParamUty$new(id = "lambda2", default = 0, tags = "train"),
             ParamLgl$new(id = "positive", default = FALSE, tags = "train"),
             ParamLgl$new(id = "fusedl", default = FALSE, tags = "train"),
+            ParamDbl$new(id = "startbeta", tags = "train"),
+            ParamDbl$new(id = "startgamma", tags = "train"),
             ParamInt$new(id = "steps", lower = 1L, default = 1L, tags = "train"),
             ParamDbl$new(id = "epsilon", default = 1.0e-10, lower = 0, upper = 1, tags = "train"),
             ParamInt$new(id = "maxiter", lower = 1, tags = "train"),
@@ -47,7 +51,7 @@ LearnerSurvPenalized = R6Class("LearnerSurvPenalized", inherit = LearnerSurv,
             ParamLgl$new(id = "trace", default = TRUE, tags = "train")
             )
           ),
-        feature_types = c("integer", "numeric","factor"),
+        feature_types = c("integer", "numeric","factor","ordered"),
         predict_types = c("distr","risk"),
         properties = "importance",
         packages = c("penalized","distr6")
@@ -55,6 +59,9 @@ LearnerSurvPenalized = R6Class("LearnerSurvPenalized", inherit = LearnerSurv,
       },
 
     train_internal = function(task) {
+
+      if(any(task$missings() > 0))
+        stop("Missing data is not supported by ", self$id)
 
       pars = self$param_set$get_values(tags = "train")
       if (length(pars$unpenalized) == 0)
@@ -81,8 +88,8 @@ LearnerSurvPenalized = R6Class("LearnerSurvPenalized", inherit = LearnerSurv,
                     .args = pars)
 
       distr = apply(surv@curves, 1, function(x)
-        suppressAll(WeightedDiscrete$new(data.frame(x = surv@time, cdf = 1 - x),
-                                         decorators = c(CoreStatistics, ExoticStatistics)))
+        suppressAll(distr6::WeightedDiscrete$new(data.frame(x = surv@time, cdf = 1 - x),
+                                         decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics)))
       )
 
       risk = rowMeans(-log(surv@curves))

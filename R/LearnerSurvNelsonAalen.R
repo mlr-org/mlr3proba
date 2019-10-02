@@ -1,40 +1,65 @@
+#' @title Nelson Aalen Estimator Survival Learner
+#'
+#' @usage NULL
+#' @aliases mlr_learners_surv.nelson
+#' @format [R6::R6Class()] inheriting from [LearnerSurv].
+#' @include LearnerSurv.R
+#'
+#' @section Construction:
+#' ```
+#' LearnerSurvNelsonAalen$new()
+#' mlr_learners$get("surv.nelson")
+#' lrn("surv.nelson")
+#' ```
+#'
+#' @description
+#' Nelson Aalen estimator called from [survival::survfit()] in package \CRANpkg{survival}.
+#'
+#' @references
+#' Nelson, W. (1969).
+#' Hazard plotting for incomplete failure data.
+#' Journal of Quality Technology, 1, 27–52.
+#' \doi{10.1080/00224065.1969.11980344}.
+#'
+#' Nelson, W. (1972).
+#' Theory and applications of hazard plotting for censored failure data.
+#' Technometrics, 14, 945–965.
+#' \doi{10.1080/00401706.1972.10488991}.
+#'
+#' Aalen, Odd (1978).
+#' Nonparametric inference for a family of counting processes.
+#' Annals of Statistics, 6(4), 701–726.
+#'
+#' @template seealso_learner
+#'
+#' @export
 LearnerSurvNelsonAalen = R6Class("LearnerSurvNelsonAalen", inherit = LearnerSurv,
-                                 public = list(
-                                   initialize = function() {
-                                     super$initialize(
-                                       id = "surv.nelson",
-                                       predict_types = "distr",
-                                       feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
-                                       properties = c("missings", "importance", "selected_features"),
-                                       packages = c("survival", "distr6")
-                                     )
-                                   },
+  public = list(
+    initialize = function() {
+      super$initialize(
+        id = "surv.nelson",
+        predict_types = c("risk", "distr"),
+        feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
+        properties = "missings",
+        packages = c("survival", "distr6")
+     )
+    },
 
-                                   train_internal = function(task) {
-                                     invoke(survival::survfit, formula = task$formula(1), data = task$data())
-                                   },
+    train_internal = function(task) {
+      invoke(survival::survfit, formula = task$formula(1), data = task$data())
+      },
 
-                                   predict_internal = function(task) {
-                                     cumhaz = c(0, self$model$cumhaz)
-                                     time = c(0, self$model$time)
+    predict_internal = function(task) {
+      cumhaz = c(0, self$model$cumhaz)
+      time = c(0, self$model$time)
 
-                                     distr = suppressAll(
-                                       WeightedDiscrete$new(data.frame(x = time, cdf = 1 - exp(-cumhaz)),
-                                                            decorators = c(CoreStatistics, ExoticStatistics)))
+      distr = suppressAll(
+        distr6::WeightedDiscrete$new(data.frame(x = time, cdf = 1 - exp(-cumhaz)),
+                                     decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics)))
 
-                                     PredictionSurv$new(task = task, distr = rep(list(distr), task$nrow))
-                                   },
+     risk = distr$mean()
 
-                                   importance = function() {
-                                     if (is.null(self$model)) {
-                                       stopf("No model stored")
-                                     }
-                                     fn = self$model$features
-                                     named_vector(fn, 0)
-                                   },
-
-                                   selected_features = function() {
-                                     character(0L)
-                                   }
-                                 )
+     PredictionSurv$new(task = task, risk = rep(risk, task$nrow), distr = rep(list(distr), task$nrow))
+    }
+    )
 )

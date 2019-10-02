@@ -1,3 +1,22 @@
+#' @title Brier Score
+#'
+#' @usage NULL
+#' @aliases mlr_measures_surv.brier
+#' @format [R6::R6Class()] inheriting from [MeasureSurv].
+#' @include MeasureSurv.R
+#'
+#' @section Construction:
+#' ```
+#' MeasureSurvBrier$new()
+#' mlr_measures$get("surv.brier")
+#' msr("surv.brier")
+#' ```
+#'
+#' @description
+#' Calculates the brier score, aka squared loss.
+#'
+#' @template seealso_measure
+#' @export
 MeasureSurvBrier = R6::R6Class("MeasureSurvBrier",
                             inherit = MeasureSurv,
                             public = list(

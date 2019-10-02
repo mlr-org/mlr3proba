@@ -3,7 +3,7 @@ predict.flexsurvreg <- function (object, task, ...)
 
  newdata = task$data(cols = task$feature_names)
 
- X = model.matrix(formulate(rhs = task$feature_names), data = newdata, xlev = task$levels())[,-1]
+ X = stats::model.matrix(formulate(rhs = task$feature_names), data = newdata, xlev = task$levels())[,-1]
 
  args <- object$aux
  args$knots = as.numeric(args$knots)
@@ -55,14 +55,14 @@ predict.flexsurvreg <- function (object, task, ...)
    do.call(fn, c(list(n = x1), args))
  }, list(func = object$dfns$r))
 
- params = ParameterSet$new(id = c(names(args), object$dlist$pars),
+ params = distr6::ParameterSet$new(id = c(names(args), object$dlist$pars),
                            value = c(list(numeric(length(object$knots)),
                                           "hazard", "log"),rep(list(0), length(object$dlist$pars))),
                            settable = rep(TRUE, length(args)+length(object$dlist$pars)),
-                           support = c(list(Reals$new(dim = length(object$knots)),
-                                            Set$new("hazard","odds","normal"),
-                                            Set$new("log","identity")),
-                                       rep(list(Reals$new()), length(object$dlist$pars)))
+                           support = c(list(distr6::Reals$new(dim = length(object$knots)),
+                                            distr6::Set$new("hazard","odds","normal"),
+                                            distr6::Set$new("log","identity")),
+                                       rep(list(distr6::Reals$new()), length(object$dlist$pars)))
  )
 
   distr = apply(pars, 1, function(y){
@@ -76,9 +76,9 @@ predict.flexsurvreg <- function (object, task, ...)
     suppressAll(distr6::Distribution$new(
       short_name = "flexsurv", name = "Flexible Parameteric",
       pdf = pdf, cdf = cdf, quantile = quantile, rand = rand,
-      type = PosReals$new(), support = PosReals$new(),
+      type = distr6::PosReals$new(), support = distr6::PosReals$new(),
       variateForm = "univariate", valueSupport = "continuous",
-      parameters = yparams, decorators = c(CoreStatistics, ExoticStatistics),
+      parameters = yparams, decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics),
       description = "Royston/Parmar Flexible Parametric Survival Model",
       .suppressChecks = TRUE, suppressMoments = TRUE
     ))

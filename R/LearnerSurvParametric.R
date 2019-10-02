@@ -1,4 +1,36 @@
-#' @include predict_survreg.R
+#' @include predict.flexsurvreg.R
+#'
+#' @title Fully Parametric Survival Learner
+#'
+#' @usage NULL
+#' @aliases mlr_learners_surv.parametric
+#' @format [R6::R6Class] inheriting from [LearnerSurv].
+#' @include LearnerSurv.R
+#'
+#' @section Construction:
+#' ```
+#' LearnerSurvParametric$new()
+#' mlr_learners$get("mlr_learners_surv.parametric")
+#' lrn("mlr_learners_surv.parametric")
+#' ```
+#'
+#' @description
+#' A [LearnerSurv] for a Fully Parametric model partially implemented in
+#' [survival::survreg()] in package \CRANpkg{flexsurv}.
+#'
+#' @details
+#' The predict method is based on [survival::predict.survreg()] but additionally calculates a survival
+#' distribution using the standard formulae for proportional hazard (PH), accelerated failure time (AFT),
+#' and odds models. Currently six parameterisations can be assumed for the baseline.
+#'
+#' @references
+#' Kalbfleisch, J. D., Prentice, R. L. (2002).
+#' The Statistical Analysis of Failure Time Data.
+#' John Wiley & Sons.
+#' \doi{10.1002/9781118032985}.
+#'
+#' @template seealso_learner
+#' @export
 
 LearnerSurvParametric = R6Class("LearnerSurvParametric", inherit = LearnerSurv,
   public = list(
@@ -50,18 +82,18 @@ LearnerSurvParametric = R6Class("LearnerSurvParametric", inherit = LearnerSurv,
 
       basedist = switch(fit$dist,
                  "gaussian" = distr6::Normal$new(mean = location, sd = scale,
-                                                 decorators = ExoticStatistics),
+                                                 decorators = distr6::ExoticStatistics),
                  "weibull" = distr6::Weibull$new(shape = 1/scale, scale = exp(location),
-                                                 decorators = ExoticStatistics),
+                                                 decorators = distr6::ExoticStatistics),
                  "exponential" = distr6::Exponential$new(scale = exp(location),
-                                                         decorators = ExoticStatistics),
+                                                         decorators = distr6::ExoticStatistics),
                  "logistic" = distr6::Logistic$new(mean = location, scale = scale,
-                                                   decorators = ExoticStatistics),
+                                                   decorators = distr6::ExoticStatistics),
                  "lognormal" = distr6::Lognormal$new(meanlog = location, meansd = scale,
-                                                     decorators = ExoticStatistics),
+                                                     decorators = distr6::ExoticStatistics),
                  "loglogistic" = distr6::Loglogistic$new(scale = exp(location),
                                                          shape = 1/scale,
-                                                         decorators = ExoticStatistics)
+                                                         decorators = distr6::ExoticStatistics)
       )
 
       set_class(list(fit = fit, basedist = basedist), "surv.parametric")
