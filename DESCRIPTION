@@ -28,8 +28,11 @@ Imports:
     survival,
     survivalsvm
 Suggests:
+    flexsurv,
     glmnet,
     lgr,
+    pec,
+    randomForestSRC,
     ranger,
     rpart,
     simsurv,

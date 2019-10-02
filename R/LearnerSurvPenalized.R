@@ -1,5 +1,3 @@
-#' @importFrom penalized contr.none contr.diff
-#'
 #' @title L1 and L2 Penalized Estiamtion in GLMs Survival Learner
 #'
 #' @usage NULL
