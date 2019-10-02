@@ -1,4 +1,4 @@
-^LICENSE
+^LICENSE\.md
 ^inst/data-raw$
 ^tic\.R$
 ^appveyor\.yml$
