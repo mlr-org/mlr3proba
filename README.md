@@ -7,7 +7,6 @@
 [![License MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![CRAN Version](https://www.r-pkg.org/badges/version-ago/mlr3proba)](https://www.r-pkg.org/badges/version-ago/mlr3proba)
 
-<!--
-<https://cranlogs.r-pkg.org/badges/grand-total/distr6?color=brightgreen>
-[![dependencies](https://tinyverse.netlify.com/badge/distr6)](https://CRAN.R-project.org/package=distr6)
-[![CRAN Checks](https://cranchecks.info/badges/summary/distr6)](https://cran.r-project.org/web/checks/check_results_distr6.html)-->
+<!-- <https://cranlogs.r-pkg.org/badges/grand-total/distr6?color=brightgreen> -->
+<!-- [![dependencies](https://tinyverse.netlify.com/badge/mlr3proba)](https://CRAN.R-project.org/package=mlr3proba) -->
+<!-- [![CRAN Checks](https://cranchecks.info/badges/summary/mlr3proba)](https://cran.r-project.org/web/checks/check_results_mlr3proba.html)-->
