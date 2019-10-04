@@ -1,0 +1,29 @@
+url: https://mlr3proba.mlr-org.com
+
+template:
+  package: mlr3pkgdowntemplate
+  params:
+    bootswatch: cosmo
+
+development:
+  mode: unreleased
+  destination: devel
+  version_label: default
+  version_tooltip: "Github version"
+
+toc:
+  depth: 3
+
+navbar:
+  title:
+  type: default
+
+  right:
+  - icon: fa-github fa-lg
+    href: https://github.com/mlr-org/mlr3survival
+  - icon: fa-slack
+    href: https://mlr-org.slack.com
+  - icon: fa-stack-overflow
+    href: https://stackoverflow.com/questions/tagged/mlr3
+  - icon: fa-rss
+    href: https://mlr-org.com/
