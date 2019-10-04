@@ -1,6 +1,6 @@
 Package: mlr3proba
-Title: Probabilistic Supervised Learning
-Version: 0.0.0.9000
+Title: Probabilistic Supervised Learning for mlr3
+Version: 0.1.0-9000
 Authors@R: 
       c(person(given = "Raphael",
              family = "Sonabend",
@@ -11,8 +11,14 @@ Authors@R:
              family = "Kiraly",
              role = "aut",
              email = "f.kiraly@ucl.ac.uk"))
-Description: Placeholder description.
+Description: Provides extensions for probabilistic supervised learning for
+    'mlr3'.  This includes extending the regression task to probabilistic and interval regression,
+    adding a survival task, and other specialized models, predictions,
+    and measures.
 License: MIT + file LICENSE
+URL: https://mlr3proba.mlr-org.com,
+    https://github.com/mlr-org/mlr3proba
+BugReports: https://github.com/mlr-org/mlr3proba/issues
 Depends:
     R (>= 3.1.0),
 Imports:
