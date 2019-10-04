@@ -20,7 +20,7 @@ navbar:
 
   right:
   - icon: fa-github fa-lg
-    href: https://github.com/mlr-org/mlr3survival
+    href: https://github.com/mlr-org/mlr3proba
   - icon: fa-slack
     href: https://mlr-org.slack.com
   - icon: fa-stack-overflow
