@@ -74,7 +74,12 @@ predict.flexsurvreg <- function (object, task, ...)
                                        rep(list(distr6::Reals$new()), length(object$dlist$pars)))
  )
 
-  distr = apply(pars, 1, function(y){
+ # whilst a for loop is not prefereable, timed tests indicate it is only slightly slower
+ # than lapply, and multiple returns are required
+  distr = list()
+  risk = c()
+  for(i in 1:nrow(pars)){
+    y = pars[i, ]
     # Updates the parameters with the fitted values that are extracted above
     lst = as.list(y)
     names(lst) = object$dlist$pars
@@ -83,7 +88,7 @@ predict.flexsurvreg <- function (object, task, ...)
     yparams$setParameterValue(lst = yargs)
 
     # Defines the distr6 distribution
-    suppressAll(distr6::Distribution$new(
+    distr = c(distr, list(suppressAll(distr6::Distribution$new(
       short_name = "flexsurv", name = "Flexible Parameteric",
       pdf = pdf, cdf = cdf, quantile = quantile, rand = rand,
       type = distr6::PosReals$new(), support = distr6::PosReals$new(),
@@ -91,12 +96,15 @@ predict.flexsurvreg <- function (object, task, ...)
       parameters = yparams, decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics),
       description = "Royston/Parmar Flexible Parametric Survival Model",
       .suppressChecks = TRUE, suppressMoments = TRUE
-    ))
+    ))))
 
-  })
-
-  # Risk is defined as the location parameter
-  risk = pars[,1]
+    # risk is defined as the mean of the predicted survival distribution.
+    # this is identical (but more accurate) to the distr$mean integrated method to 2dp
+    risk = c(risk, do.call(object$dfns$mean, yargs))
+  }
+#
+#   # Risk is defined as the location parameter
+#   risk = pars[,1]
 
   return(list(distr = distr, risk = risk))
 }

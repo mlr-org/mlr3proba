@@ -32,7 +32,6 @@ predict_survreg = function(object, task, type = "aft", predict_type = "all"){
                                .suppressChecks = TRUE, suppressMoments = TRUE,
                                decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))
     })
-    risk = exp(lp)
   } else if(type == "aft"){
     distr = lapply(lp, function(x){
       haz = function(x1) exp(-x) * basedist$hazard(x1/exp(x))
@@ -48,7 +47,6 @@ predict_survreg = function(object, task, type = "aft", predict_type = "all"){
                                .suppressChecks = TRUE, suppressMoments = TRUE,
                                decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))
     })
-    risk = exp(-lp)
   } else if(type == "po"){
     distr = lapply(lp, function(x){
       haz = function(x1) basedist$hazard(x1) * (1 - ( basedist$survival(x1) / ( ((exp(x)-1)^-1) + basedist$survival(x1))))
@@ -64,15 +62,21 @@ predict_survreg = function(object, task, type = "aft", predict_type = "all"){
                                .suppressChecks = TRUE, suppressMoments = TRUE,
                                decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))
     })
-    risk = exp(lp)
   }
 
+  # risk defined as exponential of linear predictor
+  risk = as.numeric(exp(lp))
+  lp = as.numeric(lp)
+
+  ret = list()
   if(predict_type == "risk")
-    return(as.numeric(risk))
+    ret = c(ret, risk = risk)
   else if(predict_type %in% c("lp","link","linear"))
-    return(as.numeric(lp))
+    ret = c(ret, lp = lp)
   else if(predict_type == "distr")
-    return(distr)
+    ret = c(ret, distr = distr)
   else
-    return(list(risk = as.numeric(risk), distr = distr, lp = as.numeric(lp)))
+    ret = c(ret, risk = risk, lp = lp, distr = distr)
+
+  return(ret)
 }

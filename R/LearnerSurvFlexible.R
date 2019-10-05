@@ -94,6 +94,9 @@ LearnerSurvFlexible = R6Class("LearnerSurvFlexible", inherit = LearnerSurv,
 
       pred = predict(self$model, task)
 
+      # Risk is defined as the fitted location parameter, which serves as a rank that each
+      # fitted model type has in common. Much faster to computer than the mean of the survival
+      # distribution and rankings should be identical.
       PredictionSurv$new(task = task, distr = pred$distr, risk = pred$risk)
     }
   )

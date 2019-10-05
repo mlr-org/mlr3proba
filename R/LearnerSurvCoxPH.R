@@ -62,8 +62,6 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
         stop(sprintf("Learner %s on task %s failed to predict: Missing values in new data (line(s) %s)\n",
                      self$id, task$id, which(is.na(data.frame(task$data(cols = task$feature_names))))))
 
-
-      risk =  predict(self$model, type = "risk", newdata = newdata)
       pv = self$param_set$get_values(tags = "predict")
 
       # Get predicted values
@@ -74,7 +72,11 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
         distr6::WeightedDiscrete$new(data.frame(x = fit$time, cdf = 1 - x),
                                      decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))))
 
-      PredictionSurv$new(task = task, distr = distr, risk = risk, lp = log(risk))
+      # lp defined as fitted coefficients multiplied by new data covariates
+      lp =  predict(self$model, type = "lp", newdata = newdata)
+      # risk defined as mean of survival distribution. the ranking of the two is identical.
+      risk = lapply(distr, mean)
+      PredictionSurv$new(task = task, distr = distr, risk = risk, lp = lp)
     },
 
     importance = function() {

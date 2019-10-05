@@ -128,7 +128,8 @@ LearnerSurvGlmnet = R6Class("LearnerSurvGlmnet", inherit = LearnerSurv,
       pars = self$param_set$get_values(tags = "predict")
       newdata = as.matrix(task$data(cols = task$feature_names))
 
-      # risk defined as the exponential of the linear predictor
+      # risk defined as the exponential of the linear predictor. we calculate exponential here
+      # to speed up the lapply below but return to lp after
       risk = exp(invoke(predict, self$model$fit, newx = newdata, type = "link", .args = pars))
 
       # WeightedDiscrete distribution defined as a PH model with the baseline survival to the power of
@@ -139,7 +140,12 @@ LearnerSurvGlmnet = R6Class("LearnerSurvGlmnet", inherit = LearnerSurv,
                                          decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics)))
       })
 
-      PredictionSurv$new(task = task, distr = distr, risk = drop(risk), lp = drop(log(risk)))
+      # lp defined as fitted coefficients multiplied by new data covariates
+      lp = drop(log(risk))
+      # risk defined as mean of survival distribution. the ranking of the two is identical.
+      risk = lapply(distr, mean)
+
+      PredictionSurv$new(task = task, distr = distr, risk = risk, lp = lp)
     }
   )
 )

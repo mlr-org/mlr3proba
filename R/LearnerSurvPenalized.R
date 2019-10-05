@@ -97,16 +97,17 @@ LearnerSurvPenalized = R6Class("LearnerSurvPenalized", inherit = LearnerSurv,
                                          decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics)))
       )
 
-      # risk defined as the mean cumulative hazard
-      risk = rowMeans(-log(surv@curves))
+      # risk defined as mean of survival distribution.
+      risk = lapply(distr, mean)
 
-      PredictionSurv$new(task = task, distr = distr, risk = as.numeric(risk))
+      PredictionSurv$new(task = task, distr = distr, risk = risk)
       },
 
     importance = function() {
       if (is.null(self$model))
         stopf("No model stored")
 
+      # importance defined by decreasing fitted weights
       sort(self$model@weights, decreasing = TRUE)
       }
     )

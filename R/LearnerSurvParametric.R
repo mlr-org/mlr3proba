@@ -116,6 +116,8 @@ LearnerSurvParametric = R6Class("LearnerSurvParametric", inherit = LearnerSurv,
       # Call the predict method defined in mlr3proba
       pred = invoke(predict_survreg, object = self$model, task = task, predict_type = "all", .args = pv)
 
+      # risk defined as exp(lp) - identical ranking to mean of survival distribution but
+      # much faster to compute.
       PredictionSurv$new(task = task, distr = pred$distr, risk = pred$risk, lp = pred$lp)
     }
   )

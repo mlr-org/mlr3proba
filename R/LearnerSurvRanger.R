@@ -87,8 +87,10 @@ LearnerSurvRanger = R6Class("LearnerSurvRanger", inherit = LearnerSurv,
         distr6::WeightedDiscrete$new(data.frame(x = fit$unique.death.times, cdf = 1 - x),
                              decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))))
 
-      # Is it correct that the mean over time of the CHF is an estimate for risk?
-      PredictionSurv$new(task = task, distr = distr, risk = rowMeans(fit$chf))
+      # risk defined as mean of survival distribution.
+      risk = lapply(distr, mean)
+
+      PredictionSurv$new(task = task, distr = distr, risk = risk)
     },
 
     importance = function() {

@@ -66,7 +66,7 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart", inherit = LearnerSurv,
 
     predict_internal = function(task) {
       newdata = task$data(cols = task$feature_names)
-      risk = unname(predict(self$model$fit$rpart, newdata = newdata, type = "vector"))
+
       surv = invoke(pec::predictSurvProb, .args = list(object = self$model$fit, newdata = newdata,
                                                           times = self$model$times))
 
@@ -86,6 +86,9 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart", inherit = LearnerSurv,
       distr = suppressAll(apply(surv, 1, function(x)
         distr6::WeightedDiscrete$new(data.frame(x = self$model$times, cdf = 1 - x),
                              decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))))
+
+      # risk defined as mean of survival distribution.
+      risk = lapply(distr, mean)
 
       PredictionSurv$new(task = task, risk = risk, distr = distr)
     },
