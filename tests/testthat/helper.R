@@ -50,7 +50,7 @@ expect_task_surv = function(task) {
   f = task$formula()
   expect_formula(f)
   expect_set_equal(extract_vars(f)$lhs, task$target_names)
-  expect_is(task$survfit(), "survfit")
+#  expect_is(task$survfit(), "survfit")
 }
 
 generate_tasks.LearnerSurv = function(learner, N = 20L) {

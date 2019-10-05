@@ -28,7 +28,6 @@
 #' generator = mlr3::mlr_task_generators$get("simsurv")
 #' task = generator$generate(200)
 #' task$head()
-#' plot(task$survfit())
 TaskGeneratorSimsurv = R6Class("TaskGeneratorSimsurv",
   inherit = TaskGenerator,
   public = list(
