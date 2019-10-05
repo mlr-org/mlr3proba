@@ -58,17 +58,25 @@ LearnerSurvFlexible = R6Class("LearnerSurvFlexible", inherit = LearnerSurv,
       },
 
     train_internal = function(task) {
+      # Passes control parameters to survreg.control
       pars_ctrl = c("maxiter","rel.tolerance","toler.chol","outer.max")
       pv = self$param_set$get_values(tags = "train")
       pv = pv[names(pv) %in% pars_ctrl]
       ctrl = invoke(survival::survreg.control, .args = pv)
 
+      # Adds control and other set parameters to list
       pv = self$param_set$get_values(tags = "train")
       pv = pv[!(names(pv) %in% pars_ctrl)]
       pv$sr.control = ctrl
 
+      # Changes the default values to be in line with Royston/Parmar. The current defaults are
+      # equivalent to fitting a parametric model and therefore surv.parametric should be used
+      # instead.
       if(length(pv$k) == 0) pv$k = 1
       if(length(pv$scale) == 0) pv$scale = "odds"
+
+      if(pv$k == 0)
+        message("Model fit with zero knots, consider using surv.parametric learner instead.")
 
       if ("weights" %in% task$properties)
         pv$weights = task$weights$weight
@@ -78,6 +86,8 @@ LearnerSurvFlexible = R6Class("LearnerSurvFlexible", inherit = LearnerSurv,
 
     predict_internal = function(task) {
 
+      # As we are using a custom predict method the missing assertions are performed here manually
+      # (as opposed to the automatic assertions that take place after prediction)
       if(any(is.na(data.frame(task$data(cols = task$feature_names)))))
         stop(sprintf("Learner %s on task %s failed to predict: Missing values in new data (line(s) %s)\n",
                      self$id, task$id, which(is.na(data.frame(task$data(cols = task$feature_names))))))

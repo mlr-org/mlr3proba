@@ -56,6 +56,9 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart", inherit = LearnerSurv,
       if ("weights" %in% task$properties) {
         pv = insert_named(pv, list(weights = task$weights$weight))
       }
+
+      # The model is fit via the pec package to return the required models for composition to a
+      # survival distribution.
       fit = invoke(pec::pecRpart, formula = task$formula(), data = task$data(), method = "exp", .args = pv)
 
       set_class(list(fit = fit, times = sort(unique(task$truth()[,1]))), "surv.rpart")
@@ -66,6 +69,10 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart", inherit = LearnerSurv,
       risk = unname(predict(self$model$fit$rpart, newdata = newdata, type = "vector"))
       surv = invoke(pec::predictSurvProb, .args = list(object = self$model$fit, newdata = newdata,
                                                           times = self$model$times))
+
+      # We assume that any NAs in prediction are due to the observation being dead. This certainly
+      # looks like the case when looking through predictions - i.e. predictions are made for survival
+      # for an observation until the first '0' is predicted, then NA is returned.
       surv[is.na(surv)] = 0
       # surv2 = t(apply(surv,1,function(x){
       #   if(any(is.na(x))){
@@ -75,6 +82,7 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart", inherit = LearnerSurv,
       #   return(x)
       # }))
 
+      # define WeightedDiscrete distr6 object from predicted survival function
       distr = suppressAll(apply(surv, 1, function(x)
         distr6::WeightedDiscrete$new(data.frame(x = self$model$times, cdf = 1 - x),
                              decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))))

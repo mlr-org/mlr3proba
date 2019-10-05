@@ -41,13 +41,16 @@ LearnerSurvKaplanMeier = R6Class("LearnerSurvKaplanMeier", inherit = LearnerSurv
     },
 
     predict_internal = function(task) {
+      # Ensures that at all times before the first observed time the survival is 1, as expected.
       surv = c(1, self$model$surv)
       time = c(0, self$model$time)
 
+      # Define WeightedDiscrete distr6 distribution from the survival function
       distr = suppressAll(
         distr6::WeightedDiscrete$new(data.frame(x = time, cdf = 1 - surv),
                                      decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics)))
 
+      # Define risk as the mean of the survival distribution
       risk = distr$mean()
 
       PredictionSurv$new(task = task, risk = rep(risk, task$nrow), distr = rep(list(distr), task$nrow))

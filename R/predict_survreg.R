@@ -1,17 +1,22 @@
 predict_survreg = function(object, task, type = "aft", predict_type = "all"){
 
+  # Extracts baseline distribution and the model fit, performs assertions
   basedist = object$basedist
   fit = object$fit
-
   distr6::testDistribution(basedist)
   assertClass(fit, "survreg")
 
+  # define newdata from the supplied task and convert to model matrix
   newdata = task$data(cols = task$feature_names)
-
   x = stats::model.matrix(formulate(rhs = task$feature_names), data = newdata, xlev = task$levels())[,-1]
 
+  # linear predictor defined by the fitted cofficients multiplied by the model matrix (i.e. covariates)
   lp = matrix(fit$coefficients[-1], nrow = 1) %*% t(x)
 
+  # checks and parameterises the chosen model type: proportional hazard (ph), accelerated failure time (aft), odds.
+  # PH: h(t) = h0(t)exp(lp)
+  # AFT: h(t) = exp(-lp)h0(t/exp(lp))
+  # PO: h(t)/h0(t) = {1 + (exp(lp)-1)S-(t)}^-1
   if(type == "ph"){
     distr = lapply(lp, function(x){
       haz = function(x1) exp(x) * basedist$hazard(x1)
@@ -44,7 +49,7 @@ predict_survreg = function(object, task, type = "aft", predict_type = "all"){
                                decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))
     })
     risk = exp(-lp)
-  } else if(type == "odds"){
+  } else if(type == "po"){
     distr = lapply(lp, function(x){
       haz = function(x1) basedist$hazard(x1) * (1 - ( basedist$survival(x1) / ( ((exp(x)-1)^-1) + basedist$survival(x1))))
       cdf = function(x1) 1 - (basedist$survival(x1) * (exp(-x) + (1-exp(-x))*basedist$survival(x1))^-1)

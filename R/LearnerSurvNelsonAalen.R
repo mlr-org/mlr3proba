@@ -50,13 +50,16 @@ LearnerSurvNelsonAalen = R6Class("LearnerSurvNelsonAalen", inherit = LearnerSurv
       },
 
     predict_internal = function(task) {
+      # Ensures that at all times before the first observed time the cumulative hazard is 0, as expected.
       cumhaz = c(0, self$model$cumhaz)
       time = c(0, self$model$time)
 
+      # Define WeightedDiscrete distr6 distribution from the cumulative hazard
       distr = suppressAll(
         distr6::WeightedDiscrete$new(data.frame(x = time, cdf = 1 - exp(-cumhaz)),
                                      decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics)))
 
+     # Define risk as the mean of the survival distribution
      risk = distr$mean()
 
      PredictionSurv$new(task = task, risk = rep(risk, task$nrow), distr = rep(list(distr), task$nrow))

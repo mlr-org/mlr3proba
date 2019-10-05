@@ -82,7 +82,7 @@ LearnerSurvRanger = R6Class("LearnerSurvRanger", inherit = LearnerSurv,
       newdata = task$data(cols = task$feature_names)
       fit = predict(object = self$model, data = newdata)
 
-      # Bottleneck. Avoidable or not? 4s time diff when returning risk only.
+      # define WeightedDiscrete distr6 object from the fitted survival function
       distr = suppressAll(apply(fit$survival, 1, function(x)
         distr6::WeightedDiscrete$new(data.frame(x = fit$unique.death.times, cdf = 1 - x),
                              decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))))

@@ -59,6 +59,8 @@ PredictionSurv = R6Class("PredictionSurv", inherit = Prediction,
       n = length(row_ids)
 
       self$task_type = "surv"
+
+      # Check returned predict types have correct names and add to data.table
       self$predict_types = c("risk","distr","lp")[c(!is.null(risk),!is.null(distr),!is.null(lp))]
       self$data$tab = data.table(
         row_id = row_ids
@@ -81,6 +83,9 @@ PredictionSurv = R6Class("PredictionSurv", inherit = Prediction,
       }
 
     }
+# The print method below can be used to print the strprint representation of R6 objects. This
+# may look nicer but has problems with automated testing and in some cases may end up being
+# less informative.
 #
 #     print = function(){
 #       x = as.data.table(self)

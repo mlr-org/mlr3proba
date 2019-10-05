@@ -109,17 +109,24 @@ LearnerSurvRandomForestSRC = R6Class("LearnerSurvRandomForestSRC", inherit = Lea
     predict_internal = function(task) {
       newdata = task$data(cols = task$feature_names)
       pars = self$param_set$get_values(tags = "predict")
+      # estimator parameter is used internally for composition (i.e. outside of rfsrc) and is
+      # thus ignored for now
       pars$estimator = NULL
 
       p = invoke(predict, object = self$model$fit, newdata = newdata, .args = pars)
 
+      # Default estimator is set to Kaplan-Meier
       estimator = self$param_set$values$estimator
       if(length(estimator) == 0) estimator = "kaplan"
+      # rfsrc uses Nelson-Aalen in chf and Kaplan-Meier for survival, as these
+      # don't give equivalent results one must be chosen and the relevant functions are transformed
+      # as required.
       if(estimator == "nelson")
         cdf = 1 - exp(-p$chf)
       else
         cdf = 1 - p$survival
 
+      # define WeightedDiscrete distr6 object
       distr = suppressAll(apply(cdf, 1, function(x)
         distr6::WeightedDiscrete$new(data.frame(x = self$model$times, cdf = x),
                              decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))))
@@ -150,6 +157,9 @@ LearnerSurvRandomForestSRC = R6Class("LearnerSurvRandomForestSRC", inherit = Lea
       self$model$fit$var.used
     }
 
+    # Note that we could return prediction error but it would first have to be evaluated using Harrel's C
+    # to be in line with other learners such as rpart.
+    #
     # oob_error = function() {
     #   self$model$prediction.error
     # }

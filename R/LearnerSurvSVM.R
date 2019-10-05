@@ -74,6 +74,8 @@ LearnerSurvSVM = R6Class("LearnerSurvSVM", inherit = LearnerSurv,
       },
     train_internal = function(task) {
 
+      # To be more in line with the Van Belle papers and to prevent the learner crashing without
+      # user-set parameters, the default methods are set to diffmeth3 with gamma.mu 0.1.
       pars = self$param_set$get_values(tags = "train")
       if(length(pars$diff.meth) == 0)
         pars$diff.meth = "makediff3"
@@ -84,6 +86,7 @@ LearnerSurvSVM = R6Class("LearnerSurvSVM", inherit = LearnerSurv,
       },
 
     predict_internal = function(task) {
+      # only a continuous ranking is returned
       fit = predict(self$model, newdata = task$data(cols = task$feature_names))
       PredictionSurv$new(task = task, risk = as.numeric(fit$predicted))
     }

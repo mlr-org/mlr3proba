@@ -53,8 +53,11 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
     },
 
     predict_internal = function(task) {
+
       newdata = task$data(cols = task$feature_names)
 
+      # We move the missingness checks here manually as if any NAs are made in predictions then the
+      # distribution object cannot be create (initialization of distr6 objects does not handle NAs)
       if(any(is.na(data.frame(task$data(cols = task$feature_names)))))
         stop(sprintf("Learner %s on task %s failed to predict: Missing values in new data (line(s) %s)\n",
                      self$id, task$id, which(is.na(data.frame(task$data(cols = task$feature_names))))))
@@ -62,8 +65,11 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
 
       risk =  predict(self$model, type = "risk", newdata = newdata)
       pv = self$param_set$get_values(tags = "predict")
+
+      # Get predicted values
       fit = invoke(survival::survfit, formula = self$model, newdata = newdata, se.fit = FALSE, .args = pv)
 
+      # Define survival distribution from the fitted survival function.
       distr = suppressAll(apply(fit$surv, 2, function(x)
         distr6::WeightedDiscrete$new(data.frame(x = fit$time, cdf = 1 - x),
                                      decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))))
@@ -75,6 +81,7 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
      if (is.null(self$model)) {
        stopf("No model stored")
      }
+      # coefficient importance defined by the p-values
       sort(1-summary(self$model)$coefficients[,5L], decreasing = TRUE)
     },
 
@@ -84,6 +91,7 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
       stopf("No model stored")
     }
 
+    # features are selected if their coefficients are non-NA
     beta = coef(self$model)
     names(beta)[!is.na(beta)]
     }

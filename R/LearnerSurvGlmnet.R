@@ -83,6 +83,8 @@ LearnerSurvGlmnet = R6Class("LearnerSurvGlmnet", inherit = LearnerSurv,
     train_internal = function(task) {
 
       pars = self$param_set$get_values(tags = "train")
+      # estimator parameter is used internally for composition (i.e. outside of glmnet) and is
+      # thus ignored for now
       pars$estimator = NULL
 
       x = as.matrix(task$data(cols = task$feature_names))
@@ -91,11 +93,13 @@ LearnerSurvGlmnet = R6Class("LearnerSurvGlmnet", inherit = LearnerSurv,
         pars$weights = task$weights$weight
       }
 
+      # Save control settings and return on exit
       saved_ctrl = glmnet::glmnet.control()
       on.exit(invoke(glmnet::glmnet.control, .args = saved_ctrl))
       glmnet::glmnet.control(factory = TRUE)
       is_ctrl_pars = (names(pars) %in% names(saved_ctrl))
 
+      # ensure only relevant pars passed to fitted model
       if (any(is_ctrl_pars)) {
         do.call(glmnet::glmnet.control, pars[is_ctrl_pars])
         pars = pars[!is_ctrl_pars]
@@ -103,15 +107,19 @@ LearnerSurvGlmnet = R6Class("LearnerSurvGlmnet", inherit = LearnerSurv,
 
       fit = invoke(glmnet::cv.glmnet, x = x, y = target, family = "cox", .args = pars)
 
-
+      # for composition fit the baseline distribution
       basehaz = invoke(survival::survfit, formula = task$formula(1), data = task$data())
 
+      # Kaplan-Meier estimator used by default
       estimator = self$param_set$values$estimator
       if(length(estimator) == 0) estimator = "kaplan"
-        if(estimator == "nelson")
-          basesurv = exp(-basehaz$cumhaz)
-        else
-          basesurv = basehaz$surv
+      # survfit uses Nelson-Aalen in chf and Kaplan-Meier for survival, as these
+      # don't give equivalent results one must be chosen and the relevant functions are transformed
+      # as required.
+      if(estimator == "nelson")
+        basesurv = exp(-basehaz$cumhaz)
+      else
+        basesurv = basehaz$surv
 
       set_class(list(fit = fit, basesurv = basesurv, times = basehaz$time), "surv.glmnet")
     },
@@ -120,11 +128,14 @@ LearnerSurvGlmnet = R6Class("LearnerSurvGlmnet", inherit = LearnerSurv,
       pars = self$param_set$get_values(tags = "predict")
       newdata = as.matrix(task$data(cols = task$feature_names))
 
+      # risk defined as the exponential of the linear predictor
       risk = exp(invoke(predict, self$model$fit, newx = newdata, type = "link", .args = pars))
 
+      # WeightedDiscrete distribution defined as a PH model with the baseline survival to the power of
+      # the relative risk.
       distr = lapply(risk, function(x){
         suppressAll(distr6::WeightedDiscrete$new(data.frame(x = self$model$times,
-                                                    cdf = ((1 - self$model$basesurv)*x)),
+                                                    cdf = (1 - self$model$basesurv^x)),
                                          decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics)))
       })
 

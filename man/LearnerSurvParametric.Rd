@@ -13,7 +13,7 @@ A \link{LearnerSurv} for a Fully Parametric model partially implemented in
 \details{
 The predict method is based on \code{\link[survival:predict.survreg]{survival::predict.survreg()}} but additionally calculates a survival
 distribution using the standard formulae for proportional hazard (PH), accelerated failure time (AFT),
-and odds models. Currently six parameterisations can be assumed for the baseline.
+and proportional odds (PO) models. Currently six parameterisations can be assumed for the baseline.
 }
 \section{Construction}{
 \preformatted{LearnerSurvParametric$new()

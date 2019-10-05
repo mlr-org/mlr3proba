@@ -64,22 +64,27 @@ TaskSurv = R6::R6Class("TaskSurv",
                          },
 
                          truth = function(row_ids = NULL) {
+                           # truth is defined as the survival outcome as a Survival object
                            tn = self$target_names
                            d = self$data(row_ids, cols = self$target_names)
                            Surv(d[[tn[1L]]], as.logical(d[[tn[2L]]]), type = "right")
                          },
 
                          formula = function(rhs = NULL) {
+                           # formula appends the rhs argument to Surv(time, status)~
                            tn = self$target_names
                            lhs = sprintf("Surv(%s, %s)", tn[1L], tn[2L])
                            formulate(lhs, rhs %??% ".", env = getNamespace("survival"))
-                         },
-
-                         survfit = function(strata = character()) {
-                           assert_character(strata, any.missing = FALSE)
-                           f = self$formula(rhs = strata)
-                           vars = unique(unlist(extract_vars(f)))
-                           survfit(f, self$data(cols = vars))
                          }
+
+                         # survfit is included in mlr3surival but I don't think this should be part
+                         #  of the task object. Users can use surv.kaplan or surv.nelson to retrieve this
+
+                         # survfit = function(strata = character()) {
+                         #   assert_character(strata, any.missing = FALSE)
+                         #   f = self$formula(rhs = strata)
+                         #   vars = unique(unlist(extract_vars(f)))
+                         #   survfit(f, self$data(cols = vars))
+                         # }
                        )
 )

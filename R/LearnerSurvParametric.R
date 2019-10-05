@@ -21,7 +21,7 @@
 #' @details
 #' The predict method is based on [survival::predict.survreg()] but additionally calculates a survival
 #' distribution using the standard formulae for proportional hazard (PH), accelerated failure time (AFT),
-#' and odds models. Currently six parameterisations can be assumed for the baseline.
+#' and proportional odds (PO) models. Currently six parameterisations can be assumed for the baseline.
 #'
 #' @references
 #' Kalbfleisch, J. D., Prentice, R. L. (2002).
@@ -39,7 +39,7 @@ LearnerSurvParametric = R6Class("LearnerSurvParametric", inherit = LearnerSurv,
         id = "surv.parametric",
         param_set = ParamSet$new(
           params = list(
-            ParamFct$new(id = "type", default = "aft", levels = c("aft","ph","odds"), tags = "predict"),
+            ParamFct$new(id = "type", default = "aft", levels = c("aft","ph","po"), tags = "predict"),
             ParamFct$new(id = "dist", default = "weibull",
                          levels = c("weibull", "exponential", "gaussian", "logistic",
                                     "lognormal","loglogistic"), tags = "train"),
@@ -62,11 +62,13 @@ LearnerSurvParametric = R6Class("LearnerSurvParametric", inherit = LearnerSurv,
     },
 
     train_internal = function(task) {
+      # Passes control parameters to survreg.control
       pars_ctrl = c("maxiter","rel.tolerance","toler.chol","outer.max")
       pv = self$param_set$get_values(tags = "train")
       pv = pv[names(pv) %in% pars_ctrl]
       ctrl = invoke(survival::survreg.control, .args = pv)
 
+      # Adds control and other set parameters to list
       pv = self$param_set$get_values(tags = "train")
       pv = pv[!(names(pv) %in% pars_ctrl)]
       pv$control = ctrl
@@ -77,6 +79,8 @@ LearnerSurvParametric = R6Class("LearnerSurvParametric", inherit = LearnerSurv,
 
       fit = invoke(survival::survreg, formula = task$formula(), data = task$data(), .args = pv)
 
+      # Fits the baseline distribution by reparameterising the fitted coefficients. These were mostly
+      # derived analytically as precise documentation on the parameterisations is hard to find.
       location = as.numeric(fit$coefficients[1])
       scale = fit$scale
 
@@ -101,13 +105,16 @@ LearnerSurvParametric = R6Class("LearnerSurvParametric", inherit = LearnerSurv,
 
     predict_internal = function(task) {
 
+      # As we are using a custom predict method the missing assertions are performed here manually
+      # (as opposed to the automatic assertions that take place after prediction)
       if(any(is.na(data.frame(task$data(cols = task$feature_names)))))
         stop(sprintf("Learner %s on task %s failed to predict: Missing values in new data (line(s) %s)\n",
                      self$id, task$id, which(is.na(data.frame(task$data(cols = task$feature_names))))))
 
-      if(length(self$param_set$values$type) == 0) self$param_set$values$type = "ph"
+      pv = self$param_set$get_values(tags = "predict")
 
-      pred = predict_survreg(self$model, task, self$param_set$values$type, "all")
+      # Call the predict method defined in mlr3proba
+      pred = invoke(predict_survreg, object = self$model, task = task, predict_type = "all", .args = pv)
 
       PredictionSurv$new(task = task, distr = pred$distr, risk = pred$risk, lp = pred$lp)
     }

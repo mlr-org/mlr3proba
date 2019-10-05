@@ -15,6 +15,11 @@
 #' @description
 #' Calculates Harrell's C, equivalent to the Fortran implementation in \CRANpkg{Hmisc}.
 #'
+#' @references
+#' Harrell, F. E., R. M. Califf, D. B. Pryor, K. L. Lee and R. A. Rosati (1982).
+#' Evaluating the yield of medical tests.
+#' Journal of the American Medical Association. 247. 2543–2546.
+#'
 #' @template seealso_measure
 #' @export
 MeasureSurvHarrellsC = R6Class("MeasureSurvHarrellsC",

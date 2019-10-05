@@ -1,20 +1,24 @@
 predict.flexsurvreg <- function (object, task, ...)
 {
 
+ # define newdata from the supplied task and convert to model matrix
  newdata = task$data(cols = task$feature_names)
-
  X = stats::model.matrix(formulate(rhs = task$feature_names), data = newdata, xlev = task$levels())[,-1]
 
+ # collect the auxiliary arguments for the fitted object
  args <- object$aux
  args$knots = as.numeric(args$knots)
 
+ # define matrix of beta coefficients
  beta = matrix(0)
  if(object$ncovs != 0) beta = matrix(object$res[object$covpars, "est"], nrow = 1)
 
+ # collect fitted parameters
  pars = matrix(object$res.t[object$dlist$pars, "est"], nrow = nrow(newdata),
                ncol = length(object$dlist$pars), byrow = TRUE)
  X = matrix(X, nrow = nrow(newdata))
 
+ # for each fitted parameter, multiple by beta coefficients plus offset to return the gamma parameters
   for (j in seq(along = object$dlist$pars)) {
     covinds <- object$mx[[object$dlist$pars[j]]]
     if (length(covinds) > 0)
@@ -22,6 +26,9 @@ predict.flexsurvreg <- function (object, task, ...)
 
     pars[, j] <- object$dlist$inv.transforms[[j]](pars[, j])
   }
+
+ # Define the d/p/q/r methods using the d/p/q/r methods that are automatically generated in the fitted
+ # object. The parameters referenced are defined below and are based on the gamma parameters above.
 
  pdf = function(x1) {}
  body(pdf) = substitute({
@@ -55,6 +62,8 @@ predict.flexsurvreg <- function (object, task, ...)
    do.call(fn, c(list(n = x1), args))
  }, list(func = object$dfns$r))
 
+ # The parameter set combines the auxiliary parameters with the fitted gamma coefficients. Whilst the
+ # user can set these after fitting, this is generally ill-advised.
  params = distr6::ParameterSet$new(id = c(names(args), object$dlist$pars),
                            value = c(list(numeric(length(object$knots)),
                                           "hazard", "log"),rep(list(0), length(object$dlist$pars))),
@@ -66,13 +75,14 @@ predict.flexsurvreg <- function (object, task, ...)
  )
 
   distr = apply(pars, 1, function(y){
+    # Updates the parameters with the fitted values that are extracted above
     lst = as.list(y)
     names(lst) = object$dlist$pars
     yargs = c(args, lst)
-
     yparams = params$clone(deep = TRUE)
     yparams$setParameterValue(lst = yargs)
 
+    # Defines the distr6 distribution
     suppressAll(distr6::Distribution$new(
       short_name = "flexsurv", name = "Flexible Parameteric",
       pdf = pdf, cdf = cdf, quantile = quantile, rand = rand,
@@ -85,6 +95,7 @@ predict.flexsurvreg <- function (object, task, ...)
 
   })
 
+  # Risk is defined as the location parameter
   risk = pars[,1]
 
   return(list(distr = distr, risk = risk))

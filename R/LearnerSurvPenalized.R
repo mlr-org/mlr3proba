@@ -58,9 +58,13 @@ LearnerSurvPenalized = R6Class("LearnerSurvPenalized", inherit = LearnerSurv,
 
     train_internal = function(task) {
 
+      # Checks missing data early to prevent crashing
       if(any(task$missings() > 0))
         stop("Missing data is not supported by ", self$id)
 
+      # Changes the structure of the penalized and unpenalized parameters to be more user friendly.
+      # Now the user supplies the column names as a vector and these are added to the formula as
+      # required.
       pars = self$param_set$get_values(tags = "train")
       if (length(pars$unpenalized) == 0)
         penalized = formulate(rhs = task$feature_names)
@@ -74,6 +78,8 @@ LearnerSurvPenalized = R6Class("LearnerSurvPenalized", inherit = LearnerSurv,
       },
 
     predict_internal = function(task) {
+      # Again the penalized and unpenalized covariates are automatically converted to the
+      # correct formula
       pars = self$param_set$get_values(tags = "predict")
       if(length(pars$unpenalized) == 0)
         penalized = formulate(rhs = task$feature_names)
@@ -85,11 +91,13 @@ LearnerSurvPenalized = R6Class("LearnerSurvPenalized", inherit = LearnerSurv,
       surv = invoke(penalized::predict, self$model, penalized = penalized, data = task$data(cols = task$feature_names),
                     .args = pars)
 
+      # The WeightedDiscrete distribution is defined by the fitted survival function
       distr = apply(surv@curves, 1, function(x)
         suppressAll(distr6::WeightedDiscrete$new(data.frame(x = surv@time, cdf = 1 - x),
                                          decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics)))
       )
 
+      # risk defined as the mean cumulative hazard
       risk = rowMeans(-log(surv@curves))
 
       PredictionSurv$new(task = task, distr = distr, risk = as.numeric(risk))
