@@ -65,8 +65,9 @@ predict_survreg = function(object, task, type = "aft", predict_type = "all"){
   }
 
   # risk defined as exponential of linear predictor
-  risk = as.numeric(exp(lp))
-  lp = as.numeric(lp)
+  risk = list(risk = as.numeric(exp(lp)))
+  lp = list(lp = as.numeric(lp))
+  distr = list(distr = distr)
 
   ret = list()
   if(predict_type == "risk")

@@ -88,7 +88,7 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart", inherit = LearnerSurv,
                              decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))))
 
       # risk defined as mean of survival distribution.
-      risk = lapply(distr, mean)
+      risk = as.numeric(unlist(lapply(distr, mean)))
 
       PredictionSurv$new(task = task, risk = risk, distr = distr)
     },

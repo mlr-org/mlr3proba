@@ -143,7 +143,7 @@ LearnerSurvGlmnet = R6Class("LearnerSurvGlmnet", inherit = LearnerSurv,
       # lp defined as fitted coefficients multiplied by new data covariates
       lp = drop(log(risk))
       # risk defined as mean of survival distribution. the ranking of the two is identical.
-      risk = lapply(distr, mean)
+      risk = as.numeric(unlist(lapply(distr, mean)))
 
       PredictionSurv$new(task = task, distr = distr, risk = risk, lp = lp)
     }
