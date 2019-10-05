@@ -98,7 +98,7 @@ LearnerSurvPenalized = R6Class("LearnerSurvPenalized", inherit = LearnerSurv,
       )
 
       # risk defined as mean of survival distribution.
-      risk = lapply(distr, mean)
+      risk = as.numeric(unlist(lapply(distr, mean)))
 
       PredictionSurv$new(task = task, distr = distr, risk = risk)
       },
