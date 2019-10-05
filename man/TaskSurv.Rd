@@ -53,7 +53,6 @@ task$target_names
 task$feature_names
 task$formula()
 task$truth()
-task$survfit("age > 50")
 }
 \concept{Task}
 \keyword{datasets}

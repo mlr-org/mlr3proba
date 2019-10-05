@@ -50,7 +50,6 @@
 #' task$feature_names
 #' task$formula()
 #' task$truth()
-#' task$survfit("age > 50")
 TaskSurv = R6::R6Class("TaskSurv",
                        inherit = TaskSupervised,
                        public = list(
