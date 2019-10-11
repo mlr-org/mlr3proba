@@ -35,7 +35,7 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
             ParamFct$new(id = "type", default = "efron", levels = c("efron", "aalen", "kalbfleisch-prentice"), tags = "predict")
           )
         ),
-        predict_types = c("distr","risk","lp"),
+        predict_types = c("distr","crank","lp"),
         feature_types = c("logical", "integer", "numeric", "factor"),
         properties = c("weights","importance"),
         packages = c("survival", "distr6")
@@ -74,10 +74,10 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
 
       # lp defined as fitted coefficients multiplied by new data covariates
       lp =  predict(self$model, type = "lp", newdata = newdata)
-      # risk defined as mean of survival distribution. the ranking of the two is identical.
-      risk = as.numeric(unlist(lapply(distr, mean)))
+      # crank defined as mean of survival distribution. the ranking of the two is identical.
+      crank = as.numeric(unlist(lapply(distr, mean)))
 
-      PredictionSurv$new(task = task, distr = distr, risk = risk, lp = lp)
+      PredictionSurv$new(task = task, distr = distr, crank = crank, lp = lp)
     },
 
     importance = function() {

@@ -54,7 +54,7 @@ LearnerSurvParametric = R6Class("LearnerSurvParametric", inherit = LearnerSurv,
             ParamLgl$new(id = "score", default = FALSE, tags = "train")
           )
         ),
-        predict_types = c("distr","lp","risk"),
+        predict_types = c("distr","lp","crank"),
         feature_types = c("logical", "integer", "numeric", "factor"),
         properties = "weights",
         packages = c("survival", "distr6")
@@ -116,9 +116,9 @@ LearnerSurvParametric = R6Class("LearnerSurvParametric", inherit = LearnerSurv,
       # Call the predict method defined in mlr3proba
       pred = invoke(predict_survreg, object = self$model, task = task, predict_type = "all", .args = pv)
 
-      # risk defined as exp(lp) - identical ranking to mean of survival distribution but
+      # crank defined as exp(lp) - identical ranking to mean of survival distribution but
       # much faster to compute.
-      PredictionSurv$new(task = task, distr = pred$distr, risk = pred$risk, lp = pred$lp)
+      PredictionSurv$new(task = task, distr = pred$distr, crank = pred$crank, lp = pred$lp)
     }
   )
 )

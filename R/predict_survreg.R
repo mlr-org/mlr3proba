@@ -64,20 +64,20 @@ predict_survreg = function(object, task, type = "aft", predict_type = "all"){
     })
   }
 
-  # risk defined as exponential of linear predictor
-  risk = list(risk = as.numeric(exp(lp)))
+  # crank defined as exponential of linear predictor
+  crank = list(crank = as.numeric(exp(lp)))
   lp = list(lp = as.numeric(lp))
   distr = list(distr = distr)
 
   ret = list()
-  if(predict_type == "risk")
-    ret = c(ret, risk = risk)
+  if(predict_type == "crank")
+    ret = c(ret, crank = crank)
   else if(predict_type %in% c("lp","link","linear"))
     ret = c(ret, lp = lp)
   else if(predict_type == "distr")
     ret = c(ret, distr = distr)
   else
-    ret = c(ret, risk = risk, lp = lp, distr = distr)
+    ret = c(ret, crank = crank, lp = lp, distr = distr)
 
   return(ret)
 }

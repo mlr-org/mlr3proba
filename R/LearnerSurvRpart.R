@@ -44,7 +44,7 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart", inherit = LearnerSurv,
       super$initialize(
         id = "surv.rpart",
         param_set = ps,
-        predict_types = c("risk", "distr"),
+        predict_types = c("crank", "distr"),
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         properties = c("weights", "missings", "importance", "selected_features"),
         packages = c("rpart","distr6","survival")
@@ -87,10 +87,10 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart", inherit = LearnerSurv,
         distr6::WeightedDiscrete$new(data.frame(x = self$model$times, cdf = 1 - x),
                              decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))))
 
-      # risk defined as mean of survival distribution.
-      risk = as.numeric(unlist(lapply(distr, mean)))
+      # crank defined as mean of survival distribution.
+      crank = as.numeric(unlist(lapply(distr, mean)))
 
-      PredictionSurv$new(task = task, risk = risk, distr = distr)
+      PredictionSurv$new(task = task, crank = crank, distr = distr)
     },
 
     importance = function() {

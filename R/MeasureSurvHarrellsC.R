@@ -34,7 +34,7 @@ MeasureSurvHarrellsC = R6Class("MeasureSurvHarrellsC",
     },
 
     score_internal = function(prediction, ...) {
-      cindex(prediction$truth, prediction$risk)
+      cindex(prediction$truth, prediction$crank)
     }
   )
 )

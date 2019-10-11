@@ -15,7 +15,7 @@
 #' ```
 #'
 #' @description
-#' Support vector machines predicting either survival time, relative ranks or hybrid of risks.
+#' Support vector machines predicting either survival time, continuous ranks or a hybrid of the two.
 #' Calls [survivalsvm::survivalsvm()] from package \CRANpkg{survivalsvm}.
 #'
 #' @details
@@ -68,7 +68,7 @@ LearnerSurvSVM = R6Class("LearnerSurvSVM", inherit = LearnerSurv,
           ),
         feature_types = c("integer", "numeric"),
         #   properties = "importance",
-        predict_types = c("risk"),
+        predict_types = c("crank"),
         packages = c("survivalsvm")
         )
       },
@@ -88,7 +88,7 @@ LearnerSurvSVM = R6Class("LearnerSurvSVM", inherit = LearnerSurv,
     predict_internal = function(task) {
       # only a continuous ranking is returned
       fit = predict(self$model, newdata = task$data(cols = task$feature_names))
-      PredictionSurv$new(task = task, risk = as.numeric(fit$predicted))
+      PredictionSurv$new(task = task, crank = as.numeric(fit$predicted))
     }
   )
 )

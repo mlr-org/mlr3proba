@@ -57,7 +57,7 @@ LearnerSurvRanger = R6Class("LearnerSurvRanger", inherit = LearnerSurv,
             ParamLgl$new(id = "oob.error", default = TRUE, tags = "train")
           )
         ),
-        predict_types = c("risk","distr"),
+        predict_types = c("crank","distr"),
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         properties = c("weights", "importance", "oob_error"),
         packages = c("ranger", "distr6")
@@ -87,10 +87,10 @@ LearnerSurvRanger = R6Class("LearnerSurvRanger", inherit = LearnerSurv,
         distr6::WeightedDiscrete$new(data.frame(x = fit$unique.death.times, cdf = 1 - x),
                              decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))))
 
-      # risk defined as mean of survival distribution.
-      risk = as.numeric(unlist(lapply(distr, mean)))
+      # crank defined as mean of survival distribution.
+      crank = as.numeric(unlist(lapply(distr, mean)))
 
-      PredictionSurv$new(task = task, distr = distr, risk = risk)
+      PredictionSurv$new(task = task, distr = distr, crank = crank)
     },
 
     importance = function() {

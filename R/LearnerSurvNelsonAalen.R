@@ -38,7 +38,7 @@ LearnerSurvNelsonAalen = R6Class("LearnerSurvNelsonAalen", inherit = LearnerSurv
     initialize = function() {
       super$initialize(
         id = "surv.nelson",
-        predict_types = c("risk", "distr"),
+        predict_types = c("crank", "distr"),
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         properties = "missings",
         packages = c("survival", "distr6")
@@ -59,10 +59,10 @@ LearnerSurvNelsonAalen = R6Class("LearnerSurvNelsonAalen", inherit = LearnerSurv
         distr6::WeightedDiscrete$new(data.frame(x = time, cdf = 1 - exp(-cumhaz)),
                                      decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics)))
 
-     # Define risk as the mean of the survival distribution
-     risk = distr$mean()
+     # Define crank as the mean of the survival distribution
+     crank = distr$mean()
 
-     PredictionSurv$new(task = task, risk = rep(risk, task$nrow), distr = rep(list(distr), task$nrow))
+     PredictionSurv$new(task = task, crank = rep(crank, task$nrow), distr = rep(list(distr), task$nrow))
     }
     )
 )

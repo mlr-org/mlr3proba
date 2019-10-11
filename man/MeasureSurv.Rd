@@ -18,7 +18,7 @@ The \code{task_type} is set to \code{"surv"}.
 
 For a description of the arguments, see \link[mlr3:Measure]{mlr3::Measure}.
 The \code{task_type} is set to \code{"surv"}.
-Possible values for \code{predict_type} are \code{"distr"} and \code{"risk"}.
+Possible values for \code{predict_type} are \code{"distr"} and \code{"crank"}.
 }
 
 \section{Fields}{

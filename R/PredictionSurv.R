@@ -11,7 +11,7 @@
 #' @section Construction:
 #' ```
 #' p = PredictionSurv$new(task = NULL, row_ids = task$row_ids, truth = task$truth(), distr = NULL,
-#' risk = NULL, lp = NULL)
+#' crank = NULL, lp = NULL)
 #' ```
 #'
 #' * `task` :: [TaskSurv]\cr
@@ -23,20 +23,20 @@
 #' * `truth` :: `survival::Surv()`\cr
 #'   Observed survival times. Per default, these are extracted from the `task`.
 #'
-#' * `risk` :: `numeric()`\cr
-#'   Vector of risk scores. One element for each observation in the test set.
-#'   The higher the risk, the more likely is an event.
-#'   Used in measures like [mlr_measures_surv.harrells_c].
+#' * `crank` :: `numeric()`\cr
+#'   Vector of continuous ranks. One element for each observation in the test set.
+#'   For a pair of continuous ranks, a higher rank indicates that observation is more likely to experience
+#'   the event.
+#'   Used in discrimination measures like [mlr_measures_surv.harrells_c].
 #'
 #' * `lp` :: `numeric()`\cr
 #'   Vector of linear predictor scores. One element for each observation in the test set.
-#'   lp = exp(risk).
-#'   Used in measures like [mlr_measures_surv.harrells_c].
+#'   \eqn{lp = X\beta} where \eqn{X} is a matrix of covariates and \eqn{\beta} is a vector of estimated coefficients.
+#'   Used in discrimination measures like [mlr_measures_surv.harrells_c].
 #'
 #' * `distr` :: `distr6::Distribution()`\cr
-#'   List of R6 distributions. One distribution for each observation in the test set.
-#'   Each distribution contains the hazard, survival, and cumulative hazard (and other
-#'   common functions) for all predictions.
+#'   List of R6 probability distributions from \CRANpkg{distr6}.
+#'   Each distribution represents the random variable 'survival time'.
 #'   Used in measures like [mlr_measures_surv.brier].
 #'
 #' @section Fields:
@@ -54,14 +54,14 @@
 #' head(as.data.table(p))
 PredictionSurv = R6Class("PredictionSurv", inherit = Prediction,
   public = list(
-    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), risk = NULL, distr = NULL, lp = NULL) {
+    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), crank = NULL, distr = NULL, lp = NULL) {
       assert_row_ids(row_ids)
       n = length(row_ids)
 
       self$task_type = "surv"
 
       # Check returned predict types have correct names and add to data.table
-      self$predict_types = c("risk","distr","lp")[c(!is.null(risk),!is.null(distr),!is.null(lp))]
+      self$predict_types = c("crank","distr","lp")[c(!is.null(crank),!is.null(distr),!is.null(lp))]
       self$data$tab = data.table(
         row_id = row_ids
       )
@@ -70,8 +70,8 @@ PredictionSurv = R6Class("PredictionSurv", inherit = Prediction,
         self$data$tab[, c("time", "status") := list(truth[, 1L], as.logical(truth[, 2L]))]
       }
 
-      if (!is.null(risk)) {
-        self$data$tab$risk = assert_numeric(risk, len = n, any.missing = FALSE)
+      if (!is.null(crank)) {
+        self$data$tab$crank = assert_numeric(crank, len = n, any.missing = FALSE)
       }
 
       if (!is.null(distr)) {
@@ -99,8 +99,8 @@ PredictionSurv = R6Class("PredictionSurv", inherit = Prediction,
       Surv(self$data$tab$time, self$data$tab$status, type = "right")
     },
 
-    risk = function() {
-      self$data$tab$risk %??% rep(NA_real_, length(self$data$row_ids))
+    crank = function() {
+      self$data$tab$crank %??% rep(NA_real_, length(self$data$row_ids))
     },
 
     distr = function() {
@@ -114,8 +114,8 @@ PredictionSurv = R6Class("PredictionSurv", inherit = Prediction,
     missing = function() {
       miss = logical(nrow(self$data$tab))
 
-      if ("risk" %in% self$predict_types) {
-        miss = is.na(self$data$tab$risk)
+      if ("crank" %in% self$predict_types) {
+        miss = is.na(self$data$tab$crank)
 
       }
 
@@ -158,7 +158,7 @@ c.PredictionSurv = function(..., keep_duplicates = TRUE) {
     tab = unique(tab, by = "row_id", fromLast = TRUE)
   }
 
-  PredictionSurv$new(row_ids = tab$row_id, truth = Surv(tab$time, tab$status), risk = tab$risk, distr = tab$distr, lp = tab$lp)
+  PredictionSurv$new(row_ids = tab$row_id, truth = Surv(tab$time, tab$status), crank = tab$crank, distr = tab$distr, lp = tab$lp)
 }
 
 

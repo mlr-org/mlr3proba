@@ -17,7 +17,7 @@
 #' Calls [glmnet::cv.glmnet()] from package \CRANpkg{glmnet}.
 #'
 #' @details
-#' The \code{distr} predict.type is derived by multiplying the risk returned from [glmnet::cv.glmnet()]
+#' The \code{distr} predict.type is derived by multiplying the crank, \eqn{exp(lp)}, returned from [glmnet::cv.glmnet()]
 #' with a baseline hazard/survival calculated from [survival::survfit()]. The choice of estimator
 #' can be determined by the \code{estimator} hyper-parameter.
 #'
@@ -74,7 +74,7 @@ LearnerSurvGlmnet = R6Class("LearnerSurvGlmnet", inherit = LearnerSurv,
           )
         ),
         feature_types = c("integer", "numeric"),
-        predict_types = c("distr","risk","lp"),
+        predict_types = c("distr","crank","lp"),
         properties = "weights",
         packages = c("glmnet","distr6","survival")
       )
@@ -128,24 +128,25 @@ LearnerSurvGlmnet = R6Class("LearnerSurvGlmnet", inherit = LearnerSurv,
       pars = self$param_set$get_values(tags = "predict")
       newdata = as.matrix(task$data(cols = task$feature_names))
 
-      # risk defined as the exponential of the linear predictor. we calculate exponential here
+      # crank defined as the exponential of the linear predictor. we calculate exponential here
       # to speed up the lapply below but return to lp after
-      risk = exp(invoke(predict, self$model$fit, newx = newdata, type = "link", .args = pars))
+      crank = exp(invoke(predict, self$model$fit, newx = newdata, type = "link", .args = pars))
 
       # WeightedDiscrete distribution defined as a PH model with the baseline survival to the power of
-      # the relative risk.
-      distr = lapply(risk, function(x){
+      # the relative crank. Note here crank is identical to `risk` in the glmnet documentation, i.e. exp(lp)
+      # but below crank is updated to be the mean of the survival distribution.
+      distr = lapply(crank, function(x){
         suppressAll(distr6::WeightedDiscrete$new(data.frame(x = self$model$times,
                                                     cdf = (1 - self$model$basesurv^x)),
                                          decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics)))
       })
 
       # lp defined as fitted coefficients multiplied by new data covariates
-      lp = drop(log(risk))
-      # risk defined as mean of survival distribution. the ranking of the two is identical.
-      risk = as.numeric(unlist(lapply(distr, mean)))
+      lp = drop(log(crank))
+      # crank defined as mean of survival distribution. The ranking of crank and lp is identical.
+      crank = as.numeric(unlist(lapply(distr, mean)))
 
-      PredictionSurv$new(task = task, distr = distr, risk = risk, lp = lp)
+      PredictionSurv$new(task = task, distr = distr, crank = crank, lp = lp)
     }
   )
 )

@@ -26,8 +26,6 @@
 #' Only the second two of these are returned in the \code{distr} predict.type, as Nelson-Aalen and Kaplan-Meier
 #' will give different results, the estimator can be chosen in the parameter set under "estimator".
 #'
-#' The 'risk' predict.type is here defined as the mean of the cumulative hazard over all unique death times.
-#'
 #' @references
 #' Ishwaran H. and Kogalur U.B. (2019). Fast Unified Random Forests for Survival,
 #' Regression, and Classification (RF-SRC), R package version 2.9.1.
@@ -84,7 +82,7 @@ LearnerSurvRandomForestSRC = R6Class("LearnerSurvRandomForestSRC", inherit = Lea
             ParamFct$new(id = "estimator", default = "nelson", levels = c("nelson","kaplan"), tags = "predict")
           )
         ),
-        predict_types = c("risk","distr"),
+        predict_types = c("crank","distr"),
         feature_types = c("logical", "integer", "numeric", "factor", "ordered"),
         properties = c("weights", "missings", "importance"),
         packages = c("randomForestSRC", "distr6")
@@ -131,10 +129,10 @@ LearnerSurvRandomForestSRC = R6Class("LearnerSurvRandomForestSRC", inherit = Lea
         distr6::WeightedDiscrete$new(data.frame(x = self$model$times, cdf = x),
                              decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))))
 
-      # risk defined as mean of survival distribution.
-      risk = as.numeric(unlist(lapply(distr, mean)))
+      # crank defined as mean of survival distribution.
+      crank = as.numeric(unlist(lapply(distr, mean)))
 
-      PredictionSurv$new(task = task, distr = distr, risk = risk)
+      PredictionSurv$new(task = task, distr = distr, crank = crank)
     },
 
     importance = function() {

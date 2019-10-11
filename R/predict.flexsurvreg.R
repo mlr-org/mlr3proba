@@ -74,10 +74,10 @@ predict.flexsurvreg <- function (object, task, ...)
                                        rep(list(distr6::Reals$new()), length(object$dlist$pars)))
  )
 
- # whilst a for loop is not prefereable, timed tests indicate it is only slightly slower
+ # whilst a for loop is not preferable, timed tests indicate it is only slightly slower
  # than lapply, and multiple returns are required
   distr = list()
-  risk = c()
+  crank = c()
   for(i in 1:nrow(pars)){
     y = pars[i, ]
     # Updates the parameters with the fitted values that are extracted above
@@ -98,13 +98,10 @@ predict.flexsurvreg <- function (object, task, ...)
       .suppressChecks = TRUE, suppressMoments = TRUE
     ))))
 
-    # risk is defined as the mean of the predicted survival distribution.
+    # crank is defined as the mean of the predicted survival distribution.
     # this is identical (but more accurate) to the distr$mean integrated method to 2dp
-    risk = c(risk, do.call(object$dfns$mean, yargs))
+    crank = c(crank, do.call(object$dfns$mean, yargs))
   }
-#
-#   # Risk is defined as the location parameter
-#   risk = pars[,1]
 
-  return(list(distr = distr, risk = risk))
+  return(list(distr = distr, crank = crank))
 }

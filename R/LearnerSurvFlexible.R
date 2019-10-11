@@ -50,7 +50,7 @@ LearnerSurvFlexible = R6Class("LearnerSurvFlexible", inherit = LearnerSurv,
             ParamDbl$new(id = "toler.chol", default = 1e-10, tags = "train"),
             ParamInt$new(id = "outer.max", default = 10L, tags = "train")
           )),
-        predict_types = c("distr","risk"),
+        predict_types = c("distr","crank"),
         feature_types = c("logical", "integer", "factor","numeric"),
         properties = c("weights"),
         packages = c("flexsurv", "survival", "distr6")
@@ -94,10 +94,8 @@ LearnerSurvFlexible = R6Class("LearnerSurvFlexible", inherit = LearnerSurv,
 
       pred = predict(self$model, task)
 
-      # Risk is defined as the fitted location parameter, which serves as a rank that each
-      # fitted model type has in common. Much faster to computer than the mean of the survival
-      # distribution and rankings should be identical.
-      PredictionSurv$new(task = task, distr = pred$distr, risk = pred$risk)
+      # crank is defined as the mean of the survival distribution
+      PredictionSurv$new(task = task, distr = pred$distr, crank = pred$crank)
     }
   )
 )

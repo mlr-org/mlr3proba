@@ -7,7 +7,7 @@
 \title{Regression, Ranking and Hybrid Support Vector Machine Survival Learner}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerSurv}.}
 \description{
-Support vector machines predicting either survival time, relative ranks or hybrid of risks.
+Support vector machines predicting either survival time, continuous ranks or a hybrid of the two.
 Calls \code{\link[survivalsvm:survivalsvm]{survivalsvm::survivalsvm()}} from package \CRANpkg{survivalsvm}.
 }
 \details{

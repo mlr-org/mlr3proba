@@ -50,7 +50,7 @@ LearnerSurvPenalized = R6Class("LearnerSurvPenalized", inherit = LearnerSurv,
             )
           ),
         feature_types = c("integer", "numeric","factor","ordered"),
-        predict_types = c("distr","risk"),
+        predict_types = c("distr","crank"),
         properties = "importance",
         packages = c("penalized","distr6")
         )
@@ -97,10 +97,10 @@ LearnerSurvPenalized = R6Class("LearnerSurvPenalized", inherit = LearnerSurv,
                                          decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics)))
       )
 
-      # risk defined as mean of survival distribution.
-      risk = as.numeric(unlist(lapply(distr, mean)))
+      # crank defined as mean of survival distribution.
+      crank = as.numeric(unlist(lapply(distr, mean)))
 
-      PredictionSurv$new(task = task, distr = distr, risk = risk)
+      PredictionSurv$new(task = task, distr = distr, crank = crank)
       },
 
     importance = function() {

@@ -21,8 +21,6 @@ of an individuals cumulative hazard function over all time-points
 
 Only the second two of these are returned in the \code{distr} predict.type, as Nelson-Aalen and Kaplan-Meier
 will give different results, the estimator can be chosen in the parameter set under "estimator".
-
-The 'risk' predict.type is here defined as the mean of the cumulative hazard over all unique death times.
 }
 \section{Construction}{
 \preformatted{LearnerSurvRandomForestSRC$new()

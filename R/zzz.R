@@ -39,9 +39,9 @@ register_mlr3 = function() {
   x$task_properties$surv = c("weights", "groups")
   x$learner_properties$surv = x$learner_properties$regr
   x$measure_properties$surv = x$measure_properties$regr
-  x$learner_predict_types$surv = list(distr = c("risk","distr","lp"),
-                                      risk = c("risk","distr","lp"),
-                                      lp = c("risk","distr","lp"))
+  x$learner_predict_types$surv = list(crank = c("crank","lp","distr"),
+                                      distr = c("crank","lp","distr"),
+                                      lp = c("crank","lp","distr"))
   x$default_measures$surv = "surv.harrellsc"
 
   # tasks
