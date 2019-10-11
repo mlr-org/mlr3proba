@@ -15,6 +15,10 @@
 #' @description
 #' A [LearnerSurv] for a survival random forest implemented in [ranger::ranger()] in package \CRANpkg{ranger}.
 #'
+#' @details
+#' The \code{distr} return type is given natively by predicting the survival function in [ranger::predict.ranger()].\cr
+#' The \code{crank} return type is defined by the expectation of the survival distribution.
+#'
 #' @references
 #' Marvin N. Wright and Andreas Ziegler (2017).
 #' ranger: A Fast Implementation of Random Forests for High Dimensional Data in C++ and R.
@@ -82,15 +86,20 @@ LearnerSurvRanger = R6Class("LearnerSurvRanger", inherit = LearnerSurv,
       newdata = task$data(cols = task$feature_names)
       fit = predict(object = self$model, data = newdata)
 
-      # define WeightedDiscrete distr6 object from the fitted survival function
-      distr = suppressAll(apply(fit$survival, 1, function(x)
-        distr6::WeightedDiscrete$new(data.frame(x = fit$unique.death.times, cdf = 1 - x),
-                             decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))))
+      # define WeightedDiscrete distr6 object from predicted survival function
+      distr_crank = suppressAll(apply(fit$survival, 1, function(x){
+        distr = distr6::WeightedDiscrete$new(data.frame(x = fit$unique.death.times, cdf = 1 - x),
+                                             decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))
 
-      # crank defined as mean of survival distribution.
-      crank = as.numeric(unlist(lapply(distr, mean)))
+        # crank defined as mean of survival distribution.
+        crank = distr$mean()
 
-      PredictionSurv$new(task = task, distr = distr, crank = crank)
+        return(list(distr = distr, crank = crank))
+      }))
+
+      PredictionSurv$new(task = task,
+                         crank = as.numeric(unlist(distr_crank)[seq.int(2, length(distr_crank)*2, 2)]),
+                         distr = unname(unlist(distr_crank)[seq.int(1, length(distr_crank)*2, 2)]))
     },
 
     importance = function() {

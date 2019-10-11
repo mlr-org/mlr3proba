@@ -70,7 +70,7 @@ predict_survreg = function(object, task, type = "aft", predict_type = "all"){
   distr = list(distr = distr)
 
   ret = list()
-  if(predict_type == "crank")
+  if(predict_type %in% c("crank","risk"))
     ret = c(ret, crank = crank)
   else if(predict_type %in% c("lp","link","linear"))
     ret = c(ret, lp = lp)

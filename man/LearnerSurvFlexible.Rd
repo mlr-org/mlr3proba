@@ -11,8 +11,12 @@ A \link{LearnerSurv} for a Flexible Parametric Spline model partially implemente
 \code{\link[flexsurv:flexsurvspline]{flexsurv::flexsurvspline()}} in package \CRANpkg{flexsurv}.
 }
 \details{
-The predict method is based on \code{\link[flexsurv:summary.flexsurvreg]{flexsurv::summary.flexsurvreg()}} but adapts the return type
-to be compatible with \CRANpkg{distr6}.
+The \code{distr} return type is composed by using the formulae given from \code{\link[flexsurv:flexsurvspline]{flexsurv::flexsurvspline()}}. \cr
+The \code{crank} return type is defined as the expectation of the survival distribution. The formulae used
+is from \code{\link[flexsurv:flexsurvspline]{flexsurv::flexsurvspline()}} and not \code{\link[distr6:mean.Distribution]{distr6::mean.Distribution()}} as the former is faster and more accurate.
+
+The predict method is based on \code{\link[flexsurv:summary.flexsurvreg]{flexsurv::summary.flexsurvreg()}} but is quicker and more
+efficient, and adapts the return type to be compatible with \CRANpkg{distr6}.
 }
 \section{Construction}{
 \preformatted{LearnerSurvFlexible$new()

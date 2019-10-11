@@ -15,6 +15,10 @@
 #' @description
 #' Nelson Aalen estimator called from [survival::survfit()] in package \CRANpkg{survival}.
 #'
+#' @details
+#' The \code{distr} return type is given natively by estimating the cumulative hazard function with [survival::survfit()].\cr
+#' The \code{crank} return type is defined by the expectation of the survival distribution.
+#'
 #' @references
 #' Nelson, W. (1969).
 #' Hazard plotting for incomplete failure data.
@@ -59,10 +63,10 @@ LearnerSurvNelsonAalen = R6Class("LearnerSurvNelsonAalen", inherit = LearnerSurv
         distr6::WeightedDiscrete$new(data.frame(x = time, cdf = 1 - exp(-cumhaz)),
                                      decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics)))
 
-     # Define crank as the mean of the survival distribution
-     crank = distr$mean()
+      # Define crank as the mean of the survival distribution
+      crank = distr$mean()
 
-     PredictionSurv$new(task = task, crank = rep(crank, task$nrow), distr = rep(list(distr), task$nrow))
+      PredictionSurv$new(task = task, crank = rep(crank, task$nrow), distr = rep(list(distr), task$nrow))
     }
-    )
+  )
 )

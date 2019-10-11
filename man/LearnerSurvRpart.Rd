@@ -12,7 +12,8 @@ through \code{\link[pec:pecRpart]{pec::pecRpart()}} in package \CRANpkg{pec}.
 Parameter \code{xval} is set to 0 in order to save some computation time.
 }
 \details{
-The \code{distr6} return type is composed using \code{\link[pec:predictSurvProb]{pec::predictSurvProb()}}.
+The \code{distr} return type is defined by first predicting the survival function with \code{\link[pec:predictSurvProb]{pec::predictSurvProb()}}.\cr
+The \code{crank} return type is defined by the expectation of the survival distribution.
 }
 \section{Construction}{
 \preformatted{LearnerSurvRpart$new()

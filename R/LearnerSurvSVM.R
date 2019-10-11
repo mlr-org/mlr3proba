@@ -15,7 +15,7 @@
 #' ```
 #'
 #' @description
-#' Support vector machines predicting either survival time, continuous ranks or a hybrid of the two.
+#' Support vector machines predicting either the prognostic index, continuous ranks or a hybrid of the two.
 #' Calls [survivalsvm::survivalsvm()] from package \CRANpkg{survivalsvm}.
 #'
 #' @details

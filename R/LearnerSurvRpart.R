@@ -18,7 +18,8 @@
 #' Parameter `xval` is set to 0 in order to save some computation time.
 #'
 #' @details
-#' The \code{distr6} return type is composed using [pec::predictSurvProb()].
+#' The \code{distr} return type is defined by first predicting the survival function with [pec::predictSurvProb()].\cr
+#' The \code{crank} return type is defined by the expectation of the survival distribution.
 #'
 #' @references
 #' Breiman, L. (1984).
@@ -67,13 +68,13 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart", inherit = LearnerSurv,
     predict_internal = function(task) {
       newdata = task$data(cols = task$feature_names)
 
-      surv = invoke(pec::predictSurvProb, .args = list(object = self$model$fit, newdata = newdata,
+      cdf = 1 - invoke(pec::predictSurvProb, .args = list(object = self$model$fit, newdata = newdata,
                                                           times = self$model$times))
 
       # We assume that any NAs in prediction are due to the observation being dead. This certainly
       # looks like the case when looking through predictions - i.e. predictions are made for survival
       # for an observation until the first '0' is predicted, then NA is returned.
-      surv[is.na(surv)] = 0
+      cdf[is.na(cdf)] = 1
       # surv2 = t(apply(surv,1,function(x){
       #   if(any(is.na(x))){
       #     if(round(x[which(is.na(x))[1]-1]) == 0)
@@ -83,14 +84,19 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart", inherit = LearnerSurv,
       # }))
 
       # define WeightedDiscrete distr6 object from predicted survival function
-      distr = suppressAll(apply(surv, 1, function(x)
-        distr6::WeightedDiscrete$new(data.frame(x = self$model$times, cdf = 1 - x),
-                             decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))))
+      distr_crank = suppressAll(apply(cdf, 1, function(x){
+        distr = distr6::WeightedDiscrete$new(data.frame(x = self$model$times, cdf = x),
+                             decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))
 
-      # crank defined as mean of survival distribution.
-      crank = as.numeric(unlist(lapply(distr, mean)))
+        # crank defined as mean of survival distribution.
+        crank = distr$mean()
 
-      PredictionSurv$new(task = task, crank = crank, distr = distr)
+        return(list(distr = distr, crank = crank))
+      }))
+
+      PredictionSurv$new(task = task,
+                         crank = as.numeric(unlist(distr_crank)[seq.int(2, length(distr_crank)*2, 2)]),
+                         distr = unname(unlist(distr_crank)[seq.int(1, length(distr_crank)*2, 2)]))
     },
 
     importance = function() {

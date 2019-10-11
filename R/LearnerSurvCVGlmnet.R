@@ -17,9 +17,12 @@
 #' Calls [glmnet::cv.glmnet()] from package \CRANpkg{glmnet}.
 #'
 #' @details
-#' The \code{distr} predict.type is derived by multiplying the crank, \eqn{exp(lp)}, returned from [glmnet::cv.glmnet()]
-#' with a baseline hazard/survival calculated from [survival::survfit()]. The choice of estimator
-#' for the baseline distribution can be determined by the \code{estimator} hyper-parameter.
+#' The \code{distr} return type is composed by using the Cox formula \eqn{S(t) = S0(t)^exp(lp)} where
+#' \eqn{S0} is the baseline survival function and \eqn{lp} is the predicted linear predictor. The
+#' baseline survival is estimated with either Kaplan-Meier or Nelson-Aalen, depending on the
+#' \code{estimator} hyper-parameter, using [survival::survfit()].\cr
+#' The \code{crank} return type is defined by the expectation of the survival distribution. \cr
+#' The \code{lp} return type is given natively by [glmnet::predict.cv.glmnet()].
 #'
 #' See [LearnerSurvCVGlmnet] for the glmnet implemented in [glmnet::glmnet()] without internal cross-validation.
 #' Tuning using the internal optimizer in [glmnet::cv.glmnet()] may be more efficient when tuning
@@ -136,28 +139,29 @@ LearnerSurvCVGlmnet = R6Class("LearnerSurvCVGlmnet", inherit = LearnerSurv,
       else
         pars$s = round(pars$s, 6)
 
-      # crank defined as the exponential of the linear predictor. we calculate exponential here
-      # to speed up the lapply below but return to lp after
-      risk = exp(invoke(predict, self$model$fit, newx = newdata, type = "link", .args = pars))
+      # predict linear predictor
+      lp = as.numeric(invoke(predict, self$model$fit, newx = newdata, type = "link", .args = pars))
 
-      # WeightedDiscrete distribution defined as a PH model with the baseline survival to the power of
-      # the relative crank. Note here crank is identical to `risk` in the glmnet documentation, i.e. exp(lp)
-      # but below crank is updated to be the mean of the survival distribution.
-      distr = list()
-      crank = c()
-      for(x in 1:length(risk)){
-        distr = c(distr, list(suppressAll(
-          distr6::WeightedDiscrete$new(data.frame(x = self$model$times,
-                                                  cdf = (1 - self$model$basesurv^risk[x])),
-                                       decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics)))))
-        # crank defined as mean of survival distribution. The ranking of crank and lp is identical.
-        crank = c(crank, distr[[x]]$mean())
-      }
+      # distr defined as a PH model with the baseline survival to the power of
+      # the crank.
+      cdf = 1 - (matrix(self$model$basesurv, nrow = task$nrow, ncol = length(self$model$basesurv), byrow = T) ^
+                   exp(matrix(lp, nrow = task$nrow, ncol = length(self$model$basesurv))))
 
-      # lp defined as fitted coefficients multiplied by new data covariates
-      lp = drop(log(crank))
+      # define WeightedDiscrete distribution
+      distr_crank = suppressAll(apply(cdf, 1, function(x){
+        distr = distr6::WeightedDiscrete$new(data.frame(x = self$model$times, cdf = x),
+                                             decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))
 
-      PredictionSurv$new(task = task, distr = distr, crank = crank, lp = lp)
+        # crank defined as mean of survival distribution.
+        crank = distr$mean()
+
+        return(list(distr = distr, crank = crank))
+      }))
+
+      PredictionSurv$new(task = task,
+                         crank = as.numeric(unlist(distr_crank)[seq.int(2, length(distr_crank)*2, 2)]),
+                         distr = unname(unlist(distr_crank)[seq.int(1, length(distr_crank)*2, 2)]),
+                         lp = lp)
     }
   )
 )

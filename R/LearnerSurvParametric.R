@@ -16,12 +16,22 @@
 #'
 #' @description
 #' A [LearnerSurv] for a Fully Parametric model partially implemented in
-#' [survival::survreg()] in package \CRANpkg{flexsurv}.
+#' [survival::survreg()] in package \CRANpkg{survival}.
 #'
 #' @details
-#' The predict method is based on [survival::predict.survreg()] but additionally calculates a survival
-#' distribution using the standard formulae for proportional hazard (PH), accelerated failure time (AFT),
-#' and proportional odds (PO) models. Currently six parameterisations can be assumed for the baseline.
+#' The \code{distr} return type is composed by using the formulae for proportional hazard (PH),
+#' accelerated failure time (AFT), or proportional odds (PO) models, with the choice dependent on the
+#' \code{type} hyper-parameter. \cr
+#' The \code{crank} return type is defined as the exponential of the linear predictor. This ranking
+#' is identical to the expectation of the survival distribution but faster and more accurate to compute. \cr
+#' The \code{lp} return type is predicted by computing \eqn{X\beta} for the coefficients \eqn{\beta}
+#' fit in [survival::survreg()].
+#'
+#' The predict method is based on [survival::predict.survreg()] but is more efficient for composition
+#' to distributions.
+#'
+#' Currently six parameterisations can be assumed for the baseline, see [survival::survreg()]. These
+#' are internally re-parameterised and defined as \code{distr6} objects.
 #'
 #' @references
 #' Kalbfleisch, J. D., Prentice, R. L. (2002).
@@ -80,7 +90,7 @@ LearnerSurvParametric = R6Class("LearnerSurvParametric", inherit = LearnerSurv,
       fit = invoke(survival::survreg, formula = task$formula(), data = task$data(), .args = pv)
 
       # Fits the baseline distribution by reparameterising the fitted coefficients. These were mostly
-      # derived analytically as precise documentation on the parameterisations is hard to find.
+      # derived numerically as precise documentation on the parameterisations is hard to find.
       location = as.numeric(fit$coefficients[1])
       scale = fit$scale
 

@@ -16,15 +16,12 @@
 #' A [LearnerSurv] for a survival random forest implemented in [randomForestSRC::rfsrc()] in package \CRANpkg{randomForestSRC}.
 #'
 #' @details
-#' \code{\link[randomForestSRC]{rfsrc}} has three prediction outcomes, from the fitted model these are
-#' respectively:
-#' 1. predicted - This is ensemble mortality defined in Ishwaran et al. (2008), the sum
-#' of an individuals cumulative hazard function over all time-points
-#' 2. chf - Cumulative hazard function, estimated via a bootstrapped Nelson-Aalen estimator (Ishwaran, 2008)
-#' 3. surv - Survival function, estimated via a bootrstrapped Kaplan-Meier estimate (https://kogalur.github.io/randomForestSRC/theory.html)
-#'
-#' Only the second two of these are returned in the \code{distr} predict.type, as Nelson-Aalen and Kaplan-Meier
-#' will give different results, the estimator can be chosen in the parameter set under "estimator".
+#' The \code{distr} return type is defined from either the cumulative hazard function (chf) or survival function (surv),
+#' predicted by [randomForestSRC::predict.rfsrc()]. Note that these give different results as \code{chf}
+#' uses a bootstrapped Nelson-Aalen estimator (Ishwaran, 2008) whereas \code{surv} uses a
+#' bootstrapped Kaplan-Meier estimator (https://kogalur.github.io/randomForestSRC/theory.html). The choice
+#' of which estimator to use is given by the \code{estimator} hyper-parameter, default is Nelson-Aalen.\cr
+#' The \code{crank} return type is defined by the expectation of the survival distribution.
 #'
 #' @references
 #' Ishwaran H. and Kogalur U.B. (2019). Fast Unified Random Forests for Survival,
@@ -124,15 +121,20 @@ LearnerSurvRandomForestSRC = R6Class("LearnerSurvRandomForestSRC", inherit = Lea
       else
         cdf = 1 - p$survival
 
-      # define WeightedDiscrete distr6 object
-      distr = suppressAll(apply(cdf, 1, function(x)
-        distr6::WeightedDiscrete$new(data.frame(x = self$model$times, cdf = x),
-                             decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))))
+      # define WeightedDiscrete distr6 object from predicted cdf
+      distr_crank = suppressAll(apply(cdf, 1, function(x){
+        distr = distr6::WeightedDiscrete$new(data.frame(x = self$model$times, cdf = x),
+                                             decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))
 
-      # crank defined as mean of survival distribution.
-      crank = as.numeric(unlist(lapply(distr, mean)))
+        # crank defined as mean of survival distribution.
+        crank = distr$mean()
 
-      PredictionSurv$new(task = task, distr = distr, crank = crank)
+        return(list(distr = distr, crank = crank))
+      }))
+
+      PredictionSurv$new(task = task,
+                         crank = as.numeric(unlist(distr_crank)[seq.int(2, length(distr_crank)*2, 2)]),
+                         distr = unname(unlist(distr_crank)[seq.int(1, length(distr_crank)*2, 2)]))
     },
 
     importance = function() {

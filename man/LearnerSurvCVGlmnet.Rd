@@ -11,9 +11,12 @@ Generalized linear models with elastic net regularization and k-fold cross-valid
 Calls \code{\link[glmnet:cv.glmnet]{glmnet::cv.glmnet()}} from package \CRANpkg{glmnet}.
 }
 \details{
-The \code{distr} predict.type is derived by multiplying the crank, \eqn{exp(lp)}, returned from \code{\link[glmnet:cv.glmnet]{glmnet::cv.glmnet()}}
-with a baseline hazard/survival calculated from \code{\link[survival:survfit]{survival::survfit()}}. The choice of estimator
-for the baseline distribution can be determined by the \code{estimator} hyper-parameter.
+The \code{distr} return type is composed by using the Cox formula \eqn{S(t) = S0(t)^exp(lp)} where
+\eqn{S0} is the baseline survival function and \eqn{lp} is the predicted linear predictor. The
+baseline survival is estimated with either Kaplan-Meier or Nelson-Aalen, depending on the
+\code{estimator} hyper-parameter, using \code{\link[survival:survfit]{survival::survfit()}}.\cr
+The \code{crank} return type is defined by the expectation of the survival distribution. \cr
+The \code{lp} return type is given natively by \code{\link[glmnet:predict.cv.glmnet]{glmnet::predict.cv.glmnet()}}.
 
 See \link{LearnerSurvCVGlmnet} for the glmnet implemented in \code{\link[glmnet:glmnet]{glmnet::glmnet()}} without internal cross-validation.
 Tuning using the internal optimizer in \code{\link[glmnet:cv.glmnet]{glmnet::cv.glmnet()}} may be more efficient when tuning

@@ -18,8 +18,12 @@
 #' [flexsurv::flexsurvspline()] in package \CRANpkg{flexsurv}.
 #'
 #' @details
-#' The predict method is based on [flexsurv::summary.flexsurvreg()] but adapts the return type
-#' to be compatible with \CRANpkg{distr6}.
+#' The \code{distr} return type is composed by using the formulae given from [flexsurv::flexsurvspline()]. \cr
+#' The \code{crank} return type is defined as the expectation of the survival distribution. The formulae used
+#' is from [flexsurv::flexsurvspline()] and not [distr6::mean.Distribution()] as the former is faster and more accurate.
+#'
+#' The predict method is based on [flexsurv::summary.flexsurvreg()] but is quicker and more
+#' efficient, and adapts the return type to be compatible with \CRANpkg{distr6}.
 #'
 #' @references
 #' Royston, P. and Parmar, M. (2002).

@@ -51,7 +51,7 @@ predict.flexsurvreg <- function (object, task, ...)
    fn = func
    args = as.list(subset(self$parameters()$as.data.table(), select = "value"))$value
    names(args) = unname(unlist(self$parameters()$as.data.table()[,1]))
-   do.call(fn, c(list(p = x1), args))
+   do.call(fn, c(list(p = p), args))
  }, list(func = object$dfns$q))
 
  rand = function(n) {}
@@ -59,7 +59,7 @@ predict.flexsurvreg <- function (object, task, ...)
    fn = func
    args = as.list(subset(self$parameters()$as.data.table(), select = "value"))$value
    names(args) = unname(unlist(self$parameters()$as.data.table()[,1]))
-   do.call(fn, c(list(n = x1), args))
+   do.call(fn, c(list(n = n), args))
  }, list(func = object$dfns$r))
 
  # The parameter set combines the auxiliary parameters with the fitted gamma coefficients. Whilst the
@@ -74,12 +74,7 @@ predict.flexsurvreg <- function (object, task, ...)
                                        rep(list(distr6::Reals$new()), length(object$dlist$pars)))
  )
 
- # whilst a for loop is not preferable, timed tests indicate it is only slightly slower
- # than lapply, and multiple returns are required
-  distr = list()
-  crank = c()
-  for(i in 1:nrow(pars)){
-    y = pars[i, ]
+  distr_crank = apply(pars, 1, function(y){
     # Updates the parameters with the fitted values that are extracted above
     lst = as.list(y)
     names(lst) = object$dlist$pars
@@ -88,7 +83,7 @@ predict.flexsurvreg <- function (object, task, ...)
     yparams$setParameterValue(lst = yargs)
 
     # Defines the distr6 distribution
-    distr = c(distr, list(suppressAll(distr6::Distribution$new(
+    distr = suppressAll(distr6::Distribution$new(
       short_name = "flexsurv", name = "Flexible Parameteric",
       pdf = pdf, cdf = cdf, quantile = quantile, rand = rand,
       type = distr6::PosReals$new(), support = distr6::PosReals$new(),
@@ -96,12 +91,15 @@ predict.flexsurvreg <- function (object, task, ...)
       parameters = yparams, decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics),
       description = "Royston/Parmar Flexible Parametric Survival Model",
       .suppressChecks = TRUE, suppressMoments = TRUE
-    ))))
+    ))
 
     # crank is defined as the mean of the predicted survival distribution.
     # this is identical (but more accurate) to the distr$mean integrated method to 2dp
-    crank = c(crank, do.call(object$dfns$mean, yargs))
-  }
+    crank = do.call(object$dfns$mean, yargs)
 
-  return(list(distr = distr, crank = crank))
+    return(list(distr, crank))
+  })
+
+  return(list(distr = unname(unlist(distr_crank)[seq.int(1, length(distr_crank)*2, 2)]),
+         crank = as.numeric(unlist(distr_crank)[seq.int(2, length(distr_crank)*2, 2)])))
 }

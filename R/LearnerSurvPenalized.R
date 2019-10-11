@@ -16,6 +16,10 @@
 #' Generalized linear models with elastic net regularization.
 #' Calls [penalized::penalized()] from package \CRANpkg{penalized}.
 #'
+#' @details
+#' The \code{distr} return type is given natively by predicting the survival function in [penalized::predict()].\cr
+#' The \code{crank} return type is defined by the expectation of the survival distribution.
+#'
 #' @references
 #' Goeman, J. J., L1 penalized estimation in the Cox proportional hazards model.
 #' Biometrical Journal 52(1), 70{84}.
@@ -91,16 +95,20 @@ LearnerSurvPenalized = R6Class("LearnerSurvPenalized", inherit = LearnerSurv,
       surv = invoke(penalized::predict, self$model, penalized = penalized, data = task$data(cols = task$feature_names),
                     .args = pars)
 
-      # The WeightedDiscrete distribution is defined by the fitted survival function
-      distr = apply(surv@curves, 1, function(x)
-        suppressAll(distr6::WeightedDiscrete$new(data.frame(x = surv@time, cdf = 1 - x),
-                                         decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics)))
-      )
+      # define WeightedDiscrete distr6 object from predicted survival function
+      distr_crank = suppressAll(apply(1 - surv@curves, 1, function(x){
+        distr = distr6::WeightedDiscrete$new(data.frame(x = fit$unique.death.times, cdf = x),
+                                             decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))
 
-      # crank defined as mean of survival distribution.
-      crank = as.numeric(unlist(lapply(distr, mean)))
+        # crank defined as mean of survival distribution.
+        crank = distr$mean()
 
-      PredictionSurv$new(task = task, distr = distr, crank = crank)
+        return(list(distr = distr, crank = crank))
+      }))
+
+      PredictionSurv$new(task = task,
+                         crank = as.numeric(unlist(distr_crank)[seq.int(2, length(distr_crank)*2, 2)]),
+                         distr = unname(unlist(distr_crank)[seq.int(1, length(distr_crank)*2, 2)]))
       },
 
     importance = function() {

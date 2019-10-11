@@ -15,6 +15,13 @@
 #' @description
 #' A [LearnerSurv] for a Cox PH model implemented in [survival::coxph()] in package \CRANpkg{survival}.
 #'
+#' @details
+#' The \code{distr} return type is given natively by predicting the survival function in [survival::survfit.coxph()],
+#' the method used for estimating the baseline hazard depends on the \code{type} hyper-parameter.\cr
+#' The \code{crank} return type is defined by the expectation of the survival distribution.\cr
+#' The \code{lp} return type is given natively by [survival::predict.coxph()].
+#' The ranking given by \code{crank} and \code{lp} is identical.
+#'
 #' @references
 #' Cox, David R. (1972).
 #' Regression models and life‐tables.
@@ -67,17 +74,22 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
       # Get predicted values
       fit = invoke(survival::survfit, formula = self$model, newdata = newdata, se.fit = FALSE, .args = pv)
 
-      # Define survival distribution from the fitted survival function.
-      distr = suppressAll(apply(fit$surv, 2, function(x)
-        distr6::WeightedDiscrete$new(data.frame(x = fit$time, cdf = 1 - x),
-                                     decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))))
+      # define WeightedDiscrete distr6 object from predicted survival function
+      distr_crank = suppressAll(apply(1 - fit$surv, 2, function(x){
+        distr = distr6::WeightedDiscrete$new(data.frame(x = fit$time, cdf = x),
+                                             decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))
 
-      # lp defined as fitted coefficients multiplied by new data covariates
-      lp =  predict(self$model, type = "lp", newdata = newdata)
-      # crank defined as mean of survival distribution. the ranking of the two is identical.
-      crank = as.numeric(unlist(lapply(distr, mean)))
+        # crank defined as mean of survival distribution.
+        crank = distr$mean()
 
-      PredictionSurv$new(task = task, distr = distr, crank = crank, lp = lp)
+        return(list(distr = distr, crank = crank))
+      }))
+
+      # note the ranking of lp and crank is identical
+      PredictionSurv$new(task = task,
+                         crank = as.numeric(unlist(distr_crank)[seq.int(2, length(distr_crank)*2, 2)]),
+                         distr = unname(unlist(distr_crank)[seq.int(1, length(distr_crank)*2, 2)]),
+                         lp = predict(self$model, type = "lp", newdata = newdata))
     },
 
     importance = function() {
