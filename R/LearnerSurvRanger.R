@@ -87,8 +87,8 @@ LearnerSurvRanger = R6Class("LearnerSurvRanger", inherit = LearnerSurv,
       fit = predict(object = self$model, data = newdata)
 
       # define WeightedDiscrete distr6 object from predicted survival function
-      distr_crank = suppressAll(apply(fit$survival, 1, function(x){
-        distr = distr6::WeightedDiscrete$new(data.frame(x = fit$unique.death.times, cdf = 1 - x),
+      distr_crank = suppressAll(apply(1 - fit$survival, 1, function(x){
+        distr = distr6::WeightedDiscrete$new(data.frame(x = fit$unique.death.times, cdf = x),
                                              decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))
 
         # crank defined as mean of survival distribution.

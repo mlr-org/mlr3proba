@@ -97,7 +97,7 @@ LearnerSurvPenalized = R6Class("LearnerSurvPenalized", inherit = LearnerSurv,
 
       # define WeightedDiscrete distr6 object from predicted survival function
       distr_crank = suppressAll(apply(1 - surv@curves, 1, function(x){
-        distr = distr6::WeightedDiscrete$new(data.frame(x = fit$unique.death.times, cdf = x),
+        distr = distr6::WeightedDiscrete$new(data.frame(x = surv@time, cdf = x),
                                              decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))
 
         # crank defined as mean of survival distribution.
