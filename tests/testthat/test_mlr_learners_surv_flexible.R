@@ -1,6 +1,7 @@
 context("surv.flexible")
 
 test_that("autotest", {
+  set.seed(1)
   learner = mlr_learners$get("surv.flexible")
   expect_learner(learner)
   result = run_autotest(learner, exclude = "sanity|feat_all")
