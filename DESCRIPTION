@@ -52,6 +52,7 @@ Collate:
     'LearnerProbreg.R'
     'LearnerProbregGaussian.R'
     'LearnerSurv.R'
+    'LearnerSurvCVGlmnet.R'
     'LearnerSurvCoxPH.R'
     'predict.flexsurvreg.R'
     'LearnerSurvFlexible.R'

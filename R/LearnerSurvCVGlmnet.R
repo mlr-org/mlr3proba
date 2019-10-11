@@ -1,27 +1,27 @@
-#' @title GLM with Elastic Net Regularization Survival Learner
+#' @title Cross-Validated GLM with Elastic Net Regularization Survival Learner
 #'
 #' @usage NULL
-#' @aliases mlr_learners_surv.glmnet
+#' @aliases mlr_learners_surv.cvglmnet
 #' @format [R6::R6Class()] inheriting from [LearnerSurv].
 #' @include LearnerSurv.R
 #'
 #' @section Construction:
 #' ```
-#' LearnerSurvGlmnet$new()
-#' mlr_learners$get("surv.glmnet")
-#' lrn("surv.glmnet")
+#' LearnerSurvCVGlmnet$new()
+#' mlr_learners$get("surv.cvglmnet")
+#' lrn("surv.cvglmnet")
 #' ```
 #'
 #' @description
-#' Generalized linear models with elastic net regularization.
-#' Calls [glmnet::glmnet()] from package \CRANpkg{glmnet}.
+#' Generalized linear models with elastic net regularization and k-fold cross-validation for lambda.
+#' Calls [glmnet::cv.glmnet()] from package \CRANpkg{glmnet}.
 #'
 #' @details
-#' The \code{distr} predict.type is derived by multiplying the crank, \eqn{exp(lp)}, returned from [glmnet::glmnet()]
+#' The \code{distr} predict.type is derived by multiplying the crank, \eqn{exp(lp)}, returned from [glmnet::cv.glmnet()]
 #' with a baseline hazard/survival calculated from [survival::survfit()]. The choice of estimator
 #' for the baseline distribution can be determined by the \code{estimator} hyper-parameter.
 #'
-#' See [LearnerSurvCVGlmnet] for the cross-validated glmnet implemented in [glmnet::cv.glmnet()].
+#' See [LearnerSurvCVGlmnet] for the glmnet implemented in [glmnet::glmnet()] without internal cross-validation.
 #' Tuning using the internal optimizer in [glmnet::cv.glmnet()] may be more efficient when tuning
 #' lambda only, however for tuning multiple hyperparameters, \CRANpkg{mlr3tuning} and [glmnet::glmnet()] will
 #' likely give better results.
@@ -37,18 +37,19 @@
 #' @examples
 #' library(mlr3)
 #' task = tgen("simsurv")$generate(200)
-#' learner = lrn("surv.glmnet")
+#' learner = lrn("surv.cvglmnet")
 #' resampling = rsmp("cv", folds = 3)
 #' resample(task, learner, resampling)
-LearnerSurvGlmnet = R6Class("LearnerSurvGlmnet", inherit = LearnerSurv,
+LearnerSurvCVGlmnet = R6Class("LearnerSurvCVGlmnet", inherit = LearnerSurv,
   public = list(
     initialize = function() {
       super$initialize(
-        id = "surv.glmnet",
+        id = "surv.cvglmnet",
         param_set = ParamSet$new(
           params = list(
             ParamFct$new(id = "estimator", default = "kaplan", levels = c("kaplan","nelson"), tags = "train"),
             ParamDbl$new(id = "alpha", default = 1, lower = 0, upper = 1, tags = "train"),
+            ParamInt$new(id = "nfolds", lower = 3L, default = 10L, tags = "train"),
             ParamInt$new(id = "nlambda", default = 100L, lower = 1L, tags = "train"),
             ParamDbl$new(id = "lambda.min.ratio", lower = 0, upper = 1, tags = "train"),
             ParamUty$new(id = "lambda", tags = "train"),
@@ -73,7 +74,7 @@ LearnerSurvGlmnet = R6Class("LearnerSurvGlmnet", inherit = LearnerSurv,
             ParamDbl$new(id = "exmx", default = 250.0, tags = "train"),
             ParamDbl$new(id = "prec", default = 1e-10, tags = "train"),
             ParamInt$new(id = "mxit", default = 100L, lower = 1L, tags = "train"),
-            ParamDbl$new(id = "s", lower = 0, tags = "predict")
+            ParamDbl$new(id = "s", lower = 0, upper = 1, special_vals = list("lambda.1se", "lambda.min"), default = "lambda.1se", tags = "predict")
           )
         ),
         feature_types = c("integer", "numeric"),
@@ -108,7 +109,7 @@ LearnerSurvGlmnet = R6Class("LearnerSurvGlmnet", inherit = LearnerSurv,
         pars = pars[!is_ctrl_pars]
       }
 
-      fit = invoke(glmnet::glmnet, x = x, y = target, family = "cox", .args = pars)
+      fit = invoke(glmnet::cv.glmnet, x = x, y = target, family = "cox", .args = pars)
 
       # for composition fit the baseline distribution
       basehaz = invoke(survival::survfit, formula = task$formula(1), data = task$data())
@@ -124,14 +125,16 @@ LearnerSurvGlmnet = R6Class("LearnerSurvGlmnet", inherit = LearnerSurv,
       else
         basesurv = basehaz$surv
 
-      set_class(list(fit = fit, basesurv = basesurv, times = basehaz$time), "surv.glmnet")
+      set_class(list(fit = fit, basesurv = basesurv, times = basehaz$time), "surv.cvglmnet")
     },
 
     predict_internal = function(task) {
       pars = self$param_set$get_values(tags = "predict")
       newdata = as.matrix(task$data(cols = task$feature_names))
       if(length(pars$s) == 0)
-        pars$s = round(self$model$fit$lambda, 6)[1]
+        pars$s = round(self$model$fit$lambda.1se, 6)
+      else
+        pars$s = round(pars$s, 6)
 
       # crank defined as the exponential of the linear predictor. we calculate exponential here
       # to speed up the lapply below but return to lp after

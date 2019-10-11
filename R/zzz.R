@@ -66,6 +66,7 @@ register_mlr3 = function() {
    x$add("surv.kaplan", LearnerSurvKaplanMeier)
    x$add("surv.nelson", LearnerSurvNelsonAalen)
    x$add("surv.glmnet", LearnerSurvGlmnet)
+   x$add("surv.cvglmnet", LearnerSurvCVGlmnet)
    x$add("surv.penalized", LearnerSurvPenalized)
    x$add("surv.rpart", LearnerSurvRpart)
    x$add("surv.ranger", LearnerSurvRanger)
