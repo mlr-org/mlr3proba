@@ -80,7 +80,7 @@ LearnerSurvCVGlmnet = R6Class("LearnerSurvCVGlmnet", inherit = LearnerSurv,
             ParamDbl$new(id = "s", lower = 0, upper = 1, special_vals = list("lambda.1se", "lambda.min"), default = "lambda.1se", tags = "predict")
           )
         ),
-        feature_types = c("integer", "numeric"),
+        feature_types = c("integer", "numeric", "factor"),
         predict_types = c("distr","crank","lp"),
         properties = "weights",
         packages = c("glmnet","distr6","survival")
@@ -94,7 +94,9 @@ LearnerSurvCVGlmnet = R6Class("LearnerSurvCVGlmnet", inherit = LearnerSurv,
       # thus ignored for now
       pars$estimator = NULL
 
-      x = as.matrix(task$data(cols = task$feature_names))
+      # convert data to model matrix
+      x = model.matrix(~., as.data.frame(task$data(cols = task$feature_names)))
+
       target = task$truth()
       if ("weights" %in% task$properties) {
         pars$weights = task$weights$weight
@@ -133,7 +135,10 @@ LearnerSurvCVGlmnet = R6Class("LearnerSurvCVGlmnet", inherit = LearnerSurv,
 
     predict_internal = function(task) {
       pars = self$param_set$get_values(tags = "predict")
-      newdata = as.matrix(task$data(cols = task$feature_names))
+
+      # convert data to model matrix
+      newdata = model.matrix(~., as.data.frame(task$data(cols = task$feature_names)))
+
       if(length(pars$s) == 0)
         pars$s = round(self$model$fit$lambda.1se, 6)
       else

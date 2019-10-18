@@ -29,6 +29,9 @@
 #' lambda only, however for tuning multiple hyperparameters, \CRANpkg{mlr3tuning} and [glmnet::glmnet()] will
 #' likely give better results.
 #'
+#' Parameter \code{s} (value of the regularization parameter used for predictions) is set to the first
+#' of the lambda sequence by default, but needs to be tuned by the user.
+#'
 #' @references
 #' Jerome Friedman, Trevor Hastie, Robert Tibshirani (2010).
 #' Regularization Paths for Generalized Linear Models via Coordinate Descent.
@@ -79,7 +82,7 @@ LearnerSurvGlmnet = R6Class("LearnerSurvGlmnet", inherit = LearnerSurv,
             ParamDbl$new(id = "s", lower = 0, tags = "predict")
           )
         ),
-        feature_types = c("integer", "numeric"),
+        feature_types = c("integer", "numeric", "factor"),
         predict_types = c("distr","crank","lp"),
         properties = "weights",
         packages = c("glmnet","distr6","survival")
@@ -93,7 +96,9 @@ LearnerSurvGlmnet = R6Class("LearnerSurvGlmnet", inherit = LearnerSurv,
       # thus ignored for now
       pars$estimator = NULL
 
-      x = as.matrix(task$data(cols = task$feature_names))
+      # convert data to model matrix
+      x = model.matrix(~., as.data.frame(task$data(cols = task$feature_names)))
+
       target = task$truth()
       if ("weights" %in% task$properties) {
         pars$weights = task$weights$weight
@@ -132,7 +137,10 @@ LearnerSurvGlmnet = R6Class("LearnerSurvGlmnet", inherit = LearnerSurv,
 
     predict_internal = function(task) {
       pars = self$param_set$get_values(tags = "predict")
-      newdata = as.matrix(task$data(cols = task$feature_names))
+
+      # convert data to model matrix
+      newdata = model.matrix(~., as.data.frame(task$data(cols = task$feature_names)))
+
       if(length(pars$s) == 0)
         pars$s = round(self$model$fit$lambda, 6)[1]
 
