@@ -93,6 +93,14 @@ LearnerSurvParametric = R6Class("LearnerSurvParametric", inherit = LearnerSurv,
       # derived numerically as precise documentation on the parameterisations is hard to find.
       location = as.numeric(fit$coefficients[1])
       scale = fit$scale
+      eps = 1e-07
+
+      if(scale == 0)
+        scale = eps
+
+      if(location <= -34 & fit$dist %in% c("weibull", "exponential", "loglogistic"))
+        location = -34
+
 
       basedist = switch(fit$dist,
                  "gaussian" = distr6::Normal$new(mean = location, sd = scale,
