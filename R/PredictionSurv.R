@@ -75,7 +75,7 @@ PredictionSurv = R6Class("PredictionSurv", inherit = Prediction,
       }
 
       if (!is.null(distr)) {
-        self$data$tab$distr = distr6::assertDistributionList(distr)
+        self$data$tab$distr = rep(list(assert_class(distr, "VectorDistribution")), n)
       }
 
       if (!is.null(lp)) {
@@ -104,7 +104,7 @@ PredictionSurv = R6Class("PredictionSurv", inherit = Prediction,
     },
 
     distr = function() {
-      self$data$tab$distr %??% rep(NA_real_, length(self$data$row_ids))
+      self$data$tab$distr[[1]]
     },
 
     lp = function() {

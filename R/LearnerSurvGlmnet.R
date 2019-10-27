@@ -152,21 +152,17 @@ LearnerSurvGlmnet = R6Class("LearnerSurvGlmnet", inherit = LearnerSurv,
       cdf = 1 - (matrix(self$model$basesurv, nrow = task$nrow, ncol = length(self$model$basesurv), byrow = T) ^
                    exp(matrix(lp, nrow = task$nrow, ncol = length(self$model$basesurv))))
 
-      # define WeightedDiscrete distribution
-      distr_crank = suppressAll(apply(cdf, 1, function(x){
-        distr = distr6::WeightedDiscrete$new(data.frame(x = self$model$times, cdf = x),
-                                             decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))
+      # define WeightedDiscrete distr6 object from predicted survival function
+      x = rep(list(data = data.frame(x = self$model$times, cdf = 0)), task$nrow)
+      for(i in 1:task$nrow)
+        x[[i]]$cdf = cdf[i,]
 
-        # crank defined as mean of survival distribution.
-        crank = distr$mean()
+      distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
+                                             decorators = c("CoreStatistics", "ExoticStatistics"))
 
-        return(list(distr = distr, crank = crank))
-      }))
+      crank = as.numeric(sapply(x, function(y) sum(y[,1] * c(y[,2][1], diff(y[,2])))))
 
-      PredictionSurv$new(task = task,
-                         crank = as.numeric(unlist(distr_crank)[seq.int(2, length(distr_crank)*2, 2)]),
-                         distr = unname(unlist(distr_crank)[seq.int(1, length(distr_crank)*2, 2)]),
-                         lp = lp)
+      PredictionSurv$new(task = task, crank = crank, distr = distr, lp = lp)
     }
   )
 )

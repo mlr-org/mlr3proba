@@ -50,14 +50,14 @@ LearnerSurvKaplanMeier = R6Class("LearnerSurvKaplanMeier", inherit = LearnerSurv
       time = c(0, self$model$time)
 
       # Define WeightedDiscrete distr6 distribution from the survival function
-      distr = suppressAll(
-        distr6::WeightedDiscrete$new(data.frame(x = time, cdf = 1 - surv),
-                                     decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics)))
+      x = rep(list(data = data.frame(x = time, cdf = 1 - surv)), task$nrow)
+      distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
+                                             decorators = c("CoreStatistics", "ExoticStatistics"))
 
       # Define crank as the mean of the survival distribution
-      crank = distr$mean()
+      crank = as.numeric(sum(x[[1]][,1] * c(x[[1]][,2][1], diff(x[[1]][,2]))))
 
-      PredictionSurv$new(task = task, crank = rep(crank, task$nrow), distr = rep(list(distr), task$nrow))
+      PredictionSurv$new(task = task, crank = rep(crank, task$nrow), distr = distr)
     }
   )
 )

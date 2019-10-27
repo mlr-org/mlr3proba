@@ -93,29 +93,29 @@ LearnerSurvParametric = R6Class("LearnerSurvParametric", inherit = LearnerSurv,
       # derived numerically as precise documentation on the parameterisations is hard to find.
       location = as.numeric(fit$coefficients[1])
       scale = fit$scale
-      eps = 1e-07
+      eps = .Machine$double.xmin
 
       if(scale == 0)
         scale = eps
 
-      if(location <= -34 & fit$dist %in% c("weibull", "exponential", "loglogistic"))
-        location = -34
+      if(location < -709 & fit$dist %in% c("weibull", "exponential", "loglogistic"))
+        location = -709
 
 
       basedist = switch(fit$dist,
                  "gaussian" = distr6::Normal$new(mean = location, sd = scale,
-                                                 decorators = distr6::ExoticStatistics),
+                                                 decorators = "ExoticStatistics"),
                  "weibull" = distr6::Weibull$new(shape = 1/scale, scale = exp(location),
-                                                 decorators = distr6::ExoticStatistics),
+                                                 decorators = "ExoticStatistics"),
                  "exponential" = distr6::Exponential$new(scale = exp(location),
-                                                         decorators = distr6::ExoticStatistics),
+                                                         decorators = "ExoticStatistics"),
                  "logistic" = distr6::Logistic$new(mean = location, scale = scale,
-                                                   decorators = distr6::ExoticStatistics),
+                                                   decorators = "ExoticStatistics"),
                  "lognormal" = distr6::Lognormal$new(meanlog = location, sdlog = scale,
-                                                     decorators = distr6::ExoticStatistics),
+                                                     decorators = "ExoticStatistics"),
                  "loglogistic" = distr6::Loglogistic$new(scale = exp(location),
                                                          shape = 1/scale,
-                                                         decorators = distr6::ExoticStatistics)
+                                                         decorators = "ExoticStatistics")
       )
 
       set_class(list(fit = fit, basedist = basedist), "surv.parametric")

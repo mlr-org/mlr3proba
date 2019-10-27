@@ -33,14 +33,10 @@ MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
 
     score_internal = function(prediction, ...) {
       times = sort(unique(prediction$truth[,1]))
-      ll = sapply(prediction$distr, function(x){
-        # Calculates logloss as -pdf(x)
-        pred = x$pdf(x1=times)
-        # eps = 1e-5 used to prevent -Inf from log
-        pred[pred == 0] = 1e-5
-        return(mean(-log(pred)))
-      })
-      return(mean(ll))
+      pred = prediction$distr$pdf(times)
+      pred[pred == 0] = 1e-15
+
+      mean(colMeans(-log(pred)))
       }
   )
 )

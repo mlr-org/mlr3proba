@@ -54,11 +54,10 @@ MeasureSurvBrier = R6::R6Class("MeasureSurvBrier",
                                 # for each observation and a final score as the sample mean over
                                 # all observations.
 
-                                ind = matrix(as.numeric(rep(prediction$truth[,1], each = nc) >
-                                  rep(times, nr)), nrow = nr, ncol = nc)
+                                ind = matrix(truth, nrow = nr, ncol = nc) >
+                                  matrix(times, nrow = nr, ncol = nc, byrow = T)
 
-                                surv = transpose(data.table::rbindlist(list(lapply(prediction$distr,
-                                                                            function(x) x$survival(times)))))
+                                surv = transpose(1 - prediction$distr$cdf(times))
 
                                 mean(unlist((ind - surv)^2))
                               }
