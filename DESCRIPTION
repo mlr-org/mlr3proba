@@ -1,7 +1,7 @@
 Package: mlr3proba
 Title: Probabilistic Supervised Learning for mlr3
 Version: 0.1.0-9000
-Authors@R: 
+Authors@R:
       c(person(given = "Raphael",
              family = "Sonabend",
              role = c("aut","cre"),
@@ -26,7 +26,7 @@ Imports:
     checkmate,
     data.table,
     distr6 (>= 1.2.0),
-    mlr3,
+    mlr3 (>= 0.1.4),
     mlr3misc,
     paradox,
     R6,
@@ -51,7 +51,7 @@ NeedsCompilation: yes
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
 Encoding: UTF-8
-Collate: 
+Collate:
     'LearnerDensity.R'
     'LearnerDensityHist.R'
     'LearnerDensityKDE.R'
