@@ -80,4 +80,4 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
                         )
 )
 
-mlr3pipelines::mlr_pipeops$add("distrcompose", PipeOpDistrCompositor)
+# mlr3pipelines::mlr_pipeops$add("distrcompose", PipeOpDistrCompositor)

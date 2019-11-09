@@ -22,6 +22,7 @@ Imports:
     distr6 (>= 1.3.0),
     mlr3 (>= 0.1.3),
     mlr3misc (>= 0.1.5),
+    mlr3pipelines,
     paradox (>= 0.1.0),
     R6,
     survival,
