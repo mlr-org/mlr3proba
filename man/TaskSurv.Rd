@@ -13,33 +13,38 @@ Predefined tasks are stored in \link[mlr3:mlr_tasks]{mlr3::mlr_tasks}.
 The \code{task_type} is set to \code{"surv"}.
 }
 \section{Construction}{
-\preformatted{t = TaskSurv$new(id, backend, time, status)
+\preformatted{t = TaskSurv$new(id, backend, time, time2, event, type = "right")
 }
 \itemize{
 \item \code{id} :: \code{character(1)}\cr
 Name of the task.
 \item \code{backend} :: \link{DataBackend}
 \item \code{time} :: \code{numeric()}\cr
-Event times.
-\item \code{status} :: \code{integer()} | \code{logical()}\cr
-Event indicator. "0"/\code{FALSE} means alive (no event), "1"/\code{TRUE} means dead (event).
+Event time if data is right censored. Starting time if interval censored.
+\item \code{event} :: \code{integer()} | \code{logical()}\cr
+Event indicator.
+If data is right censored then "0"/\code{FALSE} means alive (no event),
+"1"/\code{TRUE} means dead (event). If data is interval censored then "0" means right censored,
+"1" means dead (event), "2" means left censored, "3" means interval censored.
+\item \code{time2} :: \code{numeric()}\cr
+Ending time for interval censored data. Ignored otherwise.
+\item \code{type} :: character()\cr
+Type of censoring. One of: "right", "left", "counting", "interval", "interval2" or "mstate".
 }
 }
 
 \section{Fields}{
 
-See \link[mlr3:TaskSupervised]{mlr3::TaskSupervised}.
+All fields from \link[mlr3:TaskSupervised]{mlr3::TaskSupervised}, and additionally:
+\itemize{
+\item \code{censtype :: character()}\cr
+Returns the type of censoring, one of "right", "left", "counting", "interval", "interval2" or "mstate".
+}
 }
 
 \section{Methods}{
 
-All methods from \link[mlr3:TaskSupervised]{mlr3::TaskSupervised}, and additionally:
-\itemize{
-\item \code{survfit(strata = character())}\cr
-\code{character()} -> \code{\link[survival:survfit]{survival::survfit()}}\cr
-Creates a \code{\link[survival:survfit]{survival::survfit()}} object for the survival times.
-Argument \code{strata} can be used to stratify into multiple groups.
-}
+See \link[mlr3:TaskSupervised]{mlr3::TaskSupervised}.
 }
 
 \examples{
@@ -47,7 +52,7 @@ library(mlr3)
 lung = mlr3misc::load_dataset("lung", package = "survival")
 lung$status = (lung$status == 2L)
 b = as_data_backend(lung)
-task = TaskSurv$new("lung", backend = b, time = "time", status = "status")
+task = TaskSurv$new("lung", backend = b, time = "time", event = "status")
 
 task$target_names
 task$feature_names

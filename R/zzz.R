@@ -6,7 +6,6 @@
 #' @importFrom R6 R6Class
 #' @importFrom utils data head tail
 #' @importFrom stats reformulate model.matrix model.frame
-#' @importFrom survival Surv survfit
 #' @importFrom BBmisc suppressAll
 "_PACKAGE"
 
@@ -15,34 +14,38 @@ register_mlr3 = function() {
   x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
 
   # add density task
-  x$task_types = data.table::setkeyv(rbind(x$task_types, rowwise_table(
-    ~type,  ~package,       ~task,      ~learner,      ~prediction,      ~measure,
-    "density", "mlr3pro", "TaskDensity", "LearnerDensity", "PredictionDensity", "MeasureDensity"
-  )), "type")
-  x$task_col_roles$density = x$task_col_roles$regr
-  x$task_properties$density = c("weights", "groups")
-  x$learner_properties$density = x$learner_properties$regr
-  x$learner_predict_types$density$prob = "prob"
-  x$default_measures$density = "density.logloss"
+  if (!grepl("density", x$task_types[,"type"])) {
+     x$task_types = data.table::setkeyv(rbind(x$task_types, rowwise_table(
+       ~type,  ~package,       ~task,      ~learner,      ~prediction,      ~measure,
+       "density", "mlr3proba", "TaskDensity", "LearnerDensity", "PredictionDensity", "MeasureDensity"
+     )), "type")
+     x$task_col_roles$density = x$task_col_roles$regr
+     x$task_properties$density = c("weights", "groups")
+     x$learner_properties$density = x$learner_properties$regr
+     x$learner_predict_types$density$prob = "prob"
+     x$default_measures$density = "density.logloss"
+  }
 
   # add distr and interval to regression task
   x$learner_predict_types$regr$distr = "distr"
   x$learner_predict_types$regr$interval = "interval"
 
   # add survival task
-  x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
-  x$task_types = setkeyv(rbind(x$task_types, rowwise_table(
-    ~type,  ~package,       ~task,      ~learner,      ~prediction,      ~measure,
-    "surv", "mlr3proba", "TaskSurv", "LearnerSurv", "PredictionSurv", "MeasureSurv"
-  )), "type")
-  x$task_col_roles$surv = c("feature", "target", "label", "order", "groups", "weights")
-  x$task_properties$surv = c("weights", "groups")
-  x$learner_properties$surv = x$learner_properties$regr
-  x$measure_properties$surv = x$measure_properties$regr
-  x$learner_predict_types$surv = list(crank = c("crank","lp","distr"),
-                                      distr = c("crank","lp","distr"),
-                                      lp = c("crank","lp","distr"))
-  x$default_measures$surv = "surv.harrellsc"
+  if (!grepl("surv", x$task_types[,"type"])) {
+     x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
+     x$task_types = setkeyv(rbind(x$task_types, rowwise_table(
+       ~type,  ~package,       ~task,      ~learner,      ~prediction,      ~measure,
+       "surv", "mlr3proba", "TaskSurv", "LearnerSurv", "PredictionSurv", "MeasureSurv"
+     )), "type")
+     x$task_col_roles$surv = c("feature", "target", "label", "order", "groups", "weights")
+     x$task_properties$surv = c("weights", "groups")
+     x$learner_properties$surv = x$learner_properties$regr
+     x$measure_properties$surv = x$measure_properties$regr
+     x$learner_predict_types$surv = list(crank = c("crank","lp","distr"),
+                                         distr = c("crank","lp","distr"),
+                                         lp = c("crank","lp","distr"))
+     x$default_measures$surv = "surv.harrellsc"
+  }
 
   # tasks
    x = utils::getFromNamespace("mlr_tasks", ns = "mlr3")
@@ -91,15 +94,15 @@ register_mlr3 = function() {
 }
 
 .onLoad = function(libname, pkgname) {
-  # nocov start
-  register_mlr3()
-  setHook(packageEvent("mlr3", "onLoad"), function(...) register_mlr3(), action = "append")
+   # nocov start
+   register_mlr3()
+   setHook(packageEvent("mlr3", "onLoad"), function(...) register_mlr3(), action = "append")
 } # nocov end
 
-# .onUnload = function(libpath) {
-#   # nocov start
-#   event = packageEvent("mlr3", "onLoad")
-#   hooks = getHook(event)
-#   pkgname = vapply(hooks, function(x) environment(x)$pkgname, NA_character_)
-#   setHook(event, hooks[pkgname != "mlr3pro"], action = "replace")
-# } # nocov end
+.onUnload = function(libpath) {
+   # nocov start
+   event = packageEvent("mlr3", "onLoad")
+   hooks = getHook(event)
+   pkgname = vapply(hooks[-1], function(x) environment(x)$pkgname, NA_character_)
+   setHook(event, hooks[pkgname != "mlr3proba"], action = "replace")
+} # nocov end

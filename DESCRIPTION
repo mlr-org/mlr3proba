@@ -30,6 +30,7 @@ Suggests:
     flexsurv,
     glmnet,
     lgr,
+    mboost,
     pec,
     penalized,
     randomForestSRC,
@@ -78,6 +79,8 @@ Collate:
     'MeasureSurvLogloss.R'
     'MeasureSurvLoglossSE.R'
     'MeasureSurvUnosC.R'
+    'PipeOpCompositor.R'
+    'PipeOpDistrCompositor.R'
     'PredictionDensity.R'
     'PredictionProbreg.R'
     'PredictionSurv.R'

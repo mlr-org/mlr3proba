@@ -89,16 +89,8 @@ LearnerSurvRandomForestSRC = R6Class("LearnerSurvRandomForestSRC", inherit = Lea
     train_internal = function(task) {
       pv = self$param_set$get_values(tags = "train")
 
-      fit = invoke(randomForestSRC::rfsrc,
-        formula = task$formula(),
-        data = task$data(),
-        case.wt = task$weights$weight,
-        .args = pv
-      )
-
-      set_class(list(fit = fit,
-                     times = sort(unique(fit$yvar[,1][fit$yvar[,2]==1]))),
-                "surv.randomForestSRC")
+      invoke(randomForestSRC::rfsrc, formula = task$formula(), data = task$data(),
+        case.wt = task$weights$weight, .args = pv)
     },
 
     predict_internal = function(task) {
@@ -108,7 +100,7 @@ LearnerSurvRandomForestSRC = R6Class("LearnerSurvRandomForestSRC", inherit = Lea
       # thus ignored for now
       pars$estimator = NULL
 
-      p = invoke(predict, object = self$model$fit, newdata = newdata, .args = pars)
+      p = invoke(predict, object = self$model, newdata = newdata, .args = pars)
 
       # Default estimator is set to Kaplan-Meier
       estimator = self$param_set$values$estimator
@@ -122,7 +114,7 @@ LearnerSurvRandomForestSRC = R6Class("LearnerSurvRandomForestSRC", inherit = Lea
         cdf = 1 - p$survival
 
       # define WeightedDiscrete distr6 object from predicted survival function
-      x = rep(list(data = data.frame(x = fit$time, cdf = 0)), task$nrow)
+      x = rep(list(data = data.frame(x = self$model$time.interest, cdf = 0)), task$nrow)
       for(i in 1:task$nrow)
         x[[i]]$cdf = cdf[i, ]
 
