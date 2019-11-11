@@ -58,7 +58,7 @@ TaskGeneratorSimsurv = R6Class("TaskGeneratorSimsurv",
 
       data = setDT(invoke(simsurv::simsurv, x = covs, betas = , .args = pv))
       data = rcbind(data, covs)
-      TaskSurv$new("simsurv", remove_named(data, "id"), time = "eventtime", status = "status")
+      TaskSurv$new("simsurv", remove_named(data, "id"), time = "eventtime", event = "status")
     }
   )
 )

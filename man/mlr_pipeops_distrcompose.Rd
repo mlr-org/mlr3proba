@@ -60,18 +60,6 @@ Only fields inherited from \code{\link{PipeOpCompositor}}/\code{\link{PipeOp}}.
 Only methods inherited from \code{\link{PipeOpCompositor}}/\code{\link{PipeOp}}.
 }
 
-\examples{
-library("mlr3")
-
-# Simple Bagging
-gr = greplicate(n = 5,
-  po("subsample") \%>>\%
-  po("learner", lrn("classif.rpart"))
-) \%>>\%
-  po("classifavg")
-
-resample(tsk("iris"), GraphLearner$new(gr), rsmp("holdout"))
-}
 \seealso{
 Other PipeOps: \code{\link{PipeOpCompositor}}
 

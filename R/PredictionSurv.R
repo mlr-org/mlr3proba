@@ -116,7 +116,6 @@ PredictionSurv = R6Class("PredictionSurv", inherit = Prediction,
 
       if ("crank" %in% self$predict_types) {
         miss = is.na(self$data$tab$crank)
-
       }
 
       if ("distr" %in% self$predict_types) {
@@ -148,17 +147,19 @@ c.PredictionSurv = function(..., keep_duplicates = TRUE) {
   }
 
   predict_types = map(dots, "predict_types")
-  if (!every(predict_types[-1L], setequal, y = predict_types[[1L]])) {
+  if (!every(predict_types[-1L], setequal, y = predict_types[[1L]]))
     stopf("Cannot rbind predictions: Probabilities for some predictions, not all")
-  }
 
-  tab = map_dtr(dots, function(p) p$data$tab, .fill = FALSE)
+  if (any(grepl("distr", predict_types))) {
+    tab = map_dtr(dots, function(p) subset(p$data$tab, select = -distr), .fill = FALSE)
+    distr = do.call(c, lapply(dots, function(p) p$distr))
+  } else
+    tab = map_dtr(dots, function(p) p$data$tab, .fill = FALSE)
 
-  if (!keep_duplicates) {
+  if (!keep_duplicates)
     tab = unique(tab, by = "row_id", fromLast = TRUE)
-  }
 
-  PredictionSurv$new(row_ids = tab$row_id, truth = Surv(tab$time, tab$status), crank = tab$crank, distr = tab$distr, lp = tab$lp)
+  PredictionSurv$new(row_ids = tab$row_id, truth = Surv(tab$time, tab$status), crank = tab$crank, distr = distr, lp = tab$lp)
 }
 
 

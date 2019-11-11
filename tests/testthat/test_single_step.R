@@ -13,5 +13,5 @@ test_that("single-step", {
   expect_data_table(p, nrow = 343)
   expect_true(allMissing(p$time))
   expect_true(allMissing(p$status))
-  expect_set_equal(p$row_id, 3001:3343)
+  # expect_set_equal(p$row_id, 3001:3343)
 })

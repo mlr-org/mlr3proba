@@ -27,3 +27,4 @@ test_that("c", {
   dt = as.data.table(pred)
   expect_data_table(dt, nrows = task$nrow, ncols = 5L, any.missing = FALSE)
 })
+

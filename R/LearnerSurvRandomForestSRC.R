@@ -132,22 +132,22 @@ LearnerSurvRandomForestSRC = R6Class("LearnerSurvRandomForestSRC", inherit = Lea
       if (is.null(self$model)) {
         stopf("No model stored")
       }
-      if (is.null(self$model$fit$importance)) {
+      if (is.null(self$model$importance)) {
         stopf("Importance not stored. Set 'importance' parameter to one of {'TRUE', 'permute', 'random', 'anti'}.")
       }
 
-      sort(self$model$fit$importance, decreasing = TRUE)
+      sort(self$model$importance, decreasing = TRUE)
     },
 
     selected_features = function() {
       if (is.null(self$model)) {
         stopf("No model stored")
       }
-      if (is.null(self$model$fit$var.used)) {
+      if (is.null(self$model$var.used)) {
         stopf("Variables used not stored. Set var.used to one of {'all.trees', 'by.tree'}.")
       }
 
-      self$model$fit$var.used
+      self$model$var.used
     }
 
     # Note that we could return prediction error but it would first have to be evaluated using Harrel's C

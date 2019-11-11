@@ -28,7 +28,7 @@
 #' If the value given to the \code{Family} parameter is "custom.family" then an object of class
 #' [mboost::Family()] needs to be passed to the \code{custom.family} parameter.
 #'
-#' The only difference between [surv.mboost()] and [surv.gamboost()] is that the latter function
+#' The only difference between [LearnerSurvGamboost] and [LearnerSurvMboost] is that the latter function
 #' allows one to specify default degrees of freedom for smooth effects specified via
 #' \code{baselearner = "bbs"}. In all other cases, degrees of freedom need to be set manually via a
 #' specific definition of the corresponding base-learner.
@@ -61,8 +61,9 @@
 #' @template seealso_learner
 #' @examples
 #' library(mlr3)
-#' task = tgen("simsurv")$generate(200)
+#' task = tsk("rats")
 #' learner = lrn("surv.gamboost")
+#' learner$param_set$values = list(dfbase = 3, center = TRUE, baselearner = "bols")
 #' resampling = rsmp("cv", folds = 3)
 #' resample(task, learner, resampling)
 LearnerSurvGamboost = R6Class("LearnerSurvGamboost", inherit = LearnerSurv,

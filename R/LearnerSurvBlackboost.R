@@ -102,9 +102,8 @@ LearnerSurvBlackboost = R6Class("LearnerSurvBlackboost", inherit = LearnerSurv,
                                       ParamLgl$new(id = "caseweights", default = TRUE, tags = "train")
                                     )
                                   ),
-                                  feature_types = c("integer", "numeric", "factor", "logical"),
+                                  feature_types = c("integer", "numeric", "factor"),
                                   predict_types = c("distr","crank","lp"),
-                                  properties = "weights",
                                   packages = c("mboost","distr6","survival","partykit","mvtnorm")
                                 )
                                 self$param_set$add_dep("nuirange", "family", CondAnyOf$new(c("weibull", "loglog", "lognormal")))
@@ -145,8 +144,8 @@ LearnerSurvBlackboost = R6Class("LearnerSurvBlackboost", inherit = LearnerSurv,
                                   pars = pars[!is_ctrl_pars]
                                 }
 
-                                if ("weights" %in% task$properties)
-                                  pars$weights = task$weights$weight
+                                # if ("weights" %in% task$properties)
+                                #   pars$weights = task$weights$weight
 
                                 if(length(pars$family) == 0)
                                   pars$family = "coxph"

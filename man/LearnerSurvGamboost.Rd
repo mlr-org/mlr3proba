@@ -20,7 +20,7 @@ The \code{lp} return type is given by \code{\link[mboost:predict.mboost]{mboost:
 If the value given to the \code{Family} parameter is "custom.family" then an object of class
 \code{\link[mboost:Family]{mboost::Family()}} needs to be passed to the \code{custom.family} parameter.
 
-The only difference between \code{\link[=surv.mboost]{surv.mboost()}} and \code{\link[=surv.gamboost]{surv.gamboost()}} is that the latter function
+The only difference between \link{LearnerSurvGamboost} and \link{LearnerSurvMboost} is that the latter function
 allows one to specify default degrees of freedom for smooth effects specified via
 \code{baselearner = "bbs"}. In all other cases, degrees of freedom need to be set manually via a
 specific definition of the corresponding base-learner.
@@ -34,8 +34,9 @@ lrn("surv.gamboost")
 
 \examples{
 library(mlr3)
-task = tgen("simsurv")$generate(200)
+task = tsk("rats")
 learner = lrn("surv.gamboost")
+learner$param_set$values = list(dfbase = 3, center = TRUE, baselearner = "bols")
 resampling = rsmp("cv", folds = 3)
 resample(task, learner, resampling)
 }

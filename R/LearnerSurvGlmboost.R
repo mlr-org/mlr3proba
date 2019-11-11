@@ -72,7 +72,6 @@ LearnerSurvGlmboost = R6Class("LearnerSurvGlmboost", inherit = LearnerSurv,
             ),
           feature_types = c("integer", "numeric", "factor", "logical"),
           predict_types = c("distr","crank","lp"),
-          properties = "weights",
           packages = c("mboost","distr6","survival")
           )
         self$param_set$add_dep("nuirange", "family", CondAnyOf$new(c("weibull", "loglog", "lognormal")))
@@ -85,9 +84,6 @@ LearnerSurvGlmboost = R6Class("LearnerSurvGlmboost", inherit = LearnerSurv,
 
         # convert data to model matrix
         x = model.matrix(~., as.data.frame(task$data(cols = task$feature_names)))
-
-        if ("weights" %in% task$properties)
-          pars$weights = task$weights$weight
 
         if(length(pars$family) == 0)
           pars$family = "coxph"

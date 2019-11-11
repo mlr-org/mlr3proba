@@ -29,7 +29,8 @@ MeasureSurvHarrellsC = R6Class("MeasureSurvHarrellsC",
       super$initialize(
         id = "surv.harrells_c",
         range = 0:1,
-        minimize = FALSE
+        minimize = FALSE,
+        predict_type = "crank"
       )
     },
 

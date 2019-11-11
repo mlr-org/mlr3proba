@@ -49,17 +49,6 @@
 #' @family PipeOps
 #' @family Ensembles
 #' @include PipeOpCompositor.R
-#' @examples
-#' library("mlr3")
-#'
-#' # Simple Bagging
-#' gr = greplicate(n = 5,
-#'   po("subsample") %>>%
-#'   po("learner", lrn("classif.rpart"))
-#' ) %>>%
-#'   po("classifavg")
-#'
-#' resample(tsk("iris"), GraphLearner$new(gr), rsmp("holdout"))
 PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
                         inherit = PipeOpCompositor,
 
