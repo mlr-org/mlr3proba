@@ -7,6 +7,6 @@ TaskProbreg$set("public","initialize", function(id, backend, target) {
                          stopf("Target column '%s' must be numeric", target)
                        }
                      })
-TaskProbreg$set("public","truth",function(row_ids = NULL) {
-                       super$truth(row_ids)[[1L]]
+TaskProbreg$set("public","truth",function(rows = NULL) {
+                       super$truth(rows)[[1L]]
                      })

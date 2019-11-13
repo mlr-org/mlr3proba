@@ -63,9 +63,9 @@ TaskSurv = R6::R6Class("TaskSurv",
                            }
                          },
 
-                         truth = function(row_ids = NULL) {
+                         truth = function(rows = NULL) {
                            tn = self$target_names
-                           d = self$data(row_ids, cols = self$target_names)
+                           d = self$data(rows, cols = self$target_names)
                            Surv(d[[tn[1L]]], as.logical(d[[tn[2L]]]), type = "right")
                          },
 
