@@ -3,6 +3,7 @@
 #' @import paradox
 #' @import mlr3
 #' @import mlr3misc
+#' @import mlr3pipelines
 #' @importFrom R6 R6Class
 #' @importFrom utils data head tail
 #' @importFrom stats reformulate model.matrix model.frame
@@ -93,17 +94,26 @@ register_mlr3 = function() {
    x$add("surv.unosc", MeasureSurvUnosC)
    x$add("surv.harrellsc", MeasureSurvHarrellsC)
 }
+register_mlr3pipelines = function(){
+   x = utils::getFromNamespace("mlr_pipeops", ns = "mlr3pipelines")
+   x$add("distrcompose", PipeOpDistrCompositor)
+}
 
 .onLoad = function(libname, pkgname) {
-   # nocov start
    register_mlr3()
+   register_mlr3pipelines()
    setHook(packageEvent("mlr3", "onLoad"), function(...) register_mlr3(), action = "append")
-} # nocov end
+   setHook(packageEvent("mlr3pipelines", "onLoad"), function(...) register_mlr3pipelines(), action = "append")
+}
 
 .onUnload = function(libpath) {
-   # nocov start
    event = packageEvent("mlr3", "onLoad")
    hooks = getHook(event)
    pkgname = vapply(hooks[-1], function(x) environment(x)$pkgname, NA_character_)
    setHook(event, hooks[pkgname != "mlr3proba"], action = "replace")
-} # nocov end
+
+   event = packageEvent("mlr3pipelines", "onLoad")
+   hooks = getHook(event)
+   pkgname = vapply(hooks[-1], function(x) environment(x)$pkgname, NA_character_)
+   setHook(event, hooks[pkgname != "mlr3proba"], action = "replace")
+}

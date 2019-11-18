@@ -18,7 +18,7 @@
 #' Parameter `xval` is set to 0 in order to save some computation time.
 #'
 #' @details
-#' The \code{distr} return type is defined by first predicting the survival function with [pec::predictSurvProb()].\cr
+#' The \code{distr} return type is defined in [mlr_learners_surv.rpart] with [pec::predictSurvProb()].\cr
 #' The \code{crank} return type is defined by the expectation of the survival distribution.
 #'
 #' @references

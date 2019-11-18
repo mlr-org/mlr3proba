@@ -2,71 +2,163 @@
 #'
 #' @usage NULL
 #' @name mlr_pipeops_distrcompose
-#' @format [`R6Class`] inheriting from [`PipeOpCompositor`]/[`PipeOp`].
+#' @format [`R6Class`] inheriting from [`PipeOp`].
 #'
 #' @description
-#' Create a survival distribution prediction from two survival learner [`Prediction`][mlr3::Prediction]s,
-#' where one predicts a relative risk, and the other estimates the baseline hazard.
+#' Predict a survival distribution from a survival learner [`Prediction`][mlr3::Prediction], which
+#' predicts `lp` or `crank`.
 #'
-#' The resulting `"distr"` prediction is a combination of the the incoming `"risk"` or `"lp"` prediction
-#' and incoming `"distr"` prediction. The `model_form` parameter determines what form the composed
-#' distribution should assume, this is one of proportional hazards (`ph`), accelerated failure time (`aft`),
-#' or proportional odds (`po`). The hazard functions of these are defined respectively by
-#' \deqn{PH: h(t) = h0(t)exp(lp)}
-#  \deqn{AFT: h(t) = exp(-lp)h0(t/exp(lp))}
-#  \deqn{PO: h(t)/h0(t) = {1 + (exp(lp)-1)S-(t)}^-1}
+#' Note:
+#' * This compositor is only sensible if assuming a linear model form, which may not always be the case.
+#' * Currently only discrete estimators, Kaplan-Meier and Nelson-Aalen, are implemented. Resulting in a
+#' predicted `[distr6::WeightedDiscrete]` distribution for each individual, in the future we plan to
+#' extend this to allow continuous estimators.
 #'
 #' @section Construction:
 #' ```
-#' PipeOpDistrCompositor$new(id = "distrcompose", model_form = "aft", param_vals = list())
+#' PipeOpDistrCompositor$new(id = "distrcompose", param_vals = list())
 #' ```
-#' * `id` :: `character(1)`
+#' * `id` :: `character(1)` \cr
 #'   Identifier of the resulting  object, default `"distrcompose"`.
-#' * `model_form` :: `character(1)`
-#'   Form of the composed distribution, one of: `aft` (accelerated failure time), `ph`, `po`.
-#' * `param_vals` :: named `list`\cr
+#' * `param_vals` :: named `list` \cr
 #'   List of hyperparameter settings, overwriting the hyperparameter settings that would otherwise be set during construction. Default `list()`.
 #'
 #' @section Input and Output Channels:
-#' Input and output channels are inherited from [`PipeOpCompositor`]. Instead of a [`Prediction`][mlr3::Prediction], a [`PredictionRegr`][mlr3::PredictionRegr]
-#' is used as input and output during prediction.
+#' [PipeOpDistrCompositor] has two input channels, "base" and "pred". Both input channels take
+#' `NULL` during training and [PredictionSurv] during prediction.
+#'
+#' [PipeOpDistrCompositor] has one output channel named "output", producing `NULL` during training
+#' and a [PredictionSurv] during prediction.
+#'
+#' The output during prediction is the [PredictionSurv] from the "pred" input but with an extra (or overwritten)
+#' column for `distr` predict type; which is composed from the `distr` of "base" and `lp` or `crank`
+#' of "pred".
 #'
 #' @section State:
 #' The `$state` is left empty (`list()`).
 #'
 #' @section Parameters:
-#' The parameters are the parameters inherited from the [`PipeOpCompositor`].
+#' The parameters are:
+#' * `form` :: `character(1)` \cr
+#'    Determines the form that the predicted linear survival model should take. This is either,
+#'    accelerated-failure time, `aft`, proportional hazards, `ph`, or proportional odds, `po`.
+#'    Default `aft`.
 #'
 #' @section Internals:
-#' Inherits from [`PipeOpCompositor`] by implementing the `private$weighted_avg_predictions()` method.
+#' The respective `form`s above have respective survival distributions:
+#'    \deqn{aft: S(t) = S0(t/exp(lp))}
+#'    \deqn{ph: S(t) = S0(t)^exp(lp)}
+#'    \deqn{po: S(t) = S0 * [exp(-lp) + (1-exp(-lp))*S0(t)]^-1}
+#' where \eqn{S0} is the estimated baseline survival distribution, and `lp` is the predicted
+#' linear predictor. If the input model does not predict a linear predictor then `crank` is
+#' assumed to be the `lp` - **this may be a strong and unreasonable assumption.**
 #'
 #' @section Fields:
-#' Only fields inherited from [`PipeOpCompositor`]/[`PipeOp`].
+#' Only fields inherited from [PipeOp].
 #'
 #' @section Methods:
-#' Only methods inherited from [`PipeOpCompositor`]/[`PipeOp`].
+#' Only methods inherited from [PipeOp].
 #'
-#' @family PipeOps
-#' @family Ensembles
-#' @include PipeOpCompositor.R
+#' @seealso [mlr3pipelines::PipeOp]
+#' @export
+#' @examples
+#' library("mlr3")
+#' library("mlr3pipelines")
+#'
+#' # Three methods to transform the cox ph predicted `distr` to an
+#' #  accelerated failure time model
+#' task = tsk("rats")
+#'
+#' # Method 1 - Train and predict separately then compose
+#' base = lrn("surv.kaplan")$train(task)$predict(task)
+#' pred = lrn("surv.coxph")$train(task)$predict(task)
+#' pod = po("distrcompose", param_vals = list(form = "aft"))
+#' pod$predict(list(base = base, pred = pred))
+#'
+#' # Method 2 - Create a graph manually
+#' gr = Graph$new()$
+#'   add_pipeop(po("learner", lrn("surv.kaplan")))$
+#'   add_pipeop(po("learner", lrn("surv.coxph")))$
+#'   add_pipeop(po("distrcompose"))$
+#'   add_edge("surv.kaplan", "distrcompose", dst_channel = "base")$
+#'   add_edge("surv.coxph", "distrcompose", dst_channel = "pred")
+#' gr$train(task)
+#' gr$predict(task)
+#'
+#' # Method 3 - Syntactic sugar: Wrap the learner in a graph
+#' cox.distr = distrcompositor(learner = lrn("surv.coxph"),
+#'                             estimator = "kaplan",
+#'                             form = "aft")
+#' cox.distr$plot()
+#' resample(task, cox.distr, rsmp("cv", folds = 2))
 PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
-                        inherit = PipeOpCompositor,
+  inherit = PipeOp,
+  public = list(
+    initialize = function(id = "distrcompose", param_vals = list()) {
+      super$initialize(id = id,
+                       param_set = ParamSet$new(params = list(
+                         ParamFct$new("form", default = "aft", levels = c("aft","ph","po"), tags = c("predict"))
+                       )),
+                       param_vals = param_vals,
+                       input = data.table(name = c("base","pred"), train = "NULL", predict = "PredictionSurv"),
+                       output = data.table(name = "output", train = "NULL", predict = "PredictionSurv"),
+                       packages = "distr6")
+      },
 
-                        public = list(
-                          initialize = function(id = "distrcompose", param_vals = list(), ...) {
-                            super$initialize(innum = 2, id, param_vals = param_vals, prediction_type = "PredictionSurv", ...)
-                          }
-                        ),
-                        private = list(
-                          composedistr = function(inputs, row_ids, truth) {
-                            print(inputs)
-                            response_matrix = simplify2array(map(inputs, "response"))
-                            response = c(response_matrix %*% weights)
-                            se = NULL
+    train_internal = function(inputs) {
+      self$state = list()
+      list(NULL)
+      },
 
-                            PredictionRegr$new(row_ids = row_ids, truth = truth, response = response, se = se)
-                          }
-                        )
+    predict_internal = function(inputs) {
+      base = inputs$base
+      inpred = inputs$pred
+
+      assert("distr" %in% base$predict_types)
+      assert(any(c("crank", "lp") %in% inpred$predict_types))
+
+      row_ids = inpred$row_ids
+      map(inputs, function(x) assert_true(identical(row_ids, x$row_ids)))
+      truth = inpred$truth
+
+      # get form, set default if missing
+      form = self$param_set$values$form
+      if(length(form) == 0) form = "aft"
+
+      times = base$distr[1]$support()$elements()
+      base = base$distr[1]
+
+      nr = nrow(inpred$data$tab)
+      nc = length(times)
+
+      if(is.null(inpred$lp))
+        lp = inpred$crank
+      else
+        lp = inpred$lp
+
+      timesmat = matrix(times, nrow = nr, ncol = nc, byrow = T)
+      survmat = matrix(base$survival(times), nrow = nr, ncol = nc, byrow = T)
+      lpmat = matrix(lp, nrow = nr, ncol = nc)
+
+      if(form == "ph")
+        cdf = 1 - (survmat ^ exp(lpmat))
+      else if (form == "aft")
+        cdf = t(apply(timesmat / exp(lpmat), 1, function(x) base$cdf(x)))
+      else if (form == "po")
+        cdf = 1 - (survmat * ({exp(-lpmat) + ((1 - exp(-lpmat)) * survmat)}^-1))
+
+      x = rep(list(data = data.frame(x = times, cdf = 0)), nr)
+
+      for(i in 1:nc)
+        x[[i]]$cdf = cdf[i,]
+
+      distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
+                                             decorators = c("CoreStatistics", "ExoticStatistics"))
+
+
+      truth = inputs[[1]]$truth
+
+      list(PredictionSurv$new(row_ids = row_ids, truth = truth, crank = inpred$crank, distr = distr, lp = inpred$lp))
+    }
+  )
 )
-
-# mlr3pipelines::mlr_pipeops$add("distrcompose", PipeOpDistrCompositor)
