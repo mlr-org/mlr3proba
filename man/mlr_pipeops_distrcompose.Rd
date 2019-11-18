@@ -107,7 +107,6 @@ gr$predict(task)
 cox.distr = distrcompositor(learner = lrn("surv.coxph"),
                             estimator = "kaplan",
                             form = "aft")
-cox.distr$plot()
 resample(task, cox.distr, rsmp("cv", folds = 2))
 }
 \seealso{
