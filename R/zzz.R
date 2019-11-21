@@ -16,34 +16,20 @@ register_mlr3 = function() {
   x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
 
   if (!grepl("surv", x$task_types[,"type"])) {
-     x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
-     x$task_types = setkeyv(rbind(x$task_types, rowwise_table(
-       ~type,  ~package,       ~task,      ~learner,      ~prediction,      ~measure,
-       "surv", "mlr3proba", "TaskSurv", "LearnerSurv", "PredictionSurv", "MeasureSurv"
-     )), "type")
-     x$task_col_roles$surv = c("feature", "target", "label", "order", "groups", "weights")
-     x$task_properties$surv = c("weights", "groups")
-     x$learner_properties$surv = x$learner_properties$regr
-     x$measure_properties$surv = x$measure_properties$regr
-     x$learner_predict_types$surv = list(crank = c("crank","lp","distr"),
-                                         distr = c("crank","lp","distr"),
-                                         lp = c("crank","lp","distr"))
-     x$default_measures$surv = "surv.harrellsc"
+    x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
+    x$task_types = setkeyv(rbind(x$task_types, rowwise_table(
+      ~type,  ~package,       ~task,      ~learner,      ~prediction,      ~measure,
+      "surv", "mlr3proba", "TaskSurv", "LearnerSurv", "PredictionSurv", "MeasureSurv"
+    )), "type")
+    x$task_col_roles$surv = c("feature", "target", "label", "order", "group", "weight")
+    x$task_properties$surv = c("weights", "groups")
+    x$learner_properties$surv = x$learner_properties$regr
+    x$measure_properties$surv = x$measure_properties$regr
+    x$learner_predict_types$surv = list(crank = c("crank","lp","distr"),
+                                        distr = c("crank","lp","distr"),
+                                        lp = c("crank","lp","distr"))
+    x$default_measures$surv = "surv.harrellsc"
   }
-
-  x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
-  x$task_types = setkeyv(rbind(x$task_types, rowwise_table(
-    ~type,  ~package,       ~task,      ~learner,      ~prediction,      ~measure,
-    "surv", "mlr3proba", "TaskSurv", "LearnerSurv", "PredictionSurv", "MeasureSurv"
-  )), "type")
-  x$task_col_roles$surv = c("feature", "target", "label", "order", "group", "weight")
-  x$task_properties$surv = c("weights", "groups")
-  x$learner_properties$surv = x$learner_properties$regr
-  x$measure_properties$surv = x$measure_properties$regr
-  x$learner_predict_types$surv = list(distr = c("risk","distr","lp"),
-                                      risk = c("risk","distr","lp"),
-                                      lp = c("risk","distr","lp"))
-  x$default_measures$surv = "surv.harrellsc"
 
   # tasks
    x = utils::getFromNamespace("mlr_tasks", ns = "mlr3")
