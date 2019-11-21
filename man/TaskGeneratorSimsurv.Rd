@@ -28,7 +28,6 @@ tgen("simsurv")
 generator = mlr3::mlr_task_generators$get("simsurv")
 task = generator$generate(200)
 task$head()
-plot(task$survfit())
 }
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:TaskGenerator]{TaskGenerators}: \link[mlr3:mlr_task_generators]{mlr3::mlr_task_generators}

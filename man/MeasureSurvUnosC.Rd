@@ -16,9 +16,10 @@ msr("surv.unos_c")
 }
 
 \references{
-Uno, Hajime, et al. (2011).
-On the C‐statistics for evaluating overall adequacy of risk prediction procedures with censored survival data.
-Statistics in medicine 30.10 (2011): 1105-1117.
+Uno, H., T. Cai T, M. J. Pencina, R. B. D'Agostino and W. L. Wei. (2011).
+On the C-statistics for evaluating overall adequacy of risk prediction procedures with censored
+survival data.
+Statistics in Medicine. 30(10): 1105–1117.
 \doi{10.1002/sim.4154}
 }
 \seealso{

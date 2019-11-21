@@ -16,17 +16,12 @@
 #' A [LearnerSurv] for a survival random forest implemented in [randomForestSRC::rfsrc()] in package \CRANpkg{randomForestSRC}.
 #'
 #' @details
-#' \code{\link[randomForestSRC]{rfsrc}} has three prediction outcomes, from the fitted model these are
-#' respectively:
-#' 1. predicted - This is ensemble mortality defined in Ishwaran et al. (2008), the sum
-#' of an individuals cumulative hazard function over all time-points
-#' 2. chf - Cumulative hazard function, estimated via a bootstrapped Nelson-Aalen estimator (Ishwaran, 2008)
-#' 3. surv - Survival function, estimated via a bootrstrapped Kaplan-Meier estimate (https://kogalur.github.io/randomForestSRC/theory.html)
-#'
-#' Only the second two of these are returned in the \code{distr} predict.type, as Nelson-Aalen and Kaplan-Meier
-#' will give different results, the estimator can be chosen in the parameter set under "estimator".
-#'
-#' The 'risk' predict.type is here defined as the mean of the cumulative hazard over all unique death times.
+#' The \code{distr} return type is defined from either the cumulative hazard function (chf) or survival function (surv),
+#' predicted by [randomForestSRC::predict.rfsrc()]. Note that these give different results as \code{chf}
+#' uses a bootstrapped Nelson-Aalen estimator (Ishwaran, 2008) whereas \code{surv} uses a
+#' bootstrapped Kaplan-Meier estimator (https://kogalur.github.io/randomForestSRC/theory.html). The choice
+#' of which estimator to use is given by the \code{estimator} hyper-parameter, default is Nelson-Aalen.\cr
+#' The \code{crank} return type is defined by the expectation of the survival distribution.
 #'
 #' @references
 #' Ishwaran H. and Kogalur U.B. (2019). Fast Unified Random Forests for Survival,
@@ -84,7 +79,7 @@ LearnerSurvRandomForestSRC = R6Class("LearnerSurvRandomForestSRC", inherit = Lea
             ParamFct$new(id = "estimator", default = "nelson", levels = c("nelson","kaplan"), tags = "predict")
           )
         ),
-        predict_types = c("risk","distr"),
+        predict_types = c("crank","distr"),
         feature_types = c("logical", "integer", "numeric", "factor", "ordered"),
         properties = c("weights", "missings", "importance"),
         packages = c("randomForestSRC", "distr6")
@@ -94,62 +89,70 @@ LearnerSurvRandomForestSRC = R6Class("LearnerSurvRandomForestSRC", inherit = Lea
     train_internal = function(task) {
       pv = self$param_set$get_values(tags = "train")
 
-      fit = invoke(randomForestSRC::rfsrc,
-        formula = task$formula(),
-        data = task$data(),
-        case.wt = task$weights$weight,
-        .args = pv
-      )
-
-      set_class(list(fit = fit,
-                     times = sort(unique(fit$yvar[,1][fit$yvar[,2]==1]))),
-                "surv.randomForestSRC")
+      invoke(randomForestSRC::rfsrc, formula = task$formula(), data = task$data(),
+        case.wt = task$weights$weight, .args = pv)
     },
 
     predict_internal = function(task) {
       newdata = task$data(cols = task$feature_names)
       pars = self$param_set$get_values(tags = "predict")
+      # estimator parameter is used internally for composition (i.e. outside of rfsrc) and is
+      # thus ignored for now
       pars$estimator = NULL
 
-      p = invoke(predict, object = self$model$fit, newdata = newdata, .args = pars)
+      p = invoke(predict, object = self$model, newdata = newdata, .args = pars)
 
+      # Default estimator is set to Kaplan-Meier
       estimator = self$param_set$values$estimator
       if(length(estimator) == 0) estimator = "kaplan"
+      # rfsrc uses Nelson-Aalen in chf and Kaplan-Meier for survival, as these
+      # don't give equivalent results one must be chosen and the relevant functions are transformed
+      # as required.
       if(estimator == "nelson")
         cdf = 1 - exp(-p$chf)
       else
         cdf = 1 - p$survival
 
-      distr = suppressAll(apply(cdf, 1, function(x)
-        distr6::WeightedDiscrete$new(data.frame(x = self$model$times, cdf = x),
-                             decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))))
+      # define WeightedDiscrete distr6 object from predicted survival function
+      x = rep(list(data = data.frame(x = self$model$time.interest, cdf = 0)), task$nrow)
+      for(i in 1:task$nrow)
+        x[[i]]$cdf = cdf[i, ]
 
-      # Is it correct that the mean over time of the CHF is an estimate for risk?
-      PredictionSurv$new(task = task, distr = distr, risk = rowMeans(-log(1 - cdf)))
+      distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
+                                             decorators = c("CoreStatistics", "ExoticStatistics"))
+
+      crank = as.numeric(sapply(x, function(y) sum(y[,1] * c(y[,2][1], diff(y[,2])))))
+
+      # note the ranking of lp and crank is identical
+      PredictionSurv$new(task = task, crank = crank, distr = distr)
+
     },
 
     importance = function() {
       if (is.null(self$model)) {
         stopf("No model stored")
       }
-      if (is.null(self$model$fit$importance)) {
+      if (is.null(self$model$importance)) {
         stopf("Importance not stored. Set 'importance' parameter to one of {'TRUE', 'permute', 'random', 'anti'}.")
       }
 
-      sort(self$model$fit$importance, decreasing = TRUE)
+      sort(self$model$importance, decreasing = TRUE)
     },
 
     selected_features = function() {
       if (is.null(self$model)) {
         stopf("No model stored")
       }
-      if (is.null(self$model$fit$var.used)) {
+      if (is.null(self$model$var.used)) {
         stopf("Variables used not stored. Set var.used to one of {'all.trees', 'by.tree'}.")
       }
 
-      self$model$fit$var.used
+      self$model$var.used
     }
 
+    # Note that we could return prediction error but it would first have to be evaluated using Harrel's C
+    # to be in line with other learners such as rpart.
+    #
     # oob_error = function() {
     #   self$model$prediction.error
     # }

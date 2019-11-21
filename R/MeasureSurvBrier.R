@@ -15,6 +15,18 @@
 #' @description
 #' Calculates the brier score, aka squared loss.
 #'
+#' @references
+#' Brier, G. (1950).
+#' Verification of forecasts expressed in terms of probability.
+#' Monthly Weather Review, 78(1), 1-3.
+#' \doi{10.1175/1520-0493(1950)078<0001:VOFEIT>2.0.CO;2}
+#'
+#' Graf, E., Schmoor, C., Sauerbrei, W. and Schumacher, M. (1999).
+#' Assessment and comparison of prognostic classification schemes for survival data.
+#' Statistics in Medicine, 18(17), 2529-2545.
+#' \doi{10.1002/(SICI)1097-0258(19990915/30)18:17/18<2529::AID-SIM274>3.0.CO;2-5}
+#'
+#'
 #' @template seealso_measure
 #' @export
 MeasureSurvBrier = R6::R6Class("MeasureSurvBrier",
@@ -38,11 +50,14 @@ MeasureSurvBrier = R6::R6Class("MeasureSurvBrier",
                                 nr = length(truth)
                                 nc = length(times)
 
-                                ind = matrix(as.numeric(rep(prediction$truth[,1], each = nc) >
-                                  rep(times, nr)), nrow = nr, ncol = nc)
+                                # Crude estimation of the brier score as the expected value over time
+                                # for each observation and a final score as the sample mean over
+                                # all observations.
 
-                                surv = transpose(data.table::rbindlist(list(lapply(prediction$distr,
-                                                                            function(x) x$survival(times)))))
+                                ind = matrix(truth, nrow = nr, ncol = nc) >
+                                  matrix(times, nrow = nr, ncol = nc, byrow = T)
+
+                                surv = transpose(1 - prediction$distr$cdf(times))
 
                                 mean(unlist((ind - surv)^2))
                               }

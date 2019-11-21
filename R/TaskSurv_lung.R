@@ -23,5 +23,5 @@ load_lung = function() {
 
   b = as_data_backend(data)
   b$hash = "_mlr3_survival_lung_"
-  TaskSurv$new("lung", b, time = "time", status = "status")
+  TaskSurv$new("lung", b, time = "time", event = "status")
 }

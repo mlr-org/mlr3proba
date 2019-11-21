@@ -15,6 +15,11 @@ msr("surv.harrellsc")
 }
 }
 
+\references{
+Harrell, F. E., R. M. Califf, D. B. Pryor, K. L. Lee and R. A. Rosati (1982).
+Evaluating the yield of medical tests.
+Journal of the American Medical Association. 247. 2543–2546.
+}
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Measure]{Measures}: \link[mlr3:mlr_measures]{mlr3::mlr_measures}
 }

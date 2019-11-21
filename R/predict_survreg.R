@@ -1,73 +1,98 @@
 predict_survreg = function(object, task, type = "aft", predict_type = "all"){
 
+  # Extracts baseline distribution and the model fit, performs assertions
   basedist = object$basedist
   fit = object$fit
-
-  distr6::testDistribution(basedist)
+  distr6::assertDistribution(basedist)
   assertClass(fit, "survreg")
 
+  # define newdata from the supplied task and convert to model matrix
   newdata = task$data(cols = task$feature_names)
-
   x = stats::model.matrix(formulate(rhs = task$feature_names), data = newdata, xlev = task$levels())[,-1]
 
+  # linear predictor defined by the fitted cofficients multiplied by the model matrix (i.e. covariates)
   lp = matrix(fit$coefficients[-1], nrow = 1) %*% t(x)
 
-  if(type == "ph"){
-    distr = lapply(lp, function(x){
-      haz = function(x1) exp(x) * basedist$hazard(x1)
-      cdf = function(x1) 1 - (basedist$survival(x1)^exp(x))
-      pdf = function(x1) haz(x1) * (1 - cdf(x1))
-      distr6::Distribution$new(name = paste(fit$dist, "Proportional Hazards Model"),
-                               short_name = paste0(fit$dist,"PH"),
-                               type = distr6::PosReals$new(), support = distr6::PosReals$new(),
-                               pdf = pdf, cdf = cdf, valueSupport = "continuous",
-                               variateForm = "univariate",
-                               description = paste(fit$dist, "Proportional Hazards Model with log-likelihood",
-                                                   fit$loglik[2]),
-                               .suppressChecks = TRUE, suppressMoments = TRUE,
-                               decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))
-    })
-    risk = exp(lp)
-  } else if(type == "aft"){
-    distr = lapply(lp, function(x){
-      haz = function(x1) exp(-x) * basedist$hazard(x1/exp(x))
-      cdf = function(x1) 1 - (basedist$survival(x1/exp(x)))
-      pdf = function(x1) haz(x1) * (1 - cdf(x1))
-      distr6::Distribution$new(name = paste(fit$dist, "Accelerated Failure Time Model"),
-                               short_name = paste0(fit$dist,"AFT"),
-                               type = distr6::PosReals$new(), support = distr6::PosReals$new(),
-                               pdf = pdf, cdf = cdf, valueSupport = "continuous",
-                               variateForm = "univariate",
-                               description = paste(fit$dist, "Accelerated Failure Time Model with log-likelihood",
-                                                   fit$loglik[2]),
-                               .suppressChecks = TRUE, suppressMoments = TRUE,
-                               decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))
-    })
-    risk = exp(-lp)
-  } else if(type == "odds"){
-    distr = lapply(lp, function(x){
-      haz = function(x1) basedist$hazard(x1) * (1 - ( basedist$survival(x1) / ( ((exp(x)-1)^-1) + basedist$survival(x1))))
-      cdf = function(x1) 1 - (basedist$survival(x1) * (exp(-x) + (1-exp(-x))*basedist$survival(x1))^-1)
-      pdf = function(x1) haz(x1) * (1 - cdf(x1))
-      distr6::Distribution$new(name = paste(fit$dist, "Proportional Odds Model"),
-                               short_name = paste0(fit$dist,"PO"),
-                               type = distr6::PosReals$new(), support = distr6::PosReals$new(),
-                               pdf = pdf, cdf = cdf, valueSupport = "continuous",
-                               variateForm = "univariate",
-                               description = paste(fit$dist, "Proportional Odds Model with log-likelihood",
-                                                   fit$loglik[2]),
-                               .suppressChecks = TRUE, suppressMoments = TRUE,
-                               decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))
-    })
-    risk = exp(lp)
+  # checks and parameterises the chosen model type: proportional hazard (ph), accelerated failure time (aft), odds.
+  # PH: h(t) = h0(t)exp(lp)
+  # AFT: h(t) = exp(-lp)h0(t/exp(lp))
+  # PO: h(t)/h0(t) = {1 + (exp(lp)-1)S-(t)}^-1
+
+  dist = distr6::toproper(fit$dist)
+
+  if (type == "ph") {
+    name = paste(dist, "Proportional Hazards Model")
+    short_name = paste0(dist,"PH")
+    description = paste(dist, "Proportional Hazards Model with negative log-likelihood", -fit$loglik[2])
+  } else if (type == "aft") {
+    name = paste(dist, "Accelerated Failure Time Model")
+    short_name = paste0(dist,"AFT")
+    description = paste(dist, "Accelerated Failure Time Model with negative log-likelihood", -fit$loglik[2])
+  } else if (type == "po") {
+    name = paste(dist, "Proportional Odds Model")
+    short_name = paste0(dist,"PO")
+    description = paste(dist, "Proportional Odds Model with negative log-likelihood", -fit$loglik[2])
   }
 
-  if(predict_type == "risk")
-    return(as.numeric(risk))
+  params = list(list(name = name,
+                     short_name = short_name,
+                     type = distr6::PosReals$new(),
+                     support = distr6::PosReals$new(),
+                     valueSupport = "continuous",
+                     variateForm = "univariate",
+                     description = description,
+                     .suppressChecks = TRUE,
+                     suppressMoments = TRUE,
+                     pdf = function(){},
+                     cdf = function(){}
+                     ))
+
+  params = rep(params, length(lp))
+
+  cdf = function(x1){}
+  pdf = function(x1) {}
+
+  if (type == "ph") {
+    for(i in 1:length(lp)){
+      body(cdf) = substitute(1 - (basedist$survival(x1)^exp(x)), list(x = lp[i]))
+      body(pdf) = substitute((exp(x) * basedist$hazard(x1)) * (1 - self$cdf(x1)), list(x = lp[i]))
+      params[[i]]$pdf = pdf
+      params[[i]]$cdf = cdf
+    }
+  } else if (type == "aft"){
+    for(i in 1:length(lp)){
+      body(cdf) = substitute(1 - (basedist$survival(x1/exp(x))), list(x = lp[i]))
+      body(pdf) = substitute((exp(-x) * basedist$hazard(x1/exp(x))) * (1 - self$cdf(x1)), list(x = lp[i]))
+      params[[i]]$pdf = pdf
+      params[[i]]$cdf = cdf
+    }
+  } else if (type == "po"){
+    for(i in 1:length(lp)){
+      body(cdf) = substitute(1 - (basedist$survival(x1) * (exp(-x) + (1-exp(-x))*basedist$survival(x1))^-1), list(x = lp[i]))
+      body(pdf) = substitute((basedist$hazard(x1) * (1 - ( basedist$survival(x1) / ( ((exp(x)-1)^-1) + basedist$survival(x1))))) *
+                               (1 - self$cdf(x1)), list(x = lp[i]))
+      params[[i]]$pdf = pdf
+      params[[i]]$cdf = cdf
+    }
+  }
+
+
+  distr = distr6::VectorDistribution$new(distribution = "Distribution", params = params,
+                                         decorators = c("CoreStatistics","ExoticStatistics"))
+
+  # crank defined as exponential of linear predictor
+  crank = list(crank = exp(as.numeric(lp)))
+  lp = list(lp = as.numeric(lp))
+
+  ret = list()
+  if(predict_type %in% c("crank","risk"))
+    ret = c(ret, crank = crank)
   else if(predict_type %in% c("lp","link","linear"))
-    return(as.numeric(lp))
+    ret = c(ret, lp = lp)
   else if(predict_type == "distr")
-    return(distr)
+    ret = c(ret, distr = distr)
   else
-    return(list(risk = as.numeric(risk), distr = distr, lp = as.numeric(lp)))
+    ret = c(ret, crank = crank, lp = lp, distr = distr)
+
+  return(ret)
 }

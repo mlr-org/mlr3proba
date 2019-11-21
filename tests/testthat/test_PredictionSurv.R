@@ -2,7 +2,7 @@ context("PredictionSurv")
 
 test_that("Construction", {
   task = tsk("lung")
-  p = PredictionSurv$new(row_ids = task$row_ids, truth = task$truth(), risk = runif(task$nrow))
+  p = PredictionSurv$new(row_ids = task$row_ids, truth = task$truth(), crank = runif(task$nrow))
   expect_prediction_surv(p)
 })
 
@@ -27,3 +27,4 @@ test_that("c", {
   dt = as.data.table(pred)
   expect_data_table(dt, nrows = task$nrow, ncols = 5L, any.missing = FALSE)
 })
+

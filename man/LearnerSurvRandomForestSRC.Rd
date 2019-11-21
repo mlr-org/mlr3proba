@@ -9,19 +9,12 @@
 A \link{LearnerSurv} for a survival random forest implemented in \code{\link[randomForestSRC:rfsrc]{randomForestSRC::rfsrc()}} in package \CRANpkg{randomForestSRC}.
 }
 \details{
-\code{\link[randomForestSRC]{rfsrc}} has three prediction outcomes, from the fitted model these are
-respectively:
-\enumerate{
-\item predicted - This is ensemble mortality defined in Ishwaran et al. (2008), the sum
-of an individuals cumulative hazard function over all time-points
-\item chf - Cumulative hazard function, estimated via a bootstrapped Nelson-Aalen estimator (Ishwaran, 2008)
-\item surv - Survival function, estimated via a bootrstrapped Kaplan-Meier estimate (https://kogalur.github.io/randomForestSRC/theory.html)
-}
-
-Only the second two of these are returned in the \code{distr} predict.type, as Nelson-Aalen and Kaplan-Meier
-will give different results, the estimator can be chosen in the parameter set under "estimator".
-
-The 'risk' predict.type is here defined as the mean of the cumulative hazard over all unique death times.
+The \code{distr} return type is defined from either the cumulative hazard function (chf) or survival function (surv),
+predicted by \code{\link[randomForestSRC:predict.rfsrc]{randomForestSRC::predict.rfsrc()}}. Note that these give different results as \code{chf}
+uses a bootstrapped Nelson-Aalen estimator (Ishwaran, 2008) whereas \code{surv} uses a
+bootstrapped Kaplan-Meier estimator (https://kogalur.github.io/randomForestSRC/theory.html). The choice
+of which estimator to use is given by the \code{estimator} hyper-parameter, default is Nelson-Aalen.\cr
+The \code{crank} return type is defined by the expectation of the survival distribution.
 }
 \section{Construction}{
 \preformatted{LearnerSurvRandomForestSRC$new()

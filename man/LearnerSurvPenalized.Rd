@@ -9,6 +9,10 @@
 Generalized linear models with elastic net regularization.
 Calls \code{\link[penalized:penalized]{penalized::penalized()}} from package \CRANpkg{penalized}.
 }
+\details{
+The \code{distr} return type is given natively by predicting the survival function in \code{\link[penalized:predict]{penalized::predict()}}.\cr
+The \code{crank} return type is defined by the expectation of the survival distribution.
+}
 \section{Construction}{
 \preformatted{LearnerSurvPenalized$new()
 mlr_learners$get("surv.penalized")
