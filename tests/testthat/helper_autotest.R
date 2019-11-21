@@ -48,7 +48,7 @@ generate_generic_tasks = function(learner, proto) {
 
   # task with weights
   if ("weights" %in% learner$properties) {
-    tasks$weights = proto$clone()$cbind(data.frame(weights = runif(proto$nrow)))$set_col_role("weights", "weights", exclusive = TRUE)
+    tasks$weights = proto$clone()$cbind(data.frame(weights = runif(proto$nrow)))$set_col_role("weights", "weight", exclusive = TRUE)
   }
 
   # make sure that task ids match list names

@@ -79,14 +79,15 @@ TaskSurv = R6::R6Class("TaskSurv",
 
                          },
 
-                         truth = function(row_ids = NULL) {
+                         truth = function(rows = NULL) {
                            # truth is defined as the survival outcome as a Survival object
                            tn = self$target_names
-                           d = self$data(row_ids, cols = self$target_names)
+                           d = self$data(rows, cols = self$target_names)
                            if(length(tn) == 2)
                              return(Surv(d[[tn[1L]]], as.logical(d[[tn[2L]]]), type = self$censtype))
                            else
                              return(Surv(d[[tn[1L]]], d[[tn[2L]]], as.logical(d[[tn[3L]]]), type = self$censtype))
+
                          },
 
                          formula = function(rhs = NULL) {

@@ -15,24 +15,6 @@ register_mlr3 = function() {
 
   x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
 
-  # add density task
-  if (!grepl("density", x$task_types[,"type"])) {
-     x$task_types = data.table::setkeyv(rbind(x$task_types, rowwise_table(
-       ~type,  ~package,       ~task,      ~learner,      ~prediction,      ~measure,
-       "density", "mlr3proba", "TaskDensity", "LearnerDensity", "PredictionDensity", "MeasureDensity"
-     )), "type")
-     x$task_col_roles$density = x$task_col_roles$regr
-     x$task_properties$density = c("weights", "groups")
-     x$learner_properties$density = x$learner_properties$regr
-     x$learner_predict_types$density$prob = "prob"
-     x$default_measures$density = "density.logloss"
-  }
-
-  # add distr and interval to regression task
-  x$learner_predict_types$regr$distr = "distr"
-  x$learner_predict_types$regr$interval = "interval"
-
-  # add survival task
   if (!grepl("surv", x$task_types[,"type"])) {
      x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
      x$task_types = setkeyv(rbind(x$task_types, rowwise_table(
@@ -48,6 +30,20 @@ register_mlr3 = function() {
                                          lp = c("crank","lp","distr"))
      x$default_measures$surv = "surv.harrellsc"
   }
+
+  x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
+  x$task_types = setkeyv(rbind(x$task_types, rowwise_table(
+    ~type,  ~package,       ~task,      ~learner,      ~prediction,      ~measure,
+    "surv", "mlr3proba", "TaskSurv", "LearnerSurv", "PredictionSurv", "MeasureSurv"
+  )), "type")
+  x$task_col_roles$surv = c("feature", "target", "label", "order", "group", "weight")
+  x$task_properties$surv = c("weights", "groups")
+  x$learner_properties$surv = x$learner_properties$regr
+  x$measure_properties$surv = x$measure_properties$regr
+  x$learner_predict_types$surv = list(distr = c("risk","distr","lp"),
+                                      risk = c("risk","distr","lp"),
+                                      lp = c("risk","distr","lp"))
+  x$default_measures$surv = "surv.harrellsc"
 
   # tasks
    x = utils::getFromNamespace("mlr_tasks", ns = "mlr3")

@@ -36,3 +36,6 @@ vignettes/*.pdf
 rsconnect/
 R/.DS_Store
 .DS_Store
+
+/src/*.so
+/src/*.o

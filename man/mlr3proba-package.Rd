@@ -4,12 +4,24 @@
 \name{mlr3proba-package}
 \alias{mlr3proba}
 \alias{mlr3proba-package}
-\title{mlr3proba: Probabilistic Supervised Learning}
+\title{mlr3proba: Probabilistic Supervised Learning for mlr3}
 \description{
-Placeholder description.
+Provides extensions for probabilistic supervised learning for
+    'mlr3'.  This includes extending the regression task to probabilistic and interval regression,
+    adding a survival task, and other specialized models, predictions,
+    and measures.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://mlr3proba.mlr-org.com}
+  \item \url{https://github.com/mlr-org/mlr3proba}
+  \item Report bugs at \url{https://github.com/mlr-org/mlr3proba/issues}
+}
+
 }
 \author{
-\strong{Maintainer}: Raphael Sonabend \email{raphael.sonabend.15@ucl.ac.uk} (0000-0001-9225-4654)
+\strong{Maintainer}: Raphael Sonabend \email{raphael.sonabend.15@ucl.ac.uk} (\href{https://orcid.org/0000-0001-9225-4654}{ORCID})
 
 Authors:
 \itemize{

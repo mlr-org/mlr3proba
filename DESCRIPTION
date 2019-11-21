@@ -1,7 +1,7 @@
 Package: mlr3proba
-Title: Probabilistic Supervised Learning
-Version: 0.0.0.9000
-Authors@R: 
+Title: Probabilistic Supervised Learning for mlr3
+Version: 0.1.0-9000
+Authors@R:
       c(person(given = "Raphael",
              family = "Sonabend",
              role = c("aut","cre"),
@@ -11,8 +11,14 @@ Authors@R:
              family = "Kiraly",
              role = "aut",
              email = "f.kiraly@ucl.ac.uk"))
-Description: Placeholder description.
+Description: Provides extensions for probabilistic supervised learning for
+    'mlr3'.  This includes extending the regression task to probabilistic and interval regression,
+    adding a survival task, and other specialized models, predictions,
+    and measures.
 License: MIT + file LICENSE
+URL: https://mlr3proba.mlr-org.com,
+    https://github.com/mlr-org/mlr3proba
+BugReports: https://github.com/mlr-org/mlr3proba/issues
 Depends:
     R (>= 3.1.0),
 Imports:
@@ -21,7 +27,7 @@ Imports:
     data.table,
     distr6 (>= 1.3.1),
     mboost,
-    mlr3 (>= 0.1.3),
+    mlr3 (>= 0.1.4),
     mlr3misc (>= 0.1.5),
     mlr3pipelines,
     paradox (>= 0.1.0),
@@ -44,10 +50,10 @@ Remotes:
     alan-turing-institute/distr6
 LazyData: true
 NeedsCompilation: yes
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.1.1
+Roxygen: list(markdown = TRUE, r6 = FALSE)
+RoxygenNote: 7.0.0
 Encoding: UTF-8
-Collate: 
+Collate:
     'LearnerDensity.R'
     'LearnerDensityHist.R'
     'LearnerDensityKDE.R'
