@@ -30,6 +30,8 @@ register_mlr3 = function() {
     x$learner_predict_types$surv = list(crank = c("crank","lp","distr"),
                                         distr = c("crank","lp","distr"),
                                         lp = c("crank","lp","distr"))
+    x$learner_predict_types$density = list(prob = "prob")
+    x$learner_predict_types$probreg = list(prob = "prob")
     x$default_measures$surv = "surv.harrellsc"
   }
 
