@@ -18,8 +18,10 @@ register_mlr3 = function() {
   if (!grepl("surv", x$task_types[,"type"])) {
     x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
     x$task_types = setkeyv(rbind(x$task_types, rowwise_table(
-      ~type,  ~package,       ~task,      ~learner,      ~prediction,      ~measure,
-      "surv", "mlr3proba", "TaskSurv", "LearnerSurv", "PredictionSurv", "MeasureSurv"
+      ~type,     ~package,    ~task,         ~learner,         ~prediction,         ~measure,
+      "surv",    "mlr3proba", "TaskSurv",    "LearnerSurv",    "PredictionSurv",    "MeasureSurv",
+      "density", "mlr3proba", "TaskDensity", "LearnerDensity", "PredictionDensity", "MeasureDensity",
+      "probreg", "mlr3proba", "TaskProbreg", "LearnerProbreg", "PredictionProbreg", "MeasureDensity"
     )), "type")
     x$task_col_roles$surv = c("feature", "target", "label", "order", "group", "weight")
     x$task_properties$surv = c("weights", "groups")
