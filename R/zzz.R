@@ -24,9 +24,17 @@ register_mlr3 = function() {
       "probreg", "mlr3proba", "TaskProbreg", "LearnerProbreg", "PredictionProbreg", "MeasureDensity"
     )), "type")
     x$task_col_roles$surv = c("feature", "target", "label", "order", "group", "weight")
+    x$task_col_roles$density = c("feature", "target", "label", "order", "group", "weight")
+    x$task_col_roles$probreg = c("feature", "target", "label", "order", "group", "weight")
     x$task_properties$surv = c("weights", "groups")
+    x$task_properties$density = c("weights", "groups")
+    x$task_properties$probreg = c("weights", "groups")
     x$learner_properties$surv = x$learner_properties$regr
+    x$learner_properties$density = x$learner_properties$regr
+    x$learner_properties$probreg = x$learner_properties$regr
     x$measure_properties$surv = x$measure_properties$regr
+    x$measure_properties$density = x$measure_properties$regr
+    x$measure_properties$probreg = x$measure_properties$regr
     x$learner_predict_types$surv = list(crank = c("crank","lp","distr"),
                                         distr = c("crank","lp","distr"),
                                         lp = c("crank","lp","distr"))
