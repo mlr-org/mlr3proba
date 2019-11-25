@@ -4,8 +4,12 @@
 \alias{distrcompositor}
 \title{Compose a Distr Predict Type for Survival Learners}
 \usage{
-distrcompositor(learner, estimator = "kaplan", form = "aft",
-  param_vals = list())
+distrcompositor(
+  learner,
+  estimator = "kaplan",
+  form = "aft",
+  param_vals = list()
+)
 }
 \arguments{
 \item{learner}{\link{LearnerSurv} object for which a \code{distr} is composed (or over-written)}
