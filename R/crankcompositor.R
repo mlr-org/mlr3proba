@@ -15,7 +15,7 @@
 #'
 #' ranger.crank = crankcompositor(learner = lrn("surv.ranger"),
 #'                             method = "median")
-#' resample(task, ranger.crank, rsmp("cv", folds = 2))$predictions()
+#' resample(tsk("rats"), ranger.crank, rsmp("cv", folds = 2))$predictions()
 #' @export
 crankcompositor = function(learner, method = "mean", param_vals = list()){
   pred = po("learner", learner, param_vals = param_vals)

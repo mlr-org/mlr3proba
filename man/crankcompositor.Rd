@@ -30,5 +30,5 @@ library("mlr3pipelines")
 
 ranger.crank = crankcompositor(learner = lrn("surv.ranger"),
                             method = "median")
-resample(task, ranger.crank, rsmp("cv", folds = 2))$predictions()
+resample(tsk("rats"), ranger.crank, rsmp("cv", folds = 2))$predictions()
 }

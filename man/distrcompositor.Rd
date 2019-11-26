@@ -39,5 +39,5 @@ library("mlr3pipelines")
 cvglm.distr = distrcompositor(learner = lrn("surv.cvglmnet"),
                             estimator = "kaplan",
                             form = "aft")
-resample(task, cvglm.distr, rsmp("cv", folds = 2))$predictions()
+resample(tsk("rats"), cvglm.distr, rsmp("cv", folds = 2))$predictions()
 }

@@ -18,7 +18,7 @@
 #' cvglm.distr = distrcompositor(learner = lrn("surv.cvglmnet"),
 #'                             estimator = "kaplan",
 #'                             form = "aft")
-#' resample(task, cvglm.distr, rsmp("cv", folds = 2))$predictions()
+#' resample(tsk("rats"), cvglm.distr, rsmp("cv", folds = 2))$predictions()
 #' @export
 distrcompositor = function(learner, estimator = "kaplan", form = "aft", param_vals = list()){
   pred = po("learner", learner, param_vals = param_vals)
