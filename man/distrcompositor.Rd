@@ -36,8 +36,8 @@ For full details see \link{mlr_pipeops_distrcompose}.
 library("mlr3")
 library("mlr3pipelines")
 
-cox.distr = distrcompositor(learner = lrn("surv.coxph"),
+cvglm.distr = distrcompositor(learner = lrn("surv.cvglmnet"),
                             estimator = "kaplan",
                             form = "aft")
-resample(tsk("rats"), cox.distr, rsmp("cv", folds = 2))
+resample(task, cvglm.distr, rsmp("cv", folds = 2))$predictions()
 }

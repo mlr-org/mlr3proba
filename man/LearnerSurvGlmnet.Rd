@@ -22,8 +22,8 @@ Tuning using the internal optimizer in \code{\link[glmnet:cv.glmnet]{glmnet::cv.
 lambda only, however for tuning multiple hyperparameters, \CRANpkg{mlr3tuning} and \code{\link[glmnet:glmnet]{glmnet::glmnet()}} will
 likely give better results.
 
-Parameter \code{s} (value of the regularization parameter used for predictions) is set to the first
-of the lambda sequence by default, but needs to be tuned by the user.
+Parameter \code{s} (value of the regularization parameter used for predictions) is set to \eqn{0.1}
+by default, but needs to be tuned by the user.
 }
 \section{Construction}{
 \preformatted{LearnerSurvGlmnet$new()

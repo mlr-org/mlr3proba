@@ -82,6 +82,7 @@ register_mlr3 = function() {
 register_mlr3pipelines = function(){
    x = utils::getFromNamespace("mlr_pipeops", ns = "mlr3pipelines")
    x$add("distrcompose", PipeOpDistrCompositor)
+   x$add("crankcompose", PipeOpCrankCompositor)
 }
 
 .onLoad = function(libname, pkgname) {

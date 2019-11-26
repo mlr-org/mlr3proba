@@ -82,11 +82,10 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
       distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
                                              decorators = c("CoreStatistics", "ExoticStatistics"))
 
-      crank = as.numeric(sapply(x, function(y) sum(y[,1] * c(y[,2][1], diff(y[,2])))))
+      lp = predict(self$model, type = "lp", newdata = newdata)
 
       # note the ranking of lp and crank is identical
-      PredictionSurv$new(task = task, crank = crank, distr = distr,
-                         lp = predict(self$model, type = "lp", newdata = newdata))
+      PredictionSurv$new(task = task, crank = lp, distr = distr, lp = lp)
     },
 
     importance = function() {

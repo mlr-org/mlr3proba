@@ -15,10 +15,10 @@
 #' library("mlr3")
 #' library("mlr3pipelines")
 #'
-#' cox.distr = distrcompositor(learner = lrn("surv.coxph"),
+#' cvglm.distr = distrcompositor(learner = lrn("surv.cvglmnet"),
 #'                             estimator = "kaplan",
 #'                             form = "aft")
-#' resample(tsk("rats"), cox.distr, rsmp("cv", folds = 2))
+#' resample(task, cvglm.distr, rsmp("cv", folds = 2))$predictions()
 #' @export
 distrcompositor = function(learner, estimator = "kaplan", form = "aft", param_vals = list()){
   pred = po("learner", learner, param_vals = param_vals)

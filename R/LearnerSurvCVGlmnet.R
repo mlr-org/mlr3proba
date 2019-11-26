@@ -50,7 +50,6 @@ LearnerSurvCVGlmnet = R6Class("LearnerSurvCVGlmnet", inherit = LearnerSurv,
         id = "surv.cvglmnet",
         param_set = ParamSet$new(
           params = list(
-            ParamFct$new(id = "estimator", default = "kaplan", levels = c("kaplan","nelson"), tags = "train"),
             ParamDbl$new(id = "alpha", default = 1, lower = 0, upper = 1, tags = "train"),
             ParamInt$new(id = "nfolds", lower = 3L, default = 10L, tags = "train"),
             ParamInt$new(id = "nlambda", default = 100L, lower = 1L, tags = "train"),
@@ -83,16 +82,13 @@ LearnerSurvCVGlmnet = R6Class("LearnerSurvCVGlmnet", inherit = LearnerSurv,
         feature_types = c("integer", "numeric", "factor"),
         predict_types = c("distr","crank","lp"),
         properties = "weights",
-        packages = c("glmnet","distr6","survival")
+        packages = c("glmnet","survival")
       )
     },
 
     train_internal = function(task) {
 
       pars = self$param_set$get_values(tags = "train")
-      # estimator parameter is used internally for composition (i.e. outside of glmnet) and is
-      # thus ignored for now
-      pars$estimator = NULL
 
       # convert data to model matrix
       x = model.matrix(~., as.data.frame(task$data(cols = task$feature_names)))
@@ -114,23 +110,7 @@ LearnerSurvCVGlmnet = R6Class("LearnerSurvCVGlmnet", inherit = LearnerSurv,
         pars = pars[!is_ctrl_pars]
       }
 
-      fit = invoke(glmnet::cv.glmnet, x = x, y = target, family = "cox", .args = pars)
-
-      # for composition fit the baseline distribution
-      basehaz = invoke(survival::survfit, formula = task$formula(1), data = task$data())
-
-      # Kaplan-Meier estimator used by default
-      estimator = self$param_set$values$estimator
-      if(length(estimator) == 0) estimator = "kaplan"
-      # survfit uses Nelson-Aalen in chf and Kaplan-Meier for survival, as these
-      # don't give equivalent results one must be chosen and the relevant functions are transformed
-      # as required.
-      if(estimator == "nelson")
-        basesurv = exp(-basehaz$cumhaz)
-      else
-        basesurv = basehaz$surv
-
-      set_class(list(fit = fit, basesurv = basesurv, times = basehaz$time), "surv.cvglmnet")
+      invoke(glmnet::cv.glmnet, x = x, y = target, family = "cox", .args = pars)
     },
 
     predict_internal = function(task) {
@@ -140,29 +120,14 @@ LearnerSurvCVGlmnet = R6Class("LearnerSurvCVGlmnet", inherit = LearnerSurv,
       newdata = model.matrix(~., as.data.frame(task$data(cols = task$feature_names)))
 
       if(length(pars$s) == 0)
-        pars$s = round(self$model$fit$lambda.1se, 6)
+        pars$s = round(self$model$lambda.1se, 6)
       else
         pars$s = round(pars$s, 6)
 
       # predict linear predictor
-      lp = as.numeric(invoke(predict, self$model$fit, newx = newdata, type = "link", .args = pars))
+      lp = as.numeric(invoke(predict, self$model, newx = newdata, type = "link", .args = pars))
 
-      # distr defined as a PH model with the baseline survival to the power of
-      # the crank.
-      cdf = 1 - (matrix(self$model$basesurv, nrow = task$nrow, ncol = length(self$model$basesurv), byrow = T) ^
-                   exp(matrix(lp, nrow = task$nrow, ncol = length(self$model$basesurv))))
-
-      # define WeightedDiscrete distr6 object from predicted survival function
-      x = rep(list(data = data.frame(x = self$model$times, cdf = 0)), task$nrow)
-      for(i in 1:task$nrow)
-        x[[i]]$cdf = cdf[i,]
-
-      distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
-                                             decorators = c("CoreStatistics", "ExoticStatistics"))
-
-      crank = as.numeric(sapply(x, function(y) sum(y[,1] * c(y[,2][1], diff(y[,2])))))
-
-      PredictionSurv$new(task = task, crank = crank, distr = distr, lp = lp)
+      PredictionSurv$new(task = task, crank = lp, lp = lp)
     }
   )
 )
