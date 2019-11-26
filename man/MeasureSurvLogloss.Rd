@@ -8,6 +8,10 @@
 \description{
 Calculates the cross-entropy, or logarithmic, loss.
 }
+\details{
+The logloss, in the context of probabilistic predictions, is defined as the negative log-likelihood
+evaluated at the observed death-time.
+}
 \section{Construction}{
 \preformatted{MeasureSurvLogloss$new()
 mlr_measures$get("surv.logloss")

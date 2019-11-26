@@ -15,6 +15,10 @@
 #' @description
 #' Calculates the cross-entropy, or logarithmic, loss.
 #'
+#' @details
+#' The logloss, in the context of probabilistic predictions, is defined as the negative log-likelihood
+#' evaluated at the observed death-time.
+#'
 #' @template seealso_measure
 #' @export
 MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
@@ -26,17 +30,26 @@ MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
         range = c(0, Inf),
         minimize = TRUE,
         predict_type = "distr"
-#       task_properties = "twoclass",
-#        packages = "Metrics"
-        )
-      },
+      )
+    },
 
     score_internal = function(prediction, ...) {
-      times = sort(unique(prediction$truth[,1]))
-      pred = prediction$distr$pdf(times)
-      pred[pred == 0] = 1e-15
-
-      mean(colMeans(-log(pred)))
-      }
+      mean(logloss(prediction$truth, prediction$distr))
+    }
   )
 )
+
+logloss = function(truth, distribution) {
+  # get indicator for those not censored
+  notcensored = truth[,2] == 1
+  # get unique death times for those not censored
+  lst = as.list(truth[notcensored, 1])
+  names(lst) = paste0("x",1:sum(notcensored))
+
+  # calculate pdf at true death time and set any '0' predictions to a small non-zero value
+  pred = as.numeric(do.call(distribution[which(notcensored)]$pdf, lst))
+  pred[pred == 0] = 1e-15
+
+  # return negative log-likelihood
+  -log(pred)
+}

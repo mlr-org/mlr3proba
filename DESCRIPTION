@@ -51,7 +51,7 @@ Remotes:
 LazyData: true
 NeedsCompilation: yes
 Roxygen: list(markdown = TRUE, r6 = FALSE)
-RoxygenNote: 7.0.0
+RoxygenNote: 7.0.1
 Encoding: UTF-8
 Collate:
     'LearnerDensity.R'
@@ -81,8 +81,11 @@ Collate:
     'MeasureDensityLogloss.R'
     'MeasureRegrLogloss.R'
     'MeasureSurv.R'
-    'MeasureSurvBrier.R'
+    'MeasureSurvGraf.R'
+    'MeasureSurvGrafSE.R'
     'MeasureSurvHarrellsC.R'
+    'MeasureSurvIntLogloss.R'
+    'MeasureSurvIntLoglossSE.R'
     'MeasureSurvLogloss.R'
     'MeasureSurvLoglossSE.R'
     'MeasureSurvUnosC.R'
