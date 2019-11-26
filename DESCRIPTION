@@ -46,8 +46,6 @@ Suggests:
     simsurv,
     survAUC,
     testthat
-Remotes:
-    alan-turing-institute/distr6
 LazyData: true
 NeedsCompilation: yes
 Roxygen: list(markdown = TRUE, r6 = FALSE)
