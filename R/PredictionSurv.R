@@ -37,7 +37,7 @@
 #' * `distr` :: `distr6::Distribution()`\cr
 #'   List of R6 probability distributions from \CRANpkg{distr6}.
 #'   Each distribution represents the random variable 'survival time'.
-#'   Used in measures like [mlr_measures_surv.brier].
+#'   Used in measures like [mlr_measures_surv.graf].
 #'
 #' @section Fields:
 #' See [mlr3::Prediction].

@@ -32,7 +32,7 @@ Used in discrimination measures like \link{mlr_measures_surv.harrells_c}.
 \item \code{distr} :: \code{distr6::Distribution()}\cr
 List of R6 probability distributions from \CRANpkg{distr6}.
 Each distribution represents the random variable 'survival time'.
-Used in measures like \link{mlr_measures_surv.brier}.
+Used in measures like \link{mlr_measures_surv.graf}.
 }
 }
 

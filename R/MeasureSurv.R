@@ -25,7 +25,7 @@
 #' See [Measure].
 #'
 #' @family Measure
-#' @seealso Example survival measures: [`surv.brier`][mlr_measures_surv.brier].
+#' @seealso Example survival measures: [`surv.graf`][mlr_measures_surv.graf].
 #' @export
 MeasureSurv = R6Class("MeasureSurv", inherit = Measure, cloneable = FALSE,
                       public = list(
