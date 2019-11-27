@@ -33,13 +33,13 @@ MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
       )
     },
 
-    score_internal = function(prediction, ...) {
-      mean(logloss(prediction$truth, prediction$distr))
+    score_internal = function(prediction, eps = 1e-15, ...) {
+      mean(logloss(prediction$truth, prediction$distr, eps))
     }
   )
 )
 
-logloss = function(truth, distribution) {
+logloss = function(truth, distribution, eps = 1e-15,...) {
   # get indicator for those not censored
   notcensored = truth[,2] == 1
   # get unique death times for those not censored
@@ -48,7 +48,7 @@ logloss = function(truth, distribution) {
 
   # calculate pdf at true death time and set any '0' predictions to a small non-zero value
   pred = as.numeric(do.call(distribution[which(notcensored)]$pdf, lst))
-  pred[pred == 0] = 1e-15
+  pred[pred == 0] = eps
 
   # return negative log-likelihood
   -log(pred)
