@@ -13,7 +13,7 @@
 #' lrn("surv.flexible")
 #' ```
 #'
-#' @descriptionx
+#' @description
 #' A [LearnerSurv] for a Flexible Parametric Spline model partially implemented in
 #' [flexsurv::flexsurvspline()] in package \CRANpkg{flexsurv}.
 #'

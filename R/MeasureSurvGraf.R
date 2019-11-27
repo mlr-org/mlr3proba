@@ -16,7 +16,7 @@
 #' Calculates the Graf score, aka integrated Brier survival score or squared loss.
 #'
 #' @references
-#' Graf, G. (1950).
+#' Brier, G. (1950).
 #' Verification of forecasts expressed in terms of probability.
 #' Monthly Weather Review, 78(1), 1-3.
 #' \doi{10.1175/1520-0493(1950)078<0001:VOFEIT>2.0.CO;2}
@@ -42,15 +42,8 @@ MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
     },
 
     score_internal = function(prediction, ...) {
-      mean(graf(prediction$truth, prediction$distr))
+      mean(integrated_graf(prediction$truth, prediction$distr))
     }
   )
 )
-
-graf = function(truth, distribution) {
-  # unweighted graf score at time t* as G(t*) = (I(t > t*) - S(t*))^2
-  graf = function(alive, distribution) (alive - transpose(1 - distribution$cdf(unique_times)))^2
-
-  weighted_survival_score(truth, distribution, graf)
-}
 

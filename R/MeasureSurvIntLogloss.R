@@ -2,7 +2,7 @@
 #'
 #' @usage NULL
 #' @aliases mlr_measures_surv.loglossint
-#' @format [R6::R6Class()] inheriting from [MeasureSurv].
+#' @format [R6::R6Class()] inheriting from [MeasureSurvLogloss]/[MeasureSurv].
 #' @include MeasureSurv.R
 #'
 #' @section Construction:
@@ -24,31 +24,23 @@
 MeasureSurvLoglossInt = R6::R6Class("MeasureSurvLoglossInt",
   inherit = MeasureSurv,
   public = list(
-    initialize = function() {
+    initialize = function(eps = 1e-15) {
       super$initialize(
         id = "surv.loglossint",
         range = c(0, Inf),
         minimize = TRUE,
-        predict_type = "distr"
-        )
-      },
+        predict_type = "distr",
+        packages = "distr6"
+      )
 
-    score_internal = function(prediction, eps = 1e-15, ...) {
-        mean(integrated_logloss(prediction$truth, prediction$distr, eps = eps))
+      assertNumeric(eps)
+      private$.eps <- eps
+    },
+
+    score_internal = function(prediction, ...) {
+        mean(integrated_logloss(prediction$truth, prediction$distr, eps = self$eps))
       }
   )
 )
 
-integrated_logloss = function(truth, distribution, eps = 1e-15){
-  # unweighted logloss score at time t* as L(t*) = (I(t > t*) - S(t*))^2
-  logloss = function(alive, distribution, eps){
-    # if a patient is alive at t then find the survival, otherwise find cdf
-    ll = (surv * alive) + ((1 - surv) * (1 - alive))
-    # set prediction to be very small but non-zero then find negative log
-    ll[ll == 0] = eps
 
-    -log(ll)
-  }
-
-  weighted_survival_score(truth, distribution, logloss, eps = eps)
-}

@@ -4,7 +4,7 @@
 \alias{MeasureSurvLoglossInt}
 \alias{mlr_measures_surv.loglossint}
 \title{Integrated Logloss}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurv}.}
+\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurvLogloss}/\link{MeasureSurv}.}
 \description{
 Calculates the integrated cross-entropy, or logarithmic, loss.
 }

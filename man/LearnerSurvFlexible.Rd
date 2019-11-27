@@ -6,7 +6,8 @@
 \title{Flexible Parametric Spline Survival Learner}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{LearnerSurv}.}
 \description{
-Flexible Parametric Spline Survival Learner
+A \link{LearnerSurv} for a Flexible Parametric Spline model partially implemented in
+\code{\link[flexsurv:flexsurvspline]{flexsurv::flexsurvspline()}} in package \CRANpkg{flexsurv}.
 }
 \details{
 The \code{distr} return type is composed by using the formulae given from \code{\link[flexsurv:flexsurvspline]{flexsurv::flexsurvspline()}}. \cr

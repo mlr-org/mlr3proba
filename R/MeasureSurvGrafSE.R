@@ -42,7 +42,7 @@ MeasureSurvGrafSE = R6::R6Class("MeasureSurvGrafSE",
     },
 
     score_internal = function(prediction, ...) {
-      graf = graf(prediction$truth, prediction$distr)
+      graf = integrated_graf(prediction$truth, prediction$distr)
 
       sd(graf)/sqrt(length(graf))
     }

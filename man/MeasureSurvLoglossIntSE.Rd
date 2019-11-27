@@ -4,7 +4,7 @@
 \alias{MeasureSurvLoglossIntSE}
 \alias{mlr_measures_surv.loglossintSE}
 \title{Standard Error of Integrated Logloss}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurv}.}
+\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurvLogloss}/\link{MeasureSurv}.}
 \description{
 Calculates the standard error of \link{MeasureSurvLoglossInt}.
 }

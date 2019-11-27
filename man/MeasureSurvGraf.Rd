@@ -16,7 +16,7 @@ msr("surv.graf")
 }
 
 \references{
-Graf, G. (1950).
+Brier, G. (1950).
 Verification of forecasts expressed in terms of probability.
 Monthly Weather Review, 78(1), 1-3.
 \doi{10.1175/1520-0493(1950)078<0001:VOFEIT>2.0.CO;2}

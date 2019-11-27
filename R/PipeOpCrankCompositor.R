@@ -46,7 +46,7 @@
 #'
 #' @section Internals:
 #' The `median` or `mean` will use analytical expressions if possible but if not they are calculated
-#' using [distr6::median] or [distr6::mean] respectively.
+#' using [distr6::median.Distribution] or [distr6::mean.Distribution] respectively.
 #'
 #' @section Fields:
 #' Only fields inherited from [PipeOp].

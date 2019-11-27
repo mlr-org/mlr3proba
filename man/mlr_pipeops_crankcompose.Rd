@@ -58,7 +58,7 @@ composed from \code{distr}.
 \section{Internals}{
 
 The \code{median} or \code{mean} will use analytical expressions if possible but if not they are calculated
-using \link[distr6:median]{distr6::median} or \link[distr6:mean]{distr6::mean} respectively.
+using \link[distr6:median.Distribution]{distr6::median.Distribution} or \link[distr6:mean.Distribution]{distr6::mean.Distribution} respectively.
 }
 
 \section{Fields}{

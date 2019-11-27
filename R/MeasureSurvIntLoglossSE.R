@@ -2,7 +2,7 @@
 #'
 #' @usage NULL
 #' @aliases mlr_measures_surv.loglossintSE
-#' @format [R6::R6Class()] inheriting from [MeasureSurv].
+#' @format [R6::R6Class()] inheriting from [MeasureSurvLogloss]/[MeasureSurv].
 #' @include MeasureSurv.R
 #'
 #' @section Construction:
@@ -20,17 +20,21 @@
 MeasureSurvLoglossIntSE = R6::R6Class("MeasureSurvLoglossIntSE",
     inherit = MeasureSurv,
     public = list(
-      initialize = function() {
+      initialize = function(eps = 1e-15) {
         super$initialize(
           id = "surv.loglossintSE",
           range = c(0, Inf),
           minimize = TRUE,
-          predict_type = "distr"
+          predict_type = "distr",
+          packages = "distr6"
         )
+
+        assertNumeric(eps)
+        private$.eps <- eps
       },
 
       score_internal = function(prediction, ...) {
-        ll = integrated_logloss(prediction$truth, prediction$distr)
+        ll = integrated_logloss(prediction$truth, prediction$distr, self$eps)
 
         sd(ll)/sqrt(length(ll))
       }
