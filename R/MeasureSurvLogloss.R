@@ -24,9 +24,9 @@
 MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
   inherit = MeasureSurv,
   public = list(
-    initialize = function(eps = 1e-15) {
+    initialize = function(eps = 1e-15, id = "surv.logloss") {
       super$initialize(
-        id = "surv.logloss",
+        id = id,
         range = c(0, Inf),
         minimize = TRUE,
         predict_type = "distr",
