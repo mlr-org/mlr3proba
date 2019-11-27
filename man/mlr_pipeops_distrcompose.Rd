@@ -6,7 +6,7 @@
 \title{PipeOpDistrCompositor}
 \format{\code{\link{R6Class}} inheriting from \code{\link{PipeOp}}.}
 \description{
-Predict a survival distribution from a survival learner \code{\link[mlr3:PredictionSurv]{PredictionSurv}}, which
+Predict a survival distribution from a survival learner \code{\link{PredictionSurv}}, which
 predicts \code{lp} or \code{crank}.
 
 Note:

@@ -6,7 +6,7 @@
 \title{PipeOpCrankCompositor}
 \format{\code{\link{R6Class}} inheriting from \code{\link{PipeOp}}.}
 \description{
-Return a continuous ranking from a survival learner \code{\link[mlr3:PredictionSurv]{PredictionSurv}}, which
+Return a continuous ranking from a survival learner \code{\link{PredictionSurv}}, which
 predicts \code{distr}.
 }
 \section{Construction}{
@@ -58,7 +58,7 @@ composed from \code{distr}.
 \section{Internals}{
 
 The \code{median} or \code{mean} will use analytical expressions if possible but if not they are calculated
-using \code{\link[distr6:median]{distr6::median()}} or \code{\link[distr6:mean]{distr6::mean()}} respectively.
+using \link[distr6:median]{distr6::median} or \link[distr6:mean]{distr6::mean} respectively.
 }
 
 \section{Fields}{

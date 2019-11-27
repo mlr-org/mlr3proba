@@ -2,16 +2,19 @@
 % Please edit documentation in R/MeasureSurvHarrellsC.R
 \name{MeasureSurvHarrellsC}
 \alias{MeasureSurvHarrellsC}
-\alias{mlr_measures_surv.harrells_c}
+\alias{mlr_measures_surv.harrellsC}
 \title{Harrell's C-Index}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurv}.}
 \description{
 Calculates Harrell's C, equivalent to the Fortran implementation in \CRANpkg{Hmisc}.
 }
+\details{
+Requires \code{crank} \code{predict_type}.
+}
 \section{Construction}{
 \preformatted{MeasureSurvHarrellsC$new()
-mlr_measures$get("surv.harrellsc")
-msr("surv.harrellsc")
+mlr_measures$get("surv.harrellsC")
+msr("surv.harrellsC")
 }
 }
 

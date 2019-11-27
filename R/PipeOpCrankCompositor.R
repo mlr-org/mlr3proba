@@ -5,7 +5,7 @@
 #' @format [`R6Class`] inheriting from [`PipeOp`].
 #'
 #' @description
-#' Return a continuous ranking from a survival learner [`PredictionSurv`][mlr3::PredictionSurv], which
+#' Return a continuous ranking from a survival learner [`PredictionSurv`][PredictionSurv], which
 #' predicts `distr`.
 #'
 #' @section Construction:
@@ -46,7 +46,7 @@
 #'
 #' @section Internals:
 #' The `median` or `mean` will use analytical expressions if possible but if not they are calculated
-#' using [distr6::median()] or [distr6::mean()] respectively.
+#' using [distr6::median] or [distr6::mean] respectively.
 #'
 #' @section Fields:
 #' Only fields inherited from [PipeOp].

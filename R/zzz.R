@@ -33,21 +33,21 @@ register_mlr3 = function() {
 
   # tasks
    x = utils::getFromNamespace("mlr_tasks", ns = "mlr3")
-   x$add("precip", load_task_precip)
+   # x$add("precip", load_task_precip)
    x$add("rats", load_rats)
    x$add("lung", load_lung)
    x$add("unemployment", load_unemployment)
 
   # generators
    x = utils::getFromNamespace("mlr_task_generators", ns = "mlr3")
-   x$add("friedman1dens", TaskGeneratorFriedman1Dens)
+   # x$add("friedman1dens", TaskGeneratorFriedman1Dens)
    x$add("simsurv", TaskGeneratorSimsurv)
 
   # learners
    x = utils::getFromNamespace("mlr_learners", ns = "mlr3")
-   x$add("density.kde", LearnerDensityKDE)
-
-   x$add("probreg.gaussian", LearnerProbregGaussian)
+   # x$add("density.kde", LearnerDensityKDE)
+   #
+   # x$add("probreg.gaussian", LearnerProbregGaussian)
 
    x$add("surv.coxph", LearnerSurvCoxPH)
    x$add("surv.kaplan", LearnerSurvKaplanMeier)
@@ -68,16 +68,21 @@ register_mlr3 = function() {
 
   # measures
    x = utils::getFromNamespace("mlr_measures", ns = "mlr3")
-   x$add("density.logloss", MeasureDensityLogloss)
-   x$add("regr.logloss", MeasureRegrLogloss)
+   # x$add("density.logloss", MeasureDensityLogloss)
+   # x$add("regr.logloss", MeasureRegrLogloss)
    x$add("surv.graf", MeasureSurvGraf)
    x$add("surv.grafSE", MeasureSurvGrafSE)
    x$add("surv.logloss", MeasureSurvLogloss)
    x$add("surv.loglossSE", MeasureSurvLoglossSE)
    x$add("surv.loglossint", MeasureSurvLoglossInt)
    x$add("surv.loglossintSE", MeasureSurvLoglossIntSE)
-   x$add("surv.unosc", MeasureSurvUnosC)
-   x$add("surv.harrellsc", MeasureSurvHarrellsC)
+   x$add("surv.unosC", MeasureSurvUnosC)
+   x$add("surv.harrellsC", MeasureSurvHarrellsC)
+   x$add("surv.gonensC", MeasureSurvGonensC)
+   x$add("surv.beggsC", MeasureSurvBeggsC)
+   x$add("surv.nagelksR2", MeasureSurvNagelksR2)
+   x$add("surv.oquigleysR2", MeasureSurvOQuigleysR2)
+   x$add("surv.xusR2", MeasureSurvXusR2)
 }
 register_mlr3pipelines = function(){
    x = utils::getFromNamespace("mlr_pipeops", ns = "mlr3pipelines")

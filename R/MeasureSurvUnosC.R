@@ -1,19 +1,23 @@
 #' @title Uno's C-Index
 #'
 #' @usage NULL
-#' @aliases mlr_measures_surv.unos_c
+#' @aliases mlr_measures_surv.unosC
 #' @format [R6::R6Class()] inheriting from [MeasureSurv].
 #' @include MeasureSurv.R
 #'
 #' @section Construction:
 #' ```
 #' MeasureSurvUnosC$new()
-#' mlr_measures$get("surv.unos_c")
-#' msr("surv.unos_c")
+#' mlr_measures$get("surv.unosC")
+#' msr("surv.unosC")
 #' ```
 #'
 #' @description
 #' Calls [survAUC::UnoC()].
+#'
+#' @details
+#' Requires `crank` `predict_type`. \cr
+#' Assumes random censoring assumption holds.
 #'
 #' @references
 #' Uno, H., T. Cai T, M. J. Pencina, R. B. D'Agostino and W. L. Wei. (2011).
@@ -29,10 +33,11 @@ MeasureSurvUnosC = R6Class("MeasureSurvUnosC",
   public = list(
     initialize = function() {
       super$initialize(
-        id = "surv.unos_c",
+        id = "surv.unosC",
         range = 0:1,
         minimize = FALSE,
         packages = "survAUC",
+        predict_type = "crank",
         properties = c("na_score", "requires_task", "requires_train_set")
       )
     },

@@ -2,16 +2,20 @@
 % Please edit documentation in R/MeasureSurvUnosC.R
 \name{MeasureSurvUnosC}
 \alias{MeasureSurvUnosC}
-\alias{mlr_measures_surv.unos_c}
+\alias{mlr_measures_surv.unosC}
 \title{Uno's C-Index}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurv}.}
 \description{
 Calls \code{\link[survAUC:UnoC]{survAUC::UnoC()}}.
 }
+\details{
+Requires \code{crank} \code{predict_type}. \cr
+Assumes random censoring assumption holds.
+}
 \section{Construction}{
 \preformatted{MeasureSurvUnosC$new()
-mlr_measures$get("surv.unos_c")
-msr("surv.unos_c")
+mlr_measures$get("surv.unosC")
+msr("surv.unosC")
 }
 }
 

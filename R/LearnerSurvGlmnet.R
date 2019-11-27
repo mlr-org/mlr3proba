@@ -29,8 +29,8 @@
 #' lambda only, however for tuning multiple hyperparameters, \CRANpkg{mlr3tuning} and [glmnet::glmnet()] will
 #' likely give better results.
 #'
-#' Parameter `s` (value of the regularization parameter used for predictions) is set to \eqn{0.1}
-#' by default, but needs to be tuned by the user.
+#' Parameter `s` (value of the regularization parameter used for predictions) is set to the median
+#' of the `lambda` sequence by default, but needs to be tuned by the user.
 #'
 #' @references
 #' Jerome Friedman, Trevor Hastie, Robert Tibshirani (2010).
@@ -122,7 +122,7 @@ LearnerSurvGlmnet = R6Class("LearnerSurvGlmnet", inherit = LearnerSurv,
       newdata = model.matrix(~., as.data.frame(task$data(cols = task$feature_names)))
 
       if(length(pars$s) == 0)
-        pars$s = 0.1
+        pars$s = round(median(sort(self$model$lambda)), 6)
 
       # predict linear predictor
       lp = invoke(predict, self$model, newx = newdata, type = "link", .args = pars)

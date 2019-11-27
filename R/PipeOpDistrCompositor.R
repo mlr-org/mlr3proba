@@ -5,7 +5,7 @@
 #' @format [`R6Class`] inheriting from [`PipeOp`].
 #'
 #' @description
-#' Predict a survival distribution from a survival learner [`PredictionSurv`][mlr3::PredictionSurv], which
+#' Predict a survival distribution from a survival learner [`PredictionSurv`][PredictionSurv], which
 #' predicts `lp` or `crank`.
 #'
 #' Note:

@@ -1,19 +1,22 @@
 #' @title Harrell's C-Index
 #'
 #' @usage NULL
-#' @aliases mlr_measures_surv.harrells_c
+#' @aliases mlr_measures_surv.harrellsC
 #' @format [R6::R6Class()] inheriting from [MeasureSurv].
 #' @include MeasureSurv.R
 #'
 #' @section Construction:
 #' ```
 #' MeasureSurvHarrellsC$new()
-#' mlr_measures$get("surv.harrellsc")
-#' msr("surv.harrellsc")
+#' mlr_measures$get("surv.harrellsC")
+#' msr("surv.harrellsC")
 #' ```
 #'
 #' @description
 #' Calculates Harrell's C, equivalent to the Fortran implementation in \CRANpkg{Hmisc}.
+#'
+#' @details
+#' Requires `crank` `predict_type`.
 #'
 #' @references
 #' Harrell, F. E., R. M. Califf, D. B. Pryor, K. L. Lee and R. A. Rosati (1982).
@@ -27,7 +30,7 @@ MeasureSurvHarrellsC = R6Class("MeasureSurvHarrellsC",
   public = list(
     initialize = function() {
       super$initialize(
-        id = "surv.harrells_c",
+        id = "surv.harrellsC",
         range = 0:1,
         minimize = FALSE,
         predict_type = "crank"
