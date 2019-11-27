@@ -13,16 +13,16 @@ A \link{LearnerSurv} for a Fully Parametric model partially implemented in
 The \code{distr} return type is composed by using the formulae for proportional hazard (PH),
 accelerated failure time (AFT), or proportional odds (PO) models, with the choice dependent on the
 \code{type} hyper-parameter. \cr
-The \code{crank} return type is defined as the exponential of the linear predictor. This ranking
-is identical to the expectation of the survival distribution but faster and more accurate to compute. \cr
 The \code{lp} return type is predicted by computing \eqn{X\beta} for the coefficients \eqn{\beta}
-fit in \code{\link[survival:survreg]{survival::survreg()}}.
+fit in \code{\link[survival:survreg]{survival::survreg()}}. \cr
+The \code{crank} return type is the same as the \code{lp}. \cr
 
 The predict method is based on \code{\link[survival:predict.survreg]{survival::predict.survreg()}} but is more efficient for composition
-to distributions.
+to distributions. \cr
 
 Currently six parameterisations can be assumed for the baseline, see \code{\link[survival:survreg]{survival::survreg()}}. These
-are internally re-parameterised and defined as \code{distr6} objects.
+are internally re-parameterised and defined as \code{distr6} objects. We plan on implementing more
+custom distributions in the future via \CRANpkg{distr6}.
 }
 \section{Construction}{
 \preformatted{LearnerSurvParametric$new()

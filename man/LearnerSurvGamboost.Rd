@@ -13,8 +13,8 @@ Calls \code{\link[mboost:gamboost]{mboost::gamboost()}} from package \CRANpkg{mb
 \details{
 The \code{distr} return type is composed by using\code{\link[mboost:survFit]{mboost::survFit()}} which assumes a PH fit with
 a Breslow estimator.
-The \code{crank} return type is defined by the expectation of the survival distribution. \cr
-The \code{lp} return type is given by \code{\link[mboost:predict.mboost]{mboost::predict.mboost()}}.
+The \code{lp} return type is given by \code{\link[mboost:predict.mboost]{mboost::predict.mboost()}}. \cr
+The \code{crank} return type is the same as the \code{lp}. \cr
 
 If the value given to the \code{Family} parameter is "custom.family" then an object of class
 \code{\link[mboost:Family]{mboost::Family()}} needs to be passed to the \code{custom.family} parameter.

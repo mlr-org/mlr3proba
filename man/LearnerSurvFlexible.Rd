@@ -6,13 +6,12 @@
 \title{Flexible Parametric Spline Survival Learner}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{LearnerSurv}.}
 \description{
-A \link{LearnerSurv} for a Flexible Parametric Spline model partially implemented in
-\code{\link[flexsurv:flexsurvspline]{flexsurv::flexsurvspline()}} in package \CRANpkg{flexsurv}.
+Flexible Parametric Spline Survival Learner
 }
 \details{
 The \code{distr} return type is composed by using the formulae given from \code{\link[flexsurv:flexsurvspline]{flexsurv::flexsurvspline()}}. \cr
-The \code{crank} return type is defined as the expectation of the survival distribution. The formulae used
-is from \code{\link[flexsurv:flexsurvspline]{flexsurv::flexsurvspline()}} and not \code{\link[distr6:mean.Distribution]{distr6::mean.Distribution()}} as the former is faster and more accurate.
+The \code{lp} return type is the fitted value of the location parameter, \code{gamma0}. \cr
+The \code{crank} return type is the same as the \code{lp}. \cr
 
 The predict method is based on \code{\link[flexsurv:summary.flexsurvreg]{flexsurv::summary.flexsurvreg()}} but is quicker and more
 efficient, and adapts the return type to be compatible with \CRANpkg{distr6}.

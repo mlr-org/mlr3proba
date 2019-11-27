@@ -10,6 +10,7 @@ A \link{LearnerSurv} for a survival random forest implemented in \code{\link[ran
 }
 \details{
 The \code{distr} return type is given natively by predicting the survival function in \code{\link[ranger:predict.ranger]{ranger::predict.ranger()}}.\cr
+The \code{crank} return type is defined as the expectation of the survival distribution.
 }
 \section{Construction}{
 \preformatted{LearnerSurvRanger$new()
