@@ -28,7 +28,7 @@ register_mlr3 = function() {
     x$learner_predict_types$surv = list(crank = c("crank","lp","distr"),
                                         distr = c("crank","lp","distr"),
                                         lp = c("crank","lp","distr"))
-    x$default_measures$surv = "surv.harrellsc"
+    x$default_measures$surv = "surv.harrellsC"
   }
 
   # tasks
