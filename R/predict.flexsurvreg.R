@@ -74,7 +74,7 @@ predict.flexsurvreg <- function (object, task, ...)
                                                      rep(list(distr6::Reals$new()), length(object$dlist$pars)))
    )
 
-   crank = c()
+   lp = c()
 
    pars = data.table::data.table(t(pars))
    pargs = data.table::data.table(matrix(args, ncol = ncol(pars), nrow = length(args)))
@@ -86,13 +86,13 @@ predict.flexsurvreg <- function (object, task, ...)
       yparams = parameters$clone(deep = TRUE)
       ind = match(names(x), yparams$.__enclos_env__$private$.parameters$id)
       yparams$.__enclos_env__$private$.parameters$value = x[ind]
-      return(list(par = yparams, crank = do.call(object$dfns$mean, x)))
+      return(list(par = yparams, lp = x$gamma0))
    })
 
    params = unlist(parsdat)[seq.int(1, length(parsdat)*2, by = 2)]
    params = lapply(params, function(x) list(parameters = x))
 
-   crank = as.numeric(unlist(parsdat)[seq.int(2, length(parsdat)*2, by = 2)])
+   lp = as.numeric(unlist(parsdat)[seq.int(2, length(parsdat)*2, by = 2)])
 
    shared_params = list(name = "Flexible Parameteric",
                         short_name = "Flexsurv",
@@ -111,5 +111,5 @@ predict.flexsurvreg <- function (object, task, ...)
    distr = distr6::VectorDistribution$new(distribution = "Distribution", params = params,
                                           shared_params = shared_params, decorators = c("CoreStatistics","ExoticStatistics"))
 
-   return(list(distr = distr, crank = crank))
+   return(list(distr = distr, lp = lp))
 }

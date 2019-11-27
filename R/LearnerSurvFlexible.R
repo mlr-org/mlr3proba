@@ -13,14 +13,14 @@
 #' lrn("surv.flexible")
 #' ```
 #'
-#' @description
+#' @descriptionx
 #' A [LearnerSurv] for a Flexible Parametric Spline model partially implemented in
 #' [flexsurv::flexsurvspline()] in package \CRANpkg{flexsurv}.
 #'
 #' @details
 #' The \code{distr} return type is composed by using the formulae given from [flexsurv::flexsurvspline()]. \cr
-#' The \code{crank} return type is defined as the expectation of the survival distribution. The formulae used
-#' is from [flexsurv::flexsurvspline()] and not [distr6::mean.Distribution()] as the former is faster and more accurate.
+#' The `lp` return type is the fitted value of the location parameter, `gamma0`. \cr
+#' The \code{crank} return type is the same as the `lp`. \cr
 #'
 #' The predict method is based on [flexsurv::summary.flexsurvreg()] but is quicker and more
 #' efficient, and adapts the return type to be compatible with \CRANpkg{distr6}.
@@ -54,7 +54,7 @@ LearnerSurvFlexible = R6Class("LearnerSurvFlexible", inherit = LearnerSurv,
             ParamDbl$new(id = "toler.chol", default = 1e-10, tags = "train"),
             ParamInt$new(id = "outer.max", default = 10L, tags = "train")
           )),
-        predict_types = c("distr","crank"),
+        predict_types = c("distr","lp","crank"),
         feature_types = c("logical", "integer", "factor","numeric"),
         properties = c("weights"),
         packages = c("flexsurv", "survival", "distr6")
@@ -99,7 +99,7 @@ LearnerSurvFlexible = R6Class("LearnerSurvFlexible", inherit = LearnerSurv,
       pred = predict(self$model, task)
 
       # crank is defined as the mean of the survival distribution
-      PredictionSurv$new(task = task, distr = pred$distr, crank = pred$crank)
+      PredictionSurv$new(task = task, distr = pred$distr, lp = pred$lp, crank = pred$lp)
     }
   )
 )

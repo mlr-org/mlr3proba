@@ -113,4 +113,5 @@ Collate:
     'crankcompositor.R'
     'distrcompositor.R'
     'predict_survreg.R'
+    'weighted_survival_score.R'
     'zzz.R'

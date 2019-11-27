@@ -21,9 +21,9 @@
 #'
 #' @details
 #' The \code{distr} return type is composed by using[mboost::survFit()] which assumes a PH fit with
-#' a Breslow estimator.
-#' The \code{crank} return type is defined by the expectation of the survival distribution. \cr
-#' The \code{lp} return type is given by [mboost::predict.mboost()].
+#' a Breslow estimator. \cr
+#' The \code{lp} return type is given by [mboost::predict.mboost()]. \cr
+#' The \code{crank} return type is the same as the `lp`. \cr
 #'
 #' If the value given to the \code{Family} parameter is "custom.family" then an object of class
 #' [mboost::Family()] needs to be passed to the \code{custom.family} parameter.
@@ -154,9 +154,7 @@ LearnerSurvMboost = R6Class("LearnerSurvMboost", inherit = LearnerSurv,
                                   distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
                                                                          decorators = c("CoreStatistics", "ExoticStatistics"))
 
-                                  crank = as.numeric(sapply(x, function(y) sum(y[,1] * c(y[,2][1], diff(y[,2])))))
-
-                                  PredictionSurv$new(task = task, crank = crank, distr = distr, lp = lp)
+                                  PredictionSurv$new(task = task, crank = lp, distr = distr, lp = lp)
                                 }
                               )
 )

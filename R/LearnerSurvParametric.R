@@ -22,16 +22,16 @@
 #' The \code{distr} return type is composed by using the formulae for proportional hazard (PH),
 #' accelerated failure time (AFT), or proportional odds (PO) models, with the choice dependent on the
 #' \code{type} hyper-parameter. \cr
-#' The \code{crank} return type is defined as the exponential of the linear predictor. This ranking
-#' is identical to the expectation of the survival distribution but faster and more accurate to compute. \cr
 #' The \code{lp} return type is predicted by computing \eqn{X\beta} for the coefficients \eqn{\beta}
-#' fit in [survival::survreg()].
+#' fit in [survival::survreg()]. \cr
+#' The \code{crank} return type is the same as the `lp`. \cr
 #'
 #' The predict method is based on [survival::predict.survreg()] but is more efficient for composition
-#' to distributions.
+#' to distributions. \cr
 #'
 #' Currently six parameterisations can be assumed for the baseline, see [survival::survreg()]. These
-#' are internally re-parameterised and defined as \code{distr6} objects.
+#' are internally re-parameterised and defined as \code{distr6} objects. We plan on implementing more
+#' custom distributions in the future via \CRANpkg{distr6}.
 #'
 #' @references
 #' Kalbfleisch, J. D., Prentice, R. L. (2002).
@@ -132,11 +132,9 @@ LearnerSurvParametric = R6Class("LearnerSurvParametric", inherit = LearnerSurv,
       pv = self$param_set$get_values(tags = "predict")
 
       # Call the predict method defined in mlr3proba
-      pred = invoke(predict_survreg, object = self$model, task = task, predict_type = "all", .args = pv)
+      pred = invoke(predict_survreg, object = self$model, task = task, .args = pv)
 
-      # crank defined as exp(lp) - identical ranking to mean of survival distribution but
-      # much faster to compute.
-      PredictionSurv$new(task = task, distr = pred$distr, crank = pred$crank, lp = pred$lp)
+      PredictionSurv$new(task = task, distr = pred$distr, crank = pred$lp, lp = pred$lp)
     }
   )
 )

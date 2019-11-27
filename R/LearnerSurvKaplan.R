@@ -16,7 +16,7 @@
 #' Kaplan Meier estimator called from [survival::survfit()] in package \CRANpkg{survival}.
 #'
 #' @details
-#' The \code{distr} return type is given natively by estimating the survival function with [survival::survfit()].\cr
+#' The \code{distr} return type is given by estimating the survival function with [survival::survfit()].\cr
 #' The \code{crank} return type is defined by the expectation of the survival distribution.
 #'
 #' @references

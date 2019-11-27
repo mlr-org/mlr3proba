@@ -17,12 +17,8 @@
 #' Calls [glmnet::glmnet()] from package \CRANpkg{glmnet}.
 #'
 #' @details
-#' The \code{distr} return type is composed by using the Cox formula \eqn{S(t) = S0(t)^exp(lp)} where
-#' \eqn{S0} is the baseline survival function and \eqn{lp} is the predicted linear predictor. The
-#' baseline survival is estimated with either Kaplan-Meier or Nelson-Aalen, depending on the
-#' \code{estimator} hyper-parameter, using [survival::survfit()].\cr
-#' The \code{crank} return type is defined by the expectation of the survival distribution. \cr
-#' The \code{lp} return type is given natively by [glmnet::predict.glmnet()].
+#' The \code{lp} return type is given by [glmnet::predict.glmnet()]. \cr
+#' The \code{crank} return type is the same as the `lp`. \cr
 #'
 #' See [LearnerSurvCVGlmnet] for the cross-validated glmnet implemented in [glmnet::cv.glmnet()].
 #' Tuning using the internal optimizer in [glmnet::cv.glmnet()] may be more efficient when tuning

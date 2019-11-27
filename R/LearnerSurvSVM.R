@@ -20,7 +20,7 @@
 #'
 #' @details
 #' Four possible models can be implemented, dependent on the \code{model} parameter. These correspond
-#' to predicting the prognosting index (PI) via regression, \code{regression}; predicting the PI by
+#' to predicting the survival time via regression, \code{regression}; predicting the PI by
 #' imposing a ranking constrant, \code{vanbelle1, vanbelle2}; a hybrid of the two \code{hybrid}. Whilst
 #' \code{regression} is the default, \code{hybrid} may be more efficient in tuning as it can be reduced
 #' to the previous depending on optimal parameters.

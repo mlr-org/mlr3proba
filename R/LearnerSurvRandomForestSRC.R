@@ -20,7 +20,7 @@
 #' predicted by [randomForestSRC::predict.rfsrc()]. Note that these give different results as \code{chf}
 #' uses a bootstrapped Nelson-Aalen estimator (Ishwaran, 2008) whereas \code{surv} uses a
 #' bootstrapped Kaplan-Meier estimator (https://kogalur.github.io/randomForestSRC/theory.html). The choice
-#' of which estimator to use is given by the \code{estimator} hyper-parameter, default is Nelson-Aalen.\cr
+#' of which estimator to use is given by the extra \code{estimator} hyper-parameter, default is Nelson-Aalen.\cr
 #' The \code{crank} return type is defined by the expectation of the survival distribution.
 #'
 #' @references

@@ -17,6 +17,7 @@
 #'
 #' @details
 #' The \code{distr} return type is given natively by predicting the survival function in [ranger::predict.ranger()].\cr
+#' The `crank` return type is defined as the expectation of the survival distribution.
 #'
 #' @references
 #' Marvin N. Wright and Andreas Ziegler (2017).
@@ -60,7 +61,7 @@ LearnerSurvRanger = R6Class("LearnerSurvRanger", inherit = LearnerSurv,
             ParamLgl$new(id = "oob.error", default = TRUE, tags = "train")
           )
         ),
-        predict_types = c("distr"),
+        predict_types = c("distr","crank"),
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         properties = c("weights", "importance", "oob_error"),
         packages = c("ranger", "distr6")
@@ -93,7 +94,9 @@ LearnerSurvRanger = R6Class("LearnerSurvRanger", inherit = LearnerSurv,
       distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
                                              decorators = c("CoreStatistics", "ExoticStatistics"))
 
-      PredictionSurv$new(task = task, distr = distr)
+      crank = as.numeric(sapply(x, function(y) sum(y[,1] * c(y[,2][1], diff(y[,2])))))
+
+      PredictionSurv$new(task = task, distr = distr, crank = crank)
     },
 
     importance = function() {

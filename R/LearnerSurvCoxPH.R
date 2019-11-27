@@ -16,11 +16,10 @@
 #' A [LearnerSurv] for a Cox PH model implemented in [survival::coxph()] in package \CRANpkg{survival}.
 #'
 #' @details
-#' The \code{distr} return type is given natively by predicting the survival function in [survival::survfit.coxph()],
+#' The \code{distr} return type is given by predicting the survival function in [survival::survfit.coxph()],
 #' the method used for estimating the baseline hazard depends on the \code{type} hyper-parameter.\cr
-#' The \code{crank} return type is defined by the expectation of the survival distribution.\cr
-#' The \code{lp} return type is given natively by [survival::predict.coxph()].
-#' The ranking given by \code{crank} and \code{lp} is identical.
+#' The \code{lp} return type is given by [survival::predict.coxph()]. \cr
+#' The \code{crank} return type is the same as the `lp`. \cr
 #'
 #' @references
 #' Cox, David R. (1972).
