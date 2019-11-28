@@ -2,11 +2,17 @@
 % Please edit documentation in R/MeasureSurvIntLoglossSE.R
 \name{MeasureSurvLoglossIntSE}
 \alias{MeasureSurvLoglossIntSE}
-\alias{mlr_measures_surv.loglossintSE}
-\title{Standard Error of Integrated Logloss}
+\alias{mlr_measures_.surv.loglossintSE}
+\title{Standard Error of Integrated Log loss Survival Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurvLogloss}/\link{MeasureSurv}.}
 \description{
+
+
 Calculates the standard error of \link{MeasureSurvLoglossInt}.
+
+The standard error is approximated using Binomial approxiation. For \eqn{N} observations in the
+test set, the standard eror is given by
+\deqn{ILL_SE = sd(ILL(S))/sqrt(N)}
 }
 \section{Construction}{
 \preformatted{MeasureSurvLoglossIntSE$new()
@@ -15,6 +21,51 @@ msr("surv.loglossintSE")
 }
 }
 
-\seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Measure]{Measures}: \link[mlr3:mlr_measures]{mlr3::mlr_measures}
+\section{Meta Information}{
+
+\itemize{
+\item Type: \code{"surv"}
+\item Range: \eqn{[0, \infty)}{[0, Inf)}
+\item Minimize: \code{TRUE}
+\item Required prediction: \code{distr}
 }
+}
+
+\references{
+Graf, E., Schmoor, C., Sauerbrei, W. and Schumacher, M. (1999).\cr
+Assessment and comparison of prognostic classification schemes for survival data.\cr
+Statistics in Medicine, 18(17), 2529-2545.\cr
+\doi{10.1002/(SICI)1097-0258(19990915/30)18:17/18<2529::AID-SIM274>3.0.CO;2-5}
+}
+\seealso{
+Other survival measures: 
+\code{\link{MeasureSurvBeggC}},
+\code{\link{MeasureSurvChamblessAUC}},
+\code{\link{MeasureSurvGonenC}},
+\code{\link{MeasureSurvGrafSE}},
+\code{\link{MeasureSurvGraf}},
+\code{\link{MeasureSurvHarrellC}},
+\code{\link{MeasureSurvHungAUC}},
+\code{\link{MeasureSurvLoglossInt}},
+\code{\link{MeasureSurvLoglossSE}},
+\code{\link{MeasureSurvLogloss}},
+\code{\link{MeasureSurvNagelkR2}},
+\code{\link{MeasureSurvOQuigleyR2}},
+\code{\link{MeasureSurvSongAUC}},
+\code{\link{MeasureSurvSongTNR}},
+\code{\link{MeasureSurvSongTPR}},
+\code{\link{MeasureSurvUnoAUC}},
+\code{\link{MeasureSurvUnoC}},
+\code{\link{MeasureSurvUnoTNR}},
+\code{\link{MeasureSurvUnoTPR}},
+\code{\link{MeasureSurvXuR2}}
+
+Other Probabilistic survival measures: 
+\code{\link{MeasureSurvGrafSE}},
+\code{\link{MeasureSurvGraf}},
+\code{\link{MeasureSurvLoglossInt}},
+\code{\link{MeasureSurvLoglossSE}},
+\code{\link{MeasureSurvLogloss}}
+}
+\concept{Probabilistic survival measures}
+\concept{survival measures}

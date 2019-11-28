@@ -1,21 +1,16 @@
-#' @title Standard Error of Logloss
-#'
-#' @usage NULL
-#' @aliases mlr_measures_surv.loglossSE
-#' @format [R6::R6Class()] inheriting from [MeasureSurvLogloss]/[MeasureSurv].
-#' @include MeasureSurv.R
-#'
-#' @section Construction:
-#' ```
-#' MeasureSurvLoglossSESE$new()
-#' mlr_measures$get("surv.loglossSE")
-#' msr("surv.loglossSE")
-#' ```
-#'
+#' @template surv_measure
+#' @templateVar title Standard Error of Log loss
+#' @templateVar inherit [MeasureSurvLogloss]/[MeasureSurv]
+#' @templateVar fullname MeasureSurvLoglossSE
+#' @templateVar shortname surv.loglossSE
 #' @description
 #' Calculates the standard error of [MeasureSurvLogloss].
 #'
-#' @template seealso_measure
+#' The standard error is approximated using Binomial approxiation. For \eqn{N} observations in the
+#' test set, the standard eror is given by
+#' \deqn{LL_SE = sd(LL(S))/sqrt(N)}
+#'
+#' @family Probabilistic survival measures
 #' @export
 MeasureSurvLoglossSE = R6::R6Class("MeasureSurvLoglossSE",
     inherit = MeasureSurvLogloss,

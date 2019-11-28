@@ -1,30 +1,24 @@
-#' @title Song and Zhou's AUC
-#'
-#' @usage NULL
-#' @aliases mlr_measures_surv.songAUC
-#' @format [R6::R6Class()] inheriting from [MeasureSurv].
-#' @include MeasureSurv.R
-#'
-#' @section Construction:
-#' ```
-#' MeasureSurvSongAUC$new()
-#' mlr_measures$get("surv.songAUC")
-#' msr("surv.songAUC")
-#' ```
+#' @template surv_measure
+#' @templateVar title Song and Zhou's AUC
+#' @templateVar inherit [MeasureSurvAUC]/[MeasureSurv]
+#' @templateVar fullname MeasureSurvSongAUC
+#' @templateVar shortname surv.songAUC
+#' @templateVar pars integrated = TRUE, times, type = c("incident","cumulative")
+#' @templateVar int_par TRUE
+#' @templateVar times_par TRUE
+#' @templateVar type_par TRUE
 #'
 #' @description
 #' Calls [survAUC::AUC.sh()].
 #'
-#' @details
-#' Requires `lp` `predict_type`. \cr
 #' Assumes Cox PH model specification.
 #'
 #' @references
-#' Song, X. and X.-H. Zhou (2008).
-#' A semiparametric approach for the covariate specific ROC curve with survival outcome.
+#' Song, X. and X.-H. Zhou (2008).\cr
+#' A semiparametric approach for the covariate specific ROC curve with survival outcome.\cr
 #' Statistica Sinica 18, 947–965.
 #'
-#' @template seealso_measure
+#' @family AUC survival measures
 #' @export
 MeasureSurvSongAUC = R6Class("MeasureSurvSongAUC",
   inherit = MeasureSurvAUC,

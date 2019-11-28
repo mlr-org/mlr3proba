@@ -1,33 +1,35 @@
-#' @title Graf Score
-#'
-#' @usage NULL
-#' @aliases mlr_measures_surv.graf
-#' @format [R6::R6Class()] inheriting from [MeasureSurv].
-#' @include MeasureSurv.R
-#'
-#' @section Construction:
-#' ```
-#' MeasureSurvGraf$new()
-#' mlr_measures$get("surv.graf")
-#' msr("surv.graf")
-#' ```
-#'
+#' @template surv_measure
+#' @templateVar title Integrated Graf Score
+#' @templateVar inherit [MeasureSurv]
+#' @templateVar fullname MeasureSurvGraf
+#' @templateVar shortname surv.graf
+#' @aliases MeasureSurvBrier mlr_measures_surv.brier
 #' @description
-#' Calculates the Graf score, aka integrated Brier survival score or squared loss.
+#' Calculates the Integrated Graf Score (IGS), aka integrated Brier survival score or squared loss.
+#' An approximation to the IGS is calculated by taking the mean over all time-points in the test set.
+#'
+#' For an individual who dies at time \eqn{t}, with predicted Survival function, \eqn{S}, the
+#' (unweighted) Graf Score at time t* is given by
+#' \deqn{G(S, t*) = (I(t > t*) - S(t*))^2}
+#'
+#' To account for censoring a weighted version is defined by
+#' \deqn{G(S, t*) = S(t*)^2 * I(t \le t*, \delta = 1) * (1/G(t)) + (1 - S(t*))^2 * I(t > t*) * (1/G(t*))}
+#'
+#' As only a finite number of test points are given, an approximation to the IGS can be made by taking
+#' the average over all, \eqn{M}, unique discrete time-points given in the test data,
+#' \deqn{IGS(S) = 1/M \Sigma_t G(S, t)}
+#'
+#' Finally the sample mean is taken to return a single score for all \eqn{N} observations,
+#' \deqn{IGS(pred) = 1/N \Sigma_i IGS(S_i)}
+#'
 #'
 #' @references
-#' Brier, G. (1950).
-#' Verification of forecasts expressed in terms of probability.
-#' Monthly Weather Review, 78(1), 1-3.
-#' \doi{10.1175/1520-0493(1950)078<0001:VOFEIT>2.0.CO;2}
-#'
-#' Graf, E., Schmoor, C., Sauerbrei, W. and Schumacher, M. (1999).
-#' Assessment and comparison of prognostic classification schemes for survival data.
-#' Statistics in Medicine, 18(17), 2529-2545.
+#' Graf, E., Schmoor, C., Sauerbrei, W. and Schumacher, M. (1999).\cr
+#' Assessment and comparison of prognostic classification schemes for survival data.\cr
+#' Statistics in Medicine, 18(17), 2529-2545.\cr
 #' \doi{10.1002/(SICI)1097-0258(19990915/30)18:17/18<2529::AID-SIM274>3.0.CO;2-5}
 #'
-#'
-#' @template seealso_measure
+#' @family Probabilistic survival measures
 #' @export
 MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
   inherit = MeasureSurv,

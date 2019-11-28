@@ -2,14 +2,14 @@
 % Please edit documentation in R/MeasureSurvXuR2.R
 \name{MeasureSurvXuR2}
 \alias{MeasureSurvXuR2}
-\alias{mlr_measures_surv.xuR2}
-\title{Xu and O'Quigley's R2 Coefficient}
+\alias{mlr_measures_.surv.xuR2}
+\title{Xu and O'Quigley's R2 Survival Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurv}.}
 \description{
+
+
 Calls \code{\link[survAUC:XO]{survAUC::XO()}}.
-}
-\details{
-Requires \code{lp} \code{predict_type}. \cr
+
 Assumes Cox PH model specification.
 }
 \section{Construction}{
@@ -19,11 +19,47 @@ msr("surv.xuR2")
 }
 }
 
+\section{Meta Information}{
+
+\itemize{
+\item Type: \code{"surv"}
+\item Range: \eqn{[0, 1]}{[0, 1]}
+\item Minimize: \code{FALSE}
+\item Required prediction: \code{lp}
+}
+}
+
 \references{
-Xu, R. and J. O'Quigley (1999).
-A measure of dependence for proportional hazards models.
-Journal of Nonparametric Statistics 12, 83–107.
+Xu, R. and J. O'Quigley (1999).\cr
+A measure of dependence for proportional hazards models.\cr
+Journal of Nonparametric Statistics 12, 83–107.\cr
 }
 \seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Measure]{Measures}: \link[mlr3:mlr_measures]{mlr3::mlr_measures}
+Other survival measures: 
+\code{\link{MeasureSurvBeggC}},
+\code{\link{MeasureSurvChamblessAUC}},
+\code{\link{MeasureSurvGonenC}},
+\code{\link{MeasureSurvGrafSE}},
+\code{\link{MeasureSurvGraf}},
+\code{\link{MeasureSurvHarrellC}},
+\code{\link{MeasureSurvHungAUC}},
+\code{\link{MeasureSurvLoglossIntSE}},
+\code{\link{MeasureSurvLoglossInt}},
+\code{\link{MeasureSurvLoglossSE}},
+\code{\link{MeasureSurvLogloss}},
+\code{\link{MeasureSurvNagelkR2}},
+\code{\link{MeasureSurvOQuigleyR2}},
+\code{\link{MeasureSurvSongAUC}},
+\code{\link{MeasureSurvSongTNR}},
+\code{\link{MeasureSurvSongTPR}},
+\code{\link{MeasureSurvUnoAUC}},
+\code{\link{MeasureSurvUnoC}},
+\code{\link{MeasureSurvUnoTNR}},
+\code{\link{MeasureSurvUnoTPR}}
+
+Other R2 survival measures: 
+\code{\link{MeasureSurvNagelkR2}},
+\code{\link{MeasureSurvOQuigleyR2}}
 }
+\concept{R2 survival measures}
+\concept{survival measures}

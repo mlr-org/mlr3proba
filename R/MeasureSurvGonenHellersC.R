@@ -1,30 +1,20 @@
-#' @title Gonen and Heller's C-Index
-#'
-#' @usage NULL
-#' @aliases mlr_measures_surv.gonenC
-#' @format [R6::R6Class()] inheriting from [MeasureSurv].
-#' @include MeasureSurv.R
-#'
-#' @section Construction:
-#' ```
-#' MeasureSurvGonenC$new()
-#' mlr_measures$get("surv.gonenC")
-#' msr("surv.gonenC")
-#' ```
+#' @template surv_measure
+#' @templateVar title Gonen and Heller's C-Index
+#' @templateVar inherit [MeasureSurv]
+#' @templateVar fullname MeasureSurvGonenC
+#' @templateVar shortname surv.gonenC
 #'
 #' @description
 #' Calls [survAUC::GHCI()].
 #'
-#' @details
-#' Requires `lp` `predict_type`. \cr
 #' Assumes Cox PH model specification.
 #'
 #' @references
-#' Gonen, M. and G. Heller (2005).
-#' Concordance probability and discriminatory power in proportional hazards regression.
+#' Gonen, M. and G. Heller (2005).\cr
+#' Concordance probability and discriminatory power in proportional hazards regression.\cr
 #' Biometrika 92, 965–970.
 #'
-#' @template seealso_measure
+#' @family Concordance survival measures
 #' @export
 MeasureSurvGonenC = R6Class("MeasureSurvGonenC",
   inherit = MeasureSurv,

@@ -1,30 +1,19 @@
-#' @title O'Quigley, Xu, and Stare's R2 Coefficient
-#'
-#' @usage NULL
-#' @aliases mlr_measures_surv.oquigleyR2
-#' @format [R6::R6Class()] inheriting from [MeasureSurv].
-#' @include MeasureSurv.R
-#'
-#' @section Construction:
-#' ```
-#' MeasureSurvOQuigleyR2$new()
-#' mlr_measures$get("surv.oquigleyR2")
-#' msr("surv.oquigleyR2")
-#' ```
-#'
+#' @template surv_measure
+#' @templateVar title O'Quigley, Xu, and Stare's R2
+#' @templateVar inherit [MeasureSurv]
+#' @templateVar fullname MeasureSurvOQuigleyR2
+#' @templateVar shortname surv.oquigleyR2
 #' @description
 #' Calls [survAUC::OXS()].
 #'
-#' @details
-#' Requires `lp` `predict_type`. \cr
 #' Assumes Cox PH model specification.
 #'
 #' @references
-#' O'Quigley, J., R. Xu, and J. Stare (2005).
-#' Explained randomness in proportional hazards models.
+#' O'Quigley, J., R. Xu, and J. Stare (2005).\cr
+#' Explained randomness in proportional hazards models.\cr
 #' Statistics in Medicine 24, 479–489.
 #'
-#' @template seealso_measure
+#' @family R2 survival measures
 #' @export
 MeasureSurvOQuigleyR2 = R6Class("MeasureSurvOQuigleyR2",
   inherit = MeasureSurv,

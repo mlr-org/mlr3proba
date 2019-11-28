@@ -2,19 +2,64 @@
 % Please edit documentation in R/MeasureSurvLoglossSE.R
 \name{MeasureSurvLoglossSE}
 \alias{MeasureSurvLoglossSE}
-\alias{mlr_measures_surv.loglossSE}
-\title{Standard Error of Logloss}
+\alias{mlr_measures_.surv.loglossSE}
+\title{Standard Error of Log loss Survival Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurvLogloss}/\link{MeasureSurv}.}
 \description{
+
+
 Calculates the standard error of \link{MeasureSurvLogloss}.
+
+The standard error is approximated using Binomial approxiation. For \eqn{N} observations in the
+test set, the standard eror is given by
+\deqn{LL_SE = sd(LL(S))/sqrt(N)}
 }
 \section{Construction}{
-\preformatted{MeasureSurvLoglossSESE$new()
+\preformatted{MeasureSurvLoglossSE$new()
 mlr_measures$get("surv.loglossSE")
 msr("surv.loglossSE")
 }
 }
 
-\seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Measure]{Measures}: \link[mlr3:mlr_measures]{mlr3::mlr_measures}
+\section{Meta Information}{
+
+\itemize{
+\item Type: \code{"surv"}
+\item Range: \eqn{[0, \infty)}{[0, Inf)}
+\item Minimize: \code{TRUE}
+\item Required prediction: \code{distr}
 }
+}
+
+\seealso{
+Other survival measures: 
+\code{\link{MeasureSurvBeggC}},
+\code{\link{MeasureSurvChamblessAUC}},
+\code{\link{MeasureSurvGonenC}},
+\code{\link{MeasureSurvGrafSE}},
+\code{\link{MeasureSurvGraf}},
+\code{\link{MeasureSurvHarrellC}},
+\code{\link{MeasureSurvHungAUC}},
+\code{\link{MeasureSurvLoglossIntSE}},
+\code{\link{MeasureSurvLoglossInt}},
+\code{\link{MeasureSurvLogloss}},
+\code{\link{MeasureSurvNagelkR2}},
+\code{\link{MeasureSurvOQuigleyR2}},
+\code{\link{MeasureSurvSongAUC}},
+\code{\link{MeasureSurvSongTNR}},
+\code{\link{MeasureSurvSongTPR}},
+\code{\link{MeasureSurvUnoAUC}},
+\code{\link{MeasureSurvUnoC}},
+\code{\link{MeasureSurvUnoTNR}},
+\code{\link{MeasureSurvUnoTPR}},
+\code{\link{MeasureSurvXuR2}}
+
+Other Probabilistic survival measures: 
+\code{\link{MeasureSurvGrafSE}},
+\code{\link{MeasureSurvGraf}},
+\code{\link{MeasureSurvLoglossIntSE}},
+\code{\link{MeasureSurvLoglossInt}},
+\code{\link{MeasureSurvLogloss}}
+}
+\concept{Probabilistic survival measures}
+\concept{survival measures}

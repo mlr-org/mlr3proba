@@ -2,15 +2,27 @@
 % Please edit documentation in R/MeasureSurvIntLogloss.R
 \name{MeasureSurvLoglossInt}
 \alias{MeasureSurvLoglossInt}
-\alias{mlr_measures_surv.loglossint}
-\title{Integrated Logloss}
+\alias{mlr_measures_.surv.loglossint}
+\title{Integrated Log loss Survival Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurvLogloss}/\link{MeasureSurv}.}
 \description{
-Calculates the integrated cross-entropy, or logarithmic, loss.
-}
-\details{
-The integrated logloss, in the context of probabilistic predictions, is defined as the classical
-logloss for a given individual, integrated over all time-points.
+
+
+Calculates the integrated cross-entropy, or logarithmic (log), loss (ILL).
+
+For an individual who dies at time \eqn{t}, with predicted Survival function, \eqn{S}, the
+(unweighted) probabilistic log loss at time t* is given by
+\deqn{L(S, t*) = -log(1 - S(t*)) * (I(t \le t*) - log(S(t*)) * I(t > t*)}
+
+To account for censoring a weighted version is defined by
+\deqn{L(S, t*) = -log(1 - S(t*)) * I(t \le t*, \delta = 1) * (1/G(t)) - log(S(t*)) * I(t > t*) * (1/G(t*))}
+
+As only a finite number of test points are given, an approximation to the ILL can be made by taking
+the average over all, \eqn{M}, unique discrete time-points given in the test data,
+\deqn{ILL(S) = 1/M \Sigma_t ILL(S, t)}
+
+Finally the sample mean is taken to return a single score for all \eqn{N} observations,
+\deqn{ILL(pred) = 1/N \Sigma_i ILL(S_i)}
 }
 \section{Construction}{
 \preformatted{MeasureSurvLoglossInt$new()
@@ -19,6 +31,51 @@ msr("surv.loglossint")
 }
 }
 
-\seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Measure]{Measures}: \link[mlr3:mlr_measures]{mlr3::mlr_measures}
+\section{Meta Information}{
+
+\itemize{
+\item Type: \code{"surv"}
+\item Range: \eqn{[0, \infty)}{[0, Inf)}
+\item Minimize: \code{TRUE}
+\item Required prediction: \code{distr}
 }
+}
+
+\references{
+Graf, E., Schmoor, C., Sauerbrei, W. and Schumacher, M. (1999).\cr
+Assessment and comparison of prognostic classification schemes for survival data.\cr
+Statistics in Medicine, 18(17), 2529-2545.\cr
+\doi{10.1002/(SICI)1097-0258(19990915/30)18:17/18<2529::AID-SIM274>3.0.CO;2-5}
+}
+\seealso{
+Other survival measures: 
+\code{\link{MeasureSurvBeggC}},
+\code{\link{MeasureSurvChamblessAUC}},
+\code{\link{MeasureSurvGonenC}},
+\code{\link{MeasureSurvGrafSE}},
+\code{\link{MeasureSurvGraf}},
+\code{\link{MeasureSurvHarrellC}},
+\code{\link{MeasureSurvHungAUC}},
+\code{\link{MeasureSurvLoglossIntSE}},
+\code{\link{MeasureSurvLoglossSE}},
+\code{\link{MeasureSurvLogloss}},
+\code{\link{MeasureSurvNagelkR2}},
+\code{\link{MeasureSurvOQuigleyR2}},
+\code{\link{MeasureSurvSongAUC}},
+\code{\link{MeasureSurvSongTNR}},
+\code{\link{MeasureSurvSongTPR}},
+\code{\link{MeasureSurvUnoAUC}},
+\code{\link{MeasureSurvUnoC}},
+\code{\link{MeasureSurvUnoTNR}},
+\code{\link{MeasureSurvUnoTPR}},
+\code{\link{MeasureSurvXuR2}}
+
+Other Probabilistic survival measures: 
+\code{\link{MeasureSurvGrafSE}},
+\code{\link{MeasureSurvGraf}},
+\code{\link{MeasureSurvLoglossIntSE}},
+\code{\link{MeasureSurvLoglossSE}},
+\code{\link{MeasureSurvLogloss}}
+}
+\concept{Probabilistic survival measures}
+\concept{survival measures}

@@ -2,11 +2,30 @@
 % Please edit documentation in R/MeasureSurvGraf.R
 \name{MeasureSurvGraf}
 \alias{MeasureSurvGraf}
-\alias{mlr_measures_surv.graf}
-\title{Graf Score}
+\alias{mlr_measures_.surv.graf}
+\alias{MeasureSurvBrier}
+\alias{mlr_measures_surv.brier}
+\title{Integrated Graf Score Survival Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurv}.}
 \description{
-Calculates the Graf score, aka integrated Brier survival score or squared loss.
+
+
+Calculates the Integrated Graf Score (IGS), aka integrated Brier survival score or squared loss.
+An approximation to the IGS is calculated by taking the mean over all time-points in the test set.
+
+For an individual who dies at time \eqn{t}, with predicted Survival function, \eqn{S}, the
+(unweighted) Graf Score at time t* is given by
+\deqn{G(S, t*) = (I(t > t*) - S(t*))^2}
+
+To account for censoring a weighted version is defined by
+\deqn{G(S, t*) = S(t*)^2 * I(t \le t*, \delta = 1) * (1/G(t)) + (1 - S(t*))^2 * I(t > t*) * (1/G(t*))}
+
+As only a finite number of test points are given, an approximation to the IGS can be made by taking
+the average over all, \eqn{M}, unique discrete time-points given in the test data,
+\deqn{IGS(S) = 1/M \Sigma_t G(S, t)}
+
+Finally the sample mean is taken to return a single score for all \eqn{N} observations,
+\deqn{IGS(pred) = 1/N \Sigma_i IGS(S_i)}
 }
 \section{Construction}{
 \preformatted{MeasureSurvGraf$new()
@@ -15,17 +34,51 @@ msr("surv.graf")
 }
 }
 
-\references{
-Brier, G. (1950).
-Verification of forecasts expressed in terms of probability.
-Monthly Weather Review, 78(1), 1-3.
-\doi{10.1175/1520-0493(1950)078<0001:VOFEIT>2.0.CO;2}
+\section{Meta Information}{
 
-Graf, E., Schmoor, C., Sauerbrei, W. and Schumacher, M. (1999).
-Assessment and comparison of prognostic classification schemes for survival data.
-Statistics in Medicine, 18(17), 2529-2545.
+\itemize{
+\item Type: \code{"surv"}
+\item Range: \eqn{[0, \infty)}{[0, Inf)}
+\item Minimize: \code{TRUE}
+\item Required prediction: \code{distr}
+}
+}
+
+\references{
+Graf, E., Schmoor, C., Sauerbrei, W. and Schumacher, M. (1999).\cr
+Assessment and comparison of prognostic classification schemes for survival data.\cr
+Statistics in Medicine, 18(17), 2529-2545.\cr
 \doi{10.1002/(SICI)1097-0258(19990915/30)18:17/18<2529::AID-SIM274>3.0.CO;2-5}
 }
 \seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Measure]{Measures}: \link[mlr3:mlr_measures]{mlr3::mlr_measures}
+Other survival measures: 
+\code{\link{MeasureSurvBeggC}},
+\code{\link{MeasureSurvChamblessAUC}},
+\code{\link{MeasureSurvGonenC}},
+\code{\link{MeasureSurvGrafSE}},
+\code{\link{MeasureSurvHarrellC}},
+\code{\link{MeasureSurvHungAUC}},
+\code{\link{MeasureSurvLoglossIntSE}},
+\code{\link{MeasureSurvLoglossInt}},
+\code{\link{MeasureSurvLoglossSE}},
+\code{\link{MeasureSurvLogloss}},
+\code{\link{MeasureSurvNagelkR2}},
+\code{\link{MeasureSurvOQuigleyR2}},
+\code{\link{MeasureSurvSongAUC}},
+\code{\link{MeasureSurvSongTNR}},
+\code{\link{MeasureSurvSongTPR}},
+\code{\link{MeasureSurvUnoAUC}},
+\code{\link{MeasureSurvUnoC}},
+\code{\link{MeasureSurvUnoTNR}},
+\code{\link{MeasureSurvUnoTPR}},
+\code{\link{MeasureSurvXuR2}}
+
+Other Probabilistic survival measures: 
+\code{\link{MeasureSurvGrafSE}},
+\code{\link{MeasureSurvLoglossIntSE}},
+\code{\link{MeasureSurvLoglossInt}},
+\code{\link{MeasureSurvLoglossSE}},
+\code{\link{MeasureSurvLogloss}}
 }
+\concept{Probabilistic survival measures}
+\concept{survival measures}

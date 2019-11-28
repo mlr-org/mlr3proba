@@ -2,28 +2,73 @@
 % Please edit documentation in R/MeasureSurvUnoAUC.R
 \name{MeasureSurvUnoAUC}
 \alias{MeasureSurvUnoAUC}
-\alias{mlr_measures_surv.unoAUC}
-\title{Uno's AUC}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurv}.}
+\alias{mlr_measures_.surv.unoAUC}
+\title{Uno's AUC Survival Measure}
+\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurvAUC}/\link{MeasureSurv}.}
 \description{
+
+
 Calls \code{\link[survAUC:AUC.uno]{survAUC::AUC.uno()}}.
-}
-\details{
-Requires \code{lp} \code{predict_type}. \cr
+
 Assumes random censoring.
 }
 \section{Construction}{
-\preformatted{MeasureSurvUnoAUC$new()
+\preformatted{MeasureSurvUnoC$new(integrated = TRUE, times)
 mlr_measures$get("surv.unoAUC")
 msr("surv.unoAUC")
+}
+\itemize{
+\item \code{integrated} :: \code{logical(1)} \cr If \code{TRUE} (default), returns the integrated AUC, otherwise returns the AUC corresponding to the \code{times} argument. \cr
+\item \code{times} :: \code{vector()} \cr Numeric vector of times where to evaluate the score (provide only one for best performance). If missing then returns score at all unique time-points in test set. \cr
+}
+}
+
+\section{Meta Information}{
+
+\itemize{
+\item Type: \code{"surv"}
+\item Range: \eqn{[0, 1]}{[0, 1]}
+\item Minimize: \code{FALSE}
+\item Required prediction: \code{crank}
 }
 }
 
 \references{
-Uno, H., T. Cai, L. Tian, and L. J. Wei (2007).
-Evaluating prediction rules for t-year survivors with censored regression models.
+Uno, H., T. Cai, L. Tian, and L. J. Wei (2007).\cr
+Evaluating prediction rules for t-year survivors with censored regression models.\cr
 Journal of the American Statistical Association 102, 527–537.
 }
 \seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Measure]{Measures}: \link[mlr3:mlr_measures]{mlr3::mlr_measures}
+Other survival measures: 
+\code{\link{MeasureSurvBeggC}},
+\code{\link{MeasureSurvChamblessAUC}},
+\code{\link{MeasureSurvGonenC}},
+\code{\link{MeasureSurvGrafSE}},
+\code{\link{MeasureSurvGraf}},
+\code{\link{MeasureSurvHarrellC}},
+\code{\link{MeasureSurvHungAUC}},
+\code{\link{MeasureSurvLoglossIntSE}},
+\code{\link{MeasureSurvLoglossInt}},
+\code{\link{MeasureSurvLoglossSE}},
+\code{\link{MeasureSurvLogloss}},
+\code{\link{MeasureSurvNagelkR2}},
+\code{\link{MeasureSurvOQuigleyR2}},
+\code{\link{MeasureSurvSongAUC}},
+\code{\link{MeasureSurvSongTNR}},
+\code{\link{MeasureSurvSongTPR}},
+\code{\link{MeasureSurvUnoC}},
+\code{\link{MeasureSurvUnoTNR}},
+\code{\link{MeasureSurvUnoTPR}},
+\code{\link{MeasureSurvXuR2}}
+
+Other AUC survival measures: 
+\code{\link{MeasureSurvChamblessAUC}},
+\code{\link{MeasureSurvHungAUC}},
+\code{\link{MeasureSurvSongAUC}},
+\code{\link{MeasureSurvSongTNR}},
+\code{\link{MeasureSurvSongTPR}},
+\code{\link{MeasureSurvUnoTNR}},
+\code{\link{MeasureSurvUnoTPR}}
 }
+\concept{AUC survival measures}
+\concept{survival measures}

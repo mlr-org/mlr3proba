@@ -1,33 +1,22 @@
-#' @title Graf Score
-#'
-#' @usage NULL
-#' @aliases mlr_measures_surv.grafSE
-#' @format [R6::R6Class()] inheriting from [MeasureSurv].
-#' @include MeasureSurv.R
-#'
-#' @section Construction:
-#' ```
-#' MeasureSurvGrafSE$new()
-#' mlr_measures$get("surv.grafSE")
-#' msr("surv.grafSE")
-#' ```
-#'
+#' @template surv_measure
+#' @templateVar title Standard Error of Integrated Graf Score
+#' @templateVar inherit [MeasureSurv]
+#' @templateVar fullname MeasureSurvGrafSE
+#' @templateVar shortname surv.grafSE
 #' @description
 #' Calculates the standard error of [MeasureSurvGraf].
 #'
-#' @references
-#' Graf, G. (1950).
-#' Verification of forecasts expressed in terms of probability.
-#' Monthly Weather Review, 78(1), 1-3.
-#' \doi{10.1175/1520-0493(1950)078<0001:VOFEIT>2.0.CO;2}
+#' The standard error is approximated using Binomial approxiation. For \eqn{N} observations in the
+#' test set, the standard eror is given by
+#' \deqn{IGS_SE = sd(IGS(S))/sqrt(N)}
 #'
-#' Graf, E., Schmoor, C., Sauerbrei, W. and Schumacher, M. (1999).
-#' Assessment and comparison of prognostic classification schemes for survival data.
-#' Statistics in Medicine, 18(17), 2529-2545.
+#' @references
+#' Graf, E., Schmoor, C., Sauerbrei, W. and Schumacher, M. (1999).\cr
+#' Assessment and comparison of prognostic classification schemes for survival data.\cr
+#' Statistics in Medicine, 18(17), 2529-2545.\cr
 #' \doi{10.1002/(SICI)1097-0258(19990915/30)18:17/18<2529::AID-SIM274>3.0.CO;2-5}
 #'
-#'
-#' @template seealso_measure
+#' @family Probabilistic survival measures
 #' @export
 MeasureSurvGrafSE = R6::R6Class("MeasureSurvGrafSE",
   inherit = MeasureSurv,

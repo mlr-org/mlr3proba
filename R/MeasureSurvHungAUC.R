@@ -1,30 +1,23 @@
-#' @title Hung and Chiang's AUC
-#'
-#' @usage NULL
-#' @aliases mlr_measures_surv.hungAUC
-#' @format [R6::R6Class()] inheriting from [MeasureSurv].
-#' @include MeasureSurv.R
-#'
-#' @section Construction:
-#' ```
-#' MeasureSurvHungAUC$new()
-#' mlr_measures$get("surv.hungAUC")
-#' msr("surv.hungAUC")
-#' ```
+#' @template surv_measure
+#' @templateVar title Hung and Chiang's AUC
+#' @templateVar inherit [MeasureSurvAUC]/[MeasureSurv]
+#' @templateVar fullname MeasureSurvHungAUC
+#' @templateVar shortname surv.hungAUC
+#' @templateVar pars integrated = TRUE, times
+#' @templateVar int_par TRUE
+#' @templateVar times_par TRUE
 #'
 #' @description
 #' Calls [survAUC::AUC.hc()].
 #'
-#' @details
-#' Requires `lp` `predict_type`. \cr
 #' Assumes random censoring.
 #'
 #' @references
-#' Hung, H. and C.-T. Chiang (2010).
-#' Estimation methods for time-dependent AUC models with survival data.
+#' Hung, H. and C.-T. Chiang (2010).\cr
+#' Estimation methods for time-dependent AUC models with survival data.\cr
 #' Canadian Journal of Statistics 38, 8–26.
 #'
-#' @template seealso_measure
+#' @family AUC survival measures
 #' @export
 MeasureSurvHungAUC = R6Class("MeasureSurvHungAUC",
   inherit = MeasureSurvAUC,

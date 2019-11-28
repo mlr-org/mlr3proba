@@ -1,30 +1,19 @@
-#' @title Nagelkerke's R2 Coefficient
-#'
-#' @usage NULL
-#' @aliases mlr_measures_surv.nagelkR2
-#' @format [R6::R6Class()] inheriting from [MeasureSurv].
-#' @include MeasureSurv.R
-#'
-#' @section Construction:
-#' ```
-#' MeasureSurvNagelkR2$new()
-#' mlr_measures$get("surv.nagelkR2")
-#' msr("surv.nagelkR2")
-#' ```
-#'
+#' @template surv_measure
+#' @templateVar title Nagelkerke's R2
+#' @templateVar inherit [MeasureSurv]
+#' @templateVar fullname MeasureSurvNagelkR2
+#' @templateVar shortname surv.nagelkR2
 #' @description
 #' Calls [survAUC::Nagelk()].
 #'
-#' @details
-#' Requires `lp` `predict_type`. \cr
 #' Assumes Cox PH model specification.
 #'
 #' @references
-#' Nagelkerke, N. J. D. (1991).
-#' A note on a general definition of the coefficient of determination.
+#' Nagelkerke, N. J. D. (1991). \cr
+#' A note on a general definition of the coefficient of determination. \cr
 #' Biometrika 78, 691–692.
 #'
-#' @template seealso_measure
+#' @family R2 survival measures
 #' @export
 MeasureSurvNagelkR2 = R6Class("MeasureSurvNagelkR2",
   inherit = MeasureSurv,

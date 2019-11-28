@@ -1,30 +1,20 @@
-#' @title Begg's C-Index
-#'
-#' @usage NULL
-#' @aliases mlr_measures_surv.beggC
-#' @format [R6::R6Class()] inheriting from [MeasureSurv].
-#' @include MeasureSurv.R
-#'
-#' @section Construction:
-#' ```
-#' MeasureSurvBeggC$new()
-#' mlr_measures$get("surv.beggC")
-#' msr("surv.beggC")
-#' ```
+#' @template surv_measure
+#' @templateVar title Begg's C-Index
+#' @templateVar inherit [MeasureSurv]
+#' @templateVar fullname MeasureSurvBeggC
+#' @templateVar shortname surv.beggC
 #'
 #' @description
 #' Calls [survAUC::BeggC()].
 #'
-#' @details
-#' Requires `lp` `predict_type`. \cr
 #' Assumes Cox PH model specification.
 #'
 #' @references
-#' Begg, B. C., L. D. Craemer, E. S. Venkatraman and J. Rosai (2000).
-#' Comparing tumor staging and grading systems: a case study and a review of the issues, using thymoma as a model.
+#' Begg, B. C., L. D. Craemer, E. S. Venkatraman and J. Rosai (2000).\cr
+#' Comparing tumor staging and grading systems: a case study and a review of the issues, using thymoma as a model.\cr
 #' Statistics in Medicine 19, 1997–2014.
 #'
-#' @template seealso_measure
+#' @family Concordance survival measures
 #' @export
 MeasureSurvBeggC = R6Class("MeasureSurvBeggC",
   inherit = MeasureSurv,

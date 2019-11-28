@@ -1,30 +1,19 @@
-#' @title Xu and O'Quigley's R2 Coefficient
-#'
-#' @usage NULL
-#' @aliases mlr_measures_surv.xuR2
-#' @format [R6::R6Class()] inheriting from [MeasureSurv].
-#' @include MeasureSurv.R
-#'
-#' @section Construction:
-#' ```
-#' MeasureSurvXuR2$new()
-#' mlr_measures$get("surv.xuR2")
-#' msr("surv.xuR2")
-#' ```
-#'
+#' @template surv_measure
+#' @templateVar title Xu and O'Quigley's R2
+#' @templateVar inherit [MeasureSurv]
+#' @templateVar fullname MeasureSurvXuR2
+#' @templateVar shortname surv.xuR2
 #' @description
 #' Calls [survAUC::XO()].
 #'
-#' @details
-#' Requires `lp` `predict_type`. \cr
 #' Assumes Cox PH model specification.
 #'
 #' @references
-#' Xu, R. and J. O'Quigley (1999).
-#' A measure of dependence for proportional hazards models.
-#' Journal of Nonparametric Statistics 12, 83–107.
+#' Xu, R. and J. O'Quigley (1999).\cr
+#' A measure of dependence for proportional hazards models.\cr
+#' Journal of Nonparametric Statistics 12, 83–107.\cr
 #'
-#' @template seealso_measure
+#' @family R2 survival measures
 #' @export
 MeasureSurvXuR2 = R6Class("MeasureSurvXuR2",
   inherit = MeasureSurv,

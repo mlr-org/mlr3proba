@@ -1,25 +1,16 @@
-#' @title Logloss
-#'
-#' @usage NULL
-#' @aliases mlr_measures_surv.logloss
-#' @format [R6::R6Class()] inheriting from [MeasureSurv].
-#' @include MeasureSurv.R
-#'
-#' @section Construction:
-#' ```
-#' MeasureSurvLogloss$new()
-#' mlr_measures$get("surv.logloss")
-#' msr("surv.logloss")
-#' ```
-#'
+#' @template surv_measure
+#' @templateVar title Log loss
+#' @templateVar inherit [MeasureSurv]
+#' @templateVar fullname MeasureSurvLogloss
+#' @templateVar shortname surv.logloss
 #' @description
-#' Calculates the cross-entropy, or logarithmic, loss.
+#' Calculates the cross-entropy, or logarithmic (log), loss.
 #'
-#' @details
 #' The logloss, in the context of probabilistic predictions, is defined as the negative log-likelihood
-#' evaluated at the observed death-time.
+#' evaluated at the observed death-time,
+#' \deqn{L(f, t) = -log(f(t))}
 #'
-#' @template seealso_measure
+#' @family Probabilistic survival measures
 #' @export
 MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
   inherit = MeasureSurv,

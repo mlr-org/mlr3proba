@@ -2,14 +2,14 @@
 % Please edit documentation in R/MeasureSurvGonenHellersC.R
 \name{MeasureSurvGonenC}
 \alias{MeasureSurvGonenC}
-\alias{mlr_measures_surv.gonenC}
-\title{Gonen and Heller's C-Index}
+\alias{mlr_measures_.surv.gonenC}
+\title{Gonen and Heller's C-Index Survival Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurv}.}
 \description{
+
+
 Calls \code{\link[survAUC:GHCI]{survAUC::GHCI()}}.
-}
-\details{
-Requires \code{lp} \code{predict_type}. \cr
+
 Assumes Cox PH model specification.
 }
 \section{Construction}{
@@ -19,11 +19,48 @@ msr("surv.gonenC")
 }
 }
 
+\section{Meta Information}{
+
+\itemize{
+\item Type: \code{"surv"}
+\item Range: \eqn{[0, 1]}{[0, 1]}
+\item Minimize: \code{FALSE}
+\item Required prediction: \code{lp}
+}
+}
+
 \references{
-Gonen, M. and G. Heller (2005).
-Concordance probability and discriminatory power in proportional hazards regression.
+Gonen, M. and G. Heller (2005).\cr
+Concordance probability and discriminatory power in proportional hazards regression.\cr
 Biometrika 92, 965–970.
 }
 \seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Measure]{Measures}: \link[mlr3:mlr_measures]{mlr3::mlr_measures}
+Other survival measures: 
+\code{\link{MeasureSurvBeggC}},
+\code{\link{MeasureSurvChamblessAUC}},
+\code{\link{MeasureSurvGrafSE}},
+\code{\link{MeasureSurvGraf}},
+\code{\link{MeasureSurvHarrellC}},
+\code{\link{MeasureSurvHungAUC}},
+\code{\link{MeasureSurvLoglossIntSE}},
+\code{\link{MeasureSurvLoglossInt}},
+\code{\link{MeasureSurvLoglossSE}},
+\code{\link{MeasureSurvLogloss}},
+\code{\link{MeasureSurvNagelkR2}},
+\code{\link{MeasureSurvOQuigleyR2}},
+\code{\link{MeasureSurvSongAUC}},
+\code{\link{MeasureSurvSongTNR}},
+\code{\link{MeasureSurvSongTPR}},
+\code{\link{MeasureSurvUnoAUC}},
+\code{\link{MeasureSurvUnoC}},
+\code{\link{MeasureSurvUnoTNR}},
+\code{\link{MeasureSurvUnoTPR}},
+\code{\link{MeasureSurvXuR2}}
+
+Other Concordance survival measures: 
+\code{\link{MeasureSurvBeggC}},
+\code{\link{MeasureSurvHarrellC}},
+\code{\link{MeasureSurvUnoC}}
 }
+\concept{Concordance survival measures}
+\concept{survival measures}

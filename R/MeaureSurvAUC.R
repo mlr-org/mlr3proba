@@ -1,7 +1,18 @@
+#' @title Abstract Class for AUC-type Survival Measures
+#' @description This class is abstract and should not be constructed directly.
+#' @format [R6::R6Class()] inheriting from [MeasureSurv].
+#' @section Fields:
+#' See [MeasureSurv] as well as
+#' * integrated :: logical(1) \cr Should the integrated AUC be returned?
+#' * times :: numeric() \cr Either the times over which to integrate the AUC or time-points for which (non-integrated) AUC should be returned.
+#' @export
 MeasureSurvAUC = R6Class("MeasureSurvAUC",
   inherit = MeasureSurv,
   public = list(
     initialize = function(integrated = TRUE, times, id, properties) {
+      if(class(self)[[1]] == "MeasureSurvAUC")
+        stop("This is an abstract class that should not be constructed directly.")
+
       super$initialize(
         id = id,
         range = 0:1,

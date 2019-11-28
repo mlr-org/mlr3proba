@@ -1,30 +1,23 @@
-#' @title Chambless and Diao's AUC
-#'
-#' @usage NULL
-#' @aliases mlr_measures_surv.chamblessAUC
-#' @format [R6::R6Class()] inheriting from [MeasureSurv].
-#' @include MeasureSurv.R
-#'
-#' @section Construction:
-#' ```
-#' MeasureSurvChamblessAUC$new()
-#' mlr_measures$get("surv.chamblessAUC")
-#' msr("surv.chamblessAUC")
-#' ```
+#' @template surv_measure
+#' @templateVar title Chambless and Diao's AUC
+#' @templateVar inherit [MeasureSurvAUC]/[MeasureSurv]
+#' @templateVar fullname MeasureSurvChamblessAUC
+#' @templateVar shortname surv.chamblessAUC
+#' @templateVar pars integrated = TRUE, times
+#' @templateVar int_par TRUE
+#' @templateVar times_par TRUE
 #'
 #' @description
 #' Calls [survAUC::AUC.cd()].
 #'
-#' @details
-#' Requires `lp` `predict_type`. \cr
 #' Assumes Cox PH model specification.
 #'
 #' @references
-#' Chambless, L. E. and G. Diao (2006).
-#' Estimation of time-dependent area under the ROC curve for long-term risk prediction.
+#' Chambless, L. E. and G. Diao (2006).\cr
+#' Estimation of time-dependent area under the ROC curve for long-term risk prediction.\cr
 #' Statistics in Medicine 25, 3474–3486.
 #'
-#' @template seealso_measure
+#' @family AUC survival measures
 #' @export
 MeasureSurvChamblessAUC = R6Class("MeasureSurvChamblessAUC",
   inherit = MeasureSurvAUC,

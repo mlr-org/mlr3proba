@@ -2,15 +2,17 @@
 % Please edit documentation in R/MeasureSurvLogloss.R
 \name{MeasureSurvLogloss}
 \alias{MeasureSurvLogloss}
-\alias{mlr_measures_surv.logloss}
-\title{Logloss}
+\alias{mlr_measures_.surv.logloss}
+\title{Log loss Survival Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurv}.}
 \description{
-Calculates the cross-entropy, or logarithmic, loss.
-}
-\details{
+
+
+Calculates the cross-entropy, or logarithmic (log), loss.
+
 The logloss, in the context of probabilistic predictions, is defined as the negative log-likelihood
-evaluated at the observed death-time.
+evaluated at the observed death-time,
+\deqn{L(f, t) = -log(f(t))}
 }
 \section{Construction}{
 \preformatted{MeasureSurvLogloss$new()
@@ -19,6 +21,45 @@ msr("surv.logloss")
 }
 }
 
-\seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Measure]{Measures}: \link[mlr3:mlr_measures]{mlr3::mlr_measures}
+\section{Meta Information}{
+
+\itemize{
+\item Type: \code{"surv"}
+\item Range: \eqn{[0, \infty)}{[0, Inf)}
+\item Minimize: \code{TRUE}
+\item Required prediction: \code{distr}
 }
+}
+
+\seealso{
+Other survival measures: 
+\code{\link{MeasureSurvBeggC}},
+\code{\link{MeasureSurvChamblessAUC}},
+\code{\link{MeasureSurvGonenC}},
+\code{\link{MeasureSurvGrafSE}},
+\code{\link{MeasureSurvGraf}},
+\code{\link{MeasureSurvHarrellC}},
+\code{\link{MeasureSurvHungAUC}},
+\code{\link{MeasureSurvLoglossIntSE}},
+\code{\link{MeasureSurvLoglossInt}},
+\code{\link{MeasureSurvLoglossSE}},
+\code{\link{MeasureSurvNagelkR2}},
+\code{\link{MeasureSurvOQuigleyR2}},
+\code{\link{MeasureSurvSongAUC}},
+\code{\link{MeasureSurvSongTNR}},
+\code{\link{MeasureSurvSongTPR}},
+\code{\link{MeasureSurvUnoAUC}},
+\code{\link{MeasureSurvUnoC}},
+\code{\link{MeasureSurvUnoTNR}},
+\code{\link{MeasureSurvUnoTPR}},
+\code{\link{MeasureSurvXuR2}}
+
+Other Probabilistic survival measures: 
+\code{\link{MeasureSurvGrafSE}},
+\code{\link{MeasureSurvGraf}},
+\code{\link{MeasureSurvLoglossIntSE}},
+\code{\link{MeasureSurvLoglossInt}},
+\code{\link{MeasureSurvLoglossSE}}
+}
+\concept{Probabilistic survival measures}
+\concept{survival measures}

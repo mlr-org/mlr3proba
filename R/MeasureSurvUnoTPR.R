@@ -1,30 +1,23 @@
-#' @title Uno's TPR
-#'
-#' @usage NULL
-#' @aliases mlr_measures_surv.unoTPR
-#' @format [R6::R6Class()] inheriting from [MeasureSurv].
-#' @include MeasureSurv.R
-#'
-#' @section Construction:
-#' ```
-#' MeasureSurvUnoTPR$new()
-#' mlr_measures$get("surv.unoTPR")
-#' msr("surv.unoTPR")
-#' ```
+#' @template surv_measure
+#' @templateVar title Uno's TPR
+#' @templateVar inherit [MeasureSurvAUC]/[MeasureSurv]
+#' @templateVar fullname MeasureSurvUnoTPR
+#' @templateVar shortname surv.unoTPR
+#' @templateVar pars times, lp_thresh
+#' @templateVar times_par TRUE
+#' @templateVar thresh_par TRUE
 #'
 #' @description
 #' Calls [survAUC::sens.uno()].
 #'
-#' @details
-#' Requires `lp` `predict_type`. \cr
 #' Assumes random censoring.
 #'
 #' @references
-#' Uno, H., T. Cai, L. Tian, and L. J. Wei (2007).
-#' Evaluating prediction rules for t-year survivors with censored regression models.
-#' Journal of the American Statistical Association 102, 527–537.
+#' Uno, H., T. Cai, L. Tian, and L. J. Wei (2007).\cr
+#' Evaluating prediction rules for t-year survivors with censored regression models.\cr
+#' Journal of the American Statistical Association 102, 527–537.\cr
 #'
-#' @template seealso_measure
+#' @family AUC survival measures
 #' @export
 MeasureSurvUnoTPR = R6Class("MeasureSurvUnoTPR",
   inherit = MeasureSurvAUC,

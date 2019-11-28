@@ -2,14 +2,14 @@
 % Please edit documentation in R/MeasureSurvNagelkR2.R
 \name{MeasureSurvNagelkR2}
 \alias{MeasureSurvNagelkR2}
-\alias{mlr_measures_surv.nagelkR2}
-\title{Nagelkerke's R2 Coefficient}
+\alias{mlr_measures_.surv.nagelkR2}
+\title{Nagelkerke's R2 Survival Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurv}.}
 \description{
+
+
 Calls \code{\link[survAUC:Nagelk]{survAUC::Nagelk()}}.
-}
-\details{
-Requires \code{lp} \code{predict_type}. \cr
+
 Assumes Cox PH model specification.
 }
 \section{Construction}{
@@ -19,11 +19,47 @@ msr("surv.nagelkR2")
 }
 }
 
+\section{Meta Information}{
+
+\itemize{
+\item Type: \code{"surv"}
+\item Range: \eqn{[0, 1]}{[0, 1]}
+\item Minimize: \code{FALSE}
+\item Required prediction: \code{lp}
+}
+}
+
 \references{
-Nagelkerke, N. J. D. (1991).
-A note on a general definition of the coefficient of determination.
+Nagelkerke, N. J. D. (1991). \cr
+A note on a general definition of the coefficient of determination. \cr
 Biometrika 78, 691–692.
 }
 \seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Measure]{Measures}: \link[mlr3:mlr_measures]{mlr3::mlr_measures}
+Other survival measures: 
+\code{\link{MeasureSurvBeggC}},
+\code{\link{MeasureSurvChamblessAUC}},
+\code{\link{MeasureSurvGonenC}},
+\code{\link{MeasureSurvGrafSE}},
+\code{\link{MeasureSurvGraf}},
+\code{\link{MeasureSurvHarrellC}},
+\code{\link{MeasureSurvHungAUC}},
+\code{\link{MeasureSurvLoglossIntSE}},
+\code{\link{MeasureSurvLoglossInt}},
+\code{\link{MeasureSurvLoglossSE}},
+\code{\link{MeasureSurvLogloss}},
+\code{\link{MeasureSurvOQuigleyR2}},
+\code{\link{MeasureSurvSongAUC}},
+\code{\link{MeasureSurvSongTNR}},
+\code{\link{MeasureSurvSongTPR}},
+\code{\link{MeasureSurvUnoAUC}},
+\code{\link{MeasureSurvUnoC}},
+\code{\link{MeasureSurvUnoTNR}},
+\code{\link{MeasureSurvUnoTPR}},
+\code{\link{MeasureSurvXuR2}}
+
+Other R2 survival measures: 
+\code{\link{MeasureSurvOQuigleyR2}},
+\code{\link{MeasureSurvXuR2}}
 }
+\concept{R2 survival measures}
+\concept{survival measures}

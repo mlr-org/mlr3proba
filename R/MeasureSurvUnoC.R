@@ -1,32 +1,25 @@
-#' @title Uno's C-Index
-#'
-#' @usage NULL
-#' @aliases mlr_measures_surv.unoC
-#' @format [R6::R6Class()] inheriting from [MeasureSurv].
-#' @include MeasureSurv.R
-#'
-#' @section Construction:
-#' ```
-#' MeasureSurvUnoC$new()
-#' mlr_measures$get("surv.unoC")
-#' msr("surv.unoC")
-#' ```
+#' @template surv_measure
+#' @templateVar title Uno's C-Index
+#' @templateVar inherit [MeasureSurv]
+#' @templateVar fullname MeasureSurvUnoC
+#' @templateVar shortname surv.unoC
+#' @templateVar pars times, lp_thresh
+#' @templateVar times_par TRUE
+#' @templateVar thresh_par TRUE
 #'
 #' @description
 #' Calls [survAUC::UnoC()].
 #'
-#' @details
-#' Requires `crank` `predict_type`. \cr
-#' Assumes random censoring assumption holds.
+#' Assumes random censoring.
 #'
 #' @references
-#' Uno, H., T. Cai T, M. J. Pencina, R. B. D'Agostino and W. L. Wei. (2011).
+#' Uno, H., T. Cai T, M. J. Pencina, R. B. D'Agostino and W. L. Wei. (2011). \cr
 #' On the C-statistics for evaluating overall adequacy of risk prediction procedures with censored
-#' survival data.
-#' Statistics in Medicine. 30(10): 1105–1117.
+#' survival data.\cr
+#' Statistics in Medicine. 30(10): 1105–1117.\cr
 #' \doi{10.1002/sim.4154}
 #'
-#' @template seealso_measure
+#' @family Concordance survival measures
 #' @export
 MeasureSurvUnoC = R6Class("MeasureSurvUnoC",
   inherit = MeasureSurv,

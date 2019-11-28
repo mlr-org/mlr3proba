@@ -2,14 +2,14 @@
 % Please edit documentation in R/MeasureSurvBeggC.R
 \name{MeasureSurvBeggC}
 \alias{MeasureSurvBeggC}
-\alias{mlr_measures_surv.beggC}
-\title{Begg's C-Index}
+\alias{mlr_measures_.surv.beggC}
+\title{Begg's C-Index Survival Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurv}.}
 \description{
+
+
 Calls \code{\link[survAUC:BeggC]{survAUC::BeggC()}}.
-}
-\details{
-Requires \code{lp} \code{predict_type}. \cr
+
 Assumes Cox PH model specification.
 }
 \section{Construction}{
@@ -19,11 +19,48 @@ msr("surv.beggC")
 }
 }
 
+\section{Meta Information}{
+
+\itemize{
+\item Type: \code{"surv"}
+\item Range: \eqn{[0, 1]}{[0, 1]}
+\item Minimize: \code{FALSE}
+\item Required prediction: \code{lp}
+}
+}
+
 \references{
-Begg, B. C., L. D. Craemer, E. S. Venkatraman and J. Rosai (2000).
-Comparing tumor staging and grading systems: a case study and a review of the issues, using thymoma as a model.
+Begg, B. C., L. D. Craemer, E. S. Venkatraman and J. Rosai (2000).\cr
+Comparing tumor staging and grading systems: a case study and a review of the issues, using thymoma as a model.\cr
 Statistics in Medicine 19, 1997–2014.
 }
 \seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Measure]{Measures}: \link[mlr3:mlr_measures]{mlr3::mlr_measures}
+Other survival measures: 
+\code{\link{MeasureSurvChamblessAUC}},
+\code{\link{MeasureSurvGonenC}},
+\code{\link{MeasureSurvGrafSE}},
+\code{\link{MeasureSurvGraf}},
+\code{\link{MeasureSurvHarrellC}},
+\code{\link{MeasureSurvHungAUC}},
+\code{\link{MeasureSurvLoglossIntSE}},
+\code{\link{MeasureSurvLoglossInt}},
+\code{\link{MeasureSurvLoglossSE}},
+\code{\link{MeasureSurvLogloss}},
+\code{\link{MeasureSurvNagelkR2}},
+\code{\link{MeasureSurvOQuigleyR2}},
+\code{\link{MeasureSurvSongAUC}},
+\code{\link{MeasureSurvSongTNR}},
+\code{\link{MeasureSurvSongTPR}},
+\code{\link{MeasureSurvUnoAUC}},
+\code{\link{MeasureSurvUnoC}},
+\code{\link{MeasureSurvUnoTNR}},
+\code{\link{MeasureSurvUnoTPR}},
+\code{\link{MeasureSurvXuR2}}
+
+Other Concordance survival measures: 
+\code{\link{MeasureSurvGonenC}},
+\code{\link{MeasureSurvHarrellC}},
+\code{\link{MeasureSurvUnoC}}
 }
+\concept{Concordance survival measures}
+\concept{survival measures}

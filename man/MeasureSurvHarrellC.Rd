@@ -2,14 +2,13 @@
 % Please edit documentation in R/MeasureSurvHarrellC.R
 \name{MeasureSurvHarrellC}
 \alias{MeasureSurvHarrellC}
-\alias{mlr_measures_surv.harrellC}
-\title{Harrell's C-Index}
+\alias{mlr_measures_.surv.harrellC}
+\title{Harrell's C-Index Survival Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurv}.}
 \description{
+
+
 Calculates Harrell's C, equivalent to the Fortran implementation in \CRANpkg{Hmisc}.
-}
-\details{
-Requires \code{crank} \code{predict_type}.
 }
 \section{Construction}{
 \preformatted{MeasureSurvHarrellC$new()
@@ -18,11 +17,48 @@ msr("surv.harrellC")
 }
 }
 
+\section{Meta Information}{
+
+\itemize{
+\item Type: \code{"surv"}
+\item Range: \eqn{[0, 1]}{[0, 1]}
+\item Minimize: \code{FALSE}
+\item Required prediction: \code{crank}
+}
+}
+
 \references{
-Harrell, F. E., R. M. Califf, D. B. Pryor, K. L. Lee and R. A. Rosati (1982).
-Evaluating the yield of medical tests.
+Harrell, F. E., R. M. Califf, D. B. Pryor, K. L. Lee and R. A. Rosati (1982).\cr
+Evaluating the yield of medical tests.\cr
 Journal of the American Medical Association. 247. 2543–2546.
 }
 \seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Measure]{Measures}: \link[mlr3:mlr_measures]{mlr3::mlr_measures}
+Other survival measures: 
+\code{\link{MeasureSurvBeggC}},
+\code{\link{MeasureSurvChamblessAUC}},
+\code{\link{MeasureSurvGonenC}},
+\code{\link{MeasureSurvGrafSE}},
+\code{\link{MeasureSurvGraf}},
+\code{\link{MeasureSurvHungAUC}},
+\code{\link{MeasureSurvLoglossIntSE}},
+\code{\link{MeasureSurvLoglossInt}},
+\code{\link{MeasureSurvLoglossSE}},
+\code{\link{MeasureSurvLogloss}},
+\code{\link{MeasureSurvNagelkR2}},
+\code{\link{MeasureSurvOQuigleyR2}},
+\code{\link{MeasureSurvSongAUC}},
+\code{\link{MeasureSurvSongTNR}},
+\code{\link{MeasureSurvSongTPR}},
+\code{\link{MeasureSurvUnoAUC}},
+\code{\link{MeasureSurvUnoC}},
+\code{\link{MeasureSurvUnoTNR}},
+\code{\link{MeasureSurvUnoTPR}},
+\code{\link{MeasureSurvXuR2}}
+
+Other Concordance survival measures: 
+\code{\link{MeasureSurvBeggC}},
+\code{\link{MeasureSurvGonenC}},
+\code{\link{MeasureSurvUnoC}}
 }
+\concept{Concordance survival measures}
+\concept{survival measures}

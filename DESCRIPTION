@@ -121,6 +121,7 @@ Collate:
     'check_subsetpattern.R'
     'crankcompositor.R'
     'distrcompositor.R'
+    'helpers.R'
     'integrated_scores.R'
     'predict_survreg.R'
     'surv_logloss.R'
