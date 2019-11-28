@@ -1,15 +1,15 @@
 #' @title Gonen and Heller's C-Index
 #'
 #' @usage NULL
-#' @aliases mlr_measures_surv.gonensC
+#' @aliases mlr_measures_surv.gonenC
 #' @format [R6::R6Class()] inheriting from [MeasureSurv].
 #' @include MeasureSurv.R
 #'
 #' @section Construction:
 #' ```
-#' MeasureSurvGonensC$new()
-#' mlr_measures$get("surv.gonensC")
-#' msr("surv.gonensC")
+#' MeasureSurvGonenC$new()
+#' mlr_measures$get("surv.gonenC")
+#' msr("surv.gonenC")
 #' ```
 #'
 #' @description
@@ -26,12 +26,12 @@
 #'
 #' @template seealso_measure
 #' @export
-MeasureSurvGonensC = R6Class("MeasureSurvGonensC",
+MeasureSurvGonenC = R6Class("MeasureSurvGonenC",
   inherit = MeasureSurv,
   public = list(
     initialize = function() {
       super$initialize(
-        id = "surv.gonensC",
+        id = "surv.gonenC",
         range = 0:1,
         minimize = FALSE,
         packages = "survAUC",

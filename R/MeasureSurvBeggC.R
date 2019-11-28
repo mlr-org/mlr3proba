@@ -1,15 +1,15 @@
 #' @title Begg's C-Index
 #'
 #' @usage NULL
-#' @aliases mlr_measures_surv.beggsC
+#' @aliases mlr_measures_surv.beggC
 #' @format [R6::R6Class()] inheriting from [MeasureSurv].
 #' @include MeasureSurv.R
 #'
 #' @section Construction:
 #' ```
-#' MeasureSurvBeggsC$new()
-#' mlr_measures$get("surv.beggsC")
-#' msr("surv.beggsC")
+#' MeasureSurvBeggC$new()
+#' mlr_measures$get("surv.beggC")
+#' msr("surv.beggC")
 #' ```
 #'
 #' @description
@@ -26,12 +26,12 @@
 #'
 #' @template seealso_measure
 #' @export
-MeasureSurvBeggsC = R6Class("MeasureSurvBeggsC",
+MeasureSurvBeggC = R6Class("MeasureSurvBeggC",
   inherit = MeasureSurv,
   public = list(
     initialize = function() {
       super$initialize(
-        id = "surv.beggsC",
+        id = "surv.beggC",
         range = 0:1,
         minimize = FALSE,
         packages = "survAUC",

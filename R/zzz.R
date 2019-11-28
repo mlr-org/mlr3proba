@@ -28,7 +28,7 @@ register_mlr3 = function() {
     x$learner_predict_types$surv = list(crank = c("crank","lp","distr"),
                                         distr = c("crank","lp","distr"),
                                         lp = c("crank","lp","distr"))
-    x$default_measures$surv = "surv.harrellsC"
+    x$default_measures$surv = "surv.harrellC"
   }
 
   # tasks
@@ -72,17 +72,31 @@ register_mlr3 = function() {
    # x$add("regr.logloss", MeasureRegrLogloss)
    x$add("surv.graf", MeasureSurvGraf)
    x$add("surv.grafSE", MeasureSurvGrafSE)
+
    x$add("surv.logloss", MeasureSurvLogloss)
    x$add("surv.loglossSE", MeasureSurvLoglossSE)
    x$add("surv.loglossint", MeasureSurvLoglossInt)
    x$add("surv.loglossintSE", MeasureSurvLoglossIntSE)
-   x$add("surv.unosC", MeasureSurvUnosC)
-   x$add("surv.harrellsC", MeasureSurvHarrellsC)
-   x$add("surv.gonensC", MeasureSurvGonensC)
-   x$add("surv.beggsC", MeasureSurvBeggsC)
-   x$add("surv.nagelksR2", MeasureSurvNagelksR2)
-   x$add("surv.oquigleysR2", MeasureSurvOQuigleysR2)
-   x$add("surv.xusR2", MeasureSurvXusR2)
+
+   x$add("surv.unoC", MeasureSurvUnoC)
+   x$add("surv.harrellC", MeasureSurvHarrellC)
+   x$add("surv.gonenC", MeasureSurvGonenC)
+   x$add("surv.beggC", MeasureSurvBeggC)
+
+   x$add("surv.nagelkR2", MeasureSurvNagelkR2)
+   x$add("surv.oquigleyR2", MeasureSurvOQuigleyR2)
+   x$add("surv.xuR2", MeasureSurvXuR2)
+
+   x$add("surv.chamblessAUC", MeasureSurvChamblessAUC)
+   x$add("surv.hungAUC", MeasureSurvHungAUC)
+   x$add("surv.unoAUC", MeasureSurvUnoAUC)
+   x$add("surv.songAUC", MeasureSurvSongAUC)
+
+   x$add("surv.unoTPR", MeasureSurvUnoTPR)
+   x$add("surv.songTPR", MeasureSurvSongTPR)
+
+   x$add("surv.unoTNR", MeasureSurvUnoTNR)
+   x$add("surv.songTNR", MeasureSurvSongTNR)
 }
 register_mlr3pipelines = function(){
    x = utils::getFromNamespace("mlr_pipeops", ns = "mlr3pipelines")

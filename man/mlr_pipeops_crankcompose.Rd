@@ -83,6 +83,8 @@ learn = lrn("surv.coxph")$train(task)$predict(task)
 poc = po("crankcompose", param_vals = list(method = "mean", overwrite = TRUE))
 poc$predict(list(learn))
 
+# Examples not run due to long run-time.
+\dontrun{
 # Method 2 - Create a graph manually
 gr = Graph$new()$
   add_pipeop(po("learner", lrn("surv.ranger")))$
@@ -95,6 +97,7 @@ gr$predict(task)
 ranger.crank = crankcompositor(learner = lrn("surv.ranger"),
                             method = "median")
 resample(task, ranger.crank, rsmp("cv", folds = 2))$predictions()
+}
 }
 \seealso{
 \link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp} and \link{crankcompositor}

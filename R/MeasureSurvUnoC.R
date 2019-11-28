@@ -1,15 +1,15 @@
 #' @title Uno's C-Index
 #'
 #' @usage NULL
-#' @aliases mlr_measures_surv.unosC
+#' @aliases mlr_measures_surv.unoC
 #' @format [R6::R6Class()] inheriting from [MeasureSurv].
 #' @include MeasureSurv.R
 #'
 #' @section Construction:
 #' ```
-#' MeasureSurvUnosC$new()
-#' mlr_measures$get("surv.unosC")
-#' msr("surv.unosC")
+#' MeasureSurvUnoC$new()
+#' mlr_measures$get("surv.unoC")
+#' msr("surv.unoC")
 #' ```
 #'
 #' @description
@@ -28,12 +28,12 @@
 #'
 #' @template seealso_measure
 #' @export
-MeasureSurvUnosC = R6Class("MeasureSurvUnosC",
+MeasureSurvUnoC = R6Class("MeasureSurvUnoC",
   inherit = MeasureSurv,
   public = list(
     initialize = function() {
       super$initialize(
-        id = "surv.unosC",
+        id = "surv.unoC",
         range = 0:1,
         minimize = FALSE,
         packages = "survAUC",

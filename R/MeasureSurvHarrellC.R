@@ -1,15 +1,15 @@
 #' @title Harrell's C-Index
 #'
 #' @usage NULL
-#' @aliases mlr_measures_surv.harrellsC
+#' @aliases mlr_measures_surv.harrellC
 #' @format [R6::R6Class()] inheriting from [MeasureSurv].
 #' @include MeasureSurv.R
 #'
 #' @section Construction:
 #' ```
-#' MeasureSurvHarrellsC$new()
-#' mlr_measures$get("surv.harrellsC")
-#' msr("surv.harrellsC")
+#' MeasureSurvHarrellC$new()
+#' mlr_measures$get("surv.harrellC")
+#' msr("surv.harrellC")
 #' ```
 #'
 #' @description
@@ -25,12 +25,12 @@
 #'
 #' @template seealso_measure
 #' @export
-MeasureSurvHarrellsC = R6Class("MeasureSurvHarrellsC",
+MeasureSurvHarrellC = R6Class("MeasureSurvHarrellC",
   inherit = MeasureSurv,
   public = list(
     initialize = function() {
       super$initialize(
-        id = "surv.harrellsC",
+        id = "surv.harrellC",
         range = 0:1,
         minimize = FALSE,
         predict_type = "crank"

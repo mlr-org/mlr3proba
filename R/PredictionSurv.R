@@ -27,7 +27,7 @@
 #'   Vector of continuous ranks. One element for each observation in the test set.
 #'   For a pair of continuous ranks, a higher rank indicates that observation is more likely to experience
 #'   the event.
-#'   Used in discrimination measures like [surv.harrellsC][mlr_measures_surv.harrellsC].
+#'   Used in discrimination measures like [surv.harrellC][mlr_measures_surv.harrellC].
 #'
 #' * `lp` :: `numeric()`\cr
 #'   Vector of linear predictor scores. One element for each observation in the test set.

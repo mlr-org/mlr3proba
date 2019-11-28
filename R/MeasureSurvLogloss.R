@@ -39,8 +39,10 @@ MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
 
     score_internal = function(prediction, ...) {
       mean(surv_logloss(prediction$truth, prediction$distr, self$eps))
-    },
+    }
+  ),
 
+  active = list(
     eps = function(eps){
       if(is.missing(eps))
         return(private$.eps)

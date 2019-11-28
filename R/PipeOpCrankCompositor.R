@@ -69,6 +69,8 @@
 #' poc = po("crankcompose", param_vals = list(method = "mean", overwrite = TRUE))
 #' poc$predict(list(learn))
 #'
+#' # Examples not run due to long run-time.
+#' \dontrun{
 #' # Method 2 - Create a graph manually
 #' gr = Graph$new()$
 #'   add_pipeop(po("learner", lrn("surv.ranger")))$
@@ -81,6 +83,7 @@
 #' ranger.crank = crankcompositor(learner = lrn("surv.ranger"),
 #'                             method = "median")
 #' resample(task, ranger.crank, rsmp("cv", folds = 2))$predictions()
+#' }
 PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
   inherit = PipeOp,
   public = list(

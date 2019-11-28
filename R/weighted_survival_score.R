@@ -11,7 +11,7 @@ weighted_survival_score = function(truth, distribution, loss,...){
   alive = apply(alive, 2, as.numeric)
 
   # calculated unweighted loss
-  score = loss(alive = alive, distribution = distribution,...)
+  score = loss(alive = alive, distribution = distribution, unique_times = unique_times, ...)
 
   # To account for censoring the score is weighted according to each individuals contribution to
   # censoring. If an individual is censored they don't contribute to score but contribute
@@ -29,7 +29,7 @@ weighted_survival_score = function(truth, distribution, loss,...){
   weights_mat = weights_mat + (alive * unique_times_mat) + ((1 - alive) * obs_times_mat)
 
   # Find the Kaplan-Meier estimate of the censoring distribution, save as distr6 object
-  cens_dist = survfit(Surv(time, event) ~ 1, data = data.frame(time = truth[,1], event = 1-truth[,2]))
+  cens_dist = survival::survfit(Surv(time, event) ~ 1, data = data.frame(time = truth[,1], event = 1-truth[,2]))
   cens_dist = distr6::WeightedDiscrete$new(data.frame(x = cens_dist$time, cdf = 1 - cens_dist$surv),
                                            decorators = "ExoticStatistics")
 

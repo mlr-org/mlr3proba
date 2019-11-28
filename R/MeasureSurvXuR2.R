@@ -1,37 +1,37 @@
-#' @title Nagelkerke's R2 Coefficient
+#' @title Xu and O'Quigley's R2 Coefficient
 #'
 #' @usage NULL
-#' @aliases mlr_measures_surv.nagelksR2
+#' @aliases mlr_measures_surv.xuR2
 #' @format [R6::R6Class()] inheriting from [MeasureSurv].
 #' @include MeasureSurv.R
 #'
 #' @section Construction:
 #' ```
-#' MeasureSurvNagelksR2$new()
-#' mlr_measures$get("surv.nagelksR2")
-#' msr("surv.nagelksR2")
+#' MeasureSurvXuR2$new()
+#' mlr_measures$get("surv.xuR2")
+#' msr("surv.xuR2")
 #' ```
 #'
 #' @description
-#' Calls [survAUC::Nagelk()].
+#' Calls [survAUC::XO()].
 #'
 #' @details
 #' Requires `lp` `predict_type`. \cr
 #' Assumes Cox PH model specification.
 #'
 #' @references
-#' Nagelkerke, N. J. D. (1991).
-#' A note on a general definition of the coefficient of determination.
-#' Biometrika 78, 691–692.
+#' Xu, R. and J. O'Quigley (1999).
+#' A measure of dependence for proportional hazards models.
+#' Journal of Nonparametric Statistics 12, 83–107.
 #'
 #' @template seealso_measure
 #' @export
-MeasureSurvNagelksR2 = R6Class("MeasureSurvNagelksR2",
+MeasureSurvXuR2 = R6Class("MeasureSurvXuR2",
   inherit = MeasureSurv,
   public = list(
     initialize = function() {
       super$initialize(
-        id = "surv.nagelksR2",
+        id = "surv.xuR2",
         range = 0:1,
         minimize = FALSE,
         packages = "survAUC",
@@ -43,7 +43,7 @@ MeasureSurvNagelksR2 = R6Class("MeasureSurvNagelksR2",
     score_internal = function(prediction, task, train_set, ...) {
       surv_train = task$truth(train_set)
 
-      survAUC::Nagelk(surv_train, prediction$lp, rep(0, length(prediction$lp)))
+      survAUC::XO(surv_train, prediction$lp, rep(0, length(prediction$lp)))
     }
   )
 )
