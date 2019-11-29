@@ -2,21 +2,17 @@
 #' @template surv_learner
 #' @templateVar title Flexible Parametric Spline
 #' @templateVar fullname LearnerSurvFlexible
-#' @templateVar caller [survival::survreg()]
+#' @templateVar caller [flexsurv::flexsurvspline()]
 #' @templateVar distr by using an internally defined `predict` method, see details.
 #' @templateVar lp by using an internally defined `predict` method, see details.
 #'
 #' @details
-#' The predict method is based on [flexsurv::summary.flexsurvreg()] but is quicker and more
-#' efficient for adapting the return type to be compatible with \CRANpkg{distr6}. A large amount of the
-#' predict method is copied from [flexsurv::summary.flexsurvreg()] and credit goes to Christopher Jackson
-#' for creating/maintaining \CRANpkg{flexsurv}.
+#' The `distr` prediction is estimated using the fitted custom distributions from [flexsurv::flexsurvspline()]
+#' and the estimated coefficients.
 #'
-#' `lp` is predicted using the formula \eqn{lp = X\beta} where \eqn{X} are the variables in the test data set
-#' and \eqn{\beta} are the fitted coefficients.
-#'
-#' `distr` is predicted using the formula derived in [flexsurv::flexsurvspline()] and combined with parameters
-#' defined in [flexsurv::summary.flexsurvreg()].
+#' As flexible spline models estimate the hazard as the intercept, the linear predictor, `lp`, can be
+#' calculated as in the classical setting. i.e. For fitted coefficients, \eqn{\beta = (\beta0,...,\betaP)},
+#' and covariates \eqn{X^T = (X0,...,XP)^T}, where \eqn{X0} is a column of \eqn{1}s: \eqn{lp = \betaX}.
 #'
 #' @references
 #' Royston, P. and Parmar, M. (2002).

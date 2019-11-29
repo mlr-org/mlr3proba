@@ -6,7 +6,7 @@
 \title{Flexible Parametric Spline Survival Learner}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerSurv}.}
 \description{
-Calls \code{\link[survival:survreg]{survival::survreg()}}.
+Calls \code{\link[flexsurv:flexsurvspline]{flexsurv::flexsurvspline()}}.
 \itemize{
 \item lp is predicted by using an internally defined \code{predict} method, see details.
 \item distr is predicted by using an internally defined \code{predict} method, see details.
@@ -14,16 +14,12 @@ Calls \code{\link[survival:survreg]{survival::survreg()}}.
 }
 }
 \details{
-The predict method is based on \code{\link[flexsurv:summary.flexsurvreg]{flexsurv::summary.flexsurvreg()}} but is quicker and more
-efficient for adapting the return type to be compatible with \CRANpkg{distr6}. A large amount of the
-predict method is copied from \code{\link[flexsurv:summary.flexsurvreg]{flexsurv::summary.flexsurvreg()}} and credit goes to Christopher Jackson
-for creating/maintaining \CRANpkg{flexsurv}.
+The \code{distr} prediction is estimated using the fitted custom distributions from \code{\link[flexsurv:flexsurvspline]{flexsurv::flexsurvspline()}}
+and the estimated coefficients.
 
-\code{lp} is predicted using the formula \eqn{lp = X\beta} where \eqn{X} are the variables in the test data set
-and \eqn{\beta} are the fitted coefficients.
-
-\code{distr} is predicted using the formula derived in \code{\link[flexsurv:flexsurvspline]{flexsurv::flexsurvspline()}} and combined with parameters
-defined in \code{\link[flexsurv:summary.flexsurvreg]{flexsurv::summary.flexsurvreg()}}.
+As flexible spline models estimate the hazard as the intercept, the linear predictor, \code{lp}, can be
+calculated as in the classical setting. i.e. For fitted coefficients, \eqn{\beta = (\beta0,...,\betaP)},
+and covariates \eqn{X^T = (X0,...,XP)^T}, where \eqn{X0} is a column of \eqn{1}s: \eqn{lp = \betaX}.
 }
 \section{Construction}{
 \preformatted{LearnerSurvFlexible$new()
