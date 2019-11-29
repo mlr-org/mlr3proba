@@ -34,7 +34,7 @@ integrated_score = function(score, integrated, times) {
 
 integrated_se = function(score, integrated, times) {
   if (integrated) {
-    return(sqrt(sum(stats::cov(score))/(prod(dim(score)))^2))
+    return(sqrt(sum(stats::cov(score))/(nrow(score) * ncol(score)^2)))
   } else {
     if(length(times) != 0) {
       score = score[,findInterval(times, as.numeric(colnames(score)), all.inside = TRUE), drop = FALSE]

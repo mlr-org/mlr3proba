@@ -42,7 +42,8 @@
 #' library(mlr3)
 #' task = tsk("rats")
 #' learner = lrn("surv.mboost")
-#' learner$param_set$values = list(center = TRUE, baselearner = "bols")
+#' learner$param_set$values = mlr3misc::insert_named(learner$param_set$values,
+#'     list(center = TRUE, baselearner = "bols"))
 #' resampling = rsmp("cv", folds = 3)
 #' resample(task, learner, resampling)
 LearnerSurvMboost = R6Class("LearnerSurvMboost", inherit = LearnerSurv,
@@ -53,7 +54,7 @@ LearnerSurvMboost = R6Class("LearnerSurvMboost", inherit = LearnerSurv,
           ParamFct$new(id = "family", default = "coxph",
                        levels = c("coxph", "weibull", "loglog", "lognormal", "gehan",
                                   "custom"), tags = "train"),
-          ParamUty$new(id = "nuirange", tags = "train"),
+          ParamUty$new(id = "nuirange", default = c(0, 100), tags = "train"),
           ParamUty$new(id = "custom.family", tags = "train"),
           ParamUty$new(id = "offset", tags = "train"),
           ParamLgl$new(id = "center", default = TRUE, tags = "train"),
@@ -68,7 +69,7 @@ LearnerSurvMboost = R6Class("LearnerSurvMboost", inherit = LearnerSurv,
         )
       )
 
-      ps$values = list(family = "coxph", nuirange = c(0, 100))
+      ps$values = list(family = "coxph")
 
       super$initialize(
         id = "surv.mboost",
@@ -78,8 +79,6 @@ LearnerSurvMboost = R6Class("LearnerSurvMboost", inherit = LearnerSurv,
         properties = "weights",
         packages = c("mboost","distr6","survival")
       )
-      self$param_set$add_dep("nuirange", "family", CondAnyOf$new(c("weibull", "loglog", "lognormal")))
-      self$param_set$add_dep("custom.family", "family", CondAnyOf$new(c("custom")))
     },
 
     train_internal = function(task) {

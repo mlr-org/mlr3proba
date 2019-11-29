@@ -34,8 +34,6 @@ The distribution \code{distr} is composed using the \code{lp} and specifying a m
 
 Where \eqn{h_0}{h0} and \eqn{S_0}{S0} are the estimated baseline hazard/survival respectively
 (in this case with a given parametric form), and \eqn{lp} is the predicted linear predictor \code{lp}.
-
-Default \code{type} is \code{aft}.
 }
 \section{Construction}{
 \preformatted{LearnerSurvParametric$new()

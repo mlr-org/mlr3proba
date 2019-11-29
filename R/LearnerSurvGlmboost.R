@@ -38,7 +38,7 @@ LearnerSurvGlmboost = R6Class("LearnerSurvGlmboost", inherit = LearnerSurv,
             ParamFct$new(id = "family", default = "coxph",
                          levels = c("coxph", "weibull", "loglog", "lognormal", "gehan",
                                     "custom"), tags = "train"),
-            ParamUty$new(id = "nuirange", tags = "train"),
+            ParamUty$new(id = "nuirange", default = c(0, 100), tags = "train"),
             ParamUty$new(id = "custom.family", tags = "train"),
             ParamLgl$new(id = "center", default = TRUE, tags = "train"),
             ParamInt$new(id = "mstop", default = 100L, lower = 0L, tags = "train"),
@@ -49,7 +49,7 @@ LearnerSurvGlmboost = R6Class("LearnerSurvGlmboost", inherit = LearnerSurv,
           )
         )
 
-        ps$values = list(family = "coxph", nuirange = c(0, 100))
+        ps$values = list(family = "coxph")
 
         super$initialize(
           id = "surv.glmboost",
@@ -58,8 +58,6 @@ LearnerSurvGlmboost = R6Class("LearnerSurvGlmboost", inherit = LearnerSurv,
           predict_types = c("distr","crank","lp"),
           packages = c("mboost","distr6","survival")
           )
-        self$param_set$add_dep("nuirange", "family", CondAnyOf$new(c("weibull", "loglog", "lognormal")))
-        self$param_set$add_dep("custom.family", "family", CondAnyOf$new(c("custom")))
         },
 
       train_internal = function(task) {

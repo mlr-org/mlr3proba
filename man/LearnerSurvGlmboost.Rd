@@ -16,8 +16,7 @@ Calls \code{\link[mboost:glmboost]{mboost::glmboost()}}.
 The \code{dist} parameter is specified slightly differently than in \link{mboost}. Whereas the latter
 takes in objects, in this learner instead a string is specified in order to identify which distribution
 to use. As the default in \link{mboost} is the Gaussian family, which is not compatible with
-survival models, instead we have by default \code{"coxph"} for \code{dist}, as well as \code{c(0, 100)} for \code{nuirange},
-to prevent crashing if no further specification is given.
+survival models, instead we have by default \code{"coxph"} for \code{dist}.
 
 If the value given to the \code{Family} parameter is "custom.family" then an object of class
 \code{\link[mboost:Family]{mboost::Family()}} needs to be passed to the \code{custom.family} parameter.
