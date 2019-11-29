@@ -3,6 +3,9 @@
 #' @templateVar inherit [MeasureSurvLogloss]/[MeasureSurv]
 #' @templateVar fullname MeasureSurvLoglossSE
 #' @templateVar shortname surv.loglossSE
+#' @templateVar pars eps = 1e-15
+#' @templateVar eps_par TRUE
+#'
 #' @description
 #' Calculates the standard error of [MeasureSurvLogloss].
 #'

@@ -28,9 +28,13 @@ Finally the sample mean is taken to return a single score for all \eqn{N} observ
 \deqn{IGS(pred) = 1/N \Sigma_i IGS(S_i)}
 }
 \section{Construction}{
-\preformatted{MeasureSurvGraf$new()
+\preformatted{MeasureSurvGraf$new(integrated = TRUE, times)
 mlr_measures$get("surv.graf")
 msr("surv.graf")
+}
+\itemize{
+\item \code{integrated} :: \code{logical(1)} \cr If \code{TRUE} (default), returns the integrated score, otherwise returns the score corresponding to the \code{times} argument. \cr
+\item \code{times} :: \code{vector()} \cr Numeric vector of times where to evaluate the score (provide only one for best performance). If missing then returns score at all unique time-points in test set. \cr
 }
 }
 

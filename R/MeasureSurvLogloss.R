@@ -3,6 +3,9 @@
 #' @templateVar inherit [MeasureSurv]
 #' @templateVar fullname MeasureSurvLogloss
 #' @templateVar shortname surv.logloss
+#' @templateVar pars eps = 1e-15
+#' @templateVar eps_par TRUE
+#'
 #' @description
 #' Calculates the cross-entropy, or logarithmic (log), loss.
 #'
@@ -35,7 +38,7 @@ MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
 
   active = list(
     eps = function(eps){
-      if(is.missing(eps))
+      if(missing(eps))
         return(private$.eps)
       else {
         assertNumeric(eps)

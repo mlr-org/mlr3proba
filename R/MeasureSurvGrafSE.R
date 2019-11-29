@@ -3,6 +3,10 @@
 #' @templateVar inherit [MeasureSurv]
 #' @templateVar fullname MeasureSurvGrafSE
 #' @templateVar shortname surv.grafSE
+#' @templateVar pars integrated = TRUE, times
+#' @templateVar int_par TRUE
+#' @templateVar times_par TRUE
+#'
 #' @description
 #' Calculates the standard error of [MeasureSurvGraf].
 #'
@@ -21,19 +25,51 @@
 MeasureSurvGrafSE = R6::R6Class("MeasureSurvGrafSE",
   inherit = MeasureSurv,
   public = list(
-    initialize = function() {
+    initialize = function(integrated = TRUE, times) {
       super$initialize(
         id = "surv.grafSE",
         range = c(0, Inf),
         minimize = TRUE,
         predict_type = "distr"
       )
+
+      assertFlag(integrated)
+      private$.integrated = integrated
+
+      if (!integrated & !missing(times)) {
+        assertNumeric(times)
+        private$.times = times
+      }
     },
 
     score_internal = function(prediction, ...) {
-      graf = integrated_graf(prediction$truth, prediction$distr)
-
-      sd(graf)/sqrt(length(graf))
+      integrated_se(score = weighted_graf(prediction$truth, prediction$distr),
+                    integrated = self$integrated,
+                    times = self$times)
     }
+  ),
+
+  active = list(
+    integrated = function(integrated) {
+      if (missing(integrated)) {
+        return(private$.integrated)
+      } else {
+        assertFlag(integrated)
+        private$.integrated = integrated
+      }
+    },
+    times = function(times) {
+      if (missing(times)) {
+        return(private$.times)
+      } else {
+        assertNumeric(times)
+        private$.times = times
+      }
+    }
+  ),
+
+  private = list(
+    .times = numeric(),
+    .integrated = logical()
   )
 )

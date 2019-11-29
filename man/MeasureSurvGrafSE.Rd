@@ -15,9 +15,13 @@ test set, the standard eror is given by
 \deqn{IGS_SE = sd(IGS(S))/sqrt(N)}
 }
 \section{Construction}{
-\preformatted{MeasureSurvGrafSE$new()
+\preformatted{MeasureSurvGrafSE$new(integrated = TRUE, times)
 mlr_measures$get("surv.grafSE")
 msr("surv.grafSE")
+}
+\itemize{
+\item \code{integrated} :: \code{logical(1)} \cr If \code{TRUE} (default), returns the integrated score, otherwise returns the score corresponding to the \code{times} argument. \cr
+\item \code{times} :: \code{vector()} \cr Numeric vector of times where to evaluate the score (provide only one for best performance). If missing then returns score at all unique time-points in test set. \cr
 }
 }
 

@@ -15,9 +15,12 @@ evaluated at the observed death-time,
 \deqn{L(f, t) = -log(f(t))}
 }
 \section{Construction}{
-\preformatted{MeasureSurvLogloss$new()
+\preformatted{MeasureSurvLogloss$new(eps = 1e-15)
 mlr_measures$get("surv.logloss")
 msr("surv.logloss")
+}
+\itemize{
+\item \code{eps} :: \code{numeric(1)} \cr Very small number to set zero-valued predicted probabilities to, in order to prevent errors in log(0) calculation. \cr
 }
 }
 

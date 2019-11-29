@@ -18,7 +18,7 @@ mlr_measures$get("surv.chamblessAUC")
 msr("surv.chamblessAUC")
 }
 \itemize{
-\item \code{integrated} :: \code{logical(1)} \cr If \code{TRUE} (default), returns the integrated AUC, otherwise returns the AUC corresponding to the \code{times} argument. \cr
+\item \code{integrated} :: \code{logical(1)} \cr If \code{TRUE} (default), returns the integrated score, otherwise returns the score corresponding to the \code{times} argument. \cr
 \item \code{times} :: \code{vector()} \cr Numeric vector of times where to evaluate the score (provide only one for best performance). If missing then returns score at all unique time-points in test set. \cr
 }
 }

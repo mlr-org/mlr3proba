@@ -3,6 +3,11 @@
 #' @templateVar inherit [MeasureSurvLogloss]/[MeasureSurv]
 #' @templateVar fullname MeasureSurvLoglossInt
 #' @templateVar shortname surv.loglossint
+#' @templateVar pars integrated = TRUE, times, eps = 1e-15
+#' @templateVar int_par TRUE
+#' @templateVar times_par TRUE
+#' @templateVar eps_par TRUE
+#'
 #' @description
 #' Calculates the integrated cross-entropy, or logarithmic (log), loss (ILL).
 #'
@@ -32,14 +37,47 @@
 MeasureSurvLoglossInt = R6::R6Class("MeasureSurvLoglossInt",
   inherit = MeasureSurvLogloss,
   public = list(
-    initialize = function(eps = 1e-15) {
+    initialize = function(integrated = TRUE, times, eps = 1e-15) {
       super$initialize(eps, id = "surv.loglossint")
+
+      assertFlag(integrated)
+      private$.integrated = integrated
+
+      if (!integrated & !missing(times)) {
+        assertNumeric(times)
+        private$.times = times
+      }
     },
 
     score_internal = function(prediction, ...) {
-        mean(integrated_logloss(prediction$truth, prediction$distr, eps = self$eps))
+      integrated_score(score = weighted_logloss(prediction$truth, prediction$distr, eps = self$eps),
+                       integrated = self$integrated,
+                       times = self$times
+      )
+    }
+  ),
+
+  active = list(
+    integrated = function(integrated) {
+      if (missing(integrated)) {
+        return(private$.integrated)
+      } else {
+        assertFlag(integrated)
+        private$.integrated = integrated
       }
+    },
+    times = function(times) {
+      if (missing(times)) {
+        return(private$.times)
+      } else {
+        assertNumeric(times)
+        private$.times = times
+      }
+    }
+  ),
+
+  private = list(
+    .times = numeric(),
+    .integrated = logical()
   )
 )
-
-

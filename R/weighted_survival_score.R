@@ -14,8 +14,7 @@ weighted_survival_score = function(truth, distribution, loss,...){
   score = loss(alive = alive, distribution = distribution, unique_times = unique_times, ...)
 
   # To account for censoring the score is weighted according to each individuals contribution to
-  # censoring. If an individual is censored they don't contribute to score but contribute
-  # to censoring distr.
+  # censoring.
   # G(t*) = S(t*)^2 * I(t <= t*, died = 1) * (1/C(t)) + (1-S(t*))^2 * I(t > t*) * (1/C(t*))
   # where C(t) is Kaplan-Meier estimator for censoring distribution
 
@@ -38,10 +37,9 @@ weighted_survival_score = function(truth, distribution, loss,...){
 
   weighted_score = as.matrix(score / weights_mat)
 
-  # Censoring does not contribute to the score, so remove erroneous calculations
-  # when censored
-  weighted_score[truth[, 2] == 0, ][alive[truth[, 2] == 0, ] == 0] = NaN
+  # Censored individuals contribute zero to the score.
+  weighted_score[truth[, 2] == 0, ][alive[truth[, 2] == 0, ] == 0] = 0
 
-  # Finally approximate integration by taking the mean over all unique time-points
-  rowSums(weighted_score, na.rm = TRUE)/apply(weighted_score, 1, function(x) sum(!is.nan(x)))
+  colnames(weighted_score) = unique_times
+  weighted_score
 }

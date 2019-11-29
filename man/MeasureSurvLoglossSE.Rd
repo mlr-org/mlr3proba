@@ -15,9 +15,12 @@ test set, the standard eror is given by
 \deqn{LL_SE = sd(LL(S))/sqrt(N)}
 }
 \section{Construction}{
-\preformatted{MeasureSurvLoglossSE$new()
+\preformatted{MeasureSurvLoglossSE$new(eps = 1e-15)
 mlr_measures$get("surv.loglossSE")
 msr("surv.loglossSE")
+}
+\itemize{
+\item \code{eps} :: \code{numeric(1)} \cr Very small number to set zero-valued predicted probabilities to, in order to prevent errors in log(0) calculation. \cr
 }
 }
 

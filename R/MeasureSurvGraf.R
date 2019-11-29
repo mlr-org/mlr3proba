@@ -3,6 +3,10 @@
 #' @templateVar inherit [MeasureSurv]
 #' @templateVar fullname MeasureSurvGraf
 #' @templateVar shortname surv.graf
+#' @templateVar pars integrated = TRUE, times
+#' @templateVar int_par TRUE
+#' @templateVar times_par TRUE
+#'
 #' @aliases MeasureSurvBrier mlr_measures_surv.brier
 #' @description
 #' Calculates the Integrated Graf Score (IGS), aka integrated Brier survival score or squared loss.
@@ -34,18 +38,53 @@
 MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
   inherit = MeasureSurv,
   public = list(
-    initialize = function() {
+    initialize = function(integrated = TRUE, times) {
       super$initialize(
         id = "surv.graf",
         range = c(0, Inf),
         minimize = TRUE,
         predict_type = "distr"
       )
+
+      assertFlag(integrated)
+      private$.integrated = integrated
+
+      if (!integrated & !missing(times)) {
+        assertNumeric(times)
+        private$.times = times
+      }
     },
 
     score_internal = function(prediction, ...) {
-      mean(integrated_graf(prediction$truth, prediction$distr))
+      integrated_score(score = weighted_graf(prediction$truth, prediction$distr),
+                       integrated = self$integrated,
+                       times = self$times
+                       )
     }
+  ),
+
+  active = list(
+    integrated = function(integrated) {
+      if (missing(integrated)) {
+        return(private$.integrated)
+      } else {
+        assertFlag(integrated)
+        private$.integrated = integrated
+      }
+    },
+    times = function(times) {
+      if (missing(times)) {
+        return(private$.times)
+      } else {
+        assertNumeric(times)
+        private$.times = times
+      }
+    }
+  ),
+
+  private = list(
+    .times = numeric(),
+    .integrated = logical()
   )
 )
 
