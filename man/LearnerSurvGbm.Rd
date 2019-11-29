@@ -3,27 +3,76 @@
 \name{LearnerSurvGbm}
 \alias{LearnerSurvGbm}
 \alias{mlr_learners_surv.gbm}
-\title{Survival Gbm Learner}
+\title{Generalized Boosting Regression Modeling Survival Learner}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerSurv}.}
 \description{
-A gradient boosting machine based \link{LearnerSurv} implemented in \code{\link[gbm:gbm]{gbm::gbm()}} in package \CRANpkg{gbm}.
-Only Cox PH type models are supported for survival analysis.
+Calls \code{\link[gbm:gbm]{gbm::gbm()}}.
+\itemize{
+\item lp is predicted by \code{\link[gbm:predict.gbm]{gbm::predict.gbm()}}. \cr
+\item \code{crank} is identical to \code{lp}.
 }
-\details{
-The \code{lp} return type is given natively by predicting the linear predictor in \code{\link[gbm:predict.gbm]{gbm::predict.gbm()}}.\cr
+
+Parameter \code{distribution} is set to \code{coxph} as this is the only distribution implemented
+in \code{\link[gbm:gbm]{gbm::gbm()}} for survival analysis; parameter \code{keep.data} is set to \code{FALSE} for efficiency.
 }
 \section{Construction}{
 \preformatted{LearnerSurvGbm$new()
 mlr_learners$get("surv.gbm")
-lrn("surv.gbm")-
+lrn("surv.gbm")
+}
+}
+
+\section{Meta Information}{
+
+\itemize{
+\item Type: "surv"
+\item Predict Types: \verb{crank, lp}
+\item Feature Types: \verb{integer, numeric, factor, ordered}
+\item Packages: \CRANpkg{gbm}
 }
 }
 
 \references{
-Brandon Greenwell, Bradley Boehmke, Jay Cunningham and GBM Developers (2019).
-gbm: Generalized Boosted Regression Models. R package version 2.1.5.
-\url{https://CRAN.R-project.org/package=gbm}
+Y. Freund and R.E. Schapire (1997)
+A decision-theoretic generalization of on-line learning and an application to boosting.
+Journal of Computer and System Sciences, 55(1):119-139.
+
+G. Ridgeway (1999). The state of boosting. Computing Science and Statistics 31:172-181.
+
+J.H. Friedman, T. Hastie, R. Tibshirani (2000).
+Additive Logistic Regression: a Statistical View of Boosting. Annals of Statistics 28(2):337-374.
+
+J.H. Friedman (2001).
+Greedy Function Approximation: A Gradient Boosting Machine. Annals of Statistics 29(5):1189-1232.
+
+J.H. Friedman (2002).
+Stochastic Gradient Boosting. Computational Statistics and Data Analysis 38(4):367-378.
+
+B. Kriegler (2007).
+Cost-Sensitive Stochastic Gradient Boosting Within a Quantitative Regression Framework.
+Ph.D. Dissertation. University of California at Los Angeles, Los Angeles, CA, USA. Advisor(s) Richard A. Berk. urlhttps://dl.acm.org/citation.cfm?id=1354603.
+
+C. Burges (2010).
+From RankNet to LambdaRank to LambdaMART: An Overview.
+Microsoft Research Technical Report MSR-TR-2010-82.
 }
 \seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Learner]{Learners}: \link[mlr3:mlr_learners]{mlr3::mlr_learners}
+Other survival learners: 
+\code{\link{LearnerSurvBlackboost}},
+\code{\link{LearnerSurvCVGlmnet}},
+\code{\link{LearnerSurvCoxPH}},
+\code{\link{LearnerSurvFlexible}},
+\code{\link{LearnerSurvGamboost}},
+\code{\link{LearnerSurvGlmboost}},
+\code{\link{LearnerSurvGlmnet}},
+\code{\link{LearnerSurvKaplan}},
+\code{\link{LearnerSurvMboost}},
+\code{\link{LearnerSurvNelson}},
+\code{\link{LearnerSurvParametric}},
+\code{\link{LearnerSurvPenalized}},
+\code{\link{LearnerSurvRandomForestSRC}},
+\code{\link{LearnerSurvRanger}},
+\code{\link{LearnerSurvRpart}},
+\code{\link{LearnerSurvSVM}}
 }
+\concept{survival learners}

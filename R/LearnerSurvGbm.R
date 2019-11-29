@@ -1,32 +1,37 @@
-#' @title Survival Gbm Learner
-#'
-#' @usage NULL
-#' @aliases mlr_learners_surv.gbm
-#' @format [R6::R6Class()] inheriting from [LearnerSurv].
-#' @include LearnerSurv.R
-#'
-#' @section Construction:
-#' ```
-#' LearnerSurvGbm$new()
-#' mlr_learners$get("surv.gbm")
-#' lrn("surv.gbm")-
-#' ```
+#' @template surv_learner
+#' @templateVar title Generalized Boosting Regression Modeling
+#' @templateVar fullname LearnerSurvGbm
+#' @templateVar caller [gbm::gbm()]
+#' @templateVar lp by [gbm::predict.gbm()]. \cr
 #'
 #' @description
-#' A gradient boosting machine based [LearnerSurv] implemented in [gbm::gbm()] in package \CRANpkg{gbm}.
-#' Only Cox PH type models are supported for survival analysis.
-#'
-#' @details
-#' The \code{lp} return type is given natively by predicting the linear predictor in [gbm::predict.gbm()].\cr
-#'
+#' Parameter `distribution` is set to `coxph` as this is the only distribution implemented
+#' in [gbm::gbm()] for survival analysis; parameter `keep.data` is set to `FALSE` for efficiency.
 #'
 #' @references
-#' Brandon Greenwell, Bradley Boehmke, Jay Cunningham and GBM Developers (2019).
-#'   gbm: Generalized Boosted Regression Models. R package version 2.1.5.
-#'   \url{https://CRAN.R-project.org/package=gbm}
+#' Y. Freund and R.E. Schapire (1997)
+#' A decision-theoretic generalization of on-line learning and an application to boosting.
+#' Journal of Computer and System Sciences, 55(1):119-139.
 #'
+#' G. Ridgeway (1999). The state of boosting. Computing Science and Statistics 31:172-181.
 #'
-#' @template seealso_learner
+#' J.H. Friedman, T. Hastie, R. Tibshirani (2000).
+#' Additive Logistic Regression: a Statistical View of Boosting. Annals of Statistics 28(2):337-374.
+#'
+#' J.H. Friedman (2001).
+#' Greedy Function Approximation: A Gradient Boosting Machine. Annals of Statistics 29(5):1189-1232.
+#'
+#' J.H. Friedman (2002).
+#' Stochastic Gradient Boosting. Computational Statistics and Data Analysis 38(4):367-378.
+#'
+#' B. Kriegler (2007).
+#' Cost-Sensitive Stochastic Gradient Boosting Within a Quantitative Regression Framework.
+#' Ph.D. Dissertation. University of California at Los Angeles, Los Angeles, CA, USA. Advisor(s) Richard A. Berk. urlhttps://dl.acm.org/citation.cfm?id=1354603.
+#'
+#' C. Burges (2010).
+#' From RankNet to LambdaRank to LambdaMART: An Overview.
+#' Microsoft Research Technical Report MSR-TR-2010-82.
+#'
 #' @export
 LearnerSurvGbm = R6Class("LearnerSurvGbm", inherit = LearnerSurv,
   public = list(
@@ -68,7 +73,6 @@ LearnerSurvGbm = R6Class("LearnerSurvGbm", inherit = LearnerSurv,
       # collect arguments for predict
       pars = self$param_set$get_values(tags = "train")
       pars = c(pars, list(weights = task$weights$weight))
-      dat <- task$data()
 
       invoke(
         gbm::gbm,
@@ -98,7 +102,6 @@ predict_internal = function(task) {
 
       # crank = as.numeric(sapply(x, function(y) sum(y[,1] * c(y[,2][1], diff(y[,2])))))
 
-      # note the ranking of lp and crank is identical
       PredictionSurv$new(task = task, crank = lp, lp = lp)
 
     },
@@ -107,7 +110,11 @@ predict_internal = function(task) {
       if (is.null(self$model)) {
         stopf("No model stored")
       }
-      summary(self$model)$rel.inf
+      sum = summary(self$model, plotit = FALSE)
+      relinf = sum$rel.inf
+      names(relinf) = sum$var
+
+      relinf
     }
   )
 )

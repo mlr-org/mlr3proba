@@ -82,6 +82,7 @@ Other survival learners:
 \code{\link{LearnerSurvCVGlmnet}},
 \code{\link{LearnerSurvCoxPH}},
 \code{\link{LearnerSurvFlexible}},
+\code{\link{LearnerSurvGbm}},
 \code{\link{LearnerSurvGlmboost}},
 \code{\link{LearnerSurvGlmnet}},
 \code{\link{LearnerSurvKaplan}},
@@ -94,3 +95,4 @@ Other survival learners:
 \code{\link{LearnerSurvRpart}},
 \code{\link{LearnerSurvSVM}}
 }
+\concept{survival learners}

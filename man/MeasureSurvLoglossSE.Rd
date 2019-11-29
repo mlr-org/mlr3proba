@@ -64,4 +64,5 @@ Other Probabilistic survival measures:
 \code{\link{MeasureSurvLoglossInt}},
 \code{\link{MeasureSurvLogloss}}
 }
-
+\concept{Probabilistic survival measures}
+\concept{survival measures}

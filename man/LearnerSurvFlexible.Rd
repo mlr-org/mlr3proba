@@ -60,6 +60,7 @@ Other survival learners:
 \code{\link{LearnerSurvCVGlmnet}},
 \code{\link{LearnerSurvCoxPH}},
 \code{\link{LearnerSurvGamboost}},
+\code{\link{LearnerSurvGbm}},
 \code{\link{LearnerSurvGlmboost}},
 \code{\link{LearnerSurvGlmnet}},
 \code{\link{LearnerSurvKaplan}},

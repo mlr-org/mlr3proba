@@ -120,3 +120,4 @@ resample(task, cvglm.distr, rsmp("cv", folds = 2))$predictions()
 Other survival compositors: 
 \code{\link{mlr_pipeops_crankcompose}}
 }
+\concept{survival compositors}
