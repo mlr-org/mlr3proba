@@ -54,7 +54,7 @@ LearnerSurvGbm = R6Class("LearnerSurvGbm", inherit = LearnerSurv,
         predict_types = c("crank", "lp"),
         feature_types = c("integer", "numeric", "factor", "ordered"),
         properties = c("missings", "weights", "importance"),
-        packages = c("gbm", "distr6")
+        packages = c("gbm")
       )
     },
 
@@ -85,9 +85,6 @@ predict_internal = function(task) {
 
       # predict linear predictor
       lp = invoke(predict, self$model, newdata = newdata, .args = c(pv, type = "link"))
-
-      # predict survival (type="response" returns lp)
-      # surv = invoke(predict, self$model, newdata = newdata, .args = c(pv, type = "response"))
 
       # define WeightedDiscrete distr6 object from predicted survival function
       # x = rep(list(data = data.frame(x = fit$unique.death.times, cdf = 0)), task$nrow)
