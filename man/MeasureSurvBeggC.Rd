@@ -2,7 +2,7 @@
 % Please edit documentation in R/MeasureSurvBeggC.R
 \name{MeasureSurvBeggC}
 \alias{MeasureSurvBeggC}
-\alias{mlr_measures_.surv.beggC}
+\alias{mlr_measures_surv.beggC}
 \title{Begg's C-Index Survival Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurv}.}
 \description{

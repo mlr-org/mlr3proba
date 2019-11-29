@@ -2,7 +2,7 @@
 % Please edit documentation in R/MeasureSurvGrafSE.R
 \name{MeasureSurvGrafSE}
 \alias{MeasureSurvGrafSE}
-\alias{mlr_measures_.surv.grafSE}
+\alias{mlr_measures_surv.grafSE}
 \title{Standard Error of Integrated Graf Score Survival Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurv}.}
 \description{

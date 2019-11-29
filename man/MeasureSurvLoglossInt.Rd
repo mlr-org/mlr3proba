@@ -2,7 +2,7 @@
 % Please edit documentation in R/MeasureSurvIntLogloss.R
 \name{MeasureSurvLoglossInt}
 \alias{MeasureSurvLoglossInt}
-\alias{mlr_measures_.surv.loglossint}
+\alias{mlr_measures_surv.loglossint}
 \title{Integrated Log loss Survival Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurvLogloss}/\link{MeasureSurv}.}
 \description{

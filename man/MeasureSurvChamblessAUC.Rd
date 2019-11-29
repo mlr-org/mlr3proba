@@ -2,7 +2,7 @@
 % Please edit documentation in R/MeasureSurvChamblessAUC.R
 \name{MeasureSurvChamblessAUC}
 \alias{MeasureSurvChamblessAUC}
-\alias{mlr_measures_.surv.chamblessAUC}
+\alias{mlr_measures_surv.chamblessAUC}
 \title{Chambless and Diao's AUC Survival Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurvAUC}/\link{MeasureSurv}.}
 \description{

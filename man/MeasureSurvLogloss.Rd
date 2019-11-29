@@ -2,7 +2,7 @@
 % Please edit documentation in R/MeasureSurvLogloss.R
 \name{MeasureSurvLogloss}
 \alias{MeasureSurvLogloss}
-\alias{mlr_measures_.surv.logloss}
+\alias{mlr_measures_surv.logloss}
 \title{Log loss Survival Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurv}.}
 \description{

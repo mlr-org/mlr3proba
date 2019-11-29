@@ -2,7 +2,7 @@
 % Please edit documentation in R/MeasureSurvUnoTPR.R
 \name{MeasureSurvUnoTPR}
 \alias{MeasureSurvUnoTPR}
-\alias{mlr_measures_.surv.unoTPR}
+\alias{mlr_measures_surv.unoTPR}
 \title{Uno's TPR Survival Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurvAUC}/\link{MeasureSurv}.}
 \description{

@@ -28,7 +28,7 @@ Used in discrimination measures like \link[=mlr_measures_surv.harrellC]{surv.har
 \item \code{lp} :: \code{numeric()}\cr
 Vector of linear predictor scores. One element for each observation in the test set.
 \eqn{lp = X\beta} where \eqn{X} is a matrix of covariates and \eqn{\beta} is a vector of estimated coefficients.
-Used in discrimination measures like \link[=mlr_measures_surv.harrellsC]{surv.harrellsC}.
+Used in discrimination measures like \link[=mlr_measures_surv.harrellC]{surv.harrellC}.
 \item \code{distr} :: \code{distr6::Distribution()}\cr
 \link[distr6:VectorDistribution]{VectorDistribution} from \CRANpkg{distr6}.
 Each distribution in the vector represents the random variable 'survival time'.

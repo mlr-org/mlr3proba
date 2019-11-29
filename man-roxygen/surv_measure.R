@@ -2,7 +2,7 @@
 #' @title <%=title%> Survival Measure
 #' @usage NULL
 #' @format [R6::R6Class()] inheriting from <%=inherit%>.
-#' @aliases <%= paste("mlr_measures_", shortname, sep = ".")%>
+#' @aliases <%= paste("mlr_measures", shortname, sep = "_")%>
 #' @description
 #'
 #' @section Construction:

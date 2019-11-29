@@ -2,7 +2,7 @@
 % Please edit documentation in R/MeasureSurvXuR2.R
 \name{MeasureSurvXuR2}
 \alias{MeasureSurvXuR2}
-\alias{mlr_measures_.surv.xuR2}
+\alias{mlr_measures_surv.xuR2}
 \title{Xu and O'Quigley's R2 Survival Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurv}.}
 \description{

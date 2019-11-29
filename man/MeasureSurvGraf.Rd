@@ -2,7 +2,7 @@
 % Please edit documentation in R/MeasureSurvGraf.R
 \name{MeasureSurvGraf}
 \alias{MeasureSurvGraf}
-\alias{mlr_measures_.surv.graf}
+\alias{mlr_measures_surv.graf}
 \alias{MeasureSurvBrier}
 \alias{mlr_measures_surv.brier}
 \title{Integrated Graf Score Survival Measure}

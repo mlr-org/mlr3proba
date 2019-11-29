@@ -2,7 +2,7 @@
 % Please edit documentation in R/MeasureSurvHarrellC.R
 \name{MeasureSurvHarrellC}
 \alias{MeasureSurvHarrellC}
-\alias{mlr_measures_.surv.harrellC}
+\alias{mlr_measures_surv.harrellC}
 \title{Harrell's C-Index Survival Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurv}.}
 \description{

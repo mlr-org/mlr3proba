@@ -2,7 +2,7 @@
 % Please edit documentation in R/MeasureSurvSongAUC.R
 \name{MeasureSurvSongAUC}
 \alias{MeasureSurvSongAUC}
-\alias{mlr_measures_.surv.songAUC}
+\alias{mlr_measures_surv.songAUC}
 \title{Song and Zhou's AUC Survival Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurvAUC}/\link{MeasureSurv}.}
 \description{

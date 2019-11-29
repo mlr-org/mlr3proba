@@ -2,7 +2,7 @@
 % Please edit documentation in R/MeasureSurvUnoTNR.R
 \name{MeasureSurvUnoTNR}
 \alias{MeasureSurvUnoTNR}
-\alias{mlr_measures_.surv.unoTNR}
+\alias{mlr_measures_surv.unoTNR}
 \title{Uno's TNR Survival Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurvAUC}/\link{MeasureSurv}.}
 \description{

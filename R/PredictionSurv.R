@@ -32,7 +32,7 @@
 #' * `lp` :: `numeric()`\cr
 #'   Vector of linear predictor scores. One element for each observation in the test set.
 #'   \eqn{lp = X\beta} where \eqn{X} is a matrix of covariates and \eqn{\beta} is a vector of estimated coefficients.
-#'   Used in discrimination measures like [surv.harrellsC][mlr_measures_surv.harrellsC].
+#'   Used in discrimination measures like [surv.harrellC][mlr_measures_surv.harrellC].
 #'
 #' * `distr` :: `distr6::Distribution()`\cr
 #'   [VectorDistribution][distr6::VectorDistribution] from \CRANpkg{distr6}.

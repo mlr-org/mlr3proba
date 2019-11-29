@@ -2,7 +2,7 @@
 % Please edit documentation in R/MeasureSurvGonenHellersC.R
 \name{MeasureSurvGonenC}
 \alias{MeasureSurvGonenC}
-\alias{mlr_measures_.surv.gonenC}
+\alias{mlr_measures_surv.gonenC}
 \title{Gonen and Heller's C-Index Survival Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurv}.}
 \description{

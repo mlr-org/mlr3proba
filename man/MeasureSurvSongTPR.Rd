@@ -2,7 +2,7 @@
 % Please edit documentation in R/MeasureSurvSongTPR.R
 \name{MeasureSurvSongTPR}
 \alias{MeasureSurvSongTPR}
-\alias{mlr_measures_.surv.songTPR}
+\alias{mlr_measures_surv.songTPR}
 \title{Song and Zhou's TPR Survival Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurvAUC}/\link{MeasureSurv}.}
 \description{

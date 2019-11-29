@@ -2,7 +2,7 @@
 % Please edit documentation in R/MeasureSurvNagelkR2.R
 \name{MeasureSurvNagelkR2}
 \alias{MeasureSurvNagelkR2}
-\alias{mlr_measures_.surv.nagelkR2}
+\alias{mlr_measures_surv.nagelkR2}
 \title{Nagelkerke's R2 Survival Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurv}.}
 \description{

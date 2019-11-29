@@ -2,7 +2,7 @@
 % Please edit documentation in R/MeasureSurvHungAUC.R
 \name{MeasureSurvHungAUC}
 \alias{MeasureSurvHungAUC}
-\alias{mlr_measures_.surv.hungAUC}
+\alias{mlr_measures_surv.hungAUC}
 \title{Hung and Chiang's AUC Survival Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurvAUC}/\link{MeasureSurv}.}
 \description{

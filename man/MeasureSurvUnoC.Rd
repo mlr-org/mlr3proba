@@ -2,7 +2,7 @@
 % Please edit documentation in R/MeasureSurvUnoC.R
 \name{MeasureSurvUnoC}
 \alias{MeasureSurvUnoC}
-\alias{mlr_measures_.surv.unoC}
+\alias{mlr_measures_surv.unoC}
 \title{Uno's C-Index Survival Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurv}.}
 \description{
