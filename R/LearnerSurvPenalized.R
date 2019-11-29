@@ -4,12 +4,10 @@
 #' @templateVar caller [penalized::penalized()]
 #' @templateVar distr using [penalized::predict()].
 #'
-#' @description
-#' [randomForestSRC::predict.rfsrc()] returns both cumulative hazard funcion (chf) and survival function (surv)
-#' but uses different estimators to derive these. `chf` uses a bootstrapped Nelson-Aalen estimator,
-#' (Ishwaran, 2008) whereas `surv` uses a bootstrapped Kaplan-Meier estimator [https://kogalur.github.io/randomForestSRC/theory.html](https://kogalur.github.io/randomForestSRC/theory.html).
-#' The choice of which estimator to use is given by the extra `estimator` hyper-parameter,
-#' default is `nelson`.
+#' @description The `penalized` and `unpenalized` arguments in the learner are implemented slightly
+#' differently than in [penalized::penalized()]. Here, there is no parameter for `penalized` but
+#' instead it is assumed that every variable is penalized unless stated in the `unpenalized` parameter,
+#' see examples.
 #'
 #' @references
 #' Goeman, J. J., L1 penalized estimation in the Cox proportional hazards model.
@@ -23,6 +21,13 @@
 #' learner = lrn("surv.penalized")
 #' resampling = rsmp("cv", folds = 3)
 #' resample(task, learner, resampling)
+#'
+#' # specifying penalized and unpenalized variables
+#' task = tgen("simsurv")$generate(200)
+#' learner = lrn("surv.penalized", unpenalized = c("height"))
+#' learner$train(task)
+#' learner$model@penalized
+#' learner$model@unpenalized
 LearnerSurvPenalized = R6Class("LearnerSurvPenalized", inherit = LearnerSurv,
   public = list(
     initialize = function() {

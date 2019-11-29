@@ -12,6 +12,13 @@ Calls \code{\link[flexsurv:flexsurvspline]{flexsurv::flexsurvspline()}}.
 \item distr is predicted by using an internally defined \code{predict} method, see details.
 \item \code{crank} is identical to \code{lp}.
 }
+
+Parameter \code{k} is changed to \code{1} and \code{scale} is changed to \code{odds}, as these are more in line with
+the Royston/Parmar proposed models, and the package defaults are equivalent to fitting a
+parametric model and therefore \link[=LearnerSurvParametric]{surv.parametric} should be used instead.
+
+If fitting a model with \code{k = 0} then consider using \link[=LearnerSurvParametric]{surv.parametric} as
+this is likely to have more optimal results, and has more options for tuning.
 }
 \details{
 The \code{distr} prediction is estimated using the fitted custom distributions from \code{\link[flexsurv:flexsurvspline]{flexsurv::flexsurvspline()}}

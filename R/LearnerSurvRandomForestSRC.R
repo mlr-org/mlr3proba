@@ -112,7 +112,6 @@ LearnerSurvRandomForestSRC = R6Class("LearnerSurvRandomForestSRC", inherit = Lea
 
       crank = as.numeric(sapply(x, function(y) sum(y[,1] * c(y[,2][1], diff(y[,2])))))
 
-      # note the ranking of lp and crank is identical
       PredictionSurv$new(task = task, crank = crank, distr = distr)
 
     },

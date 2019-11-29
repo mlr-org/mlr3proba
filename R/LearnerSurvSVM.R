@@ -9,10 +9,10 @@
 #' Four possible SVMs can be implemented, dependent on the `type` parameter. These correspond
 #' to predicting the survival time via regression (`regression`), predicting the PI by
 #' imposing a ranking constraint (`vanbelle1`, `vanbelle2`), a hybrid of the two (`hybrid`).
-#'  Whichever `type` is chosen determines how the `crank` predict type is calculated,
-#'  but in any case all can be considered a valid continuous ranking.
+#' Whichever `type` is chosen determines how the `crank` predict type is calculated,
+#' but in any case all can be considered a valid continuous ranking.
 #'
-#' To be more in line with the Van Belle papers and to prevent the learner crashing without
+#' To be in line with the Van Belle papers and to prevent the learner crashing without
 #' user-set parameters, the default `diff.meth` is set to `diffmeth3` with `gamma.mu` equal to 0.1.
 #'
 #' @references
@@ -38,8 +38,8 @@ LearnerSurvSVM = R6Class("LearnerSurvSVM", inherit = LearnerSurv,
       ps = ParamSet$new(
         params = list(
           ParamFct$new(id = "type", default = "regression", levels = c("regression", "vanbelle1", "vanbelle2", "hybrid"), tags = "train"),
-          ParamFct$new(id = "diff.meth", default ="makediff3", levels = c("makediff1", "makediff2", "makediff3"), tags = "train"),
-          ParamUty$new(id = "gamma.mu", default = 0.1, tags = "train"),
+          ParamFct$new(id = "diff.meth", levels = c("makediff1", "makediff2", "makediff3"), tags = "train"),
+          ParamUty$new(id = "gamma.mu", tags = "train"),
           ParamFct$new(id = "opt.meth", default = "quadprog", levels = c("quadprog", "ipop"), tags = "train"),
           ParamFct$new(id = "kernel", default = "lin_kernel", levels = c("lin_kernel", "add_kernel","rbf_kernel","poly_kernel"), tags = "train"),
           ParamUty$new(id = "kernel.pars", tags = "train"),

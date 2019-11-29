@@ -13,11 +13,10 @@
 #'
 #' @details
 #' The internal predict method is implemented in `mlr3proba`, which is more efficient for
-#' composition to distributions than [survival::predict.survreg()]. No code is copied or adapted from
-#' [survival::predict.survreg()].
+#' composition to distributions than [survival::predict.survreg()].
 #'
-#' `lp` is predicted using the formula \eqn{lp = X\beta} where \eqn{X} are the variables in the test data set
-#' and \eqn{\beta} are the fitted coefficients.
+#' `lp` is predicted using the formula \eqn{lp = X\beta} where \eqn{X} are the variables in the test
+#' data set and \eqn{\beta} are the fitted coefficients.
 #'
 #' The distribution `distr` is composed using the `lp` and specifying a model form in the
 #' `type` hyper-parameter. These are as follows, with respective hazard functions,
@@ -27,8 +26,6 @@
 #'
 #' Where \eqn{h_0}{h0} and \eqn{S_0}{S0} are the estimated baseline hazard/survival respectively
 #' (in this case with a given parametric form), and \eqn{lp} is the predicted linear predictor `lp`.
-#'
-#' Default `type` is `aft`.
 #'
 #' @references
 #' Kalbfleisch, J. D., Prentice, R. L. (2002).

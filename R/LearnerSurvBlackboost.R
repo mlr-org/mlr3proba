@@ -5,9 +5,7 @@
 #' @templateVar distr by [mboost::survFit()] which assumes a PH fit with a Breslow estimator
 #' @templateVar lp by [mboost::predict.mboost()]
 #'
-#' @description
-#' If the value given to the \code{Family} parameter is "custom.family" then an object of class
-#' [mboost::Family()] needs to be passed to the \code{custom.family} parameter.
+#' @template learner_boost
 #'
 #' @references
 #' Peter Buehlmann and Torsten Hothorn (2007),
@@ -37,53 +35,57 @@
 LearnerSurvBlackboost = R6Class("LearnerSurvBlackboost", inherit = LearnerSurv,
   public = list(
     initialize = function() {
+      ps = ParamSet$new(
+        params = list(
+          ParamFct$new(id = "family", default = "coxph",
+                       levels = c("coxph", "weibull", "loglog", "lognormal", "gehan",
+                                  "custom"), tags = "train"),
+          ParamUty$new(id = "nuirange", tags = "train"),
+          ParamUty$new(id = "custom.family", tags = "train"),
+          ParamUty$new(id = "offset", tags = "train"),
+          ParamLgl$new(id = "center", default = TRUE, tags = "train"),
+          ParamInt$new(id = "mstop", default = 100L, lower = 0L, tags = "train"),
+          ParamDbl$new(id = "nu", default = 0.1, lower = 0, upper = 1, tags = "train"),
+          ParamFct$new(id = "risk", levels = c("inbag", "oobag", "none"), tags = "train"),
+          ParamLgl$new(id = "stopintern", default = FALSE, tags = "train"),
+          ParamLgl$new(id = "trace", default = FALSE, tags = "train"),
+          ParamUty$new(id = "oobweights", tags = "train"),
+          ParamFct$new(id = "teststat", default = "quadratic", levels = c("quadratic", "maximum"), tags = "train"),
+          ParamFct$new(id = "splitstat", default = "quadratic", levels = c("quadratic", "maximum"), tags = "train"),
+          ParamLgl$new(id = "splittest", default = FALSE, tags = "train"),
+          ParamFct$new(id = "testtype", default = "Bonferroni",
+                       levels = c("Bonferroni", "MonteCarlo", "Univariate", "Teststatistic"), tags = "train"),
+          ParamInt$new(id = "maxpts", default = 25000L, lower = 1L, tags = "train"),
+          ParamDbl$new(id = "abseps", default = 0.001, tags = "train"),
+          ParamDbl$new(id = "releps", default = 0, tags = "train"),
+          ParamUty$new(id= "nmax", tags = "train"),
+          ParamDbl$new(id = "alpha", default = 0.05, lower = 0, upper = 1, tags = "train"),
+          ParamDbl$new(id = "mincriterion", default = 0.95, lower = 0, upper = 1, tags = "train"),
+          ParamDbl$new(id = "logmincriterion", default = log(0.95), upper = 0, tags = "train"),
+          ParamInt$new(id = "minsplit", default = 20L, lower = 0L, tags = "train"),
+          ParamInt$new(id = "minbucket", default = 7L, lower = 0L, tags = "train"),
+          ParamDbl$new(id = "minprob", default = 0.01, lower = 0, upper = 1, tags = "train"),
+          ParamLgl$new(id = "stump", default = FALSE, tags = "train"),
+          ParamLgl$new(id = "lookahead", default = FALSE, tags = "train"),
+          ParamLgl$new(id = "MIA", default = FALSE, tags = "train"),
+          ParamInt$new(id = "nresample", default = 9999L, lower = 1L, tags = "train"),
+          ParamDbl$new(id = "tol", default = sqrt(.Machine$double.eps), lower = 0, tags = "train"),
+          ParamInt$new(id = "maxsurrogate", default = 0L, lower = 0L, tags = "train"),
+          ParamInt$new(id = "mtry", lower = 0L, tags = "train"),
+          ParamInt$new(id = "maxdepth", lower = 0L, tags = "train"),
+          ParamLgl$new(id = "multiway", default = FALSE, tags = "train"),
+          ParamInt$new(id = "splittry", default = 2L, lower = 1L, tags = "train"),
+          ParamLgl$new(id = "intersplit", default = FALSE, tags = "train"),
+          ParamLgl$new(id = "majority", default = FALSE, tags = "train"),
+          ParamLgl$new(id = "caseweights", default = TRUE, tags = "train")
+        )
+      )
+
+      ps$values = list(family = "coxph", nuirange = c(0, 100))
+
       super$initialize(
         id = "surv.blackboost",
-        param_set = ParamSet$new(
-          params = list(
-            ParamFct$new(id = "family", default = "coxph",
-                         levels = c("coxph", "weibull", "loglog", "lognormal", "gehan",
-                                    "custom"), tags = "train"),
-            ParamUty$new(id = "nuirange", default = c(0, 100), tags = "train"),
-            ParamUty$new(id = "custom.family", tags = "train"),
-            ParamUty$new(id = "offset", tags = "train"),
-            ParamLgl$new(id = "center", default = TRUE, tags = "train"),
-            ParamInt$new(id = "mstop", default = 100L, lower = 0L, tags = "train"),
-            ParamDbl$new(id = "nu", default = 0.1, lower = 0, upper = 1, tags = "train"),
-            ParamFct$new(id = "risk", levels = c("inbag", "oobag", "none"), tags = "train"),
-            ParamLgl$new(id = "stopintern", default = FALSE, tags = "train"),
-            ParamLgl$new(id = "trace", default = FALSE, tags = "train"),
-            ParamUty$new(id = "oobweights", tags = "train"),
-            ParamFct$new(id = "teststat", default = "quadratic", levels = c("quadratic", "maximum"), tags = "train"),
-            ParamFct$new(id = "splitstat", default = "quadratic", levels = c("quadratic", "maximum"), tags = "train"),
-            ParamLgl$new(id = "splittest", default = FALSE, tags = "train"),
-            ParamFct$new(id = "testtype", default = "Bonferroni",
-                         levels = c("Bonferroni", "MonteCarlo", "Univariate", "Teststatistic"), tags = "train"),
-            ParamInt$new(id = "maxpts", default = 25000L, lower = 1L, tags = "train"),
-            ParamDbl$new(id = "abseps", default = 0.001, tags = "train"),
-            ParamDbl$new(id = "releps", default = 0, tags = "train"),
-            ParamUty$new(id= "nmax", tags = "train"),
-            ParamDbl$new(id = "alpha", default = 0.05, lower = 0, upper = 1, tags = "train"),
-            ParamDbl$new(id = "mincriterion", default = 0.95, lower = 0, upper = 1, tags = "train"),
-            ParamDbl$new(id = "logmincriterion", default = log(0.95), upper = 0, tags = "train"),
-            ParamInt$new(id = "minsplit", default = 20L, lower = 0L, tags = "train"),
-            ParamInt$new(id = "minbucket", default = 7L, lower = 0L, tags = "train"),
-            ParamDbl$new(id = "minprob", default = 0.01, lower = 0, upper = 1, tags = "train"),
-            ParamLgl$new(id = "stump", default = FALSE, tags = "train"),
-            ParamLgl$new(id = "lookahead", default = FALSE, tags = "train"),
-            ParamLgl$new(id = "MIA", default = FALSE, tags = "train"),
-            ParamInt$new(id = "nresample", default = 9999L, lower = 1L, tags = "train"),
-            ParamDbl$new(id = "tol", default = sqrt(.Machine$double.eps), lower = 0, tags = "train"),
-            ParamInt$new(id = "maxsurrogate", default = 0L, lower = 0L, tags = "train"),
-            ParamInt$new(id = "mtry", lower = 0L, tags = "train"),
-            ParamInt$new(id = "maxdepth", lower = 0L, tags = "train"),
-            ParamLgl$new(id = "multiway", default = FALSE, tags = "train"),
-            ParamInt$new(id = "splittry", default = 2L, lower = 1L, tags = "train"),
-            ParamLgl$new(id = "intersplit", default = FALSE, tags = "train"),
-            ParamLgl$new(id = "majority", default = FALSE, tags = "train"),
-            ParamLgl$new(id = "caseweights", default = TRUE, tags = "train")
-          )
-        ),
+        param_set = ps,
         feature_types = c("integer", "numeric", "factor"),
         predict_types = c("distr","crank","lp"),
         packages = c("mboost","distr6","survival","partykit","mvtnorm")
@@ -128,11 +130,6 @@ LearnerSurvBlackboost = R6Class("LearnerSurvBlackboost", inherit = LearnerSurv,
 
       # if ("weights" %in% task$properties)
       #   pars$weights = task$weights$weight
-
-      if(length(pars$family) == 0)
-        pars$family = "coxph"
-      if(length(pars$nuirange) == 0)
-        pars$nuirange = c(0, 100)
 
       family = switch(pars$family,
                       coxph = mboost::CoxPH(),

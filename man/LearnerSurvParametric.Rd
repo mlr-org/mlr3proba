@@ -19,11 +19,10 @@ custom distributions in the future.
 }
 \details{
 The internal predict method is implemented in \code{mlr3proba}, which is more efficient for
-composition to distributions than \code{\link[survival:predict.survreg]{survival::predict.survreg()}}. No code is copied or adapted from
-\code{\link[survival:predict.survreg]{survival::predict.survreg()}}.
+composition to distributions than \code{\link[survival:predict.survreg]{survival::predict.survreg()}}.
 
-\code{lp} is predicted using the formula \eqn{lp = X\beta} where \eqn{X} are the variables in the test data set
-and \eqn{\beta} are the fitted coefficients.
+\code{lp} is predicted using the formula \eqn{lp = X\beta} where \eqn{X} are the variables in the test
+data set and \eqn{\beta} are the fitted coefficients.
 
 The distribution \code{distr} is composed using the \code{lp} and specifying a model form in the
 \code{type} hyper-parameter. These are as follows, with respective hazard functions,

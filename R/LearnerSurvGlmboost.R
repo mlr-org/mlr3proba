@@ -5,9 +5,7 @@
 #' @templateVar distr by [mboost::survFit()] which assumes a PH fit with a Breslow estimator
 #' @templateVar lp by [mboost::predict.mboost()]. \cr
 #'
-#' @description
-#' If the value given to the \code{Family} parameter is "custom.family" then an object of class
-#' [mboost::Family()] needs to be passed to the \code{custom.family} parameter.
+#' @template learner_boost
 #'
 #' @references
 #' Peter Buehlmann and Bin Yu (2003), Boosting with the L2 loss: regression and classification.
@@ -35,23 +33,27 @@
 LearnerSurvGlmboost = R6Class("LearnerSurvGlmboost", inherit = LearnerSurv,
     public = list(
       initialize = function() {
+        ps = ParamSet$new(
+          params = list(
+            ParamFct$new(id = "family", default = "coxph",
+                         levels = c("coxph", "weibull", "loglog", "lognormal", "gehan",
+                                    "custom"), tags = "train"),
+            ParamUty$new(id = "nuirange", tags = "train"),
+            ParamUty$new(id = "custom.family", tags = "train"),
+            ParamLgl$new(id = "center", default = TRUE, tags = "train"),
+            ParamInt$new(id = "mstop", default = 100L, lower = 0L, tags = "train"),
+            ParamDbl$new(id = "nu", default = 0.1, lower = 0, upper = 1, tags = "train"),
+            ParamFct$new(id = "risk", levels = c("inbag", "oobag", "none"), tags = "train"),
+            ParamLgl$new(id = "stopintern", default = FALSE, tags = "train"),
+            ParamLgl$new(id = "trace", default = FALSE, tags = "train")
+          )
+        )
+
+        ps$values = list(family = "coxph", nuirange = c(0, 100))
+
         super$initialize(
           id = "surv.glmboost",
-          param_set = ParamSet$new(
-            params = list(
-              ParamFct$new(id = "family", default = "coxph",
-                           levels = c("coxph", "weibull", "loglog", "lognormal", "gehan",
-                                      "custom"), tags = "train"),
-              ParamUty$new(id = "nuirange", default = c(0, 100), tags = "train"),
-              ParamUty$new(id = "custom.family", tags = "train"),
-              ParamLgl$new(id = "center", default = TRUE, tags = "train"),
-              ParamInt$new(id = "mstop", default = 100L, lower = 0L, tags = "train"),
-              ParamDbl$new(id = "nu", default = 0.1, lower = 0, upper = 1, tags = "train"),
-              ParamFct$new(id = "risk", levels = c("inbag", "oobag", "none"), tags = "train"),
-              ParamLgl$new(id = "stopintern", default = FALSE, tags = "train"),
-              ParamLgl$new(id = "trace", default = FALSE, tags = "train")
-              )
-            ),
+          param_set = ps,
           feature_types = c("integer", "numeric", "factor", "logical"),
           predict_types = c("distr","crank","lp"),
           packages = c("mboost","distr6","survival")
@@ -66,11 +68,6 @@ LearnerSurvGlmboost = R6Class("LearnerSurvGlmboost", inherit = LearnerSurv,
 
         # convert data to model matrix
         x = model.matrix(~., as.data.frame(task$data(cols = task$feature_names)))
-
-        if(length(pars$family) == 0)
-          pars$family = "coxph"
-        if(length(pars$nuirange) == 0)
-          pars$nuirange = c(0, 100)
 
         family = switch(pars$family,
                         coxph = mboost::CoxPH(),

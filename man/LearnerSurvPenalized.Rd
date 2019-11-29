@@ -12,11 +12,10 @@ Calls \code{\link[penalized:penalized]{penalized::penalized()}}.
 \item \code{crank} is predicted as the expectation of the survival distribution, \code{distr}.
 }
 
-\code{\link[randomForestSRC:predict.rfsrc]{randomForestSRC::predict.rfsrc()}} returns both cumulative hazard funcion (chf) and survival function (surv)
-but uses different estimators to derive these. \code{chf} uses a bootstrapped Nelson-Aalen estimator,
-(Ishwaran, 2008) whereas \code{surv} uses a bootstrapped Kaplan-Meier estimator \url{https://kogalur.github.io/randomForestSRC/theory.html}.
-The choice of which estimator to use is given by the extra \code{estimator} hyper-parameter,
-default is \code{nelson}.
+The \code{penalized} and \code{unpenalized} arguments in the learner are implemented slightly
+differently than in \code{\link[penalized:penalized]{penalized::penalized()}}. Here, there is no parameter for \code{penalized} but
+instead it is assumed that every variable is penalized unless stated in the \code{unpenalized} parameter,
+see examples.
 }
 \section{Construction}{
 \preformatted{LearnerSurvPenalized$new()
@@ -41,6 +40,13 @@ task = tgen("simsurv")$generate(200)
 learner = lrn("surv.penalized")
 resampling = rsmp("cv", folds = 3)
 resample(task, learner, resampling)
+
+# specifying penalized and unpenalized variables
+task = tgen("simsurv")$generate(200)
+learner = lrn("surv.penalized", unpenalized = c("height"))
+learner$train(task)
+learner$model@penalized
+learner$model@unpenalized
 }
 \references{
 Goeman, J. J., L1 penalized estimation in the Cox proportional hazards model.

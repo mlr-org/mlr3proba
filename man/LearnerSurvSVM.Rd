@@ -17,7 +17,7 @@ imposing a ranking constraint (\code{vanbelle1}, \code{vanbelle2}), a hybrid of 
 Whichever \code{type} is chosen determines how the \code{crank} predict type is calculated,
 but in any case all can be considered a valid continuous ranking.
 
-To be more in line with the Van Belle papers and to prevent the learner crashing without
+To be in line with the Van Belle papers and to prevent the learner crashing without
 user-set parameters, the default \code{diff.meth} is set to \code{diffmeth3} with \code{gamma.mu} equal to 0.1.
 }
 \section{Construction}{
