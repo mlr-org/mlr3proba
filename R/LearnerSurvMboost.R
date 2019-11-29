@@ -1,30 +1,12 @@
 #' @importFrom mboost bbs bols btree
-#'
-#' @title Gradient Boosting for Generalized Additive Models Survival Learner
-#'
-#' @usage NULL
-#' @aliases mlr_learners_surv.mboost
-#' @format [R6::R6Class()] inheriting from [LearnerSurv].
-#' @include LearnerSurv.R
-#'
-#' @section Construction:
-#' ```
-#' LearnerSurvMboost$new()
-#' mlr_learners$get("surv.mboost")
-#' lrn("surv.mboost")
-#' ```
+#' @template surv_learner
+#' @templateVar title Gradient Boosting for Generalized Additive Models
+#' @templateVar fullname LearnerSurvMboost
+#' @templateVar caller [mboost::mboost()]
+#' @templateVar distr by [mboost::survFit()] which assumes a PH fit with a Breslow estimator
+#' @templateVar lp by [mboost::predict.mboost()]. \cr
 #'
 #' @description
-#' Gradient boosting for optimizing arbitrary loss functions, where component-wise arbitrary
-#' base-learners, e.g., smoothing procedures, are utilized as additive base-learners.
-#' Calls [mboost::mboost()] from package \CRANpkg{mboost}.
-#'
-#' @details
-#' The \code{distr} return type is composed by using[mboost::survFit()] which assumes a PH fit with
-#' a Breslow estimator. \cr
-#' The \code{lp} return type is given by [mboost::predict.mboost()]. \cr
-#' The \code{crank} return type is the same as the `lp`. \cr
-#'
 #' If the value given to the \code{Family} parameter is "custom.family" then an object of class
 #' [mboost::Family()] needs to be passed to the \code{custom.family} parameter.
 #'
@@ -58,7 +40,6 @@
 #' \doi{10.1007/s00180-012-0382-5}
 #'
 #' @export
-#' @template seealso_learner
 #' @examples
 #' library(mlr3)
 #' task = tsk("rats")

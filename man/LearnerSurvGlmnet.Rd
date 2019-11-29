@@ -6,16 +6,16 @@
 \title{GLM with Elastic Net Regularization Survival Learner}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerSurv}.}
 \description{
-Generalized linear models with elastic net regularization.
-Calls \code{\link[glmnet:glmnet]{glmnet::glmnet()}} from package \CRANpkg{glmnet}.
+Calls \code{\link[glmnet:glmnet]{glmnet::glmnet()}}.
+\itemize{
+\item lp is predicted by \code{\link[glmnet:predict.glmnet]{glmnet::predict.glmnet()}}
+\item \code{crank} is identical to \code{lp}.
 }
-\details{
-The \code{lp} return type is given by \code{\link[glmnet:predict.glmnet]{glmnet::predict.glmnet()}}. \cr
-The \code{crank} return type is the same as the \code{lp}. \cr
 
-See \link{LearnerSurvCVGlmnet} for the cross-validated glmnet implemented in \code{\link[glmnet:cv.glmnet]{glmnet::cv.glmnet()}}.
+Use \link{LearnerSurvGlmnet} and \link{LearnerSurvCVGlmnet} for the glmnets implemented in
+\code{\link[glmnet:glmnet]{glmnet::glmnet()}}/\code{\link[glmnet:cv.glmnet]{glmnet::cv.glmnet()}} without and with internal cross-validation, respectively.
 Tuning using the internal optimizer in \code{\link[glmnet:cv.glmnet]{glmnet::cv.glmnet()}} may be more efficient when tuning
-lambda only, however for tuning multiple hyperparameters, \CRANpkg{mlr3tuning} and \code{\link[glmnet:glmnet]{glmnet::glmnet()}} will
+lambda only. However, for tuning multiple hyperparameters, \CRANpkg{mlr3tuning} and \link{LearnerSurvGlmnet} will
 likely give better results.
 
 Parameter \code{s} (value of the regularization parameter used for predictions) is set to the median
@@ -25,6 +25,16 @@ of the \code{lambda} sequence by default, but needs to be tuned by the user.
 \preformatted{LearnerSurvGlmnet$new()
 mlr_learners$get("surv.glmnet")
 lrn("surv.glmnet")
+}
+}
+
+\section{Meta Information}{
+
+\itemize{
+\item Type: "surv"
+\item Predict Types: \verb{crank, lp}
+\item Feature Types: \verb{integer, numeric, factor}
+\item Packages: \CRANpkg{glmnet} \CRANpkg{survival}
 }
 }
 
@@ -42,5 +52,21 @@ Journal of Statistical Software, 33(1), 1-22.
 \doi{10.18637/jss.v033.i01}.
 }
 \seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Learner]{Learners}: \link[mlr3:mlr_learners]{mlr3::mlr_learners}
+Other survival learners: 
+\code{\link{LearnerSurvBlackboost}},
+\code{\link{LearnerSurvCVGlmnet}},
+\code{\link{LearnerSurvCoxPH}},
+\code{\link{LearnerSurvFlexible}},
+\code{\link{LearnerSurvGamboost}},
+\code{\link{LearnerSurvGlmboost}},
+\code{\link{LearnerSurvKaplan}},
+\code{\link{LearnerSurvMboost}},
+\code{\link{LearnerSurvNelson}},
+\code{\link{LearnerSurvParametric}},
+\code{\link{LearnerSurvPenalized}},
+\code{\link{LearnerSurvRandomForestSRC}},
+\code{\link{LearnerSurvRanger}},
+\code{\link{LearnerSurvRpart}},
+\code{\link{LearnerSurvSVM}}
 }
+\concept{survival learners}

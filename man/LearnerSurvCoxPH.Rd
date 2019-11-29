@@ -3,21 +3,30 @@
 \name{LearnerSurvCoxPH}
 \alias{LearnerSurvCoxPH}
 \alias{mlr_learners_surv.coxph}
-\title{Cox Proportional Hazard Learner}
-\format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{LearnerSurv}.}
+\title{Cox Proportional Hazards Survival Learner}
+\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerSurv}.}
 \description{
-A \link{LearnerSurv} for a Cox PH model implemented in \code{\link[survival:coxph]{survival::coxph()}} in package \CRANpkg{survival}.
+Calls \code{\link[survival:coxph]{survival::coxph()}}.
+\itemize{
+\item lp is predicted by \code{\link[survival:survfit.coxph]{survival::survfit.coxph()}}
+\item distr is predicted by \code{\link[survival:survfit.coxph]{survival::survfit.coxph()}}
+\item \code{crank} is identical to \code{lp}.
 }
-\details{
-The \code{distr} return type is given by predicting the survival function in \code{\link[survival:survfit.coxph]{survival::survfit.coxph()}},
-the method used for estimating the baseline hazard depends on the \code{type} hyper-parameter.\cr
-The \code{lp} return type is given by \code{\link[survival:predict.coxph]{survival::predict.coxph()}}. \cr
-The \code{crank} return type is the same as the \code{lp}. \cr
 }
 \section{Construction}{
 \preformatted{LearnerSurvCoxPH$new()
 mlr_learners$get("surv.coxph")
 lrn("surv.coxph")
+}
+}
+
+\section{Meta Information}{
+
+\itemize{
+\item Type: "surv"
+\item Predict Types: \verb{distr, crank, lp}
+\item Feature Types: \verb{logical, integer, numeric, factor}
+\item Packages: \CRANpkg{survival} \CRANpkg{distr6}
 }
 }
 
@@ -28,5 +37,21 @@ Journal of the Royal Statistical Society: Series B (Methodological) 34.2 (1972):
 \doi{10.1111/j.2517-6161.1972.tb00899.x}.
 }
 \seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Learner]{Learners}: \link[mlr3:mlr_learners]{mlr3::mlr_learners}
+Other survival learners: 
+\code{\link{LearnerSurvBlackboost}},
+\code{\link{LearnerSurvCVGlmnet}},
+\code{\link{LearnerSurvFlexible}},
+\code{\link{LearnerSurvGamboost}},
+\code{\link{LearnerSurvGlmboost}},
+\code{\link{LearnerSurvGlmnet}},
+\code{\link{LearnerSurvKaplan}},
+\code{\link{LearnerSurvMboost}},
+\code{\link{LearnerSurvNelson}},
+\code{\link{LearnerSurvParametric}},
+\code{\link{LearnerSurvPenalized}},
+\code{\link{LearnerSurvRandomForestSRC}},
+\code{\link{LearnerSurvRanger}},
+\code{\link{LearnerSurvRpart}},
+\code{\link{LearnerSurvSVM}}
 }
+\concept{survival learners}

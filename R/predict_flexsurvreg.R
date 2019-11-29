@@ -1,4 +1,4 @@
-predict.flexsurvreg <- function (object, task, ...)
+predict_flexsurvreg <- function (object, task, ...)
 {
 
    # define newdata from the supplied task and convert to model matrix

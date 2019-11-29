@@ -3,19 +3,29 @@
 \name{LearnerSurvRanger}
 \alias{LearnerSurvRanger}
 \alias{mlr_learners_surv.ranger}
-\title{Survival Ranger Learner}
+\title{Ranger Survival Forest Survival Learner}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerSurv}.}
 \description{
-A \link{LearnerSurv} for a survival random forest implemented in \code{\link[ranger:ranger]{ranger::ranger()}} in package \CRANpkg{ranger}.
+Calls \code{\link[ranger:ranger]{ranger::ranger()}}.
+\itemize{
+\item distr is predicted using \code{\link[ranger:predict.ranger]{ranger::predict.ranger()}}.
+\item \code{crank} is predicted as the expectation of the survival distribution, \code{distr}.
 }
-\details{
-The \code{distr} return type is given natively by predicting the survival function in \code{\link[ranger:predict.ranger]{ranger::predict.ranger()}}.\cr
-The \code{crank} return type is defined as the expectation of the survival distribution.
 }
 \section{Construction}{
 \preformatted{LearnerSurvRanger$new()
 mlr_learners$get("surv.ranger")
 lrn("surv.ranger")
+}
+}
+
+\section{Meta Information}{
+
+\itemize{
+\item Type: "surv"
+\item Predict Types: \verb{distr, crank}
+\item Feature Types: \verb{logical, integer, numeric, character, factor, ordered}
+\item Packages: \CRANpkg{ranger} \CRANpkg{distr6}
 }
 }
 
@@ -31,5 +41,21 @@ Machine Learning 45(1).
 \doi{10.1023/A:1010933404324}.
 }
 \seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Learner]{Learners}: \link[mlr3:mlr_learners]{mlr3::mlr_learners}
+Other survival learners: 
+\code{\link{LearnerSurvBlackboost}},
+\code{\link{LearnerSurvCVGlmnet}},
+\code{\link{LearnerSurvCoxPH}},
+\code{\link{LearnerSurvFlexible}},
+\code{\link{LearnerSurvGamboost}},
+\code{\link{LearnerSurvGlmboost}},
+\code{\link{LearnerSurvGlmnet}},
+\code{\link{LearnerSurvKaplan}},
+\code{\link{LearnerSurvMboost}},
+\code{\link{LearnerSurvNelson}},
+\code{\link{LearnerSurvParametric}},
+\code{\link{LearnerSurvPenalized}},
+\code{\link{LearnerSurvRandomForestSRC}},
+\code{\link{LearnerSurvRpart}},
+\code{\link{LearnerSurvSVM}}
 }
+\concept{survival learners}

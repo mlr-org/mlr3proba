@@ -1,23 +1,8 @@
-#' @title Kaplan Meier Estimator Survival Learner
-#'
-#' @usage NULL
-#' @aliases mlr_learners_surv.kaplan
-#' @format [R6::R6Class()] inheriting from [LearnerSurv].
-#' @include LearnerSurv.R
-#'
-#' @section Construction:
-#' ```
-#' LearnerSurvKaplanMeier$new()
-#' mlr_learners$get("surv.kaplan")
-#' lrn("surv.kaplan")
-#' ```
-#'
-#' @description
-#' Kaplan Meier estimator called from [survival::survfit()] in package \CRANpkg{survival}.
-#'
-#' @details
-#' The \code{distr} return type is given by estimating the survival function with [survival::survfit()].\cr
-#' The \code{crank} return type is defined by the expectation of the survival distribution.
+#' @template surv_learner
+#' @templateVar title Kaplan Meier Estimator
+#' @templateVar fullname LearnerSurvKaplan
+#' @templateVar caller [survival::survfit()]
+#' @templateVar distr by estimating the survival function with [survival::survfit()].
 #'
 #' @references
 #' Kaplan, E. L. and Meier, P. (1958).
@@ -25,10 +10,8 @@
 #' Journal of the American Statistical Association, 53(282), 457-481.
 #' \doi{10.2307/2281868}.
 #'
-#' @template seealso_learner
-#'
 #' @export
-LearnerSurvKaplanMeier = R6Class("LearnerSurvKaplanMeier", inherit = LearnerSurv,
+LearnerSurvKaplan = R6Class("LearnerSurvKaplan", inherit = LearnerSurv,
   public = list(
     initialize = function() {
       super$initialize(

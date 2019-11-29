@@ -6,15 +6,12 @@
 \title{Gradient Boosting for Generalized Additive Models Survival Learner}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerSurv}.}
 \description{
-Gradient boosting for optimizing arbitrary loss functions, where component-wise arbitrary
-base-learners, e.g., smoothing procedures, are utilized as additive base-learners.
-Calls \code{\link[mboost:mboost]{mboost::mboost()}} from package \CRANpkg{mboost}.
+Calls \code{\link[mboost:mboost]{mboost::mboost()}}.
+\itemize{
+\item lp is predicted by \code{\link[mboost:predict.mboost]{mboost::predict.mboost()}}. \cr
+\item distr is predicted by \code{\link[mboost:survFit]{mboost::survFit()}} which assumes a PH fit with a Breslow estimator
+\item \code{crank} is identical to \code{lp}.
 }
-\details{
-The \code{distr} return type is composed by using\code{\link[mboost:survFit]{mboost::survFit()}} which assumes a PH fit with
-a Breslow estimator. \cr
-The \code{lp} return type is given by \code{\link[mboost:predict.mboost]{mboost::predict.mboost()}}. \cr
-The \code{crank} return type is the same as the \code{lp}. \cr
 
 If the value given to the \code{Family} parameter is "custom.family" then an object of class
 \code{\link[mboost:Family]{mboost::Family()}} needs to be passed to the \code{custom.family} parameter.
@@ -28,6 +25,16 @@ specific definition of the corresponding base-learner.
 \preformatted{LearnerSurvMboost$new()
 mlr_learners$get("surv.mboost")
 lrn("surv.mboost")
+}
+}
+
+\section{Meta Information}{
+
+\itemize{
+\item Type: "surv"
+\item Predict Types: \verb{distr, crank, lp}
+\item Feature Types: \verb{integer, numeric, factor, logical}
+\item Packages: \CRANpkg{mboost} \CRANpkg{distr6} \CRANpkg{survival}
 }
 }
 
@@ -64,5 +71,21 @@ Computational Statistics, 29, 3–35.
 \doi{10.1007/s00180-012-0382-5}
 }
 \seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Learner]{Learners}: \link[mlr3:mlr_learners]{mlr3::mlr_learners}
+Other survival learners: 
+\code{\link{LearnerSurvBlackboost}},
+\code{\link{LearnerSurvCVGlmnet}},
+\code{\link{LearnerSurvCoxPH}},
+\code{\link{LearnerSurvFlexible}},
+\code{\link{LearnerSurvGamboost}},
+\code{\link{LearnerSurvGlmboost}},
+\code{\link{LearnerSurvGlmnet}},
+\code{\link{LearnerSurvKaplan}},
+\code{\link{LearnerSurvNelson}},
+\code{\link{LearnerSurvParametric}},
+\code{\link{LearnerSurvPenalized}},
+\code{\link{LearnerSurvRandomForestSRC}},
+\code{\link{LearnerSurvRanger}},
+\code{\link{LearnerSurvRpart}},
+\code{\link{LearnerSurvSVM}}
 }
+\concept{survival learners}

@@ -50,8 +50,8 @@ register_mlr3 = function() {
    # x$add("probreg.gaussian", LearnerProbregGaussian)
 
    x$add("surv.coxph", LearnerSurvCoxPH)
-   x$add("surv.kaplan", LearnerSurvKaplanMeier)
-   x$add("surv.nelson", LearnerSurvNelsonAalen)
+   x$add("surv.kaplan", LearnerSurvKaplan)
+   x$add("surv.nelson", LearnerSurvNelson)
    x$add("surv.glmnet", LearnerSurvGlmnet)
    x$add("surv.cvglmnet", LearnerSurvCVGlmnet)
    x$add("surv.glmboost", LearnerSurvGlmboost)

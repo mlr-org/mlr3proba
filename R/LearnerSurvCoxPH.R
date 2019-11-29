@@ -1,25 +1,9 @@
-#' @title Cox Proportional Hazard Learner
-#'
-#' @usage NULL
-#' @aliases mlr_learners_surv.coxph
-#' @format [R6::R6Class] inheriting from [LearnerSurv].
-#' @include LearnerSurv.R
-#'
-#' @section Construction:
-#' ```
-#' LearnerSurvCoxPH$new()
-#' mlr_learners$get("surv.coxph")
-#' lrn("surv.coxph")
-#' ```
-#'
-#' @description
-#' A [LearnerSurv] for a Cox PH model implemented in [survival::coxph()] in package \CRANpkg{survival}.
-#'
-#' @details
-#' The \code{distr} return type is given by predicting the survival function in [survival::survfit.coxph()],
-#' the method used for estimating the baseline hazard depends on the \code{type} hyper-parameter.\cr
-#' The \code{lp} return type is given by [survival::predict.coxph()]. \cr
-#' The \code{crank} return type is the same as the `lp`. \cr
+#' @template surv_learner
+#' @templateVar title Cox Proportional Hazards
+#' @templateVar fullname LearnerSurvCoxPH
+#' @templateVar caller [survival::coxph()]
+#' @templateVar distr by [survival::survfit.coxph()]
+#' @templateVar lp by [survival::survfit.coxph()]
 #'
 #' @references
 #' Cox, David R. (1972).
@@ -27,7 +11,6 @@
 #' Journal of the Royal Statistical Society: Series B (Methodological) 34.2 (1972): 187-202.
 #' \doi{10.1111/j.2517-6161.1972.tb00899.x}.
 #'
-#' @template seealso_learner
 #' @export
 LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
   public = list(

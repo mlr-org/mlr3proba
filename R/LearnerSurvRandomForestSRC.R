@@ -1,27 +1,16 @@
-#' @title Survival RandomForestSRC Learner
-#'
-#' @usage NULL
-#' @aliases mlr_learners_surv.randomForestSRC
-#' @format [R6::R6Class()] inheriting from [LearnerSurv].
-#' @include LearnerSurv.R
-#'
-#' @section Construction:
-#' ```
-#' LearnerSurvRandomForestSRC$new()
-#' mlr_learners$get("surv.randomForestSRC")
-#' lrn("surv.randomForestSRC")
-#' ```
+#' @template surv_learner
+#' @templateVar title RandomForestSRC Survival Forest
+#' @templateVar fullname LearnerSurvRandomForestSRC
+#' @templateVar caller [randomForestSRC::rfsrc()]
+#' @templateVar distr using [randomForestSRC::predict.rfsrc()].
 #'
 #' @description
-#' A [LearnerSurv] for a survival random forest implemented in [randomForestSRC::rfsrc()] in package \CRANpkg{randomForestSRC}.
+#' [randomForestSRC::predict.rfsrc()] returns both cumulative hazard funcion (chf) and survival function (surv)
+#' but uses different estimators to derive these. `chf` uses a bootstrapped Nelson-Aalen estimator,
+#' (Ishwaran, 2008) whereas `surv` uses a bootstrapped Kaplan-Meier estimator [https://kogalur.github.io/randomForestSRC/theory.html](https://kogalur.github.io/randomForestSRC/theory.html).
+#' The choice of which estimator to use is given by the extra `estimator` hyper-parameter,
+#' default is `nelson`.
 #'
-#' @details
-#' The \code{distr} return type is defined from either the cumulative hazard function (chf) or survival function (surv),
-#' predicted by [randomForestSRC::predict.rfsrc()]. Note that these give different results as \code{chf}
-#' uses a bootstrapped Nelson-Aalen estimator (Ishwaran, 2008) whereas \code{surv} uses a
-#' bootstrapped Kaplan-Meier estimator (https://kogalur.github.io/randomForestSRC/theory.html). The choice
-#' of which estimator to use is given by the extra \code{estimator} hyper-parameter, default is Nelson-Aalen.\cr
-#' The \code{crank} return type is defined by the expectation of the survival distribution.
 #'
 #' @references
 #' Ishwaran H. and Kogalur U.B. (2019). Fast Unified Random Forests for Survival,
@@ -35,50 +24,53 @@
 #' Machine Learning 45(1).
 #' \doi{10.1023/A:1010933404324}.
 #'
-#' @template seealso_learner
 #' @export
 LearnerSurvRandomForestSRC = R6Class("LearnerSurvRandomForestSRC", inherit = LearnerSurv,
   public = list(
     initialize = function() {
+      ps = ParamSet$new(
+        params = list(
+          ParamInt$new(id = "ntree", default = 1000, lower = 1L, tags = c("train", "predict")),
+          ParamInt$new(id = "mtry", lower = 1L, tags = "train"),
+          ParamInt$new(id = "nodesize", default = 15L, lower = 1L, tags = "train"),
+          ParamInt$new(id = "nodedepth", lower = 1L, tags = "train"),
+          ParamFct$new(id = "splitrule", levels = c("logrank", "bs.gradient", "logrankscore"), default = "logrank", tags = "train"),
+          ParamInt$new(id = "nsplit", lower = 0, default = 10, tags = "train"),
+          ParamFct$new(id = "importance", default = "FALSE", levels = c("FALSE", "TRUE", "none", "permute", "random", "anti"), tags = c("train","predict")),
+          ParamInt$new(id = "block.size", default = 10L, lower = 1L, tags = c("train","predict")),
+          ParamFct$new(id = "ensemble", default = "all", levels = c("all", "oob", "inbag"), tags = c("train","predict")),
+          ParamFct$new(id = "bootstrap", default = "by.root", levels = c("by.root", "by.node", "none","by.user"), tags = "train"),
+          ParamFct$new(id = "samptype", default = "swor", levels = c("swor", "swr"), tags = "train"),
+          ParamUty$new(id = "samp", tags = "train"),
+          ParamLgl$new(id = "membership", default = FALSE, tags = c("train","predict")),
+          ParamUty$new(id = "sampsize", tags = "train"),
+          ParamFct$new(id = "na.action", default = "na.omit", levels = c("na.omit", "na.impute"), tags = c("train","predict")),
+          ParamInt$new(id = "na.impute", default = 1L, lower = 1L, tags = "train"),
+          ParamInt$new(id = "ntime", lower = 1L, tags = "train"),
+          ParamInt$new(id = "cause", lower = 1L, tags = "train"),
+          ParamFct$new(id = "proximity", default = "FALSE", levels = c("FALSE", "TRUE", "inbag", "oob", "all"), tags = c("train","predict")),
+          ParamFct$new(id = "distance", default = "FALSE", levels = c("FALSE", "TRUE", "inbag", "oob", "all"), tags = c("train","predict")),
+          ParamFct$new(id = "forest.wt", default = "FALSE", levels = c("FALSE", "TRUE", "inbag", "oob", "all"), tags = c("train","predict")),
+          ParamUty$new(id = "xvar.wt", tags = "train"),
+          ParamUty$new(id = "split.wt", tags = "train"),
+          ParamLgl$new(id = "forest", default = TRUE, tags = "train"),
+          ParamFct$new(id = "var.used", default = "FALSE", levels = c("FALSE", "all.trees", "by.tree"), tags = c("train","predict")),
+          ParamFct$new(id = "split.depth", default = "FALSE", levels = c("FALSE", "all.trees", "by.tree"), tags = c("train","predict")),
+          ParamInt$new(id = "seed", upper = -1L, tags = c("train","predict")),
+          ParamLgl$new(id = "do.trace", default = FALSE, tags = c("train","predict")),
+          ParamLgl$new(id = "statistics", default = FALSE, tags = c("train","predict")),
+          ParamUty$new(id = "get.tree", tags = "predict"),
+          ParamFct$new(id = "outcome", default = "train", levels = c("train","test"), tags = "predict"),
+          ParamInt$new(id = "ptn.count", default = 0L, lower = 0L, tags = "predict"),
+          ParamFct$new(id = "estimator", default = "nelson", levels = c("nelson","kaplan"), tags = "predict")
+        )
+      )
+
+      ps$values = insert_named(ps$values, list(estimator = "nelson"))
+
       super$initialize(
         id = "surv.randomForestSRC",
-        param_set = ParamSet$new(
-          params = list(
-            ParamInt$new(id = "ntree", default = 1000, lower = 1L, tags = c("train", "predict")),
-            ParamInt$new(id = "mtry", lower = 1L, tags = "train"),
-            ParamInt$new(id = "nodesize", default = 15L, lower = 1L, tags = "train"),
-            ParamInt$new(id = "nodedepth", lower = 1L, tags = "train"),
-            ParamFct$new(id = "splitrule", levels = c("logrank", "bs.gradient", "logrankscore"), default = "logrank", tags = "train"),
-            ParamInt$new(id = "nsplit", lower = 0, default = 10, tags = "train"),
-            ParamFct$new(id = "importance", default = "FALSE", levels = c("FALSE", "TRUE", "none", "permute", "random", "anti"), tags = c("train","predict")),
-            ParamInt$new(id = "block.size", default = 10L, lower = 1L, tags = c("train","predict")),
-            ParamFct$new(id = "ensemble", default = "all", levels = c("all", "oob", "inbag"), tags = c("train","predict")),
-            ParamFct$new(id = "bootstrap", default = "by.root", levels = c("by.root", "by.node", "none","by.user"), tags = "train"),
-            ParamFct$new(id = "samptype", default = "swor", levels = c("swor", "swr"), tags = "train"),
-            ParamUty$new(id = "samp", tags = "train"),
-            ParamLgl$new(id = "membership", default = FALSE, tags = c("train","predict")),
-            ParamUty$new(id = "sampsize", tags = "train"),
-            ParamFct$new(id = "na.action", default = "na.omit", levels = c("na.omit", "na.impute"), tags = c("train","predict")),
-            ParamInt$new(id = "na.impute", default = 1L, lower = 1L, tags = "train"),
-            ParamInt$new(id = "ntime", lower = 1L, tags = "train"),
-            ParamInt$new(id = "cause", lower = 1L, tags = "train"),
-            ParamFct$new(id = "proximity", default = "FALSE", levels = c("FALSE", "TRUE", "inbag", "oob", "all"), tags = c("train","predict")),
-            ParamFct$new(id = "distance", default = "FALSE", levels = c("FALSE", "TRUE", "inbag", "oob", "all"), tags = c("train","predict")),
-            ParamFct$new(id = "forest.wt", default = "FALSE", levels = c("FALSE", "TRUE", "inbag", "oob", "all"), tags = c("train","predict")),
-            ParamUty$new(id = "xvar.wt", tags = "train"),
-            ParamUty$new(id = "split.wt", tags = "train"),
-            ParamLgl$new(id = "forest", default = TRUE, tags = "train"),
-            ParamFct$new(id = "var.used", default = "FALSE", levels = c("FALSE", "all.trees", "by.tree"), tags = c("train","predict")),
-            ParamFct$new(id = "split.depth", default = "FALSE", levels = c("FALSE", "all.trees", "by.tree"), tags = c("train","predict")),
-            ParamInt$new(id = "seed", upper = -1L, tags = c("train","predict")),
-            ParamLgl$new(id = "do.trace", default = FALSE, tags = c("train","predict")),
-            ParamLgl$new(id = "statistics", default = FALSE, tags = c("train","predict")),
-            ParamUty$new(id = "get.tree", tags = "predict"),
-            ParamFct$new(id = "outcome", default = "train", levels = c("train","test"), tags = "predict"),
-            ParamInt$new(id = "ptn.count", default = 0L, lower = 0L, tags = "predict"),
-            ParamFct$new(id = "estimator", default = "nelson", levels = c("nelson","kaplan"), tags = "predict")
-          )
-        ),
+        param_set = ps,
         predict_types = c("crank","distr"),
         feature_types = c("logical", "integer", "numeric", "factor", "ordered"),
         properties = c("weights", "missings", "importance"),
@@ -102,13 +94,10 @@ LearnerSurvRandomForestSRC = R6Class("LearnerSurvRandomForestSRC", inherit = Lea
 
       p = invoke(predict, object = self$model, newdata = newdata, .args = pars)
 
-      # Default estimator is set to Kaplan-Meier
-      estimator = self$param_set$values$estimator
-      if(length(estimator) == 0) estimator = "kaplan"
       # rfsrc uses Nelson-Aalen in chf and Kaplan-Meier for survival, as these
       # don't give equivalent results one must be chosen and the relevant functions are transformed
       # as required.
-      if(estimator == "nelson")
+      if(self$param_set$values$estimator == "nelson")
         cdf = 1 - exp(-p$chf)
       else
         cdf = 1 - p$survival

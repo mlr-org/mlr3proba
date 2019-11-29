@@ -1,25 +1,11 @@
-#' @title Survival Tree Learner
-#'
-#' @usage NULL
-#' @aliases mlr_learners_surv.rpart
-#' @format [R6::R6Class] inheriting from [LearnerSurv].
-#' @include LearnerSurv.R
-#'
-#' @section Construction:
-#' ```
-#' LearnerSurvRpart$new()
-#' mlr_learners$get("surv.rpart")
-#' lrn("surv.rpart")
-#' ```
+#' @template surv_learner
+#' @templateVar title Rpart Survival Forest
+#' @templateVar fullname LearnerSurvRpart
+#' @templateVar caller [rpart::rpart()]
+#' @templateVar distr using [pec::pecRpart()] and [pec::predictSurvProb()].
 #'
 #' @description
-#' A [LearnerSurv] for a regression tree implemented in [rpart::rpart()] in package \CRANpkg{rpart},
-#' through [pec::pecRpart()] in package \CRANpkg{pec}.
 #' Parameter `xval` is set to 0 in order to save some computation time.
-#'
-#' @details
-#' The \code{distr} return type is defined in [mlr_learners_surv.rpart] with [pec::predictSurvProb()]. \cr
-#' The `crank` return type is defined as the expectation of the survival distribution.
 #'
 #' @references
 #' Breiman, L. (1984).
@@ -27,7 +13,6 @@
 #' New York: Routledge.
 #' \doi{10.1201/9781315139470}.
 #'
-#' @template seealso_learner
 #' @export
 LearnerSurvRpart = R6Class("LearnerSurvRpart", inherit = LearnerSurv,
   public = list(

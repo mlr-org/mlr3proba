@@ -10,3 +10,9 @@ format_range = function(range) {
                 if (is.finite(u)) "]" else ")")
   paste0("\\eqn{", str[1L], "}{", str[2L], "}")
 }
+
+# used in roxygen templates
+format_types = function(types) {
+  paste0(types, collapse = ", ")
+}
+

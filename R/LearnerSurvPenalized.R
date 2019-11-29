@@ -1,24 +1,15 @@
-#' @title L1 and L2 Penalized Estiamtion in GLMs Survival Learner
-#'
-#' @usage NULL
-#' @aliases mlr_learners_surv.penalized
-#' @format [R6::R6Class()] inheriting from [LearnerSurv].
-#' @include LearnerSurv.R
-#'
-#' @section Construction:
-#' ```
-#' LearnerSurvPenalized$new()
-#' mlr_learners$get("surv.penalized")
-#' lrn("surv.penalized")
-#' ```
+#' @template surv_learner
+#' @templateVar title L1 and L2 Penalized Estimation in GLMs
+#' @templateVar fullname LearnerSurvPenalized
+#' @templateVar caller [penalized::penalized()]
+#' @templateVar distr using [penalized::predict()].
 #'
 #' @description
-#' Generalized linear models with elastic net regularization.
-#' Calls [penalized::penalized()] from package \CRANpkg{penalized}.
-#'
-#' @details
-#' The \code{distr} return type is given natively by predicting the survival function in [penalized::predict()].\cr
-#' The \code{crank} return type is defined by the expectation of the survival distribution.
+#' [randomForestSRC::predict.rfsrc()] returns both cumulative hazard funcion (chf) and survival function (surv)
+#' but uses different estimators to derive these. `chf` uses a bootstrapped Nelson-Aalen estimator,
+#' (Ishwaran, 2008) whereas `surv` uses a bootstrapped Kaplan-Meier estimator [https://kogalur.github.io/randomForestSRC/theory.html](https://kogalur.github.io/randomForestSRC/theory.html).
+#' The choice of which estimator to use is given by the extra `estimator` hyper-parameter,
+#' default is `nelson`.
 #'
 #' @references
 #' Goeman, J. J., L1 penalized estimation in the Cox proportional hazards model.

@@ -1,23 +1,8 @@
-#' @title Survival Ranger Learner
-#'
-#' @usage NULL
-#' @aliases mlr_learners_surv.ranger
-#' @format [R6::R6Class()] inheriting from [LearnerSurv].
-#' @include LearnerSurv.R
-#'
-#' @section Construction:
-#' ```
-#' LearnerSurvRanger$new()
-#' mlr_learners$get("surv.ranger")
-#' lrn("surv.ranger")
-#' ```
-#'
-#' @description
-#' A [LearnerSurv] for a survival random forest implemented in [ranger::ranger()] in package \CRANpkg{ranger}.
-#'
-#' @details
-#' The \code{distr} return type is given natively by predicting the survival function in [ranger::predict.ranger()].\cr
-#' The `crank` return type is defined as the expectation of the survival distribution.
+#' @template surv_learner
+#' @templateVar title Ranger Survival Forest
+#' @templateVar fullname LearnerSurvRanger
+#' @templateVar caller [ranger::ranger()]
+#' @templateVar distr using [ranger::predict.ranger()].
 #'
 #' @references
 #' Marvin N. Wright and Andreas Ziegler (2017).
@@ -30,7 +15,6 @@
 #' Machine Learning 45(1).
 #' \doi{10.1023/A:1010933404324}.
 #'
-#' @template seealso_learner
 #' @export
 LearnerSurvRanger = R6Class("LearnerSurvRanger", inherit = LearnerSurv,
   public = list(

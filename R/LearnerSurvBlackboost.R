@@ -1,28 +1,11 @@
-#' @title Gradient Boosting with Regression Trees Survival Learner
-#'
-#' @usage NULL
-#' @aliases mlr_learners_surv.blackboost
-#' @format [R6::R6Class()] inheriting from [LearnerSurv].
-#' @include LearnerSurv.R
-#'
-#' @section Construction:
-#' ```
-#' LearnerSurvBlackboost$new()
-#' mlr_learners$get("surv.blackboost")
-#' lrn("surv.blackboost")
-#' ```
+#' @template surv_learner
+#' @templateVar title Gradient Boosting with Regression Trees
+#' @templateVar fullname LearnerSurvBlackboost
+#' @templateVar caller [mboost::blackboost()]
+#' @templateVar distr by [mboost::survFit()] which assumes a PH fit with a Breslow estimator
+#' @templateVar lp by [mboost::predict.mboost()]
 #'
 #' @description
-#' Gradient boosting for optimizing arbitrary loss functions where regression trees are
-#' utilized as base-learners.
-#' Calls [mboost::blackboost()] from package \CRANpkg{mboost}.
-#'
-#' @details
-#' The \code{distr} return type is composed by using[mboost::survFit()] which assumes a PH fit with
-#' a Breslow estimator. \cr
-#' The \code{lp} return type is given by [mboost::predict.blackboost()]. \cr
-#' The \code{crank} return type is the same as the `lp`. \cr
-#'
 #' If the value given to the \code{Family} parameter is "custom.family" then an object of class
 #' [mboost::Family()] needs to be passed to the \code{custom.family} parameter.
 #'
@@ -45,7 +28,6 @@
 #' Computing Science and Statistics, 31, 172–181.
 #'
 #' @export
-#' @template seealso_learner
 #' @examples
 #' library(mlr3)
 #' task = tgen("simsurv")$generate(200)

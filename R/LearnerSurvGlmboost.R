@@ -1,28 +1,11 @@
-#' @title Gradient Boosting with Component-wise Linear Models Survival Learner
-#'
-#' @usage NULL
-#' @aliases mlr_learners_surv.glmboost
-#' @format [R6::R6Class()] inheriting from [LearnerSurv].
-#' @include LearnerSurv.R
-#'
-#' @section Construction:
-#' ```
-#' LearnerSurvGlmboost$new()
-#' mlr_learners$get("surv.glmboost")
-#' lrn("surv.glmboost")
-#' ```
+#' @template surv_learner
+#' @templateVar title Gradient Boosting with Component-wise Linear Models
+#' @templateVar fullname LearnerSurvGlmboost
+#' @templateVar caller [mboost::glmboost()]
+#' @templateVar distr by [mboost::survFit()] which assumes a PH fit with a Breslow estimator
+#' @templateVar lp by [mboost::predict.mboost()]. \cr
 #'
 #' @description
-#' Gradient boosting for optimizing arbitrary loss functions where component-wise linear models are
-#' utilized as base-learners.
-#' Calls [mboost::glmboost()] from package \CRANpkg{mboost}.
-#'
-#' @details
-#' The \code{distr} return type is composed by using[mboost::survFit()] which assumes a PH fit with
-#' a Breslow estimator.
-#' The \code{lp} return type is given by [mboost::predict.mboost()]. \cr
-#' The \code{crank} return type is the same as the `lp`. \cr
-#'
 #' If the value given to the \code{Family} parameter is "custom.family" then an object of class
 #' [mboost::Family()] needs to be passed to the \code{custom.family} parameter.
 #'
@@ -43,7 +26,6 @@
 #' \doi{10.1007/s00180-012-0382-5}.
 #'
 #' @export
-#' @template seealso_learner
 #' @examples
 #' library(mlr3)
 #' task = tgen("simsurv")$generate(200)

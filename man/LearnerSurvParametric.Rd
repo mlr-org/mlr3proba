@@ -4,30 +4,54 @@
 \alias{LearnerSurvParametric}
 \alias{mlr_learners_surv.parametric}
 \title{Fully Parametric Survival Learner}
-\format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{LearnerSurv}.}
+\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerSurv}.}
 \description{
-A \link{LearnerSurv} for a Fully Parametric model partially implemented in
-\code{\link[survival:survreg]{survival::survreg()}} in package \CRANpkg{survival}.
+Calls \code{\link[survival:survreg]{survival::survreg()}}.
+\itemize{
+\item lp is predicted by using an internally defined \code{predict} method, see details.
+\item distr is predicted by using an internally defined \code{predict} method, see details.
+\item \code{crank} is identical to \code{lp}.
 }
-\details{
-The \code{distr} return type is composed by using the formulae for proportional hazard (PH),
-accelerated failure time (AFT), or proportional odds (PO) models, with the choice dependent on the
-\code{type} hyper-parameter. \cr
-The \code{lp} return type is predicted by computing \eqn{X\beta} for the coefficients \eqn{\beta}
-fit in \code{\link[survival:survreg]{survival::survreg()}}. \cr
-The \code{crank} return type is the same as the \code{lp}. \cr
-
-The predict method is based on \code{\link[survival:predict.survreg]{survival::predict.survreg()}} but is more efficient for composition
-to distributions. \cr
 
 Currently six parameterisations can be assumed for the baseline, see \code{\link[survival:survreg]{survival::survreg()}}. These
-are internally re-parameterised and defined as \code{distr6} objects. We plan on implementing more
-custom distributions in the future via \CRANpkg{distr6}.
+are internally re-parameterised and defined as \CRANpkg{distr6} objects, we plan on implementing more
+custom distributions in the future.
+}
+\details{
+The internal predict method is implemented in \code{mlr3proba}, which is more efficient for
+composition to distributions than \code{\link[survival:predict.survreg]{survival::predict.survreg()}}. No code is copied or adapted from
+\code{\link[survival:predict.survreg]{survival::predict.survreg()}}.
+
+\code{lp} is predicted using the formula \eqn{lp = X\beta} where \eqn{X} are the variables in the test data set
+and \eqn{\beta} are the fitted coefficients.
+
+The distribution \code{distr} is composed using the \code{lp} and specifying a model form in the
+\code{type} hyper-parameter. These are as follows, with respective hazard functions,
+\itemize{
+\item Proportional Hazards (\code{ph}) \deqn{h(t) = h_0(t)exp(lp)}{h(t) = h0(t)*exp(lp)}
+\item Accelerated Failure Time (\code{aft}) \deqn{h(t) = exp(-lp)h_0(\frac{t}{exp(lp)})}{h(t) = exp(-lp)*h0(t/exp(lp))}
+\item Proportional Odds (\code{po}) \deqn{\frac{h(t)}{h_0(t)} = {1 + (exp(lp) - 1)S_0(t)}^{-1}}{h(t)/h0(t) = {1 + (exp(lp) - 1)*S0(t)}^-1}
+}
+
+Where \eqn{h_0}{h0} and \eqn{S_0}{S0} are the estimated baseline hazard/survival respectively
+(in this case with a given parametric form), and \eqn{lp} is the predicted linear predictor \code{lp}.
+
+Default \code{type} is \code{aft}.
 }
 \section{Construction}{
 \preformatted{LearnerSurvParametric$new()
-mlr_learners$get("mlr_learners_surv.parametric")
-lrn("mlr_learners_surv.parametric")
+mlr_learners$get("surv.parametric")
+lrn("surv.parametric")
+}
+}
+
+\section{Meta Information}{
+
+\itemize{
+\item Type: "surv"
+\item Predict Types: \verb{distr, lp, crank}
+\item Feature Types: \verb{logical, integer, numeric, factor}
+\item Packages: \CRANpkg{survival} \CRANpkg{distr6}
 }
 }
 
@@ -38,5 +62,21 @@ John Wiley & Sons.
 \doi{10.1002/9781118032985}.
 }
 \seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Learner]{Learners}: \link[mlr3:mlr_learners]{mlr3::mlr_learners}
+Other survival learners: 
+\code{\link{LearnerSurvBlackboost}},
+\code{\link{LearnerSurvCVGlmnet}},
+\code{\link{LearnerSurvCoxPH}},
+\code{\link{LearnerSurvFlexible}},
+\code{\link{LearnerSurvGamboost}},
+\code{\link{LearnerSurvGlmboost}},
+\code{\link{LearnerSurvGlmnet}},
+\code{\link{LearnerSurvKaplan}},
+\code{\link{LearnerSurvMboost}},
+\code{\link{LearnerSurvNelson}},
+\code{\link{LearnerSurvPenalized}},
+\code{\link{LearnerSurvRandomForestSRC}},
+\code{\link{LearnerSurvRanger}},
+\code{\link{LearnerSurvRpart}},
+\code{\link{LearnerSurvSVM}}
 }
+\concept{survival learners}

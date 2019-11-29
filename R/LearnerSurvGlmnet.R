@@ -1,28 +1,14 @@
-#' @title GLM with Elastic Net Regularization Survival Learner
-#'
-#' @usage NULL
-#' @aliases mlr_learners_surv.glmnet
-#' @format [R6::R6Class()] inheriting from [LearnerSurv].
-#' @include LearnerSurv.R
-#'
-#' @section Construction:
-#' ```
-#' LearnerSurvGlmnet$new()
-#' mlr_learners$get("surv.glmnet")
-#' lrn("surv.glmnet")
-#' ```
+#' @template surv_learner
+#' @templateVar title GLM with Elastic Net Regularization
+#' @templateVar fullname LearnerSurvGlmnet
+#' @templateVar caller [glmnet::glmnet()]
+#' @templateVar lp by [glmnet::predict.glmnet()]
 #'
 #' @description
-#' Generalized linear models with elastic net regularization.
-#' Calls [glmnet::glmnet()] from package \CRANpkg{glmnet}.
-#'
-#' @details
-#' The \code{lp} return type is given by [glmnet::predict.glmnet()]. \cr
-#' The \code{crank} return type is the same as the `lp`. \cr
-#'
-#' See [LearnerSurvCVGlmnet] for the cross-validated glmnet implemented in [glmnet::cv.glmnet()].
+#' Use [LearnerSurvGlmnet] and [LearnerSurvCVGlmnet] for the glmnets implemented in
+#' [glmnet::glmnet()]/[glmnet::cv.glmnet()] without and with internal cross-validation, respectively.
 #' Tuning using the internal optimizer in [glmnet::cv.glmnet()] may be more efficient when tuning
-#' lambda only, however for tuning multiple hyperparameters, \CRANpkg{mlr3tuning} and [glmnet::glmnet()] will
+#' lambda only. However, for tuning multiple hyperparameters, \CRANpkg{mlr3tuning} and [LearnerSurvGlmnet] will
 #' likely give better results.
 #'
 #' Parameter `s` (value of the regularization parameter used for predictions) is set to the median
@@ -35,7 +21,6 @@
 #' \doi{10.18637/jss.v033.i01}.
 #'
 #' @export
-#' @template seealso_learner
 #' @examples
 #' library(mlr3)
 #' task = tgen("simsurv")$generate(200)
