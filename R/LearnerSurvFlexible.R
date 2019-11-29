@@ -3,8 +3,8 @@
 #' @templateVar title Flexible Parametric Spline
 #' @templateVar fullname LearnerSurvFlexible
 #' @templateVar caller [flexsurv::flexsurvspline()]
-#' @templateVar distr by using an internally defined `predict` method, see details.
-#' @templateVar lp by using an internally defined `predict` method, see details.
+#' @templateVar distr by using an internally defined `predict` method, see details
+#' @templateVar lp by using an internally defined `predict` method, see details
 #'
 #' @description
 #' Parameter `k` is changed to `1` and `scale` is changed to `odds`, as these are more in line with

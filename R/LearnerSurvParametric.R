@@ -3,8 +3,8 @@
 #' @templateVar title Fully Parametric
 #' @templateVar fullname LearnerSurvParametric
 #' @templateVar caller [survival::survreg()]
-#' @templateVar distr by using an internally defined `predict` method, see details.
-#' @templateVar lp by using an internally defined `predict` method, see details.
+#' @templateVar distr by using an internally defined `predict` method, see details
+#' @templateVar lp by using an internally defined `predict` method, see details
 #'
 #' @description
 #' Currently six parameterisations can be assumed for the baseline, see [survival::survreg()]. These

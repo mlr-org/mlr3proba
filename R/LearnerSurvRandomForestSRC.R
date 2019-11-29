@@ -2,7 +2,7 @@
 #' @templateVar title RandomForestSRC Survival Forest
 #' @templateVar fullname LearnerSurvRandomForestSRC
 #' @templateVar caller [randomForestSRC::rfsrc()]
-#' @templateVar distr using [randomForestSRC::predict.rfsrc()].
+#' @templateVar distr using [randomForestSRC::predict.rfsrc()]
 #'
 #' @description
 #' [randomForestSRC::predict.rfsrc()] returns both cumulative hazard funcion (chf) and survival function (surv)

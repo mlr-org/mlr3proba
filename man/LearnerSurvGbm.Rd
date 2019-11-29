@@ -8,7 +8,7 @@
 \description{
 Calls \code{\link[gbm:gbm]{gbm::gbm()}}.
 \itemize{
-\item lp is predicted by \code{\link[gbm:predict.gbm]{gbm::predict.gbm()}}. \cr
+\item lp is predicted by \code{\link[gbm:predict.gbm]{gbm::predict.gbm()}}
 \item \code{crank} is identical to \code{lp}.
 }
 

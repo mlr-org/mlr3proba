@@ -2,7 +2,7 @@
 #' @templateVar title Kaplan Meier Estimator
 #' @templateVar fullname LearnerSurvKaplan
 #' @templateVar caller [survival::survfit()]
-#' @templateVar distr by estimating the survival function with [survival::survfit()].
+#' @templateVar distr by estimating the survival function with [survival::survfit()]
 #'
 #' @references
 #' Kaplan, E. L. and Meier, P. (1958).

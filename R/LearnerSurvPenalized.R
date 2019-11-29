@@ -2,7 +2,7 @@
 #' @templateVar title L1 and L2 Penalized Estimation in GLMs
 #' @templateVar fullname LearnerSurvPenalized
 #' @templateVar caller [penalized::penalized()]
-#' @templateVar distr using [penalized::predict()].
+#' @templateVar distr using [penalized::predict()]
 #'
 #' @description The `penalized` and `unpenalized` arguments in the learner are implemented slightly
 #' differently than in [penalized::penalized()]. Here, there is no parameter for `penalized` but

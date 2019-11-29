@@ -2,7 +2,7 @@
 #' @templateVar title Generalized Boosting Regression Modeling
 #' @templateVar fullname LearnerSurvGbm
 #' @templateVar caller [gbm::gbm()]
-#' @templateVar lp by [gbm::predict.gbm()]. \cr
+#' @templateVar lp by [gbm::predict.gbm()]
 #'
 #' @description
 #' Parameter `distribution` is set to `coxph` as this is the only distribution implemented

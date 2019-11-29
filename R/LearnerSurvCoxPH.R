@@ -3,7 +3,7 @@
 #' @templateVar fullname LearnerSurvCoxPH
 #' @templateVar caller [survival::coxph()]
 #' @templateVar distr by [survival::survfit.coxph()]
-#' @templateVar lp by [survival::survfit.coxph()]
+#' @templateVar lp by [survival::predict.coxph()]
 #'
 #' @references
 #' Cox, David R. (1972).

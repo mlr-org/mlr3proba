@@ -2,7 +2,7 @@
 #' @templateVar title Ranger Survival Forest
 #' @templateVar fullname LearnerSurvRanger
 #' @templateVar caller [ranger::ranger()]
-#' @templateVar distr using [ranger::predict.ranger()].
+#' @templateVar distr using [ranger::predict.ranger()]
 #'
 #' @references
 #' Marvin N. Wright and Andreas Ziegler (2017).

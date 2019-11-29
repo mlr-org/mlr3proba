@@ -8,8 +8,8 @@
 \description{
 Calls \code{\link[survival:survreg]{survival::survreg()}}.
 \itemize{
-\item lp is predicted by using an internally defined \code{predict} method, see details.
-\item distr is predicted by using an internally defined \code{predict} method, see details.
+\item lp is predicted by using an internally defined \code{predict} method, see details
+\item distr is predicted by using an internally defined \code{predict} method, see details
 \item \code{crank} is identical to \code{lp}.
 }
 

@@ -4,7 +4,7 @@
 #' @templateVar fullname LearnerSurvGamboost
 #' @templateVar caller [mboost::gamboost()]
 #' @templateVar distr by [mboost::survFit()] which assumes a PH fit with a Breslow estimator
-#' @templateVar lp by [mboost::predict.mboost()]. \cr
+#' @templateVar lp by [mboost::predict.mboost()]
 #'
 #' @template learner_boost
 #' @description

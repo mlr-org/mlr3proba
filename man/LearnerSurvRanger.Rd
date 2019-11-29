@@ -8,7 +8,7 @@
 \description{
 Calls \code{\link[ranger:ranger]{ranger::ranger()}}.
 \itemize{
-\item distr is predicted using \code{\link[ranger:predict.ranger]{ranger::predict.ranger()}}.
+\item distr is predicted using \code{\link[ranger:predict.ranger]{ranger::predict.ranger()}}
 \item \code{crank} is predicted as the expectation of the survival distribution, \code{distr}.
 }
 }

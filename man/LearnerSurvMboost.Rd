@@ -8,7 +8,7 @@
 \description{
 Calls \code{\link[mboost:mboost]{mboost::mboost()}}.
 \itemize{
-\item lp is predicted by \code{\link[mboost:predict.mboost]{mboost::predict.mboost()}}. \cr
+\item lp is predicted by \code{\link[mboost:predict.mboost]{mboost::predict.mboost()}}
 \item distr is predicted by \code{\link[mboost:survFit]{mboost::survFit()}} which assumes a PH fit with a Breslow estimator
 \item \code{crank} is identical to \code{lp}.
 }
