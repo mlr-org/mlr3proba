@@ -18,8 +18,12 @@
 #' [flexsurv::flexsurvspline()] in package \CRANpkg{flexsurv}.
 #'
 #' @details
-#' The predict method is based on [flexsurv::summary.flexsurvreg()] but adapts the return type
-#' to be compatible with \CRANpkg{distr6}.
+#' The \code{distr} return type is composed by using the formulae given from [flexsurv::flexsurvspline()]. \cr
+#' The \code{crank} return type is defined as the expectation of the survival distribution. The formulae used
+#' is from [flexsurv::flexsurvspline()] and not [distr6::mean.Distribution()] as the former is faster and more accurate.
+#'
+#' The predict method is based on [flexsurv::summary.flexsurvreg()] but is quicker and more
+#' efficient, and adapts the return type to be compatible with \CRANpkg{distr6}.
 #'
 #' @references
 #' Royston, P. and Parmar, M. (2002).
@@ -50,7 +54,7 @@ LearnerSurvFlexible = R6Class("LearnerSurvFlexible", inherit = LearnerSurv,
             ParamDbl$new(id = "toler.chol", default = 1e-10, tags = "train"),
             ParamInt$new(id = "outer.max", default = 10L, tags = "train")
           )),
-        predict_types = c("distr","risk"),
+        predict_types = c("distr","crank"),
         feature_types = c("logical", "integer", "factor","numeric"),
         properties = c("weights"),
         packages = c("flexsurv", "survival", "distr6")
@@ -58,17 +62,25 @@ LearnerSurvFlexible = R6Class("LearnerSurvFlexible", inherit = LearnerSurv,
       },
 
     train_internal = function(task) {
+      # Passes control parameters to survreg.control
       pars_ctrl = c("maxiter","rel.tolerance","toler.chol","outer.max")
       pv = self$param_set$get_values(tags = "train")
       pv = pv[names(pv) %in% pars_ctrl]
       ctrl = invoke(survival::survreg.control, .args = pv)
 
+      # Adds control and other set parameters to list
       pv = self$param_set$get_values(tags = "train")
       pv = pv[!(names(pv) %in% pars_ctrl)]
       pv$sr.control = ctrl
 
+      # Changes the default values to be in line with Royston/Parmar. The current defaults are
+      # equivalent to fitting a parametric model and therefore surv.parametric should be used
+      # instead.
       if(length(pv$k) == 0) pv$k = 1
       if(length(pv$scale) == 0) pv$scale = "odds"
+
+      if(pv$k == 0)
+        message("Model fit with zero knots, consider using surv.parametric learner instead.")
 
       if ("weights" %in% task$properties)
         pv$weights = task$weights$weight
@@ -78,13 +90,16 @@ LearnerSurvFlexible = R6Class("LearnerSurvFlexible", inherit = LearnerSurv,
 
     predict_internal = function(task) {
 
+      # As we are using a custom predict method the missing assertions are performed here manually
+      # (as opposed to the automatic assertions that take place after prediction)
       if(any(is.na(data.frame(task$data(cols = task$feature_names)))))
         stop(sprintf("Learner %s on task %s failed to predict: Missing values in new data (line(s) %s)\n",
                      self$id, task$id, which(is.na(data.frame(task$data(cols = task$feature_names))))))
 
       pred = predict(self$model, task)
 
-      PredictionSurv$new(task = task, distr = pred$distr, risk = pred$risk)
+      # crank is defined as the mean of the survival distribution
+      PredictionSurv$new(task = task, distr = pred$distr, crank = pred$crank)
     }
   )
 )

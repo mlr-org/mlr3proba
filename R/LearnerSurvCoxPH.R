@@ -15,6 +15,13 @@
 #' @description
 #' A [LearnerSurv] for a Cox PH model implemented in [survival::coxph()] in package \CRANpkg{survival}.
 #'
+#' @details
+#' The \code{distr} return type is given natively by predicting the survival function in [survival::survfit.coxph()],
+#' the method used for estimating the baseline hazard depends on the \code{type} hyper-parameter.\cr
+#' The \code{crank} return type is defined by the expectation of the survival distribution.\cr
+#' The \code{lp} return type is given natively by [survival::predict.coxph()].
+#' The ranking given by \code{crank} and \code{lp} is identical.
+#'
 #' @references
 #' Cox, David R. (1972).
 #' Regression models and life‐tables.
@@ -35,7 +42,7 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
             ParamFct$new(id = "type", default = "efron", levels = c("efron", "aalen", "kalbfleisch-prentice"), tags = "predict")
           )
         ),
-        predict_types = c("distr","risk","lp"),
+        predict_types = c("distr","crank","lp"),
         feature_types = c("logical", "integer", "numeric", "factor"),
         properties = c("weights","importance"),
         packages = c("survival", "distr6")
@@ -53,28 +60,40 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
     },
 
     predict_internal = function(task) {
+
       newdata = task$data(cols = task$feature_names)
 
+      # We move the missingness checks here manually as if any NAs are made in predictions then the
+      # distribution object cannot be create (initialization of distr6 objects does not handle NAs)
       if(any(is.na(data.frame(task$data(cols = task$feature_names)))))
         stop(sprintf("Learner %s on task %s failed to predict: Missing values in new data (line(s) %s)\n",
                      self$id, task$id, which(is.na(data.frame(task$data(cols = task$feature_names))))))
 
-
-      risk =  predict(self$model, type = "risk", newdata = newdata)
       pv = self$param_set$get_values(tags = "predict")
+
+      # Get predicted values
       fit = invoke(survival::survfit, formula = self$model, newdata = newdata, se.fit = FALSE, .args = pv)
 
-      distr = suppressAll(apply(fit$surv, 2, function(x)
-        distr6::WeightedDiscrete$new(data.frame(x = fit$time, cdf = 1 - x),
-                                     decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))))
+      # define WeightedDiscrete distr6 object from predicted survival function
+      x = rep(list(data = data.frame(x = fit$time, cdf = 0)), task$nrow)
+      for(i in 1:task$nrow)
+        x[[i]]$cdf = 1 - fit$surv[, i]
 
-      PredictionSurv$new(task = task, distr = distr, risk = risk, lp = log(risk))
+      distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
+                                             decorators = c("CoreStatistics", "ExoticStatistics"))
+
+      crank = as.numeric(sapply(x, function(y) sum(y[,1] * c(y[,2][1], diff(y[,2])))))
+
+      # note the ranking of lp and crank is identical
+      PredictionSurv$new(task = task, crank = crank, distr = distr,
+                         lp = predict(self$model, type = "lp", newdata = newdata))
     },
 
     importance = function() {
      if (is.null(self$model)) {
        stopf("No model stored")
      }
+      # coefficient importance defined by the p-values
       sort(1-summary(self$model)$coefficients[,5L], decreasing = TRUE)
     },
 
@@ -84,6 +103,7 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
       stopf("No model stored")
     }
 
+    # features are selected if their coefficients are non-NA
     beta = coef(self$model)
     names(beta)[!is.na(beta)]
     }

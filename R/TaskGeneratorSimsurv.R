@@ -28,7 +28,6 @@
 #' generator = mlr3::mlr_task_generators$get("simsurv")
 #' task = generator$generate(200)
 #' task$head()
-#' plot(task$survfit())
 TaskGeneratorSimsurv = R6Class("TaskGeneratorSimsurv",
   inherit = TaskGenerator,
   public = list(
@@ -59,7 +58,7 @@ TaskGeneratorSimsurv = R6Class("TaskGeneratorSimsurv",
 
       data = setDT(invoke(simsurv::simsurv, x = covs, betas = , .args = pv))
       data = rcbind(data, covs)
-      TaskSurv$new("simsurv", remove_named(data, "id"), time = "eventtime", status = "status")
+      TaskSurv$new("simsurv", remove_named(data, "id"), time = "eventtime", event = "status")
     }
   )
 )

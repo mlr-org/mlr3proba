@@ -6,4 +6,7 @@ test_that("autotest", {
   learner$param_set$values = list(importance = "impurity")
   result = run_autotest(learner)
   expect_true(result, info = result$error)
+  learner = mlr_learners$get("surv.ranger")
+  expect_error(learner$importance(), "No model stored")
+  expect_error(learner$train(tsk("rats"))$importance(), "No importance stored")
 })

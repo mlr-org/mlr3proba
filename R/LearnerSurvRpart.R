@@ -18,7 +18,8 @@
 #' Parameter `xval` is set to 0 in order to save some computation time.
 #'
 #' @details
-#' The \code{distr6} return type is composed using [pec::predictSurvProb()].
+#' The \code{distr} return type is defined in [mlr_learners_surv.rpart] with [pec::predictSurvProb()].\cr
+#' The \code{crank} return type is defined by the expectation of the survival distribution.
 #'
 #' @references
 #' Breiman, L. (1984).
@@ -44,7 +45,7 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart", inherit = LearnerSurv,
       super$initialize(
         id = "surv.rpart",
         param_set = ps,
-        predict_types = c("risk", "distr"),
+        predict_types = c("crank", "distr"),
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         properties = c("weights", "missings", "importance", "selected_features"),
         packages = c("rpart","distr6","survival")
@@ -56,6 +57,9 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart", inherit = LearnerSurv,
       if ("weights" %in% task$properties) {
         pv = insert_named(pv, list(weights = task$weights$weight))
       }
+
+      # The model is fit via the pec package to return the required models for composition to a
+      # survival distribution.
       fit = invoke(pec::pecRpart, formula = task$formula(), data = task$data(), method = "exp", .args = pv)
 
       set_class(list(fit = fit, times = sort(unique(task$truth()[,1]))), "surv.rpart")
@@ -63,10 +67,14 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart", inherit = LearnerSurv,
 
     predict_internal = function(task) {
       newdata = task$data(cols = task$feature_names)
-      risk = unname(predict(self$model$fit$rpart, newdata = newdata, type = "vector"))
-      surv = invoke(pec::predictSurvProb, .args = list(object = self$model$fit, newdata = newdata,
+
+      cdf = 1 - invoke(pec::predictSurvProb, .args = list(object = self$model$fit, newdata = newdata,
                                                           times = self$model$times))
-      surv[is.na(surv)] = 0
+
+      # We assume that any NAs in prediction are due to the observation being dead. This certainly
+      # looks like the case when looking through predictions - i.e. predictions are made for survival
+      # for an observation until the first '0' is predicted, then NA is returned.
+      cdf[is.na(cdf)] = 1
       # surv2 = t(apply(surv,1,function(x){
       #   if(any(is.na(x))){
       #     if(round(x[which(is.na(x))[1]-1]) == 0)
@@ -75,11 +83,19 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart", inherit = LearnerSurv,
       #   return(x)
       # }))
 
-      distr = suppressAll(apply(surv, 1, function(x)
-        distr6::WeightedDiscrete$new(data.frame(x = self$model$times, cdf = 1 - x),
-                             decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))))
 
-      PredictionSurv$new(task = task, risk = risk, distr = distr)
+      # define WeightedDiscrete distr6 object from predicted survival function
+      x = rep(list(data = data.frame(x = self$model$times, cdf = 0)), task$nrow)
+      for(i in 1:task$nrow)
+        x[[i]]$cdf = cdf[i, ]
+
+      distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
+                                             decorators = c("CoreStatistics", "ExoticStatistics"))
+
+      crank = as.numeric(sapply(x, function(y) sum(y[,1] * c(y[,2][1], diff(y[,2])))))
+
+      # note the ranking of lp and crank is identical
+      PredictionSurv$new(task = task, crank = crank, distr = distr)
     },
 
     importance = function() {

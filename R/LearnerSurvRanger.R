@@ -15,6 +15,10 @@
 #' @description
 #' A [LearnerSurv] for a survival random forest implemented in [ranger::ranger()] in package \CRANpkg{ranger}.
 #'
+#' @details
+#' The \code{distr} return type is given natively by predicting the survival function in [ranger::predict.ranger()].\cr
+#' The \code{crank} return type is defined by the expectation of the survival distribution.
+#'
 #' @references
 #' Marvin N. Wright and Andreas Ziegler (2017).
 #' ranger: A Fast Implementation of Random Forests for High Dimensional Data in C++ and R.
@@ -57,7 +61,7 @@ LearnerSurvRanger = R6Class("LearnerSurvRanger", inherit = LearnerSurv,
             ParamLgl$new(id = "oob.error", default = TRUE, tags = "train")
           )
         ),
-        predict_types = c("risk","distr"),
+        predict_types = c("crank","distr"),
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         properties = c("weights", "importance", "oob_error"),
         packages = c("ranger", "distr6")
@@ -82,13 +86,18 @@ LearnerSurvRanger = R6Class("LearnerSurvRanger", inherit = LearnerSurv,
       newdata = task$data(cols = task$feature_names)
       fit = predict(object = self$model, data = newdata)
 
-      # Bottleneck. Avoidable or not? 4s time diff when returning risk only.
-      distr = suppressAll(apply(fit$survival, 1, function(x)
-        distr6::WeightedDiscrete$new(data.frame(x = fit$unique.death.times, cdf = 1 - x),
-                             decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics))))
+      # define WeightedDiscrete distr6 object from predicted survival function
+      x = rep(list(data = data.frame(x = fit$unique.death.times, cdf = 0)), task$nrow)
+      for(i in 1:task$nrow)
+        x[[i]]$cdf = 1 - fit$survival[i, ]
 
-      # Is it correct that the mean over time of the CHF is an estimate for risk?
-      PredictionSurv$new(task = task, distr = distr, risk = rowMeans(fit$chf))
+      distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
+                                             decorators = c("CoreStatistics", "ExoticStatistics"))
+
+      crank = as.numeric(sapply(x, function(y) sum(y[,1] * c(y[,2][1], diff(y[,2])))))
+
+      # note the ranking of lp and crank is identical
+      PredictionSurv$new(task = task, crank = crank, distr = distr)
     },
 
     importance = function() {

@@ -23,5 +23,5 @@ load_rats = function() {
 
   b = as_data_backend(data)
   b$hash = "_mlr3_survival_rats_"
-  TaskSurv$new("rats", b, time = "time", status = "status")
+  TaskSurv$new("rats", b, time = "time", event = "status")
 }

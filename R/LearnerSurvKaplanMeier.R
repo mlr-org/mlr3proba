@@ -15,6 +15,10 @@
 #' @description
 #' Kaplan Meier estimator called from [survival::survfit()] in package \CRANpkg{survival}.
 #'
+#' @details
+#' The \code{distr} return type is given natively by estimating the survival function with [survival::survfit()].\cr
+#' The \code{crank} return type is defined by the expectation of the survival distribution.
+#'
 #' @references
 #' Kaplan, E. L. and Meier, P. (1958).
 #' Nonparametric Estimation from Incomplete Observations.
@@ -29,7 +33,7 @@ LearnerSurvKaplanMeier = R6Class("LearnerSurvKaplanMeier", inherit = LearnerSurv
     initialize = function() {
       super$initialize(
         id = "surv.kaplan",
-        predict_types = c("risk", "distr"),
+        predict_types = c("crank", "distr"),
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         properties = "missings",
         packages = c("survival", "distr6")
@@ -41,16 +45,19 @@ LearnerSurvKaplanMeier = R6Class("LearnerSurvKaplanMeier", inherit = LearnerSurv
     },
 
     predict_internal = function(task) {
+      # Ensures that at all times before the first observed time the survival is 1, as expected.
       surv = c(1, self$model$surv)
       time = c(0, self$model$time)
 
-      distr = suppressAll(
-        distr6::WeightedDiscrete$new(data.frame(x = time, cdf = 1 - surv),
-                                     decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics)))
+      # Define WeightedDiscrete distr6 distribution from the survival function
+      x = rep(list(data = data.frame(x = time, cdf = 1 - surv)), task$nrow)
+      distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
+                                             decorators = c("CoreStatistics", "ExoticStatistics"))
 
-      risk = distr$mean()
+      # Define crank as the mean of the survival distribution
+      crank = as.numeric(sum(x[[1]][,1] * c(x[[1]][,2][1], diff(x[[1]][,2]))))
 
-      PredictionSurv$new(task = task, risk = rep(risk, task$nrow), distr = rep(list(distr), task$nrow))
+      PredictionSurv$new(task = task, crank = rep(crank, task$nrow), distr = distr)
     }
   )
 )

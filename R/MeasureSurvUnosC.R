@@ -16,9 +16,10 @@
 #' Calls [survAUC::UnoC()].
 #'
 #' @references
-#' Uno, Hajime, et al. (2011).
-#' On the C‐statistics for evaluating overall adequacy of risk prediction procedures with censored survival data.
-#' Statistics in medicine 30.10 (2011): 1105-1117.
+#' Uno, H., T. Cai T, M. J. Pencina, R. B. D'Agostino and W. L. Wei. (2011).
+#' On the C-statistics for evaluating overall adequacy of risk prediction procedures with censored
+#' survival data.
+#' Statistics in Medicine. 30(10): 1105–1117.
 #' \doi{10.1002/sim.4154}
 #'
 #' @template seealso_measure
@@ -38,7 +39,7 @@ MeasureSurvUnosC = R6Class("MeasureSurvUnosC",
 
     score_internal = function(prediction, task, train_set, ...) {
       surv_train = task$truth(train_set)
-      perf = survAUC::UnoC(surv_train, prediction$truth, prediction$risk)
+      perf = survAUC::UnoC(surv_train, prediction$truth, prediction$crank)
       if (is.nan(perf)) {
         perf = NA_real_
       }

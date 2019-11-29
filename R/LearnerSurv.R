@@ -15,7 +15,7 @@
 #' ```
 #' For a description of the arguments, see [mlr3::Learner].
 #' `task_type` is set to `"surv"`.
-#' Possible values for `predict_type` are `"distr"` and `"risk"`.
+#' Possible values for `predict_type` are `"distr"` and `"crank"`.
 #'
 #' @section Fields:
 #' See [mlr3::Learner].

@@ -20,5 +20,5 @@ load_unemployment = function() {
   path = file.path(system.file("extdata", package = "mlr3proba"), "unemployment.rds")
   b = as_data_backend(readRDS(path))
   b$hash = "_mlr3_survival_unemployment_"
-  TaskSurv$new("unemployment", b, time = "spell", status = "censor1")
+  TaskSurv$new("unemployment", b, time = "spell", event = "censor1")
 }

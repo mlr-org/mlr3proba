@@ -16,6 +16,10 @@
 #' Generalized linear models with elastic net regularization.
 #' Calls [penalized::penalized()] from package \CRANpkg{penalized}.
 #'
+#' @details
+#' The \code{distr} return type is given natively by predicting the survival function in [penalized::predict()].\cr
+#' The \code{crank} return type is defined by the expectation of the survival distribution.
+#'
 #' @references
 #' Goeman, J. J., L1 penalized estimation in the Cox proportional hazards model.
 #' Biometrical Journal 52(1), 70{84}.
@@ -50,7 +54,7 @@ LearnerSurvPenalized = R6Class("LearnerSurvPenalized", inherit = LearnerSurv,
             )
           ),
         feature_types = c("integer", "numeric","factor","ordered"),
-        predict_types = c("distr","risk"),
+        predict_types = c("distr","crank"),
         properties = "importance",
         packages = c("penalized","distr6")
         )
@@ -58,9 +62,13 @@ LearnerSurvPenalized = R6Class("LearnerSurvPenalized", inherit = LearnerSurv,
 
     train_internal = function(task) {
 
+      # Checks missing data early to prevent crashing
       if(any(task$missings() > 0))
         stop("Missing data is not supported by ", self$id)
 
+      # Changes the structure of the penalized and unpenalized parameters to be more user friendly.
+      # Now the user supplies the column names as a vector and these are added to the formula as
+      # required.
       pars = self$param_set$get_values(tags = "train")
       if (length(pars$unpenalized) == 0)
         penalized = formulate(rhs = task$feature_names)
@@ -74,6 +82,8 @@ LearnerSurvPenalized = R6Class("LearnerSurvPenalized", inherit = LearnerSurv,
       },
 
     predict_internal = function(task) {
+      # Again the penalized and unpenalized covariates are automatically converted to the
+      # correct formula
       pars = self$param_set$get_values(tags = "predict")
       if(length(pars$unpenalized) == 0)
         penalized = formulate(rhs = task$feature_names)
@@ -85,20 +95,24 @@ LearnerSurvPenalized = R6Class("LearnerSurvPenalized", inherit = LearnerSurv,
       surv = invoke(penalized::predict, self$model, penalized = penalized, data = task$data(cols = task$feature_names),
                     .args = pars)
 
-      distr = apply(surv@curves, 1, function(x)
-        suppressAll(distr6::WeightedDiscrete$new(data.frame(x = surv@time, cdf = 1 - x),
-                                         decorators = c(distr6::CoreStatistics, distr6::ExoticStatistics)))
-      )
+      # define WeightedDiscrete distr6 object from predicted survival function
+      x = rep(list(data = data.frame(x = surv@time, cdf = 0)), task$nrow)
+      for(i in 1:task$nrow)
+        x[[i]]$cdf = 1 - surv@curves[i ,]
 
-      risk = rowMeans(-log(surv@curves))
+      distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
+                                             decorators = c("CoreStatistics", "ExoticStatistics"))
 
-      PredictionSurv$new(task = task, distr = distr, risk = as.numeric(risk))
+      crank = as.numeric(sapply(x, function(y) sum(y[,1] * c(y[,2][1], diff(y[,2])))))
+
+      PredictionSurv$new(task = task, crank = crank, distr = distr)
       },
 
     importance = function() {
       if (is.null(self$model))
         stopf("No model stored")
 
+      # importance defined by decreasing fitted weights
       sort(self$model@weights, decreasing = TRUE)
       }
     )

@@ -21,11 +21,12 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Raphael Sonabend \email{raphael.sonabend.15@ucl.ac.uk} (0000-0001-9225-4654)
+\strong{Maintainer}: Raphael Sonabend \email{raphael.sonabend.15@ucl.ac.uk} (\href{https://orcid.org/0000-0001-9225-4654}{ORCID})
 
 Authors:
 \itemize{
   \item Franz Kiraly \email{f.kiraly@ucl.ac.uk}
+  \item Michel Lang \email{michellang@gmail.com} (\href{https://orcid.org/0000-0001-9754-0393}{ORCID})
 }
 
 }
