@@ -1,37 +1,31 @@
-#' @include predict.flexsurvreg.R
-#'
-#' @title Fully Parametric Survival Learner
-#'
-#' @usage NULL
-#' @aliases mlr_learners_surv.parametric
-#' @format [R6::R6Class] inheriting from [LearnerSurv].
-#' @include LearnerSurv.R
-#'
-#' @section Construction:
-#' ```
-#' LearnerSurvParametric$new()
-#' mlr_learners$get("mlr_learners_surv.parametric")
-#' lrn("mlr_learners_surv.parametric")
-#' ```
+#' @include predict_survreg.R
+#' @template surv_learner
+#' @templateVar title Fully Parametric
+#' @templateVar fullname LearnerSurvParametric
+#' @templateVar caller [survival::survreg()]
+#' @templateVar distr by using an internally defined `predict` method, see details.
+#' @templateVar lp by using an internally defined `predict` method, see details.
 #'
 #' @description
-#' A [LearnerSurv] for a Fully Parametric model partially implemented in
-#' [survival::survreg()] in package \CRANpkg{survival}.
+#' Currently six parameterisations can be assumed for the baseline, see [survival::survreg()]. These
+#' are internally re-parameterised and defined as \CRANpkg{distr6} objects, we plan on implementing more
+#' custom distributions in the future.
 #'
 #' @details
-#' The \code{distr} return type is composed by using the formulae for proportional hazard (PH),
-#' accelerated failure time (AFT), or proportional odds (PO) models, with the choice dependent on the
-#' \code{type} hyper-parameter. \cr
-#' The \code{crank} return type is defined as the exponential of the linear predictor. This ranking
-#' is identical to the expectation of the survival distribution but faster and more accurate to compute. \cr
-#' The \code{lp} return type is predicted by computing \eqn{X\beta} for the coefficients \eqn{\beta}
-#' fit in [survival::survreg()].
+#' The internal predict method is implemented in `mlr3proba`, which is more efficient for
+#' composition to distributions than [survival::predict.survreg()].
 #'
-#' The predict method is based on [survival::predict.survreg()] but is more efficient for composition
-#' to distributions.
+#' `lp` is predicted using the formula \eqn{lp = X\beta} where \eqn{X} are the variables in the test
+#' data set and \eqn{\beta} are the fitted coefficients.
 #'
-#' Currently six parameterisations can be assumed for the baseline, see [survival::survreg()]. These
-#' are internally re-parameterised and defined as \code{distr6} objects.
+#' The distribution `distr` is composed using the `lp` and specifying a model form in the
+#' `type` hyper-parameter. These are as follows, with respective hazard functions,
+#' * Proportional Hazards (`ph`) \deqn{h(t) = h_0(t)exp(lp)}{h(t) = h0(t)*exp(lp)}
+#' * Accelerated Failure Time (`aft`) \deqn{h(t) = exp(-lp)h_0(\frac{t}{exp(lp)})}{h(t) = exp(-lp)*h0(t/exp(lp))}
+#' * Proportional Odds (`po`) \deqn{\frac{h(t)}{h_0(t)} = {1 + (exp(lp) - 1)S_0(t)}^{-1}}{h(t)/h0(t) = {1 + (exp(lp) - 1)*S0(t)}^-1}
+#'
+#' Where \eqn{h_0}{h0} and \eqn{S_0}{S0} are the estimated baseline hazard/survival respectively
+#' (in this case with a given parametric form), and \eqn{lp} is the predicted linear predictor `lp`.
 #'
 #' @references
 #' Kalbfleisch, J. D., Prentice, R. L. (2002).
@@ -39,9 +33,7 @@
 #' John Wiley & Sons.
 #' \doi{10.1002/9781118032985}.
 #'
-#' @template seealso_learner
 #' @export
-
 LearnerSurvParametric = R6Class("LearnerSurvParametric", inherit = LearnerSurv,
   public = list(
     initialize = function() {
@@ -132,11 +124,9 @@ LearnerSurvParametric = R6Class("LearnerSurvParametric", inherit = LearnerSurv,
       pv = self$param_set$get_values(tags = "predict")
 
       # Call the predict method defined in mlr3proba
-      pred = invoke(predict_survreg, object = self$model, task = task, predict_type = "all", .args = pv)
+      pred = invoke(predict_survreg, object = self$model, task = task, .args = pv)
 
-      # crank defined as exp(lp) - identical ranking to mean of survival distribution but
-      # much faster to compute.
-      PredictionSurv$new(task = task, distr = pred$distr, crank = pred$crank, lp = pred$lp)
+      PredictionSurv$new(task = task, distr = pred$distr, crank = pred$lp, lp = pred$lp)
     }
   )
 )

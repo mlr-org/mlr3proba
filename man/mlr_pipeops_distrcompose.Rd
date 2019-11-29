@@ -6,7 +6,7 @@
 \title{PipeOpDistrCompositor}
 \format{\code{\link{R6Class}} inheriting from \code{\link{PipeOp}}.}
 \description{
-Predict a survival distribution from a survival learner \code{\link[mlr3:Prediction]{Prediction}}, which
+Predict a survival distribution from a survival learner \code{\link{PredictionSurv}}, which
 predicts \code{lp} or \code{crank}.
 
 Note:
@@ -54,6 +54,11 @@ The parameters are:
 Determines the form that the predicted linear survival model should take. This is either,
 accelerated-failure time, \code{aft}, proportional hazards, \code{ph}, or proportional odds, \code{po}.
 Default \code{aft}.
+\item \code{overwrite} :: \code{logical(1)} \cr
+If \code{FALSE} (default) then if the "pred" input already has a \code{distr}, the compositor does nothing
+and returns the given \link{PredictionSurv}. If \code{TRUE} then the \code{distr} is overwritten with the \code{distr}
+composed from \code{lp}/\code{crank} - this is useful for changing the prediction \code{distr} from one model
+form to another.
 }
 }
 
@@ -81,6 +86,7 @@ Only methods inherited from \link{PipeOp}.
 \examples{
 library("mlr3")
 library("mlr3pipelines")
+set.seed(42)
 
 # Three methods to transform the cox ph predicted `distr` to an
 #  accelerated failure time model
@@ -89,25 +95,28 @@ task = tsk("rats")
 # Method 1 - Train and predict separately then compose
 base = lrn("surv.kaplan")$train(task)$predict(task)
 pred = lrn("surv.coxph")$train(task)$predict(task)
-pod = po("distrcompose", param_vals = list(form = "aft"))
+pod = po("distrcompose", param_vals = list(form = "aft", overwrite = TRUE))
 pod$predict(list(base = base, pred = pred))
 
 # Method 2 - Create a graph manually
 gr = Graph$new()$
   add_pipeop(po("learner", lrn("surv.kaplan")))$
-  add_pipeop(po("learner", lrn("surv.coxph")))$
+  add_pipeop(po("learner", lrn("surv.glmnet")))$
   add_pipeop(po("distrcompose"))$
   add_edge("surv.kaplan", "distrcompose", dst_channel = "base")$
-  add_edge("surv.coxph", "distrcompose", dst_channel = "pred")
+  add_edge("surv.glmnet", "distrcompose", dst_channel = "pred")
 gr$train(task)
 gr$predict(task)
 
 # Method 3 - Syntactic sugar: Wrap the learner in a graph
-cox.distr = distrcompositor(learner = lrn("surv.coxph"),
+cvglm.distr = distrcompositor(learner = lrn("surv.cvglmnet"),
                             estimator = "kaplan",
                             form = "aft")
-resample(task, cox.distr, rsmp("cv", folds = 2))
+resample(task, cvglm.distr, rsmp("cv", folds = 2))$predictions()
 }
 \seealso{
-\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}
+\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp} and \link{distrcompositor}
+
+Other survival compositors: 
+\code{\link{mlr_pipeops_crankcompose}}
 }

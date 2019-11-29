@@ -38,9 +38,7 @@ register_mlr3 = function() {
     x$learner_predict_types$surv = list(crank = c("crank","lp","distr"),
                                         distr = c("crank","lp","distr"),
                                         lp = c("crank","lp","distr"))
-    # x$learner_predict_types$density = list(prob = "prob")
-    # x$learner_predict_types$probreg = list(prob = "prob")
-    x$default_measures$surv = "surv.harrellsc"
+    x$default_measures$surv = "surv.harrellC"
   }
 
   # tasks
@@ -58,12 +56,11 @@ register_mlr3 = function() {
   # learners
    x = utils::getFromNamespace("mlr_learners", ns = "mlr3")
    # x$add("density.kde", LearnerDensityKDE)
-
    # x$add("probreg.gaussian", LearnerProbregGaussian)
 
    x$add("surv.coxph", LearnerSurvCoxPH)
-   x$add("surv.kaplan", LearnerSurvKaplanMeier)
-   x$add("surv.nelson", LearnerSurvNelsonAalen)
+   x$add("surv.kaplan", LearnerSurvKaplan)
+   x$add("surv.nelson", LearnerSurvNelson)
    x$add("surv.glmnet", LearnerSurvGlmnet)
    x$add("surv.cvglmnet", LearnerSurvCVGlmnet)
    x$add("surv.glmboost", LearnerSurvGlmboost)
@@ -82,15 +79,37 @@ register_mlr3 = function() {
    x = utils::getFromNamespace("mlr_measures", ns = "mlr3")
    # x$add("density.logloss", MeasureDensityLogloss)
    # x$add("regr.logloss", MeasureRegrLogloss)
-   x$add("surv.brier", MeasureSurvBrier)
+   x$add("surv.graf", MeasureSurvGraf)
+   x$add("surv.grafSE", MeasureSurvGrafSE)
    x$add("surv.logloss", MeasureSurvLogloss)
-   x$add("surv.logloss_se", MeasureSurvLoglossSE)
-   x$add("surv.unosc", MeasureSurvUnosC)
-   x$add("surv.harrellsc", MeasureSurvHarrellsC)
+   x$add("surv.loglossSE", MeasureSurvLoglossSE)
+   x$add("surv.loglossint", MeasureSurvLoglossInt)
+   x$add("surv.loglossintSE", MeasureSurvLoglossIntSE)
+
+   x$add("surv.unoC", MeasureSurvUnoC)
+   x$add("surv.harrellC", MeasureSurvHarrellC)
+   x$add("surv.gonenC", MeasureSurvGonenC)
+   x$add("surv.beggC", MeasureSurvBeggC)
+
+   x$add("surv.nagelkR2", MeasureSurvNagelkR2)
+   x$add("surv.oquigleyR2", MeasureSurvOQuigleyR2)
+   x$add("surv.xuR2", MeasureSurvXuR2)
+
+   x$add("surv.chamblessAUC", MeasureSurvChamblessAUC)
+   x$add("surv.hungAUC", MeasureSurvHungAUC)
+   x$add("surv.unoAUC", MeasureSurvUnoAUC)
+   x$add("surv.songAUC", MeasureSurvSongAUC)
+
+   x$add("surv.unoTPR", MeasureSurvUnoTPR)
+   x$add("surv.songTPR", MeasureSurvSongTPR)
+
+   x$add("surv.unoTNR", MeasureSurvUnoTNR)
+   x$add("surv.songTNR", MeasureSurvSongTNR)
 }
 register_mlr3pipelines = function(){
    x = utils::getFromNamespace("mlr_pipeops", ns = "mlr3pipelines")
    x$add("distrcompose", PipeOpDistrCompositor)
+   x$add("crankcompose", PipeOpCrankCompositor)
 }
 
 .onLoad = function(libname, pkgname) {

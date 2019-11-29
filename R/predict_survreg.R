@@ -16,7 +16,7 @@ predict_survreg = function(object, task, type = "aft", predict_type = "all"){
   # checks and parameterises the chosen model type: proportional hazard (ph), accelerated failure time (aft), odds.
   # PH: h(t) = h0(t)exp(lp)
   # AFT: h(t) = exp(-lp)h0(t/exp(lp))
-  # PO: h(t)/h0(t) = {1 + (exp(lp)-1)S-(t)}^-1
+  # PO: h(t)/h0(t) = {1 + (exp(lp)-1)S0(t)}^-1
 
   dist = distr6::toproper(fit$dist)
 

@@ -1,30 +1,19 @@
 #' @importFrom survivalsvm makediff1 makediff2 makediff3
-#'
-#' @title Regression, Ranking and Hybrid Support Vector Machine Survival Learner
-#'
-#' @usage NULL
-#' @aliases mlr_learners_surv.svm
-#' @format [R6::R6Class()] inheriting from [LearnerSurv].
-#' @include LearnerSurv.R
-#'
-#' @section Construction:
-#' ```
-#' LearnerSurvSVM$new()
-#' mlr_learners$get("surv.svm")
-#' lrn("surv.svm")
-#' ```
+#' @template surv_learner
+#' @templateVar title Regression, Ranking and Hybrid Support Vector Machines
+#' @templateVar fullname LearnerSurvSVM
+#' @templateVar caller [survivalsvm::survivalsvm()]
+#' @templateVar crank by [survivalsvm::predict.survivalsvm]
 #'
 #' @description
-#' Support vector machines predicting either the prognostic index, continuous ranks or a hybrid of the two.
-#' Calls [survivalsvm::survivalsvm()] from package \CRANpkg{survivalsvm}.
+#' Four possible SVMs can be implemented, dependent on the `type` parameter. These correspond
+#' to predicting the survival time via regression (`regression`), predicting the PI by
+#' imposing a ranking constraint (`vanbelle1`, `vanbelle2`), a hybrid of the two (`hybrid`).
+#' Whichever `type` is chosen determines how the `crank` predict type is calculated,
+#' but in any case all can be considered a valid continuous ranking.
 #'
-#' @details
-#' Four possible models can be implemented, dependent on the \code{model} parameter. These correspond
-#' to predicting the prognosting index (PI) via regression, \code{regression}; predicting the PI by
-#' imposing a ranking constrant, \code{vanbelle1, vanbelle2}; a hybrid of the two \code{hybrid}. Whilst
-#' \code{regression} is the default, \code{hybrid} may be more efficient in tuning as it can be reduced
-#' to the previous depending on optimal parameters.
-#'
+#' To be in line with the Van Belle papers and to prevent the learner crashing without
+#' user-set parameters, the default `diff.meth` is set to `diffmeth3` with `gamma.mu` equal to 0.1.
 #'
 #' @references
 #' Van Belle, V., Pelcmans, K., Van Huffel S. and Suykens J. A.K. (2011a).
@@ -36,7 +25,6 @@
 #' Artificial Intelligence in Medicine, 53, 107-118.
 #'
 #' @export
-#' @template seealso_learner
 #' @examples
 #' library(mlr3)
 #' task = tgen("simsurv")$generate(200)
@@ -46,26 +34,31 @@
 LearnerSurvSVM = R6Class("LearnerSurvSVM", inherit = LearnerSurv,
   public = list(
     initialize = function() {
+
+      ps = ParamSet$new(
+        params = list(
+          ParamFct$new(id = "type", default = "regression", levels = c("regression", "vanbelle1", "vanbelle2", "hybrid"), tags = "train"),
+          ParamFct$new(id = "diff.meth", levels = c("makediff1", "makediff2", "makediff3"), tags = "train"),
+          ParamUty$new(id = "gamma.mu", tags = "train"),
+          ParamFct$new(id = "opt.meth", default = "quadprog", levels = c("quadprog", "ipop"), tags = "train"),
+          ParamFct$new(id = "kernel", default = "lin_kernel", levels = c("lin_kernel", "add_kernel","rbf_kernel","poly_kernel"), tags = "train"),
+          ParamUty$new(id = "kernel.pars", tags = "train"),
+          ParamInt$new(id = "sgf.sv", default = 5L, lower = 0L, tags = "train"),
+          ParamInt$new(id = "sigf", default = 7L, lower = 0L, tags = "train"),
+          ParamInt$new(id = "maxiter", default = 20L, lower = 0L, tags = "train"),
+          ParamDbl$new(id = "margin", default = 0.05, lower = 0, tags = "train"),
+          ParamDbl$new(id = "bound", default = 10, lower = 0, tags = "train"),
+          ParamDbl$new(id = "eig.tol", default = 1e-06, lower = 0, tags = "train"),
+          ParamDbl$new(id = "conv.tol", default = 1e-07, lower = 0, tags = "train"),
+          ParamDbl$new(id = "posd.tol", default = 1e-08, lower = 0, tags = "train")
+        )
+      )
+
+      ps$values = insert_named(ps$values, list(diff.meth = "makediff3", gamma.mu = 0.1))
+
       super$initialize(
         id = "surv.svm",
-        param_set = ParamSet$new(
-          params = list(
-            ParamFct$new(id = "type", default = "regression", levels = c("regression", "vanbelle1", "vanbelle2", "hybrid"), tags = "train"),
-            ParamFct$new(id = "diff.meth", default ="makediff3", levels = c("makediff1", "makediff2", "makediff3"), tags = "train"),
-            ParamUty$new(id = "gamma.mu", default = 0.1, tags = "train"),
-            ParamFct$new(id = "opt.meth", default = "quadprog", levels = c("quadprog", "ipop"), tags = "train"),
-            ParamFct$new(id = "kernel", default = "lin_kernel", levels = c("lin_kernel", "add_kernel","rbf_kernel","poly_kernel"), tags = "train"),
-            ParamUty$new(id = "kernel.pars", tags = "train"),
-            ParamInt$new(id = "sgf.sv", default = 5L, lower = 0L, tags = "train"),
-            ParamInt$new(id = "sigf", default = 7L, lower = 0L, tags = "train"),
-            ParamInt$new(id = "maxiter", default = 20L, lower = 0L, tags = "train"),
-            ParamDbl$new(id = "margin", default = 0.05, lower = 0, tags = "train"),
-            ParamDbl$new(id = "bound", default = 10, lower = 0, tags = "train"),
-            ParamDbl$new(id = "eig.tol", default = 1e-06, lower = 0, tags = "train"),
-            ParamDbl$new(id = "conv.tol", default = 1e-07, lower = 0, tags = "train"),
-            ParamDbl$new(id = "posd.tol", default = 1e-08, lower = 0, tags = "train")
-            )
-          ),
+        param_set = ps,
         feature_types = c("integer", "numeric"),
         #   properties = "importance",
         predict_types = c("crank"),
@@ -73,16 +66,10 @@ LearnerSurvSVM = R6Class("LearnerSurvSVM", inherit = LearnerSurv,
         )
       },
     train_internal = function(task) {
-
-      # To be more in line with the Van Belle papers and to prevent the learner crashing without
-      # user-set parameters, the default methods are set to diffmeth3 with gamma.mu 0.1.
-      pars = self$param_set$get_values(tags = "train")
-      if(length(pars$diff.meth) == 0)
-        pars$diff.meth = "makediff3"
-      if(length(pars$gamma.mu) == 0)
-        pars$gamma.mu = 0.1
-
-      invoke(survivalsvm::survivalsvm, formula = task$formula(), data = task$data(), .args = pars)
+      invoke(survivalsvm::survivalsvm,
+             formula = task$formula(),
+             data = task$data(),
+             .args = self$param_set$get_values(tags = "train"))
       },
 
     predict_internal = function(task) {

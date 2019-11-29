@@ -5,7 +5,7 @@
 #' @format [`R6Class`] inheriting from [`PipeOp`].
 #'
 #' @description
-#' Predict a survival distribution from a survival learner [`Prediction`][mlr3::Prediction], which
+#' Predict a survival distribution from a survival learner [`PredictionSurv`][PredictionSurv], which
 #' predicts `lp` or `crank`.
 #'
 #' Note:
@@ -43,6 +43,11 @@
 #'    Determines the form that the predicted linear survival model should take. This is either,
 #'    accelerated-failure time, `aft`, proportional hazards, `ph`, or proportional odds, `po`.
 #'    Default `aft`.
+#' * `overwrite` :: `logical(1)` \cr
+#'    If `FALSE` (default) then if the "pred" input already has a `distr`, the compositor does nothing
+#'    and returns the given [PredictionSurv]. If `TRUE` then the `distr` is overwritten with the `distr`
+#'    composed from `lp`/`crank` - this is useful for changing the prediction `distr` from one model
+#'    form to another.
 #'
 #' @section Internals:
 #' The respective `form`s above have respective survival distributions:
@@ -59,11 +64,13 @@
 #' @section Methods:
 #' Only methods inherited from [PipeOp].
 #'
-#' @seealso [mlr3pipelines::PipeOp]
+#' @seealso [mlr3pipelines::PipeOp] and [distrcompositor]
 #' @export
+#' @family survival compositors
 #' @examples
 #' library("mlr3")
 #' library("mlr3pipelines")
+#' set.seed(42)
 #'
 #' # Three methods to transform the cox ph predicted `distr` to an
 #' #  accelerated failure time model
@@ -72,31 +79,32 @@
 #' # Method 1 - Train and predict separately then compose
 #' base = lrn("surv.kaplan")$train(task)$predict(task)
 #' pred = lrn("surv.coxph")$train(task)$predict(task)
-#' pod = po("distrcompose", param_vals = list(form = "aft"))
+#' pod = po("distrcompose", param_vals = list(form = "aft", overwrite = TRUE))
 #' pod$predict(list(base = base, pred = pred))
 #'
 #' # Method 2 - Create a graph manually
 #' gr = Graph$new()$
 #'   add_pipeop(po("learner", lrn("surv.kaplan")))$
-#'   add_pipeop(po("learner", lrn("surv.coxph")))$
+#'   add_pipeop(po("learner", lrn("surv.glmnet")))$
 #'   add_pipeop(po("distrcompose"))$
 #'   add_edge("surv.kaplan", "distrcompose", dst_channel = "base")$
-#'   add_edge("surv.coxph", "distrcompose", dst_channel = "pred")
+#'   add_edge("surv.glmnet", "distrcompose", dst_channel = "pred")
 #' gr$train(task)
 #' gr$predict(task)
 #'
 #' # Method 3 - Syntactic sugar: Wrap the learner in a graph
-#' cox.distr = distrcompositor(learner = lrn("surv.coxph"),
+#' cvglm.distr = distrcompositor(learner = lrn("surv.cvglmnet"),
 #'                             estimator = "kaplan",
 #'                             form = "aft")
-#' resample(task, cox.distr, rsmp("cv", folds = 2))
+#' resample(task, cvglm.distr, rsmp("cv", folds = 2))$predictions()
 PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
   inherit = PipeOp,
   public = list(
     initialize = function(id = "distrcompose", param_vals = list()) {
       super$initialize(id = id,
                        param_set = ParamSet$new(params = list(
-                         ParamFct$new("form", default = "aft", levels = c("aft","ph","po"), tags = c("predict"))
+                         ParamFct$new("form", default = "aft", levels = c("aft","ph","po"), tags = c("predict")),
+                         ParamLgl$new("overwrite", default = FALSE, tags = c("predict"))
                        )),
                        param_vals = param_vals,
                        input = data.table(name = c("base","pred"), train = "NULL", predict = "PredictionSurv"),
@@ -113,51 +121,60 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
       base = inputs$base
       inpred = inputs$pred
 
-      assert("distr" %in% base$predict_types)
-      assert(any(c("crank", "lp") %in% inpred$predict_types))
+      overwrite = self$param_set$values$overwrite
+      if(length(overwrite) == 0)
+        overwrite = FALSE
 
-      row_ids = inpred$row_ids
-      map(inputs, function(x) assert_true(identical(row_ids, x$row_ids)))
-      truth = inpred$truth
+      if ("distr" %in% inpred$predict_types & !overwrite) {
+        return(list(inpred))
+      } else {
+        assert("distr" %in% base$predict_types)
+        assert(any(c("crank", "lp") %in% inpred$predict_types))
 
-      # get form, set default if missing
-      form = self$param_set$values$form
-      if(length(form) == 0) form = "aft"
+        row_ids = inpred$row_ids
+        map(inputs, function(x) assert_true(identical(row_ids, x$row_ids)))
+        truth = inpred$truth
 
-      times = base$distr[1]$support()$elements()
-      base = base$distr[1]
+        # get form, set default if missing
+        form = self$param_set$values$form
+        if(length(form) == 0) form = "aft"
 
-      nr = nrow(inpred$data$tab)
-      nc = length(times)
+        times = base$distr[1]$support()$elements()
+        base = base$distr[1]
 
-      if(is.null(inpred$lp))
-        lp = inpred$crank
-      else
-        lp = inpred$lp
+        nr = nrow(inpred$data$tab)
+        nc = length(times)
 
-      timesmat = matrix(times, nrow = nr, ncol = nc, byrow = T)
-      survmat = matrix(base$survival(times), nrow = nr, ncol = nc, byrow = T)
-      lpmat = matrix(lp, nrow = nr, ncol = nc)
+        if(is.null(inpred$lp))
+          lp = inpred$crank
+        else
+          lp = inpred$lp
 
-      if(form == "ph")
-        cdf = 1 - (survmat ^ exp(lpmat))
-      else if (form == "aft")
-        cdf = t(apply(timesmat / exp(lpmat), 1, function(x) base$cdf(x)))
-      else if (form == "po")
-        cdf = 1 - (survmat * ({exp(-lpmat) + ((1 - exp(-lpmat)) * survmat)}^-1))
+        timesmat = matrix(times, nrow = nr, ncol = nc, byrow = T)
+        survmat = matrix(base$survival(times), nrow = nr, ncol = nc, byrow = T)
+        lpmat = matrix(lp, nrow = nr, ncol = nc)
 
-      x = rep(list(data = data.frame(x = times, cdf = 0)), nr)
+        if(form == "ph")
+          cdf = 1 - (survmat ^ exp(lpmat))
+        else if (form == "aft")
+          cdf = t(apply(timesmat / exp(lpmat), 1, function(x) base$cdf(x)))
+        else if (form == "po")
+          cdf = 1 - (survmat * ({exp(-lpmat) + ((1 - exp(-lpmat)) * survmat)}^-1))
 
-      for(i in 1:nc)
-        x[[i]]$cdf = cdf[i,]
+        x = rep(list(data = data.frame(x = times, cdf = 0)), nr)
 
-      distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
-                                             decorators = c("CoreStatistics", "ExoticStatistics"))
+        for(i in 1:nc)
+          x[[i]]$cdf = cdf[i,]
+
+        distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
+                                               decorators = c("CoreStatistics", "ExoticStatistics"))
 
 
-      truth = inputs[[1]]$truth
+        truth = inputs[[1]]$truth
 
-      list(PredictionSurv$new(row_ids = row_ids, truth = truth, crank = inpred$crank, distr = distr, lp = inpred$lp))
+        return(list(PredictionSurv$new(row_ids = row_ids, truth = truth,
+                                       crank = inpred$crank, distr = distr, lp = inpred$lp)))
+      }
     }
   )
 )

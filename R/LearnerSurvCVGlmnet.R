@@ -1,32 +1,14 @@
-#' @title Cross-Validated GLM with Elastic Net Regularization Survival Learner
-#'
-#' @usage NULL
-#' @aliases mlr_learners_surv.cvglmnet
-#' @format [R6::R6Class()] inheriting from [LearnerSurv].
-#' @include LearnerSurv.R
-#'
-#' @section Construction:
-#' ```
-#' LearnerSurvCVGlmnet$new()
-#' mlr_learners$get("surv.cvglmnet")
-#' lrn("surv.cvglmnet")
-#' ```
+#' @template surv_learner
+#' @templateVar title Cross-Validated GLM with Elastic Net Regularization
+#' @templateVar fullname LearnerSurvCVGlmnet
+#' @templateVar caller [glmnet::cv.glmnet()]
+#' @templateVar lp by [glmnet::predict.cv.glmnet()]
 #'
 #' @description
-#' Generalized linear models with elastic net regularization and k-fold cross-validation for lambda.
-#' Calls [glmnet::cv.glmnet()] from package \CRANpkg{glmnet}.
-#'
-#' @details
-#' The \code{distr} return type is composed by using the Cox formula \eqn{S(t) = S0(t)^exp(lp)} where
-#' \eqn{S0} is the baseline survival function and \eqn{lp} is the predicted linear predictor. The
-#' baseline survival is estimated with either Kaplan-Meier or Nelson-Aalen, depending on the
-#' \code{estimator} hyper-parameter, using [survival::survfit()].\cr
-#' The \code{crank} return type is defined by the expectation of the survival distribution. \cr
-#' The \code{lp} return type is given natively by [glmnet::predict.cv.glmnet()].
-#'
-#' See [LearnerSurvCVGlmnet] for the glmnet implemented in [glmnet::glmnet()] without internal cross-validation.
+#' Use [LearnerSurvGlmnet] and [LearnerSurvCVGlmnet] for the glmnets implemented in
+#' [glmnet::glmnet()]/[glmnet::cv.glmnet()] without and with internal cross-validation, respectively.
 #' Tuning using the internal optimizer in [glmnet::cv.glmnet()] may be more efficient when tuning
-#' lambda only, however for tuning multiple hyperparameters, \CRANpkg{mlr3tuning} and [glmnet::glmnet()] will
+#' lambda only. However, for tuning multiple hyperparameters, \CRANpkg{mlr3tuning} and [LearnerSurvGlmnet] will
 #' likely give better results.
 #'
 #' @references
@@ -36,7 +18,6 @@
 #' \doi{10.18637/jss.v033.i01}.
 #'
 #' @export
-#' @template seealso_learner
 #' @examples
 #' library(mlr3)
 #' task = tgen("simsurv")$generate(200)
@@ -50,7 +31,6 @@ LearnerSurvCVGlmnet = R6Class("LearnerSurvCVGlmnet", inherit = LearnerSurv,
         id = "surv.cvglmnet",
         param_set = ParamSet$new(
           params = list(
-            ParamFct$new(id = "estimator", default = "kaplan", levels = c("kaplan","nelson"), tags = "train"),
             ParamDbl$new(id = "alpha", default = 1, lower = 0, upper = 1, tags = "train"),
             ParamInt$new(id = "nfolds", lower = 3L, default = 10L, tags = "train"),
             ParamInt$new(id = "nlambda", default = 100L, lower = 1L, tags = "train"),
@@ -81,18 +61,15 @@ LearnerSurvCVGlmnet = R6Class("LearnerSurvCVGlmnet", inherit = LearnerSurv,
           )
         ),
         feature_types = c("integer", "numeric", "factor"),
-        predict_types = c("distr","crank","lp"),
+        predict_types = c("crank","lp"),
         properties = "weights",
-        packages = c("glmnet","distr6","survival")
+        packages = c("glmnet","survival")
       )
     },
 
     train_internal = function(task) {
 
       pars = self$param_set$get_values(tags = "train")
-      # estimator parameter is used internally for composition (i.e. outside of glmnet) and is
-      # thus ignored for now
-      pars$estimator = NULL
 
       # convert data to model matrix
       x = model.matrix(~., as.data.frame(task$data(cols = task$feature_names)))
@@ -114,23 +91,7 @@ LearnerSurvCVGlmnet = R6Class("LearnerSurvCVGlmnet", inherit = LearnerSurv,
         pars = pars[!is_ctrl_pars]
       }
 
-      fit = invoke(glmnet::cv.glmnet, x = x, y = target, family = "cox", .args = pars)
-
-      # for composition fit the baseline distribution
-      basehaz = invoke(survival::survfit, formula = task$formula(1), data = task$data())
-
-      # Kaplan-Meier estimator used by default
-      estimator = self$param_set$values$estimator
-      if(length(estimator) == 0) estimator = "kaplan"
-      # survfit uses Nelson-Aalen in chf and Kaplan-Meier for survival, as these
-      # don't give equivalent results one must be chosen and the relevant functions are transformed
-      # as required.
-      if(estimator == "nelson")
-        basesurv = exp(-basehaz$cumhaz)
-      else
-        basesurv = basehaz$surv
-
-      set_class(list(fit = fit, basesurv = basesurv, times = basehaz$time), "surv.cvglmnet")
+      invoke(glmnet::cv.glmnet, x = x, y = target, family = "cox", .args = pars)
     },
 
     predict_internal = function(task) {
@@ -140,29 +101,14 @@ LearnerSurvCVGlmnet = R6Class("LearnerSurvCVGlmnet", inherit = LearnerSurv,
       newdata = model.matrix(~., as.data.frame(task$data(cols = task$feature_names)))
 
       if(length(pars$s) == 0)
-        pars$s = round(self$model$fit$lambda.1se, 6)
+        pars$s = round(self$model$lambda.1se, 6)
       else
         pars$s = round(pars$s, 6)
 
       # predict linear predictor
-      lp = as.numeric(invoke(predict, self$model$fit, newx = newdata, type = "link", .args = pars))
+      lp = as.numeric(invoke(predict, self$model, newx = newdata, type = "link", .args = pars))
 
-      # distr defined as a PH model with the baseline survival to the power of
-      # the crank.
-      cdf = 1 - (matrix(self$model$basesurv, nrow = task$nrow, ncol = length(self$model$basesurv), byrow = T) ^
-                   exp(matrix(lp, nrow = task$nrow, ncol = length(self$model$basesurv))))
-
-      # define WeightedDiscrete distr6 object from predicted survival function
-      x = rep(list(data = data.frame(x = self$model$times, cdf = 0)), task$nrow)
-      for(i in 1:task$nrow)
-        x[[i]]$cdf = cdf[i,]
-
-      distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
-                                             decorators = c("CoreStatistics", "ExoticStatistics"))
-
-      crank = as.numeric(sapply(x, function(y) sum(y[,1] * c(y[,2][1], diff(y[,2])))))
-
-      PredictionSurv$new(task = task, crank = crank, distr = distr, lp = lp)
+      PredictionSurv$new(task = task, crank = lp, lp = lp)
     }
   )
 )

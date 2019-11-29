@@ -4,23 +4,44 @@
 \alias{LearnerSurvFlexible}
 \alias{mlr_learners_surv.flexible}
 \title{Flexible Parametric Spline Survival Learner}
-\format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{LearnerSurv}.}
+\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerSurv}.}
 \description{
-A \link{LearnerSurv} for a Flexible Parametric Spline model partially implemented in
-\code{\link[flexsurv:flexsurvspline]{flexsurv::flexsurvspline()}} in package \CRANpkg{flexsurv}.
+Calls \code{\link[flexsurv:flexsurvspline]{flexsurv::flexsurvspline()}}.
+\itemize{
+\item lp is predicted by using an internally defined \code{predict} method, see details.
+\item distr is predicted by using an internally defined \code{predict} method, see details.
+\item \code{crank} is identical to \code{lp}.
+}
+
+Parameter \code{k} is changed to \code{1} and \code{scale} is changed to \code{odds}, as these are more in line with
+the Royston/Parmar proposed models, and the package defaults are equivalent to fitting a
+parametric model and therefore \link[=LearnerSurvParametric]{surv.parametric} should be used instead.
+
+If fitting a model with \code{k = 0} then consider using \link[=LearnerSurvParametric]{surv.parametric} as
+this is likely to have more optimal results, and has more options for tuning.
 }
 \details{
-The \code{distr} return type is composed by using the formulae given from \code{\link[flexsurv:flexsurvspline]{flexsurv::flexsurvspline()}}. \cr
-The \code{crank} return type is defined as the expectation of the survival distribution. The formulae used
-is from \code{\link[flexsurv:flexsurvspline]{flexsurv::flexsurvspline()}} and not \code{\link[distr6:mean.Distribution]{distr6::mean.Distribution()}} as the former is faster and more accurate.
+The \code{distr} prediction is estimated using the fitted custom distributions from \code{\link[flexsurv:flexsurvspline]{flexsurv::flexsurvspline()}}
+and the estimated coefficients.
 
-The predict method is based on \code{\link[flexsurv:summary.flexsurvreg]{flexsurv::summary.flexsurvreg()}} but is quicker and more
-efficient, and adapts the return type to be compatible with \CRANpkg{distr6}.
+As flexible spline models estimate the hazard as the intercept, the linear predictor, \code{lp}, can be
+calculated as in the classical setting. i.e. For fitted coefficients, \eqn{\beta = (\beta0,...,\betaP)},
+and covariates \eqn{X^T = (X0,...,XP)^T}, where \eqn{X0} is a column of \eqn{1}s: \eqn{lp = \betaX}.
 }
 \section{Construction}{
 \preformatted{LearnerSurvFlexible$new()
 mlr_learners$get("surv.flexible")
 lrn("surv.flexible")
+}
+}
+
+\section{Meta Information}{
+
+\itemize{
+\item Type: "surv"
+\item Predict Types: \verb{distr, lp, crank}
+\item Feature Types: \verb{logical, integer, factor, numeric}
+\item Packages: \CRANpkg{flexsurv} \CRANpkg{survival} \CRANpkg{distr6}
 }
 }
 
@@ -33,4 +54,22 @@ Statistics in Medicine, 21(15), 2175-2197.
 }
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Learner]{Learners}: \link[mlr3:mlr_learners]{mlr3::mlr_learners}
+
+Other survival learners: 
+\code{\link{LearnerSurvBlackboost}},
+\code{\link{LearnerSurvCVGlmnet}},
+\code{\link{LearnerSurvCoxPH}},
+\code{\link{LearnerSurvGamboost}},
+\code{\link{LearnerSurvGlmboost}},
+\code{\link{LearnerSurvGlmnet}},
+\code{\link{LearnerSurvKaplan}},
+\code{\link{LearnerSurvMboost}},
+\code{\link{LearnerSurvNelson}},
+\code{\link{LearnerSurvParametric}},
+\code{\link{LearnerSurvPenalized}},
+\code{\link{LearnerSurvRandomForestSRC}},
+\code{\link{LearnerSurvRanger}},
+\code{\link{LearnerSurvRpart}},
+\code{\link{LearnerSurvSVM}}
 }
+\concept{survival learners}

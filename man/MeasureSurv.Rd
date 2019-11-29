@@ -31,6 +31,6 @@ See \link{Measure}.
 }
 
 \seealso{
-Example survival measures: \code{\link[=mlr_measures_surv.brier]{surv.brier}}.
+Example survival measures: \code{\link[=mlr_measures_surv.graf]{surv.graf}}.
 }
 \concept{Measure}

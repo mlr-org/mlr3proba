@@ -1,38 +1,36 @@
-#' @title Uno's C-Index
-#'
-#' @usage NULL
-#' @aliases mlr_measures_surv.unos_c
-#' @format [R6::R6Class()] inheriting from [MeasureSurv].
-#' @include MeasureSurv.R
-#'
-#' @section Construction:
-#' ```
-#' MeasureSurvUnosC$new()
-#' mlr_measures$get("surv.unos_c")
-#' msr("surv.unos_c")
-#' ```
+#' @template surv_measure
+#' @templateVar title Uno's C-Index
+#' @templateVar inherit [MeasureSurv]
+#' @templateVar fullname MeasureSurvUnoC
+#' @templateVar shortname surv.unoC
+#' @templateVar pars times, lp_thresh
+#' @templateVar times_par TRUE
+#' @templateVar thresh_par TRUE
 #'
 #' @description
 #' Calls [survAUC::UnoC()].
 #'
+#' Assumes random censoring.
+#'
 #' @references
-#' Uno, H., T. Cai T, M. J. Pencina, R. B. D'Agostino and W. L. Wei. (2011).
+#' Uno, H., T. Cai T, M. J. Pencina, R. B. D'Agostino and W. L. Wei. (2011). \cr
 #' On the C-statistics for evaluating overall adequacy of risk prediction procedures with censored
-#' survival data.
-#' Statistics in Medicine. 30(10): 1105–1117.
+#' survival data.\cr
+#' Statistics in Medicine. 30(10): 1105–1117.\cr
 #' \doi{10.1002/sim.4154}
 #'
-#' @template seealso_measure
+#' @family Concordance survival measures
 #' @export
-MeasureSurvUnosC = R6Class("MeasureSurvUnosC",
+MeasureSurvUnoC = R6Class("MeasureSurvUnoC",
   inherit = MeasureSurv,
   public = list(
     initialize = function() {
       super$initialize(
-        id = "surv.unos_c",
+        id = "surv.unoC",
         range = 0:1,
         minimize = FALSE,
         packages = "survAUC",
+        predict_type = "crank",
         properties = c("na_score", "requires_task", "requires_train_set")
       )
     },

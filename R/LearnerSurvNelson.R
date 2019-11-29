@@ -1,23 +1,8 @@
-#' @title Nelson Aalen Estimator Survival Learner
-#'
-#' @usage NULL
-#' @aliases mlr_learners_surv.nelson
-#' @format [R6::R6Class()] inheriting from [LearnerSurv].
-#' @include LearnerSurv.R
-#'
-#' @section Construction:
-#' ```
-#' LearnerSurvNelsonAalen$new()
-#' mlr_learners$get("surv.nelson")
-#' lrn("surv.nelson")
-#' ```
-#'
-#' @description
-#' Nelson Aalen estimator called from [survival::survfit()] in package \CRANpkg{survival}.
-#'
-#' @details
-#' The \code{distr} return type is given natively by estimating the cumulative hazard function with [survival::survfit()].\cr
-#' The \code{crank} return type is defined by the expectation of the survival distribution.
+#' @template surv_learner
+#' @templateVar title Nelson Aalen Estimator
+#' @templateVar fullname LearnerSurvNelson
+#' @templateVar caller [survival::survfit()]
+#' @templateVar distr by estimating the cumulative hazard function with [survival::survfit()].
 #'
 #' @references
 #' Nelson, W. (1969).
@@ -34,10 +19,8 @@
 #' Nonparametric inference for a family of counting processes.
 #' Annals of Statistics, 6(4), 701–726.
 #'
-#' @template seealso_learner
-#'
 #' @export
-LearnerSurvNelsonAalen = R6Class("LearnerSurvNelsonAalen", inherit = LearnerSurv,
+LearnerSurvNelson = R6Class("LearnerSurvNelson", inherit = LearnerSurv,
   public = list(
     initialize = function() {
       super$initialize(

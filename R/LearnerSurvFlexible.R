@@ -1,29 +1,26 @@
-#' @include predict.flexsurvreg.R
-#' @title Flexible Parametric Spline Survival Learner
-#'
-#' @usage NULL
-#' @aliases mlr_learners_surv.flexible
-#' @format [R6::R6Class] inheriting from [LearnerSurv].
-#' @include LearnerSurv.R
-#'
-#' @section Construction:
-#' ```
-#' LearnerSurvFlexible$new()
-#' mlr_learners$get("surv.flexible")
-#' lrn("surv.flexible")
-#' ```
+#' @include predict_flexsurvreg.R
+#' @template surv_learner
+#' @templateVar title Flexible Parametric Spline
+#' @templateVar fullname LearnerSurvFlexible
+#' @templateVar caller [flexsurv::flexsurvspline()]
+#' @templateVar distr by using an internally defined `predict` method, see details.
+#' @templateVar lp by using an internally defined `predict` method, see details.
 #'
 #' @description
-#' A [LearnerSurv] for a Flexible Parametric Spline model partially implemented in
-#' [flexsurv::flexsurvspline()] in package \CRANpkg{flexsurv}.
+#' Parameter `k` is changed to `1` and `scale` is changed to `odds`, as these are more in line with
+#' the Royston/Parmar proposed models, and the package defaults are equivalent to fitting a
+#' parametric model and therefore [surv.parametric][LearnerSurvParametric] should be used instead.
+#'
+#' If fitting a model with `k = 0` then consider using [surv.parametric][LearnerSurvParametric] as
+#' this is likely to have more optimal results, and has more options for tuning.
 #'
 #' @details
-#' The \code{distr} return type is composed by using the formulae given from [flexsurv::flexsurvspline()]. \cr
-#' The \code{crank} return type is defined as the expectation of the survival distribution. The formulae used
-#' is from [flexsurv::flexsurvspline()] and not [distr6::mean.Distribution()] as the former is faster and more accurate.
+#' The `distr` prediction is estimated using the fitted custom distributions from [flexsurv::flexsurvspline()]
+#' and the estimated coefficients.
 #'
-#' The predict method is based on [flexsurv::summary.flexsurvreg()] but is quicker and more
-#' efficient, and adapts the return type to be compatible with \CRANpkg{distr6}.
+#' As flexible spline models estimate the hazard as the intercept, the linear predictor, `lp`, can be
+#' calculated as in the classical setting. i.e. For fitted coefficients, \eqn{\beta = (\beta0,...,\betaP)},
+#' and covariates \eqn{X^T = (X0,...,XP)^T}, where \eqn{X0} is a column of \eqn{1}s: \eqn{lp = \betaX}.
 #'
 #' @references
 #' Royston, P. and Parmar, M. (2002).
@@ -37,24 +34,28 @@
 LearnerSurvFlexible = R6Class("LearnerSurvFlexible", inherit = LearnerSurv,
   public = list(
     initialize = function() {
+      ps = ParamSet$new(
+        params = list(
+          ParamInt$new(id = "k", default = 0L, lower = 0L, tags = "train"),
+          ParamUty$new(id = "knots", tags = "train"),
+          ParamUty$new(id = "bknots", tags = "train"),
+          ParamFct$new(id ="scale", default = "hazard", levels = c("hazard","odds","normal"), tags = "train"),
+          ParamFct$new(id ="timescale", default = "log", levels = c("log","identity"), tags = "train"),
+          ParamUty$new(id = "inits", tags = "train"),
+          ParamUty$new(id = "fixedpars", tags = "train"),
+          ParamDbl$new(id = "cl", default = 0.95, lower = 0, upper = 1, tags = "train"),
+          ParamInt$new(id = "maxiter", default = 30L, tags = "train"),
+          ParamDbl$new(id = "rel.tolerance", default = 1e-09, tags = "train"),
+          ParamDbl$new(id = "toler.chol", default = 1e-10, tags = "train"),
+          ParamInt$new(id = "outer.max", default = 10L, tags = "train")
+        ))
+
+      ps$values = list(k = 1, scale = "odds")
+
       super$initialize(
         id = "surv.flexible",
-        param_set = ParamSet$new(
-          params = list(
-            ParamInt$new(id = "k", default = 1L, lower = 0L, tags = "train"),
-            ParamUty$new(id = "knots", tags = "train"),
-            ParamUty$new(id = "bknots", tags = "train"),
-            ParamFct$new(id ="scale", default = "odds", levels = c("hazard","odds","normal"), tags = "train"),
-            ParamFct$new(id ="timescale", default = "log", levels = c("log","identity"), tags = "train"),
-            ParamUty$new(id = "inits", tags = "train"),
-            ParamUty$new(id = "fixedpars", tags = "train"),
-            ParamDbl$new(id = "cl", default = 0.95, lower = 0, upper = 1, tags = "train"),
-            ParamInt$new(id = "maxiter", default = 30L, tags = "train"),
-            ParamDbl$new(id = "rel.tolerance", default = 1e-09, tags = "train"),
-            ParamDbl$new(id = "toler.chol", default = 1e-10, tags = "train"),
-            ParamInt$new(id = "outer.max", default = 10L, tags = "train")
-          )),
-        predict_types = c("distr","crank"),
+        param_set = ps,
+        predict_types = c("distr","lp","crank"),
         feature_types = c("logical", "integer", "factor","numeric"),
         properties = c("weights"),
         packages = c("flexsurv", "survival", "distr6")
@@ -73,12 +74,6 @@ LearnerSurvFlexible = R6Class("LearnerSurvFlexible", inherit = LearnerSurv,
       pv = pv[!(names(pv) %in% pars_ctrl)]
       pv$sr.control = ctrl
 
-      # Changes the default values to be in line with Royston/Parmar. The current defaults are
-      # equivalent to fitting a parametric model and therefore surv.parametric should be used
-      # instead.
-      if(length(pv$k) == 0) pv$k = 1
-      if(length(pv$scale) == 0) pv$scale = "odds"
-
       if(pv$k == 0)
         message("Model fit with zero knots, consider using surv.parametric learner instead.")
 
@@ -96,10 +91,10 @@ LearnerSurvFlexible = R6Class("LearnerSurvFlexible", inherit = LearnerSurv,
         stop(sprintf("Learner %s on task %s failed to predict: Missing values in new data (line(s) %s)\n",
                      self$id, task$id, which(is.na(data.frame(task$data(cols = task$feature_names))))))
 
-      pred = predict(self$model, task)
+      pred = invoke(predict_flexsurvreg, self$model, task)
 
       # crank is defined as the mean of the survival distribution
-      PredictionSurv$new(task = task, distr = pred$distr, crank = pred$crank)
+      PredictionSurv$new(task = task, distr = pred$distr, lp = pred$lp, crank = pred$lp)
     }
   )
 )

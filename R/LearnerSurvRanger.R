@@ -1,23 +1,8 @@
-#' @title Survival Ranger Learner
-#'
-#' @usage NULL
-#' @aliases mlr_learners_surv.ranger
-#' @format [R6::R6Class()] inheriting from [LearnerSurv].
-#' @include LearnerSurv.R
-#'
-#' @section Construction:
-#' ```
-#' LearnerSurvRanger$new()
-#' mlr_learners$get("surv.ranger")
-#' lrn("surv.ranger")
-#' ```
-#'
-#' @description
-#' A [LearnerSurv] for a survival random forest implemented in [ranger::ranger()] in package \CRANpkg{ranger}.
-#'
-#' @details
-#' The \code{distr} return type is given natively by predicting the survival function in [ranger::predict.ranger()].\cr
-#' The \code{crank} return type is defined by the expectation of the survival distribution.
+#' @template surv_learner
+#' @templateVar title Ranger Survival Forest
+#' @templateVar fullname LearnerSurvRanger
+#' @templateVar caller [ranger::ranger()]
+#' @templateVar distr using [ranger::predict.ranger()].
 #'
 #' @references
 #' Marvin N. Wright and Andreas Ziegler (2017).
@@ -30,7 +15,6 @@
 #' Machine Learning 45(1).
 #' \doi{10.1023/A:1010933404324}.
 #'
-#' @template seealso_learner
 #' @export
 LearnerSurvRanger = R6Class("LearnerSurvRanger", inherit = LearnerSurv,
   public = list(
@@ -61,7 +45,7 @@ LearnerSurvRanger = R6Class("LearnerSurvRanger", inherit = LearnerSurv,
             ParamLgl$new(id = "oob.error", default = TRUE, tags = "train")
           )
         ),
-        predict_types = c("crank","distr"),
+        predict_types = c("distr","crank"),
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         properties = c("weights", "importance", "oob_error"),
         packages = c("ranger", "distr6")
@@ -96,8 +80,7 @@ LearnerSurvRanger = R6Class("LearnerSurvRanger", inherit = LearnerSurv,
 
       crank = as.numeric(sapply(x, function(y) sum(y[,1] * c(y[,2][1], diff(y[,2])))))
 
-      # note the ranking of lp and crank is identical
-      PredictionSurv$new(task = task, crank = crank, distr = distr)
+      PredictionSurv$new(task = task, distr = distr, crank = crank)
     },
 
     importance = function() {

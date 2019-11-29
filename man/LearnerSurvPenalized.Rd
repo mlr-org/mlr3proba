@@ -3,20 +3,34 @@
 \name{LearnerSurvPenalized}
 \alias{LearnerSurvPenalized}
 \alias{mlr_learners_surv.penalized}
-\title{L1 and L2 Penalized Estiamtion in GLMs Survival Learner}
+\title{L1 and L2 Penalized Estimation in GLMs Survival Learner}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerSurv}.}
 \description{
-Generalized linear models with elastic net regularization.
-Calls \code{\link[penalized:penalized]{penalized::penalized()}} from package \CRANpkg{penalized}.
+Calls \code{\link[penalized:penalized]{penalized::penalized()}}.
+\itemize{
+\item distr is predicted using \code{\link[penalized:predict]{penalized::predict()}}.
+\item \code{crank} is predicted as the expectation of the survival distribution, \code{distr}.
 }
-\details{
-The \code{distr} return type is given natively by predicting the survival function in \code{\link[penalized:predict]{penalized::predict()}}.\cr
-The \code{crank} return type is defined by the expectation of the survival distribution.
+
+The \code{penalized} and \code{unpenalized} arguments in the learner are implemented slightly
+differently than in \code{\link[penalized:penalized]{penalized::penalized()}}. Here, there is no parameter for \code{penalized} but
+instead it is assumed that every variable is penalized unless stated in the \code{unpenalized} parameter,
+see examples.
 }
 \section{Construction}{
 \preformatted{LearnerSurvPenalized$new()
 mlr_learners$get("surv.penalized")
 lrn("surv.penalized")
+}
+}
+
+\section{Meta Information}{
+
+\itemize{
+\item Type: "surv"
+\item Predict Types: \verb{distr, crank}
+\item Feature Types: \verb{integer, numeric, factor, ordered}
+\item Packages: \CRANpkg{penalized} \CRANpkg{distr6}
 }
 }
 
@@ -26,6 +40,13 @@ task = tgen("simsurv")$generate(200)
 learner = lrn("surv.penalized")
 resampling = rsmp("cv", folds = 3)
 resample(task, learner, resampling)
+
+# specifying penalized and unpenalized variables
+task = tgen("simsurv")$generate(200)
+learner = lrn("surv.penalized", unpenalized = c("height"))
+learner$train(task)
+learner$model@penalized
+learner$model@unpenalized
 }
 \references{
 Goeman, J. J., L1 penalized estimation in the Cox proportional hazards model.
@@ -33,4 +54,22 @@ Biometrical Journal 52(1), 70{84}.
 }
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Learner]{Learners}: \link[mlr3:mlr_learners]{mlr3::mlr_learners}
+
+Other survival learners: 
+\code{\link{LearnerSurvBlackboost}},
+\code{\link{LearnerSurvCVGlmnet}},
+\code{\link{LearnerSurvCoxPH}},
+\code{\link{LearnerSurvFlexible}},
+\code{\link{LearnerSurvGamboost}},
+\code{\link{LearnerSurvGlmboost}},
+\code{\link{LearnerSurvGlmnet}},
+\code{\link{LearnerSurvKaplan}},
+\code{\link{LearnerSurvMboost}},
+\code{\link{LearnerSurvNelson}},
+\code{\link{LearnerSurvParametric}},
+\code{\link{LearnerSurvRandomForestSRC}},
+\code{\link{LearnerSurvRanger}},
+\code{\link{LearnerSurvRpart}},
+\code{\link{LearnerSurvSVM}}
 }
+\concept{survival learners}

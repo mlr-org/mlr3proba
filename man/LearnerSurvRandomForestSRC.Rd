@@ -3,23 +3,35 @@
 \name{LearnerSurvRandomForestSRC}
 \alias{LearnerSurvRandomForestSRC}
 \alias{mlr_learners_surv.randomForestSRC}
-\title{Survival RandomForestSRC Learner}
+\title{RandomForestSRC Survival Forest Survival Learner}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerSurv}.}
 \description{
-A \link{LearnerSurv} for a survival random forest implemented in \code{\link[randomForestSRC:rfsrc]{randomForestSRC::rfsrc()}} in package \CRANpkg{randomForestSRC}.
+Calls \code{\link[randomForestSRC:rfsrc]{randomForestSRC::rfsrc()}}.
+\itemize{
+\item distr is predicted using \code{\link[randomForestSRC:predict.rfsrc]{randomForestSRC::predict.rfsrc()}}.
+\item \code{crank} is predicted as the expectation of the survival distribution, \code{distr}.
 }
-\details{
-The \code{distr} return type is defined from either the cumulative hazard function (chf) or survival function (surv),
-predicted by \code{\link[randomForestSRC:predict.rfsrc]{randomForestSRC::predict.rfsrc()}}. Note that these give different results as \code{chf}
-uses a bootstrapped Nelson-Aalen estimator (Ishwaran, 2008) whereas \code{surv} uses a
-bootstrapped Kaplan-Meier estimator (https://kogalur.github.io/randomForestSRC/theory.html). The choice
-of which estimator to use is given by the \code{estimator} hyper-parameter, default is Nelson-Aalen.\cr
-The \code{crank} return type is defined by the expectation of the survival distribution.
+
+\code{\link[randomForestSRC:predict.rfsrc]{randomForestSRC::predict.rfsrc()}} returns both cumulative hazard funcion (chf) and survival function (surv)
+but uses different estimators to derive these. \code{chf} uses a bootstrapped Nelson-Aalen estimator,
+(Ishwaran, 2008) whereas \code{surv} uses a bootstrapped Kaplan-Meier estimator \url{https://kogalur.github.io/randomForestSRC/theory.html}.
+The choice of which estimator to use is given by the extra \code{estimator} hyper-parameter,
+default is \code{nelson}.
 }
 \section{Construction}{
 \preformatted{LearnerSurvRandomForestSRC$new()
 mlr_learners$get("surv.randomForestSRC")
 lrn("surv.randomForestSRC")
+}
+}
+
+\section{Meta Information}{
+
+\itemize{
+\item Type: "surv"
+\item Predict Types: \verb{crank, distr}
+\item Feature Types: \verb{logical, integer, numeric, factor, ordered}
+\item Packages: \CRANpkg{randomForestSRC} \CRANpkg{distr6}
 }
 }
 
@@ -36,5 +48,21 @@ Machine Learning 45(1).
 \doi{10.1023/A:1010933404324}.
 }
 \seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Learner]{Learners}: \link[mlr3:mlr_learners]{mlr3::mlr_learners}
+Other survival learners: 
+\code{\link{LearnerSurvBlackboost}},
+\code{\link{LearnerSurvCVGlmnet}},
+\code{\link{LearnerSurvCoxPH}},
+\code{\link{LearnerSurvFlexible}},
+\code{\link{LearnerSurvGamboost}},
+\code{\link{LearnerSurvGlmboost}},
+\code{\link{LearnerSurvGlmnet}},
+\code{\link{LearnerSurvKaplan}},
+\code{\link{LearnerSurvMboost}},
+\code{\link{LearnerSurvNelson}},
+\code{\link{LearnerSurvParametric}},
+\code{\link{LearnerSurvPenalized}},
+\code{\link{LearnerSurvRanger}},
+\code{\link{LearnerSurvRpart}},
+\code{\link{LearnerSurvSVM}}
 }
+\concept{survival learners}

@@ -3,21 +3,31 @@
 \name{LearnerSurvRpart}
 \alias{LearnerSurvRpart}
 \alias{mlr_learners_surv.rpart}
-\title{Survival Tree Learner}
-\format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{LearnerSurv}.}
+\title{Rpart Survival Forest Survival Learner}
+\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerSurv}.}
 \description{
-A \link{LearnerSurv} for a regression tree implemented in \code{\link[rpart:rpart]{rpart::rpart()}} in package \CRANpkg{rpart},
-through \code{\link[pec:pecRpart]{pec::pecRpart()}} in package \CRANpkg{pec}.
-Parameter \code{xval} is set to 0 in order to save some computation time.
+Calls \code{\link[rpart:rpart]{rpart::rpart()}}.
+\itemize{
+\item distr is predicted using \code{\link[pec:pecRpart]{pec::pecRpart()}} and \code{\link[pec:predictSurvProb]{pec::predictSurvProb()}}.
+\item \code{crank} is predicted as the expectation of the survival distribution, \code{distr}.
 }
-\details{
-The \code{distr} return type is defined in \link{mlr_learners_surv.rpart} with \code{\link[pec:predictSurvProb]{pec::predictSurvProb()}}.\cr
-The \code{crank} return type is defined by the expectation of the survival distribution.
+
+Parameter \code{xval} is set to 0 in order to save some computation time.
 }
 \section{Construction}{
 \preformatted{LearnerSurvRpart$new()
 mlr_learners$get("surv.rpart")
 lrn("surv.rpart")
+}
+}
+
+\section{Meta Information}{
+
+\itemize{
+\item Type: "surv"
+\item Predict Types: \verb{crank, distr}
+\item Feature Types: \verb{logical, integer, numeric, character, factor, ordered}
+\item Packages: \CRANpkg{rpart} \CRANpkg{distr6} \CRANpkg{survival}
 }
 }
 
@@ -28,5 +38,21 @@ New York: Routledge.
 \doi{10.1201/9781315139470}.
 }
 \seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Learner]{Learners}: \link[mlr3:mlr_learners]{mlr3::mlr_learners}
+Other survival learners: 
+\code{\link{LearnerSurvBlackboost}},
+\code{\link{LearnerSurvCVGlmnet}},
+\code{\link{LearnerSurvCoxPH}},
+\code{\link{LearnerSurvFlexible}},
+\code{\link{LearnerSurvGamboost}},
+\code{\link{LearnerSurvGlmboost}},
+\code{\link{LearnerSurvGlmnet}},
+\code{\link{LearnerSurvKaplan}},
+\code{\link{LearnerSurvMboost}},
+\code{\link{LearnerSurvNelson}},
+\code{\link{LearnerSurvParametric}},
+\code{\link{LearnerSurvPenalized}},
+\code{\link{LearnerSurvRandomForestSRC}},
+\code{\link{LearnerSurvRanger}},
+\code{\link{LearnerSurvSVM}}
 }
+\concept{survival learners}

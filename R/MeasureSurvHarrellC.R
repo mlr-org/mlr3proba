@@ -1,33 +1,25 @@
-#' @title Harrell's C-Index
-#'
-#' @usage NULL
-#' @aliases mlr_measures_surv.harrells_c
-#' @format [R6::R6Class()] inheriting from [MeasureSurv].
-#' @include MeasureSurv.R
-#'
-#' @section Construction:
-#' ```
-#' MeasureSurvHarrellsC$new()
-#' mlr_measures$get("surv.harrellsc")
-#' msr("surv.harrellsc")
-#' ```
+#' @template surv_measure
+#' @templateVar title Harrell's C-Index
+#' @templateVar inherit [MeasureSurv]
+#' @templateVar fullname MeasureSurvHarrellC
+#' @templateVar shortname surv.harrellC
 #'
 #' @description
 #' Calculates Harrell's C, equivalent to the Fortran implementation in \CRANpkg{Hmisc}.
 #'
 #' @references
-#' Harrell, F. E., R. M. Califf, D. B. Pryor, K. L. Lee and R. A. Rosati (1982).
-#' Evaluating the yield of medical tests.
+#' Harrell, F. E., R. M. Califf, D. B. Pryor, K. L. Lee and R. A. Rosati (1982).\cr
+#' Evaluating the yield of medical tests.\cr
 #' Journal of the American Medical Association. 247. 2543–2546.
 #'
-#' @template seealso_measure
+#' @family Concordance survival measures
 #' @export
-MeasureSurvHarrellsC = R6Class("MeasureSurvHarrellsC",
+MeasureSurvHarrellC = R6Class("MeasureSurvHarrellC",
   inherit = MeasureSurv,
   public = list(
     initialize = function() {
       super$initialize(
-        id = "surv.harrells_c",
+        id = "surv.harrellC",
         range = 0:1,
         minimize = FALSE,
         predict_type = "crank"
