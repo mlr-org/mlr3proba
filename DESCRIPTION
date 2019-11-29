@@ -10,7 +10,12 @@ Authors@R:
       person(given = "Franz",
              family = "Kiraly",
              role = "aut",
-             email = "f.kiraly@ucl.ac.uk"))
+             email = "f.kiraly@ucl.ac.uk"),
+      person(given = "Michel",
+           family = "Lang",
+           role = c("aut"),
+           email = "michellang@gmail.com",
+           comment = c(ORCID = "0000-0001-9754-0393")))
 Description: Provides extensions for probabilistic supervised learning for
     'mlr3'.  This includes extending the regression task to probabilistic and interval regression,
     adding a survival task, and other specialized models, predictions,
@@ -46,8 +51,6 @@ Suggests:
     simsurv,
     survAUC,
     testthat
-Remotes:
-    alan-turing-institute/distr6
 LazyData: true
 NeedsCompilation: yes
 Roxygen: list(markdown = TRUE, r6 = FALSE)

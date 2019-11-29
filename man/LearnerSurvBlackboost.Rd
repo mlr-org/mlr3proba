@@ -81,4 +81,4 @@ Other survival learners:
 \code{\link{LearnerSurvRpart}},
 \code{\link{LearnerSurvSVM}}
 }
-\concept{survival learners}
+

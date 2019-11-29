@@ -18,13 +18,23 @@ register_mlr3 = function() {
   if (!grepl("surv", x$task_types[,"type"])) {
     x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
     x$task_types = setkeyv(rbind(x$task_types, rowwise_table(
-      ~type,  ~package,       ~task,      ~learner,      ~prediction,      ~measure,
-      "surv", "mlr3proba", "TaskSurv", "LearnerSurv", "PredictionSurv", "MeasureSurv"
+      ~type,     ~package,    ~task,         ~learner,         ~prediction,         ~measure,
+      "surv",    "mlr3proba", "TaskSurv",    "LearnerSurv",    "PredictionSurv",    "MeasureSurv"
+      # "density", "mlr3proba", "TaskDensity", "LearnerDensity", "PredictionDensity", "MeasureDensity",
+      # "probreg", "mlr3proba", "TaskProbreg", "LearnerProbreg", "PredictionProbreg", "MeasureDensity"
     )), "type")
     x$task_col_roles$surv = c("feature", "target", "label", "order", "group", "weight")
+    # x$task_col_roles$density = c("feature", "target", "label", "order", "group", "weight")
+    # x$task_col_roles$probreg = c("feature", "target", "label", "order", "group", "weight")
     x$task_properties$surv = c("weights", "groups")
+    # x$task_properties$density = c("weights", "groups")
+    # x$task_properties$probreg = c("weights", "groups")
     x$learner_properties$surv = x$learner_properties$regr
+    # x$learner_properties$density = x$learner_properties$regr
+    # x$learner_properties$probreg = x$learner_properties$regr
     x$measure_properties$surv = x$measure_properties$regr
+    # x$measure_properties$density = x$measure_properties$regr
+    # x$measure_properties$probreg = x$measure_properties$regr
     x$learner_predict_types$surv = list(crank = c("crank","lp","distr"),
                                         distr = c("crank","lp","distr"),
                                         lp = c("crank","lp","distr"))
@@ -46,7 +56,6 @@ register_mlr3 = function() {
   # learners
    x = utils::getFromNamespace("mlr_learners", ns = "mlr3")
    # x$add("density.kde", LearnerDensityKDE)
-   #
    # x$add("probreg.gaussian", LearnerProbregGaussian)
 
    x$add("surv.coxph", LearnerSurvCoxPH)
@@ -72,7 +81,6 @@ register_mlr3 = function() {
    # x$add("regr.logloss", MeasureRegrLogloss)
    x$add("surv.graf", MeasureSurvGraf)
    x$add("surv.grafSE", MeasureSurvGrafSE)
-
    x$add("surv.logloss", MeasureSurvLogloss)
    x$add("surv.loglossSE", MeasureSurvLoglossSE)
    x$add("surv.loglossint", MeasureSurvLoglossInt)
