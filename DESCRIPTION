@@ -1,6 +1,6 @@
 Package: mlr3proba
 Title: Probabilistic Supervised Learning for mlr3
-Version: 0.1.0-9000
+Version: 0.1.0-9001
 Authors@R:
       c(person(given = "Raphael",
              family = "Sonabend",
@@ -40,6 +40,7 @@ Imports:
     survival,
     survivalsvm
 Suggests:
+    gbm,
     flexsurv,
     glmnet,
     lgr,
@@ -69,6 +70,7 @@ Collate:
     'predict_flexsurvreg.R'
     'LearnerSurvFlexible.R'
     'LearnerSurvGamboost.R'
+    'LearnerSurvGbm.R'
     'LearnerSurvGlmboost.R'
     'LearnerSurvGlmnet.R'
     'LearnerSurvKaplan.R'
