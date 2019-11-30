@@ -9,9 +9,14 @@
 #' @description
 #' Calculates the cross-entropy, or logarithmic (log), loss.
 #'
-#' The logloss, in the context of probabilistic predictions, is defined as the negative log-likelihood
-#' evaluated at the observed death-time,
+#' The logloss, in the context of probabilistic predictions, is defined as the negative log probability
+#' density function, \eqn{f}, evaluated at the observation time, \eqn{t},
 #' \deqn{L(f, t) = -log(f(t))}
+#'
+#' @section Fields:
+#' As well as
+#' * eps :: numeric(1) \cr
+#' Very small number to set zero-valued predicted probabilities to, in order to prevent errors in log(0) calculation.
 #'
 #' @family Probabilistic survival measures
 #' @export

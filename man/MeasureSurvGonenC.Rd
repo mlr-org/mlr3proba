@@ -29,6 +29,12 @@ msr("surv.gonenC")
 }
 }
 
+\section{Fields}{
+
+
+See \link{MeasureSurv}
+}
+
 \references{
 Gonen, M. and G. Heller (2005).\cr
 Concordance probability and discriminatory power in proportional hazards regression.\cr
@@ -42,8 +48,8 @@ Other survival measures:
 \code{\link{MeasureSurvGraf}},
 \code{\link{MeasureSurvHarrellC}},
 \code{\link{MeasureSurvHungAUC}},
-\code{\link{MeasureSurvLoglossIntSE}},
-\code{\link{MeasureSurvLoglossInt}},
+\code{\link{MeasureSurvIntLoglossSE}},
+\code{\link{MeasureSurvIntLogloss}},
 \code{\link{MeasureSurvLoglossSE}},
 \code{\link{MeasureSurvLogloss}},
 \code{\link{MeasureSurvNagelkR2}},

@@ -4,7 +4,7 @@
 \alias{MeasureSurvUnoAUC}
 \alias{mlr_measures_surv.unoAUC}
 \title{Uno's AUC Survival Measure}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurvAUC}/\link{MeasureSurv}.}
+\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurvIntegrated}/\link{MeasureSurv}.}
 \description{
 
 
@@ -13,13 +13,13 @@ Calls \code{\link[survAUC:AUC.uno]{survAUC::AUC.uno()}}.
 Assumes random censoring.
 }
 \section{Construction}{
-\preformatted{MeasureSurvUnoC$new(integrated = TRUE, times)
+\preformatted{MeasureSurvUnoAUC$new(integrated = TRUE, times)
 mlr_measures$get("surv.unoAUC")
 msr("surv.unoAUC")
 }
 \itemize{
-\item \code{integrated} :: \code{logical(1)} \cr If \code{TRUE} (default), returns the integrated score, otherwise returns the score corresponding to the \code{times} argument. \cr
-\item \code{times} :: \code{vector()} \cr Numeric vector of times where to evaluate the score (provide only one for best performance). If missing then returns score at all unique time-points in test set. \cr
+\item \code{integrated} :: \code{logical(1)} \cr If \code{TRUE} (default), returns the integrated score, otherwise not integrated. \cr
+\item \code{times} :: \code{vector()} \cr If \code{integrate == TRUE} then a vector of time-points over which to integrate the score, or a single time point at which to return the score. \cr
 }
 }
 
@@ -29,8 +29,14 @@ msr("surv.unoAUC")
 \item Type: \code{"surv"}
 \item Range: \eqn{[0, 1]}{[0, 1]}
 \item Minimize: \code{FALSE}
-\item Required prediction: \code{crank}
+\item Required prediction: \code{lp}
 }
+}
+
+\section{Fields}{
+
+
+See \link{MeasureSurv} and \link{MeasureSurvIntegrated}
 }
 
 \references{
@@ -47,8 +53,8 @@ Other survival measures:
 \code{\link{MeasureSurvGraf}},
 \code{\link{MeasureSurvHarrellC}},
 \code{\link{MeasureSurvHungAUC}},
-\code{\link{MeasureSurvLoglossIntSE}},
-\code{\link{MeasureSurvLoglossInt}},
+\code{\link{MeasureSurvIntLoglossSE}},
+\code{\link{MeasureSurvIntLogloss}},
 \code{\link{MeasureSurvLoglossSE}},
 \code{\link{MeasureSurvLogloss}},
 \code{\link{MeasureSurvNagelkR2}},

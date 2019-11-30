@@ -18,8 +18,8 @@ mlr_measures$get("surv.unoC")
 msr("surv.unoC")
 }
 \itemize{
-\item \code{times} :: \code{vector()} \cr Numeric vector of times where to evaluate the score (provide only one for best performance). If missing then returns score at all unique time-points in test set. \cr
-\item \code{lp_thresh} :: \code{numeric(1)} \cr Determines where to threshold the linear predictor for calculating the TPR/TNR. If missing then returns score at all possible thresholds. \cr
+\item \code{times} :: \code{vector()} \cr If \code{integrate == TRUE} then a vector of time-points over which to integrate the score, or a single time point at which to return the score. \cr
+\item \code{lp_thresh} :: \code{numeric(1)} \cr Determines where to threshold the linear predictor for calculating the TPR/TNR. \cr
 }
 }
 
@@ -31,6 +31,12 @@ msr("surv.unoC")
 \item Minimize: \code{FALSE}
 \item Required prediction: \code{crank}
 }
+}
+
+\section{Fields}{
+
+
+See \link{MeasureSurv}
 }
 
 \references{
@@ -49,8 +55,8 @@ Other survival measures:
 \code{\link{MeasureSurvGraf}},
 \code{\link{MeasureSurvHarrellC}},
 \code{\link{MeasureSurvHungAUC}},
-\code{\link{MeasureSurvLoglossIntSE}},
-\code{\link{MeasureSurvLoglossInt}},
+\code{\link{MeasureSurvIntLoglossSE}},
+\code{\link{MeasureSurvIntLogloss}},
 \code{\link{MeasureSurvLoglossSE}},
 \code{\link{MeasureSurvLogloss}},
 \code{\link{MeasureSurvNagelkR2}},

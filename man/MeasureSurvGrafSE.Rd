@@ -4,15 +4,19 @@
 \alias{MeasureSurvGrafSE}
 \alias{mlr_measures_surv.grafSE}
 \title{Standard Error of Integrated Graf Score Survival Measure}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurv}.}
+\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurvIntegrated}/\link{MeasureSurv}.}
 \description{
 
 
 Calculates the standard error of \link{MeasureSurvGraf}.
 
-The standard error is approximated using Binomial approxiation. For \eqn{N} observations in the
-test set, the standard eror is given by
-\deqn{IGS_SE = sd(IGS(S))/sqrt(N)}
+If \code{integrated == FALSE} then the standard error of the loss, L, is approximated via,
+\deqn{se(L) = sd(L)/\sqrt{N}}{se(L) = sd(L)/\sqrt N}
+where \eqn{N} are the number of observations in the test set, and \eqn{sd} is the standard deviation.
+
+If \code{integrated == TRUE} then correlations between time-points need to be taken into account, therefore
+\deqn{se(L) = \sqrt{\frac{\sum_{i = 1}^M\sum_{j=1}^M \Sigma_{i,j}}{NT^2}}}{se(L) = \sqrt((\sum_{i = 1}^M\sum_{j=1}^M cov(T_i, T_j)) / (NT^2))}
+where \eqn{\Sigma_{i, j}}{cov(T_i, T_j)} is the sample covariance matrix over \eqn{M} distinct time-points.
 }
 \section{Construction}{
 \preformatted{MeasureSurvGrafSE$new(integrated = TRUE, times)
@@ -20,8 +24,8 @@ mlr_measures$get("surv.grafSE")
 msr("surv.grafSE")
 }
 \itemize{
-\item \code{integrated} :: \code{logical(1)} \cr If \code{TRUE} (default), returns the integrated score, otherwise returns the score corresponding to the \code{times} argument. \cr
-\item \code{times} :: \code{vector()} \cr Numeric vector of times where to evaluate the score (provide only one for best performance). If missing then returns score at all unique time-points in test set. \cr
+\item \code{integrated} :: \code{logical(1)} \cr If \code{TRUE} (default), returns the integrated score, otherwise not integrated. \cr
+\item \code{times} :: \code{vector()} \cr If \code{integrate == TRUE} then a vector of time-points over which to integrate the score, or a single time point at which to return the score. \cr
 }
 }
 
@@ -33,6 +37,13 @@ msr("surv.grafSE")
 \item Minimize: \code{TRUE}
 \item Required prediction: \code{distr}
 }
+}
+
+\section{Fields}{
+
+
+See \link{MeasureSurv}
+and \link{MeasureSurvIntegrated}
 }
 
 \references{
@@ -49,8 +60,8 @@ Other survival measures:
 \code{\link{MeasureSurvGraf}},
 \code{\link{MeasureSurvHarrellC}},
 \code{\link{MeasureSurvHungAUC}},
-\code{\link{MeasureSurvLoglossIntSE}},
-\code{\link{MeasureSurvLoglossInt}},
+\code{\link{MeasureSurvIntLoglossSE}},
+\code{\link{MeasureSurvIntLogloss}},
 \code{\link{MeasureSurvLoglossSE}},
 \code{\link{MeasureSurvLogloss}},
 \code{\link{MeasureSurvNagelkR2}},
@@ -66,8 +77,8 @@ Other survival measures:
 
 Other Probabilistic survival measures: 
 \code{\link{MeasureSurvGraf}},
-\code{\link{MeasureSurvLoglossIntSE}},
-\code{\link{MeasureSurvLoglossInt}},
+\code{\link{MeasureSurvIntLoglossSE}},
+\code{\link{MeasureSurvIntLogloss}},
 \code{\link{MeasureSurvLoglossSE}},
 \code{\link{MeasureSurvLogloss}}
 }

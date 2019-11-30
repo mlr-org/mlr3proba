@@ -29,6 +29,12 @@ msr("surv.beggC")
 }
 }
 
+\section{Fields}{
+
+
+See \link{MeasureSurv}
+}
+
 \references{
 Begg, B. C., L. D. Craemer, E. S. Venkatraman and J. Rosai (2000).\cr
 Comparing tumor staging and grading systems: a case study and a review of the issues, using thymoma as a model.\cr
@@ -42,8 +48,8 @@ Other survival measures:
 \code{\link{MeasureSurvGraf}},
 \code{\link{MeasureSurvHarrellC}},
 \code{\link{MeasureSurvHungAUC}},
-\code{\link{MeasureSurvLoglossIntSE}},
-\code{\link{MeasureSurvLoglossInt}},
+\code{\link{MeasureSurvIntLoglossSE}},
+\code{\link{MeasureSurvIntLogloss}},
 \code{\link{MeasureSurvLoglossSE}},
 \code{\link{MeasureSurvLogloss}},
 \code{\link{MeasureSurvNagelkR2}},

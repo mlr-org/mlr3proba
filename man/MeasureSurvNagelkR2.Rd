@@ -29,6 +29,12 @@ msr("surv.nagelkR2")
 }
 }
 
+\section{Fields}{
+
+
+See \link{MeasureSurv}
+}
+
 \references{
 Nagelkerke, N. J. D. (1991). \cr
 A note on a general definition of the coefficient of determination. \cr
@@ -43,8 +49,8 @@ Other survival measures:
 \code{\link{MeasureSurvGraf}},
 \code{\link{MeasureSurvHarrellC}},
 \code{\link{MeasureSurvHungAUC}},
-\code{\link{MeasureSurvLoglossIntSE}},
-\code{\link{MeasureSurvLoglossInt}},
+\code{\link{MeasureSurvIntLoglossSE}},
+\code{\link{MeasureSurvIntLogloss}},
 \code{\link{MeasureSurvLoglossSE}},
 \code{\link{MeasureSurvLogloss}},
 \code{\link{MeasureSurvOQuigleyR2}},

@@ -29,6 +29,12 @@ msr("surv.oquigleyR2")
 }
 }
 
+\section{Fields}{
+
+
+See \link{MeasureSurv}
+}
+
 \references{
 O'Quigley, J., R. Xu, and J. Stare (2005).\cr
 Explained randomness in proportional hazards models.\cr
@@ -43,8 +49,8 @@ Other survival measures:
 \code{\link{MeasureSurvGraf}},
 \code{\link{MeasureSurvHarrellC}},
 \code{\link{MeasureSurvHungAUC}},
-\code{\link{MeasureSurvLoglossIntSE}},
-\code{\link{MeasureSurvLoglossInt}},
+\code{\link{MeasureSurvIntLoglossSE}},
+\code{\link{MeasureSurvIntLogloss}},
 \code{\link{MeasureSurvLoglossSE}},
 \code{\link{MeasureSurvLogloss}},
 \code{\link{MeasureSurvNagelkR2}},

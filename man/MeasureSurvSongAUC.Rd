@@ -4,7 +4,7 @@
 \alias{MeasureSurvSongAUC}
 \alias{mlr_measures_surv.songAUC}
 \title{Song and Zhou's AUC Survival Measure}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurvAUC}/\link{MeasureSurv}.}
+\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurvIntegrated}/\link{MeasureSurv}.}
 \description{
 
 
@@ -18,8 +18,8 @@ mlr_measures$get("surv.songAUC")
 msr("surv.songAUC")
 }
 \itemize{
-\item \code{integrated} :: \code{logical(1)} \cr If \code{TRUE} (default), returns the integrated score, otherwise returns the score corresponding to the \code{times} argument. \cr
-\item \code{times} :: \code{vector()} \cr Numeric vector of times where to evaluate the score (provide only one for best performance). If missing then returns score at all unique time-points in test set. \cr
+\item \code{integrated} :: \code{logical(1)} \cr If \code{TRUE} (default), returns the integrated score, otherwise not integrated. \cr
+\item \code{times} :: \code{vector()} \cr If \code{integrate == TRUE} then a vector of time-points over which to integrate the score, or a single time point at which to return the score. \cr
 \item \code{type} :: \code{character(1)} \cr Determines the type of score, one of: 'cumulative', 'incident'. \cr
 }
 }
@@ -32,6 +32,12 @@ msr("surv.songAUC")
 \item Minimize: \code{FALSE}
 \item Required prediction: \code{lp}
 }
+}
+
+\section{Fields}{
+
+
+See \link{MeasureSurv} and \link{MeasureSurvIntegrated}
 }
 
 \references{
@@ -48,8 +54,8 @@ Other survival measures:
 \code{\link{MeasureSurvGraf}},
 \code{\link{MeasureSurvHarrellC}},
 \code{\link{MeasureSurvHungAUC}},
-\code{\link{MeasureSurvLoglossIntSE}},
-\code{\link{MeasureSurvLoglossInt}},
+\code{\link{MeasureSurvIntLoglossSE}},
+\code{\link{MeasureSurvIntLogloss}},
 \code{\link{MeasureSurvLoglossSE}},
 \code{\link{MeasureSurvLogloss}},
 \code{\link{MeasureSurvNagelkR2}},

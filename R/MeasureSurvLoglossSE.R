@@ -9,9 +9,11 @@
 #' @description
 #' Calculates the standard error of [MeasureSurvLogloss].
 #'
-#' The standard error is approximated using Binomial approxiation. For \eqn{N} observations in the
-#' test set, the standard eror is given by
-#' \deqn{LL_SE = sd(LL(S))/sqrt(N)}
+#' The standard error of the Logloss, L, is approximated via,
+#' \deqn{se(L) = sd(L)/\sqrt{N}}{se(L) = sd(L)/\sqrt N}
+#' where \eqn{N} are the number of observations in the test set, and \eqn{sd} is the standard deviation.
+#'
+#'
 #'
 #' @family Probabilistic survival measures
 #' @export

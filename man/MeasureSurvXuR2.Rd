@@ -29,6 +29,12 @@ msr("surv.xuR2")
 }
 }
 
+\section{Fields}{
+
+
+See \link{MeasureSurv}
+}
+
 \references{
 Xu, R. and J. O'Quigley (1999).\cr
 A measure of dependence for proportional hazards models.\cr
@@ -43,8 +49,8 @@ Other survival measures:
 \code{\link{MeasureSurvGraf}},
 \code{\link{MeasureSurvHarrellC}},
 \code{\link{MeasureSurvHungAUC}},
-\code{\link{MeasureSurvLoglossIntSE}},
-\code{\link{MeasureSurvLoglossInt}},
+\code{\link{MeasureSurvIntLoglossSE}},
+\code{\link{MeasureSurvIntLogloss}},
 \code{\link{MeasureSurvLoglossSE}},
 \code{\link{MeasureSurvLogloss}},
 \code{\link{MeasureSurvNagelkR2}},

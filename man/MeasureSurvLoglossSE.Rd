@@ -10,9 +10,9 @@
 
 Calculates the standard error of \link{MeasureSurvLogloss}.
 
-The standard error is approximated using Binomial approxiation. For \eqn{N} observations in the
-test set, the standard eror is given by
-\deqn{LL_SE = sd(LL(S))/sqrt(N)}
+The standard error of the Logloss, L, is approximated via,
+\deqn{se(L) = sd(L)/\sqrt{N}}{se(L) = sd(L)/\sqrt N}
+where \eqn{N} are the number of observations in the test set, and \eqn{sd} is the standard deviation.
 }
 \section{Construction}{
 \preformatted{MeasureSurvLoglossSE$new(eps = 1e-15)
@@ -34,6 +34,13 @@ msr("surv.loglossSE")
 }
 }
 
+\section{Fields}{
+
+
+See \link{MeasureSurv}
+and \link{MeasureSurvLogloss}
+}
+
 \seealso{
 Other survival measures: 
 \code{\link{MeasureSurvBeggC}},
@@ -43,8 +50,8 @@ Other survival measures:
 \code{\link{MeasureSurvGraf}},
 \code{\link{MeasureSurvHarrellC}},
 \code{\link{MeasureSurvHungAUC}},
-\code{\link{MeasureSurvLoglossIntSE}},
-\code{\link{MeasureSurvLoglossInt}},
+\code{\link{MeasureSurvIntLoglossSE}},
+\code{\link{MeasureSurvIntLogloss}},
 \code{\link{MeasureSurvLogloss}},
 \code{\link{MeasureSurvNagelkR2}},
 \code{\link{MeasureSurvOQuigleyR2}},
@@ -60,8 +67,8 @@ Other survival measures:
 Other Probabilistic survival measures: 
 \code{\link{MeasureSurvGrafSE}},
 \code{\link{MeasureSurvGraf}},
-\code{\link{MeasureSurvLoglossIntSE}},
-\code{\link{MeasureSurvLoglossInt}},
+\code{\link{MeasureSurvIntLoglossSE}},
+\code{\link{MeasureSurvIntLogloss}},
 \code{\link{MeasureSurvLogloss}}
 }
 \concept{Probabilistic survival measures}

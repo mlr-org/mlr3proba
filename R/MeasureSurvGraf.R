@@ -1,31 +1,22 @@
 #' @template surv_measure
 #' @templateVar title Integrated Graf Score
-#' @templateVar inherit [MeasureSurv]
+#' @templateVar inherit [MeasureSurvIntegrated]/[MeasureSurv]
 #' @templateVar fullname MeasureSurvGraf
-#' @templateVar shortname surv.graf
 #' @templateVar pars integrated = TRUE, times
 #' @templateVar int_par TRUE
 #' @templateVar times_par TRUE
 #'
 #' @aliases MeasureSurvBrier mlr_measures_surv.brier
+#'
 #' @description
-#' Calculates the Integrated Graf Score (IGS), aka integrated Brier survival score or squared loss.
-#' An approximation to the IGS is calculated by taking the mean over all time-points in the test set.
+#' Calculates the Integrated Graf Score, aka integrated Brier score or squared loss.
 #'
 #' For an individual who dies at time \eqn{t}, with predicted Survival function, \eqn{S}, the
-#' (unweighted) Graf Score at time t* is given by
-#' \deqn{G(S, t*) = (I(t > t*) - S(t*))^2}
+#' Graf Score at time t* is given by
+#' \deqn{L(S, t*) = S(t*)^2 * I(t \le t*, \delta = 1) * (1/G(t)) - (1 - S(t*))^2 * I(t > t*) * (1/G(t*))}
+#' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
 #'
-#' To account for censoring a weighted version is defined by
-#' \deqn{G(S, t*) = S(t*)^2 * I(t \le t*, \delta = 1) * (1/G(t)) + (1 - S(t*))^2 * I(t > t*) * (1/G(t*))}
-#'
-#' As only a finite number of test points are given, an approximation to the IGS can be made by taking
-#' the average over all, \eqn{M}, unique discrete time-points given in the test data,
-#' \deqn{IGS(S) = 1/M \Sigma_t G(S, t)}
-#'
-#' Finally the sample mean is taken to return a single score for all \eqn{N} observations,
-#' \deqn{IGS(pred) = 1/N \Sigma_i IGS(S_i)}
-#'
+#' @template learner_integrated
 #'
 #' @references
 #' Graf, E., Schmoor, C., Sauerbrei, W. and Schumacher, M. (1999).\cr
@@ -36,55 +27,26 @@
 #' @family Probabilistic survival measures
 #' @export
 MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
-  inherit = MeasureSurv,
+  inherit = MeasureSurvIntegrated,
   public = list(
     initialize = function(integrated = TRUE, times) {
       super$initialize(
+        integrated = integrated,
+        times = times,
         id = "surv.graf",
         range = c(0, Inf),
         minimize = TRUE,
-        predict_type = "distr"
+        packages = "distr6",
+        predict_type = "distr",
+        properties = character()
       )
-
-      assertFlag(integrated)
-      private$.integrated = integrated
-
-      if (!integrated & !missing(times)) {
-        assertNumeric(times)
-        private$.times = times
-      }
     },
 
     score_internal = function(prediction, ...) {
-      integrated_score(score = weighted_graf(prediction$truth, prediction$distr),
-                       integrated = self$integrated,
-                       times = self$times
-                       )
+      integrated_score(score = weighted_graf(truth = prediction$truth,
+                                             distribution = prediction$distr,
+                                             times = self$times),
+                       integrated = self$integrated)
     }
-  ),
-
-  active = list(
-    integrated = function(integrated) {
-      if (missing(integrated)) {
-        return(private$.integrated)
-      } else {
-        assertFlag(integrated)
-        private$.integrated = integrated
-      }
-    },
-    times = function(times) {
-      if (missing(times)) {
-        return(private$.times)
-      } else {
-        assertNumeric(times)
-        private$.times = times
-      }
-    }
-  ),
-
-  private = list(
-    .times = numeric(),
-    .integrated = logical()
   )
 )
-

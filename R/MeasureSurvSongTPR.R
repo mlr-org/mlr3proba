@@ -1,9 +1,9 @@
 #' @template surv_measure
 #' @templateVar title Song and Zhou's TPR
-#' @templateVar inherit [MeasureSurvAUC]/[MeasureSurv]
+#' @templateVar inherit [MeasureSurvIntegrated]/[MeasureSurv]
 #' @templateVar fullname MeasureSurvSongTPR
 #' @templateVar shortname surv.songTPR
-#' @templateVar pars times, lp_thresh, type = c("incident","cumulative")
+#' @templateVar pars times = 0, lp_thresh = 0, type = c("incident","cumulative")
 #' @templateVar times_par TRUE
 #' @templateVar thresh_par TRUE
 #' @templateVar type_par TRUE
@@ -12,6 +12,9 @@
 #' Calls [survAUC::sens.sh()].
 #'
 #' Assumes Cox PH model specification.
+#'
+#' `times` and `lp_thresh` are arbitarily set to `0` to prevent crashing, these should be further
+#' specified.
 #'
 #' @references
 #' Song, X. and X.-H. Zhou (2008). \cr
@@ -23,19 +26,17 @@
 MeasureSurvSongTPR = R6Class("MeasureSurvSongTPR",
   inherit = MeasureSurvAUC,
   public = list(
-    initialize = function(times, lp_thresh, type = c("incident","cumulative")) {
+    initialize = function(times = 0, lp_thresh = 0, type = c("incident","cumulative")) {
+
+      assertNumeric(times, len = 1)
+
       super$initialize(integrated = FALSE,
                        times = times,
                        id = "surv.songTPR",
                        properties = c("requires_task", "requires_train_set", "requires_learner"))
 
-      if(missing(lp_thresh))
-        private$.lp_thresh = numeric(0)
-      else {
-        assertNumeric(lp_thresh)
-        private$.lp_thresh = lp_thresh
-      }
-
+      assertNumeric(lp_thresh, len = 1)
+      private$.lp_thresh = lp_thresh
       private$.type <- match.arg(type)
     },
 
@@ -49,10 +50,7 @@ MeasureSurvSongTPR = R6Class("MeasureSurvSongTPR",
                                  ...
       )
 
-      if(length(self$lp_thresh) == 0)
-        return(list(tpr = tpr, thresh = sort(unique(prediction$lp))))
-      else
-        return(tpr[, findInterval(self$lp_thresh, sort(unique(prediction$lp)))])
+      tpr[, findInterval(self$lp_thresh, sort(unique(prediction$lp)))]
     }
   ),
 
@@ -61,7 +59,7 @@ MeasureSurvSongTPR = R6Class("MeasureSurvSongTPR",
       if (missing(lp_thresh)) {
         return(private$.lp_thresh)
       } else {
-        assertNumeric(lp_thresh)
+        assertNumeric(lp_thresh, len = 1)
         private$.lp_thresh = lp_thresh
       }
     },

@@ -1,7 +1,10 @@
-weighted_survival_score = function(truth, distribution, loss,...){
+weighted_survival_score = function(truth, distribution, times, loss,...){
   # get unique observation times (death and censoring) and order accordingly
   obs_times = truth[ ,1]
   unique_times = sort(unique(obs_times))
+  if(length(times) != 0)
+    unique_times = unique(unique_times[findInterval(times, unique_times, all.inside = TRUE)])
+
   nr_obs = length(obs_times)
   nc_times = length(unique_times)
 
@@ -11,7 +14,7 @@ weighted_survival_score = function(truth, distribution, loss,...){
   alive = apply(alive, 2, as.numeric)
 
   # calculated unweighted loss
-  score = loss(alive = alive, distribution = distribution, unique_times = unique_times, ...)
+  score = loss(alive = alive, distribution = distribution, unique_times = unique_times,...)
 
   # To account for censoring the score is weighted according to each individuals contribution to
   # censoring.
@@ -35,7 +38,7 @@ weighted_survival_score = function(truth, distribution, loss,...){
   # Find the estimated censoring probability at each of the respective times derived above
   weights_mat = apply(weights_mat, 1, function(x) cens_dist$survival(x))
 
-  weighted_score = as.matrix(score / weights_mat)
+  weighted_score = as.matrix(score / t(weights_mat))
 
   # Censored individuals contribute zero to the score.
   weighted_score[truth[, 2] == 0, ][alive[truth[, 2] == 0, ] == 0] = 0
