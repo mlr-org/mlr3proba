@@ -77,7 +77,7 @@ LearnerSurvGamboost = R6Class("LearnerSurvGamboost", inherit = LearnerSurv,
         param_set = ps,
         feature_types = c("integer", "numeric", "factor", "logical"),
         predict_types = c("distr","crank","lp"),
-        properties = "weights",
+        # properties = "weights",
         packages = c("mboost","distr6","survival")
       )
     },
@@ -100,8 +100,8 @@ LearnerSurvGamboost = R6Class("LearnerSurvGamboost", inherit = LearnerSurv,
       # convert data to model matrix
       # x = model.matrix(~., as.data.frame(task$data(cols = task$feature_names)))
 
-      if ("weights" %in% task$properties)
-        pars$weights = task$weights$weight
+      # if ("weights" %in% task$properties)
+      #   pars$weights = task$weights$weight
 
       family = switch(pars$family,
                       coxph = mboost::CoxPH(),

@@ -1,3 +1,4 @@
+#' @importFrom penalized contr.none contr.diff
 #' @template surv_learner
 #' @templateVar title L1 and L2 Penalized Estimation in GLMs
 #' @templateVar fullname LearnerSurvPenalized
@@ -101,7 +102,7 @@ LearnerSurvPenalized = R6Class("LearnerSurvPenalized", inherit = LearnerSurv,
 
       crank = as.numeric(sapply(x, function(y) sum(y[,1] * c(y[,2][1], diff(y[,2])))))
 
-      PredictionSurv$new(task = task, crank = crank, distr = distr)
+      PredictionSurv$new(task = task, distr = distr, crank = crank)
       },
 
     importance = function() {

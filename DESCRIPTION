@@ -36,6 +36,7 @@ Imports:
     mlr3misc (>= 0.1.5),
     mlr3pipelines,
     paradox (>= 0.1.0),
+    penalized,
     R6,
     survival,
     survivalsvm
@@ -45,7 +46,6 @@ Suggests:
     glmnet,
     lgr,
     pec,
-    penalized,
     randomForestSRC,
     ranger,
     rpart,

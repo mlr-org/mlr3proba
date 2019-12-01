@@ -45,6 +45,10 @@ MeasureSurvIntegrated = R6Class("MeasureSurvIntegrated",
         return(private$.integrated)
       } else {
         assertFlag(integrated)
+        if(!integrated & length(self$times) > 1) {
+          stop(sprintf("For the non-integrated score, only a single time-point can be returned. Currently self$times = %s",
+                       paste0("c(",paste0(self$times, collapse = ", "),").")))
+        }
         private$.integrated <- integrated
       }
     },

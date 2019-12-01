@@ -76,7 +76,7 @@ LearnerSurvMboost = R6Class("LearnerSurvMboost", inherit = LearnerSurv,
         param_set = ps,
         feature_types = c("integer", "numeric", "factor", "logical"),
         predict_types = c("distr","crank","lp"),
-        properties = "weights",
+        # properties = "weights",
         packages = c("mboost","distr6","survival")
       )
     },
@@ -96,8 +96,8 @@ LearnerSurvMboost = R6Class("LearnerSurvMboost", inherit = LearnerSurv,
         pars = pars[!is_ctrl_pars]
       }
 
-      if ("weights" %in% task$properties)
-        pars$weights = task$weights$weight
+      # if ("weights" %in% task$properties)
+      #   pars$weights = task$weights$weight
 
       family = switch(pars$family,
                       coxph = mboost::CoxPH(),
