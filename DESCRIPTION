@@ -2,9 +2,9 @@ Package: mlr3proba
 Title: Probabilistic Supervised Learning for mlr3
 Version: 0.1.0-9001
 Authors@R:
-      c(person(given = "Raphael",
+    c(person(given = "Raphael",
              family = "Sonabend",
-             role = c("aut","cre"),
+             role = c("aut", "cre"),
              email = "raphael.sonabend.15@ucl.ac.uk",
              comment = c(ORCID = "0000-0001-9225-4654")),
       person(given = "Franz",
@@ -12,20 +12,20 @@ Authors@R:
              role = "aut",
              email = "f.kiraly@ucl.ac.uk"),
       person(given = "Michel",
-           family = "Lang",
-           role = c("aut"),
-           email = "michellang@gmail.com",
-           comment = c(ORCID = "0000-0001-9754-0393")))
-Description: Provides extensions for probabilistic supervised learning for
-    'mlr3'.  This includes extending the regression task to probabilistic and interval regression,
-    adding a survival task, and other specialized models, predictions,
-    and measures.
+             family = "Lang",
+             role = "aut",
+             email = "michellang@gmail.com",
+             comment = c(ORCID = "0000-0001-9754-0393")))
+Description: Provides extensions for probabilistic supervised
+    learning for 'mlr3'.  This includes extending the regression task to
+    probabilistic and interval regression, adding a survival task, and
+    other specialized models, predictions, and measures.
 License: MIT + file LICENSE
 URL: https://mlr3proba.mlr-org.com,
     https://github.com/mlr-org/mlr3proba
 BugReports: https://github.com/mlr-org/mlr3proba/issues
 Depends:
-    R (>= 3.1.0),
+    R (>= 3.1.0)
 Imports:
     BBmisc,
     checkmate,
@@ -40,8 +40,8 @@ Imports:
     survival,
     survivalsvm
 Suggests:
-    gbm,
     flexsurv,
+    gbm,
     glmnet,
     lgr,
     pec,
@@ -52,11 +52,11 @@ Suggests:
     simsurv,
     survAUC,
     testthat
+Encoding: UTF-8
 LazyData: true
 NeedsCompilation: yes
 Roxygen: list(markdown = TRUE, r6 = FALSE)
 RoxygenNote: 7.0.1
-Encoding: UTF-8
 Collate:
     'LearnerDensity.R'
     'LearnerDensityHist.R'
