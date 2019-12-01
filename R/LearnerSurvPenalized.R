@@ -1,4 +1,3 @@
-#' @importFrom penalized contr.none contr.diff
 #' @template surv_learner
 #' @templateVar title L1 and L2 Penalized Estimation in GLMs
 #' @templateVar fullname LearnerSurvPenalized
