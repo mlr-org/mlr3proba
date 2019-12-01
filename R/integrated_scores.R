@@ -32,6 +32,6 @@ integrated_se = function(score, integrated) {
   if (integrated) {
     return(sqrt(sum(stats::cov(score))/(nrow(score) * ncol(score)^2)))
   } else {
-    return(apply(score, 2, function(x) stats::sd(x)/sqrt(length(x))))
+    return(apply(score, 2, function(x) stats::sd(x)/sqrt(nrow(score))))
   }
 }

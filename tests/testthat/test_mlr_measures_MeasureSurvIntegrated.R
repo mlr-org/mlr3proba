@@ -1,7 +1,9 @@
 context("MeasureSurvIntegrated")
 
-test_that("abstract", {
+test_that("constructor", {
   expect_error(MeasureSurvIntegrated$new(), "abstract")
+  expect_error(MeasureSurvGraf$new(integrated = FALSE), "non-integrated")
+  expect_silent(MeasureSurvGraf$new(integrated = FALSE, times = 60))
 })
 
 test_that("fields",{

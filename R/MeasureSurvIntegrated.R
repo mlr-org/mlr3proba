@@ -25,15 +25,15 @@ MeasureSurvIntegrated = R6Class("MeasureSurvIntegrated",
       assertFlag(integrated)
       private$.integrated = integrated
 
-      if (!missing(times)) {
-        if (!integrated) {
+      if (!integrated) {
+        if(missing(times))
+          stop("For the non-integrated score, only a single time-point can be returned.")
+        else
           assertNumeric(times, len = 1,
-                        .var.name = "For the non-integrated score, only a single time-point can
-                        be returned.")
-        } else {
-          assertNumeric(times)
-        }
-
+                        .var.name = "For the non-integrated score, only a single time-point can be returned.")
+        private$.times = times
+      } else if (!missing(times)) {
+        assertNumeric(times)
         private$.times = times
       }
     }
