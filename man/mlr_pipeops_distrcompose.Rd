@@ -6,8 +6,7 @@
 \title{PipeOpDistrCompositor}
 \format{\code{\link{R6Class}} inheriting from \code{\link{PipeOp}}.}
 \description{
-Predict a survival distribution from a survival learner \code{\link{PredictionSurv}}, which
-predicts \code{lp} or \code{crank}.
+Estimate a survival distribution from an \code{lp} or \code{crank} predicted in a \link{PredictionSurv}.
 
 Note:
 \itemize{

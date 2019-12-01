@@ -21,7 +21,8 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
           params = list(
             ParamFct$new(id = "ties", default = "efron", levels = c("efron", "breslow", "exact"), tags = "train"),
             ParamLgl$new(id = "singular.ok", default = TRUE, tags = "train"),
-            ParamFct$new(id = "type", default = "efron", levels = c("efron", "aalen", "kalbfleisch-prentice"), tags = "predict")
+            ParamFct$new(id = "type", default = "efron", levels = c("efron", "aalen", "kalbfleisch-prentice"), tags = "predict"),
+            ParamInt$new(id = "stype", default = 2L, lower = 1L, upper = 2L, tags = "predict")
           )
         ),
         predict_types = c("distr","crank","lp"),

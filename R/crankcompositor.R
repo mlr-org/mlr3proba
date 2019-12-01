@@ -7,7 +7,7 @@
 #' @param method One of `mean` or `median`. Used to determine how `crank` is estimated from the
 #' predicted `distr`.
 #' @param param_vals Additional parameters to pass to the `learner`.
-#' @details For full details see [mlr_pipeops_crankcompose].
+#' @details For full details see [PipeOpCrankCompositor].
 #' @return [Graph]
 #' @examples
 #' library("mlr3")
@@ -18,6 +18,8 @@
 #' resample(tsk("rats"), ranger.crank, rsmp("cv", folds = 2))$predictions()
 #' @export
 crankcompositor = function(learner, method = "mean", param_vals = list()){
+  assert("distr" %in% learner$predict_types)
+
   pred = po("learner", learner, param_vals = param_vals)
   compositor = po("crankcompose", param_vals = list(method = method))
 

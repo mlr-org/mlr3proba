@@ -5,8 +5,7 @@
 #' @format [`R6Class`] inheriting from [`PipeOp`].
 #'
 #' @description
-#' Return a continuous ranking from a survival learner [`PredictionSurv`][PredictionSurv], which
-#' predicts `distr`.
+#' Return a continuous ranking from a `distr` predicted in a [PredictionSurv].
 #'
 #' @section Construction:
 #' ```
@@ -39,10 +38,6 @@
 #'    survival distribution. Note that for models with a proportional hazards form, the ranking
 #'    implied by `mean` and `median` will be identical (but not the value of `crank` itself).
 #'    Default is `mean`.
-#' * `overwrite` :: `logical(1)` \cr
-#'    If `FALSE` (default) then if the "input" already has a `crank`, the compositor does nothing
-#'    and returns the given [PredictionSurv]. If `TRUE` then the `crank` is overwritten with the `crank`
-#'    composed from `distr`.
 #'
 #' @section Internals:
 #' The `median` or `mean` will use analytical expressions if possible but if not they are calculated
@@ -66,7 +61,7 @@
 #'
 #' # Method 1 - Train and predict separately then compose
 #' learn = lrn("surv.coxph")$train(task)$predict(task)
-#' poc = po("crankcompose", param_vals = list(method = "mean", overwrite = TRUE))
+#' poc = po("crankcompose", param_vals = list(method = "mean"))
 #' poc$predict(list(learn))
 #'
 #' # Examples not run due to long run-time.
@@ -90,8 +85,7 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
     initialize = function(id = "crankcompose", param_vals = list()) {
       super$initialize(id = id,
                        param_set = ParamSet$new(params = list(
-                         ParamFct$new("method", default = "mean", levels = c("mean","median"), tags = c("predict")),
-                         ParamLgl$new("overwrite", default = FALSE, tags = c("predict"))
+                         ParamFct$new("method", default = "mean", levels = c("mean","median"), tags = c("predict"))
                        )),
                        param_vals = param_vals,
                        input = data.table(name = "input", train = "NULL", predict = "PredictionSurv"),
@@ -107,31 +101,24 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
     predict_internal = function(inputs) {
       inpred = inputs[[1]]
 
-      overwrite = self$param_set$values$overwrite
-      if(length(overwrite) == 0)
-        overwrite = FALSE
+      assert("distr" %in% inpred$predict_types)
 
-      if ("crank" %in% inpred$predict_types & !overwrite) {
-        return(list(inpred))
-      } else {
-        assert("distr" %in% inpred$predict_types)
+      method = self$param_set$values$method
+      if(length(method) == 0)
+        method = "mean"
+      crank = as.numeric(switch(method,
+                                median = inpred$distr$median(),
+                                inpred$distr$mean()
+      ))
 
-        method = self$param_set$values$method
-        if(length(method) == 0)
-          method = "mean"
-        crank = as.numeric(switch(method,
-                                  median = inpred$distr$median(),
-                                  inpred$distr$mean()
-        ))
+      if (length(inpred$lp) == 0)
+        lp = NULL
+      else
+        lp = inpred$lp
 
-        if (length(inpred$lp) == 0)
-          lp = NULL
-        else
-          lp = inpred$lp
+      return(list(PredictionSurv$new(row_ids = inpred$row_ids, truth = inpred$truth, crank = crank,
+                                     distr = inpred$distr, lp = lp)))
 
-        return(list(PredictionSurv$new(row_ids = inpred$row_ids, truth = inpred$truth, crank = crank,
-                                distr = inpred$distr, lp = lp)))
-      }
 
     }
   )

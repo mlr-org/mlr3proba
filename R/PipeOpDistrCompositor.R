@@ -5,8 +5,7 @@
 #' @format [`R6Class`] inheriting from [`PipeOp`].
 #'
 #' @description
-#' Predict a survival distribution from a survival learner [`PredictionSurv`][PredictionSurv], which
-#' predicts `lp` or `crank`.
+#' Estimate a survival distribution from an `lp` or `crank` predicted in a [PredictionSurv].
 #'
 #' Note:
 #' * This compositor is only sensible if assuming a linear model form, which may not always be the case.
@@ -100,7 +99,7 @@
 PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
   inherit = PipeOp,
   public = list(
-    initialize = function(id = "distrcompose", param_vals = list()) {
+    initialize = function(id = "distrcompose", param_vals = list(form = "aft", overwrite = FALSE)) {
       super$initialize(id = id,
                        param_set = ParamSet$new(params = list(
                          ParamFct$new("form", default = "aft", levels = c("aft","ph","po"), tags = c("predict")),
@@ -122,30 +121,27 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
       inpred = inputs$pred
 
       overwrite = self$param_set$values$overwrite
-      if(length(overwrite) == 0)
-        overwrite = FALSE
 
       if ("distr" %in% inpred$predict_types & !overwrite) {
         return(list(inpred))
       } else {
         assert("distr" %in% base$predict_types)
-        assert(any(c("crank", "lp") %in% inpred$predict_types))
 
         row_ids = inpred$row_ids
-        map(inputs, function(x) assert_true(identical(row_ids, x$row_ids)))
         truth = inpred$truth
+        map(inputs, function(x) assert_true(identical(row_ids, x$row_ids)))
+        map(inputs, function(x) assert_true(identical(truth, x$truth)))
 
         # get form, set default if missing
         form = self$param_set$values$form
-        if(length(form) == 0) form = "aft"
 
-        times = base$distr[1]$support()$elements()
         base = base$distr[1]
+        times = base$support()$elements()
 
         nr = nrow(inpred$data$tab)
         nc = length(times)
 
-        if(is.null(inpred$lp))
+        if(is.null(inpred$lp) | length(inpred$lp) == 0)
           lp = inpred$crank
         else
           lp = inpred$lp
@@ -169,11 +165,18 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
         distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
                                                decorators = c("CoreStatistics", "ExoticStatistics"))
 
+        if(is.null(inpred$crank) | length(inpred$crank) == 0)
+          crank = lp
+        else
+          crank = inpred$crank
 
-        truth = inputs[[1]]$truth
+        if(is.null(inpred$lp) | length(inpred$lp) == 0)
+          lp = NULL
+        else
+          lp = inpred$lp
 
         return(list(PredictionSurv$new(row_ids = row_ids, truth = truth,
-                                       crank = inpred$crank, distr = distr, lp = inpred$lp)))
+                                       crank = crank, distr = distr, lp = lp)))
       }
     }
   )

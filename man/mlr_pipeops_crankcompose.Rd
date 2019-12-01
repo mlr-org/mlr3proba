@@ -6,8 +6,7 @@
 \title{PipeOpCrankCompositor}
 \format{\code{\link{R6Class}} inheriting from \code{\link{PipeOp}}.}
 \description{
-Return a continuous ranking from a survival learner \code{\link{PredictionSurv}}, which
-predicts \code{distr}.
+Return a continuous ranking from a \code{distr} predicted in a \link{PredictionSurv}.
 }
 \section{Construction}{
 \preformatted{PipeOpCrankCompositor$new(id = "crankcompose", param_vals = list())
@@ -48,10 +47,6 @@ One of \code{median} or \code{mean} corresponding to the respective functions in
 survival distribution. Note that for models with a proportional hazards form, the ranking
 implied by \code{mean} and \code{median} will be identical (but not the value of \code{crank} itself).
 Default is \code{mean}.
-\item \code{overwrite} :: \code{logical(1)} \cr
-If \code{FALSE} (default) then if the "input" already has a \code{crank}, the compositor does nothing
-and returns the given \link{PredictionSurv}. If \code{TRUE} then the \code{crank} is overwritten with the \code{crank}
-composed from \code{distr}.
 }
 }
 
@@ -80,7 +75,7 @@ task = tsk("rats")
 
 # Method 1 - Train and predict separately then compose
 learn = lrn("surv.coxph")$train(task)$predict(task)
-poc = po("crankcompose", param_vals = list(method = "mean", overwrite = TRUE))
+poc = po("crankcompose", param_vals = list(method = "mean"))
 poc$predict(list(learn))
 
 # Examples not run due to long run-time.

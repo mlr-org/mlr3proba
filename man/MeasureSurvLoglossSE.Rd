@@ -13,6 +13,8 @@ Calculates the standard error of \link{MeasureSurvLogloss}.
 The standard error of the Logloss, L, is approximated via,
 \deqn{se(L) = sd(L)/\sqrt{N}}{se(L) = sd(L)/\sqrt N}
 where \eqn{N} are the number of observations in the test set, and \eqn{sd} is the standard deviation.
+
+Censored observations in the test set are removed.
 }
 \section{Construction}{
 \preformatted{MeasureSurvLoglossSE$new(eps = 1e-15)

@@ -23,7 +23,12 @@ prediction = learner$predict(task)
 times = 60
 train_set = 1:175
 
-test_that("prob_losses", {
+test_that("unintegrated_prob_losses", {
+  msr = lapply(c("surv.logloss","surv.loglossSE"), msr)
+  expect_silent(prediction$score(msr))
+})
+
+test_that("integrated_prob_losses", {
   probs = paste0("surv.", c("graf","grafSE","intlogloss","intloglossSE"))
   expect_error(lapply(probs, msr, times = 34:37, integrated = FALSE), "non-integrated score")
   expect_silent(prediction$score(lapply(probs, msr, integrated = TRUE)))

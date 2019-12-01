@@ -22,7 +22,7 @@ This is a wrapper around the \link{mlr_pipeops_crankcompose} pipe operation, whi
 simplifies graph creation.
 }
 \details{
-For full details see \link{mlr_pipeops_crankcompose}.
+For full details see \link{PipeOpCrankCompositor}.
 }
 \examples{
 library("mlr3")
