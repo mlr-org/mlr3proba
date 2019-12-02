@@ -11,16 +11,20 @@ development:
   version_label: default
   version_tooltip: "Version"
 
+toc:
+  depth: 3
+  
 navbar:
   structure:
-    left:  [reference, news, book]
+    left:  [articles, reference, news, book]
     right: [github, slack, stackoverflow, rss]
   components:
     home: ~
-    reference:
-      icon: fa fa-file-alt
-      text: Reference
-      href: reference/index.html
+    articles:
+      text: Vignettes
+      menu:
+        - text: Survival Analysis
+          href: articles/survival.html
     slack:
       icon: fab fa-slack
       href: https://mlr-org.slack.com
@@ -34,3 +38,28 @@ navbar:
     rss:
       icon: fa-rss
       href: https://mlr-org.com/
+      
+reference:
+  - title: Package
+    contents:
+      - mlr3proba
+  - title: Building Blocks
+    contents:
+      - TaskSurv
+      - LearnerSurv
+      - PredictionSurv
+      - MeasureSurv
+  - title: Survival Learners
+    contents:
+      - starts_with("mlr_learners_surv_")
+  - title: Survival Measures
+    contents:
+      - starts_with("mlr_measures_surv_")
+  - title: Survival Tasks
+    contents:
+      - starts_with("mlr_tasks_")
+  - title: Survival PipeOps
+    contents:
+      - starts_with("mlr_pipeops_")
+      - crankcompositor
+      - distrcompositor
