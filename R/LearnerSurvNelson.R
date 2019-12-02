@@ -1,5 +1,5 @@
 #' @template surv_learner
-#' @templateVar title Nelson Aalen Estimator
+#' @templateVar title Nelson-Aalen Estimator
 #' @templateVar fullname LearnerSurvNelson
 #' @templateVar caller [survival::survfit()]
 #' @templateVar distr by estimating the cumulative hazard function with [survival::survfit()]

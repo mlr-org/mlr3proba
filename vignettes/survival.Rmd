@@ -17,9 +17,6 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 set.seed(1)
-library("mlr3")
-library("mlr3pipelines")
-library("mlr3proba")
 lgr::get_logger("mlr3")$set_threshold("fatal")
 ```
 
@@ -45,6 +42,8 @@ Unlike `TaskClassif` and `TaskRegr` which have a single 'target' argument, `Task
 `survival::Surv` object and has three-four target arguments (dependent on censoring type)
 
 ```{r}
+library(mlr3proba); library(mlr3); library(survival)
+
 # type = "right" is default
 
 TaskSurv$new(id = "right_censored", backend = survival::rats,
@@ -54,6 +53,72 @@ task = TaskSurv$new(id = "interval_censored", backend = survival::bladder2[,-c(1
                     time = "start", time2 = "stop", type = "interval2")
 task
 task$truth()[1:10]
+```
+
+## Train and Predict
+
+```{r}
+
+# create task and learner
+
+veteran = mlr3misc::load_dataset("veteran", package = "survival")
+task_veteran = TaskSurv$new(id = "veteran", backend = veteran, time = "time", event = "status")
+learner = lrn("surv.coxph")
+
+# train/test split 
+
+train_set = sample(task_veteran$nrow, 0.8 * task_veteran$nrow)
+test_set = setdiff(seq_len(task_veteran$nrow), train_set)
+
+# fit Cox PH and inspect model
+
+learner$train(task_veteran, row_ids = train_set)
+learner$model
+
+# make predictions for new data
+
+prediction = learner$predict(task_veteran, row_ids = test_set)
+prediction
+```
+
+## Evaluate - crank, lp, and distr
+
+Every `PredictionSurv` object can predict one or more of:
+
+* `lp` - Linear predictor calculated as the fitted coefficients multiplied by the test data.
+* `distr` - Predicted survival distribution, either discrete or continuous. Implemented in **[distr6](https://cran.r-project.org/web/packages/distr6/)**.
+* `crank` - Continuous ranking. This is either the same as `lp` or the expectation of `distr`.
+
+`lp` and `crank` can be used with measures of discrimination such as the concordance index. Whilst
+`lp` is a specific mathematical prediction, `crank` is any continuous ranking that identifies who is
+more or less likely to experience the event. So far, the only implemented learner that only returns a continuous
+ranking is `surv.svm`. If a `PredictionSurv` returns an `lp` then the `crank` is identical to this.
+Otherwise `crank` is calculated as the expectation of the predicted survival distribution. Note that 
+for linear proportional hazards models, the ranking (but not necessarily the `crank` score itself)
+given by `lp` and the expected `distr`, is identical.
+
+```{r}
+# In the previous example, Cox model predicts `lp` so `crank` is identical
+
+all(prediction$lp == prediction$crank)
+prediction$lp[1:10]
+
+# These are evaluated with measures of discrimination and calibration.
+# As all PredictionSurv objects will return crank, Harrell's C is the default measure.
+
+prediction$score()
+
+# distr is evaluated with probabilistic scoring rules.
+
+measure = lapply(c("surv.graf", "surv.grafSE", "surv.intlogloss", "surv.intloglossSE",
+                   "surv.logloss", "surv.loglossSE"), msr)
+prediction$score(measure)
+
+# Often measures can be integrated over mutliple time-points, or return
+# predictions for single time-points
+
+measure = msr("surv.graf", times = 60)
+prediction$score(measure)
 ```
 
 ### Probability distributions with distr6

@@ -1,5 +1,5 @@
 #' @template surv_learner
-#' @templateVar title Kaplan Meier Estimator
+#' @templateVar title Kaplan-Meier Estimator
 #' @templateVar fullname LearnerSurvKaplan
 #' @templateVar caller [survival::survfit()]
 #' @templateVar distr by estimating the survival function with [survival::survfit()]

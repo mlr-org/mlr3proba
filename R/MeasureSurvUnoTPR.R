@@ -12,7 +12,7 @@
 #'
 #' Assumes random censoring.
 #'
-#' `times` and `lp_thresh` are arbitarily set to `0` to prevent crashing, these should be further
+#' `times` and `lp_thresh` are arbitrarily set to `0` to prevent crashing, these should be further
 #' specified.
 #'
 #' @template measure_survAUC

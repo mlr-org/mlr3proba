@@ -3,7 +3,7 @@
 \name{LearnerSurvNelson}
 \alias{LearnerSurvNelson}
 \alias{mlr_learners_surv.nelson}
-\title{Nelson Aalen Estimator Survival Learner}
+\title{Nelson-Aalen Estimator Survival Learner}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerSurv}.}
 \description{
 Calls \code{\link[survival:survfit]{survival::survfit()}}.
@@ -50,8 +50,8 @@ Other survival learners:
 \code{\link{LearnerSurvCVGlmnet}},
 \code{\link{LearnerSurvCoxPH}},
 \code{\link{LearnerSurvFlexible}},
+\code{\link{LearnerSurvGBM}},
 \code{\link{LearnerSurvGamboost}},
-\code{\link{LearnerSurvGbm}},
 \code{\link{LearnerSurvGlmboost}},
 \code{\link{LearnerSurvGlmnet}},
 \code{\link{LearnerSurvKaplan}},

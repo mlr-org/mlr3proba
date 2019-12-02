@@ -1,6 +1,6 @@
 #' @template surv_learner
 #' @templateVar title Generalized Boosting Regression Modeling
-#' @templateVar fullname LearnerSurvGbm
+#' @templateVar fullname LearnerSurvGBM
 #' @templateVar caller [gbm::gbm()]
 #' @templateVar lp by [gbm::predict.gbm()]
 #'
@@ -26,14 +26,15 @@
 #'
 #' B. Kriegler (2007).
 #' Cost-Sensitive Stochastic Gradient Boosting Within a Quantitative Regression Framework.
-#' Ph.D. Dissertation. University of California at Los Angeles, Los Angeles, CA, USA. Advisor(s) Richard A. Berk. urlhttps://dl.acm.org/citation.cfm?id=1354603.
+#' Ph.D. Dissertation. University of California at Los Angeles, Los Angeles, CA, USA. Advisor(s) Richard A. Berk.
+#' \url{https://dl.acm.org/citation.cfm?id=1354603}
 #'
 #' C. Burges (2010).
 #' From RankNet to LambdaRank to LambdaMART: An Overview.
 #' Microsoft Research Technical Report MSR-TR-2010-82.
 #'
 #' @export
-LearnerSurvGbm = R6Class("LearnerSurvGbm", inherit = LearnerSurv,
+LearnerSurvGBM = R6Class("LearnerSurvGBM", inherit = LearnerSurv,
   public = list(
     initialize = function() {
       ps = ParamSet$new(

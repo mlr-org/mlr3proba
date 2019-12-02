@@ -12,7 +12,7 @@ Calls \code{\link[survAUC:spec.sh]{survAUC::spec.sh()}}.
 
 Assumes Cox PH model specification.
 
-\code{times} and \code{lp_thresh} are arbitarily set to \code{0} to prevent crashing, these should be further
+\code{times} and \code{lp_thresh} are arbitrarily set to \code{0} to prevent crashing, these should be further
 specified.
 }
 \details{

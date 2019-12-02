@@ -1,5 +1,5 @@
 
-# mlr3 <img src="man/figures/logo.png" align="right" width = "120" />
+# mlr3proba
 
 Package website: [release](https://mlr3proba.mlr-org.com/) |
 [dev](https://mlr3proba.mlr-org.com/dev)
@@ -9,7 +9,6 @@ Probabilistic Supervised Learning for
 
 [![Build
 Status](https://img.shields.io/travis/mlr-org/mlr3proba/master?label=Linux&logo=travis&style=flat-square)](https://travis-ci.org/mlr-org/mlr3proba)
-[![CircleCI](https://img.shields.io/circleci/build/gh/mlr-org/mlr3proba/master?label=Linux&logo=circle&logoColor=green&style=flat-square)](https://circleci.com/gh/mlr-org/mlr3proba)
 [![cran
 checks](https://cranchecks.info/badges/worst/mlr3proba)](https://cran.r-project.org/web/checks/check_results_mlr3proba.html)
 
@@ -40,26 +39,75 @@ Install the last release from CRAN:
 install.packages("mlr3proba")
 ```
 
-Install the development version from GitHub:
+Install the development version from
+GitHub:
 
 ``` r
 remotes::install_github("mlr-org/mlr3proba")
 ```
 
+## Survival Analysis
+
+### Survival Learners
+
+| ID                                                                                              | Learner                                                | Package                                                                    |
+| :---------------------------------------------------------------------------------------------- | :----------------------------------------------------- | :------------------------------------------------------------------------- |
+| [surv.blackboost](https://mlr3proba.mlr-org.com/reference/LearnerSurvBlackboost.html)           | Gradient Boosting with Regression Trees                | [mboost](https://cran.r-project.org/web/packages/mboost/)                  |
+| [surv.coxph](https://mlr3proba.mlr-org.com/reference/LearnerSurvCoxPH.html)                     | Cox Proportional Hazards                               | [survival](https://cran.r-project.org/web/packages/survival)               |
+| [surv.cvglmnet](https://mlr3proba.mlr-org.com/reference/LearnerSurvCVGlmnet.html)               | Cross-Validated GLM with Elastic Net Regularization    | [glmnet](https://cran.r-project.org/web/packages/glmnet)                   |
+| [surv.flexible](https://mlr3proba.mlr-org.com/reference/LearnerSurvFlexible.html)               | Flexible Parametric Spline Models                      | [flexsurv](https://cran.r-project.org/web/packages/flexsurv)               |
+| [surv.gamboost](https://mlr3proba.mlr-org.com/reference/LearnerSurvGamboost.html)               | Gradient Boosting for Additive Models                  | [mboost](https://cran.r-project.org/web/packages/mboost/)                  |
+| [surv.gbm](https://mlr3proba.mlr-org.com/reference/LearnerSurvGBM.html)                         | Generalized Boosting Regression Modeling               | [gbm](https://cran.r-project.org/web/packages/gbm)                         |
+| [surv.glmboost](https://mlr3proba.mlr-org.com/reference/LearnerSurvGlmboost.html)               | Gradient Boosting with Component-wise Linear Models    | [mboost](https://cran.r-project.org/web/packages/mboost/)                  |
+| [surv.glmnet](https://mlr3proba.mlr-org.com/reference/LearnerSurvGlmnet.html)                   | GLM with Elastic Net Regularization                    | [glmnet](https://cran.r-project.org/web/packages/glmnet)                   |
+| [surv.kaplan](https://mlr3proba.mlr-org.com/reference/LearnerSurvKaplan.html)                   | Kaplan-Meier Estimator                                 | [survival](https://cran.r-project.org/web/packages/survival)               |
+| [surv.mboost](https://mlr3proba.mlr-org.com/reference/LearnerSurvMboost.html)                   | Gradient Boosting for Generalized Additive Models      | [mboost](https://cran.r-project.org/web/packages/mboost/)                  |
+| [surv.nelson](https://mlr3proba.mlr-org.com/reference/LearnerSurvNelson.html)                   | Nelson-Aalen Estimator                                 | [survival](https://cran.r-project.org/web/packages/survival)               |
+| [surv.parametric](https://mlr3proba.mlr-org.com/reference/LearnerSurvParametric.html)           | Fully Parametric Survival Models                       | [survival](https://cran.r-project.org/web/packages/survival)               |
+| [surv.penalized](https://mlr3proba.mlr-org.com/reference/LearnerSurvPenalized.html)             | L1 and L2 Penalized Estimation in GLMs                 | [penalized](https://cran.r-project.org/web/packages/penalized)             |
+| [surv.randomForestSRC](https://mlr3proba.mlr-org.com/reference/LearnerSurvRandomForestSRC.html) | RandomForestSRC Survival Forest                        | [randomForestSRC](https://cran.r-project.org/web/packages/randomForestSRC) |
+| [surv.ranger](https://mlr3proba.mlr-org.com/reference/LearnerSurvRanger.html)                   | Ranger Survival Forest                                 | [ranger](https://cran.r-project.org/web/packages/ranger)                   |
+| [surv.rpart](https://mlr3proba.mlr-org.com/reference/LearnerSurvRpart.html)                     | Rpart Survival Forest                                  | [rpart](https://cran.r-project.org/web/packages/rpart)                     |
+| [surv.svm](https://mlr3proba.mlr-org.com/reference/LearnerSurvSVM.html)                         | Regression, Ranking and Hybrid Support Vector Machines | [survivalsvm](https://cran.r-project.org/web/packages/survivalsvm)         |
+
+### Survival Measures
+
+| ID                                                                                        | Learner                                 | Package                                                        |
+| :---------------------------------------------------------------------------------------- | :-------------------------------------- | :------------------------------------------------------------- |
+| [surv.beggC](https://mlr3proba.mlr-org.com/reference/MeasureSurvBeggC.html)               | Begg’s C-Index                          | [survAUC](https://cran.r-project.org/web/packages/survAUC)     |
+| [surv.chamblessAUC](https://mlr3proba.mlr-org.com/reference/MeasureSurvChamblessAUC.html) | Chambless and Diao’s AUC                | [survAUC](https://cran.r-project.org/web/packages/survAUC)     |
+| [surv.gonenC](https://mlr3proba.mlr-org.com/reference/MeasureSurvGonenC.html)             | Gonen and Heller’s AUC                  | [survAUC](https://cran.r-project.org/web/packages/survAUC)     |
+| [surv.graf](https://mlr3proba.mlr-org.com/reference/MeasureSurvGraf.html)                 | Integrated Graf Score                   | [mlr3proba](https://cran.r-project.org/web/packages/mlr3proba) |
+| [surv.grafSE](https://mlr3proba.mlr-org.com/reference/MeasureSurvGrafSE.html)             | Standard Error of Integrated Graf Score | [mlr3proba](https://cran.r-project.org/web/packages/mlr3proba) |
+| [surv.harrellC](https://mlr3proba.mlr-org.com/reference/MeasureSurvHarrellC.html)         | Harrell’s C-Index                       | [mlr3proba](https://cran.r-project.org/web/packages/mlr3proba) |
+| [surv.hungAUC](https://mlr3proba.mlr-org.com/reference/MeasureSurvHungAUC.html)           | Hung and Chiang’s AUC                   | [survAUC](https://cran.r-project.org/web/packages/survAUC)     |
+| [surv.intlogloss](https://mlr3proba.mlr-org.com/reference/MeasureSurvIntLogloss.html)     | Integrated Log Loss                     | [mlr3proba](https://cran.r-project.org/web/packages/mlr3proba) |
+| [surv.intloglossSE](https://mlr3proba.mlr-org.com/reference/MeasureSurvIntLoglossSE.html) | Standard Error of Integrated Log Loss   | [mlr3proba](https://cran.r-project.org/web/packages/mlr3proba) |
+| [surv.logloss](https://mlr3proba.mlr-org.com/reference/MeasureSurvLogloss.html)           | Log Loss                                | [mlr3proba](https://cran.r-project.org/web/packages/mlr3proba) |
+| [surv.loglossSE](https://mlr3proba.mlr-org.com/reference/MeasureSurvLoglossSE.html)       | Standard Error of Log Loss              | [mlr3proba](https://cran.r-project.org/web/packages/mlr3proba) |
+| [surv.nagelkR2](https://mlr3proba.mlr-org.com/reference/MeasureSurvNagelkR2.html)         | Nagelkerke’s R2                         | [survAUC](https://cran.r-project.org/web/packages/survAUC)     |
+| [surv.oquigleyR2](https://mlr3proba.mlr-org.com/reference/MeasureSurvOQuigleyR2.html)     | O’Quigley, Xu, and Stare’s R2           | [survAUC](https://cran.r-project.org/web/packages/survAUC)     |
+| [surv.songAUC](https://mlr3proba.mlr-org.com/reference/MeasureSurvSongAUC.html)           | Song and Zhou’s AUC                     | [survAUC](https://cran.r-project.org/web/packages/survAUC)     |
+| [surv.songTNR](https://mlr3proba.mlr-org.com/reference/MeasureSurvSongTNR.html)           | Song and Zhou’s TNR                     | [survAUC](https://cran.r-project.org/web/packages/survAUC)     |
+| [surv.songTPR](https://mlr3proba.mlr-org.com/reference/MeasureSurvSongTPR.html)           | Song and Zhou’s TPR                     | [survAUC](https://cran.r-project.org/web/packages/survAUC)     |
+| [surv.unoAUC](https://mlr3proba.mlr-org.com/reference/MeasureSurvUnoAUC.html)             | Uno’s AUC                               | [survAUC](https://cran.r-project.org/web/packages/survAUC)     |
+| [surv.unoC](https://mlr3proba.mlr-org.com/reference/MeasureSurvUnoC.html)                 | Uno’s C-Index                           | [survAUC](https://cran.r-project.org/web/packages/survAUC)     |
+| [surv.unoTNR](https://mlr3proba.mlr-org.com/reference/MeasureSurvUnoTNR.html)             | Uno’s TNR                               | [survAUC](https://cran.r-project.org/web/packages/survAUC)     |
+| [surv.unoTPR](https://mlr3proba.mlr-org.com/reference/MeasureSurvUnoTPR.html)             | Uno’s TPR                               | [survAUC](https://cran.r-project.org/web/packages/survAUC)     |
+| [surv.xuR2](https://mlr3proba.mlr-org.com/reference/MeasureSurvXuR2.html)                 | Xu and O’Quigley’s R2                   | [survAUC](https://cran.r-project.org/web/packages/survAUC)     |
+
 ## Example
 
-### Train, Predict, Evaluate
+### Train and Predict
 
 ``` r
 library(mlr3proba)
 library(mlr3)
 library(survival)
 set.seed(1)
-```
 
-create task and learner
+# create task and learner
 
-``` r
 veteran = mlr3misc::load_dataset("veteran", package = "survival")
 task_veteran = TaskSurv$new(id = "veteran", backend = veteran, time = "time", event = "status")
 learner = lrn("surv.coxph")
@@ -105,7 +153,7 @@ prediction
 #>        137   49   TRUE  0.8945899 <VectorDistribution>  0.8945899
 ```
 
-### crank, lp, and distr
+### Evaluate - crank, lp, and distr
 
 Every `PredictionSurv` object can predict one or more of:
 
@@ -165,16 +213,16 @@ prediction$score(measure)
 
 ## Feature Overview and Lifecycle
 
-The vision of **mlr3proba** is to be the first probabilistic machine
-learning package in R. This encompasses survival analysis, probabilistic
-regression (not just via MCMC\!), and unsupervised density estimation.
-The first release of **mlr3proba** is focused entirely on survival
-analysis and introduces `TaskSurv`. Later releases will include
+The vision of **mlr3proba** is to be the first complete probabilistic
+machine learning package in R. This encompasses survival analysis,
+probabilistic regression (not just via MCMC\!), and unsupervised density
+estimation. The first release of **mlr3proba** is focused entirely on
+survival analysis and introduces `TaskSurv`. Later releases will include
 `TaskDensity` and will extend `TaskRegr` to have probabilistic predict
 types. The lifecycle of the survival task and features are considered
 `maturing` and any major changes are unlikely. The density and
 probabilistic regression tasks are currently in the early stages of
-development. The current main features of **mlr3proba** are
+development. The current main features of **mlr3proba** are:
 
   - The added `TaskSurv`, `LearnerSurv`, `PredictionSurv` for survival
     analysis
@@ -182,7 +230,7 @@ development. The current main features of **mlr3proba** are
     implementations of censoring-adjusted probabilistic measures, such
     as the Integrated Graf (or Brier) Score.
   - PipeOps integrated with
-    **[mlrpipelines](https://github.com/mlr-org/mlr3pipelines)** for
+    **[mlr3pipelines](https://github.com/mlr-org/mlr3pipelines)** for
     composition of probability distributions from linear predictors
 
 ## Future Plans
@@ -194,7 +242,8 @@ development. The current main features of **mlr3proba** are
   - Allow `MeasureSurv` to return measures at multiple time-points
     simultaneously
   - Improve estimation of integrated scores, and re-implement
-    **survAUC** scores in **mlr3proba**
+    **[survAUC](https://cran.r-project.org/web/packages/survAUC)**
+    scores in **mlr3proba**
   - Continue to add survival measures and learners
 
 ## Bugs, Questions, Feedback

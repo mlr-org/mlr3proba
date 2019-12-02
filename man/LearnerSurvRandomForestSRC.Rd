@@ -12,7 +12,7 @@ Calls \code{\link[randomForestSRC:rfsrc]{randomForestSRC::rfsrc()}}.
 \item \code{crank} is predicted as the expectation of the survival distribution, \code{distr}.
 }
 
-\code{\link[randomForestSRC:predict.rfsrc]{randomForestSRC::predict.rfsrc()}} returns both cumulative hazard funcion (chf) and survival function (surv)
+\code{\link[randomForestSRC:predict.rfsrc]{randomForestSRC::predict.rfsrc()}} returns both cumulative hazard function (chf) and survival function (surv)
 but uses different estimators to derive these. \code{chf} uses a bootstrapped Nelson-Aalen estimator,
 (Ishwaran, 2008) whereas \code{surv} uses a bootstrapped Kaplan-Meier estimator \url{https://kogalur.github.io/randomForestSRC/theory.html}.
 The choice of which estimator to use is given by the extra \code{estimator} hyper-parameter,
@@ -53,8 +53,8 @@ Other survival learners:
 \code{\link{LearnerSurvCVGlmnet}},
 \code{\link{LearnerSurvCoxPH}},
 \code{\link{LearnerSurvFlexible}},
+\code{\link{LearnerSurvGBM}},
 \code{\link{LearnerSurvGamboost}},
-\code{\link{LearnerSurvGbm}},
 \code{\link{LearnerSurvGlmboost}},
 \code{\link{LearnerSurvGlmnet}},
 \code{\link{LearnerSurvKaplan}},

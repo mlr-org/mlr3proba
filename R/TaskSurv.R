@@ -91,11 +91,21 @@ TaskSurv = R6::R6Class("TaskSurv",
                            # truth is defined as the survival outcome as a Survival object
                            tn = self$target_names
                            d = self$data(rows, cols = self$target_names)
-                           if(length(tn) == 2)
-                             return(Surv(d[[tn[1L]]], as.integer(d[[tn[2L]]]), type = self$censtype))
-                           else
-                             return(Surv(time = d[[tn[1L]]], time2 = d[[tn[2L]]],
-                                         event = as.integer(d[[tn[3L]]]), type = self$censtype))
+                           args = list(time = d[[tn[1L]]], type = self$censtype)
+                           if(self$censtype %in% "interval2") {
+                             args$time2 = d[[tn[2L]]]
+                           } else if(length(tn) == 2) {
+                             args$event = as.integer(d[[tn[2L]]])
+                           } else {
+                             args$event = as.integer(d[[tn[3L]]])
+                             args$time2 = d[[tn[2L]]]
+                           }
+
+                           if(allMissing(args$event) & allMissing(args$time)) {
+                             return(suppressWarnings(invoke(Surv, .args = args)))
+                           } else {
+                             return(invoke(Surv, .args = args))
+                           }
                          },
 
                          formula = function(rhs = NULL) {
