@@ -74,7 +74,6 @@ Collate:
     'LearnerSurvCoxPH.R'
     'predict_flexsurvreg.R'
     'LearnerSurvFlexible.R'
-    'LearnerSurvGBM.R'
     'LearnerSurvGamboost.R'
     'LearnerSurvGlmboost.R'
     'LearnerSurvGlmnet.R'
