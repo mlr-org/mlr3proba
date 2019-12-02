@@ -225,7 +225,7 @@ cbind(Original = prediction$score(), Composed = composed_prediction$score())
 crankcompositor(lrn("surv.coxph"), method = "mean")$train(task)$predict(task)
 ```
 
-## All Together
+## All Together Now
 
 Putting all of this together we can perform a benchmark experiment to find the best learner
 for making predictions on a simulated dataset.

@@ -51,15 +51,15 @@ reference:
       - MeasureSurv
   - title: Survival Learners
     contents:
-      - starts_with("mlr_learners_surv_")
+      - starts_with("mlr_learners_surv")
   - title: Survival Measures
     contents:
-      - starts_with("mlr_measures_surv_")
+      - starts_with("mlr_measures_surv")
   - title: Survival Tasks
     contents:
-      - starts_with("mlr_tasks_")
+      - starts_with("mlr_tasks")
   - title: Survival PipeOps
     contents:
-      - starts_with("mlr_pipeops_")
+      - starts_with("mlr_pipeops")
       - crankcompositor
       - distrcompositor

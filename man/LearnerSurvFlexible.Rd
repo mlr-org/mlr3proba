@@ -25,8 +25,10 @@ The \code{distr} prediction is estimated using the fitted custom distributions f
 and the estimated coefficients.
 
 As flexible spline models estimate the hazard as the intercept, the linear predictor, \code{lp}, can be
-calculated as in the classical setting. i.e. For fitted coefficients, \eqn{\beta = (\beta0,...,\betaP)},
-and covariates \eqn{X^T = (X0,...,XP)^T}, where \eqn{X0} is a column of \eqn{1}s: \eqn{lp = \betaX}.
+calculated as in the classical setting. i.e. For fitted coefficients,
+\eqn{\beta = (\beta_0,...,\beta_P)}{\beta = (\beta0,...,\betaP)},
+and covariates \eqn{X^T = (X_0,...,X_P)^T}{X^T = (X0,...,XP)^T}, where \eqn{X_0}{X0} is a column
+of \eqn{1}s: \eqn{lp = \beta X}{lp = \betaX}.
 }
 \section{Construction}{
 \preformatted{LearnerSurvFlexible$new()
