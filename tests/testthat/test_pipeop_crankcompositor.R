@@ -13,8 +13,8 @@ test_that("PipeOpCrankCompositor - assertions", {
 test_that("PipeOpCrankCompositor - estimate", {
   gr = crankcompositor(lrn("surv.coxph"), method = "median")
   task = tsk("rats")
-  expect_equal(gr$train(task), list(crankcompose.output = NULL))
-  p = gr$predict(task)$crankcompose.output
+  expect_silent(gr$train(task))
+  p = gr$predict(task)
   expect_prediction_surv(p)
   expect_true("crank" %in% p$predict_types)
 })

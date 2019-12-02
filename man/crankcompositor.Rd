@@ -15,7 +15,7 @@ predicted \code{distr}.}
 \item{param_vals}{Additional parameters to pass to the \code{learner}.}
 }
 \value{
-\link{Graph}
+\link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner}
 }
 \description{
 This is a wrapper around the \link{mlr_pipeops_crankcompose} pipe operation, which
@@ -28,7 +28,7 @@ For full details see \link{PipeOpCrankCompositor}.
 library("mlr3")
 library("mlr3pipelines")
 
-ranger.crank = crankcompositor(learner = lrn("surv.ranger"),
+ranger.crank = crankcompositor(learner = lrn("surv.coxph"),
                             method = "median")
 resample(tsk("rats"), ranger.crank, rsmp("cv", folds = 2))$predictions()
 }

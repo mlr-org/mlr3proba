@@ -12,6 +12,8 @@
 #'
 #' Assumes random censoring.
 #'
+#' @template measure_survAUC
+#'
 #' @references
 #' Uno, H., T. Cai T, M. J. Pencina, R. B. D'Agostino and W. L. Wei. (2011). \cr
 #' On the C-statistics for evaluating overall adequacy of risk prediction procedures with censored

@@ -1,6 +1,6 @@
 Package: mlr3proba
 Title: Probabilistic Supervised Learning for mlr3
-Version: 0.1.0-9001
+Version: 0.1.0
 Authors@R:
     c(person(given = "Raphael",
              family = "Sonabend",
@@ -36,7 +36,6 @@ Imports:
     mlr3misc (>= 0.1.5),
     mlr3pipelines,
     paradox (>= 0.1.0),
-    penalized,
     R6,
     survival,
     survivalsvm
@@ -44,17 +43,23 @@ Suggests:
     flexsurv,
     gbm,
     glmnet,
+    knitr,
     lgr,
+    mlr3tuning,
     pec,
+    penalized,
     randomForestSRC,
     ranger,
     rpart,
     simsurv,
     survAUC,
     testthat
+VignetteBuilder:
+    knitr
+ByteCompile: true
 Encoding: UTF-8
 LazyData: true
-NeedsCompilation: yes
+NeedsCompilation: no
 Roxygen: list(markdown = TRUE, r6 = FALSE)
 RoxygenNote: 7.0.1
 Collate:

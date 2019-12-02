@@ -15,6 +15,8 @@
 #' `times` and `lp_thresh` are arbitarily set to `0` to prevent crashing, these should be further
 #' specified.
 #'
+#' @template measure_survAUC
+#'
 #' @references
 #' Uno, H., T. Cai, L. Tian, and L. J. Wei (2007).\cr
 #' Evaluating prediction rules for t-year survivors with censored regression models.\cr

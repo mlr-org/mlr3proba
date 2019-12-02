@@ -13,7 +13,7 @@
 #' which may be required for changing the prediction `distr` from one model form to another.
 #' @param param_vals Additional parameters to pass to the `learner`.
 #' @details For full details see [PipeOpDistrCompositor].
-#' @return [Graph]
+#' @return [mlr3pipelines::GraphLearner]
 #' @examples
 #' library("mlr3")
 #' library("mlr3pipelines")
@@ -32,5 +32,5 @@ distrcompositor = function(learner, estimator = "kaplan", form = "aft", overwrit
 
   compositor = po("distrcompose", param_vals = list(form = form, overwrite = overwrite))
 
-  gunion(list(base, pred)) %>>% compositor
+  GraphLearner$new(gunion(list(base, pred)) %>>% compositor)
 }

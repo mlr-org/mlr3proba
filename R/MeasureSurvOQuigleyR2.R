@@ -8,6 +8,8 @@
 #'
 #' Assumes Cox PH model specification.
 #'
+#' @template measure_survAUC
+#'
 #' @references
 #' O'Quigley, J., R. Xu, and J. Stare (2005).\cr
 #' Explained randomness in proportional hazards models.\cr

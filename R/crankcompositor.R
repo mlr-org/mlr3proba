@@ -8,12 +8,12 @@
 #' predicted `distr`.
 #' @param param_vals Additional parameters to pass to the `learner`.
 #' @details For full details see [PipeOpCrankCompositor].
-#' @return [Graph]
+#' @return [mlr3pipelines::GraphLearner]
 #' @examples
 #' library("mlr3")
 #' library("mlr3pipelines")
 #'
-#' ranger.crank = crankcompositor(learner = lrn("surv.ranger"),
+#' ranger.crank = crankcompositor(learner = lrn("surv.coxph"),
 #'                             method = "median")
 #' resample(tsk("rats"), ranger.crank, rsmp("cv", folds = 2))$predictions()
 #' @export
@@ -23,5 +23,5 @@ crankcompositor = function(learner, method = "mean", param_vals = list()){
   pred = po("learner", learner, param_vals = param_vals)
   compositor = po("crankcompose", param_vals = list(method = method))
 
-  pred %>>% compositor
+  GraphLearner$new(pred %>>% compositor)
 }

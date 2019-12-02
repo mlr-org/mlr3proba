@@ -8,6 +8,8 @@
 #'
 #' Assumes Cox PH model specification.
 #'
+#' @template measure_survAUC
+#'
 #' @references
 #' Nagelkerke, N. J. D. (1991). \cr
 #' A note on a general definition of the coefficient of determination. \cr

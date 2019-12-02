@@ -13,5 +13,5 @@
 ^docs$
 ^pkgdown$
 inst/trigger-mlr3book.sh
-
+README\.Rmd
 

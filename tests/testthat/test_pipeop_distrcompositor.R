@@ -17,16 +17,16 @@ test_that("PipeOpDistrCompositor - assertions", {
 test_that("PipeOpDistrCompositor - overwrite = FALSE", {
   gr = distrcompositor(lrn("surv.coxph"), overwrite = FALSE)
   task = tsk("rats")
-  expect_equal(gr$train(task), list(distrcompose.output = NULL))
-  expect_equal(gr$predict(task)$distrcompose.output$distr,
+  expect_silent(gr$train(task))
+  expect_equal(gr$predict(task)$distr,
                lrn("surv.coxph")$train(task)$predict(task)$distr)
 })
 
 test_that("PipeOpDistrCompositor - overwrite = TRUE", {
   gr = distrcompositor(lrn("surv.coxph"), overwrite = TRUE, form = "ph")
   task = tsk("rats")
-  expect_equal(gr$train(task), list(distrcompose.output = NULL))
-  p = gr$predict(task)$distrcompose.output
+  expect_silent(gr$train(task))
+  p = gr$predict(task)
   expect_prediction_surv(p)
   expect_true("distr" %in% p$predict_types)
 })

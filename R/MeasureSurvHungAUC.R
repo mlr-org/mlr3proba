@@ -12,6 +12,8 @@
 #'
 #' Assumes random censoring.
 #'
+#' @template measure_survAUC
+#'
 #' @references
 #' Hung, H. and C.-T. Chiang (2010).\cr
 #' Estimation methods for time-dependent AUC models with survival data.\cr

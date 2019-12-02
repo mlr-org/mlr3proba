@@ -12,6 +12,8 @@
 #'
 #' Assumes Cox PH model specification.
 #'
+#' @template measure_survAUC
+#'
 #' @references
 #' Chambless, L. E. and G. Diao (2006).\cr
 #' Estimation of time-dependent area under the ROC curve for long-term risk prediction.\cr

@@ -12,6 +12,11 @@ Calls \code{\link[survAUC:UnoC]{survAUC::UnoC()}}.
 
 Assumes random censoring.
 }
+\details{
+All measures implemented from \CRANpkg{survAUC} should be used with care, we are aware
+of problems in implementation that sometimes cause fatal errors in R. In future updates these
+measures will all be re-written and implemented directly in \code{mlr3proba}.
+}
 \section{Construction}{
 \preformatted{MeasureSurvUnoC$new(times, lp_thresh)
 mlr_measures$get("surv.unoC")

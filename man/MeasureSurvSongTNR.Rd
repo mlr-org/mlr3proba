@@ -15,6 +15,11 @@ Assumes Cox PH model specification.
 \code{times} and \code{lp_thresh} are arbitarily set to \code{0} to prevent crashing, these should be further
 specified.
 }
+\details{
+All measures implemented from \CRANpkg{survAUC} should be used with care, we are aware
+of problems in implementation that sometimes cause fatal errors in R. In future updates these
+measures will all be re-written and implemented directly in \code{mlr3proba}.
+}
 \section{Construction}{
 \preformatted{MeasureSurvSongTNR$new(times = 0, lp_thresh = 0)
 mlr_measures$get("surv.songTNR")

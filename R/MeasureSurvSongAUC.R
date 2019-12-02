@@ -13,6 +13,8 @@
 #'
 #' Assumes Cox PH model specification.
 #'
+#' @template measure_survAUC
+#'
 #' @references
 #' Song, X. and X.-H. Zhou (2008).\cr
 #' A semiparametric approach for the covariate specific ROC curve with survival outcome.\cr

@@ -12,7 +12,8 @@ Predefined tasks are stored in \link[mlr3:mlr_tasks]{mlr3::mlr_tasks}.
 The \code{task_type} is set to \code{"surv"}.
 }
 \section{Construction}{
-\preformatted{t = TaskSurv$new(id, backend, time, time2, event, type = "right")
+\preformatted{t = TaskSurv$new(id, backend, time, time2, event, c("right","left",
+    "counting","interval","interval2","mstate"))
 }
 \itemize{
 \item \code{id} :: \code{character(1)}\cr
@@ -28,7 +29,7 @@ If data is right censored then "0"/\code{FALSE} means alive (no event),
 \item \code{time2} :: \code{numeric()}\cr
 Ending time for interval censored data. Ignored otherwise.
 \item \code{type} :: character()\cr
-Type of censoring. One of: "right", "left", "counting", "interval", "interval2" or "mstate".
+Type of censoring. Default is 'right' censoring.
 }
 }
 

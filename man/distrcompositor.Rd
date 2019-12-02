@@ -28,7 +28,7 @@ which may be required for changing the prediction \code{distr} from one model fo
 \item{param_vals}{Additional parameters to pass to the \code{learner}.}
 }
 \value{
-\link{Graph}
+\link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner}
 }
 \description{
 This is a wrapper around the \link{mlr_pipeops_distrcompose} pipe operation, which
