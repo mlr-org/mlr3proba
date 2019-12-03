@@ -18,7 +18,7 @@ weighted_survival_score = function(truth, distribution, times, loss,...){
 
   # To account for censoring the score is weighted according to each individuals contribution to
   # censoring.
-  # G(t*) = S(t*)^2 * I(t <= t*, died = 1) * (1/C(t)) + (1-S(t*))^2 * I(t > t*) * (1/C(t*))
+  # G(t*) = L(S, t*)I(t <= t*, died = 1)(1/C(t)) + L(S, t*)I(t > t*)(1/C(t*))
   # where C(t) is Kaplan-Meier estimator for censoring distribution
 
   # First get matrix of observed death/censor times and matrix of all unique times
