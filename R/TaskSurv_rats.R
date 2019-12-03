@@ -11,7 +11,7 @@
 #'
 #' @description
 #' A survival task for the [survival::rats] data set.
-#' Columns have been converted to integer, column "sex" has been converted to a factor.
+#' Column "sex" has been converted to a factor, all others have been converted to integer.
 #' @template seealso_task
 NULL
 

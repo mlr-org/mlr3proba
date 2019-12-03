@@ -9,7 +9,7 @@
 Calls \code{\link[ranger:ranger]{ranger::ranger()}}.
 \itemize{
 \item distr is predicted using \code{\link[ranger:predict.ranger]{ranger::predict.ranger()}}
-\item \code{crank} is predicted as the expectation of the survival distribution, \code{distr}.
+\item \code{crank} is predicted as the expectation of the survival distribution, \code{distr}
 }
 }
 \section{Construction}{

@@ -1,6 +1,6 @@
 #' @template surv_measure
 #' @templateVar title Integrated Graf Score
-#' @templateVar inherit [MeasureSurvIntegrated]/[MeasureSurv]
+#' @templateVar inherit `MeasureSurvIntegrated`/[MeasureSurv]
 #' @templateVar fullname MeasureSurvGraf
 #' @templateVar pars integrated = TRUE, times
 #' @templateVar int_par TRUE
@@ -12,11 +12,11 @@
 #' Calculates the Integrated Graf Score, aka integrated Brier score or squared loss.
 #'
 #' For an individual who dies at time \eqn{t}, with predicted Survival function, \eqn{S}, the
-#' Graf Score at time t* is given by
-#' \deqn{L(S, t*) = S(t*)^2 * I(t \le t*, \delta = 1) * (1/G(t)) - (1 - S(t*))^2 * I(t > t*) * (1/G(t*))}
+#' Graf Score at time \eqn{t^*}{t*} is given by
+#' \deqn{L(S,t|t^*) = [(S(t^*)^2)I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*))^2)I(t > t^*)(1/G(t^*))]}{L(S,t|t*) = [(S(t*)^2)I(t \le t*, \delta = 1)(1/G(t))] + [((1 - S(t*))^2)I(t > t*)(1/G(t*))]}
 #' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
 #'
-#' @template learner_integrated
+#' @template measure_integrated
 #'
 #' @references
 #' Graf, E., Schmoor, C., Sauerbrei, W. and Schumacher, M. (1999).\cr

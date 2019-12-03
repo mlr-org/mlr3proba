@@ -1,5 +1,5 @@
-#' <% crank_distr_str = "* `crank` is predicted as the expectation of the survival distribution, `distr`." %>
-#' <% crank_lp_str = "* `crank` is identical to `lp`." %>
+#' <% crank_distr_str = "* `crank` is predicted as the expectation of the survival distribution, `distr`" %>
+#' <% crank_lp_str = "* `crank` is identical to `lp`" %>
 #' <% crank_str = "* crank is predicted " %>
 #' <% lp_str = "* lp is predicted " %>
 #' <% distr_str = "* distr is predicted " %>

@@ -4,13 +4,13 @@
 \alias{crankcompositor}
 \title{Compose a Crank Predict Type for Survival Learners}
 \usage{
-crankcompositor(learner, method = "mean", param_vals = list())
+crankcompositor(learner, method = c("mean", "median"), param_vals = list())
 }
 \arguments{
 \item{learner}{\link{LearnerSurv} object for which a \code{crank} is composed (or over-written)}
 
-\item{method}{One of \code{mean} or \code{median}. Used to determine how \code{crank} is estimated from the
-predicted \code{distr}.}
+\item{method}{One of \code{mean} or \code{median}; abbreviations allowed. Used to determine
+how \code{crank} is estimated from the predicted \code{distr}. Default is \code{mean}.}
 
 \item{param_vals}{Additional parameters to pass to the \code{learner}.}
 }
@@ -18,7 +18,7 @@ predicted \code{distr}.}
 \link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner}
 }
 \description{
-This is a wrapper around the \link{mlr_pipeops_crankcompose} pipe operation, which
+This is a wrapper around the \link{PipeOpCrankCompositor} pipe operation, which
 simplifies graph creation.
 }
 \details{

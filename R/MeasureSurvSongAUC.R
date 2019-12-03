@@ -1,6 +1,6 @@
 #' @template surv_measure
 #' @templateVar title Song and Zhou's AUC
-#' @templateVar inherit [MeasureSurvIntegrated]/[MeasureSurv]
+#' @templateVar inherit `MeasureSurvAUC`/[MeasureSurv]
 #' @templateVar fullname MeasureSurvSongAUC
 #' @templateVar shortname surv.songAUC
 #' @templateVar pars integrated = TRUE, times, type = c("incident","cumulative")

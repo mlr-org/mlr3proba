@@ -1,6 +1,6 @@
 #' @template surv_measure
 #' @templateVar title Standard Error of Integrated Graf Score
-#' @templateVar inherit [MeasureSurvIntegrated]/[MeasureSurv]
+#' @templateVar inherit `MeasureSurvIntegrated`/[MeasureSurv]
 #' @templateVar fullname MeasureSurvGrafSE
 #' @templateVar pars integrated = TRUE, times
 #' @templateVar int_par TRUE

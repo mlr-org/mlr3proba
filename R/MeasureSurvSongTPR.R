@@ -1,6 +1,6 @@
 #' @template surv_measure
 #' @templateVar title Song and Zhou's TPR
-#' @templateVar inherit [MeasureSurvIntegrated]/[MeasureSurv]
+#' @templateVar inherit `MeasureSurvAUC`/[MeasureSurv]
 #' @templateVar fullname MeasureSurvSongTPR
 #' @templateVar shortname surv.songTPR
 #' @templateVar pars times = 0, lp_thresh = 0, type = c("incident","cumulative")

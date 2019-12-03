@@ -7,16 +7,15 @@
 #' This measure specializes [mlr3::Measure] for survival problems.
 #' Predefined measures can be found in the [mlr3misc::Dictionary] [mlr3::mlr_measures].
 #'
-#' The `task_type` is set to `"surv"`.
-#'
 #' @section Construction:
 #' ```
-#' m = MeasureSurv$new(id, range, minimize, aggregator = NULL, properties = character(), predict_type = "distr",
-#'      task_properties = character(), packages = character())
+#' MeasureSurv$new(id, range, minimize, aggregator = NULL,
+#'                 properties = character(), predict_type = "distr",
+#'                 task_properties = character(), packages = character())
 #' ```
 #' For a description of the arguments, see [mlr3::Measure].
 #' The `task_type` is set to `"surv"`.
-#' Possible values for `predict_type` are `"distr"` and `"crank"`.
+#' Possible values for `predict_type` are `"distr"`, `"lp"`, and `"crank"`.
 #'
 #' @section Fields:
 #' See [Measure].
@@ -25,7 +24,8 @@
 #' See [Measure].
 #'
 #' @family Measure
-#' @seealso Example survival measures: [`surv.graf`][mlr_measures_surv.graf].
+#' @seealso Example survival measures: [`surv.graf`][MeasureSurvGraf],
+#' [`surv.harrellC`][MeasureSurvHarrellC].
 #' @export
 MeasureSurv = R6Class("MeasureSurv", inherit = Measure, cloneable = FALSE,
                       public = list(

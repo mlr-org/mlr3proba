@@ -4,7 +4,7 @@
 \alias{MeasureSurvGrafSE}
 \alias{mlr_measures_surv.grafSE}
 \title{Standard Error of Integrated Graf Score Survival Measure}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurvIntegrated}/\link{MeasureSurv}.}
+\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \code{MeasureSurvIntegrated}/\link{MeasureSurv}.}
 \description{
 
 
@@ -24,8 +24,8 @@ mlr_measures$get("surv.grafSE")
 msr("surv.grafSE")
 }
 \itemize{
-\item \code{integrated} :: \code{logical(1)} \cr If \code{TRUE} (default), returns the integrated score, otherwise not integrated. \cr
-\item \code{times} :: \code{vector()} \cr If \code{integrate == TRUE} then a vector of time-points over which to integrate the score, or a single time point at which to return the score. \cr
+\item \code{integrated} :: \code{logical(1)} \cr If \code{TRUE} (default), returns the integrated score; otherwise, not integrated. \cr
+\item \code{times} :: \code{vector()} \cr If \code{integrate == TRUE} then a vector of time-points over which to integrate the score. If \code{integrate == FALSE} then a single time point at which to return the score. \cr
 }
 }
 
@@ -41,9 +41,7 @@ msr("surv.grafSE")
 
 \section{Fields}{
 
-
-See \link{MeasureSurv}
-and \link{MeasureSurvIntegrated}
+See \link{MeasureSurv}, as well as all variables passed to the constructor.
 }
 
 \references{

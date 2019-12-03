@@ -55,9 +55,11 @@ reference:
   - title: Survival Measures
     contents:
       - starts_with("mlr_measures_surv")
+      - MeasureSurvIntegrated
   - title: Survival Tasks
     contents:
       - starts_with("mlr_tasks")
+      - TaskGeneratorSimsurv
   - title: Survival PipeOps
     contents:
       - starts_with("mlr_pipeops")

@@ -14,7 +14,7 @@ The logloss, in the context of probabilistic predictions, is defined as the nega
 density function, \eqn{f}, evaluated at the observation time, \eqn{t},
 \deqn{L(f, t) = -log(f(t))}
 
-Censored observations in the test set are removed.
+Censored observations in the test set are ignored.
 }
 \section{Construction}{
 \preformatted{MeasureSurvLogloss$new(eps = 1e-15)
@@ -38,8 +38,7 @@ msr("surv.logloss")
 
 \section{Fields}{
 
-
-See \link{MeasureSurv}
+See \link{MeasureSurv}, as well as all variables passed to the constructor.
 
 
 As well as

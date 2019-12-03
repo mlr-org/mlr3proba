@@ -9,7 +9,7 @@
 Calls \code{\link[penalized:penalized]{penalized::penalized()}}.
 \itemize{
 \item distr is predicted using \code{\link[penalized:predict]{penalized::predict()}}
-\item \code{crank} is predicted as the expectation of the survival distribution, \code{distr}.
+\item \code{crank} is predicted as the expectation of the survival distribution, \code{distr}
 }
 
 The \code{penalized} and \code{unpenalized} arguments in the learner are implemented slightly

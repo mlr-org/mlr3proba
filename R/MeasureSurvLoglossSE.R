@@ -13,7 +13,7 @@
 #' \deqn{se(L) = sd(L)/\sqrt{N}}{se(L) = sd(L)/\sqrt N}
 #' where \eqn{N} are the number of observations in the test set, and \eqn{sd} is the standard deviation.
 #'
-#' Censored observations in the test set are removed.
+#' Censored observations in the test set are ignored.
 #'
 #' @family Probabilistic survival measures
 #' @export

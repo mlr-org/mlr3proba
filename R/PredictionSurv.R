@@ -10,8 +10,8 @@
 #'
 #' @section Construction:
 #' ```
-#' p = PredictionSurv$new(task = NULL, row_ids = task$row_ids, truth = task$truth(), distr = NULL,
-#' crank = NULL, lp = NULL)
+#' PredictionSurv$new(task = NULL, row_ids = task$row_ids, truth = task$truth(),
+#'                    crank = NULL, distr = NULL, lp = NULL)
 #' ```
 #'
 #' * `task` :: [TaskSurv]\cr
@@ -25,19 +25,20 @@
 #'
 #' * `crank` :: `numeric()`\cr
 #'   Vector of continuous ranks. One element for each observation in the test set.
-#'   For a pair of continuous ranks, a higher rank indicates that observation is more likely to experience
-#'   the event.
+#'   For a pair of continuous ranks, a higher rank indicates that the observation is more likely
+#'   to experience the event.
 #'   Used in discrimination measures like [surv.harrellC][mlr_measures_surv.harrellC].
+#'
+#' * `distr` :: `distr6::Distribution()`\cr
+#'   [VectorDistribution][distr6::VectorDistribution] from \CRANpkg{distr6}.
+#'   Each individual distribution in the vector represents the random variable 'survival time' for
+#'   an individual observation.
+#'   Used in measures like [surv.graf][mlr_measures_surv.graf].
 #'
 #' * `lp` :: `numeric()`\cr
 #'   Vector of linear predictor scores. One element for each observation in the test set.
 #'   \eqn{lp = X\beta} where \eqn{X} is a matrix of covariates and \eqn{\beta} is a vector of estimated coefficients.
 #'   Used in discrimination measures like [surv.harrellC][mlr_measures_surv.harrellC].
-#'
-#' * `distr` :: `distr6::Distribution()`\cr
-#'   [VectorDistribution][distr6::VectorDistribution] from \CRANpkg{distr6}.
-#'   Each distribution in the vector represents the random variable 'survival time'.
-#'   Used in measures like [surv.graf][mlr_measures_surv.graf].
 #'
 #' @section Fields:
 #' See [mlr3::Prediction].

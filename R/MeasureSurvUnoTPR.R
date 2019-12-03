@@ -1,6 +1,6 @@
 #' @template surv_measure
 #' @templateVar title Uno's TPR
-#' @templateVar inherit [MeasureSurvIntegrated]/[MeasureSurv]
+#' @templateVar inherit `MeasureSurvAUC`/[MeasureSurv]
 #' @templateVar fullname MeasureSurvUnoTPR
 #' @templateVar shortname surv.unoTPR
 #' @templateVar pars times = 0, lp_thresh = 0

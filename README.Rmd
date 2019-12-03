@@ -75,7 +75,7 @@ remotes::install_github("mlr-org/mlr3proba")
 | :--| :------ | :------ |
 | [surv.beggC](https://mlr3proba.mlr-org.com/reference/MeasureSurvBeggC.html) | Begg's C-Index | [survAUC](https://cran.r-project.org/web/packages/survAUC) |
 | [surv.chamblessAUC](https://mlr3proba.mlr-org.com/reference/MeasureSurvChamblessAUC.html) | Chambless and Diao's AUC | [survAUC](https://cran.r-project.org/web/packages/survAUC) |
-| [surv.gonenC](https://mlr3proba.mlr-org.com/reference/MeasureSurvGonenC.html) | Gonen and Heller's AUC | [survAUC](https://cran.r-project.org/web/packages/survAUC) |
+| [surv.gonenC](https://mlr3proba.mlr-org.com/reference/MeasureSurvGonenC.html) | Gonen and Heller's C-Index | [survAUC](https://cran.r-project.org/web/packages/survAUC) |
 | [surv.graf](https://mlr3proba.mlr-org.com/reference/MeasureSurvGraf.html) | Integrated Graf Score | [mlr3proba](https://cran.r-project.org/web/packages/mlr3proba) |
 | [surv.grafSE](https://mlr3proba.mlr-org.com/reference/MeasureSurvGrafSE.html) | Standard Error of Integrated Graf Score | [mlr3proba](https://cran.r-project.org/web/packages/mlr3proba) |
 | [surv.harrellC](https://mlr3proba.mlr-org.com/reference/MeasureSurvHarrellC.html) | Harrell's C-Index | [mlr3proba](https://cran.r-project.org/web/packages/mlr3proba) |
@@ -97,7 +97,7 @@ remotes::install_github("mlr-org/mlr3proba")
 
 ## Feature Overview and Lifecycle
 
-The vision of **mlr3proba** is to be the first complete probabilistic machine learning package in R. This encompasses survival analysis, probabilistic regression (not just via MCMC\!), and unsupervised density estimation. The first release of **mlr3proba** is focused entirely on survival analysis and introduces `TaskSurv`. Later releases will include `TaskDensity` and will extend `TaskRegr` to have probabilistic predict types. The lifecycle of the survival task and features are considered `maturing` and any major changes are unlikely. The density and probabilistic regression tasks are currently in the early stages of development. The current main features of **mlr3proba** are:
+The vision of **mlr3proba** is to be the first complete probabilistic machine learning package in R. This encompasses survival analysis, probabilistic regression, and unsupervised density estimation. The first release of **mlr3proba** is focused entirely on survival analysis and introduces `TaskSurv`. Later releases will include `TaskDensity` and will extend `TaskRegr` to have probabilistic predict types. The lifecycle of the survival task and features are considered `maturing` and any major changes are unlikely. The density and probabilistic regression tasks are currently in the early stages of development. The current main features of **mlr3proba** are:
 
 * The added `TaskSurv`, `LearnerSurv`, `PredictionSurv` for survival analysis
 * 17 survival learners, and 21 survival measures, including efficient implementations of censoring-adjusted probabilistic measures, such as the Integrated Graf (or Brier) Score.

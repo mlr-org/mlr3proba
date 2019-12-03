@@ -9,14 +9,13 @@
 Calls \code{\link[glmnet:cv.glmnet]{glmnet::cv.glmnet()}}.
 \itemize{
 \item lp is predicted by \code{\link[glmnet:predict.cv.glmnet]{glmnet::predict.cv.glmnet()}}
-\item \code{crank} is identical to \code{lp}.
+\item \code{crank} is identical to \code{lp}
 }
 
-Use \link{LearnerSurvGlmnet} and \link{LearnerSurvCVGlmnet} for the glmnets implemented in
-\code{\link[glmnet:glmnet]{glmnet::glmnet()}}/\code{\link[glmnet:cv.glmnet]{glmnet::cv.glmnet()}} without and with internal cross-validation, respectively.
-Tuning using the internal optimizer in \code{\link[glmnet:cv.glmnet]{glmnet::cv.glmnet()}} may be more efficient when tuning
-lambda only. However, for tuning multiple hyperparameters, \CRANpkg{mlr3tuning} and \link{LearnerSurvGlmnet} will
-likely give better results.
+Use \link{LearnerSurvGlmnet} and \link{LearnerSurvCVGlmnet} for glmnets without and with internal
+cross-validation, respectively. Tuning using the internal optimizer in \link{LearnerSurvCVGlmnet}
+may be more efficient when tuning lambda only. However, for tuning multiple hyperparameters,
+\CRANpkg{mlr3tuning} and \link{LearnerSurvGlmnet} will likely give better results.
 }
 \section{Construction}{
 \preformatted{LearnerSurvCVGlmnet$new()

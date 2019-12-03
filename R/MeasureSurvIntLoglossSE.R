@@ -1,6 +1,6 @@
 #' @template surv_measure
 #' @templateVar title Standard Error of Integrated Log loss
-#' @templateVar inherit [MeasureSurvIntegrated]/[MeasureSurv]
+#' @templateVar inherit `MeasureSurvIntegrated`/[MeasureSurv]
 #' @templateVar fullname MeasureSurvIntLoglossSE
 #' @templateVar pars integrated = TRUE, times, eps = 1e-15
 #' @templateVar int_par TRUE

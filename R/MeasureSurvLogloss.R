@@ -13,7 +13,7 @@
 #' density function, \eqn{f}, evaluated at the observation time, \eqn{t},
 #' \deqn{L(f, t) = -log(f(t))}
 #'
-#' Censored observations in the test set are removed.
+#' Censored observations in the test set are ignored.
 #'
 #' @section Fields:
 #' As well as

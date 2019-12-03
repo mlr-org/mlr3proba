@@ -23,7 +23,7 @@ mlr_measures$get("surv.unoC")
 msr("surv.unoC")
 }
 \itemize{
-\item \code{times} :: \code{vector()} \cr If \code{integrate == TRUE} then a vector of time-points over which to integrate the score, or a single time point at which to return the score. \cr
+\item \code{times} :: \code{vector()} \cr If \code{integrate == TRUE} then a vector of time-points over which to integrate the score. If \code{integrate == FALSE} then a single time point at which to return the score. \cr
 \item \code{lp_thresh} :: \code{numeric(1)} \cr Determines where to threshold the linear predictor for calculating the TPR/TNR. \cr
 }
 }
@@ -40,8 +40,7 @@ msr("surv.unoC")
 
 \section{Fields}{
 
-
-See \link{MeasureSurv}
+See \link{MeasureSurv}, as well as all variables passed to the constructor.
 }
 
 \references{

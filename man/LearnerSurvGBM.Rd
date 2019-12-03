@@ -9,7 +9,7 @@
 Calls \code{\link[gbm:gbm]{gbm::gbm()}}.
 \itemize{
 \item lp is predicted by \code{\link[gbm:predict.gbm]{gbm::predict.gbm()}}
-\item \code{crank} is identical to \code{lp}.
+\item \code{crank} is identical to \code{lp}
 }
 
 Parameter \code{distribution} is set to \code{coxph} as this is the only distribution implemented

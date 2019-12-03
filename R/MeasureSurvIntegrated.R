@@ -1,11 +1,3 @@
-#' @title Abstract Class for Integrated Survival Measures
-#' @description This class is abstract and should not be constructed directly.
-#' @format [R6::R6Class()] inheriting from [MeasureSurv].
-#' @section Fields:
-#' See [MeasureSurv] as well as
-#' * integrated :: logical(1) \cr Should the integrated score be returned?
-#' * times :: numeric() \cr Either the times over which to integrate the score or a *single* time-point for which the (non-integrated) score should be returned.
-#' @export
 MeasureSurvIntegrated = R6Class("MeasureSurvIntegrated",
   inherit = MeasureSurv,
   public = list(

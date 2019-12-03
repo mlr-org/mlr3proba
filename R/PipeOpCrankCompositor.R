@@ -1,11 +1,11 @@
 #' @title PipeOpCrankCompositor
 #'
 #' @usage NULL
-#' @name mlr_pipeops_crankcompose
+#' @aliases mlr_pipeops_crankcompositor
 #' @format [`R6Class`] inheriting from [`PipeOp`].
 #'
 #' @description
-#' Return a continuous ranking from a `distr` predicted in a [PredictionSurv].
+#' Uses a predicted `distr` in a [PredictionSurv] to estimate (or 'compose') a `crank` prediction.
 #'
 #' @section Construction:
 #' ```
@@ -17,21 +17,19 @@
 #'   List of hyperparameter settings, overwriting the hyperparameter settings that would otherwise be set during construction. Default `list()`.
 #'
 #' @section Input and Output Channels:
-#' [PipeOpCrankCompositor] has one input channels named "input", which takes
+#' [PipeOpCrankCompositor] has one input channel named "input", which takes
 #' `NULL` during training and [PredictionSurv] during prediction.
 #'
 #' [PipeOpCrankCompositor] has one output channel named "output", producing `NULL` during training
 #' and a [PredictionSurv] during prediction.
 #'
-#' The output during prediction is the [PredictionSurv] from the "pred" input but with an extra (or overwritten)
-#' column for `crank` predict type; which is composed from the `distr` predict type in the [PredictionSurv]
-#' object.
+#' The output during prediction is the [PredictionSurv] from the "pred" input but with the `crank`
+#' predict type overwritten by the given estimation method.
 #'
 #' @section State:
 #' The `$state` is left empty (`list()`).
 #'
 #' @section Parameters:
-#' The parameters are:
 #' * `method` :: `character(1)` \cr
 #'    Determines what method should be used to produce a continuous ranking from the distribution.
 #'    One of `median` or `mean` corresponding to the respective functions in the predicted

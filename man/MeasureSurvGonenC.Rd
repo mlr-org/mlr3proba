@@ -36,8 +36,7 @@ msr("surv.gonenC")
 
 \section{Fields}{
 
-
-See \link{MeasureSurv}
+See \link{MeasureSurv}, as well as all variables passed to the constructor.
 }
 
 \references{

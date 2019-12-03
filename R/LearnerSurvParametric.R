@@ -19,13 +19,13 @@
 #' data set and \eqn{\beta} are the fitted coefficients.
 #'
 #' The distribution `distr` is composed using the `lp` and specifying a model form in the
-#' `type` hyper-parameter. These are as follows, with respective hazard functions,
-#' * Proportional Hazards (`ph`) \deqn{h(t) = h_0(t)exp(lp)}{h(t) = h0(t)*exp(lp)}
-#' * Accelerated Failure Time (`aft`) \deqn{h(t) = exp(-lp)h_0(\frac{t}{exp(lp)})}{h(t) = exp(-lp)*h0(t/exp(lp))}
-#' * Proportional Odds (`po`) \deqn{\frac{h(t)}{h_0(t)} = {1 + (exp(lp) - 1)S_0(t)}^{-1}}{h(t)/h0(t) = {1 + (exp(lp) - 1)*S0(t)}^-1}
+#' `type` hyper-parameter. These are as follows, with respective survival functions,
+#' * Accelerated Failure Time (`aft`) \deqn{S(t) = S_0(\frac{t}{exp(lp)})}{S(t) = S0(t/exp(lp))}
+#' * Proportional Hazards (`ph`) \deqn{S(t) = S_0(t)^{exp(lp)}}{S(t) = S0(t)^exp(lp)}
+#' * Proportional Odds (`po`) \deqn{S(t) = \frac{S_0(t)}{exp(-lp) + (1-exp(-lp)) S_0(t)}}{S(t) = S0(t) / [exp(-lp) + S0(t) (1-exp(-lp))]}
 #'
-#' Where \eqn{h_0}{h0} and \eqn{S_0}{S0} are the estimated baseline hazard/survival respectively
-#' (in this case with a given parametric form), and \eqn{lp} is the predicted linear predictor `lp`.
+#' where \eqn{S_0}{S0} is the estimated baseline survival distribution (in this case
+#' with a given parametric form), and \eqn{lp} is the predicted linear predictor.
 #'
 #' @references
 #' Kalbfleisch, J. D., Prentice, R. L. (2002).

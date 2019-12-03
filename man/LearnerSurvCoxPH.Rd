@@ -10,7 +10,7 @@ Calls \code{\link[survival:coxph]{survival::coxph()}}.
 \itemize{
 \item lp is predicted by \code{\link[survival:predict.coxph]{survival::predict.coxph()}}
 \item distr is predicted by \code{\link[survival:survfit.coxph]{survival::survfit.coxph()}}
-\item \code{crank} is identical to \code{lp}.
+\item \code{crank} is identical to \code{lp}
 }
 }
 \section{Construction}{

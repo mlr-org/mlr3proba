@@ -7,17 +7,16 @@
 \description{
 This measure specializes \link[mlr3:Measure]{mlr3::Measure} for survival problems.
 Predefined measures can be found in the \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} \link[mlr3:mlr_measures]{mlr3::mlr_measures}.
-
-The \code{task_type} is set to \code{"surv"}.
 }
 \section{Construction}{
-\preformatted{m = MeasureSurv$new(id, range, minimize, aggregator = NULL, properties = character(), predict_type = "distr",
-     task_properties = character(), packages = character())
+\preformatted{MeasureSurv$new(id, range, minimize, aggregator = NULL,
+                properties = character(), predict_type = "distr",
+                task_properties = character(), packages = character())
 }
 
 For a description of the arguments, see \link[mlr3:Measure]{mlr3::Measure}.
 The \code{task_type} is set to \code{"surv"}.
-Possible values for \code{predict_type} are \code{"distr"} and \code{"crank"}.
+Possible values for \code{predict_type} are \code{"distr"}, \code{"lp"}, and \code{"crank"}.
 }
 
 \section{Fields}{
@@ -31,6 +30,7 @@ See \link{Measure}.
 }
 
 \seealso{
-Example survival measures: \code{\link[=mlr_measures_surv.graf]{surv.graf}}.
+Example survival measures: \code{\link[=MeasureSurvGraf]{surv.graf}},
+\code{\link[=MeasureSurvHarrellC]{surv.harrellC}}.
 }
 \concept{Measure}

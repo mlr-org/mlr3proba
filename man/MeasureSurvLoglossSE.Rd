@@ -14,7 +14,7 @@ The standard error of the Logloss, L, is approximated via,
 \deqn{se(L) = sd(L)/\sqrt{N}}{se(L) = sd(L)/\sqrt N}
 where \eqn{N} are the number of observations in the test set, and \eqn{sd} is the standard deviation.
 
-Censored observations in the test set are removed.
+Censored observations in the test set are ignored.
 }
 \section{Construction}{
 \preformatted{MeasureSurvLoglossSE$new(eps = 1e-15)
@@ -38,9 +38,7 @@ msr("surv.loglossSE")
 
 \section{Fields}{
 
-
-See \link{MeasureSurv}
-and \link{MeasureSurvLogloss}
+See \link{MeasureSurv}, as well as all variables passed to the constructor.
 }
 
 \seealso{

@@ -3,12 +3,12 @@
 #' @templateVar title Regression, Ranking and Hybrid Support Vector Machines
 #' @templateVar fullname LearnerSurvSVM
 #' @templateVar caller [survivalsvm::survivalsvm()]
-#' @templateVar crank by [survivalsvm::predict.survivalsvm]
+#' @templateVar crank by [survivalsvm::predict.survivalsvm()]
 #'
 #' @description
 #' Four possible SVMs can be implemented, dependent on the `type` parameter. These correspond
-#' to predicting the survival time via regression (`regression`), predicting the PI by
-#' imposing a ranking constraint (`vanbelle1`, `vanbelle2`), a hybrid of the two (`hybrid`).
+#' to predicting the survival time via regression (`regression`), predicting a continuous rank
+#' (`vanbelle1`, `vanbelle2`), or a hybrid of the two (`hybrid`).
 #' Whichever `type` is chosen determines how the `crank` predict type is calculated,
 #' but in any case all can be considered a valid continuous ranking.
 #'

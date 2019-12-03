@@ -1,6 +1,6 @@
 #' @template surv_measure
 #' @templateVar title Hung and Chiang's AUC
-#' @templateVar inherit [MeasureSurvIntegrated]/[MeasureSurv]
+#' @templateVar inherit `MeasureSurvAUC`/[MeasureSurv]
 #' @templateVar fullname MeasureSurvHungAUC
 #' @templateVar shortname surv.hungAUC
 #' @templateVar pars integrated = TRUE, times

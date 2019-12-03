@@ -15,11 +15,11 @@
 #' this is likely to have more optimal results, and has more options for tuning.
 #'
 #' @details
-#' The `distr` prediction is estimated using the fitted custom distributions from [flexsurv::flexsurvspline()]
-#' and the estimated coefficients.
+#' The `distr` prediction is estimated using the fitted custom distributions
+#' from [flexsurv::flexsurvspline()] and the estimated coefficients.
 #'
-#' As flexible spline models estimate the hazard as the intercept, the linear predictor, `lp`, can be
-#' calculated as in the classical setting. i.e. For fitted coefficients,
+#' As flexible spline models estimate the baseline hazard as the intercept, the linear predictor,
+#' `lp`, can be calculated as in the classical setting. i.e. For fitted coefficients,
 #' \eqn{\beta = (\beta_0,...,\beta_P)}{\beta = (\beta0,...,\betaP)},
 #' and covariates \eqn{X^T = (X_0,...,X_P)^T}{X^T = (X0,...,XP)^T}, where \eqn{X_0}{X0} is a column
 #' of \eqn{1}s: \eqn{lp = \beta X}{lp = \betaX}.

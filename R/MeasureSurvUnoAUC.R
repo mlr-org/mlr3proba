@@ -1,7 +1,7 @@
 #' @template surv_measure
 #' @templateVar title Uno's AUC
 #' @templateVar alias mlr_measures_surv.unoAUC
-#' @templateVar inherit [MeasureSurvIntegrated]/[MeasureSurv]
+#' @templateVar inherit `MeasureSurvAUC`/[MeasureSurv]
 #' @templateVar fullname MeasureSurvUnoAUC
 #' @templateVar shortname surv.unoAUC
 #' @templateVar pars integrated = TRUE, times

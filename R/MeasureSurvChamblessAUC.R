@@ -1,6 +1,6 @@
 #' @template surv_measure
 #' @templateVar title Chambless and Diao's AUC
-#' @templateVar inherit [MeasureSurvIntegrated]/[MeasureSurv]
+#' @templateVar inherit `MeasureSurvAUC`/[MeasureSurv]
 #' @templateVar fullname MeasureSurvChamblessAUC
 #' @templateVar shortname surv.chamblessAUC
 #' @templateVar pars integrated = TRUE, times

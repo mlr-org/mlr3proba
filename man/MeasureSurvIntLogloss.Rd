@@ -4,26 +4,26 @@
 \alias{MeasureSurvIntLogloss}
 \alias{mlr_measures_surv.intlogloss}
 \title{Integrated Log loss Survival Measure}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurvIntegrated}/\link{MeasureSurv}.}
+\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \code{MeasureSurvIntegrated}/\link{MeasureSurv}.}
 \description{
 
 
 Calculates the integrated logarithmic (log), loss, aka integrated cross entropy.
 
 For an individual who dies at time \eqn{t}, with predicted Survival function, \eqn{S}, the
-probabilistic log loss at time t* is given by
-\deqn{L(S, t*) = -log(1 - S(t*)) * I(t \le t*, \delta = 1) * (1/G(t)) - log(S(t*)) * I(t > t*) * (1/G(t*))}
+probabilistic log loss at time \eqn{t^*}{t*} is given by
+\deqn{L(S,t|t^*) = - [log(1 - S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] - [log(S(t^*))I(t > t^*)(1/G(t^*))]}{L(S,t|t*) = - [log(1 - S(t*))I(t \le t*, \delta = 1)(1/G(t))] - [log(S(t*))I(t > t*)(1/G(t*))]}
 where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
 
-If \code{integrated == FALSE} then the sample mean is taken for the single specified \code{times}, \eqn{t}, and the returned
+If \code{integrated == FALSE} then the sample mean is taken for the single specified \code{times}, \eqn{t^*}{t*}, and the returned
 score is given by
-\deqn{L(S, t*) = \frac{1}{N} \sum_i^N L(S_i, t*)}{L(S, t*) = 1/N \sum_i^N L(S_i, t*)}
-where \eqn{N} is the number of observations and \eqn{S_i} is the predicted survival function for
-individual \eqn{i}.
+\deqn{L(S,t|t^*) = \frac{1}{N} \sum_{i=1}^N L(S_i,t_i|t^*)}{L(S,t|t*) = 1/N \sum_i^N L(S_i,t_i|t*)}
+where \eqn{N} is the number of observations, \eqn{S_i} is the predicted survival function for
+individual \eqn{i} and \eqn{t_i} is their true survival time.
 
-If \code{integrated == TRUE} then an approximation to integration is made by taking the mean over all unique
-time-points, \eqn{T}, and then the sample mean over all \eqn{N} observations.
-\deqn{L(S) = \frac{1}{NT} \sum_i^N \sum_j^T L(S_i, t_j)}{L(S) = 1/(NT) \sum_i^N \sum_j^T L(S_i, t_j)}
+If \code{integrated == TRUE} then an approximation to integration is made by taking the mean over all
+\eqn{T} unique time-points, and then the sample mean over all \eqn{N} observations.
+\deqn{L(S) = \frac{1}{NT} \sum_{i=1}^N \sum_{j=1}^T L(S_i,t_i|t^*_j)}{L(S) = 1/(NT) \sum_i^N \sum_j^T L(S_i,t_i|t*_j)}
 }
 \section{Construction}{
 \preformatted{MeasureSurvIntLogloss$new(integrated = TRUE, times, eps = 1e-15)
@@ -31,8 +31,8 @@ mlr_measures$get("surv.intlogloss")
 msr("surv.intlogloss")
 }
 \itemize{
-\item \code{integrated} :: \code{logical(1)} \cr If \code{TRUE} (default), returns the integrated score, otherwise not integrated. \cr
-\item \code{times} :: \code{vector()} \cr If \code{integrate == TRUE} then a vector of time-points over which to integrate the score, or a single time point at which to return the score. \cr
+\item \code{integrated} :: \code{logical(1)} \cr If \code{TRUE} (default), returns the integrated score; otherwise, not integrated. \cr
+\item \code{times} :: \code{vector()} \cr If \code{integrate == TRUE} then a vector of time-points over which to integrate the score. If \code{integrate == FALSE} then a single time point at which to return the score. \cr
 \item \code{eps} :: \code{numeric(1)} \cr Very small number to set zero-valued predicted probabilities to, in order to prevent errors in log(0) calculation. \cr
 }
 }
@@ -49,9 +49,7 @@ msr("surv.intlogloss")
 
 \section{Fields}{
 
-
-See \link{MeasureSurv}
-and \link{MeasureSurvIntegrated}
+See \link{MeasureSurv}, as well as all variables passed to the constructor.
 
 
 As well as

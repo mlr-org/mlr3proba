@@ -1,6 +1,6 @@
 #' @template surv_measure
 #' @templateVar title Song and Zhou's TNR
-#' @templateVar inherit [MeasureSurvIntegrated]/[MeasureSurv]
+#' @templateVar inherit `MeasureSurvAUC`/[MeasureSurv]
 #' @templateVar fullname MeasureSurvSongTNR
 #' @templateVar shortname surv.songTNR
 #' @templateVar pars times = 0, lp_thresh = 0

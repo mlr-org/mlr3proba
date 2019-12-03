@@ -9,7 +9,7 @@
 Calls \code{\link[randomForestSRC:rfsrc]{randomForestSRC::rfsrc()}}.
 \itemize{
 \item distr is predicted using \code{\link[randomForestSRC:predict.rfsrc]{randomForestSRC::predict.rfsrc()}}
-\item \code{crank} is predicted as the expectation of the survival distribution, \code{distr}.
+\item \code{crank} is predicted as the expectation of the survival distribution, \code{distr}
 }
 
 \code{\link[randomForestSRC:predict.rfsrc]{randomForestSRC::predict.rfsrc()}} returns both cumulative hazard function (chf) and survival function (surv)

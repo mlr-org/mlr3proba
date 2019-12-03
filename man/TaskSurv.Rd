@@ -5,15 +5,15 @@
 \title{Survival Task}
 \format{\link[R6:R6Class]{R6::R6Class} object inheriting from \link{Task}/\link{TaskSupervised}.}
 \description{
-This task specializes \link[mlr3:Task]{mlr3::Task} and \link[mlr3:TaskSupervised]{mlr3::TaskSupervised} for right-censored survival problems.
-The target column is assumed to be a factor.
+This task specializes \link[mlr3:Task]{mlr3::Task} and \link[mlr3:TaskSupervised]{mlr3::TaskSupervised} for possibly-censored survival problems.
+The target is comprised of survival times and an event indicator.
 Predefined tasks are stored in \link[mlr3:mlr_tasks]{mlr3::mlr_tasks}.
 
 The \code{task_type} is set to \code{"surv"}.
 }
 \section{Construction}{
-\preformatted{t = TaskSurv$new(id, backend, time, time2, event, c("right","left",
-    "counting","interval","interval2","mstate"))
+\preformatted{TaskSurv$new(id, backend, time, time2,
+  event = c("right","left", "counting","interval","interval2","mstate"))
 }
 \itemize{
 \item \code{id} :: \code{character(1)}\cr
@@ -21,13 +21,14 @@ Name of the task.
 \item \code{backend} :: \link{DataBackend}
 \item \code{time} :: \code{numeric()}\cr
 Event time if data is right censored. Starting time if interval censored.
+\item \code{time2} :: \code{numeric()}\cr
+Ending time for interval censored data. Ignored otherwise.
 \item \code{event} :: \code{integer()} | \code{logical()}\cr
 Event indicator.
 If data is right censored then "0"/\code{FALSE} means alive (no event),
-"1"/\code{TRUE} means dead (event). If data is interval censored then "0" means right censored,
-"1" means dead (event), "2" means left censored, "3" means interval censored.
-\item \code{time2} :: \code{numeric()}\cr
-Ending time for interval censored data. Ignored otherwise.
+"1"/\code{TRUE} means dead (event). If \code{type} is \code{"interval"} then "0" means right censored,
+"1" means dead (event), "2" means left censored, and "3" means interval censored. If \code{type} is
+\code{"interval2"} then \code{event} is ignored.
 \item \code{type} :: character()\cr
 Type of censoring. Default is 'right' censoring.
 }
@@ -52,7 +53,8 @@ library(mlr3)
 lung = mlr3misc::load_dataset("lung", package = "survival")
 lung$status = (lung$status == 2L)
 b = as_data_backend(lung)
-task = TaskSurv$new("lung", backend = b, time = "time", event = "status")
+task = TaskSurv$new("lung", backend = b, time = "time",
+   event = "status")
 
 task$target_names
 task$feature_names

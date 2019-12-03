@@ -4,16 +4,16 @@
 #' @format [R6::R6Class] object inheriting from [Task]/[TaskSupervised].
 #'
 #' @description
-#' This task specializes [mlr3::Task] and [mlr3::TaskSupervised] for right-censored survival problems.
-#' The target column is assumed to be a factor.
+#' This task specializes [mlr3::Task] and [mlr3::TaskSupervised] for possibly-censored survival problems.
+#' The target is comprised of survival times and an event indicator.
 #' Predefined tasks are stored in [mlr3::mlr_tasks].
 #'
 #' The `task_type` is set to `"surv"`.
 #'
 #' @section Construction:
 #' ```
-#' t = TaskSurv$new(id, backend, time, time2, event, c("right","left",
-#'     "counting","interval","interval2","mstate"))
+#' TaskSurv$new(id, backend, time, time2,
+#'   event = c("right","left", "counting","interval","interval2","mstate"))
 #' ```
 #'
 #' * `id` :: `character(1)`\cr
@@ -24,14 +24,15 @@
 #' * `time` :: `numeric()`\cr
 #'   Event time if data is right censored. Starting time if interval censored.
 #'
+#' * `time2` :: `numeric()`\cr
+#'   Ending time for interval censored data. Ignored otherwise.
+#'
 #' * `event` :: `integer()` | `logical()`\cr
 #'   Event indicator.
 #'   If data is right censored then "0"/`FALSE` means alive (no event),
-#'   "1"/`TRUE` means dead (event). If data is interval censored then "0" means right censored,
-#'   "1" means dead (event), "2" means left censored, "3" means interval censored.
-#'
-#' * `time2` :: `numeric()`\cr
-#'   Ending time for interval censored data. Ignored otherwise.
+#'   "1"/`TRUE` means dead (event). If `type` is `"interval"` then "0" means right censored,
+#'   "1" means dead (event), "2" means left censored, and "3" means interval censored. If `type` is
+#'   `"interval2"` then `event` is ignored.
 #'
 #' * `type` :: character()\cr
 #'    Type of censoring. Default is 'right' censoring.
@@ -53,7 +54,8 @@
 #' lung = mlr3misc::load_dataset("lung", package = "survival")
 #' lung$status = (lung$status == 2L)
 #' b = as_data_backend(lung)
-#' task = TaskSurv$new("lung", backend = b, time = "time", event = "status")
+#' task = TaskSurv$new("lung", backend = b, time = "time",
+#'    event = "status")
 #'
 #' task$target_names
 #' task$feature_names

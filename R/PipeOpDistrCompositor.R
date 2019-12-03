@@ -1,17 +1,20 @@
 #' @title PipeOpDistrCompositor
 #'
 #' @usage NULL
-#' @name mlr_pipeops_distrcompose
+#' @aliases mlr_pipeops_distrcompositor
 #' @format [`R6Class`] inheriting from [`PipeOp`].
 #'
 #' @description
-#' Estimate a survival distribution from an `lp` or `crank` predicted in a [PredictionSurv].
+#' Estimates (or 'composes') a survival distribution from a predicted baseline `distr` and a
+#' `crank` or `lp` from two [PredictionSurv]s.
 #'
-#' Note:
-#' * This compositor is only sensible if assuming a linear model form, which may not always be the case.
-#' * Currently only discrete estimators, Kaplan-Meier and Nelson-Aalen, are implemented. Resulting in a
-#' predicted `[distr6::WeightedDiscrete]` distribution for each individual, in the future we plan to
-#' extend this to allow continuous estimators.
+#' Compositor Assumptions:
+#' * The baseline `distr` is a discrete estimator, i.e. [LearnerSurvKaplan] or [LearnerSurvNelson]
+#' * The composed `distr` is of a linear form
+#' * If `lp` is missing then `crank` is equivalent
+#'
+#' These assumptions are strong and may not be reasonable. Future updates will upgrade this
+#' compositor to be more flexible.
 #'
 #' @section Construction:
 #' ```
@@ -50,10 +53,10 @@
 #'
 #' @section Internals:
 #' The respective `form`s above have respective survival distributions:
-#'    \deqn{aft: S(t) = S0(t/exp(lp))}
-#'    \deqn{ph: S(t) = S0(t)^exp(lp)}
-#'    \deqn{po: S(t) = S0 * [exp(-lp) + (1-exp(-lp))*S0(t)]^-1}
-#' where \eqn{S0} is the estimated baseline survival distribution, and `lp` is the predicted
+#'    \deqn{aft: S(t) = S_0(\frac{t}{exp(lp)})}{aft: S(t) = S0(t/exp(lp))}
+#'    \deqn{ph: S(t) = S_0(t)^{exp(lp)}}{ph: S(t) = S0(t)^exp(lp)}
+#'    \deqn{po: S(t) = \frac{S_0(t)}{exp(-lp) + (1-exp(-lp)) S_0(t)}}{po: S(t) = S0(t) / [exp(-lp) + S0(t) (1-exp(-lp))]}
+#' where \eqn{S_0}{S0} is the estimated baseline survival distribution, and \eqn{lp} is the predicted
 #' linear predictor. If the input model does not predict a linear predictor then `crank` is
 #' assumed to be the `lp` - **this may be a strong and unreasonable assumption.**
 #'
