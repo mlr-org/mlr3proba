@@ -18,7 +18,8 @@ test_that("autotest", {
 test_that("manualtest",{
   set.seed(1)
   task = TaskGeneratorSimsurv$new()$generate(50)
-  learn = lrn("surv.flexible", k = 3, scale = "normal")
+  set.seed(1)
+  learn = lrn("surv.flexible", k = 3, scale = "normal", inits = c(1,2))
   learn$train(task)
   p = learn$predict(task)
   # Comparison to flexsurv
@@ -35,7 +36,7 @@ test_that("manualtest",{
 
 test_that("missing",{
   task = TaskGeneratorSimsurv$new()$generate(50)
-  learner = lrn("surv.flexible")
+  learner = lrn("surv.flexible", k = 3, scale = "normal", inits = c(1,2))
   learner$train(task)
   expect_error(learner$predict(tsk("lung")))
 })

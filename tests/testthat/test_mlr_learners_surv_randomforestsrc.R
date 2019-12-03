@@ -10,7 +10,7 @@ test_that("autotest", {
 })
 
 test_that("importance/selected",{
-  learner = lrn("surv.randomForestSRC", estimator = "nelson")
+  learner = lrn("surv.randomForestSRC", estimator = "kaplan")
   expect_error(learner$importance(), "No model stored")
   expect_error(learner$selected_features(), "No model stored")
   learner$train(tsk("rats"))

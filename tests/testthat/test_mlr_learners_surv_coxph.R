@@ -4,8 +4,7 @@ test_that("autotest", {
   set.seed(1)
   learner = lrn("surv.coxph")
   expect_learner(learner)
-  # unclear why weights is failing
-  result = run_autotest(learner, exclude = "weight")
+  result = run_autotest(learner)
   expect_true(result, info = result$error)
 
   learner = lrn("surv.coxph")
@@ -17,13 +16,13 @@ test_that("autotest", {
 })
 
 test_that("manualtest",{
-  task = load_rats()
+  t = load_rats()
   learn = lrn("surv.coxph")
-  expect_silent(learn$train(task))
-  p = learn$predict(task)
+  expect_silent(learn$train(t))
+  p = learn$predict(t)
   expect_prediction_surv(p)
   expect_true(all(order(p$crank) == order(p$lp)))
-  rr = riskRegression::predictCox(learn$model,times = 90:95, newdata = task$data()[1,])
+  rr = riskRegression::predictCox(learn$model,times = 90:95, newdata = t$data()[1,])
   expect_equal(as.numeric(rr$cumhazard), p$distr[1]$cumHazard(90:95))
   expect_equal(as.numeric(rr$survival), p$distr[1]$survival(90:95))
 })
@@ -33,10 +32,4 @@ test_that("missing",{
   learner = lrn("surv.coxph")
   learner$train(task)
   expect_error(learner$predict(tsk("lung")))
-})
-
-test_that("weights",{
-  task = generate_tasks(lrn("surv.coxph"), N = 30)$weight
-  learner = lrn("surv.coxph")
-  expect_silent(expect_prediction_surv(learner$train(tsk("rats"))$predict(tsk("rats"))))
 })

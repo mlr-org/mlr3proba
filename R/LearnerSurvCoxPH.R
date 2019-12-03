@@ -27,17 +27,18 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
         ),
         predict_types = c("distr","crank","lp"),
         feature_types = c("logical", "integer", "numeric", "factor"),
-        properties = c("weights","importance"),
+        properties = c("importance"),
         packages = c("survival", "distr6")
       )
     },
 
     train_internal = function(task) {
+
       pv = self$param_set$get_values(tags = "train")
 
-      if ("weights" %in% task$properties) {
-        pv$weights = task$weights$weight
-      }
+      # if ("weights" %in% task$properties) {
+      #   pv$weights = as.numeric(task$weights$weight)
+      # }
 
       invoke(survival::coxph, formula = task$formula(), data = task$data(), .args = pv, x = TRUE)
     },

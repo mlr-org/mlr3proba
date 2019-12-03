@@ -42,8 +42,7 @@ test_that("no params", {
   base = lrn("surv.glmnet")$train(task)$predict(task)
   pred = lrn("surv.coxph")$train(task)$predict(task)
   pod = po("distrcompose", param_vals = list())
-  expect_silent(pod$predict(list(base = lrn("surv.kaplan")$train(task)$predict(task),
-                                 pred = lrn("surv.nelson")$train(task)$predict(task))))
+  expect_silent(pod$predict(list(base = base, pred = pred)))
 })
 
 

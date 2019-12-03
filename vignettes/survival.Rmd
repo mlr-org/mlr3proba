@@ -86,7 +86,7 @@ prediction
 Every `PredictionSurv` object can predict one or more of:
 
 * `lp` - Linear predictor calculated as the fitted coefficients multiplied by the test data.
-* `distr` - Predicted survival distribution, either discrete or continuous. Implemented in **[distr6](https://cran.r-project.org/web/packages/distr6/)**.
+* `distr` - Predicted survival distribution, either discrete or continuous. Implemented in **[distr6](https://CRAN.R-project.org/package=distr6)**.
 * `crank` - Continuous risk ranking.
 
 `lp` and `crank` can be used with measures of discrimination such as the concordance index. Whilst
@@ -123,7 +123,7 @@ prediction$score(measure)
 
 ### Probability distributions with distr6
 
-Predicted distributions are implemented in **[distr6](https://cran.r-project.org/web/packages/distr6/)**, which
+Predicted distributions are implemented in **[distr6](https://CRAN.R-project.org/package=distr6)**, which
 contains functionality for plotting and further analysis of probability distributions. See [here](https://alan-turing-institute.github.io/distr6/) for full tutorials. Briefly we will go over the most important parts for **mlr3proba**.
 
 ```{r}

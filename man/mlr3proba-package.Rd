@@ -4,7 +4,7 @@
 \name{mlr3proba-package}
 \alias{mlr3proba}
 \alias{mlr3proba-package}
-\title{mlr3proba: Probabilistic Supervised Learning for mlr3}
+\title{mlr3proba: Probabilistic Supervised Learning for 'mlr3'}
 \description{
 \if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
 
