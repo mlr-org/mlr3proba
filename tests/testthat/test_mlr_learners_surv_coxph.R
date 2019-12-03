@@ -15,3 +15,15 @@ test_that("autotest", {
   expect_named(expect_numeric(learner$importance()))
   expect_character(learner$selected_features())
 })
+
+test_that("manualtest",{
+  task = load_rats()
+  learn = lrn("surv.coxph")
+  expect_silent(learn$train(task))
+  p = learn$predict(task)
+  expect_prediction_surv(p)
+  expect_true(all(order(p$crank) == order(p$lp)))
+  rr = riskRegression::predictCox(learn$model,times = 90:95, newdata = task$data()[1,])
+  expect_equal(as.numeric(rr$cumhazard), p$distr[1]$cumHazard(90:95))
+  expect_equal(as.numeric(rr$survival), p$distr[1]$survival(90:95))
+})

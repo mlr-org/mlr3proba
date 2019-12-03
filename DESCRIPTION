@@ -50,6 +50,7 @@ Suggests:
     penalized,
     randomForestSRC,
     ranger,
+    riskRegression,
     rpart,
     simsurv,
     survAUC,

@@ -7,9 +7,9 @@
 #' @templateVar lp by using an internally defined `predict` method, see details
 #'
 #' @description
-#' Currently six parameterisations can be assumed for the baseline, see [survival::survreg()]. These
-#' are internally re-parameterised and defined as \CRANpkg{distr6} objects, we plan on implementing more
-#' custom distributions in the future.
+#' This learner allows you to choose a distribution and a model form to compose a predicted
+#' survival probability distribution. Note: Just because any combination of distribution and model
+#' form is possible, this does not mean it will necessarily be sensible or interpretable.
 #'
 #' @details
 #' The internal predict method is implemented in `mlr3proba`, which is more efficient for
