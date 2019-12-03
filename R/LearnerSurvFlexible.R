@@ -76,9 +76,6 @@ LearnerSurvFlexible = R6Class("LearnerSurvFlexible", inherit = LearnerSurv,
       pv = pv[!(names(pv) %in% pars_ctrl)]
       pv$sr.control = ctrl
 
-      if(pv$k == 0)
-        message("Model fit with zero knots, consider using surv.parametric learner instead.")
-
       if ("weights" %in% task$properties)
         pv$weights = task$weights$weight
 
@@ -91,7 +88,8 @@ LearnerSurvFlexible = R6Class("LearnerSurvFlexible", inherit = LearnerSurv,
       # (as opposed to the automatic assertions that take place after prediction)
       if(any(is.na(data.frame(task$data(cols = task$feature_names)))))
         stop(sprintf("Learner %s on task %s failed to predict: Missing values in new data (line(s) %s)\n",
-                     self$id, task$id, which(is.na(data.frame(task$data(cols = task$feature_names))))))
+                     self$id, task$id,
+                     paste0(which(is.na(data.frame(task$data(cols = task$feature_names)))), collapse = ", ")))
 
       pred = invoke(predict_flexsurvreg, self$model, task)
 

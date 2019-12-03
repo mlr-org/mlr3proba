@@ -9,7 +9,7 @@
 #'
 #' @section Construction:
 #' ```
-#' PipeOpCrankCompositor$new(id = "crankcompose", param_vals = list())
+#' PipeOpCrankCompositor$new(id = "crankcompose", param_vals = list(method = "mean"))
 #' ```
 #' * `id` :: `character(1)` \cr
 #'   Identifier of the resulting  object, default `"crankcompose"`.
@@ -80,7 +80,7 @@
 PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
   inherit = PipeOp,
   public = list(
-    initialize = function(id = "crankcompose", param_vals = list()) {
+    initialize = function(id = "crankcompose", param_vals = list(method = "mean")) {
       super$initialize(id = id,
                        param_set = ParamSet$new(params = list(
                          ParamFct$new("method", default = "mean", levels = c("mean","median"), tags = c("predict"))
@@ -102,8 +102,7 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
       assert("distr" %in% inpred$predict_types)
 
       method = self$param_set$values$method
-      if(length(method) == 0)
-        method = "mean"
+      if(length(method) == 0) method = "mean"
       crank = as.numeric(switch(method,
                                 median = inpred$distr$median(),
                                 inpred$distr$mean()

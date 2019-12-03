@@ -149,13 +149,15 @@ c.PredictionSurv = function(..., keep_duplicates = TRUE) {
 
   predict_types = map(dots, "predict_types")
   if (!every(predict_types[-1L], setequal, y = predict_types[[1L]]))
-    stopf("Cannot rbind predictions: Probabilities for some predictions, not all")
+    stopf("Cannot rbind predictions: Different predict_types in objects.")
 
   if (any(grepl("distr", predict_types))) {
     tab = map_dtr(dots, function(p) subset(p$data$tab, select = -distr), .fill = FALSE)
     distr = do.call(c, lapply(dots, function(p) p$distr))
-  } else
-    tab = map_dtr(dots, function(p) p$data$tab, .fill = FALSE)
+  } else {
+    tab = map_dtr(dots, function(p) subset(p$data$tab), .fill = FALSE)
+    distr = NULL
+  }
 
   if (!keep_duplicates)
     tab = unique(tab, by = "row_id", fromLast = TRUE)

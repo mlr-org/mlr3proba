@@ -9,7 +9,7 @@
 Uses a predicted \code{distr} in a \link{PredictionSurv} to estimate (or 'compose') a \code{crank} prediction.
 }
 \section{Construction}{
-\preformatted{PipeOpCrankCompositor$new(id = "crankcompose", param_vals = list())
+\preformatted{PipeOpCrankCompositor$new(id = "crankcompose", param_vals = list(method = "mean"))
 }
 \itemize{
 \item \code{id} :: \code{character(1)} \cr

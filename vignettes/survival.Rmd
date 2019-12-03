@@ -87,15 +87,15 @@ Every `PredictionSurv` object can predict one or more of:
 
 * `lp` - Linear predictor calculated as the fitted coefficients multiplied by the test data.
 * `distr` - Predicted survival distribution, either discrete or continuous. Implemented in **[distr6](https://cran.r-project.org/web/packages/distr6/)**.
-* `crank` - Continuous ranking. This is either the same as `lp` or the expectation of `distr`.
+* `crank` - Continuous risk ranking.
 
 `lp` and `crank` can be used with measures of discrimination such as the concordance index. Whilst
 `lp` is a specific mathematical prediction, `crank` is any continuous ranking that identifies who is
-more or less likely to experience the event. So far, the only implemented learner that only returns a continuous
+more or less likely to experience the event. So far the only implemented learner that only returns a continuous
 ranking is `surv.svm`. If a `PredictionSurv` returns an `lp` then the `crank` is identical to this.
 Otherwise `crank` is calculated as the expectation of the predicted survival distribution. Note that 
 for linear proportional hazards models, the ranking (but not necessarily the `crank` score itself)
-given by `lp` and the expected `distr`, is identical.
+given by `lp` and the expectation of `distr`, is identical.
 
 ```{r}
 # In the previous example, Cox model predicts `lp` so `crank` is identical
@@ -138,13 +138,12 @@ prediction = learner$train(task)$predict(task)
 
 prediction$distr
 
-# These can be extracted and queried
-# Either invidually
+# These can be extracted and queried either invidually...
 
 prediction$distr[1]$survival(60:70)
 prediction$distr[1]$mean()
 
-# Or together
+# ...or together
 
 prediction$distr$cdf(60)[,1:10]
 prediction$distr$mean()[,1:10]

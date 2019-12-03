@@ -50,7 +50,8 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
       # distribution object cannot be create (initialization of distr6 objects does not handle NAs)
       if(any(is.na(data.frame(task$data(cols = task$feature_names)))))
         stop(sprintf("Learner %s on task %s failed to predict: Missing values in new data (line(s) %s)\n",
-                     self$id, task$id, which(is.na(data.frame(task$data(cols = task$feature_names))))))
+                     self$id, task$id,
+                     paste0(which(is.na(data.frame(task$data(cols = task$feature_names)))), collapse = ", ")))
 
       pv = self$param_set$get_values(tags = "predict")
 

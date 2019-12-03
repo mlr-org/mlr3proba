@@ -24,12 +24,18 @@ Badge](https://www.r-pkg.org/badges/version-ago/mlr3proba)](https://cran.r-proje
 machine learning in R utilising the
 **[mlr3](https://github.com/mlr-org/mlr3)** package. Probabilistic
 supervised learning is a field of supervised machine learning in which
-probability distributions are predicted. The most common variant of this
-is survival analysis, where the task of interest is to predict an
-individual’s survival curve. Other forms of PSL include density
-estimation and probabilistic regression. To-date, PSL toolkits in R has
-been limited to Bayesian simulation packages, but **mlr3proba** hopes to
-change this.
+probability distributions are predicted. Regression and classification
+tasks can be shown to be sub-fields of PSL, for example reducing a
+predicted probability distribution from probabilistic regression by
+taking its mean gives a regression prediction. PSL is therefore a
+powerful tool to provide more information about predictions than the
+more classical regression or classification. Probably the most known
+variant of PSL is survival analysis, where the task of interest is to
+predict an individual’s survival curve. Other forms of PSL include
+density estimation and probabilistic regression. To-date, PSL toolkits
+in R have been limited to Bayesian simulation packages, but
+**mlr3proba** hopes to change this by allowing domain-agnostic (Bayesian
+or Frequentist) fit/predict and evaluation workflows.
 
 ## Installation
 

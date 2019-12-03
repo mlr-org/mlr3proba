@@ -124,6 +124,7 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
       inpred = inputs$pred
 
       overwrite = self$param_set$values$overwrite
+      if(length(overwrite) == 0) overwrite = FALSE
 
       if ("distr" %in% inpred$predict_types & !overwrite) {
         return(list(inpred))
@@ -135,8 +136,8 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
         map(inputs, function(x) assert_true(identical(row_ids, x$row_ids)))
         map(inputs, function(x) assert_true(identical(truth, x$truth)))
 
-        # get form, set default if missing
         form = self$param_set$values$form
+        if(length(form) == 0) form = "aft"
 
         base = base$distr[1]
         times = base$support()$elements()
@@ -168,18 +169,13 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
         distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
                                                decorators = c("CoreStatistics", "ExoticStatistics"))
 
-        if(is.null(inpred$crank) | length(inpred$crank) == 0)
-          crank = lp
-        else
-          crank = inpred$crank
-
         if(is.null(inpred$lp) | length(inpred$lp) == 0)
           lp = NULL
         else
           lp = inpred$lp
 
         return(list(PredictionSurv$new(row_ids = row_ids, truth = truth,
-                                       crank = crank, distr = distr, lp = lp)))
+                                       crank = inpred$crank, distr = distr, lp = lp)))
       }
     }
   )

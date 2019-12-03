@@ -2,6 +2,7 @@ context("PipeOpDistrCompositor")
 
 test_that("PipeOpDistrCompositor - basic properties", {
   expect_pipeop(PipeOpDistrCompositor$new())
+  expect_pipeop(PipeOpDistrCompositor$new(param_vals = list()))
 })
 
 test_that("PipeOpDistrCompositor - assertions", {
@@ -29,5 +30,20 @@ test_that("PipeOpDistrCompositor - overwrite = TRUE", {
   p = gr$predict(task)
   expect_prediction_surv(p)
   expect_true("distr" %in% p$predict_types)
+
+  gr = distrcompositor(lrn("surv.coxph"), overwrite = TRUE, form = "po")
+  task = tsk("rats")
+  expect_silent(expect_prediction_surv(gr$train(task)$predict(task)))
 })
+
+
+test_that("no params", {
+  task = tsk("rats")
+  base = lrn("surv.glmnet")$train(task)$predict(task)
+  pred = lrn("surv.coxph")$train(task)$predict(task)
+  pod = po("distrcompose", param_vals = list())
+  expect_silent(pod$predict(list(base = lrn("surv.kaplan")$train(task)$predict(task),
+                                 pred = lrn("surv.nelson")$train(task)$predict(task))))
+})
+
 

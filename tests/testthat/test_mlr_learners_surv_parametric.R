@@ -35,3 +35,10 @@ test_that("manualtest - aft",{
   p = learner$predict(task)
   expect_equal(p$distr[15]$cdf(predict(learner$model$fit, type = "quantile", p = seq.int(0,1,0.1))[15,]), seq.int(0,1,0.1))
 })
+
+
+test_that("missing",{
+  learner = lrn("surv.parametric")
+  learner$train(task)
+  expect_error(learner$predict(tsk("lung")))
+})

@@ -113,10 +113,13 @@ TaskSurv = R6::R6Class("TaskSurv",
                          formula = function(rhs = NULL) {
                            # formula appends the rhs argument to Surv(time, event)~
                            tn = self$target_names
-                           if(length(tn) == 2)
-                            lhs = sprintf("Surv(%s, %s, type = '%s')", tn[1L], tn[2L], self$censtype)
-                           else
+                           if(self$censtype %in% "interval2") {
+                             lhs = sprintf("Surv(time = %s, time2 = %s, type = 'interval2')", tn[1L], tn[2L])
+                           } else if(length(tn) == 2) {
+                             lhs = sprintf("Surv(%s, %s, type = '%s')", tn[1L], tn[2L], self$censtype)
+                           } else {
                              lhs = sprintf("Surv(%s, %s, %s, type = '%s')", tn[1L], tn[2L], tn[3L], self$censtype)
+                           }
                            formulate(lhs, rhs %??% ".", env = getNamespace("survival"))
                          }
                        ),

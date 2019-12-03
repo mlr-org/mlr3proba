@@ -27,3 +27,16 @@ test_that("manualtest",{
   expect_equal(as.numeric(rr$cumhazard), p$distr[1]$cumHazard(90:95))
   expect_equal(as.numeric(rr$survival), p$distr[1]$survival(90:95))
 })
+
+test_that("missing",{
+  task = TaskGeneratorSimsurv$new()$generate(50)
+  learner = lrn("surv.coxph")
+  learner$train(task)
+  expect_error(learner$predict(tsk("lung")))
+})
+
+test_that("weights",{
+  task = generate_tasks(lrn("surv.coxph"), N = 30)$weight
+  learner = lrn("surv.coxph")
+  expect_silent(expect_prediction_surv(learner$train(tsk("rats"))$predict(tsk("rats"))))
+})

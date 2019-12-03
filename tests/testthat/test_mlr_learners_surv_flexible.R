@@ -32,3 +32,10 @@ test_that("manualtest",{
         round(summary(learn$model,
                       task$data(cols=task$feature_names),se=F,ci=F,type="survival",tidy=T,t=1:23)[24:46,2],5))
 })
+
+test_that("missing",{
+  task = TaskGeneratorSimsurv$new()$generate(50)
+  learner = lrn("surv.flexible")
+  learner$train(task)
+  expect_error(learner$predict(tsk("lung")))
+})
