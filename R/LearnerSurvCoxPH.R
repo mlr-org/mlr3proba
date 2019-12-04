@@ -7,7 +7,7 @@
 #'
 #' @references
 #' Cox, David R. (1972).
-#' Regression models and life‐tables.
+#' Regression models and life-tables.
 #' Journal of the Royal Statistical Society: Series B (Methodological) 34.2 (1972): 187-202.
 #' \doi{10.1111/j.2517-6161.1972.tb00899.x}.
 #'
