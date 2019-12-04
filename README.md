@@ -133,8 +133,8 @@ current main features of **mlr3proba** are:
   - Allow `MeasureSurv` to return measures at multiple time-points
     simultaneously
   - Improve estimation of integrated scores, and re-implement
-    **[survAUC](https://cran.r-project.org/web/packages/survAUC)**
-    scores in **mlr3proba**
+    **[survAUC](https://CRAN.R-project.org/package=survAUC)** scores in
+    **mlr3proba**
   - Continue to add survival measures and learners
 
 ## Bugs, Questions, Feedback
