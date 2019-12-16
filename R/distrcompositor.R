@@ -20,10 +20,11 @@
 #' library("mlr3")
 #' library("mlr3pipelines")
 #'
+#' task = tgen("simsurv")$generate(20)
 #' cvglm.distr = distrcompositor(learner = lrn("surv.cvglmnet"),
 #'                             estimator = "kaplan",
 #'                             form = "aft")
-#' resample(tsk("rats"), cvglm.distr,
+#' resample(task, cvglm.distr,
 #'         rsmp("cv", folds = 2))$predictions()
 #' @export
 distrcompositor = function(learner, estimator = c("kaplan", "nelson"), form = c("aft","ph","po"),

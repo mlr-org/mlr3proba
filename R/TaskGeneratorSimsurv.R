@@ -26,7 +26,7 @@
 #' @export
 #' @examples
 #' generator = mlr3::mlr_task_generators$get("simsurv")
-#' task = generator$generate(200)
+#' task = generator$generate(20)
 #' task$head()
 TaskGeneratorSimsurv = R6Class("TaskGeneratorSimsurv",
   inherit = TaskGenerator,

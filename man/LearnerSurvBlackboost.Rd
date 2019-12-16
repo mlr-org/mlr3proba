@@ -40,9 +40,9 @@ lrn("surv.blackboost")
 
 \examples{
 library(mlr3)
-task = tgen("simsurv")$generate(200)
+task = tgen("simsurv")$generate(20)
 learner = lrn("surv.blackboost")
-resampling = rsmp("cv", folds = 3)
+resampling = rsmp("cv", folds = 2)
 resample(task, learner, resampling)
 }
 \references{

@@ -45,11 +45,11 @@ lrn("surv.gamboost")
 
 \examples{
 library(mlr3)
-task = tsk("rats")
+task = tgen("simsurv")$generate(20)
 learner = lrn("surv.gamboost")
 learner$param_set$values = mlr3misc::insert_named(learner$param_set$values,
      list(dfbase = 3, center = TRUE, baselearner = "bols"))
-resampling = rsmp("cv", folds = 3)
+resampling = rsmp("cv", folds = 2)
 resample(task, learner, resampling)
 }
 \references{

@@ -86,13 +86,13 @@ Only methods inherited from \link{PipeOp}.
 }
 
 \examples{
-library("mlr3")
-library("mlr3pipelines")
+library(mlr3)
+library(mlr3pipelines)
 set.seed(42)
 
 # Three methods to transform the cox ph predicted `distr` to an
 #  accelerated failure time model
-task = tsk("rats")
+task = tgen("simsurv")$generate(30)
 
 # Method 1 - Train and predict separately then compose
 base = lrn("surv.kaplan")$train(task)$predict(task)
@@ -100,6 +100,8 @@ pred = lrn("surv.coxph")$train(task)$predict(task)
 pod = po("distrcompose", param_vals = list(form = "aft", overwrite = TRUE))
 pod$predict(list(base = base, pred = pred))
 
+# Examples not run to save run-time.
+\dontrun{
 # Method 2 - Create a graph manually
 gr = Graph$new()$
   add_pipeop(po("learner", lrn("surv.kaplan")))$
@@ -107,14 +109,14 @@ gr = Graph$new()$
   add_pipeop(po("distrcompose"))$
   add_edge("surv.kaplan", "distrcompose", dst_channel = "base")$
   add_edge("surv.glmnet", "distrcompose", dst_channel = "pred")
-gr$train(task)
-gr$predict(task)
+gr$train(task)$gr$predict(task)
 
-# Method 3 - Syntactic sugar: Wrap the learner in a graph
+# Method 3 - Syntactic sugar: Wrap the learner in a graph.
 cvglm.distr = distrcompositor(learner = lrn("surv.cvglmnet"),
                             estimator = "kaplan",
                             form = "aft")
-resample(task, cvglm.distr, rsmp("cv", folds = 2))$predictions()
+cvglm.distr$fit(task)$predict(task)
+}
 }
 \seealso{
 \link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp} and \link{distrcompositor}

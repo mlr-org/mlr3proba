@@ -110,8 +110,7 @@ prediction$score()
 
 # distr is evaluated with probabilistic scoring rules.
 
-measure = lapply(c("surv.graf", "surv.grafSE", "surv.intlogloss", "surv.intloglossSE",
-                   "surv.logloss", "surv.loglossSE"), msr)
+measure = lapply(c("surv.graf", "surv.grafSE"), msr)
 prediction$score(measure)
 
 # Often measures can be integrated over mutliple time-points, or return
@@ -127,7 +126,7 @@ Predicted distributions are implemented in **[distr6](https://CRAN.R-project.org
 contains functionality for plotting and further analysis of probability distributions. See [here](https://alan-turing-institute.github.io/distr6/) for full tutorials. Briefly we will go over the most important parts for **mlr3proba**.
 
 ```{r}
-task = tsk("rats")
+task = tgen("simsurv")$generate(20)
 learner = lrn("surv.coxph")
 
 # In general it is not advised to train/predict on same data
@@ -172,7 +171,6 @@ library(mlr3pipelines)
 
 leaner_lp = lrn("surv.glmnet")
 leaner_distr = lrn("surv.kaplan")
-task = tsk("rats")
 prediction_lp = leaner_lp$train(task)$predict(task)
 prediction_distr = leaner_distr$train(task)$predict(task)
 prediction_lp$distr
@@ -202,7 +200,6 @@ the expectation of `distr`. This compositor allows you to change the estimation 
 
 ```{r}
 # PipeOpCrankCompositor - Only one model required.
-
 leaner = lrn("surv.coxph")
 prediction = leaner$train(task)$predict(task)
 
@@ -226,33 +223,20 @@ crankcompositor(lrn("surv.coxph"), method = "mean")$train(task)$predict(task)
 
 ## All Together Now
 
-Putting all of this together we can perform a benchmark experiment to find the best learner
-for making predictions on a simulated dataset.
+Putting all of this together we can perform a (overly simplified) benchmark experiment to find the best learner for making predictions on a simulated dataset.
 
 ```{r}
 library(mlr3pipelines); library(mlr3); library(mlr3tuning); library(paradox)
 set.seed(42)
 
-task = TaskSurv$new("brcancer", backend = mlr3misc::load_dataset("brcancer","simsurv"),
-                    time = "rectime", event = "censrec")
+task = tgen("simsurv")$generate(20)
 
 composed_lrn_glm = distrcompositor(lrn("surv.glmnet"), "kaplan", "ph")
 
 lrns = lapply(paste0("surv.", c("kaplan", "coxph", "parametric")), lrn)
 lrns[[3]]$param_set$values = list(dist = "weibull", type = "ph")
 
-tuned_lrn_rf = AutoTuner$new(learner = lrn("surv.ranger"),
-                             resampling = rsmp("holdout"),
-                             measures = msr("surv.graf"),
-                             tune_ps = ParamSet$new(list(
-                               ParamDbl$new("num.trees", lower = 100, upper = 1000)
-                             )),
-                             terminator = term("evals", n_evals = 3),
-                             tuner = tnr("grid_search")
-)
-
-design = benchmark_grid(tasks = task, learners = c(lrns, list(composed_lrn_glm),
-                                                   list(tuned_lrn_rf)),
+design = benchmark_grid(tasks = task, learners = c(lrns, list(composed_lrn_glm)),
                         resamplings = rsmp("cv", folds = 2))
 
 bm = benchmark(design)

@@ -49,7 +49,7 @@
 #' @export
 #' @examples
 #' library(mlr3)
-#' task = mlr_tasks$get("lung")
+#' task = tgen("simsurv")$generate(20)
 #' learner = mlr_learners$get("surv.rpart")
 #' p = learner$train(task)$predict(task)
 #' head(as.data.table(p))

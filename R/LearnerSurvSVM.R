@@ -27,9 +27,9 @@
 #' @export
 #' @examples
 #' library(mlr3)
-#' task = tgen("simsurv")$generate(200)
+#' task = tgen("simsurv")$generate(20)
 #' learner = lrn("surv.svm")
-#' resampling = rsmp("cv", folds = 3)
+#' resampling = rsmp("cv", folds = 2)
 #' resample(task, learner, resampling)
 LearnerSurvSVM = R6Class("LearnerSurvSVM", inherit = LearnerSurv,
   public = list(

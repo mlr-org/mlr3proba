@@ -65,18 +65,19 @@ Only methods inherited from \link{PipeOp}.
 }
 
 \examples{
-library("mlr3")
-library("mlr3pipelines")
+library(mlr3)
+library(mlr3pipelines)
+set.seed(1)
 
 # Three methods to predict a `crank` from `surv.rpart`
-task = tsk("rats")
+task = tgen("simsurv")$generate(30)
 
 # Method 1 - Train and predict separately then compose
 learn = lrn("surv.coxph")$train(task)$predict(task)
 poc = po("crankcompose", param_vals = list(method = "mean"))
 poc$predict(list(learn))
 
-# Examples not run due to long run-time.
+# Examples not run to save run-time.
 \dontrun{
 # Method 2 - Create a graph manually
 gr = Graph$new()$

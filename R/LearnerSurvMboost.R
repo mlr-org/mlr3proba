@@ -40,11 +40,11 @@
 #' @export
 #' @examples
 #' library(mlr3)
-#' task = tsk("rats")
+#' task = tgen("simsurv")$generate(20)
 #' learner = lrn("surv.mboost")
 #' learner$param_set$values = mlr3misc::insert_named(learner$param_set$values,
 #'     list(center = TRUE, baselearner = "bols"))
-#' resampling = rsmp("cv", folds = 3)
+#' resampling = rsmp("cv", folds = 2)
 #' resample(task, learner, resampling)
 LearnerSurvMboost = R6Class("LearnerSurvMboost", inherit = LearnerSurv,
   public = list(
