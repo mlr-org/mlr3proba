@@ -10,13 +10,15 @@ test_that("autotest", {
 })
 
 test_that("importance/selected",{
+  set.seed(1)
+  task = TaskGeneratorSimsurv$new()$generate(20)
   learner = lrn("surv.randomForestSRC", estimator = "kaplan")
   expect_error(learner$importance(), "No model stored")
   expect_error(learner$selected_features(), "No model stored")
-  learner$train(tsk("rats"))
+  learner$train(task)
   expect_error(learner$importance(), "Importance not stored")
   expect_error(learner$selected_features(), "Variables used not stored")
-  learner = lrn("surv.randomForestSRC", estimator = "nelson", var.used = "all.trees", importance = "random")$train(tsk("rats"))
+  learner = lrn("surv.randomForestSRC", estimator = "nelson", var.used = "all.trees", importance = "random")$train(task)
   expect_silent(learner$selected_features())
   expect_silent(learner$importance())
 })

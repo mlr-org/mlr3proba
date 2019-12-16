@@ -1,7 +1,8 @@
 context("mlr_measures")
 
+task = TaskGeneratorSimsurv$new()$generate(20)
+
 test_that("mlr_measures", {
-  task = mlr_tasks$get("lung")
   keys = mlr_measures$keys("^surv")
 
   for (key in keys) {
@@ -12,12 +13,12 @@ test_that("mlr_measures", {
 
     expect_measure(m)
 
-    perf = mlr_learners$get("surv.rpart")$train(task)$predict(task)$score()
+    perf = mlr_learners$get("surv.coxph")$train(task)$predict(task)$score()
     expect_number(perf, na.ok = "na_score" %in% m$properties)
   }
 })
 
-task = tsk("rats")
+# task = tsk("rats")
 learner = lrn("surv.coxph")$train(task)
 prediction = learner$predict(task)
 times = 60
