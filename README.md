@@ -20,22 +20,62 @@ Badge](https://www.r-pkg.org/badges/version-ago/mlr3proba)](https://cran.r-proje
 
 ## What is mlr3proba ?
 
-**mlr3proba** is a probabilistic supervised learning (PSL) toolkit for
-machine learning in R utilising the
-**[mlr3](https://github.com/mlr-org/mlr3)** package. Probabilistic
-supervised learning is a field of supervised machine learning in which
-probability distributions are predicted. Regression and classification
-tasks can be shown to be sub-fields of PSL, for example reducing a
-predicted probability distribution from probabilistic regression by
-taking its mean gives a regression prediction. PSL is therefore a
-powerful tool to provide more information about predictions than the
-more classical regression or classification. Probably the most known
-variant of PSL is survival analysis, where the task of interest is to
-predict an individual’s survival curve. Other forms of PSL include
-density estimation and probabilistic regression. To-date, PSL toolkits
-in R have been limited to Bayesian simulation packages, but
-**mlr3proba** hopes to change this by allowing domain-agnostic (Bayesian
-or Frequentist) fit/predict and evaluation workflows.
+**mlr3proba** is a machine learning toolkit for making probabilistic
+predictions within the **[mlr3](https://github.com/mlr-org/mlr3)**
+ecosystem. It currently supports the following tasks:
+
+  - Probabilistic supervised regression - Supervised regression with a
+    predictive distribution as the return type.
+  - Predictiv survival analysis - Survival analysis where individual
+    predictive hazards can be queried. This is equivalent to
+    probabilistic supervised regression with censored observations.
+  - Unconditional distribution estimation, where the distribution is
+    returned. Sub-cases are density estimation and unconditional
+    survival estimation.
+
+Key features of **mlr3proba** are
+
+  - A unified fit/predict model interface to any probabilistic
+    predictive model (frequentist, Bayesian, or other)
+  - Pipeline/model composition
+  - Task reduction strategies
+  - Domain-agnostic evaluation workflows using task specific algorithmic
+    performance measures.
+
+**mlr3proba** makes use of the
+**[distr6](https://github.com/alan-turing-institute/distr6)**
+probability distribution interface as its probabilistic predictive
+return type.
+
+## Feature Overview
+
+The current **mlr3proba** release focuses on survial analysis, and
+contains:
+
+  - Task frameworks for survival analysis (`TaskSurv`)
+  - A comprehensive selection of 17 predictive survival learners
+  - A comprehensive selection of 21 performance measures for predictive
+    survival learners, with respect to prognostic index (continuous
+    rank) prediction, and probabilistic (distribution) prediction
+  - PipeOps integrated with
+    **[mlr3pipelines](https://github.com/mlr-org/mlr3pipelines)**, for
+    basic pipeline building, and reduction/composition strategies using
+    linear predictors and baseline hazards.
+
+## Roadmap
+
+The vision of **mlr3proba** is to provide comprehensive machine learning
+functionality to the mlr3 ecosystem for continuous probabilistic return
+types.
+
+The lifecycle of the survival task and features are considered
+`maturing` and any major changes are unlikely.
+
+The density and probabilistic supervised regression tasks are currently
+in the early stages of development. Task frameworks have been drawn up,
+but may not be stable; learners need to be interfaced, and contributions
+are very welcome (see
+[issues](https://github.com/mlr-org/mlr3proba/issues)).
 
 ## Installation
 
@@ -102,29 +142,7 @@ remotes::install_github("mlr-org/mlr3proba")
 | [surv.unoTPR](https://mlr3proba.mlr-org.com/reference/MeasureSurvUnoTPR.html)             | Uno’s TPR                               | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
 | [surv.xuR2](https://mlr3proba.mlr-org.com/reference/MeasureSurvXuR2.html)                 | Xu and O’Quigley’s R2                   | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
 
-## Feature Overview and Lifecycle
-
-The vision of **mlr3proba** is to be the first complete probabilistic
-machine learning package in R. This encompasses survival analysis,
-probabilistic regression, and unsupervised density estimation. The first
-release of **mlr3proba** is focused entirely on survival analysis and
-introduces `TaskSurv`. Later releases will include `TaskDensity` and
-will extend `TaskRegr` to have probabilistic predict types. The
-lifecycle of the survival task and features are considered `maturing`
-and any major changes are unlikely. The density and probabilistic
-regression tasks are currently in the early stages of development. The
-current main features of **mlr3proba** are:
-
-  - The added `TaskSurv`, `LearnerSurv`, `PredictionSurv` for survival
-    analysis
-  - 17 survival learners, and 21 survival measures, including efficient
-    implementations of censoring-adjusted probabilistic measures, such
-    as the Integrated Graf (or Brier) Score.
-  - PipeOps integrated with
-    **[mlr3pipelines](https://github.com/mlr-org/mlr3pipelines)** for
-    composition of probability distributions from linear predictors
-
-## Future Plans
+## Near-Future Plans
 
   - Add `TaskDensity`, `PredictionDensity`, `LearnerDensity`, and
     associated learners/measures
@@ -135,7 +153,7 @@ current main features of **mlr3proba** are:
   - Improve estimation of integrated scores, and re-implement
     **[survAUC](https://CRAN.R-project.org/package=survAUC)** scores in
     **mlr3proba**
-  - Continue to add survival measures and learners
+      - Continue to add survival measures and learners
 
 ## Bugs, Questions, Feedback
 
@@ -148,21 +166,20 @@ In case of problems / bugs, it is often helpful if you provide a
 “minimum working example” that showcases the behaviour (but don’t
 worry about this if the bug is obvious).
 
-Please understand that the resources of the project are limited:
-response may sometimes be delayed by a few days, and some feature
-suggestions may be rejected if they are deemed too tangential to the
-vision behind the project.
-
 ## Similar Projects
 
-A predecessor to this package is
-**[mlr](https://github.com/mlr-org/mlr)**, using the survival task.
-Several packages exist for pure Bayesian probabilistic modelling,
-including **[jags](http://mcmc-jags.sourceforge.net/)** and
+Predecessors to this package are previous instances of survival
+modelling in **[mlr](https://github.com/mlr-org/mlr)**. The
+**[skpro](https://github.com/alan-turing-institute/skpro)** package in
+the python/scikit-learn ecosystem follows a similar interface for
+probabilistic supervised learning and is an architectural predecessor.
+Several packages exist which allow probabilistic predictive modelling
+with a Bayesian model specific general interface, such as
+**[jags](http://mcmc-jags.sourceforge.net/)** and
 **[stan](https://github.com/stan-dev/rstan)**. For implementation of a
-few survival models and measures, the largest package is
+few survival models and measures, a central package is
 **[survival](https://github.com/therneau/survival)**. There does not
-appear to be a package that implements many different variants of
-density estimation, but see **[this
-list](https://vita.had.co.nz/papers/density-estimation.pdf)** for the
-biggest density estimation packages in R.
+appear to be a package that provides an architectural framework for
+distribution/density estimation, see **[this
+list](https://vita.had.co.nz/papers/density-estimation.pdf)** for a
+review of density estimation packages in R.
