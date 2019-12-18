@@ -6,26 +6,26 @@
 \alias{MeasureSurvBrier}
 \alias{mlr_measures_surv.brier}
 \title{Integrated Graf Score Survival Measure}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurv}.}
+\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \code{MeasureSurvIntegrated}/\link{MeasureSurv}.}
 \description{
 
 
-Calculates the Integrated Graf Score (IGS), aka integrated Brier survival score or squared loss.
-An approximation to the IGS is calculated by taking the mean over all time-points in the test set.
+Calculates the Integrated Graf Score, aka integrated Brier score or squared loss.
 
 For an individual who dies at time \eqn{t}, with predicted Survival function, \eqn{S}, the
-(unweighted) Graf Score at time t* is given by
-\deqn{G(S, t*) = (I(t > t*) - S(t*))^2}
+Graf Score at time \eqn{t^*}{t*} is given by
+\deqn{L(S,t|t^*) = [(S(t^*)^2)I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*))^2)I(t > t^*)(1/G(t^*))]}{L(S,t|t*) = [(S(t*)^2)I(t \le t*, \delta = 1)(1/G(t))] + [((1 - S(t*))^2)I(t > t*)(1/G(t*))]}
+where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
 
-To account for censoring a weighted version is defined by
-\deqn{G(S, t*) = S(t*)^2 * I(t \le t*, \delta = 1) * (1/G(t)) + (1 - S(t*))^2 * I(t > t*) * (1/G(t*))}
+If \code{integrated == FALSE} then the sample mean is taken for the single specified \code{times}, \eqn{t^*}{t*}, and the returned
+score is given by
+\deqn{L(S,t|t^*) = \frac{1}{N} \sum_{i=1}^N L(S_i,t_i|t^*)}{L(S,t|t*) = 1/N \sum_i^N L(S_i,t_i|t*)}
+where \eqn{N} is the number of observations, \eqn{S_i} is the predicted survival function for
+individual \eqn{i} and \eqn{t_i} is their true survival time.
 
-As only a finite number of test points are given, an approximation to the IGS can be made by taking
-the average over all, \eqn{M}, unique discrete time-points given in the test data,
-\deqn{IGS(S) = 1/M \Sigma_t G(S, t)}
-
-Finally the sample mean is taken to return a single score for all \eqn{N} observations,
-\deqn{IGS(pred) = 1/N \Sigma_i IGS(S_i)}
+If \code{integrated == TRUE} then an approximation to integration is made by taking the mean over all
+\eqn{T} unique time-points, and then the sample mean over all \eqn{N} observations.
+\deqn{L(S) = \frac{1}{NT} \sum_{i=1}^N \sum_{j=1}^T L(S_i,t_i|t^*_j)}{L(S) = 1/(NT) \sum_i^N \sum_j^T L(S_i,t_i|t*_j)}
 }
 \section{Construction}{
 \preformatted{MeasureSurvGraf$new(integrated = TRUE, times)
@@ -33,8 +33,8 @@ mlr_measures$get("surv.graf")
 msr("surv.graf")
 }
 \itemize{
-\item \code{integrated} :: \code{logical(1)} \cr If \code{TRUE} (default), returns the integrated score, otherwise returns the score corresponding to the \code{times} argument. \cr
-\item \code{times} :: \code{vector()} \cr Numeric vector of times where to evaluate the score (provide only one for best performance). If missing then returns score at all unique time-points in test set. \cr
+\item \code{integrated} :: \code{logical(1)} \cr If \code{TRUE} (default), returns the integrated score; otherwise, not integrated. \cr
+\item \code{times} :: \code{vector()} \cr If \code{integrate == TRUE} then a vector of time-points over which to integrate the score. If \code{integrate == FALSE} then a single time point at which to return the score. \cr
 }
 }
 
@@ -46,6 +46,11 @@ msr("surv.graf")
 \item Minimize: \code{TRUE}
 \item Required prediction: \code{distr}
 }
+}
+
+\section{Fields}{
+
+See \link{MeasureSurv}, as well as all variables passed to the constructor.
 }
 
 \references{
@@ -62,8 +67,8 @@ Other survival measures:
 \code{\link{MeasureSurvGrafSE}},
 \code{\link{MeasureSurvHarrellC}},
 \code{\link{MeasureSurvHungAUC}},
-\code{\link{MeasureSurvLoglossIntSE}},
-\code{\link{MeasureSurvLoglossInt}},
+\code{\link{MeasureSurvIntLoglossSE}},
+\code{\link{MeasureSurvIntLogloss}},
 \code{\link{MeasureSurvLoglossSE}},
 \code{\link{MeasureSurvLogloss}},
 \code{\link{MeasureSurvNagelkR2}},
@@ -79,8 +84,8 @@ Other survival measures:
 
 Other Probabilistic survival measures: 
 \code{\link{MeasureSurvGrafSE}},
-\code{\link{MeasureSurvLoglossIntSE}},
-\code{\link{MeasureSurvLoglossInt}},
+\code{\link{MeasureSurvIntLoglossSE}},
+\code{\link{MeasureSurvIntLogloss}},
 \code{\link{MeasureSurvLoglossSE}},
 \code{\link{MeasureSurvLogloss}}
 }

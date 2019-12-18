@@ -74,6 +74,7 @@ register_mlr3 = function() {
    x$add("surv.svm", LearnerSurvSVM)
    x$add("surv.parametric", LearnerSurvParametric)
    x$add("surv.flexible", LearnerSurvFlexible)
+   x$add("surv.gbm", LearnerSurvGBM)
 
   # measures
    x = utils::getFromNamespace("mlr_measures", ns = "mlr3")
@@ -83,8 +84,8 @@ register_mlr3 = function() {
    x$add("surv.grafSE", MeasureSurvGrafSE)
    x$add("surv.logloss", MeasureSurvLogloss)
    x$add("surv.loglossSE", MeasureSurvLoglossSE)
-   x$add("surv.loglossint", MeasureSurvLoglossInt)
-   x$add("surv.loglossintSE", MeasureSurvLoglossIntSE)
+   x$add("surv.intlogloss", MeasureSurvIntLogloss)
+   x$add("surv.intloglossSE", MeasureSurvIntLoglossSE)
 
    x$add("surv.unoC", MeasureSurvUnoC)
    x$add("surv.harrellC", MeasureSurvHarrellC)

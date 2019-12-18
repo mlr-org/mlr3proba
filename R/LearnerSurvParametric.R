@@ -3,13 +3,13 @@
 #' @templateVar title Fully Parametric
 #' @templateVar fullname LearnerSurvParametric
 #' @templateVar caller [survival::survreg()]
-#' @templateVar distr by using an internally defined `predict` method, see details.
-#' @templateVar lp by using an internally defined `predict` method, see details.
+#' @templateVar distr by using an internally defined `predict` method, see details
+#' @templateVar lp by using an internally defined `predict` method, see details
 #'
 #' @description
-#' Currently six parameterisations can be assumed for the baseline, see [survival::survreg()]. These
-#' are internally re-parameterised and defined as \CRANpkg{distr6} objects, we plan on implementing more
-#' custom distributions in the future.
+#' This learner allows you to choose a distribution and a model form to compose a predicted
+#' survival probability distribution. Note: Just because any combination of distribution and model
+#' form is possible, this does not mean it will necessarily be sensible or interpretable.
 #'
 #' @details
 #' The internal predict method is implemented in `mlr3proba`, which is more efficient for
@@ -19,13 +19,13 @@
 #' data set and \eqn{\beta} are the fitted coefficients.
 #'
 #' The distribution `distr` is composed using the `lp` and specifying a model form in the
-#' `type` hyper-parameter. These are as follows, with respective hazard functions,
-#' * Proportional Hazards (`ph`) \deqn{h(t) = h_0(t)exp(lp)}{h(t) = h0(t)*exp(lp)}
-#' * Accelerated Failure Time (`aft`) \deqn{h(t) = exp(-lp)h_0(\frac{t}{exp(lp)})}{h(t) = exp(-lp)*h0(t/exp(lp))}
-#' * Proportional Odds (`po`) \deqn{\frac{h(t)}{h_0(t)} = {1 + (exp(lp) - 1)S_0(t)}^{-1}}{h(t)/h0(t) = {1 + (exp(lp) - 1)*S0(t)}^-1}
+#' `type` hyper-parameter. These are as follows, with respective survival functions,
+#' * Accelerated Failure Time (`aft`) \deqn{S(t) = S_0(\frac{t}{exp(lp)})}{S(t) = S0(t/exp(lp))}
+#' * Proportional Hazards (`ph`) \deqn{S(t) = S_0(t)^{exp(lp)}}{S(t) = S0(t)^exp(lp)}
+#' * Proportional Odds (`po`) \deqn{S(t) = \frac{S_0(t)}{exp(-lp) + (1-exp(-lp)) S_0(t)}}{S(t) = S0(t) / [exp(-lp) + S0(t) (1-exp(-lp))]}
 #'
-#' Where \eqn{h_0}{h0} and \eqn{S_0}{S0} are the estimated baseline hazard/survival respectively
-#' (in this case with a given parametric form), and \eqn{lp} is the predicted linear predictor `lp`.
+#' where \eqn{S_0}{S0} is the estimated baseline survival distribution (in this case
+#' with a given parametric form), and \eqn{lp} is the predicted linear predictor.
 #'
 #' @references
 #' Kalbfleisch, J. D., Prentice, R. L. (2002).
@@ -119,7 +119,8 @@ LearnerSurvParametric = R6Class("LearnerSurvParametric", inherit = LearnerSurv,
       # (as opposed to the automatic assertions that take place after prediction)
       if(any(is.na(data.frame(task$data(cols = task$feature_names)))))
         stop(sprintf("Learner %s on task %s failed to predict: Missing values in new data (line(s) %s)\n",
-                     self$id, task$id, which(is.na(data.frame(task$data(cols = task$feature_names))))))
+                     self$id, task$id,
+                     paste0(which(is.na(data.frame(task$data(cols = task$feature_names)))), collapse = ", ")))
 
       pv = self$param_set$get_values(tags = "predict")
 

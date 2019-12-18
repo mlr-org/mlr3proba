@@ -2,10 +2,10 @@
 #' @templateVar title RandomForestSRC Survival Forest
 #' @templateVar fullname LearnerSurvRandomForestSRC
 #' @templateVar caller [randomForestSRC::rfsrc()]
-#' @templateVar distr using [randomForestSRC::predict.rfsrc()].
+#' @templateVar distr using [randomForestSRC::predict.rfsrc()]
 #'
 #' @description
-#' [randomForestSRC::predict.rfsrc()] returns both cumulative hazard funcion (chf) and survival function (surv)
+#' [randomForestSRC::predict.rfsrc()] returns both cumulative hazard function (chf) and survival function (surv)
 #' but uses different estimators to derive these. `chf` uses a bootstrapped Nelson-Aalen estimator,
 #' (Ishwaran, 2008) whereas `surv` uses a bootstrapped Kaplan-Meier estimator [https://kogalur.github.io/randomForestSRC/theory.html](https://kogalur.github.io/randomForestSRC/theory.html).
 #' The choice of which estimator to use is given by the extra `estimator` hyper-parameter,

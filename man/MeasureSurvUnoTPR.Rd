@@ -4,22 +4,30 @@
 \alias{MeasureSurvUnoTPR}
 \alias{mlr_measures_surv.unoTPR}
 \title{Uno's TPR Survival Measure}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurvAUC}/\link{MeasureSurv}.}
+\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \code{MeasureSurvAUC}/\link{MeasureSurv}.}
 \description{
 
 
 Calls \code{\link[survAUC:sens.uno]{survAUC::sens.uno()}}.
 
 Assumes random censoring.
+
+\code{times} and \code{lp_thresh} are arbitrarily set to \code{0} to prevent crashing, these should be further
+specified.
+}
+\details{
+All measures implemented from \CRANpkg{survAUC} should be used with care, we are aware
+of problems in implementation that sometimes cause fatal errors in R. In future updates these
+measures will all be re-written and implemented directly in \code{mlr3proba}.
 }
 \section{Construction}{
-\preformatted{MeasureSurvUnoTPR$new(times, lp_thresh)
+\preformatted{MeasureSurvUnoTPR$new(times = 0, lp_thresh = 0)
 mlr_measures$get("surv.unoTPR")
 msr("surv.unoTPR")
 }
 \itemize{
-\item \code{times} :: \code{vector()} \cr Numeric vector of times where to evaluate the score (provide only one for best performance). If missing then returns score at all unique time-points in test set. \cr
-\item \code{lp_thresh} :: \code{numeric(1)} \cr Determines where to threshold the linear predictor for calculating the TPR/TNR. If missing then returns score at all possible thresholds. \cr
+\item \code{times} :: \code{vector()} \cr If \code{integrate == TRUE} then a vector of time-points over which to integrate the score. If \code{integrate == FALSE} then a single time point at which to return the score. \cr
+\item \code{lp_thresh} :: \code{numeric(1)} \cr Determines where to threshold the linear predictor for calculating the TPR/TNR. \cr
 }
 }
 
@@ -31,6 +39,11 @@ msr("surv.unoTPR")
 \item Minimize: \code{FALSE}
 \item Required prediction: \code{lp}
 }
+}
+
+\section{Fields}{
+
+See \link{MeasureSurv}, as well as all variables passed to the constructor.
 }
 
 \references{
@@ -47,8 +60,8 @@ Other survival measures:
 \code{\link{MeasureSurvGraf}},
 \code{\link{MeasureSurvHarrellC}},
 \code{\link{MeasureSurvHungAUC}},
-\code{\link{MeasureSurvLoglossIntSE}},
-\code{\link{MeasureSurvLoglossInt}},
+\code{\link{MeasureSurvIntLoglossSE}},
+\code{\link{MeasureSurvIntLogloss}},
 \code{\link{MeasureSurvLoglossSE}},
 \code{\link{MeasureSurvLogloss}},
 \code{\link{MeasureSurvNagelkR2}},

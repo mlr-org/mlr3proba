@@ -5,11 +5,10 @@
 #' @templateVar lp by [glmnet::predict.cv.glmnet()]
 #'
 #' @description
-#' Use [LearnerSurvGlmnet] and [LearnerSurvCVGlmnet] for the glmnets implemented in
-#' [glmnet::glmnet()]/[glmnet::cv.glmnet()] without and with internal cross-validation, respectively.
-#' Tuning using the internal optimizer in [glmnet::cv.glmnet()] may be more efficient when tuning
-#' lambda only. However, for tuning multiple hyperparameters, \CRANpkg{mlr3tuning} and [LearnerSurvGlmnet] will
-#' likely give better results.
+#' Use [LearnerSurvGlmnet] and [LearnerSurvCVGlmnet] for glmnets without and with internal
+#' cross-validation, respectively. Tuning using the internal optimizer in [LearnerSurvCVGlmnet]
+#' may be more efficient when tuning lambda only. However, for tuning multiple hyperparameters,
+#' \CRANpkg{mlr3tuning} and [LearnerSurvGlmnet] will likely give better results.
 #'
 #' @references
 #' Jerome Friedman, Trevor Hastie, Robert Tibshirani (2010).
@@ -20,9 +19,9 @@
 #' @export
 #' @examples
 #' library(mlr3)
-#' task = tgen("simsurv")$generate(200)
+#' task = tgen("simsurv")$generate(20)
 #' learner = lrn("surv.cvglmnet")
-#' resampling = rsmp("cv", folds = 3)
+#' resampling = rsmp("cv", folds = 2)
 #' resample(task, learner, resampling)
 LearnerSurvCVGlmnet = R6Class("LearnerSurvCVGlmnet", inherit = LearnerSurv,
   public = list(

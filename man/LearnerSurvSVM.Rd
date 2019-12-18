@@ -8,12 +8,12 @@
 \description{
 Calls \code{\link[survivalsvm:survivalsvm]{survivalsvm::survivalsvm()}}.
 \itemize{
-\item crank is predicted by \link[survivalsvm:predict.survivalsvm]{survivalsvm::predict.survivalsvm}
+\item crank is predicted by \code{\link[survivalsvm:predict.survivalsvm]{survivalsvm::predict.survivalsvm()}}
 }
 
 Four possible SVMs can be implemented, dependent on the \code{type} parameter. These correspond
-to predicting the survival time via regression (\code{regression}), predicting the PI by
-imposing a ranking constraint (\code{vanbelle1}, \code{vanbelle2}), a hybrid of the two (\code{hybrid}).
+to predicting the survival time via regression (\code{regression}), predicting a continuous rank
+(\code{vanbelle1}, \code{vanbelle2}), or a hybrid of the two (\code{hybrid}).
 Whichever \code{type} is chosen determines how the \code{crank} predict type is calculated,
 but in any case all can be considered a valid continuous ranking.
 
@@ -39,9 +39,9 @@ lrn("surv.svm")
 
 \examples{
 library(mlr3)
-task = tgen("simsurv")$generate(200)
+task = tgen("simsurv")$generate(20)
 learner = lrn("surv.svm")
-resampling = rsmp("cv", folds = 3)
+resampling = rsmp("cv", folds = 2)
 resample(task, learner, resampling)
 }
 \references{
@@ -59,6 +59,7 @@ Other survival learners:
 \code{\link{LearnerSurvCVGlmnet}},
 \code{\link{LearnerSurvCoxPH}},
 \code{\link{LearnerSurvFlexible}},
+\code{\link{LearnerSurvGBM}},
 \code{\link{LearnerSurvGamboost}},
 \code{\link{LearnerSurvGlmboost}},
 \code{\link{LearnerSurvGlmnet}},

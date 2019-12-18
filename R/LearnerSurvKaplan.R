@@ -1,8 +1,8 @@
 #' @template surv_learner
-#' @templateVar title Kaplan Meier Estimator
+#' @templateVar title Kaplan-Meier Estimator
 #' @templateVar fullname LearnerSurvKaplan
 #' @templateVar caller [survival::survfit()]
-#' @templateVar distr by estimating the survival function with [survival::survfit()].
+#' @templateVar distr by estimating the survival function with [survival::survfit()]
 #'
 #' @references
 #' Kaplan, E. L. and Meier, P. (1958).
@@ -29,11 +29,11 @@ LearnerSurvKaplan = R6Class("LearnerSurvKaplan", inherit = LearnerSurv,
 
     predict_internal = function(task) {
       # Ensures that at all times before the first observed time the survival is 1, as expected.
-      surv = c(1, self$model$surv)
-      time = c(0, self$model$time)
+      # surv = c(1, self$model$surv)
+      # time = c(0, self$model$time)
 
       # Define WeightedDiscrete distr6 distribution from the survival function
-      x = rep(list(data = data.frame(x = time, cdf = 1 - surv)), task$nrow)
+      x = rep(list(data = data.frame(x = self$model$time, cdf = 1 - self$model$surv)), task$nrow)
       distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
                                              decorators = c("CoreStatistics", "ExoticStatistics"))
 

@@ -3,13 +3,13 @@
 \name{LearnerSurvNelson}
 \alias{LearnerSurvNelson}
 \alias{mlr_learners_surv.nelson}
-\title{Nelson Aalen Estimator Survival Learner}
+\title{Nelson-Aalen Estimator Survival Learner}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerSurv}.}
 \description{
 Calls \code{\link[survival:survfit]{survival::survfit()}}.
 \itemize{
-\item distr is predicted by estimating the cumulative hazard function with \code{\link[survival:survfit]{survival::survfit()}}.
-\item \code{crank} is predicted as the expectation of the survival distribution, \code{distr}.
+\item distr is predicted by estimating the cumulative hazard function with \code{\link[survival:survfit]{survival::survfit()}}
+\item \code{crank} is predicted as the expectation of the survival distribution, \code{distr}
 }
 }
 \section{Construction}{
@@ -50,6 +50,7 @@ Other survival learners:
 \code{\link{LearnerSurvCVGlmnet}},
 \code{\link{LearnerSurvCoxPH}},
 \code{\link{LearnerSurvFlexible}},
+\code{\link{LearnerSurvGBM}},
 \code{\link{LearnerSurvGamboost}},
 \code{\link{LearnerSurvGlmboost}},
 \code{\link{LearnerSurvGlmnet}},

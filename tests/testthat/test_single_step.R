@@ -7,7 +7,7 @@ test_that("single-step", {
   train_task = task$clone()$filter(1:3000)
   learner$train(train_task)
   newdata = remove_named(task$clone()$filter(3001:3343)$data(), task$target_names)
-  p = learner$predict_newdata(train_task, newdata = newdata)
+  p = learner$predict_newdata(task = train_task, newdata = newdata)
 
   p = as.data.table(p)
   expect_data_table(p, nrow = 343)

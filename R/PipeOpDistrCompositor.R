@@ -1,18 +1,20 @@
 #' @title PipeOpDistrCompositor
 #'
 #' @usage NULL
-#' @name mlr_pipeops_distrcompose
+#' @aliases mlr_pipeops_distrcompositor
 #' @format [`R6Class`] inheriting from [`PipeOp`].
 #'
 #' @description
-#' Predict a survival distribution from a survival learner [`PredictionSurv`][PredictionSurv], which
-#' predicts `lp` or `crank`.
+#' Estimates (or 'composes') a survival distribution from a predicted baseline `distr` and a
+#' `crank` or `lp` from two [PredictionSurv]s.
 #'
-#' Note:
-#' * This compositor is only sensible if assuming a linear model form, which may not always be the case.
-#' * Currently only discrete estimators, Kaplan-Meier and Nelson-Aalen, are implemented. Resulting in a
-#' predicted `[distr6::WeightedDiscrete]` distribution for each individual, in the future we plan to
-#' extend this to allow continuous estimators.
+#' Compositor Assumptions:
+#' * The baseline `distr` is a discrete estimator, i.e. [LearnerSurvKaplan] or [LearnerSurvNelson]
+#' * The composed `distr` is of a linear form
+#' * If `lp` is missing then `crank` is equivalent
+#'
+#' These assumptions are strong and may not be reasonable. Future updates will upgrade this
+#' compositor to be more flexible.
 #'
 #' @section Construction:
 #' ```
@@ -51,10 +53,10 @@
 #'
 #' @section Internals:
 #' The respective `form`s above have respective survival distributions:
-#'    \deqn{aft: S(t) = S0(t/exp(lp))}
-#'    \deqn{ph: S(t) = S0(t)^exp(lp)}
-#'    \deqn{po: S(t) = S0 * [exp(-lp) + (1-exp(-lp))*S0(t)]^-1}
-#' where \eqn{S0} is the estimated baseline survival distribution, and `lp` is the predicted
+#'    \deqn{aft: S(t) = S_0(\frac{t}{exp(lp)})}{aft: S(t) = S0(t/exp(lp))}
+#'    \deqn{ph: S(t) = S_0(t)^{exp(lp)}}{ph: S(t) = S0(t)^exp(lp)}
+#'    \deqn{po: S(t) = \frac{S_0(t)}{exp(-lp) + (1-exp(-lp)) S_0(t)}}{po: S(t) = S0(t) / [exp(-lp) + S0(t) (1-exp(-lp))]}
+#' where \eqn{S_0}{S0} is the estimated baseline survival distribution, and \eqn{lp} is the predicted
 #' linear predictor. If the input model does not predict a linear predictor then `crank` is
 #' assumed to be the `lp` - **this may be a strong and unreasonable assumption.**
 #'
@@ -68,13 +70,13 @@
 #' @export
 #' @family survival compositors
 #' @examples
-#' library("mlr3")
-#' library("mlr3pipelines")
+#' library(mlr3)
+#' library(mlr3pipelines)
 #' set.seed(42)
 #'
 #' # Three methods to transform the cox ph predicted `distr` to an
 #' #  accelerated failure time model
-#' task = tsk("rats")
+#' task = tgen("simsurv")$generate(30)
 #'
 #' # Method 1 - Train and predict separately then compose
 #' base = lrn("surv.kaplan")$train(task)$predict(task)
@@ -82,6 +84,8 @@
 #' pod = po("distrcompose", param_vals = list(form = "aft", overwrite = TRUE))
 #' pod$predict(list(base = base, pred = pred))
 #'
+#' # Examples not run to save run-time.
+#' \dontrun{
 #' # Method 2 - Create a graph manually
 #' gr = Graph$new()$
 #'   add_pipeop(po("learner", lrn("surv.kaplan")))$
@@ -89,18 +93,18 @@
 #'   add_pipeop(po("distrcompose"))$
 #'   add_edge("surv.kaplan", "distrcompose", dst_channel = "base")$
 #'   add_edge("surv.glmnet", "distrcompose", dst_channel = "pred")
-#' gr$train(task)
-#' gr$predict(task)
+#' gr$train(task)$gr$predict(task)
 #'
-#' # Method 3 - Syntactic sugar: Wrap the learner in a graph
+#' # Method 3 - Syntactic sugar: Wrap the learner in a graph.
 #' cvglm.distr = distrcompositor(learner = lrn("surv.cvglmnet"),
 #'                             estimator = "kaplan",
 #'                             form = "aft")
-#' resample(task, cvglm.distr, rsmp("cv", folds = 2))$predictions()
+#' cvglm.distr$fit(task)$predict(task)
+#' }
 PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
   inherit = PipeOp,
   public = list(
-    initialize = function(id = "distrcompose", param_vals = list()) {
+    initialize = function(id = "distrcompose", param_vals = list(form = "aft", overwrite = FALSE)) {
       super$initialize(id = id,
                        param_set = ParamSet$new(params = list(
                          ParamFct$new("form", default = "aft", levels = c("aft","ph","po"), tags = c("predict")),
@@ -122,30 +126,28 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
       inpred = inputs$pred
 
       overwrite = self$param_set$values$overwrite
-      if(length(overwrite) == 0)
-        overwrite = FALSE
+      if(length(overwrite) == 0) overwrite = FALSE
 
       if ("distr" %in% inpred$predict_types & !overwrite) {
         return(list(inpred))
       } else {
         assert("distr" %in% base$predict_types)
-        assert(any(c("crank", "lp") %in% inpred$predict_types))
 
         row_ids = inpred$row_ids
-        map(inputs, function(x) assert_true(identical(row_ids, x$row_ids)))
         truth = inpred$truth
+        map(inputs, function(x) assert_true(identical(row_ids, x$row_ids)))
+        map(inputs, function(x) assert_true(identical(truth, x$truth)))
 
-        # get form, set default if missing
         form = self$param_set$values$form
         if(length(form) == 0) form = "aft"
 
-        times = base$distr[1]$support()$elements()
         base = base$distr[1]
+        times = base$support()$elements()
 
         nr = nrow(inpred$data$tab)
         nc = length(times)
 
-        if(is.null(inpred$lp))
+        if(is.null(inpred$lp) | length(inpred$lp) == 0)
           lp = inpred$crank
         else
           lp = inpred$lp
@@ -169,11 +171,13 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
         distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
                                                decorators = c("CoreStatistics", "ExoticStatistics"))
 
-
-        truth = inputs[[1]]$truth
+        if(is.null(inpred$lp) | length(inpred$lp) == 0)
+          lp = NULL
+        else
+          lp = inpred$lp
 
         return(list(PredictionSurv$new(row_ids = row_ids, truth = truth,
-                                       crank = inpred$crank, distr = distr, lp = inpred$lp)))
+                                       crank = inpred$crank, distr = distr, lp = lp)))
       }
     }
   )

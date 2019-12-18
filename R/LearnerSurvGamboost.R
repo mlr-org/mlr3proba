@@ -4,7 +4,7 @@
 #' @templateVar fullname LearnerSurvGamboost
 #' @templateVar caller [mboost::gamboost()]
 #' @templateVar distr by [mboost::survFit()] which assumes a PH fit with a Breslow estimator
-#' @templateVar lp by [mboost::predict.mboost()]. \cr
+#' @templateVar lp by [mboost::predict.mboost()]
 #'
 #' @template learner_boost
 #' @description
@@ -40,11 +40,11 @@
 #' @export
 #' @examples
 #' library(mlr3)
-#' task = tsk("rats")
+#' task = tgen("simsurv")$generate(20)
 #' learner = lrn("surv.gamboost")
 #' learner$param_set$values = mlr3misc::insert_named(learner$param_set$values,
 #'      list(dfbase = 3, center = TRUE, baselearner = "bols"))
-#' resampling = rsmp("cv", folds = 3)
+#' resampling = rsmp("cv", folds = 2)
 #' resample(task, learner, resampling)
 LearnerSurvGamboost = R6Class("LearnerSurvGamboost", inherit = LearnerSurv,
   public = list(
@@ -77,7 +77,7 @@ LearnerSurvGamboost = R6Class("LearnerSurvGamboost", inherit = LearnerSurv,
         param_set = ps,
         feature_types = c("integer", "numeric", "factor", "logical"),
         predict_types = c("distr","crank","lp"),
-        properties = "weights",
+        # properties = "weights",
         packages = c("mboost","distr6","survival")
       )
     },
@@ -100,8 +100,8 @@ LearnerSurvGamboost = R6Class("LearnerSurvGamboost", inherit = LearnerSurv,
       # convert data to model matrix
       # x = model.matrix(~., as.data.frame(task$data(cols = task$feature_names)))
 
-      if ("weights" %in% task$properties)
-        pars$weights = task$weights$weight
+      # if ("weights" %in% task$properties)
+      #   pars$weights = task$weights$weight
 
       family = switch(pars$family,
                       coxph = mboost::CoxPH(),

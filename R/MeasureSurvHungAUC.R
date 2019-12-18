@@ -1,6 +1,6 @@
 #' @template surv_measure
 #' @templateVar title Hung and Chiang's AUC
-#' @templateVar inherit [MeasureSurvAUC]/[MeasureSurv]
+#' @templateVar inherit `MeasureSurvAUC`/[MeasureSurv]
 #' @templateVar fullname MeasureSurvHungAUC
 #' @templateVar shortname surv.hungAUC
 #' @templateVar pars integrated = TRUE, times
@@ -11,6 +11,8 @@
 #' Calls [survAUC::AUC.hc()].
 #'
 #' Assumes random censoring.
+#'
+#' @template measure_survAUC
 #'
 #' @references
 #' Hung, H. and C.-T. Chiang (2010).\cr

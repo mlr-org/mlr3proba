@@ -1,4 +1,4 @@
-predict_survreg = function(object, task, type = "aft", predict_type = "all"){
+predict_survreg = function(object, task, type = "aft"){
 
   # Extracts baseline distribution and the model fit, performs assertions
   basedist = object$basedist
@@ -80,19 +80,5 @@ predict_survreg = function(object, task, type = "aft", predict_type = "all"){
   distr = distr6::VectorDistribution$new(distribution = "Distribution", params = params,
                                          decorators = c("CoreStatistics","ExoticStatistics"))
 
-  # crank defined as exponential of linear predictor
-  crank = list(crank = exp(as.numeric(lp)))
-  lp = list(lp = as.numeric(lp))
-
-  ret = list()
-  if(predict_type %in% c("crank","risk"))
-    ret = c(ret, crank = crank)
-  else if(predict_type %in% c("lp","link","linear"))
-    ret = c(ret, lp = lp)
-  else if(predict_type == "distr")
-    ret = c(ret, distr = distr)
-  else
-    ret = c(ret, crank = crank, lp = lp, distr = distr)
-
-  return(ret)
+  return(list(lp = as.numeric(lp), distr = distr))
 }

@@ -10,8 +10,8 @@ This object stores the predictions returned by a learner of class \link{LearnerS
 The \code{task_type} is set to \code{"surv"}.
 }
 \section{Construction}{
-\preformatted{p = PredictionSurv$new(task = NULL, row_ids = task$row_ids, truth = task$truth(), distr = NULL,
-crank = NULL, lp = NULL)
+\preformatted{PredictionSurv$new(task = NULL, row_ids = task$row_ids, truth = task$truth(),
+                   crank = NULL, distr = NULL, lp = NULL)
 }
 \itemize{
 \item \code{task} :: \link{TaskSurv}\cr
@@ -22,17 +22,18 @@ Row ids of the task. Per default, these are extracted from the \code{task}.
 Observed survival times. Per default, these are extracted from the \code{task}.
 \item \code{crank} :: \code{numeric()}\cr
 Vector of continuous ranks. One element for each observation in the test set.
-For a pair of continuous ranks, a higher rank indicates that observation is more likely to experience
-the event.
+For a pair of continuous ranks, a higher rank indicates that the observation is more likely
+to experience the event.
 Used in discrimination measures like \link[=mlr_measures_surv.harrellC]{surv.harrellC}.
+\item \code{distr} :: \code{distr6::Distribution()}\cr
+\link[distr6:VectorDistribution]{VectorDistribution} from \CRANpkg{distr6}.
+Each individual distribution in the vector represents the random variable 'survival time' for
+an individual observation.
+Used in measures like \link[=mlr_measures_surv.graf]{surv.graf}.
 \item \code{lp} :: \code{numeric()}\cr
 Vector of linear predictor scores. One element for each observation in the test set.
 \eqn{lp = X\beta} where \eqn{X} is a matrix of covariates and \eqn{\beta} is a vector of estimated coefficients.
 Used in discrimination measures like \link[=mlr_measures_surv.harrellC]{surv.harrellC}.
-\item \code{distr} :: \code{distr6::Distribution()}\cr
-\link[distr6:VectorDistribution]{VectorDistribution} from \CRANpkg{distr6}.
-Each distribution in the vector represents the random variable 'survival time'.
-Used in measures like \link[=mlr_measures_surv.graf]{surv.graf}.
 }
 }
 
@@ -45,7 +46,7 @@ The field \code{task_type} is set to \code{"surv"}.
 
 \examples{
 library(mlr3)
-task = mlr_tasks$get("lung")
+task = tgen("simsurv")$generate(20)
 learner = mlr_learners$get("surv.rpart")
 p = learner$train(task)$predict(task)
 head(as.data.table(p))

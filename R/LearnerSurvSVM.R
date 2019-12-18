@@ -3,12 +3,12 @@
 #' @templateVar title Regression, Ranking and Hybrid Support Vector Machines
 #' @templateVar fullname LearnerSurvSVM
 #' @templateVar caller [survivalsvm::survivalsvm()]
-#' @templateVar crank by [survivalsvm::predict.survivalsvm]
+#' @templateVar crank by [survivalsvm::predict.survivalsvm()]
 #'
 #' @description
 #' Four possible SVMs can be implemented, dependent on the `type` parameter. These correspond
-#' to predicting the survival time via regression (`regression`), predicting the PI by
-#' imposing a ranking constraint (`vanbelle1`, `vanbelle2`), a hybrid of the two (`hybrid`).
+#' to predicting the survival time via regression (`regression`), predicting a continuous rank
+#' (`vanbelle1`, `vanbelle2`), or a hybrid of the two (`hybrid`).
 #' Whichever `type` is chosen determines how the `crank` predict type is calculated,
 #' but in any case all can be considered a valid continuous ranking.
 #'
@@ -27,9 +27,9 @@
 #' @export
 #' @examples
 #' library(mlr3)
-#' task = tgen("simsurv")$generate(200)
+#' task = tgen("simsurv")$generate(20)
 #' learner = lrn("surv.svm")
-#' resampling = rsmp("cv", folds = 3)
+#' resampling = rsmp("cv", folds = 2)
 #' resample(task, learner, resampling)
 LearnerSurvSVM = R6Class("LearnerSurvSVM", inherit = LearnerSurv,
   public = list(

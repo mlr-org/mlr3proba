@@ -8,6 +8,8 @@
 #'
 #' Assumes Cox PH model specification.
 #'
+#' @template measure_survAUC
+#'
 #' @references
 #' Xu, R. and J. O'Quigley (1999).\cr
 #' A measure of dependence for proportional hazards models.\cr

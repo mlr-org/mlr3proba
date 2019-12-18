@@ -1,8 +1,12 @@
-#' <% int_str = "* `integrated` :: `logical(1)` \\cr If `TRUE` (default), returns the integrated score, otherwise returns the score corresponding to the `times` argument." %>
-#' <% times_str = "* `times` :: `vector()` \\cr Numeric vector of times where to evaluate the score (provide only one for best performance). If missing then returns score at all unique time-points in test set." %>
-#  <% thresh_str = "* `lp_thresh` :: `numeric(1)` \\cr Determines where to threshold the linear predictor for calculating the TPR/TNR. If missing then returns score at all possible thresholds." %>
-#' <% type_str = "* `type` :: `character(1)` \\cr Determines the type of score, one of: 'cumulative', 'incident'." %>
+#'
+#' <% int_str = "* `integrated` :: `logical(1)` \\cr If `TRUE` (default), returns the integrated score; otherwise, not integrated." %>
+#' <% times_str = "* `times` :: `vector()` \\cr If `integrate == TRUE` then a vector of time-points over which to integrate the score. If `integrate == FALSE` then a single time point at which to return the score." %>
+#  <% thresh_str = "* `lp_thresh` :: `numeric(1)` \\cr Determines where to threshold the linear predictor for calculating the TPR/TNR." %>
+#' <% type_str = "* `type` :: `character(1)` \\cr Determines the type of score, one of: `'cumulative'`, `'incident'`. Default `'incident'`." %>
 #' <% eps_str = "* `eps` :: `numeric(1)` \\cr Very small number to set zero-valued predicted probabilities to, in order to prevent errors in log(0) calculation." %>
+#'
+#' <% meas = get(fullname)$new() %>
+#' <% shortname = meas$id %>
 #'
 #' @include MeasureSurv.R
 #' @title <%=title%> Survival Measure
@@ -25,11 +29,13 @@
 #' <%= if(exists("eps_par")) paste(eps_str, "\\cr") %>
 #'
 #' @section Meta Information:
-#' <% meas = get(fullname)$new() %>
 #' * Type: `"surv"`
 #' * Range: <%= format_range(meas$range) %>
 #' * Minimize: `<%=meas$minimize%>`
 #' * Required prediction: `<%=meas$predict_type%>`
+#'
+#' @section Fields:
+#' See [MeasureSurv], as well as all variables passed to the constructor.
 #'
 #' @family survival measures
 #' @template seealso_measure

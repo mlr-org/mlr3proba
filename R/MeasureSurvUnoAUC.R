@@ -1,8 +1,8 @@
 #' @template surv_measure
 #' @templateVar title Uno's AUC
 #' @templateVar alias mlr_measures_surv.unoAUC
-#' @templateVar inherit [MeasureSurvAUC]/[MeasureSurv]
-#' @templateVar fullname MeasureSurvUnoC
+#' @templateVar inherit `MeasureSurvAUC`/[MeasureSurv]
+#' @templateVar fullname MeasureSurvUnoAUC
 #' @templateVar shortname surv.unoAUC
 #' @templateVar pars integrated = TRUE, times
 #' @templateVar int_par TRUE
@@ -12,6 +12,8 @@
 #' Calls [survAUC::AUC.uno()].
 #'
 #' Assumes random censoring.
+#'
+#' @template measure_survAUC
 #'
 #' @references
 #' Uno, H., T. Cai, L. Tian, and L. J. Wei (2007).\cr

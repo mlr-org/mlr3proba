@@ -10,8 +10,8 @@
 #'
 #' @section Construction:
 #' ```
-#' p = PredictionSurv$new(task = NULL, row_ids = task$row_ids, truth = task$truth(), distr = NULL,
-#' crank = NULL, lp = NULL)
+#' PredictionSurv$new(task = NULL, row_ids = task$row_ids, truth = task$truth(),
+#'                    crank = NULL, distr = NULL, lp = NULL)
 #' ```
 #'
 #' * `task` :: [TaskSurv]\cr
@@ -25,19 +25,20 @@
 #'
 #' * `crank` :: `numeric()`\cr
 #'   Vector of continuous ranks. One element for each observation in the test set.
-#'   For a pair of continuous ranks, a higher rank indicates that observation is more likely to experience
-#'   the event.
+#'   For a pair of continuous ranks, a higher rank indicates that the observation is more likely
+#'   to experience the event.
 #'   Used in discrimination measures like [surv.harrellC][mlr_measures_surv.harrellC].
+#'
+#' * `distr` :: `distr6::Distribution()`\cr
+#'   [VectorDistribution][distr6::VectorDistribution] from \CRANpkg{distr6}.
+#'   Each individual distribution in the vector represents the random variable 'survival time' for
+#'   an individual observation.
+#'   Used in measures like [surv.graf][mlr_measures_surv.graf].
 #'
 #' * `lp` :: `numeric()`\cr
 #'   Vector of linear predictor scores. One element for each observation in the test set.
 #'   \eqn{lp = X\beta} where \eqn{X} is a matrix of covariates and \eqn{\beta} is a vector of estimated coefficients.
 #'   Used in discrimination measures like [surv.harrellC][mlr_measures_surv.harrellC].
-#'
-#' * `distr` :: `distr6::Distribution()`\cr
-#'   [VectorDistribution][distr6::VectorDistribution] from \CRANpkg{distr6}.
-#'   Each distribution in the vector represents the random variable 'survival time'.
-#'   Used in measures like [surv.graf][mlr_measures_surv.graf].
 #'
 #' @section Fields:
 #' See [mlr3::Prediction].
@@ -48,7 +49,7 @@
 #' @export
 #' @examples
 #' library(mlr3)
-#' task = mlr_tasks$get("lung")
+#' task = tgen("simsurv")$generate(20)
 #' learner = mlr_learners$get("surv.rpart")
 #' p = learner$train(task)$predict(task)
 #' head(as.data.table(p))
@@ -148,13 +149,15 @@ c.PredictionSurv = function(..., keep_duplicates = TRUE) {
 
   predict_types = map(dots, "predict_types")
   if (!every(predict_types[-1L], setequal, y = predict_types[[1L]]))
-    stopf("Cannot rbind predictions: Probabilities for some predictions, not all")
+    stopf("Cannot rbind predictions: Different predict_types in objects.")
 
   if (any(grepl("distr", predict_types))) {
     tab = map_dtr(dots, function(p) subset(p$data$tab, select = -distr), .fill = FALSE)
     distr = do.call(c, lapply(dots, function(p) p$distr))
-  } else
-    tab = map_dtr(dots, function(p) p$data$tab, .fill = FALSE)
+  } else {
+    tab = map_dtr(dots, function(p) subset(p$data$tab), .fill = FALSE)
+    distr = NULL
+  }
 
   if (!keep_duplicates)
     tab = unique(tab, by = "row_id", fromLast = TRUE)

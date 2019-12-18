@@ -1,4 +1,4 @@
-weighted_logloss = function(truth, distribution, eps = 1e-15,...){
+weighted_logloss = function(truth, distribution, times, eps = 1e-15,...){
   # unweighted logloss score at time t* as L(t*) = -I(t > t*)log(S(t*)) - I(t <= t*)log(F(t*))
   logloss = function(alive, distribution, unique_times, eps){
     # if a patient is alive at t then find the survival, otherwise find cdf
@@ -10,36 +10,28 @@ weighted_logloss = function(truth, distribution, eps = 1e-15,...){
     -log(ll)
   }
 
-  weighted_survival_score(truth, distribution, logloss, eps = eps)
+  weighted_survival_score(truth, distribution, times, logloss, eps = eps)
 }
 
-weighted_graf = function(truth, distribution,...) {
+weighted_graf = function(truth, distribution, times, ...) {
   # unweighted graf score at time t* as G(t*) = (I(t > t*) - S(t*))^2
   graf = function(alive, distribution, unique_times) (alive - transpose(1 - distribution$cdf(unique_times)))^2
 
-  weighted_survival_score(truth, distribution, graf)
+  weighted_survival_score(truth, distribution, times, graf)
 }
 
-integrated_score = function(score, integrated, times) {
+integrated_score = function(score, integrated) {
   if (integrated) {
     return(mean(as.numeric(score), na.rm = TRUE))
   } else {
-    if(length(times) == 0) {
-      score = score[,findInterval(times, as.numeric(colnames(score)), all.inside = TRUE), drop = FALSE]
-    } else {
-      return(colMeans(score, na.rm = TRUE))
-    }
+    return(colMeans(score, na.rm = TRUE))
   }
 }
 
-integrated_se = function(score, integrated, times) {
+integrated_se = function(score, integrated) {
   if (integrated) {
     return(sqrt(sum(stats::cov(score))/(nrow(score) * ncol(score)^2)))
   } else {
-    if(length(times) != 0) {
-      score = score[,findInterval(times, as.numeric(colnames(score)), all.inside = TRUE), drop = FALSE]
-    } else {
-      return(apply(score, 2, function(x) stats::sd(x)/sqrt(length(x))))
-    }
+    return(apply(score, 2, function(x) stats::sd(x)/sqrt(nrow(score))))
   }
 }

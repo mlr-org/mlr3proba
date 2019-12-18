@@ -6,7 +6,7 @@
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskSurv}.}
 \description{
 A survival task for the \link[survival:rats]{survival::rats} data set.
-Columns have been converted to integer, column "sex" has been converted to a factor.
+Column "sex" has been converted to a factor, all others have been converted to integer.
 }
 \section{Construction}{
 \preformatted{mlr3::mlr_tasks$get("rats")

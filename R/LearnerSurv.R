@@ -5,17 +5,18 @@
 #'
 #' @description
 #' This Learner specializes [mlr3::Learner] for survival problems.
-#' The slot `task_type` is set to `"surv"`.
 #' Predefined learners can be found in the [mlr3misc::Dictionary] [mlr3::mlr_learners].
 #'
 #' @section Construction:
 #' ```
-#' l = LearnerSurv$new(id, param_set = ParamSet$new(), predict_types = character(),
-#'      feature_types = character(), properties = character(), packages = character())
+#' LearnerSurv$new(id, param_set = ParamSet$new(),
+#'      predict_types = character(),
+#'      feature_types = character(), properties = character(),
+#'      packages = character())
 #' ```
 #' For a description of the arguments, see [mlr3::Learner].
 #' `task_type` is set to `"surv"`.
-#' Possible values for `predict_type` are `"distr"` and `"crank"`.
+#' Possible values for `predict_type` are `"distr"`, `"lp"`, and `"crank"`.
 #'
 #' @section Fields:
 #' See [mlr3::Learner].
@@ -28,8 +29,7 @@
 #' @examples
 #' library(mlr3)
 #' ids = mlr_learners$keys("^surv")
-#' lrns = mlr_learners$mget(ids)
-#' names(lrns)
+#' ids
 #'
 #' # get a specific learner from mlr_learners:
 #' lrn = mlr_learners$get("surv.rpart")

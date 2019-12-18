@@ -4,7 +4,7 @@
 \alias{MeasureSurvSongAUC}
 \alias{mlr_measures_surv.songAUC}
 \title{Song and Zhou's AUC Survival Measure}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurvAUC}/\link{MeasureSurv}.}
+\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \code{MeasureSurvAUC}/\link{MeasureSurv}.}
 \description{
 
 
@@ -12,15 +12,20 @@ Calls \code{\link[survAUC:AUC.sh]{survAUC::AUC.sh()}}.
 
 Assumes Cox PH model specification.
 }
+\details{
+All measures implemented from \CRANpkg{survAUC} should be used with care, we are aware
+of problems in implementation that sometimes cause fatal errors in R. In future updates these
+measures will all be re-written and implemented directly in \code{mlr3proba}.
+}
 \section{Construction}{
 \preformatted{MeasureSurvSongAUC$new(integrated = TRUE, times, type = c("incident","cumulative"))
 mlr_measures$get("surv.songAUC")
 msr("surv.songAUC")
 }
 \itemize{
-\item \code{integrated} :: \code{logical(1)} \cr If \code{TRUE} (default), returns the integrated score, otherwise returns the score corresponding to the \code{times} argument. \cr
-\item \code{times} :: \code{vector()} \cr Numeric vector of times where to evaluate the score (provide only one for best performance). If missing then returns score at all unique time-points in test set. \cr
-\item \code{type} :: \code{character(1)} \cr Determines the type of score, one of: 'cumulative', 'incident'. \cr
+\item \code{integrated} :: \code{logical(1)} \cr If \code{TRUE} (default), returns the integrated score; otherwise, not integrated. \cr
+\item \code{times} :: \code{vector()} \cr If \code{integrate == TRUE} then a vector of time-points over which to integrate the score. If \code{integrate == FALSE} then a single time point at which to return the score. \cr
+\item \code{type} :: \code{character(1)} \cr Determines the type of score, one of: \code{'cumulative'}, \code{'incident'}. Default \code{'incident'}. \cr
 }
 }
 
@@ -32,6 +37,11 @@ msr("surv.songAUC")
 \item Minimize: \code{FALSE}
 \item Required prediction: \code{lp}
 }
+}
+
+\section{Fields}{
+
+See \link{MeasureSurv}, as well as all variables passed to the constructor.
 }
 
 \references{
@@ -48,8 +58,8 @@ Other survival measures:
 \code{\link{MeasureSurvGraf}},
 \code{\link{MeasureSurvHarrellC}},
 \code{\link{MeasureSurvHungAUC}},
-\code{\link{MeasureSurvLoglossIntSE}},
-\code{\link{MeasureSurvLoglossInt}},
+\code{\link{MeasureSurvIntLoglossSE}},
+\code{\link{MeasureSurvIntLogloss}},
 \code{\link{MeasureSurvLoglossSE}},
 \code{\link{MeasureSurvLogloss}},
 \code{\link{MeasureSurvNagelkR2}},

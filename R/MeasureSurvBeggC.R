@@ -9,6 +9,8 @@
 #'
 #' Assumes Cox PH model specification.
 #'
+#' @template measure_survAUC
+#'
 #' @references
 #' Begg, B. C., L. D. Craemer, E. S. Venkatraman and J. Rosai (2000).\cr
 #' Comparing tumor staging and grading systems: a case study and a review of the issues, using thymoma as a model.\cr

@@ -1,6 +1,6 @@
 #' @template surv_measure
 #' @templateVar title Chambless and Diao's AUC
-#' @templateVar inherit [MeasureSurvAUC]/[MeasureSurv]
+#' @templateVar inherit `MeasureSurvAUC`/[MeasureSurv]
 #' @templateVar fullname MeasureSurvChamblessAUC
 #' @templateVar shortname surv.chamblessAUC
 #' @templateVar pars integrated = TRUE, times
@@ -11,6 +11,8 @@
 #' Calls [survAUC::AUC.cd()].
 #'
 #' Assumes Cox PH model specification.
+#'
+#' @template measure_survAUC
 #'
 #' @references
 #' Chambless, L. E. and G. Diao (2006).\cr

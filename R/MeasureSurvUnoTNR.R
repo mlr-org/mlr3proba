@@ -1,9 +1,9 @@
 #' @template surv_measure
 #' @templateVar title Uno's TNR
-#' @templateVar inherit [MeasureSurvAUC]/[MeasureSurv]
+#' @templateVar inherit `MeasureSurvAUC`/[MeasureSurv]
 #' @templateVar fullname MeasureSurvUnoTNR
 #' @templateVar shortname surv.unoTNR
-#' @templateVar pars times, lp_thresh
+#' @templateVar pars times = 0, lp_thresh = 0
 #' @templateVar times_par TRUE
 #' @templateVar thresh_par TRUE
 #'
@@ -11,6 +11,11 @@
 #' Calls [survAUC::spec.uno()].
 #'
 #' Assumes random censoring.
+#'
+#' `times` and `lp_thresh` are arbitrarily set to `0` to prevent crashing, these should be further
+#' specified.
+#'
+#' @template measure_survAUC
 #'
 #' @references
 #' Uno, H., T. Cai, L. Tian, and L. J. Wei (2007).\cr
@@ -22,19 +27,18 @@
 MeasureSurvUnoTNR = R6Class("MeasureSurvUnoTNR",
   inherit = MeasureSurvAUC,
   public = list(
-    initialize = function(times, lp_thresh) {
+    initialize = function(times = 0, lp_thresh = 0) {
+
+      assertNumeric(times, len = 1)
+
       super$initialize(integrated = FALSE,
                        times = times,
                        id = "surv.unoTNR",
                        properties = character()
                        )
 
-      if(missing(lp_thresh))
-        private$.lp_thresh = numeric(0)
-      else {
-        assertNumeric(lp_thresh)
-        private$.lp_thresh = lp_thresh
-      }
+      assertNumeric(lp_thresh, len = 1)
+      private$.lp_thresh = lp_thresh
     },
 
     score_internal = function(prediction, ...) {
@@ -43,10 +47,7 @@ MeasureSurvUnoTNR = R6Class("MeasureSurvUnoTNR",
                                  task = task
       )
 
-      if(length(self$lp_thresh) == 0)
-        return(list(tnr = tnr, thresh = sort(unique(prediction$lp))))
-      else
-        return(tnr[, findInterval(self$lp_thresh, sort(unique(prediction$lp)))])
+      tnr[, findInterval(self$lp_thresh, sort(unique(prediction$lp)))]
     }
   ),
 
@@ -55,7 +56,7 @@ MeasureSurvUnoTNR = R6Class("MeasureSurvUnoTNR",
       if (missing(lp_thresh)) {
         return(private$.lp_thresh)
       } else {
-        assertNumeric(lp_thresh)
+        assertNumeric(lp_thresh, len = 1)
         private$.lp_thresh = lp_thresh
       }
     }

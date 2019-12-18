@@ -8,9 +8,9 @@
 \description{
 Calls \code{\link[survival:coxph]{survival::coxph()}}.
 \itemize{
-\item lp is predicted by \code{\link[survival:survfit.coxph]{survival::survfit.coxph()}}
+\item lp is predicted by \code{\link[survival:predict.coxph]{survival::predict.coxph()}}
 \item distr is predicted by \code{\link[survival:survfit.coxph]{survival::survfit.coxph()}}
-\item \code{crank} is identical to \code{lp}.
+\item \code{crank} is identical to \code{lp}
 }
 }
 \section{Construction}{
@@ -32,7 +32,7 @@ lrn("surv.coxph")
 
 \references{
 Cox, David R. (1972).
-Regression models and life‐tables.
+Regression models and life-tables.
 Journal of the Royal Statistical Society: Series B (Methodological) 34.2 (1972): 187-202.
 \doi{10.1111/j.2517-6161.1972.tb00899.x}.
 }
@@ -41,6 +41,7 @@ Other survival learners:
 \code{\link{LearnerSurvBlackboost}},
 \code{\link{LearnerSurvCVGlmnet}},
 \code{\link{LearnerSurvFlexible}},
+\code{\link{LearnerSurvGBM}},
 \code{\link{LearnerSurvGamboost}},
 \code{\link{LearnerSurvGlmboost}},
 \code{\link{LearnerSurvGlmnet}},

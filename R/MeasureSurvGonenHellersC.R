@@ -9,6 +9,8 @@
 #'
 #' Assumes Cox PH model specification.
 #'
+#' @template measure_survAUC
+#'
 #' @references
 #' Gonen, M. and G. Heller (2005).\cr
 #' Concordance probability and discriminatory power in proportional hazards regression.\cr

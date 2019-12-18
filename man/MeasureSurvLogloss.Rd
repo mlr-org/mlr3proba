@@ -10,9 +10,11 @@
 
 Calculates the cross-entropy, or logarithmic (log), loss.
 
-The logloss, in the context of probabilistic predictions, is defined as the negative log-likelihood
-evaluated at the observed death-time,
+The logloss, in the context of probabilistic predictions, is defined as the negative log probability
+density function, \eqn{f}, evaluated at the observation time, \eqn{t},
 \deqn{L(f, t) = -log(f(t))}
+
+Censored observations in the test set are ignored.
 }
 \section{Construction}{
 \preformatted{MeasureSurvLogloss$new(eps = 1e-15)
@@ -34,6 +36,18 @@ msr("surv.logloss")
 }
 }
 
+\section{Fields}{
+
+See \link{MeasureSurv}, as well as all variables passed to the constructor.
+
+
+As well as
+\itemize{
+\item eps :: numeric(1) \cr
+Very small number to set zero-valued predicted probabilities to, in order to prevent errors in log(0) calculation.
+}
+}
+
 \seealso{
 Other survival measures: 
 \code{\link{MeasureSurvBeggC}},
@@ -43,8 +57,8 @@ Other survival measures:
 \code{\link{MeasureSurvGraf}},
 \code{\link{MeasureSurvHarrellC}},
 \code{\link{MeasureSurvHungAUC}},
-\code{\link{MeasureSurvLoglossIntSE}},
-\code{\link{MeasureSurvLoglossInt}},
+\code{\link{MeasureSurvIntLoglossSE}},
+\code{\link{MeasureSurvIntLogloss}},
 \code{\link{MeasureSurvLoglossSE}},
 \code{\link{MeasureSurvNagelkR2}},
 \code{\link{MeasureSurvOQuigleyR2}},
@@ -60,8 +74,8 @@ Other survival measures:
 Other Probabilistic survival measures: 
 \code{\link{MeasureSurvGrafSE}},
 \code{\link{MeasureSurvGraf}},
-\code{\link{MeasureSurvLoglossIntSE}},
-\code{\link{MeasureSurvLoglossInt}},
+\code{\link{MeasureSurvIntLoglossSE}},
+\code{\link{MeasureSurvIntLogloss}},
 \code{\link{MeasureSurvLoglossSE}}
 }
 \concept{Probabilistic survival measures}

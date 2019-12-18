@@ -8,9 +8,9 @@
 \description{
 Calls \code{\link[flexsurv:flexsurvspline]{flexsurv::flexsurvspline()}}.
 \itemize{
-\item lp is predicted by using an internally defined \code{predict} method, see details.
-\item distr is predicted by using an internally defined \code{predict} method, see details.
-\item \code{crank} is identical to \code{lp}.
+\item lp is predicted by using an internally defined \code{predict} method, see details
+\item distr is predicted by using an internally defined \code{predict} method, see details
+\item \code{crank} is identical to \code{lp}
 }
 
 Parameter \code{k} is changed to \code{1} and \code{scale} is changed to \code{odds}, as these are more in line with
@@ -21,12 +21,14 @@ If fitting a model with \code{k = 0} then consider using \link[=LearnerSurvParam
 this is likely to have more optimal results, and has more options for tuning.
 }
 \details{
-The \code{distr} prediction is estimated using the fitted custom distributions from \code{\link[flexsurv:flexsurvspline]{flexsurv::flexsurvspline()}}
-and the estimated coefficients.
+The \code{distr} prediction is estimated using the fitted custom distributions
+from \code{\link[flexsurv:flexsurvspline]{flexsurv::flexsurvspline()}} and the estimated coefficients.
 
-As flexible spline models estimate the hazard as the intercept, the linear predictor, \code{lp}, can be
-calculated as in the classical setting. i.e. For fitted coefficients, \eqn{\beta = (\beta0,...,\betaP)},
-and covariates \eqn{X^T = (X0,...,XP)^T}, where \eqn{X0} is a column of \eqn{1}s: \eqn{lp = \betaX}.
+As flexible spline models estimate the baseline hazard as the intercept, the linear predictor,
+\code{lp}, can be calculated as in the classical setting. i.e. For fitted coefficients,
+\eqn{\beta = (\beta_0,...,\beta_P)}{\beta = (\beta0,...,\betaP)},
+and covariates \eqn{X^T = (X_0,...,X_P)^T}{X^T = (X0,...,XP)^T}, where \eqn{X_0}{X0} is a column
+of \eqn{1}s: \eqn{lp = \beta X}{lp = \betaX}.
 }
 \section{Construction}{
 \preformatted{LearnerSurvFlexible$new()
@@ -59,6 +61,7 @@ Other survival learners:
 \code{\link{LearnerSurvBlackboost}},
 \code{\link{LearnerSurvCVGlmnet}},
 \code{\link{LearnerSurvCoxPH}},
+\code{\link{LearnerSurvGBM}},
 \code{\link{LearnerSurvGamboost}},
 \code{\link{LearnerSurvGlmboost}},
 \code{\link{LearnerSurvGlmnet}},

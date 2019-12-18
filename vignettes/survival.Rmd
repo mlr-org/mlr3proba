@@ -1,0 +1,246 @@
+---
+title: "Survival Analysis in mlr3proba"
+author: "Raphael Sonabend"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{Survival Analysis in mlr3proba}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  cache = FALSE,
+  collapse = TRUE,
+  comment = "#>"
+)
+set.seed(1)
+lgr::get_logger("mlr3")$set_threshold("fatal")
+```
+
+This vignette is an introduction to performing survival analysis in **mlr3proba**.
+
+## A very quick introduction to survival analysis
+
+Survival analysis is a sub-field of supervised machine learning in which the aim is to predict
+the survival distribution of a given individual. Arguably the main feature of survival analysis is
+that unlike classification and regression, learners are trained on two features: 1. the time until the 
+event takes place, 2. the event type: either censoring or death. At a particular time-point,
+an individual is either: alive, dead, or censored. Censoring occurs if it is unknown if an individual is
+alive or dead. For example, say we are interested in patients in hospital and every day it is recorded
+if they are alive or dead, then after a patient leaves it is unknown if they are alive or dead, hence
+they are censored.
+
+In the case that there is no censoring, but a predicted probability distribution is still the goal,
+then probabilistic regression learners are advised instead.
+
+## Survival Tasks
+
+Unlike `TaskClassif` and `TaskRegr` which have a single 'target' argument, `TaskSurv` mimics the
+`survival::Surv` object and has three-four target arguments (dependent on censoring type)
+
+```{r}
+library(mlr3proba); library(mlr3); library(survival)
+
+# type = "right" is default
+
+TaskSurv$new(id = "right_censored", backend = survival::rats,
+             time = "time", event = "status", type = "right")
+
+task = TaskSurv$new(id = "interval_censored", backend = survival::bladder2[,-c(1, 7)],
+                    time = "start", time2 = "stop", type = "interval2")
+task
+task$truth()[1:10]
+```
+
+## Train and Predict
+
+```{r}
+
+# create task and learner
+
+veteran = mlr3misc::load_dataset("veteran", package = "survival")
+task_veteran = TaskSurv$new(id = "veteran", backend = veteran, time = "time", event = "status")
+learner = lrn("surv.coxph")
+
+# train/test split 
+
+train_set = sample(task_veteran$nrow, 0.8 * task_veteran$nrow)
+test_set = setdiff(seq_len(task_veteran$nrow), train_set)
+
+# fit Cox PH and inspect model
+
+learner$train(task_veteran, row_ids = train_set)
+learner$model
+
+# make predictions for new data
+
+prediction = learner$predict(task_veteran, row_ids = test_set)
+prediction
+```
+
+## Evaluate - crank, lp, and distr
+
+Every `PredictionSurv` object can predict one or more of:
+
+* `lp` - Linear predictor calculated as the fitted coefficients multiplied by the test data.
+* `distr` - Predicted survival distribution, either discrete or continuous. Implemented in **[distr6](https://CRAN.R-project.org/package=distr6)**.
+* `crank` - Continuous risk ranking.
+
+`lp` and `crank` can be used with measures of discrimination such as the concordance index. Whilst
+`lp` is a specific mathematical prediction, `crank` is any continuous ranking that identifies who is
+more or less likely to experience the event. So far the only implemented learner that only returns a continuous
+ranking is `surv.svm`. If a `PredictionSurv` returns an `lp` then the `crank` is identical to this.
+Otherwise `crank` is calculated as the expectation of the predicted survival distribution. Note that 
+for linear proportional hazards models, the ranking (but not necessarily the `crank` score itself)
+given by `lp` and the expectation of `distr`, is identical.
+
+```{r}
+# In the previous example, Cox model predicts `lp` so `crank` is identical
+
+all(prediction$lp == prediction$crank)
+prediction$lp[1:10]
+
+# These are evaluated with measures of discrimination and calibration.
+# As all PredictionSurv objects will return crank, Harrell's C is the default measure.
+
+prediction$score()
+
+# distr is evaluated with probabilistic scoring rules.
+
+measure = lapply(c("surv.graf", "surv.grafSE"), msr)
+prediction$score(measure)
+
+# Often measures can be integrated over mutliple time-points, or return
+# predictions for single time-points
+
+measure = msr("surv.graf", times = 60)
+prediction$score(measure)
+```
+
+### Probability distributions with distr6
+
+Predicted distributions are implemented in **[distr6](https://CRAN.R-project.org/package=distr6)**, which
+contains functionality for plotting and further analysis of probability distributions. See [here](https://alan-turing-institute.github.io/distr6/) for full tutorials. Briefly we will go over the most important parts for **mlr3proba**.
+
+```{r}
+task = tgen("simsurv")$generate(20)
+learner = lrn("surv.coxph")
+
+# In general it is not advised to train/predict on same data
+
+prediction = learner$train(task)$predict(task)
+
+# The predicted `distr` is a VectorDistribution consisting of 300 separate distributions
+
+prediction$distr
+
+# These can be extracted and queried either invidually...
+
+prediction$distr[1]$survival(60:70)
+prediction$distr[1]$mean()
+
+# ...or together
+
+prediction$distr$cdf(60)[,1:10]
+prediction$distr$mean()[,1:10]
+
+# As well as plotted
+
+plot(prediction$distr[1], "survival", main = "First 2 Survival Curves")
+lines(prediction$distr[2], "survival", col = 2)
+```
+
+
+## Composition
+
+Finally we take a look at the `PipeOp`s implemented in **mlr3proba**, which are used for composition
+of predict types. For example, if a learner only returns a linear predictor, then `PipeOpDistrCompositor`
+can be used to estimate a survival distribution. Or, if a learner returns a `distr` then
+`PipeOpCrankCompositor` can be used to estimate `crank` from `distr`. See **[mlr3pipelines](https://github.com/mlr-org/mlr3pipelines)** for full tutorials and details on `PipeOp`s.
+
+### PipeOpDistrCompositor
+
+```{r}
+library(mlr3pipelines)
+
+# PipeOpDistrCompositor - Train one model with a baseline distribution,
+# (Kaplan-Meier or Nelson-Aalen), and another with a predicted linear predictor.
+
+leaner_lp = lrn("surv.glmnet")
+leaner_distr = lrn("surv.kaplan")
+prediction_lp = leaner_lp$train(task)$predict(task)
+prediction_distr = leaner_distr$train(task)$predict(task)
+prediction_lp$distr
+
+# Doesn't need training. Base = baseline distribution. ph = Proportional hazards.
+
+pod = po("distrcompose", param_vals = list(form = "ph", overwrite = FALSE))
+prediction = pod$predict(list(base = prediction_distr, pred = prediction_lp))$output
+
+# Now we have a predicted distr!
+
+prediction$distr
+
+# This can all be simplified by using the distrcompose wrapper
+
+cvglm.distr = distrcompositor(learner = lrn("surv.cvglmnet"),
+                             estimator = "kaplan",
+                             form = "aft",
+                             overwrite = FALSE)
+cvglm.distr$train(task)$predict(task)
+```
+
+### PipeOpCrankCompositor
+
+Note that a `PredictionSurv` will always return `crank`, but this may either be the same as the `lp` or
+the expectation of `distr`. This compositor allows you to change the estimation method.
+
+```{r}
+# PipeOpCrankCompositor - Only one model required.
+leaner = lrn("surv.coxph")
+prediction = leaner$train(task)$predict(task)
+
+# Doesn't need training - Note: no `overwrite` option as `crank` is always
+# present so the compositor if used will always overwrite.
+
+poc = po("crankcompose", param_vals = list(method = "mean"))
+composed_prediction = poc$predict(list(prediction))$output
+
+# Note that whilst the actual values of `lp` and `crank` are different,
+# the rankings are the same, so discrimination measures are unchanged.
+
+prediction$crank[1:10]
+composed_prediction$crank[1:10]
+all(order(prediction$crank) == order(composed_prediction$crank))
+cbind(Original = prediction$score(), Composed = composed_prediction$score())
+
+# Again a wrapper can be used to simplify this
+crankcompositor(lrn("surv.coxph"), method = "mean")$train(task)$predict(task)
+```
+
+## All Together Now
+
+Putting all of this together we can perform a (overly simplified) benchmark experiment to find the best learner for making predictions on a simulated dataset.
+
+```{r}
+library(mlr3pipelines); library(mlr3); library(mlr3tuning); library(paradox)
+set.seed(42)
+
+task = tgen("simsurv")$generate(20)
+
+composed_lrn_glm = distrcompositor(lrn("surv.glmnet"), "kaplan", "ph")
+
+lrns = lapply(paste0("surv.", c("kaplan", "coxph", "parametric")), lrn)
+lrns[[3]]$param_set$values = list(dist = "weibull", type = "ph")
+
+design = benchmark_grid(tasks = task, learners = c(lrns, list(composed_lrn_glm)),
+                        resamplings = rsmp("cv", folds = 2))
+
+bm = benchmark(design)
+bm$aggregate(lapply(c("surv.harrellC","surv.graf","surv.grafSE"), msr))[,c(4, 7:9)]
+```
+
+

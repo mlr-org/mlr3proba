@@ -3,8 +3,8 @@
 #' @templateVar title Flexible Parametric Spline
 #' @templateVar fullname LearnerSurvFlexible
 #' @templateVar caller [flexsurv::flexsurvspline()]
-#' @templateVar distr by using an internally defined `predict` method, see details.
-#' @templateVar lp by using an internally defined `predict` method, see details.
+#' @templateVar distr by using an internally defined `predict` method, see details
+#' @templateVar lp by using an internally defined `predict` method, see details
 #'
 #' @description
 #' Parameter `k` is changed to `1` and `scale` is changed to `odds`, as these are more in line with
@@ -15,12 +15,14 @@
 #' this is likely to have more optimal results, and has more options for tuning.
 #'
 #' @details
-#' The `distr` prediction is estimated using the fitted custom distributions from [flexsurv::flexsurvspline()]
-#' and the estimated coefficients.
+#' The `distr` prediction is estimated using the fitted custom distributions
+#' from [flexsurv::flexsurvspline()] and the estimated coefficients.
 #'
-#' As flexible spline models estimate the hazard as the intercept, the linear predictor, `lp`, can be
-#' calculated as in the classical setting. i.e. For fitted coefficients, \eqn{\beta = (\beta0,...,\betaP)},
-#' and covariates \eqn{X^T = (X0,...,XP)^T}, where \eqn{X0} is a column of \eqn{1}s: \eqn{lp = \betaX}.
+#' As flexible spline models estimate the baseline hazard as the intercept, the linear predictor,
+#' `lp`, can be calculated as in the classical setting. i.e. For fitted coefficients,
+#' \eqn{\beta = (\beta_0,...,\beta_P)}{\beta = (\beta0,...,\betaP)},
+#' and covariates \eqn{X^T = (X_0,...,X_P)^T}{X^T = (X0,...,XP)^T}, where \eqn{X_0}{X0} is a column
+#' of \eqn{1}s: \eqn{lp = \beta X}{lp = \betaX}.
 #'
 #' @references
 #' Royston, P. and Parmar, M. (2002).
@@ -74,9 +76,6 @@ LearnerSurvFlexible = R6Class("LearnerSurvFlexible", inherit = LearnerSurv,
       pv = pv[!(names(pv) %in% pars_ctrl)]
       pv$sr.control = ctrl
 
-      if(pv$k == 0)
-        message("Model fit with zero knots, consider using surv.parametric learner instead.")
-
       if ("weights" %in% task$properties)
         pv$weights = task$weights$weight
 
@@ -89,7 +88,8 @@ LearnerSurvFlexible = R6Class("LearnerSurvFlexible", inherit = LearnerSurv,
       # (as opposed to the automatic assertions that take place after prediction)
       if(any(is.na(data.frame(task$data(cols = task$feature_names)))))
         stop(sprintf("Learner %s on task %s failed to predict: Missing values in new data (line(s) %s)\n",
-                     self$id, task$id, which(is.na(data.frame(task$data(cols = task$feature_names))))))
+                     self$id, task$id,
+                     paste0(which(is.na(data.frame(task$data(cols = task$feature_names)))), collapse = ", ")))
 
       pred = invoke(predict_flexsurvreg, self$model, task)
 

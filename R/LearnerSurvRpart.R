@@ -2,7 +2,7 @@
 #' @templateVar title Rpart Survival Forest
 #' @templateVar fullname LearnerSurvRpart
 #' @templateVar caller [rpart::rpart()]
-#' @templateVar distr using [pec::pecRpart()] and [pec::predictSurvProb()].
+#' @templateVar distr using [pec::pecRpart()] and [pec::predictSurvProb()]
 #'
 #' @description
 #' Parameter `xval` is set to 0 in order to save some computation time.

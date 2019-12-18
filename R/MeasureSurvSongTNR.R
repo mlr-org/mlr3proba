@@ -1,9 +1,9 @@
 #' @template surv_measure
 #' @templateVar title Song and Zhou's TNR
-#' @templateVar inherit [MeasureSurvAUC]/[MeasureSurv]
+#' @templateVar inherit `MeasureSurvAUC`/[MeasureSurv]
 #' @templateVar fullname MeasureSurvSongTNR
 #' @templateVar shortname surv.songTNR
-#' @templateVar pars times, lp_thresh
+#' @templateVar pars times = 0, lp_thresh = 0
 #' @templateVar times_par TRUE
 #' @templateVar thresh_par TRUE
 #'
@@ -11,6 +11,11 @@
 #' Calls [survAUC::spec.sh()].
 #'
 #' Assumes Cox PH model specification.
+#'
+#' `times` and `lp_thresh` are arbitrarily set to `0` to prevent crashing, these should be further
+#' specified.
+#'
+#' @template measure_survAUC
 #'
 #' @references
 #' Song, X. and X.-H. Zhou (2008). \cr
@@ -22,22 +27,21 @@
 MeasureSurvSongTNR = R6Class("MeasureSurvSongTNR",
   inherit = MeasureSurvAUC,
   public = list(
-    initialize = function(times, lp_thresh) {
+    initialize = function(times = 0, lp_thresh = 0) {
+
+      assertNumeric(times, len = 1)
+
       super$initialize(integrated = FALSE,
                        times = times,
                        id = "surv.songTNR",
                        properties = c("requires_task", "requires_train_set", "requires_learner"))
 
-      if(missing(lp_thresh))
-        private$.lp_thresh = numeric(0)
-      else {
-        assertNumeric(lp_thresh)
-        private$.lp_thresh = lp_thresh
-      }
+      assertNumeric(lp_thresh, len = 1)
+      private$.lp_thresh = lp_thresh
     },
 
     score_internal = function(prediction, learner, task, train_set, ...) {
-      tpr = super$score_internal(prediction = prediction,
+      tnr = super$score_internal(prediction = prediction,
                                  learner = learner,
                                  task = task,
                                  train_set = train_set,
@@ -45,10 +49,7 @@ MeasureSurvSongTNR = R6Class("MeasureSurvSongTNR",
                                  ...
       )
 
-      if(length(self$lp_thresh) == 0)
-        return(list(tpr = tpr, thresh = sort(unique(prediction$lp))))
-      else
-        return(tpr[, findInterval(self$lp_thresh, sort(unique(prediction$lp)))])
+      tnr[, findInterval(self$lp_thresh, sort(unique(prediction$lp)))]
     }
   ),
 
@@ -57,7 +58,7 @@ MeasureSurvSongTNR = R6Class("MeasureSurvSongTNR",
       if (missing(lp_thresh)) {
         return(private$.lp_thresh)
       } else {
-        assertNumeric(lp_thresh)
+        assertNumeric(lp_thresh, len = 1)
         private$.lp_thresh = lp_thresh
       }
     }

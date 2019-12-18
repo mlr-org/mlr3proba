@@ -6,38 +6,47 @@
 \usage{
 distrcompositor(
   learner,
-  estimator = "kaplan",
-  form = "aft",
+  estimator = c("kaplan", "nelson"),
+  form = c("aft", "ph", "po"),
+  overwrite = FALSE,
   param_vals = list()
 )
 }
 \arguments{
-\item{learner}{\link{LearnerSurv} object for which a \code{distr} is composed (or over-written)}
+\item{learner}{\link{LearnerSurv} object for which a \code{distr} is composed (or over-written).}
 
 \item{estimator}{One of \code{kaplan} or \code{nelson}, corresponding to the Kaplan-Meier and Nelson-Aalen
-estimators respectively. Used to estimate the baseline survival distribution. Partial matching allowed.}
+estimators respectively. Used to estimate the baseline survival distribution. Abbreviations allowed.
+Default is \code{kaplan}.}
 
 \item{form}{One of \code{aft}, \code{ph}, or \code{po}, corresponding to accelerated failure time, proportional hazards,
-and proportional odds respectively. Used to determine the form of the composed survival distribution.}
+and proportional odds respectively. Used to determine the form of the composed survival distribution.
+Default is \code{aft}.}
+
+\item{overwrite}{logical. If \code{FALSE} (default) then if the \code{learner} already has a \code{distr},
+the compositor does nothing. If \code{TRUE} then the \code{distr} is overwritten by the compositor if already present,
+which may be required for changing the prediction \code{distr} from one model form to another.}
 
 \item{param_vals}{Additional parameters to pass to the \code{learner}.}
 }
 \value{
-\link{Graph}
+\link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner}
 }
 \description{
-This is a wrapper around the \link{mlr_pipeops_distrcompose} pipe operation, which
+This is a wrapper around the \link{PipeOpDistrCompositor} pipe operation, which
 simplifies graph creation.
 }
 \details{
-For full details see \link{mlr_pipeops_distrcompose}.
+For full details see \link{PipeOpDistrCompositor}.
 }
 \examples{
 library("mlr3")
 library("mlr3pipelines")
 
+task = tgen("simsurv")$generate(20)
 cvglm.distr = distrcompositor(learner = lrn("surv.cvglmnet"),
                             estimator = "kaplan",
                             form = "aft")
-resample(tsk("rats"), cvglm.distr, rsmp("cv", folds = 2))$predictions()
+resample(task, cvglm.distr,
+        rsmp("cv", folds = 2))$predictions()
 }

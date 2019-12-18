@@ -6,17 +6,18 @@
 \format{\link[R6:R6Class]{R6::R6Class} object inheriting from \link[mlr3:Learner]{mlr3::Learner}.}
 \description{
 This Learner specializes \link[mlr3:Learner]{mlr3::Learner} for survival problems.
-The slot \code{task_type} is set to \code{"surv"}.
 Predefined learners can be found in the \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} \link[mlr3:mlr_learners]{mlr3::mlr_learners}.
 }
 \section{Construction}{
-\preformatted{l = LearnerSurv$new(id, param_set = ParamSet$new(), predict_types = character(),
-     feature_types = character(), properties = character(), packages = character())
+\preformatted{LearnerSurv$new(id, param_set = ParamSet$new(),
+     predict_types = character(),
+     feature_types = character(), properties = character(),
+     packages = character())
 }
 
 For a description of the arguments, see \link[mlr3:Learner]{mlr3::Learner}.
 \code{task_type} is set to \code{"surv"}.
-Possible values for \code{predict_type} are \code{"distr"} and \code{"crank"}.
+Possible values for \code{predict_type} are \code{"distr"}, \code{"lp"}, and \code{"crank"}.
 }
 
 \section{Fields}{
@@ -32,8 +33,7 @@ See \link[mlr3:Learner]{mlr3::Learner}.
 \examples{
 library(mlr3)
 ids = mlr_learners$keys("^surv")
-lrns = mlr_learners$mget(ids)
-names(lrns)
+ids
 
 # get a specific learner from mlr_learners:
 lrn = mlr_learners$get("surv.rpart")

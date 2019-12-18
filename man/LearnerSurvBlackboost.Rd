@@ -10,13 +10,13 @@ Calls \code{\link[mboost:blackboost]{mboost::blackboost()}}.
 \itemize{
 \item lp is predicted by \code{\link[mboost:predict.mboost]{mboost::predict.mboost()}}
 \item distr is predicted by \code{\link[mboost:survFit]{mboost::survFit()}} which assumes a PH fit with a Breslow estimator
-\item \code{crank} is identical to \code{lp}.
+\item \code{crank} is identical to \code{lp}
 }
 
 The \code{dist} parameter is specified slightly differently than in \link{mboost}. Whereas the latter
 takes in objects, in this learner instead a string is specified in order to identify which distribution
 to use. As the default in \link{mboost} is the Gaussian family, which is not compatible with
-survival models, instead we have by default \code{"coxph"} for \code{dist}.
+survival models, instead we have by default \code{"coxph"}.
 
 If the value given to the \code{Family} parameter is "custom.family" then an object of class
 \code{\link[mboost:Family]{mboost::Family()}} needs to be passed to the \code{custom.family} parameter.
@@ -40,9 +40,9 @@ lrn("surv.blackboost")
 
 \examples{
 library(mlr3)
-task = tgen("simsurv")$generate(200)
+task = tgen("simsurv")$generate(20)
 learner = lrn("surv.blackboost")
-resampling = rsmp("cv", folds = 3)
+resampling = rsmp("cv", folds = 2)
 resample(task, learner, resampling)
 }
 \references{
@@ -68,6 +68,7 @@ Other survival learners:
 \code{\link{LearnerSurvCVGlmnet}},
 \code{\link{LearnerSurvCoxPH}},
 \code{\link{LearnerSurvFlexible}},
+\code{\link{LearnerSurvGBM}},
 \code{\link{LearnerSurvGamboost}},
 \code{\link{LearnerSurvGlmboost}},
 \code{\link{LearnerSurvGlmnet}},
@@ -81,4 +82,4 @@ Other survival learners:
 \code{\link{LearnerSurvRpart}},
 \code{\link{LearnerSurvSVM}}
 }
-
+\concept{survival learners}

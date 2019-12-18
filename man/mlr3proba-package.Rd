@@ -4,12 +4,14 @@
 \name{mlr3proba-package}
 \alias{mlr3proba}
 \alias{mlr3proba-package}
-\title{mlr3proba: Probabilistic Supervised Learning for mlr3}
+\title{mlr3proba: Probabilistic Supervised Learning for 'mlr3'}
 \description{
-Provides extensions for probabilistic supervised learning for
-    'mlr3'.  This includes extending the regression task to probabilistic and interval regression,
-    adding a survival task, and other specialized models, predictions,
-    and measures.
+\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
+
+Provides extensions for probabilistic supervised
+    learning for 'mlr3'.  This includes extending the regression task to
+    probabilistic and interval regression, adding a survival task, and
+    other specialized models, predictions, and measures.
 }
 \seealso{
 Useful links:
@@ -26,6 +28,12 @@ Useful links:
 Authors:
 \itemize{
   \item Franz Kiraly \email{f.kiraly@ucl.ac.uk}
+  \item Michel Lang \email{michellang@gmail.com} (\href{https://orcid.org/0000-0001-9754-0393}{ORCID})
+}
+
+Other contributors:
+\itemize{
+  \item Andreas Bender \email{bender.at.R@gmail.com} (\href{https://orcid.org/0000-0001-5628-8611}{ORCID}) [contributor]
 }
 
 }

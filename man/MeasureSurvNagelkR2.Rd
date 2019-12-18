@@ -12,6 +12,11 @@ Calls \code{\link[survAUC:Nagelk]{survAUC::Nagelk()}}.
 
 Assumes Cox PH model specification.
 }
+\details{
+All measures implemented from \CRANpkg{survAUC} should be used with care, we are aware
+of problems in implementation that sometimes cause fatal errors in R. In future updates these
+measures will all be re-written and implemented directly in \code{mlr3proba}.
+}
 \section{Construction}{
 \preformatted{MeasureSurvNagelkR2$new()
 mlr_measures$get("surv.nagelkR2")
@@ -29,6 +34,11 @@ msr("surv.nagelkR2")
 }
 }
 
+\section{Fields}{
+
+See \link{MeasureSurv}, as well as all variables passed to the constructor.
+}
+
 \references{
 Nagelkerke, N. J. D. (1991). \cr
 A note on a general definition of the coefficient of determination. \cr
@@ -43,8 +53,8 @@ Other survival measures:
 \code{\link{MeasureSurvGraf}},
 \code{\link{MeasureSurvHarrellC}},
 \code{\link{MeasureSurvHungAUC}},
-\code{\link{MeasureSurvLoglossIntSE}},
-\code{\link{MeasureSurvLoglossInt}},
+\code{\link{MeasureSurvIntLoglossSE}},
+\code{\link{MeasureSurvIntLogloss}},
 \code{\link{MeasureSurvLoglossSE}},
 \code{\link{MeasureSurvLogloss}},
 \code{\link{MeasureSurvOQuigleyR2}},

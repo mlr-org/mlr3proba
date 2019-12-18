@@ -8,8 +8,8 @@
 \description{
 Calls \code{\link[penalized:penalized]{penalized::penalized()}}.
 \itemize{
-\item distr is predicted using \code{\link[penalized:predict]{penalized::predict()}}.
-\item \code{crank} is predicted as the expectation of the survival distribution, \code{distr}.
+\item distr is predicted using \code{\link[penalized:predict]{penalized::predict()}}
+\item \code{crank} is predicted as the expectation of the survival distribution, \code{distr}
 }
 
 The \code{penalized} and \code{unpenalized} arguments in the learner are implemented slightly
@@ -36,13 +36,13 @@ lrn("surv.penalized")
 
 \examples{
 library(mlr3)
-task = tgen("simsurv")$generate(200)
+task = tgen("simsurv")$generate(20)
 learner = lrn("surv.penalized")
-resampling = rsmp("cv", folds = 3)
+resampling = rsmp("cv", folds = 2)
 resample(task, learner, resampling)
 
 # specifying penalized and unpenalized variables
-task = tgen("simsurv")$generate(200)
+task = tgen("simsurv")$generate(20)
 learner = lrn("surv.penalized", unpenalized = c("height"))
 learner$train(task)
 learner$model@penalized
@@ -60,6 +60,7 @@ Other survival learners:
 \code{\link{LearnerSurvCVGlmnet}},
 \code{\link{LearnerSurvCoxPH}},
 \code{\link{LearnerSurvFlexible}},
+\code{\link{LearnerSurvGBM}},
 \code{\link{LearnerSurvGamboost}},
 \code{\link{LearnerSurvGlmboost}},
 \code{\link{LearnerSurvGlmnet}},

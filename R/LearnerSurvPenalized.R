@@ -2,7 +2,7 @@
 #' @templateVar title L1 and L2 Penalized Estimation in GLMs
 #' @templateVar fullname LearnerSurvPenalized
 #' @templateVar caller [penalized::penalized()]
-#' @templateVar distr using [penalized::predict()].
+#' @templateVar distr using [penalized::predict()]
 #'
 #' @description The `penalized` and `unpenalized` arguments in the learner are implemented slightly
 #' differently than in [penalized::penalized()]. Here, there is no parameter for `penalized` but
@@ -17,13 +17,13 @@
 #' @template seealso_learner
 #' @examples
 #' library(mlr3)
-#' task = tgen("simsurv")$generate(200)
+#' task = tgen("simsurv")$generate(20)
 #' learner = lrn("surv.penalized")
-#' resampling = rsmp("cv", folds = 3)
+#' resampling = rsmp("cv", folds = 2)
 #' resample(task, learner, resampling)
 #'
 #' # specifying penalized and unpenalized variables
-#' task = tgen("simsurv")$generate(200)
+#' task = tgen("simsurv")$generate(20)
 #' learner = lrn("surv.penalized", unpenalized = c("height"))
 #' learner$train(task)
 #' learner$model@penalized
@@ -101,7 +101,7 @@ LearnerSurvPenalized = R6Class("LearnerSurvPenalized", inherit = LearnerSurv,
 
       crank = as.numeric(sapply(x, function(y) sum(y[,1] * c(y[,2][1], diff(y[,2])))))
 
-      PredictionSurv$new(task = task, crank = crank, distr = distr)
+      PredictionSurv$new(task = task, distr = distr, crank = crank)
       },
 
     importance = function() {

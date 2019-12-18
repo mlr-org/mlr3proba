@@ -1,6 +1,6 @@
 #' @template surv_measure
 #' @templateVar title Song and Zhou's AUC
-#' @templateVar inherit [MeasureSurvAUC]/[MeasureSurv]
+#' @templateVar inherit `MeasureSurvAUC`/[MeasureSurv]
 #' @templateVar fullname MeasureSurvSongAUC
 #' @templateVar shortname surv.songAUC
 #' @templateVar pars integrated = TRUE, times, type = c("incident","cumulative")
@@ -12,6 +12,8 @@
 #' Calls [survAUC::AUC.sh()].
 #'
 #' Assumes Cox PH model specification.
+#'
+#' @template measure_survAUC
 #'
 #' @references
 #' Song, X. and X.-H. Zhou (2008).\cr

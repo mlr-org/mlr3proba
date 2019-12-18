@@ -9,14 +9,13 @@
 Calls \code{\link[glmnet:cv.glmnet]{glmnet::cv.glmnet()}}.
 \itemize{
 \item lp is predicted by \code{\link[glmnet:predict.cv.glmnet]{glmnet::predict.cv.glmnet()}}
-\item \code{crank} is identical to \code{lp}.
+\item \code{crank} is identical to \code{lp}
 }
 
-Use \link{LearnerSurvGlmnet} and \link{LearnerSurvCVGlmnet} for the glmnets implemented in
-\code{\link[glmnet:glmnet]{glmnet::glmnet()}}/\code{\link[glmnet:cv.glmnet]{glmnet::cv.glmnet()}} without and with internal cross-validation, respectively.
-Tuning using the internal optimizer in \code{\link[glmnet:cv.glmnet]{glmnet::cv.glmnet()}} may be more efficient when tuning
-lambda only. However, for tuning multiple hyperparameters, \CRANpkg{mlr3tuning} and \link{LearnerSurvGlmnet} will
-likely give better results.
+Use \link{LearnerSurvGlmnet} and \link{LearnerSurvCVGlmnet} for glmnets without and with internal
+cross-validation, respectively. Tuning using the internal optimizer in \link{LearnerSurvCVGlmnet}
+may be more efficient when tuning lambda only. However, for tuning multiple hyperparameters,
+\CRANpkg{mlr3tuning} and \link{LearnerSurvGlmnet} will likely give better results.
 }
 \section{Construction}{
 \preformatted{LearnerSurvCVGlmnet$new()
@@ -37,9 +36,9 @@ lrn("surv.cvglmnet")
 
 \examples{
 library(mlr3)
-task = tgen("simsurv")$generate(200)
+task = tgen("simsurv")$generate(20)
 learner = lrn("surv.cvglmnet")
-resampling = rsmp("cv", folds = 3)
+resampling = rsmp("cv", folds = 2)
 resample(task, learner, resampling)
 }
 \references{
@@ -53,6 +52,7 @@ Other survival learners:
 \code{\link{LearnerSurvBlackboost}},
 \code{\link{LearnerSurvCoxPH}},
 \code{\link{LearnerSurvFlexible}},
+\code{\link{LearnerSurvGBM}},
 \code{\link{LearnerSurvGamboost}},
 \code{\link{LearnerSurvGlmboost}},
 \code{\link{LearnerSurvGlmnet}},
@@ -66,4 +66,4 @@ Other survival learners:
 \code{\link{LearnerSurvRpart}},
 \code{\link{LearnerSurvSVM}}
 }
-
+\concept{survival learners}

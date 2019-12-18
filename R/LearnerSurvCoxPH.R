@@ -3,11 +3,11 @@
 #' @templateVar fullname LearnerSurvCoxPH
 #' @templateVar caller [survival::coxph()]
 #' @templateVar distr by [survival::survfit.coxph()]
-#' @templateVar lp by [survival::survfit.coxph()]
+#' @templateVar lp by [survival::predict.coxph()]
 #'
 #' @references
 #' Cox, David R. (1972).
-#' Regression models and life‐tables.
+#' Regression models and life-tables.
 #' Journal of the Royal Statistical Society: Series B (Methodological) 34.2 (1972): 187-202.
 #' \doi{10.1111/j.2517-6161.1972.tb00899.x}.
 #'
@@ -21,22 +21,24 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
           params = list(
             ParamFct$new(id = "ties", default = "efron", levels = c("efron", "breslow", "exact"), tags = "train"),
             ParamLgl$new(id = "singular.ok", default = TRUE, tags = "train"),
-            ParamFct$new(id = "type", default = "efron", levels = c("efron", "aalen", "kalbfleisch-prentice"), tags = "predict")
+            ParamFct$new(id = "type", default = "efron", levels = c("efron", "aalen", "kalbfleisch-prentice"), tags = "predict"),
+            ParamInt$new(id = "stype", default = 2L, lower = 1L, upper = 2L, tags = "predict")
           )
         ),
         predict_types = c("distr","crank","lp"),
         feature_types = c("logical", "integer", "numeric", "factor"),
-        properties = c("weights","importance"),
+        properties = c("importance"),
         packages = c("survival", "distr6")
       )
     },
 
     train_internal = function(task) {
+
       pv = self$param_set$get_values(tags = "train")
 
-      if ("weights" %in% task$properties) {
-        pv$weights = task$weights$weight
-      }
+      # if ("weights" %in% task$properties) {
+      #   pv$weights = as.numeric(task$weights$weight)
+      # }
 
       invoke(survival::coxph, formula = task$formula(), data = task$data(), .args = pv, x = TRUE)
     },
@@ -49,7 +51,8 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
       # distribution object cannot be create (initialization of distr6 objects does not handle NAs)
       if(any(is.na(data.frame(task$data(cols = task$feature_names)))))
         stop(sprintf("Learner %s on task %s failed to predict: Missing values in new data (line(s) %s)\n",
-                     self$id, task$id, which(is.na(data.frame(task$data(cols = task$feature_names))))))
+                     self$id, task$id,
+                     paste0(which(is.na(data.frame(task$data(cols = task$feature_names)))), collapse = ", ")))
 
       pv = self$param_set$get_values(tags = "predict")
 

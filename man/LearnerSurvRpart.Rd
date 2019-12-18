@@ -8,8 +8,8 @@
 \description{
 Calls \code{\link[rpart:rpart]{rpart::rpart()}}.
 \itemize{
-\item distr is predicted using \code{\link[pec:pecRpart]{pec::pecRpart()}} and \code{\link[pec:predictSurvProb]{pec::predictSurvProb()}}.
-\item \code{crank} is predicted as the expectation of the survival distribution, \code{distr}.
+\item distr is predicted using \code{\link[pec:pecRpart]{pec::pecRpart()}} and \code{\link[pec:predictSurvProb]{pec::predictSurvProb()}}
+\item \code{crank} is predicted as the expectation of the survival distribution, \code{distr}
 }
 
 Parameter \code{xval} is set to 0 in order to save some computation time.
@@ -43,6 +43,7 @@ Other survival learners:
 \code{\link{LearnerSurvCVGlmnet}},
 \code{\link{LearnerSurvCoxPH}},
 \code{\link{LearnerSurvFlexible}},
+\code{\link{LearnerSurvGBM}},
 \code{\link{LearnerSurvGamboost}},
 \code{\link{LearnerSurvGlmboost}},
 \code{\link{LearnerSurvGlmnet}},
