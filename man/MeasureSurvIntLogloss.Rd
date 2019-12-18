@@ -26,7 +26,7 @@ If \code{integrated == TRUE} then an approximation to integration is made by tak
 \deqn{L(S) = \frac{1}{NT} \sum_{i=1}^N \sum_{j=1}^T L(S_i,t_i|t^*_j)}{L(S) = 1/(NT) \sum_i^N \sum_j^T L(S_i,t_i|t*_j)}
 }
 \section{Construction}{
-\preformatted{MeasureSurvIntLogloss$new(integrated = TRUE, times, eps = 1e-15)
+\preformatted{MeasureSurvIntLogloss$new(integrated = TRUE, times, eps = 1e-15, method = 2)
 mlr_measures$get("surv.intlogloss")
 msr("surv.intlogloss")
 }

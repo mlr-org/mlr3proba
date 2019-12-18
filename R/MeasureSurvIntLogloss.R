@@ -2,10 +2,11 @@
 #' @templateVar title Integrated Log loss
 #' @templateVar inherit `MeasureSurvIntegrated`/[MeasureSurv]
 #' @templateVar fullname MeasureSurvIntLogloss
-#' @templateVar pars integrated = TRUE, times, eps = 1e-15
+#' @templateVar pars integrated = TRUE, times, eps = 1e-15, method = 2
 #' @templateVar int_par TRUE
 #' @templateVar times_par TRUE
 #' @templateVar eps_par TRUE
+#' @templateVar meth_par TRUE
 #'
 #' @description
 #' Calculates the integrated logarithmic (log), loss, aka integrated cross entropy.
@@ -33,10 +34,11 @@
 MeasureSurvIntLogloss = R6::R6Class("MeasureSurvIntLogloss",
   inherit = MeasureSurvIntegrated,
   public = list(
-    initialize = function(integrated = TRUE, times, eps = 1e-15) {
+    initialize = function(integrated = TRUE, times, eps = 1e-15, method = 2) {
       super$initialize(
         integrated = integrated,
         times = times,
+        method = method,
         id = "surv.intlogloss",
         range = c(0, Inf),
         minimize = TRUE,
@@ -54,7 +56,8 @@ MeasureSurvIntLogloss = R6::R6Class("MeasureSurvIntLogloss",
                                              distribution = prediction$distr,
                                              times = self$times,
                                              eps = self$eps),
-                    integrated = self$integrated)
+                    integrated = self$integrated,
+                    method = self$method)
     }
   ),
 

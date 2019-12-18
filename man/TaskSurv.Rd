@@ -12,8 +12,8 @@ Predefined tasks are stored in \link[mlr3:mlr_tasks]{mlr3::mlr_tasks}.
 The \code{task_type} is set to \code{"surv"}.
 }
 \section{Construction}{
-\preformatted{TaskSurv$new(id, backend, time, time2,
-  event = c("right","left", "counting","interval","interval2","mstate"))
+\preformatted{TaskSurv$new(id, backend, time, event, time2,
+   type = c("right","left","counting","interval","interval2","mstate"))
 }
 \itemize{
 \item \code{id} :: \code{character(1)}\cr
@@ -21,14 +21,14 @@ Name of the task.
 \item \code{backend} :: \link{DataBackend}
 \item \code{time} :: \code{numeric()}\cr
 Event time if data is right censored. Starting time if interval censored.
-\item \code{time2} :: \code{numeric()}\cr
-Ending time for interval censored data. Ignored otherwise.
 \item \code{event} :: \code{integer()} | \code{logical()}\cr
 Event indicator.
 If data is right censored then "0"/\code{FALSE} means alive (no event),
 "1"/\code{TRUE} means dead (event). If \code{type} is \code{"interval"} then "0" means right censored,
 "1" means dead (event), "2" means left censored, and "3" means interval censored. If \code{type} is
 \code{"interval2"} then \code{event} is ignored.
+\item \code{time2} :: \code{numeric()}\cr
+Ending time for interval censored data. Ignored otherwise.
 \item \code{type} :: character()\cr
 Type of censoring. Default is 'right' censoring.
 }
