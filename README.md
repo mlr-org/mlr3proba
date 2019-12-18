@@ -26,7 +26,7 @@ ecosystem. It currently supports the following tasks:
 
   - Probabilistic supervised regression - Supervised regression with a
     predictive distribution as the return type.
-  - Predictiv survival analysis - Survival analysis where individual
+  - Predictive survival analysis - Survival analysis where individual
     predictive hazards can be queried. This is equivalent to
     probabilistic supervised regression with censored observations.
   - Unconditional distribution estimation, where the distribution is
@@ -49,7 +49,7 @@ return type.
 
 ## Feature Overview
 
-The current **mlr3proba** release focuses on survial analysis, and
+The current **mlr3proba** release focuses on survival analysis, and
 contains:
 
   - Task frameworks for survival analysis (`TaskSurv`)
