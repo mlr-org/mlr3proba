@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 set.seed(1)
-lgr::get_logger("mlr3")$set_threshold("fatal")
+lgr::get_logger("mlr3")$set_threshold("error")
 ```
 
 This vignette is an introduction to performing survival analysis in **mlr3proba**.
