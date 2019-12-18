@@ -29,7 +29,7 @@ Probabilistic Supervised Learning for **[mlr3](https://github.com/mlr-org/mlr3)*
 **mlr3proba** is a machine learning toolkit for making probabilistic predictions within the **[mlr3](https://github.com/mlr-org/mlr3)** ecosystem. It currently supports the following tasks:
 
 * Probabilistic supervised regression - Supervised regression with a predictive distribution as the return type.
-* Predictiv survival analysis - Survival analysis where individual predictive hazards can be queried. This is equivalent to probabilistic supervised regression with censored observations.
+* Predictive survival analysis - Survival analysis where individual predictive hazards can be queried. This is equivalent to probabilistic supervised regression with censored observations.
 * Unconditional distribution estimation, where the distribution is returned. Sub-cases are density estimation and unconditional survival estimation.
 
 Key features of **mlr3proba** are
@@ -44,7 +44,7 @@ Key features of **mlr3proba** are
 
 ## Feature Overview
 
-The current **mlr3proba** release focuses on survial analysis, and contains:
+The current **mlr3proba** release focuses on survival analysis, and contains:
 
 * Task frameworks for survival analysis (`TaskSurv`)
 * A comprehensive selection of 17 predictive survival learners
