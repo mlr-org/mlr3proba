@@ -6,7 +6,7 @@ weighted_survival_score = function(truth, distribution, times, loss,...){
     times = unique(times[times >= min(unique_times) & times <= max(unique_times)])
     if (length(times) == 0)
       stop(sprintf("Times are all outside the observed range, [%s,%s].",min(obs_times),max(obs_times)))
-    unique_times = unique_times[findInterval(times, unique_times, TRUE, TRUE)]
+    unique_times = unique(unique_times[findInterval(times, unique_times, TRUE, TRUE)])
   }
 
   nr_obs = length(obs_times)

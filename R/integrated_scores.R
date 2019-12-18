@@ -21,6 +21,9 @@ weighted_graf = function(truth, distribution, times, ...) {
 }
 
 integrated_score = function(score, integrated, method) {
+  if(ncol(score) == 1)
+    integrated = FALSE
+
   if (integrated) {
     if(method == 1)
       return(mean(as.numeric(score), na.rm = TRUE))

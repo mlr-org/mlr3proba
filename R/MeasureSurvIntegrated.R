@@ -30,6 +30,8 @@ MeasureSurvIntegrated = R6Class("MeasureSurvIntegrated",
         if (!missing(times)) {
           assertNumeric(times)
           private$.times = times
+          if(length(times) == 1)
+            private$.integrated = FALSE
         }
       }
     }
