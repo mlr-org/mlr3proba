@@ -23,6 +23,7 @@ test_that("manualtest",{
   expect_prediction_surv(p)
   expect_true(all(order(p$crank) == order(p$lp)))
   rr = riskRegression::predictCox(learn$model,times = 90:95, newdata = t$data()[1,])
+  skip_on_cran()
   expect_equal(as.numeric(rr$cumhazard), p$distr[1]$cumHazard(90:95))
   expect_equal(as.numeric(rr$survival), p$distr[1]$survival(90:95))
 })

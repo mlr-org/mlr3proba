@@ -34,13 +34,6 @@ lrn("surv.cvglmnet")
 }
 }
 
-\examples{
-library(mlr3)
-task = tgen("simsurv")$generate(20)
-learner = lrn("surv.cvglmnet")
-resampling = rsmp("cv", folds = 2)
-resample(task, learner, resampling)
-}
 \references{
 Jerome Friedman, Trevor Hastie, Robert Tibshirani (2010).
 Regularization Paths for Generalized Linear Models via Coordinate Descent.
