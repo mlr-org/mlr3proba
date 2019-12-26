@@ -8,20 +8,15 @@
 #' @template learner_boost
 #'
 #' @references
-#' Peter Buehlmann and Bin Yu (2003), Boosting with the L2 loss: regression and classification.
-#' Journal of the American Statistical Association, 98, 324–339.
+#' \cite{mlr3proba}{buehlmann_2003}
 #'
-#' Peter Buehlmann (2006), Boosting for high-dimensional linear models. The Annals of
-#' Statistics, 34(2), 559–583.
+#' \cite{mlr3proba}{buehlmann_2006}
 #'
-#' Peter Buehlmann and Torsten Hothorn (2007), Boosting algorithms: regularization,
-#' prediction and model fitting. Statistical Science, 22(4), 477–505.
+#' \cite{mlr3proba}{buehlmann_2007}
 #'
-#' Torsten Hothorn, Peter Buehlmann, Thomas Kneib, Mattthias Schmid and Benjamin Hofner
-#' (2010), Model-based Boosting 2.0. Journal of Machine Learning Research, 11, 2109–2113.
+#' \cite{mlr3proba}{hothorn_2010}
 #'
-#' Benjamin Hofner, Andreas Mayr, Nikolay Robinzonov and Matthias Schmid (2014). Model-based Boosting in R: A Hands-on Tutorial Using the R Package mboost. Computational Statistics, 29, 3–35.
-#' \doi{10.1007/s00180-012-0382-5}.
+#' \cite{mlr3proba}{hofner_2012}
 #'
 #' @export
 #' @examples

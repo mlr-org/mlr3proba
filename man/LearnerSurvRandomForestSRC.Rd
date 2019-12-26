@@ -39,13 +39,9 @@ lrn("surv.randomForestSRC")
 Ishwaran H. and Kogalur U.B. (2019). Fast Unified Random Forests for Survival,
 Regression, and Classification (RF-SRC), R package version 2.9.1.
 
-Ishwaran H., Kogalur U.B., Blackstone E.H. and Lauer M.S. (2008). Random survival
-forests. Ann. Appl. Statist. 2(3), 841--860.
+\cite{mlr3proba}{ishwaran_2008}
 
-Breiman, L. (2001).
-Random Forests.
-Machine Learning 45(1).
-\doi{10.1023/A:1010933404324}.
+\cite{mlr3proba}{breiman_2001}
 }
 \seealso{
 Other survival learners: 

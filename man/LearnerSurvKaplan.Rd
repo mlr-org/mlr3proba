@@ -30,10 +30,7 @@ lrn("surv.kaplan")
 }
 
 \references{
-Kaplan, E. L. and Meier, P. (1958).
-Nonparametric Estimation from Incomplete Observations.
-Journal of the American Statistical Association, 53(282), 457-481.
-\doi{10.2307/2281868}.
+\cite{mlr3proba}{kaplan_1958}
 }
 \seealso{
 Other survival learners: 

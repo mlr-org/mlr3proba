@@ -48,11 +48,7 @@ lrn("surv.flexible")
 }
 
 \references{
-Royston, P. and Parmar, M. (2002).
-Flexible parametric proportional-hazards and proportional-odds models for censored survival data,
-with application to prognostic modelling and estimation of treatment effects.
-Statistics in Medicine, 21(15), 2175-2197.
-\doi{10.1002/sim.1203}.
+\cite{mlr3proba}{royston_2002}
 }
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Learner]{Learners}: \link[mlr3:mlr_learners]{mlr3::mlr_learners}

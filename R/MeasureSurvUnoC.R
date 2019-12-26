@@ -15,11 +15,7 @@
 #' @template measure_survAUC
 #'
 #' @references
-#' Uno, H., T. Cai T, M. J. Pencina, R. B. D'Agostino and W. L. Wei. (2011). \cr
-#' On the C-statistics for evaluating overall adequacy of risk prediction procedures with censored
-#' survival data.\cr
-#' Statistics in Medicine. 30(10): 1105–1117.\cr
-#' \doi{10.1002/sim.4154}
+#' \cite{mlr3proba}{uno_2011}
 #'
 #' @family Concordance survival measures
 #' @export

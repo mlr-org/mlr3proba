@@ -40,9 +40,7 @@ See \link{MeasureSurv}, as well as all variables passed to the constructor.
 }
 
 \references{
-Xu, R. and J. O'Quigley (1999).\cr
-A measure of dependence for proportional hazards models.\cr
-Journal of Nonparametric Statistics 12, 83–107.\cr
+\cite{mlr3proba}{xu_1999}
 }
 \seealso{
 Other survival measures: 

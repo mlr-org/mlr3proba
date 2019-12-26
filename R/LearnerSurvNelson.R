@@ -5,19 +5,11 @@
 #' @templateVar distr by estimating the cumulative hazard function with [survival::survfit()]
 #'
 #' @references
-#' Nelson, W. (1969).
-#' Hazard plotting for incomplete failure data.
-#' Journal of Quality Technology, 1, 27–52.
-#' \doi{10.1080/00224065.1969.11980344}.
+#' \cite{mlr3proba}{nelson_1969}
 #'
-#' Nelson, W. (1972).
-#' Theory and applications of hazard plotting for censored failure data.
-#' Technometrics, 14, 945–965.
-#' \doi{10.1080/00401706.1972.10488991}.
+#' \cite{mlr3proba}{nelson_1972}
 #'
-#' Aalen, Odd (1978).
-#' Nonparametric inference for a family of counting processes.
-#' Annals of Statistics, 6(4), 701–726.
+#' \cite{mlr3proba}{aalen_1978}
 #'
 #' @export
 LearnerSurvNelson = R6Class("LearnerSurvNelson", inherit = LearnerSurv,

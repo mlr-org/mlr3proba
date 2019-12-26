@@ -18,9 +18,7 @@
 #' @template measure_survAUC
 #'
 #' @references
-#' Uno, H., T. Cai, L. Tian, and L. J. Wei (2007).\cr
-#' Evaluating prediction rules for t-year survivors with censored regression models.\cr
-#' Journal of the American Statistical Association 102, 527–537.\cr
+#' \cite{mlr3proba}{uno_2007}
 #'
 #' @family AUC survival measures
 #' @export

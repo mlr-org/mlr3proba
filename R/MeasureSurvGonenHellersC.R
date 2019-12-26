@@ -12,9 +12,7 @@
 #' @template measure_survAUC
 #'
 #' @references
-#' Gonen, M. and G. Heller (2005).\cr
-#' Concordance probability and discriminatory power in proportional hazards regression.\cr
-#' Biometrika 92, 965–970.
+#' \cite{mlr3proba}{goenen_2005}
 #'
 #' @family Concordance survival measures
 #' @export
