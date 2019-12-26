@@ -45,6 +45,7 @@ Imports:
     survival,
     survivalsvm
 Suggests:
+    bibtex,
     flexsurv,
     gbm,
     glmnet,
