@@ -21,10 +21,7 @@
 #'
 #' \cite{mlr3proba}{friedman_2002}
 #'
-#' B. Kriegler (2007).
-#' Cost-Sensitive Stochastic Gradient Boosting Within a Quantitative Regression Framework.
-#' Ph.D. Dissertation. University of California at Los Angeles, Los Angeles, CA, USA. Advisor(s) Richard A. Berk.
-#' \url{https://dl.acm.org/citation.cfm?id=1354603}
+#' \cite{mlr3proba}{kriegler_2007}
 #'
 #' \cite{mlr3proba}{burges_2010}
 #'
