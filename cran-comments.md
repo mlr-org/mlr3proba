@@ -1,3 +1,5 @@
+Reason for early update: fixes errors on solaris and debian clang
+
 ## Test environments
 * x86_64-pc-linux-gnu (64-bit); Ubuntu 14.04.6 LTS;  R 3.6.1 - OK
 * x86_64-w64-apple-darwin15.6.0 (64-bit); macOS Mojave 10.14.4; R 3.6.1 - OK
