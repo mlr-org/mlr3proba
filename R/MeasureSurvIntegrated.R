@@ -1,7 +1,7 @@
 MeasureSurvIntegrated = R6Class("MeasureSurvIntegrated",
   inherit = MeasureSurv,
   public = list(
-    initialize = function(integrated = TRUE, times, id, range, minimize, packages, predict_type, properties) {
+    initialize = function(integrated = TRUE, times, method = 2, id, range, minimize, packages, predict_type, properties) {
       if(class(self)[[1]] == "MeasureSurvIntegrated")
         stop("This is an abstract class that should not be constructed directly.")
 
@@ -24,9 +24,15 @@ MeasureSurvIntegrated = R6Class("MeasureSurvIntegrated",
           assertNumeric(times, len = 1,
                         .var.name = "For the non-integrated score, only a single time-point can be returned.")
         private$.times = times
-      } else if (!missing(times)) {
-        assertNumeric(times)
-        private$.times = times
+      } else{
+        assertNumeric(method, 1, 2, any.missing = FALSE, all.missing = FALSE)
+        private$.method = method
+        if (!missing(times)) {
+          assertNumeric(times)
+          private$.times = times
+          if(length(times) == 1)
+            private$.integrated = FALSE
+        }
       }
     }
   ),
@@ -58,11 +64,21 @@ MeasureSurvIntegrated = R6Class("MeasureSurvIntegrated",
       } else {
         return(private$.times)
       }
+    },
+
+    method = function(method){
+      if(missing(method)){
+        return(private$.method)
+      } else {
+        assertNumeric(method, 1, 2, any.missing = FALSE, all.missing = FALSE)
+        private$.method = method
+      }
     }
   ),
 
   private = list(
     .integrated = logical(),
-    .times = numeric()
+    .times = numeric(),
+    .method = numeric()
   )
 )

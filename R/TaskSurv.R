@@ -12,8 +12,8 @@
 #'
 #' @section Construction:
 #' ```
-#' TaskSurv$new(id, backend, time, time2,
-#'   event = c("right","left", "counting","interval","interval2","mstate"))
+#' TaskSurv$new(id, backend, time, event, time2,
+#'    type = c("right","left","counting","interval","interval2","mstate"))
 #' ```
 #'
 #' * `id` :: `character(1)`\cr
@@ -24,15 +24,15 @@
 #' * `time` :: `numeric()`\cr
 #'   Event time if data is right censored. Starting time if interval censored.
 #'
-#' * `time2` :: `numeric()`\cr
-#'   Ending time for interval censored data. Ignored otherwise.
-#'
 #' * `event` :: `integer()` | `logical()`\cr
 #'   Event indicator.
 #'   If data is right censored then "0"/`FALSE` means alive (no event),
 #'   "1"/`TRUE` means dead (event). If `type` is `"interval"` then "0" means right censored,
 #'   "1" means dead (event), "2" means left censored, and "3" means interval censored. If `type` is
 #'   `"interval2"` then `event` is ignored.
+#'
+#' * `time2` :: `numeric()`\cr
+#'   Ending time for interval censored data. Ignored otherwise.
 #'
 #' * `type` :: character()\cr
 #'    Type of censoring. Default is 'right' censoring.

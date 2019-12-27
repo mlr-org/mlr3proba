@@ -37,13 +37,6 @@ lrn("surv.glmnet")
 }
 }
 
-\examples{
-library(mlr3)
-task = tgen("simsurv")$generate(20)
-learner = lrn("surv.glmnet")
-resampling = rsmp("cv", folds = 2)
-resample(task, learner, resampling)
-}
 \references{
 \cite{mlr3proba}{friedman_2010}
 }

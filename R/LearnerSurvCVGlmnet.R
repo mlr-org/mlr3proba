@@ -14,12 +14,6 @@
 #' \cite{mlr3proba}{friedman_2010}
 #'
 #' @export
-#' @examples
-#' library(mlr3)
-#' task = tgen("simsurv")$generate(20)
-#' learner = lrn("surv.cvglmnet")
-#' resampling = rsmp("cv", folds = 2)
-#' resample(task, learner, resampling)
 LearnerSurvCVGlmnet = R6Class("LearnerSurvCVGlmnet", inherit = LearnerSurv,
   public = list(
     initialize = function() {

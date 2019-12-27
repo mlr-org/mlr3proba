@@ -20,9 +20,19 @@ weighted_graf = function(truth, distribution, times, ...) {
   weighted_survival_score(truth, distribution, times, graf)
 }
 
-integrated_score = function(score, integrated) {
+integrated_score = function(score, integrated, method) {
+  if(ncol(score) == 1)
+    integrated = FALSE
+
   if (integrated) {
-    return(mean(as.numeric(score), na.rm = TRUE))
+    if(method == 1)
+      return(mean(as.numeric(score), na.rm = TRUE))
+    else if(method == 2) {
+      times = as.numeric(colnames(score))
+      lt = ncol(score)
+      score = as.numeric(colMeans(score, na.rm = TRUE))
+      return((diff(times) %*% (score[1:(lt - 1)] + score[2:lt]))/(2 * (max(times) - min(times))))
+    }
   } else {
     return(colMeans(score, na.rm = TRUE))
   }

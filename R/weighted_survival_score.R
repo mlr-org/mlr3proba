@@ -2,8 +2,12 @@ weighted_survival_score = function(truth, distribution, times, loss,...){
   # get unique observation times (death and censoring) and order accordingly
   obs_times = truth[ ,1]
   unique_times = sort(unique(obs_times))
-  if(length(times) != 0)
-    unique_times = unique(unique_times[findInterval(times, unique_times, all.inside = TRUE)])
+  if(length(times) != 0) {
+    times = unique(times[times >= min(unique_times) & times <= max(unique_times)])
+    if (length(times) == 0)
+      stop(sprintf("Times are all outside the observed range, [%s,%s].",min(obs_times),max(obs_times)))
+    unique_times = unique(unique_times[findInterval(times, unique_times, TRUE, TRUE)])
+  }
 
   nr_obs = length(obs_times)
   nc_times = length(unique_times)
@@ -31,7 +35,7 @@ weighted_survival_score = function(truth, distribution, times, loss,...){
   weights_mat = weights_mat + (alive * unique_times_mat) + ((1 - alive) * obs_times_mat)
 
   # Find the Kaplan-Meier estimate of the censoring distribution, save as distr6 object
-  cens_dist = survival::survfit(Surv(time, event) ~ 1, data = data.frame(time = truth[,1], event = 1-truth[,2]))
+  cens_dist = survival::survfit(Surv(time, 1-event) ~ 1, data = data.frame(time = truth[,1], event = truth[,2]))
   cens_dist = distr6::WeightedDiscrete$new(data.frame(x = cens_dist$time, cdf = 1 - cens_dist$surv),
                                            decorators = "ExoticStatistics")
 

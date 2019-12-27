@@ -27,13 +27,13 @@ test_that("c", {
   dt = as.data.table(pred)
   expect_data_table(dt, nrows = task$nrow, ncols = 5L, any.missing = FALSE)
 
-  task = tsk("rats")
+  task = tgen("simsurv")$generate(20)
   p1 = lrn("surv.kaplan")$train(task)$predict(task)
-  p2 = lrn("surv.glmnet")$train(task)$predict(task)
+  p2 = lrn("surv.svm")$train(task)$predict(task)
   expect_error(c(p1,p2), "Cannot rbind")
 
-  lrn = lrn("surv.glmnet")
-  resampling = rsmp("cv", folds = 3)
+  lrn = lrn("surv.kaplan")
+  resampling = rsmp("cv", folds = 2)
   rr = resample(task, lrn, resampling)
 
   preds = rr$predictions()
@@ -41,9 +41,9 @@ test_that("c", {
   pred = do.call(c, preds)
   expect_prediction_surv(pred)
 
-  p1 = lrn("surv.glmnet")$train(task)$predict(task)
+  p1 = lrn("surv.kaplan")$train(task)$predict(task)
   p2 = p1
-  expect_equal(length(c(p1, p2, keep_duplicates = TRUE)$row_ids), 600)
-  expect_equal(length(c(p1, p2, keep_duplicates = FALSE)$row_ids), 300)
+  expect_equal(length(c(p1, p2, keep_duplicates = TRUE)$row_ids), 40)
+  expect_equal(length(c(p1, p2, keep_duplicates = FALSE)$row_ids), 20)
 })
 
