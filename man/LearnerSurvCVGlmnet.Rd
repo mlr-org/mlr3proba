@@ -42,10 +42,7 @@ resampling = rsmp("cv", folds = 2)
 resample(task, learner, resampling)
 }
 \references{
-Jerome Friedman, Trevor Hastie, Robert Tibshirani (2010).
-Regularization Paths for Generalized Linear Models via Coordinate Descent.
-Journal of Statistical Software, 33(1), 1-22.
-\doi{10.18637/jss.v033.i01}.
+\cite{mlr3proba}{friedman_2010}
 }
 \seealso{
 Other survival learners: 

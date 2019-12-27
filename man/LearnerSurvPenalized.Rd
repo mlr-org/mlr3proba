@@ -49,8 +49,7 @@ learner$model@penalized
 learner$model@unpenalized
 }
 \references{
-Goeman, J. J., L1 penalized estimation in the Cox proportional hazards model.
-Biometrical Journal 52(1), 70{84}.
+\cite{mlr3proba}{goeman_2009}
 }
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Learner]{Learners}: \link[mlr3:mlr_learners]{mlr3::mlr_learners}

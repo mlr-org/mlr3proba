@@ -44,9 +44,7 @@ See \link{MeasureSurv}, as well as all variables passed to the constructor.
 }
 
 \references{
-Hung, H. and C.-T. Chiang (2010).\cr
-Estimation methods for time-dependent AUC models with survival data.\cr
-Canadian Journal of Statistics 38, 8–26.
+\cite{mlr3proba}{hung_2010}
 }
 \seealso{
 Other survival measures: 

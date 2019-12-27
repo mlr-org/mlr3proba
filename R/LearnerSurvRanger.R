@@ -5,15 +5,9 @@
 #' @templateVar distr using [ranger::predict.ranger()]
 #'
 #' @references
-#' Marvin N. Wright and Andreas Ziegler (2017).
-#' ranger: A Fast Implementation of Random Forests for High Dimensional Data in C++ and R.
-#' Journal of Statistical Software, 77(1), 1-17.
-#' \doi{10.18637/jss.v077.i01}.
+#' \cite{mlr3proba}{wright_2017}
 #'
-#' Breiman, L. (2001).
-#' Random Forests.
-#' Machine Learning 45(1).
-#' \doi{10.1023/A:1010933404324}.
+#' \cite{mlr3proba}{breiman_2001}
 #'
 #' @export
 LearnerSurvRanger = R6Class("LearnerSurvRanger", inherit = LearnerSurv,

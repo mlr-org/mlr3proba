@@ -33,29 +33,21 @@ lrn("surv.gbm")
 }
 
 \references{
-Y. Freund and R.E. Schapire (1997)
-A decision-theoretic generalization of on-line learning and an application to boosting.
-Journal of Computer and System Sciences, 55(1):119-139.
+\cite{mlr3proba}{freund_1997}
 
-G. Ridgeway (1999). The state of boosting. Computing Science and Statistics 31:172-181.
+\cite{mlr3proba}{ridgeway_1999}
 
-J.H. Friedman, T. Hastie, R. Tibshirani (2000).
-Additive Logistic Regression: a Statistical View of Boosting. Annals of Statistics 28(2):337-374.
+\cite{mlr3proba}{friedman_2000}
 
-J.H. Friedman (2001).
-Greedy Function Approximation: A Gradient Boosting Machine. Annals of Statistics 29(5):1189-1232.
+\cite{mlr3proba}{friedman_2001}
 
-J.H. Friedman (2002).
-Stochastic Gradient Boosting. Computational Statistics and Data Analysis 38(4):367-378.
+\cite{mlr3proba}{friedman_2001}
 
-B. Kriegler (2007).
-Cost-Sensitive Stochastic Gradient Boosting Within a Quantitative Regression Framework.
-Ph.D. Dissertation. University of California at Los Angeles, Los Angeles, CA, USA. Advisor(s) Richard A. Berk.
-\url{https://dl.acm.org/citation.cfm?id=1354603}
+\cite{mlr3proba}{friedman_2002}
 
-C. Burges (2010).
-From RankNet to LambdaRank to LambdaMART: An Overview.
-Microsoft Research Technical Report MSR-TR-2010-82.
+\cite{mlr3proba}{kriegler_2007}
+
+\cite{mlr3proba}{burges_2010}
 }
 \seealso{
 Other survival learners: 

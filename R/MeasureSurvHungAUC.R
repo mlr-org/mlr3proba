@@ -15,9 +15,7 @@
 #' @template measure_survAUC
 #'
 #' @references
-#' Hung, H. and C.-T. Chiang (2010).\cr
-#' Estimation methods for time-dependent AUC models with survival data.\cr
-#' Canadian Journal of Statistics 38, 8–26.
+#' \cite{mlr3proba}{hung_2010}
 #'
 #' @family AUC survival measures
 #' @export

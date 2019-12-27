@@ -32,10 +32,7 @@ lrn("surv.rpart")
 }
 
 \references{
-Breiman, L. (1984).
-Classification and Regression Trees.
-New York: Routledge.
-\doi{10.1201/9781315139470}.
+\cite{mlr3proba}{breiman_1984}
 }
 \seealso{
 Other survival learners: 

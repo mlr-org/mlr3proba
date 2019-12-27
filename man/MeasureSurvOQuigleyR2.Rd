@@ -40,9 +40,7 @@ See \link{MeasureSurv}, as well as all variables passed to the constructor.
 }
 
 \references{
-O'Quigley, J., R. Xu, and J. Stare (2005).\cr
-Explained randomness in proportional hazards models.\cr
-Statistics in Medicine 24, 479–489.
+\cite{mlr3proba}{oquigley_2005}
 }
 \seealso{
 Other survival measures: 

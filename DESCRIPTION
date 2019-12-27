@@ -45,6 +45,7 @@ Imports:
     survival,
     survivalsvm
 Suggests:
+    bibtex,
     flexsurv,
     gbm,
     glmnet,
@@ -67,7 +68,8 @@ Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
 Roxygen: list(markdown = TRUE, r6 = FALSE)
-RoxygenNote: 7.0.1
+RoxygenNote: 7.0.2
+RdMacros: mlr3misc
 Collate:
     'LearnerDensity.R'
     'LearnerDensityHist.R'
