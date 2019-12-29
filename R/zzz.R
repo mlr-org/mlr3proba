@@ -8,7 +8,6 @@
 #' @importFrom utils data head tail
 #' @importFrom stats reformulate model.matrix model.frame
 #' @importFrom survival Surv
-#' @importFrom BBmisc suppressAll
 "_PACKAGE"
 
 register_mlr3 = function() {
