@@ -37,13 +37,6 @@ lrn("surv.svm")
 }
 }
 
-\examples{
-library(mlr3)
-task = tgen("simsurv")$generate(20)
-learner = lrn("surv.svm")
-resampling = rsmp("cv", folds = 2)
-resample(task, learner, resampling)
-}
 \references{
 Van Belle, V., Pelcmans, K., Van Huffel S. and Suykens J. A.K. (2011a).
 Improved performance on high-dimensional survival data by application of Survival-SVM.

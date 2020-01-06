@@ -1,4 +1,3 @@
-#' @importFrom survivalsvm makediff1 makediff2 makediff3
 #' @template surv_learner
 #' @templateVar title Regression, Ranking and Hybrid Support Vector Machines
 #' @templateVar fullname LearnerSurvSVM
@@ -25,12 +24,6 @@
 #' Artificial Intelligence in Medicine, 53, 107-118.
 #'
 #' @export
-#' @examples
-#' library(mlr3)
-#' task = tgen("simsurv")$generate(20)
-#' learner = lrn("surv.svm")
-#' resampling = rsmp("cv", folds = 2)
-#' resample(task, learner, resampling)
 LearnerSurvSVM = R6Class("LearnerSurvSVM", inherit = LearnerSurv,
   public = list(
     initialize = function() {
