@@ -72,8 +72,8 @@ LearnerSurvPenalized = R6Class("LearnerSurvPenalized", inherit = LearnerSurv,
         pars$unpenalized = formulate(rhs = pars$unpenalized)
       }
 
-      suppressAll(invoke(penalized::penalized, response = task$truth(), penalized = penalized,
-             data = task$data(cols = task$feature_names), model = "cox", .args = pars))
+      suppressWarnings(suppressMessages((invoke(penalized::penalized, response = task$truth(), penalized = penalized,
+             data = task$data(cols = task$feature_names), model = "cox", .args = pars))))
       },
 
     predict_internal = function(task) {

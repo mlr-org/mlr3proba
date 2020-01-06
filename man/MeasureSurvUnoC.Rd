@@ -18,13 +18,9 @@ of problems in implementation that sometimes cause fatal errors in R. In future 
 measures will all be re-written and implemented directly in \code{mlr3proba}.
 }
 \section{Construction}{
-\preformatted{MeasureSurvUnoC$new(times, lp_thresh)
+\preformatted{MeasureSurvUnoC$new()
 mlr_measures$get("surv.unoC")
 msr("surv.unoC")
-}
-\itemize{
-\item \code{times} :: \code{vector()} \cr If \code{integrate == TRUE} then a vector of time-points over which to integrate the score. If \code{integrate == FALSE} then a single time point at which to return the score. \cr
-\item \code{lp_thresh} :: \code{numeric(1)} \cr Determines where to threshold the linear predictor for calculating the TPR/TNR. \cr
 }
 }
 

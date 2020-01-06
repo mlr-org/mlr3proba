@@ -37,13 +37,6 @@ lrn("surv.svm")
 }
 }
 
-\examples{
-library(mlr3)
-task = tgen("simsurv")$generate(20)
-learner = lrn("surv.svm")
-resampling = rsmp("cv", folds = 2)
-resample(task, learner, resampling)
-}
 \references{
 \cite{mlr3proba}{vanbelle_2010}
 

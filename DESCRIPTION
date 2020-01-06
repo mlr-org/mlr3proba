@@ -42,8 +42,7 @@ Imports:
     mlr3pipelines,
     paradox (>= 0.1.0),
     R6,
-    survival,
-    survivalsvm
+    survival
 Suggests:
     bibtex,
     flexsurv,
@@ -60,6 +59,7 @@ Suggests:
     rpart,
     simsurv,
     survAUC,
+    survivalsvm,
     testthat
 VignetteBuilder:
     knitr

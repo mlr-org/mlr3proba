@@ -3,7 +3,8 @@
 * Added `method` argument to integrated scores and added weighting by bin-width
 * Added notes to IGS documentation regarding default methods and comparison to other packages
 * Added `method` to `MeasureSurvIntegrated` constructor and fields
-* Fixed mistake in `TaskSurv` documentation
+* Fixed mistake in documentation of: `TaskSurv`, `MeasureSurvUnoC`
+* Added missing `LearnerSurvRpart` parameter `parms` and `cost`
 * Fixed errors in r-patched-solaris and r-devel debian-clang
 
 # mlr3proba 0.1.0

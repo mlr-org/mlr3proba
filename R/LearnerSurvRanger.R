@@ -25,7 +25,7 @@ LearnerSurvRanger = R6Class("LearnerSurvRanger", inherit = LearnerSurv,
             ParamLgl$new(id = "replace", default = TRUE, tags = "train"),
             ParamDbl$new(id = "sample.fraction", lower = 0L, upper = 1L, tags = "train"), # for replace == FALSE, def = 0.632
             # ParamDbl$new(id = "class.weights", defaul = NULL, tags = "train"), #
-            ParamFct$new(id = "splitrule", levels = c("variance", "extratrees", "maxstat"), default = "variance", tags = "train"),
+            ParamFct$new(id = "splitrule", levels = c("logrank","extratrees","C","maxstat"), default = "logrank", tags = "train"),
             ParamInt$new(id = "num.random.splits", lower = 1L, default = 1L, tags = "train"), # requires = quote(splitrule == "extratrees")
             ParamDbl$new(id = "split.select.weights", lower = 0, upper = 1, tags = "train"),
             ParamUty$new(id = "always.split.variables", tags = "train"),

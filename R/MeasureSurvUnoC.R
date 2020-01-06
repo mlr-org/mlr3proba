@@ -3,9 +3,6 @@
 #' @templateVar inherit [MeasureSurv]
 #' @templateVar fullname MeasureSurvUnoC
 #' @templateVar shortname surv.unoC
-#' @templateVar pars times, lp_thresh
-#' @templateVar times_par TRUE
-#' @templateVar thresh_par TRUE
 #'
 #' @description
 #' Calls [survAUC::UnoC()].
