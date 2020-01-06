@@ -14,28 +14,17 @@
 #' specific definition of the corresponding base-learner.
 #'
 #' @references
-#' Peter Buehlmann and Bin Yu (2003), Boosting with the L2 loss: regression and classification.
-#' Journal of the American Statistical Association, 98, 324–339.
+#' \cite{mlr3proba}{buehlmann_2003}
 #'
-#' Peter Buehlmann and Torsten Hothorn (2007),
-#' Boosting algorithms: regularization, prediction and model fitting.
-#' Statistical Science, 22(4), 477–505.
+#' \cite{mlr3proba}{buehlmann_2007}
 #'
-#' Thomas Kneib, Torsten Hothorn and Gerhard Tutz (2009),
-#' Variable selection and model choice in geoadditive regression models,
-#' Biometrics, 65(2), 626–634.
+#' \cite{mlr3proba}{kneib_2008}
 #'
-#' Matthias Schmid and Torsten Hothorn (2008),
-#' Boosting additive models using component-wise P-splines as base-learners.
-#' Computational Statistics \& Data Analysis, 53(2), 298–311.
+#' \cite{mlr3proba}{schmid_2008}
 #'
-#' Torsten Hothorn, Peter Buehlmann, Thomas Kneib, Mattthias Schmid and Benjamin Hofner (2010),
-#' Model-based Boosting 2.0. Journal of Machine Learning Research, 11, 2109 – 2113.
+#' \cite{mlr3proba}{hothorn_2010}
 #'
-#' Benjamin Hofner, Andreas Mayr, Nikolay Robinzonov and Matthias Schmid (2014).
-#' Model-based Boosting in R: A Hands-on Tutorial Using the R Package mboost.
-#' Computational Statistics, 29, 3–35.
-#' \doi{10.1007/s00180-012-0382-5}
+#' \cite{mlr3proba}{hofner_2012}
 #'
 #' @export
 #' @examples

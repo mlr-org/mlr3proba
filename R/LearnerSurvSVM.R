@@ -15,13 +15,9 @@
 #' user-set parameters, the default `diff.meth` is set to `diffmeth3` with `gamma.mu` equal to 0.1.
 #'
 #' @references
-#' Van Belle, V., Pelcmans, K., Van Huffel S. and Suykens J. A.K. (2011a).
-#' Improved performance on high-dimensional survival data by application of Survival-SVM.
-#' Bioinformatics, 27, 87-94.
+#' \cite{mlr3proba}{vanbelle_2010}
 #'
-#' Van Belle, V., Pelcmans, K., Van Huffel S. and Suykens J. A.K. (2011b).
-#' Support vector methods for survival analysis: a comparison between ranking and regression approaches.
-#' Artificial Intelligence in Medicine, 53, 107-118.
+#' \cite{mlr3proba}{vanbelle_2011}
 #'
 #' @export
 LearnerSurvSVM = R6Class("LearnerSurvSVM", inherit = LearnerSurv,

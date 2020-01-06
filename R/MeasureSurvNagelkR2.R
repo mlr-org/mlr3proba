@@ -11,9 +11,7 @@
 #' @template measure_survAUC
 #'
 #' @references
-#' Nagelkerke, N. J. D. (1991). \cr
-#' A note on a general definition of the coefficient of determination. \cr
-#' Biometrika 78, 691–692.
+#' \cite{mlr3proba}{nagelkerke_1991}
 #'
 #' @family R2 survival measures
 #' @export

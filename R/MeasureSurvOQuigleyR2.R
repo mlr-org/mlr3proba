@@ -11,9 +11,7 @@
 #' @template measure_survAUC
 #'
 #' @references
-#' O'Quigley, J., R. Xu, and J. Stare (2005).\cr
-#' Explained randomness in proportional hazards models.\cr
-#' Statistics in Medicine 24, 479–489.
+#' \cite{mlr3proba}{oquigley_2005}
 #'
 #' @family R2 survival measures
 #' @export

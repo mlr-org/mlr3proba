@@ -11,9 +11,7 @@
 #' @template measure_survAUC
 #'
 #' @references
-#' Xu, R. and J. O'Quigley (1999).\cr
-#' A measure of dependence for proportional hazards models.\cr
-#' Journal of Nonparametric Statistics 12, 83–107.\cr
+#' \cite{mlr3proba}{xu_1999}
 #'
 #' @family R2 survival measures
 #' @export

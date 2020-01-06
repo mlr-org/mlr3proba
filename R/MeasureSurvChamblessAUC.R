@@ -15,10 +15,8 @@
 #' @template measure_survAUC
 #'
 #' @references
-#' Chambless, L. E. and G. Diao (2006).\cr
-#' Estimation of time-dependent area under the ROC curve for long-term risk prediction.\cr
-#' Statistics in Medicine 25, 3474–3486.
-#'
+#' \cite{mlr3proba}{chambless_2006}
+#' 
 #' @family AUC survival measures
 #' @export
 MeasureSurvChamblessAUC = R6Class("MeasureSurvChamblessAUC",

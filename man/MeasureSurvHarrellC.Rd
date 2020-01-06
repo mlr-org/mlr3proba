@@ -33,9 +33,7 @@ See \link{MeasureSurv}, as well as all variables passed to the constructor.
 }
 
 \references{
-Harrell, F. E., R. M. Califf, D. B. Pryor, K. L. Lee and R. A. Rosati (1982).\cr
-Evaluating the yield of medical tests.\cr
-Journal of the American Medical Association. 247. 2543–2546.
+\cite{mlr3proba}{harrell_1982}
 }
 \seealso{
 Other survival measures: 

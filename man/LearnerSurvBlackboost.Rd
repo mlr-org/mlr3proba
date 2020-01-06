@@ -46,22 +46,15 @@ resampling = rsmp("cv", folds = 2)
 resample(task, learner, resampling)
 }
 \references{
-Peter Buehlmann and Torsten Hothorn (2007),
-Boosting algorithms: regularization, prediction and model fitting.
-Statistical Science, 22(4), 477–505.
+\cite{mlr3proba}{buehlmann_2007}
 
-Torsten Hothorn, Kurt Hornik and Achim Zeileis (2006).
-Unbiased recursive partitioning: A conditional inference framework.
-Journal of Computational and Graphical Statistics, 15(3), 651–674.
+\cite{mlr3proba}{hothorn_2006}
 
-Yoav Freund and Robert E. Schapire (1996), Experiments with a new boosting algorithm.
-In Machine Learning: Proc. Thirteenth International Conference, 148–156.
+\cite{mlr3proba}{freund_1996}
 
-Jerome H. Friedman (2001), Greedy function approximation: A gradient boosting machine.
-The Annals of Statistics, 29, 1189–1232.
+\cite{mlr3proba}{friedman_2001}
 
-Greg Ridgeway (1999), The state of boosting.
-Computing Science and Statistics, 31, 172–181.
+\cite{mlr3proba}{ridgeway_1999}
 }
 \seealso{
 Other survival learners: 

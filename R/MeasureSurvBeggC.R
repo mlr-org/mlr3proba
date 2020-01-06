@@ -12,9 +12,7 @@
 #' @template measure_survAUC
 #'
 #' @references
-#' Begg, B. C., L. D. Craemer, E. S. Venkatraman and J. Rosai (2000).\cr
-#' Comparing tumor staging and grading systems: a case study and a review of the issues, using thymoma as a model.\cr
-#' Statistics in Medicine 19, 1997–2014.
+#' \cite{mlr3proba}{begg_2000}
 #'
 #' @family Concordance survival measures
 #' @export

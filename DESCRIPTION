@@ -44,6 +44,7 @@ Imports:
     R6,
     survival
 Suggests:
+    bibtex,
     flexsurv,
     gbm,
     glmnet,
@@ -68,6 +69,7 @@ LazyData: true
 NeedsCompilation: no
 Roxygen: list(markdown = TRUE, r6 = FALSE)
 RoxygenNote: 7.0.2
+RdMacros: mlr3misc
 Collate:
     'LearnerDensity.R'
     'LearnerDensityHist.R'

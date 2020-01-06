@@ -10,8 +10,7 @@
 #' see examples.
 #'
 #' @references
-#' Goeman, J. J., L1 penalized estimation in the Cox proportional hazards model.
-#' Biometrical Journal 52(1), 70{84}.
+#' \cite{mlr3proba}{goeman_2009}
 #'
 #' @export
 #' @template seealso_learner

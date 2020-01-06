@@ -28,10 +28,7 @@
 #' with a given parametric form), and \eqn{lp} is the predicted linear predictor.
 #'
 #' @references
-#' Kalbfleisch, J. D., Prentice, R. L. (2002).
-#' The Statistical Analysis of Failure Time Data.
-#' John Wiley & Sons.
-#' \doi{10.1002/9781118032985}.
+#' \cite{mlr3proba}{kalbfleisch_2002}
 #'
 #' @export
 LearnerSurvParametric = R6Class("LearnerSurvParametric", inherit = LearnerSurv,

@@ -40,9 +40,7 @@ See \link{MeasureSurv}, as well as all variables passed to the constructor.
 }
 
 \references{
-Nagelkerke, N. J. D. (1991). \cr
-A note on a general definition of the coefficient of determination. \cr
-Biometrika 78, 691–692.
+\cite{mlr3proba}{nagelkerke_1991}
 }
 \seealso{
 Other survival measures: 

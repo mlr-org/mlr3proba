@@ -19,9 +19,7 @@
 #' @template measure_survAUC
 #'
 #' @references
-#' Song, X. and X.-H. Zhou (2008). \cr
-#' A semiparametric approach for the covariate specific ROC curve with survival outcome. \cr
-#' Statistica Sinica 18, 947–965.
+#' \cite{mlr3proba}{song_2008}
 #'
 #' @family AUC survival measures
 #' @export
