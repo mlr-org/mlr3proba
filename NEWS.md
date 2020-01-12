@@ -1,3 +1,8 @@
+# mlr3proba 0.1.2
+
+* Fixed error in r-patched-solaris
+* Added `mode` option to `crankcompositor`
+
 # mlr3proba 0.1.1
 
 * Added `method` argument to integrated scores and added weighting by bin-width

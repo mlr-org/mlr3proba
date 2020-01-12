@@ -40,6 +40,7 @@ simplifies graph creation.
 For full details see \link{PipeOpDistrCompositor}.
 }
 \examples{
+\dontrun{
 library("mlr3")
 library("mlr3pipelines")
 
@@ -49,4 +50,5 @@ cvglm.distr = distrcompositor(learner = lrn("surv.cvglmnet"),
                             form = "aft")
 resample(task, cvglm.distr,
         rsmp("cv", folds = 2))$predictions()
+        }
 }

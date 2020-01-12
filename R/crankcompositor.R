@@ -4,7 +4,7 @@
 #' @description This is a wrapper around the [PipeOpCrankCompositor] pipe operation, which
 #' simplifies graph creation.
 #' @param learner [LearnerSurv] object for which a `crank` is composed (or over-written)
-#' @param method One of `mean` or `median`; abbreviations allowed. Used to determine
+#' @param method One of `mean`, `mode`, or `median`; abbreviations allowed. Used to determine
 #' how `crank` is estimated from the predicted `distr`. Default is `mean`.
 #' @param param_vals Additional parameters to pass to the `learner`.
 #' @details For full details see [PipeOpCrankCompositor].
@@ -18,7 +18,7 @@
 #'                             method = "median")
 #' resample(task, ranger.crank, rsmp("cv", folds = 2))$predictions()
 #' @export
-crankcompositor = function(learner, method = c("mean","median"), param_vals = list()){
+crankcompositor = function(learner, method = c("mean","median","mode"), param_vals = list()){
   assert("distr" %in% learner$predict_types)
 
   pred = po("learner", learner, param_vals = param_vals)

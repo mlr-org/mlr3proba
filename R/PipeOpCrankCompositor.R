@@ -14,7 +14,7 @@
 #' * `id` :: `character(1)` \cr
 #'   Identifier of the resulting  object, default `"crankcompose"`.
 #' * `param_vals` :: named `list` \cr
-#'   List of hyperparameter settings, overwriting the hyperparameter settings that would otherwise be set during construction. Default `list()`.
+#'   List of hyperparameter settings, overwriting the hyperparameter settings that would otherwise be set during construction. Default `list(method = "mean")`.
 #'
 #' @section Input and Output Channels:
 #' [PipeOpCrankCompositor] has one input channel named "input", which takes
@@ -32,14 +32,14 @@
 #' @section Parameters:
 #' * `method` :: `character(1)` \cr
 #'    Determines what method should be used to produce a continuous ranking from the distribution.
-#'    One of `median` or `mean` corresponding to the respective functions in the predicted
+#'    One of `median`, `mode`, or `mean` corresponding to the respective functions in the predicted
 #'    survival distribution. Note that for models with a proportional hazards form, the ranking
 #'    implied by `mean` and `median` will be identical (but not the value of `crank` itself).
 #'    Default is `mean`.
 #'
 #' @section Internals:
-#' The `median` or `mean` will use analytical expressions if possible but if not they are calculated
-#' using [distr6::median.Distribution] or [distr6::mean.Distribution] respectively.
+#' The `median`, `mode`, or `mean` will use analytical expressions if possible but if not they are calculated
+#' using [distr6::median.Distribution], [distr6::mode], or [distr6::mean.Distribution] respectively.
 #'
 #' @section Fields:
 #' Only fields inherited from [PipeOp].
@@ -84,7 +84,7 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
     initialize = function(id = "crankcompose", param_vals = list(method = "mean")) {
       super$initialize(id = id,
                        param_set = ParamSet$new(params = list(
-                         ParamFct$new("method", default = "mean", levels = c("mean","median"), tags = c("predict"))
+                         ParamFct$new("method", default = "mean", levels = c("mean","median","mode"), tags = c("predict"))
                        )),
                        param_vals = param_vals,
                        input = data.table(name = "input", train = "NULL", predict = "PredictionSurv"),
@@ -101,11 +101,11 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
       inpred = inputs[[1]]
 
       assert("distr" %in% inpred$predict_types)
-
       method = self$param_set$values$method
       if(length(method) == 0) method = "mean"
       crank = as.numeric(switch(method,
                                 median = inpred$distr$median(),
+                                mode = inpred$distr$mode(),
                                 inpred$distr$mean()
       ))
 
@@ -116,8 +116,6 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
 
       return(list(PredictionSurv$new(row_ids = inpred$row_ids, truth = inpred$truth, crank = crank,
                                      distr = inpred$distr, lp = lp)))
-
-
     }
   )
 )

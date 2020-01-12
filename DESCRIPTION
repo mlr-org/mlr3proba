@@ -32,10 +32,9 @@ BugReports: https://github.com/mlr-org/mlr3proba/issues
 Depends:
     R (>= 3.1.0)
 Imports:
-    BBmisc,
     checkmate,
     data.table,
-    distr6 (>= 1.3.1),
+    distr6 (>= 1.3.2),
     mboost,
     mlr3 (>= 0.1.4),
     mlr3misc (>= 0.1.5),
@@ -61,6 +60,8 @@ Suggests:
     survAUC,
     survivalsvm,
     testthat
+Remotes:
+    alan-turing-institute/distr6
 VignetteBuilder:
     knitr
 ByteCompile: true
