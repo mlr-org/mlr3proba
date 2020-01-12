@@ -4,12 +4,16 @@
 \alias{crankcompositor}
 \title{Compose a Crank Predict Type for Survival Learners}
 \usage{
-crankcompositor(learner, method = c("mean", "median"), param_vals = list())
+crankcompositor(
+  learner,
+  method = c("mean", "median", "mode"),
+  param_vals = list()
+)
 }
 \arguments{
 \item{learner}{\link{LearnerSurv} object for which a \code{crank} is composed (or over-written)}
 
-\item{method}{One of \code{mean} or \code{median}; abbreviations allowed. Used to determine
+\item{method}{One of \code{mean}, \code{mode}, or \code{median}; abbreviations allowed. Used to determine
 how \code{crank} is estimated from the predicted \code{distr}. Default is \code{mean}.}
 
 \item{param_vals}{Additional parameters to pass to the \code{learner}.}
