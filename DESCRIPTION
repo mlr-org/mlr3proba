@@ -60,6 +60,8 @@ Suggests:
     survAUC,
     survivalsvm,
     testthat
+Remotes:
+    alan-turing-institute/distr6
 VignetteBuilder:
     knitr
 ByteCompile: true
