@@ -37,32 +37,32 @@ predict_flexsurvreg <- function (object, task, ...)
    pdf = function(x1) {}
    body(pdf) = substitute({
       fn = func
-      args = as.list(subset(self$parameters()$as.data.table(), select = "value"))$value
-      names(args) = unname(unlist(self$parameters()$as.data.table()[,1]))
+      args = as.list(subset(as.data.table(self$parameters()), select = "value"))$value
+      names(args) = unname(unlist(as.data.table(self$parameters())[,1]))
       do.call(fn, c(list(x = x1), args))
    }, list(func = object$dfns$d))
 
    cdf = function(x1) {}
    body(cdf) = substitute({
       fn = func
-      args = as.list(subset(self$parameters()$as.data.table(), select = "value"))$value
-      names(args) = unname(unlist(self$parameters()$as.data.table()[,1]))
+      args = as.list(subset(as.data.table(self$parameters()), select = "value"))$value
+      names(args) = unname(unlist(as.data.table(self$parameters())[,1]))
       do.call(fn, c(list(q = x1), args))
    }, list(func = object$dfns$p))
 
    quantile = function(p) {}
    body(quantile) = substitute({
       fn = func
-      args = as.list(subset(self$parameters()$as.data.table(), select = "value"))$value
-      names(args) = unname(unlist(self$parameters()$as.data.table()[,1]))
+      args = as.list(subset(as.data.table(self$parameters()), select = "value"))$value
+      names(args) = unname(unlist(as.data.table(self$parameters())[,1]))
       do.call(fn, c(list(p = p), args))
    }, list(func = object$dfns$q))
 
    rand = function(n) {}
    body(rand) = substitute({
       fn = func
-      args = as.list(subset(self$parameters()$as.data.table(), select = "value"))$value
-      names(args) = unname(unlist(self$parameters()$as.data.table()[,1]))
+      args = as.list(subset(as.data.table(self$parameters()), select = "value"))$value
+      names(args) = unname(unlist(as.data.table(self$parameters())[,1]))
       do.call(fn, c(list(n = n), args))
    }, list(func = object$dfns$r))
 
