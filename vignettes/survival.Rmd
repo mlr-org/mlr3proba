@@ -133,7 +133,7 @@ learner = lrn("surv.coxph")
 
 prediction = learner$train(task)$predict(task)
 
-# The predicted `distr` is a VectorDistribution consisting of 300 separate distributions
+# The predicted `distr` is a VectorDistribution consisting of 20 separate distributions
 
 prediction$distr
 
