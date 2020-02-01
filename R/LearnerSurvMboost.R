@@ -1,4 +1,3 @@
-#' @importFrom mboost bbs bols btree
 #' @template surv_learner
 #' @templateVar title Gradient Boosting for Generalized Additive Models
 #' @templateVar fullname LearnerSurvMboost
@@ -101,8 +100,10 @@ LearnerSurvMboost = R6Class("LearnerSurvMboost", inherit = LearnerSurv,
 
       pars = pars[!(names(pars) %in% c("family", "nuirange", "custom.family"))]
 
-      invoke(mboost::mboost, formula = task$formula(task$feature_names),
-             data = task$data(), family = family, .args = pars)
+      with_package("mboost", {
+        invoke(mboost::mboost, formula = task$formula(task$feature_names),
+               data = task$data(), family = family, .args = pars)
+      })
     },
 
     predict_internal = function(task) {

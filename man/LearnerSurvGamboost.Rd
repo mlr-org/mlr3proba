@@ -13,9 +13,9 @@ Calls \code{\link[mboost:gamboost]{mboost::gamboost()}}.
 \item \code{crank} is identical to \code{lp}
 }
 
-The \code{dist} parameter is specified slightly differently than in \link{mboost}. Whereas the latter
+The \code{dist} parameter is specified slightly differently than in \CRANpkg{mboost}. Whereas the latter
 takes in objects, in this learner instead a string is specified in order to identify which distribution
-to use. As the default in \link{mboost} is the Gaussian family, which is not compatible with
+to use. As the default in \CRANpkg{mboost} is the Gaussian family, which is not compatible with
 survival models, instead we have by default \code{"coxph"}.
 
 If the value given to the \code{Family} parameter is "custom.family" then an object of class
