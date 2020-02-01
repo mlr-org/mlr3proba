@@ -80,5 +80,7 @@ predict_survreg = function(object, task, type = "aft"){
   distr = distr6::VectorDistribution$new(distribution = "Distribution", params = params,
                                          decorators = c("CoreStatistics","ExoticStatistics"))
 
+  lp = lp + fit$coefficients[1]
+
   return(list(lp = as.numeric(lp), distr = distr))
 }
