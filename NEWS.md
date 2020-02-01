@@ -1,3 +1,7 @@
+# mlr3proba 0.1.3
+
+* Changed `lp` in `surv.parametric` to include the intercept, which is in line with `survival::survreg`. Now `exp(pred$lp)` is equal to the predicted survival time for AFTs
+
 # mlr3proba 0.1.2
 
 * Fixed error in r-patched-solaris
