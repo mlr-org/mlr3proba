@@ -50,6 +50,7 @@ Suggests:
     knitr,
     lgr,
     mlr3tuning,
+    obliqueRSF,
     pec,
     penalized,
     randomForestSRC,
