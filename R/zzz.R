@@ -111,6 +111,8 @@ register_mlr3 = function() {
    x$add("surv.rmseSE", MeasureSurvRMSESE)
    x$add("surv.mse", MeasureSurvMSE)
    x$add("surv.mseSE", MeasureSurvMSESE)
+   x$add("surv.mae", MeasureSurvMAE)
+   x$add("surv.maeSE", MeasureSurvMAESE)
 }
 register_mlr3pipelines = function(){
    x = utils::getFromNamespace("mlr_pipeops", ns = "mlr3pipelines")

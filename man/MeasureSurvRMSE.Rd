@@ -51,6 +51,8 @@ Other survival measures:
 \code{\link{MeasureSurvIntLogloss}},
 \code{\link{MeasureSurvLoglossSE}},
 \code{\link{MeasureSurvLogloss}},
+\code{\link{MeasureSurvMAESE}},
+\code{\link{MeasureSurvMAE}},
 \code{\link{MeasureSurvMSESE}},
 \code{\link{MeasureSurvMSE}},
 \code{\link{MeasureSurvNagelkR2}},
@@ -66,6 +68,8 @@ Other survival measures:
 \code{\link{MeasureSurvXuR2}}
 
 Other response survival measures: 
+\code{\link{MeasureSurvMAESE}},
+\code{\link{MeasureSurvMAE}},
 \code{\link{MeasureSurvMSESE}},
 \code{\link{MeasureSurvMSE}},
 \code{\link{MeasureSurvRMSESE}}

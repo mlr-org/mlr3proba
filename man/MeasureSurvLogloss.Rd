@@ -60,6 +60,8 @@ Other survival measures:
 \code{\link{MeasureSurvIntLoglossSE}},
 \code{\link{MeasureSurvIntLogloss}},
 \code{\link{MeasureSurvLoglossSE}},
+\code{\link{MeasureSurvMAESE}},
+\code{\link{MeasureSurvMAE}},
 \code{\link{MeasureSurvMSESE}},
 \code{\link{MeasureSurvMSE}},
 \code{\link{MeasureSurvNagelkR2}},

@@ -114,6 +114,8 @@ Collate:
     'MeasureSurvIntLoglossSE.R'
     'MeasureSurvLogloss.R'
     'MeasureSurvLoglossSE.R'
+    'MeasureSurvMAE.R'
+    'MeasureSurvMAESE.R'
     'MeasureSurvMSE.R'
     'MeasureSurvMSESE.R'
     'MeasureSurvNagelkR2.R'
