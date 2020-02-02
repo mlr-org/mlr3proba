@@ -183,3 +183,17 @@ appear to be a package that provides an architectural framework for
 distribution/density estimation, see **[this
 list](https://vita.had.co.nz/papers/density-estimation.pdf)** for a
 review of density estimation packages in R.
+
+## Acknowledgements
+
+Several people contributed to the building of `mlr3proba`. Firstly,
+thanks to Michel Lang for writing `mlr3survival`. Several learners and
+measures implemented in `mlr3proba`, as well as the prediction, task,
+and measure surv objects, were written initially in `mlr3survival`
+before being absorbed into `mlr3proba`. Secondly thanks to Franz Kiraly
+for major contributions towards the design of the proba-specific parts
+of the package, including compositors and predict types. Also for
+mathematical contributions towards the scoring rules implemented in the
+package. Finally thanks to Bernd Bischl and the rest of the mlr core
+team for building `mlr3` and for many conversations about the design of
+`mlr3proba`.
