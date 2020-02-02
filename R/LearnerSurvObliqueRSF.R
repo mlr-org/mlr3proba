@@ -54,7 +54,6 @@ LearnerSurvObliqueRSF = R6Class("LearnerSurvObliqueRSF", inherit = LearnerSurv,
         data     = task$data(),
         time     = targets[1L],
         status   = targets[2L],
-        features = task$feature_names,
         .args    = pv
       )
     },
@@ -71,7 +70,7 @@ LearnerSurvObliqueRSF = R6Class("LearnerSurvObliqueRSF", inherit = LearnerSurv,
       p = invoke(predict, self$model, newdata = newdata, times = utime, .args = pv)
       cdf = 1 - p
       # define WeightedDiscrete distr6 object from predicted survival function
-      x = rep(list(data = data.frame(x = utimes, cdf = 0)), task$nrow)
+      x = rep(list(data = data.frame(x = utime, cdf = 0)), task$nrow)
       for(i in seq_len(task$nrow))
         x[[i]]$cdf = cdf[i, ]
 
