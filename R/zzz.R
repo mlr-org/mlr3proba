@@ -34,9 +34,10 @@ register_mlr3 = function() {
     x$measure_properties$surv = x$measure_properties$regr
     # x$measure_properties$density = x$measure_properties$regr
     # x$measure_properties$probreg = x$measure_properties$regr
-    x$learner_predict_types$surv = list(crank = c("crank","lp","distr"),
-                                        distr = c("crank","lp","distr"),
-                                        lp = c("crank","lp","distr"))
+    x$learner_predict_types$surv = list(crank = c("crank","lp","distr","response"),
+                                        distr = c("crank","lp","distr","response"),
+                                        lp = c("crank","lp","distr","response"),
+                                        response = c("crank","lp","distr","response"))
     x$default_measures$surv = "surv.harrellC"
   }
 
@@ -105,6 +106,11 @@ register_mlr3 = function() {
 
    x$add("surv.unoTNR", MeasureSurvUnoTNR)
    x$add("surv.songTNR", MeasureSurvSongTNR)
+
+   x$add("surv.rmse", MeasureSurvRMSE)
+   x$add("surv.rmseSE", MeasureSurvRMSESE)
+   x$add("surv.mse", MeasureSurvMSE)
+   x$add("surv.mseSE", MeasureSurvMSESE)
 }
 register_mlr3pipelines = function(){
    x = utils::getFromNamespace("mlr_pipeops", ns = "mlr3pipelines")

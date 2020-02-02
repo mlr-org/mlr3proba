@@ -124,7 +124,15 @@ LearnerSurvParametric = R6Class("LearnerSurvParametric", inherit = LearnerSurv,
       # Call the predict method defined in mlr3proba
       pred = invoke(predict_survreg, object = self$model, task = task, .args = pv)
 
-      PredictionSurv$new(task = task, distr = pred$distr, crank = pred$lp, lp = pred$lp)
+      if(is.null(self$param_set$values$type)){
+        return(PredictionSurv$new(task = task, distr = pred$distr, crank = pred$lp, lp = pred$lp,
+                                  response = exp(pred$lp)))
+      } else if(self$param_set$values$type == "aft"){
+        return(PredictionSurv$new(task = task, distr = pred$distr, crank = pred$lp, lp = pred$lp,
+                                  response = exp(pred$lp)))
+      } else {
+        return(PredictionSurv$new(task = task, distr = pred$distr, crank = pred$lp, lp = pred$lp))
+      }
     }
   )
 )

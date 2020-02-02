@@ -15,6 +15,7 @@
 #' \cite{mlr3proba}{uno_2011}
 #'
 #' @family Concordance survival measures
+#' @family crank survival measures
 #' @export
 MeasureSurvUnoC = R6Class("MeasureSurvUnoC",
   inherit = MeasureSurv,

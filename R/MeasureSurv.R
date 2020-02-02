@@ -15,7 +15,7 @@
 #' ```
 #' For a description of the arguments, see [mlr3::Measure].
 #' The `task_type` is set to `"surv"`.
-#' Possible values for `predict_type` are `"distr"`, `"lp"`, and `"crank"`.
+#' Possible values for `predict_type` are `"distr"`, `"lp"`, `"crank"`, and `"response"`.
 #'
 #' @section Fields:
 #' See [Measure].

@@ -21,6 +21,7 @@
 #' \cite{mlr3proba}{graf_1999}
 #'
 #' @family Probabilistic survival measures
+#' @family distr survival measures
 #' @export
 MeasureSurvIntLoglossSE = R6::R6Class("MeasureSurvIntLoglossSE",
     inherit = MeasureSurvIntegrated,

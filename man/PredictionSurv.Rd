@@ -11,7 +11,7 @@ The \code{task_type} is set to \code{"surv"}.
 }
 \section{Construction}{
 \preformatted{PredictionSurv$new(task = NULL, row_ids = task$row_ids, truth = task$truth(),
-                   crank = NULL, distr = NULL, lp = NULL)
+                   crank = NULL, distr = NULL, lp = NULL, response = NULL)
 }
 \itemize{
 \item \code{task} :: \link{TaskSurv}\cr
@@ -34,6 +34,9 @@ Used in measures like \link[=mlr_measures_surv.graf]{surv.graf}.
 Vector of linear predictor scores. One element for each observation in the test set.
 \eqn{lp = X\beta} where \eqn{X} is a matrix of covariates and \eqn{\beta} is a vector of estimated coefficients.
 Used in discrimination measures like \link[=mlr_measures_surv.harrellC]{surv.harrellC}.
+\item \code{response} :: \code{numeric()}\cr
+Vector of survival times. One element for each observation in the test set.
+Used in distance measures like \link[=mlr_measures_surv.rmse]{surv.rmse}.
 }
 }
 

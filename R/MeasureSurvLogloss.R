@@ -21,6 +21,7 @@
 #' Very small number to set zero-valued predicted probabilities to, in order to prevent errors in log(0) calculation.
 #'
 #' @family Probabilistic survival measures
+#' @family distr survival measures
 #' @export
 MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
   inherit = MeasureSurv,

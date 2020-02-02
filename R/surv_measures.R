@@ -12,3 +12,13 @@ surv_logloss = function(truth, distribution, eps = 1e-15,...) {
   # return negative log-likelihood
   -log(pred)
 }
+
+surv_mse = function(truth, response){
+  uncensored = truth[,2] == 1
+
+  list(
+    mse = (prediction$truth[uncensored,1] - prediction$response[uncensored])^2,
+    se = sd(mse)/sqrt(length(response))
+  )
+}
+

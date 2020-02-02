@@ -11,6 +11,7 @@
 #' \cite{mlr3proba}{harrell_1982}
 #'
 #' @family Concordance survival measures
+#' @family crank survival measures
 #' @export
 MeasureSurvHarrellC = R6Class("MeasureSurvHarrellC",
   inherit = MeasureSurv,

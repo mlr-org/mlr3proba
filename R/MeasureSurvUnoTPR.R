@@ -21,6 +21,7 @@
 #' \cite{mlr3proba}{uno_2007}
 #'
 #' @family AUC survival measures
+#' @family lp survival measures
 #' @export
 MeasureSurvUnoTPR = R6Class("MeasureSurvUnoTPR",
   inherit = MeasureSurvAUC,

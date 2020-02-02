@@ -15,6 +15,7 @@
 #' \cite{mlr3proba}{begg_2000}
 #'
 #' @family Concordance survival measures
+#' @family lp survival measures
 #' @export
 MeasureSurvBeggC = R6Class("MeasureSurvBeggC",
   inherit = MeasureSurv,

@@ -59,8 +59,12 @@ Other survival measures:
 \code{\link{MeasureSurvIntLogloss}},
 \code{\link{MeasureSurvLoglossSE}},
 \code{\link{MeasureSurvLogloss}},
+\code{\link{MeasureSurvMSESE}},
+\code{\link{MeasureSurvMSE}},
 \code{\link{MeasureSurvNagelkR2}},
 \code{\link{MeasureSurvOQuigleyR2}},
+\code{\link{MeasureSurvRMSESE}},
+\code{\link{MeasureSurvRMSE}},
 \code{\link{MeasureSurvSongAUC}},
 \code{\link{MeasureSurvSongTNR}},
 \code{\link{MeasureSurvSongTPR}},
@@ -77,6 +81,21 @@ Other AUC survival measures:
 \code{\link{MeasureSurvSongTPR}},
 \code{\link{MeasureSurvUnoTNR}},
 \code{\link{MeasureSurvUnoTPR}}
+
+Other lp survival measures: 
+\code{\link{MeasureSurvBeggC}},
+\code{\link{MeasureSurvChamblessAUC}},
+\code{\link{MeasureSurvGonenC}},
+\code{\link{MeasureSurvHungAUC}},
+\code{\link{MeasureSurvNagelkR2}},
+\code{\link{MeasureSurvOQuigleyR2}},
+\code{\link{MeasureSurvSongAUC}},
+\code{\link{MeasureSurvSongTNR}},
+\code{\link{MeasureSurvSongTPR}},
+\code{\link{MeasureSurvUnoTNR}},
+\code{\link{MeasureSurvUnoTPR}},
+\code{\link{MeasureSurvXuR2}}
 }
 \concept{AUC survival measures}
+\concept{lp survival measures}
 \concept{survival measures}
