@@ -47,6 +47,7 @@ Other survival learners:
 \code{\link{LearnerSurvKaplan}},
 \code{\link{LearnerSurvMboost}},
 \code{\link{LearnerSurvNelson}},
+\code{\link{LearnerSurvObliqueRSF}},
 \code{\link{LearnerSurvParametric}},
 \code{\link{LearnerSurvPenalized}},
 \code{\link{LearnerSurvRandomForestSRC}},
