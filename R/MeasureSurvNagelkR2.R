@@ -14,6 +14,7 @@
 #' \cite{mlr3proba}{nagelkerke_1991}
 #'
 #' @family R2 survival measures
+#' @family lp survival measures
 #' @export
 MeasureSurvNagelkR2 = R6Class("MeasureSurvNagelkR2",
   inherit = MeasureSurv,

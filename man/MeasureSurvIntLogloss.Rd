@@ -74,8 +74,14 @@ Other survival measures:
 \code{\link{MeasureSurvIntLoglossSE}},
 \code{\link{MeasureSurvLoglossSE}},
 \code{\link{MeasureSurvLogloss}},
+\code{\link{MeasureSurvMAESE}},
+\code{\link{MeasureSurvMAE}},
+\code{\link{MeasureSurvMSESE}},
+\code{\link{MeasureSurvMSE}},
 \code{\link{MeasureSurvNagelkR2}},
 \code{\link{MeasureSurvOQuigleyR2}},
+\code{\link{MeasureSurvRMSESE}},
+\code{\link{MeasureSurvRMSE}},
 \code{\link{MeasureSurvSongAUC}},
 \code{\link{MeasureSurvSongTNR}},
 \code{\link{MeasureSurvSongTPR}},
@@ -91,6 +97,14 @@ Other Probabilistic survival measures:
 \code{\link{MeasureSurvIntLoglossSE}},
 \code{\link{MeasureSurvLoglossSE}},
 \code{\link{MeasureSurvLogloss}}
+
+Other distr survival measures: 
+\code{\link{MeasureSurvGrafSE}},
+\code{\link{MeasureSurvGraf}},
+\code{\link{MeasureSurvIntLoglossSE}},
+\code{\link{MeasureSurvLoglossSE}},
+\code{\link{MeasureSurvLogloss}}
 }
 \concept{Probabilistic survival measures}
+\concept{distr survival measures}
 \concept{survival measures}

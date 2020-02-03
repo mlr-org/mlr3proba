@@ -18,6 +18,7 @@
 #' \cite{mlr3proba}{hung_2010}
 #'
 #' @family AUC survival measures
+#' @family lp survival measures
 #' @export
 MeasureSurvHungAUC = R6Class("MeasureSurvHungAUC",
   inherit = MeasureSurvAUC,

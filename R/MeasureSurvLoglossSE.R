@@ -16,6 +16,7 @@
 #' Censored observations in the test set are ignored.
 #'
 #' @family Probabilistic survival measures
+#' @family distr survival measures
 #' @export
 MeasureSurvLoglossSE = R6::R6Class("MeasureSurvLoglossSE",
     inherit = MeasureSurvLogloss,

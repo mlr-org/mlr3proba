@@ -14,6 +14,7 @@
 #' \cite{mlr3proba}{oquigley_2005}
 #'
 #' @family R2 survival measures
+#' @family lp survival measures
 #' @export
 MeasureSurvOQuigleyR2 = R6Class("MeasureSurvOQuigleyR2",
   inherit = MeasureSurv,

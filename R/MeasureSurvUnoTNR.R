@@ -16,6 +16,7 @@
 #' specified.
 #'
 #' @template measure_survAUC
+#' @family lp survival measures
 #'
 #' @references
 #' \cite{mlr3proba}{uno_2007}

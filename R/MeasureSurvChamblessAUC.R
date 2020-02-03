@@ -16,8 +16,9 @@
 #'
 #' @references
 #' \cite{mlr3proba}{chambless_2006}
-#' 
+#'
 #' @family AUC survival measures
+#' @family lp survival measures
 #' @export
 MeasureSurvChamblessAUC = R6Class("MeasureSurvChamblessAUC",
   inherit = MeasureSurvAUC,

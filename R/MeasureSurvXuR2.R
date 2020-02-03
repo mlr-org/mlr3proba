@@ -14,6 +14,7 @@
 #' \cite{mlr3proba}{xu_1999}
 #'
 #' @family R2 survival measures
+#' @family lp survival measures
 #' @export
 MeasureSurvXuR2 = R6Class("MeasureSurvXuR2",
   inherit = MeasureSurv,

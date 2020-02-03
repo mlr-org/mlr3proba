@@ -22,6 +22,7 @@
 #' \cite{mlr3proba}{song_2008}
 #'
 #' @family AUC survival measures
+#' @family lp survival measures
 #' @export
 MeasureSurvSongTPR = R6Class("MeasureSurvSongTPR",
   inherit = MeasureSurvAUC,

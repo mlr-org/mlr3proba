@@ -11,7 +11,7 @@
 #' @section Construction:
 #' ```
 #' PredictionSurv$new(task = NULL, row_ids = task$row_ids, truth = task$truth(),
-#'                    crank = NULL, distr = NULL, lp = NULL)
+#'                    crank = NULL, distr = NULL, lp = NULL, response = NULL)
 #' ```
 #'
 #' * `task` :: [TaskSurv]\cr
@@ -40,6 +40,10 @@
 #'   \eqn{lp = X\beta} where \eqn{X} is a matrix of covariates and \eqn{\beta} is a vector of estimated coefficients.
 #'   Used in discrimination measures like [surv.harrellC][mlr_measures_surv.harrellC].
 #'
+#' * `response` :: `numeric()`\cr
+#'   Vector of survival times. One element for each observation in the test set.
+#'   Used in distance measures like [surv.rmse][mlr_measures_surv.rmse].
+#'
 #' @section Fields:
 #' See [mlr3::Prediction].
 #'
@@ -55,14 +59,15 @@
 #' head(as.data.table(p))
 PredictionSurv = R6Class("PredictionSurv", inherit = Prediction,
   public = list(
-    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), crank = NULL, distr = NULL, lp = NULL) {
+    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), crank = NULL,
+                          distr = NULL, lp = NULL, response = NULL) {
       assert_row_ids(row_ids)
       n = length(row_ids)
 
       self$task_type = "surv"
 
       # Check returned predict types have correct names and add to data.table
-      self$predict_types = c("crank","distr","lp")[c(!is.null(crank),!is.null(distr),!is.null(lp))]
+      self$predict_types = c("crank","distr","lp","response")[c(!is.null(crank),!is.null(distr),!is.null(lp),!is.null(response))]
       self$data$tab = data.table(
         row_id = row_ids
       )
@@ -81,6 +86,10 @@ PredictionSurv = R6Class("PredictionSurv", inherit = Prediction,
 
       if (!is.null(lp)) {
         self$data$tab$lp = assert_numeric(lp, len = n, any.missing = FALSE)
+      }
+
+      if (!is.null(response)) {
+        self$data$tab$response = assert_numeric(response, len = n, any.missing = FALSE)
       }
 
     }
@@ -112,6 +121,10 @@ PredictionSurv = R6Class("PredictionSurv", inherit = Prediction,
       self$data$tab$lp %??% rep(NA_real_, length(self$data$row_ids))
     },
 
+    response = function() {
+      self$data$tab$response %??% rep(NA_real_, length(self$data$row_ids))
+    },
+
     missing = function() {
       miss = logical(nrow(self$data$tab))
 
@@ -125,6 +138,10 @@ PredictionSurv = R6Class("PredictionSurv", inherit = Prediction,
 
       if ("lp" %in% self$predict_types) {
         miss = miss | is.na(self$data$tab$lp)
+      }
+
+      if ("response" %in% self$predict_types) {
+        miss = miss | is.na(self$data$tab$response)
       }
 
       self$data$tab$row_id[miss]
@@ -162,7 +179,8 @@ c.PredictionSurv = function(..., keep_duplicates = TRUE) {
   if (!keep_duplicates)
     tab = unique(tab, by = "row_id", fromLast = TRUE)
 
-  PredictionSurv$new(row_ids = tab$row_id, truth = Surv(tab$time, tab$status), crank = tab$crank, distr = distr, lp = tab$lp)
+  PredictionSurv$new(row_ids = tab$row_id, truth = Surv(tab$time, tab$status), crank = tab$crank,
+                     distr = distr, lp = tab$lp, response = tab$response)
 }
 
 

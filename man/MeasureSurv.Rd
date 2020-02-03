@@ -16,7 +16,7 @@ Predefined measures can be found in the \link[mlr3misc:Dictionary]{mlr3misc::Dic
 
 For a description of the arguments, see \link[mlr3:Measure]{mlr3::Measure}.
 The \code{task_type} is set to \code{"surv"}.
-Possible values for \code{predict_type} are \code{"distr"}, \code{"lp"}, and \code{"crank"}.
+Possible values for \code{predict_type} are \code{"distr"}, \code{"lp"}, \code{"crank"}, and \code{"response"}.
 }
 
 \section{Fields}{

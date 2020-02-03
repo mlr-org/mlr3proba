@@ -15,6 +15,7 @@
 #' \cite{mlr3proba}{goenen_2005}
 #'
 #' @family Concordance survival measures
+#' @family lp survival measures
 #' @export
 MeasureSurvGonenC = R6Class("MeasureSurvGonenC",
   inherit = MeasureSurv,
