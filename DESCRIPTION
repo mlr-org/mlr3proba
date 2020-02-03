@@ -36,7 +36,7 @@ Imports:
     data.table,
     distr6 (>= 1.3.4),
     mlr3 (>= 0.1.4),
-    mlr3misc (>= 0.1.5),
+    mlr3misc (>= 0.1.7),
     mlr3pipelines,
     paradox (>= 0.1.0),
     R6,
