@@ -16,11 +16,14 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart", inherit = LearnerSurv,
     initialize = function() {
       ps = ParamSet$new(list(
         ParamDbl$new("parms", default = 1, tags = "train"),
+        ParamInt$new("minbucket", lower = 1L, tags = "train"),
         ParamInt$new("minsplit", default = 20L, lower = 1L, tags = "train"),
         ParamDbl$new("cp", default = 0.01, lower = 0, upper = 1, tags = "train"),
         ParamInt$new("maxcompete", default = 4L, lower = 0L, tags = "train"),
         ParamInt$new("maxsurrogate", default = 5L, lower = 0L, tags = "train"),
         ParamInt$new("maxdepth", default = 30L, lower = 1L, upper = 30L, tags = "train"),
+        ParamInt$new(id = "usesurrogate", default = 2L, lower = 0L, upper = 2L, tags = "train"),
+        ParamInt$new(id = "surrogatestyle", default = 0L, lower = 0L, upper = 1L, tags = "train"),
         ParamInt$new("xval", default = 10L, lower = 0L, tags = "train"),
         ParamUty$new("cost", tags = "train")
       ))
