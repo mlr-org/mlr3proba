@@ -56,7 +56,7 @@ LearnerSurvFlexible = R6Class("LearnerSurvFlexible", inherit = LearnerSurv,
         predict_types = c("distr","lp","crank"),
         feature_types = c("logical", "integer", "factor","numeric"),
         properties = c("weights"),
-        packages = c("flexsurv", "survival", "distr6")
+        packages = c("flexsurv", "survival", "distr6", "set6")
         )
       },
 

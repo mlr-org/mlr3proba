@@ -43,7 +43,7 @@ lrn("surv.flexible")
 \item Type: "surv"
 \item Predict Types: \verb{distr, lp, crank}
 \item Feature Types: \verb{logical, integer, factor, numeric}
-\item Packages: \CRANpkg{flexsurv} \CRANpkg{survival} \CRANpkg{distr6}
+\item Packages: \CRANpkg{flexsurv} \CRANpkg{survival} \CRANpkg{distr6} \CRANpkg{set6}
 }
 }
 

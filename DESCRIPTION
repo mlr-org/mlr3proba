@@ -57,6 +57,7 @@ Suggests:
     ranger,
     riskRegression,
     rpart,
+    set6,
     simsurv,
     survAUC,
     survivalsvm,

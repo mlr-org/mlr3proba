@@ -18,7 +18,7 @@ predict_survreg = function(object, task, type = "aft"){
   # AFT: h(t) = exp(-lp)h0(t/exp(lp))
   # PO: h(t)/h0(t) = {1 + (exp(lp)-1)S0(t)}^-1
 
-  dist = distr6::toproper(fit$dist)
+  dist = toproper(fit$dist)
 
   if (type == "ph") {
     name = paste(dist, "Proportional Hazards Model")
@@ -36,8 +36,8 @@ predict_survreg = function(object, task, type = "aft"){
 
   params = list(list(name = name,
                      short_name = short_name,
-                     type = distr6::PosReals$new(),
-                     support = distr6::PosReals$new(),
+                     type = set6::PosReals$new(),
+                     support = set6::PosReals$new(),
                      valueSupport = "continuous",
                      variateForm = "univariate",
                      description = description,

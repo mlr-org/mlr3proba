@@ -10,6 +10,7 @@
 #' @details For full details see [PipeOpCrankCompositor].
 #' @return [mlr3pipelines::GraphLearner]
 #' @examples
+#' \dontrun{
 #' library(mlr3)
 #' library(mlr3pipelines)
 #'
@@ -17,6 +18,7 @@
 #' ranger.crank = crankcompositor(learner = lrn("surv.coxph"),
 #'                             method = "median")
 #' resample(task, ranger.crank, rsmp("cv", folds = 2))$predictions()
+#' }
 #' @export
 crankcompositor = function(learner, method = c("mean","median","mode"), param_vals = list()){
   assert("distr" %in% learner$predict_types)

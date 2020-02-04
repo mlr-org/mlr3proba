@@ -72,10 +72,10 @@ predict_flexsurvreg <- function (object, task, ...)
                                          value = c(list(numeric(length(object$knots)),
                                                         "hazard", "log"),rep(list(0), length(object$dlist$pars))),
                                          settable = rep(TRUE, length(args)+length(object$dlist$pars)),
-                                         support = c(list(distr6::Reals$new(dim = length(object$knots)),
-                                                          distr6::Set$new("hazard","odds","normal"),
-                                                          distr6::Set$new("log","identity")),
-                                                     rep(list(distr6::Reals$new()), length(object$dlist$pars)))
+                                         support = c(list(set6::Reals$new()^length(object$knots)),
+                                                          set6::Set$new("hazard","odds","normal"),
+                                                          set6::Set$new("log","identity"),
+                                                     rep(list(set6::Reals$new()), length(object$dlist$pars)))
    )
 
    pars = data.table::data.table(t(pars))
@@ -96,8 +96,8 @@ predict_flexsurvreg <- function (object, task, ...)
 
    shared_params = list(name = "Flexible Parameteric",
                         short_name = "Flexsurv",
-                        type = distr6::PosReals$new(),
-                        support = distr6::PosReals$new(),
+                        type = set6::PosReals$new(),
+                        support = set6::PosReals$new(),
                         valueSupport = "continuous",
                         variateForm = "univariate",
                         description = "Royston/Parmar Flexible Parametric Survival Model",

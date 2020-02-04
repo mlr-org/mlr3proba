@@ -29,6 +29,7 @@ simplifies graph creation.
 For full details see \link{PipeOpCrankCompositor}.
 }
 \examples{
+\dontrun{
 library(mlr3)
 library(mlr3pipelines)
 
@@ -36,4 +37,5 @@ task = tgen("simsurv")$generate(20)
 ranger.crank = crankcompositor(learner = lrn("surv.coxph"),
                             method = "median")
 resample(task, ranger.crank, rsmp("cv", folds = 2))$predictions()
+}
 }
