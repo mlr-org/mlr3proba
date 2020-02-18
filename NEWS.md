@@ -2,6 +2,8 @@
 
 * Changed `lp` in `surv.parametric` to include the intercept, which is in line with `survival::survreg`. Now `exp(pred$lp)` is equal to the predicted survival time for AFTs
 * Moved `mboost` to `suggests`
+* Added `response` predict type, which predicts the time until event. Currently only supported for AFT models in `surv.parametric`
+* Added measures for `response` predict type: `MeasureSurvMAE, MeasureSurvMAESE, MeasureSurvMSE, MeasureSurvMSESE, MeasureSurvRMSE, MeasureSurvRMSESE`
 
 # mlr3proba 0.1.2
 
