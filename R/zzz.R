@@ -22,7 +22,7 @@ register_mlr3 = function() {
       # "density", "mlr3proba", "TaskDensity", "LearnerDensity", "PredictionDensity", "MeasureDensity",
       # "probreg", "mlr3proba", "TaskProbreg", "LearnerProbreg", "PredictionProbreg", "MeasureDensity"
     )), "type")
-    x$task_col_roles$surv = c("feature", "target", "label", "order", "group", "weight")
+    x$task_col_roles$surv = c("feature", "target", "label", "order", "group", "weight", "stratum")
     # x$task_col_roles$density = c("feature", "target", "label", "order", "group", "weight")
     # x$task_col_roles$probreg = c("feature", "target", "label", "order", "group", "weight")
     x$task_properties$surv = c("weights", "groups")
