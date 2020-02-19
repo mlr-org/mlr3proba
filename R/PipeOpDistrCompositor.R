@@ -142,7 +142,7 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
         if(length(form) == 0) form = "aft"
 
         base = base$distr[1]
-        times = base$support()$elements
+        times = unlist(base$support()$elements)
 
         nr = nrow(inpred$data$tab)
         nc = length(times)
@@ -165,7 +165,7 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
 
         x = rep(list(data = data.frame(x = times, cdf = 0)), nr)
 
-        for(i in 1:nc)
+        for(i in seq_along(times))
           x[[i]]$cdf = cdf[i,]
 
         distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
