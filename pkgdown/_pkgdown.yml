@@ -26,7 +26,7 @@ navbar:
         - text: Survival Analysis
           href: articles/survival.html
     mattermost:
-      icon: fab fa-comments
+      icon: fa fa-comments
       href: https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/
     book:
       text: mlr3book
