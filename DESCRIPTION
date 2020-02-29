@@ -73,6 +73,7 @@ RoxygenNote: 7.0.2
 RdMacros: mlr3misc
 Collate:
     'LearnerDens.R'
+    'LearnerDensHistogram.R'
     'LearnerProbreg.R'
     'LearnerProbregGaussian.R'
     'LearnerSurv.R'
@@ -148,6 +149,7 @@ Collate:
     'crankcompositor.R'
     'distrcompositor.R'
     'helpers.R'
+    'histogram.R'
     'integrated_scores.R'
     'surv_measures.R'
     'weighted_survival_score.R'
