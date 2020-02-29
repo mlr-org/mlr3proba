@@ -1,3 +1,9 @@
+#' @template dens_learner
+#' @templateVar title Histogram
+#' @templateVar fullname LearnerDensHistogram
+#' @templateVar caller [graphics::hist()]
+#'
+#' @export
 LearnerDensHistogram <- R6::R6Class("LearnerDensHistogram", inherit = LearnerDens,
   public = list(initialize = function(id = "dens.hist"){
     super$initialize(
