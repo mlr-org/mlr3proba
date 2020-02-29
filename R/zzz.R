@@ -67,7 +67,9 @@ register_mlr3 = function() {
 
   # learners
    x = utils::getFromNamespace("mlr_learners", ns = "mlr3")
-   # x$add("density.kde", LearnerDensityKDE)
+
+   x$add("dens.hist", LearnerDensHistogram)
+
    # x$add("probreg.gaussian", LearnerProbregGaussian)
 
    x$add("surv.coxph", LearnerSurvCoxPH)
