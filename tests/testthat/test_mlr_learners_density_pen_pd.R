@@ -1,4 +1,4 @@
-context("dens.penLP")
+context("dens.penPD")
 
 test_that("autotest", {
   set.seed(1)
