@@ -74,6 +74,7 @@ RdMacros: mlr3misc
 Collate:
     'LearnerDens.R'
     'LearnerDensHistogram.R'
+    'LearnerDensKDE.R'
     'LearnerProbreg.R'
     'LearnerProbregGaussian.R'
     'LearnerSurv.R'
