@@ -39,4 +39,8 @@ ids
 lrn = mlr_learners$get("surv.rpart")
 print(lrn)
 }
+\seealso{
+Other Learner: 
+\code{\link{LearnerDens}}
+}
 \concept{Learner}

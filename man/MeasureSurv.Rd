@@ -32,5 +32,8 @@ See \link{Measure}.
 \seealso{
 Example survival measures: \code{\link[=MeasureSurvGraf]{surv.graf}},
 \code{\link[=MeasureSurvHarrellC]{surv.harrellC}}.
+
+Other Measure: 
+\code{\link{MeasureDens}}
 }
 \concept{Measure}

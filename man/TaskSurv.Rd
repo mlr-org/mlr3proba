@@ -61,4 +61,8 @@ task$feature_names
 task$formula()
 task$truth()
 }
+\seealso{
+Other Task: 
+\code{\link{TaskDens}}
+}
 \concept{Task}

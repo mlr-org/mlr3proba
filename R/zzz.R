@@ -30,9 +30,10 @@ register_mlr3 = function() {
     # x$learner_properties$probreg = x$learner_properties$regr
     x$measure_properties$surv = x$measure_properties$regr
     # x$measure_properties$probreg = x$measure_properties$regr
-    x$learner_predict_types$surv = list(crank = c("crank","lp","distr"),
-                                        distr = c("crank","lp","distr"),
-                                        lp = c("crank","lp","distr"))
+    x$learner_predict_types$surv = list(crank = c("crank","lp","distr","response"),
+                                        distr = c("crank","lp","distr","response"),
+                                        lp = c("crank","lp","distr","response"),
+                                        response = c("crank","lp","distr","response"))
     x$default_measures$surv = "surv.harrellC"
   }
 

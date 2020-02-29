@@ -54,4 +54,8 @@ learner = mlr_learners$get("surv.rpart")
 p = learner$train(task)$predict(task)
 head(as.data.table(p))
 }
+\seealso{
+Other Prediction: 
+\code{\link{PredictionDens}}
+}
 \concept{Prediction}
