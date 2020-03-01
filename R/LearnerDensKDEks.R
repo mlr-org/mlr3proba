@@ -23,7 +23,7 @@ LearnerDensKDEks <- R6::R6Class("LearnerDensKDEks", inherit = LearnerDens,
                                   ParamUty$new(id = "w", tags = "train"),
                                   ParamLgl$new(id = "compute.cont", default =TRUE, tags= "train"),
                                   ParamLgl$new(id = "approx.cont", default =TRUE, tags = "train"),
-                                  ParamLgl$new(id = "unit.interval", lower = 0, upper = 1, default=FALSE, tags = "train"),
+                                  ParamLgl$new(id = "unit.interval",  default=FALSE, tags = "train"),
                                   ParamLgl$new(id = "zero.flag", tags = "train")
 
                           )),
