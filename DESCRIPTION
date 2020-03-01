@@ -47,6 +47,7 @@ Suggests:
     gbm,
     glmnet,
     knitr,
+    ks,
     lgr,
     mboost,
     mlr3tuning,
