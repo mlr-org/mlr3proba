@@ -50,6 +50,7 @@ Suggests:
     lgr,
     mboost,
     mlr3tuning,
+    np,
     obliqueRSF,
     pec,
     penalized,
