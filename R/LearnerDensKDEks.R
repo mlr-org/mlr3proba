@@ -12,7 +12,6 @@ LearnerDensKDEks <- R6::R6Class("LearnerDensKDEks", inherit = LearnerDens,
                           params = list(
                                   ParamDbl$new(id = "h", lower = 0,   tags = "train"),
                                   ParamUty$new(id = "H", tags = "train"),
-                                  ParamDbl$new(id = "gridsize", tags = "train"),
                                   ParamUty$new(id = "gridtype", tags = "train"),
                                   ParamDbl$new(id = "xmin", tags = "train"),
                                   ParamDbl$new(id = "xmax", tags = "train"),
@@ -21,11 +20,12 @@ LearnerDensKDEks <- R6::R6Class("LearnerDensKDEks", inherit = LearnerDens,
                                   ParamDbl$new(id = "bgridsize", tags = "train"),
                                   ParamLgl$new(id = "positive", default = FALSE, tags = "train"),
                                   ParamUty$new(id = "adj.positive", tags = "train"),
-                                  ParamDbl$new(id = "w", tags = "train"),
+                                  ParamUty$new(id = "w", tags = "train"),
                                   ParamLgl$new(id = "compute.cont", default =TRUE, tags= "train"),
                                   ParamLgl$new(id = "approx.cont", default =TRUE, tags = "train"),
-                                  ParamLgl$new(id = "unit.interval", default=FALSE, tags = "train"),
-                                  ParamLgl$new(id = "verbose", default =FALSE, tags = "train")
+                                  ParamLgl$new(id = "unit.interval", lower = 0, upper = 1, default=FALSE, tags = "train"),
+                                  ParamLgl$new(id = "zero.flag", tags = "train")
+
                           )),
                   feature_types =  c("logical", "integer", "numeric", "character", "factor", "ordered"),
                   predict_types = "pdf",
@@ -46,8 +46,8 @@ LearnerDensKDEks <- R6::R6Class("LearnerDensKDEks", inherit = LearnerDens,
 
                   })
 
-                  Distribution$new(name = "ks Density Gaussian",
-                                   short_name = "ksDensGaus",
+                  Distribution$new(name = "ks KDE Gaussian",
+                                   short_name = "ksKDEGaus",
                                    pdf = pdf)
           },
 
