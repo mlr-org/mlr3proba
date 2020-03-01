@@ -59,6 +59,7 @@ Suggests:
     rpart,
     set6,
     simsurv,
+    sm,
     survAUC,
     survivalsvm,
     testthat
