@@ -46,6 +46,7 @@ Suggests:
     flexsurv,
     gbm,
     glmnet,
+    kerdiest,
     knitr,
     lgr,
     mboost,
