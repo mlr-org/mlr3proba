@@ -53,6 +53,7 @@ Suggests:
     obliqueRSF,
     pec,
     penalized,
+    pendensity,
     randomForestSRC,
     ranger,
     riskRegression,
