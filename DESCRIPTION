@@ -48,6 +48,7 @@ Suggests:
     glmnet,
     knitr,
     lgr,
+    logspline,
     mboost,
     mlr3tuning,
     obliqueRSF,
