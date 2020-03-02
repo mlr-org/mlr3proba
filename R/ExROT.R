@@ -18,6 +18,6 @@ ExROT <- function(kernel, N){
         0.7292*(k4/var^2)
     }
 
-    return(1.0592 * var * (C*N)^(-1/5))
+    return(1.0592 * sqrt(var) * (C*N)^(-1/5))
   })
 }
