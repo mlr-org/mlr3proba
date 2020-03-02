@@ -11,7 +11,7 @@ LearnerDensKDE$set("public", "initialize", function(id = "dens.kde") {
                                                       select="ShortName")[[1]],
                                       default = "Norm",
                                       tags = "train"),
-                         ParamDbl$new("bandwidth", lower = 0, tags = "train")))
+                               ParamUty$new("bandwidth", special_vals = "ExROT",  tags = "train")))
 
   ps$values = list(kernel = "Norm")
 
@@ -31,7 +31,14 @@ LearnerDensKDE$set("public", "train_internal", function(task){
 
     ntrain = as.numeric(train)
 
-    return(1/(rows * bw) * sum(kernel$pdf((x1 - ntrain)/bw)))
+
+    pdf <- (1/(rows * bw) * sum(kernel$pdf((x1 - ntrain)/bw)))
+
+    if(!missing(bw)){
+
+      return(pdf <- (1/(rows * bw) * sum(kernel$pdf((x1 - ntrain)/bw))))
+
+    } else(return((1/(rows * ExROT(kernel, rows)) * sum(kernel$pdf((x1 - ntrain)/ExROT(kernel, rows))))))
 
 
   }, list(rows = task$nrow,
