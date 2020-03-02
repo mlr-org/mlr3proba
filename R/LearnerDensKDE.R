@@ -37,8 +37,8 @@ LearnerDensKDE$set("public", "train_internal", function(task){
   }, list(rows = task$nrow,
           bw = self$param_set$values$bandwidth,
           kernel = get(as.character(subset(listKernels(),
-          ShortName == self$param_set$values$kernel,
-          ClassName)))$new(),
+                                           ShortName == self$param_set$values$kernel,
+                                           ClassName)))$new(),
           train = task$truth()))
 
   Distribution$new(name = paste(self$param_set$values$kernel, "KDE"),
