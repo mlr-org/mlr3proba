@@ -1,14 +1,13 @@
 #' <% learn = get(fullname)$new() %>
 #' <% shortname = learn$id %>
 #'
-#'
 #' @include LearnerDens.R
 #' @title <%=title%> Density Estimator
 #' @usage NULL
 #' @format [R6::R6Class()] inheriting from [LearnerDens].
 #' @aliases <%= paste("mlr_learners", shortname, sep = "_")%>
 #' @description
-#' Calls <%=caller%> and the result is coerced to a \CRANpkg{distr6} object.
+#' Calls <%=caller%> and the result is coerced to a [distr6::Distribution].
 #'
 #'
 #' @section Construction:

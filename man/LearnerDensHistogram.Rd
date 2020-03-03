@@ -6,7 +6,7 @@
 \title{Histogram Density Estimator}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerDens}.}
 \description{
-Calls \code{\link[graphics:hist]{graphics::hist()}} and the result is coerced to a \CRANpkg{distr6} object.
+Calls \code{\link[graphics:hist]{graphics::hist()}} and the result is coerced to a \link[distr6:Distribution]{distr6::Distribution}.
 }
 \section{Construction}{
 \preformatted{LearnerDensHistogram$new()
@@ -25,4 +25,8 @@ lrn("dens.hist")
 }
 }
 
+\seealso{
+Other density estimators: 
+\code{\link{LearnerDensKDE}}
+}
 \concept{density estimators}
