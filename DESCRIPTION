@@ -55,6 +55,7 @@ Suggests:
     knitr,
     ks,
     lgr,
+    locfit,
     mboost,
     mlr3tuning,
     obliqueRSF,
@@ -84,6 +85,7 @@ Collate:
     'LearnerDensKDE.R'
     'LearnerDensKDEkd.R'
     'LearnerDensKDEks.R'
+    'LearnerDensLocfit.R'
     'LearnerDensSpline.R'
     'LearnerProbreg.R'
     'LearnerProbregGaussian.R'
