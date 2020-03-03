@@ -25,7 +25,7 @@ LearnerDensKDEkd <- R6::R6Class("LearnerDensKDEkd", inherit = LearnerDens,
 
       pars = self$param_set$get_values(tag="train")
 
-      data = as.numeric(unlist(task$data(cols = task$target_names)))
+      data = task$truth()
 
       pdf <- function(x1){}
 
@@ -42,7 +42,7 @@ LearnerDensKDEkd <- R6::R6Class("LearnerDensKDEkd", inherit = LearnerDens,
 
     predict_internal = function(task){
 
-      newdata = as.numeric(unlist(task$data(cols = task$target_names)))
+      newdata = task$truth()
 
       PredictionDens$new(task = task, pdf = self$model$pdf(newdata))
 
