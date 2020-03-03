@@ -4,8 +4,8 @@
 #' @templateVar caller [gss::ssden()]
 #'
 #' @export
-LearnerDensSpline <- R6::R6Class("LearnerDensSpline", inherit = LearnerDens,
-  public = list(initialize = function(id = "dens.spline"){
+LearnerDensLogspline <- R6::R6Class("LearnerDensSpline", inherit = LearnerDens,
+  public = list(initialize = function(id = "dens.logspline"){
     super$initialize(
       id = id,
       param_set = ParamSet$new(
