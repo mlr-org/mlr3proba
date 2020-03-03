@@ -28,7 +28,6 @@ lrn("dens.hist")
 \seealso{
 Other density estimators: 
 \code{\link{LearnerDensKDEgk}},
-\code{\link{LearnerDensKDE}}
 \code{\link{LearnerDensKDEks}},
 \code{\link{LearnerDensKDE}},
 \code{\link{LearnerDensSpline}}
