@@ -18,12 +18,8 @@ p = lrn$train(task)
 dist = p$model
 
 test_that("pdf", {
-  expect_equal(dist$pdf(0.5), 0.6160083)
-  expect_equal(dist$pdf(1.5), 0.6104685)
-  # expect_equal(dist$pdf(1.0), 0.75)
-  # expect_equal(dist$pdf(1.5), 0.25)
-  # expect_equal(dist$pdf(2.0), 0.25)
-  # expect_equal(dist$pdf(-1), 0)
-  # expect_equal(dist$pdf(3), 0)
+  expect_equal(round(dist$pdf(0.5),3), 0.616)
+  expect_equal(round(dist$pdf(1.5),3), 0.610)
+  expect_equal(round(dist$pdf(0),3), 0.068)
 })
 
