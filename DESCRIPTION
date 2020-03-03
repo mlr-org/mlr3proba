@@ -52,6 +52,7 @@ Suggests:
     glmnet,
     gss,
     knitr,
+    ks,
     lgr,
     mboost,
     mlr3tuning,
@@ -80,6 +81,7 @@ Collate:
     'LearnerDens.R'
     'LearnerDensHistogram.R'
     'LearnerDensKDE.R'
+    'LearnerDensKDEks.R'
     'LearnerDensSpline.R'
     'LearnerProbreg.R'
     'LearnerProbregGaussian.R'
