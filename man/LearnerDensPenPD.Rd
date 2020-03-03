@@ -19,7 +19,7 @@ lrn("dens.penPD")
 
 \itemize{
 \item Type: "dens"
-\item Predict Types: \code{pdf}
+\item Predict Types: \verb{pdf, cdf}
 \item Feature Types: \verb{logical, integer, numeric, character, factor, ordered}
 \item Packages: \CRANpkg{pendensity} \CRANpkg{distr6}
 }
@@ -28,6 +28,10 @@ lrn("dens.penPD")
 \seealso{
 Other density estimators: 
 \code{\link{LearnerDensHistogram}},
-\code{\link{LearnerDensKDE}}
+\code{\link{LearnerDensKDEkd}},
+\code{\link{LearnerDensKDEks}},
+\code{\link{LearnerDensKDE}},
+\code{\link{LearnerDensLocfit}},
+\code{\link{LearnerDensSpline}}
 }
 \concept{density estimators}
