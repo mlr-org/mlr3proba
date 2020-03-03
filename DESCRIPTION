@@ -50,6 +50,7 @@ Suggests:
     flexsurv,
     gbm,
     glmnet,
+    kerdiest,
     gss,
     knitr,
     ks,
@@ -81,6 +82,7 @@ Collate:
     'LearnerDens.R'
     'LearnerDensHistogram.R'
     'LearnerDensKDE.R'
+    'LearnerDensKDEkd.R'
     'LearnerDensKDEks.R'
     'LearnerDensSpline.R'
     'LearnerProbreg.R'
