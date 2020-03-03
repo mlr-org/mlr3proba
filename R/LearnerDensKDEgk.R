@@ -1,7 +1,13 @@
+#' @template dens_learner
+#' @templateVar title Kernel
+#' @templateVar fullname LearnerDensKDEgk
+#' @templateVar caller [GenKern::KernSec]
+#'
+#' @export
 LearnerDensKDEgk = R6::R6Class("LearnerDensKDEgk", inherit = LearnerDens)
 LearnerDensKDEgk$set("public", "initialize", function(id = "dens.kdeGK") {
-  ps = ParamSet$new(list(ParamUty$new(id = "xbandwidth", lower = 0, tags = "train"),
-                         ParamInt$new(id = "xgridsize", lodwer =0, default = 100, tags = "train")
+  ps = ParamSet$new(list(ParamUty$new(id = "xbandwidth", tags = "train"),
+                         ParamInt$new(id = "xgridsize", lower =0, default = 100, tags = "train")
   ))
 
   ps$values = list(xgridsize = 100)
@@ -31,8 +37,8 @@ LearnerDensKDEgk$set("public", "train_internal", function(task){
           xg = self$param_set$values$xgridsize,
           train = task$truth()))
 
-  Distribution$new(name = "GenKern KDE Gaussian",
-                   short_name = "GenKernKDEGaus",
+  Distribution$new(name = "GenKern KDE",
+                   short_name = "GenKernKDE",
                    pdf = pdf)
 
 })

@@ -3,10 +3,10 @@
 \name{LearnerDensKDEgk}
 \alias{LearnerDensKDEgk}
 \alias{mlr_learners_dens.kdeGK}
-\title{Gaussian Univariate Kernel Density Estimator}
+\title{Kernel Density Estimator}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerDens}.}
 \description{
-Calls \code{\link[GenKern:KernSec]{GenKern::KernSec()}} and the result is coerced to a \link[distr6:Distribution]{distr6::Distribution}.
+Calls \link[GenKern:KernSec]{GenKern::KernSec} and the result is coerced to a \link[distr6:Distribution]{distr6::Distribution}.
 }
 \section{Construction}{
 \preformatted{LearnerDensKDEgk$new()
@@ -20,7 +20,7 @@ lrn("dens.kdeGK")
 \itemize{
 \item Type: "dens"
 \item Predict Types: \code{pdf}
-\item Feature Types: \verb{integer, numeric, character, factor, ordered}
+\item Feature Types: \verb{logical, integer, numeric, character, factor, ordered}
 \item Packages: \CRANpkg{GenKern} \CRANpkg{distr6}
 }
 }
