@@ -1,7 +1,7 @@
 LearnerDensKDEgk = R6::R6Class("LearnerDensKDEgk", inherit = LearnerDens)
 LearnerDensKDEgk$set("public", "initialize", function(id = "dens.kdeGK") {
-  ps = ParamSet$new(list(ParamUty$new(id = "xbandwidth", tags = "train"),
-                         ParamInt$new(id = "xgridsize", default = 100, tags = "train")
+  ps = ParamSet$new(list(ParamUty$new(id = "xbandwidth", lower = 0, tags = "train"),
+                         ParamInt$new(id = "xgridsize", lodwer =0, default = 100, tags = "train")
   ))
 
   ps$values = list(xgridsize = 100)
