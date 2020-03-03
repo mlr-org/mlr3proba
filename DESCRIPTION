@@ -61,6 +61,7 @@ Suggests:
     obliqueRSF,
     pec,
     penalized,
+    pendensity,
     randomForestSRC,
     ranger,
     riskRegression,
@@ -86,6 +87,7 @@ Collate:
     'LearnerDensKDEkd.R'
     'LearnerDensKDEks.R'
     'LearnerDensLocfit.R'
+    'LearnerDensPenalized.R'
     'LearnerDensSpline.R'
     'LearnerProbreg.R'
     'LearnerProbregGaussian.R'
@@ -143,6 +145,7 @@ Collate:
     'MeasureSurvUnoTNR.R'
     'MeasureSurvUnoTPR.R'
     'MeasureSurvXuR2.R'
+    'PDDens.R'
     'PipeOpCrankCompositor.R'
     'PipeOpDistrCompositor.R'
     'PredictionDens.R'

@@ -28,8 +28,10 @@ lrn("dens.locfit")
 \seealso{
 Other density estimators: 
 \code{\link{LearnerDensHistogram}},
+\code{\link{LearnerDensKDEkd}},
 \code{\link{LearnerDensKDEks}},
 \code{\link{LearnerDensKDE}},
+\code{\link{LearnerDensPenalized}},
 \code{\link{LearnerDensSpline}}
 }
 \concept{density estimators}
