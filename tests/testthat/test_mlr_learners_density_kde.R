@@ -10,16 +10,26 @@ test_that("autotest", {
 
 
 data = data.frame("A" = c(0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6))
-# a <- ks::kde(x = data, h = 0.1,  eval.points = c(0, 0.5, 1, 1.5, 2, -1, 3))$estimate
-# a
 task = TaskDens$new(id = "a", data, target = "A")
 lrn = lrn("dens.kde", bandwidth = 0.1, kernel = "Norm")
-p = lrn$train(task)
-dist = p$model
+lrn$train(task)
 
 test_that("pdf", {
-  expect_equal(round(dist$pdf(0.5),3), 0.616)
-  expect_equal(round(dist$pdf(1.5),3), 0.610)
-  expect_equal(round(dist$pdf(0),3), 0.068)
+  set.seed(1)
+  task_test = TaskDens$new(id = "a", data.frame(a = c(0.5)), target = "a")
+  expect_equal(round(lrn$predict(task_test)$pdf,3), c(0.616))
+  task_test = TaskDens$new(id = "a", data.frame(a = c(0.5,1.5,0)), target = "a")
+  expect_equal(round(lrn$predict(task_test)$pdf,3), c(0.616,0.610,0.068))
+  d = stats::density(data$A, bw = 0.1)
+  task_test = TaskDens$new(id = "a", data.frame(a = d$x[20]), target = "a")
+  expect_equal(round(d$y[20],2), round(lrn$predict(task_test)$pdf,2))
 })
 
+test_that("bw",{
+  set.seed(1)
+  lrn = lrn("dens.kde")
+  lrn$train(task)
+  d = stats::density(data$A, bw = 0.2908909)
+  task_test = TaskDens$new(id = "a", data.frame(a = d$x[20]), target = "a")
+  expect_equal(round(d$y[20],3), round(lrn$predict(task_test)$pdf,3))
+})
