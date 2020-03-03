@@ -8,6 +8,11 @@
 \description{
 Calls kernels implemented in \CRANpkg{distr6} and the result is coerced to a \link[distr6:Distribution]{distr6::Distribution}.
 }
+\details{
+The default bandwidth uses Silverman's rule-of-thumb for Gaussian kernels, however for
+non-Gaussian kernels it is recommended to use \CRANpkg{mlr3tuning} to tune the bandwidth with
+cross-validation. Other density learners can be used for automated bandwidth selection.
+}
 \section{Construction}{
 \preformatted{LearnerDensKDE$new()
 mlr_learners$get("dens.kde")
@@ -25,9 +30,13 @@ lrn("dens.kde")
 }
 }
 
+\references{
+\cite{mlr3proba}{silverman_1986}
+}
 \seealso{
 Other density estimators: 
 \code{\link{LearnerDensHistogram}},
 \code{\link{LearnerDensKDEks}}
+\code{\link{LearnerDensSpline}}
 }
 \concept{density estimators}
