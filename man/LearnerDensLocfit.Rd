@@ -31,7 +31,7 @@ Other density estimators:
 \code{\link{LearnerDensKDEkd}},
 \code{\link{LearnerDensKDEks}},
 \code{\link{LearnerDensKDE}},
-\code{\link{LearnerDensPenPD}},
+\code{\link{LearnerDensPenalized}},
 \code{\link{LearnerDensSpline}}
 }
 \concept{density estimators}

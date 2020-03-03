@@ -87,7 +87,7 @@ Collate:
     'LearnerDensKDEkd.R'
     'LearnerDensKDEks.R'
     'LearnerDensLocfit.R'
-    'LearnerDensPenPD.R'
+    'LearnerDensPenalized.R'
     'LearnerDensSpline.R'
     'LearnerProbreg.R'
     'LearnerProbregGaussian.R'

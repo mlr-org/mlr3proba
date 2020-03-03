@@ -1,11 +1,11 @@
 #' @template dens_learner
 #' @templateVar title Penalized
-#' @templateVar fullname LearnerDensPenPD
+#' @templateVar fullname LearnerDensPenalized
 #' @templateVar caller [pendensity::pendensity()]
 #'
 #' @export
-LearnerDensPenPD <- R6::R6Class("LearnerDensPenPD", inherit = LearnerDens,
-  public = list(initialize = function(id = "dens.penPD"){
+LearnerDensPenalized <- R6::R6Class("LearnerDensPenalized", inherit = LearnerDens,
+  public = list(initialize = function(id = "dens.pen"){
     super$initialize(
       id = id,
       param_set = ParamSet$new(
@@ -30,9 +30,7 @@ LearnerDensPenPD <- R6::R6Class("LearnerDensPenPD", inherit = LearnerDens,
 
       pars = self$param_set$get_values(tag="train")
 
-      data =  task$truth()
-
-      invisible(capture.output(fit <- invoke(pendensity::pendensity, form = data ~1, .args = pars)))
+      capture.output(fit <- invoke(pendensity::pendensity, form = task$truth() ~ 1, .args = pars))
       #suppress the automated output of pendensity
 
       pdf <- function(x1){}
@@ -52,7 +50,7 @@ LearnerDensPenPD <- R6::R6Class("LearnerDensPenPD", inherit = LearnerDens,
       })
 
 
-      Distribution$new(name = paste("Pendensity Density", self$param_set$values$base),
+      Distribution$new(name = paste("Penalized Density", self$param_set$values$base),
                        short_name = paste("PenDens_", self$param_set$values$base),
                        pdf = pdf, cdf = cdf)
     },
