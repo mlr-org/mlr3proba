@@ -10,9 +10,9 @@ LearnerDensLocfit <- R6::R6Class("LearnerDensLocfit", inherit = LearnerDens,
       id = id,
       param_set = ParamSet$new(
         params = list(
-          ParamFct$new(id = "window", levels = c("gaussian", "epanechnikov", "rectangular",
-                                                 "triangular", "biweight", "uniform",
-                                                 "optcosine"), default = "gaussian", tags = "train"),
+          ParamFct$new(id = "window", levels = c("tcub", "rect", "trwt",
+                                                 "tria", "epan", "bisq",
+                                                 "gaus"), default = "gaus", tags = "train"),
           ParamDbl$new(id = "width", tags = "train"),
           ParamDbl$new(id = "from", tags = "train"),
           ParamDbl$new(id = "to", tags = "train"),
