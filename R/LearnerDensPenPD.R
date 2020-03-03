@@ -22,7 +22,7 @@ LearnerDensPenPD <- R6::R6Class("LearnerDensPenPD", inherit = LearnerDens,
                        default = "gaussian", tags = "train")
         )),
       feature_types =  c("logical", "integer", "numeric", "character", "factor", "ordered"),
-      predict_types = "pdf",
+      predict_types = c("pdf", "cdf"),
       packages = c("pendensity", "distr6")
     )},
 
@@ -30,27 +30,38 @@ LearnerDensPenPD <- R6::R6Class("LearnerDensPenPD", inherit = LearnerDens,
 
       pars = self$param_set$get_values(tag="train")
 
-      # data = as.data.frame(unlist(task$data(cols = task$target_names)))
-      data =  data = as.numeric(unlist(task$data(cols = task$target_names)))
+      data =  task$truth()
+
+      invisible(capture.output(fit <- invoke(pendensity::pendensity, form = data ~1, .args = pars)))
+      #suppress the automated output of pendensity
 
       pdf <- function(x1){}
 
       body(pdf) <- substitute({
 
-        invoke(.PDDens, dat = data, test = x1, .args = pars)$dens
+        invoke(pendensity::dpendensity, x = fit, val=x1)
 
       })
 
+      cdf <- function(x1){}
+
+      body(cdf) <- substitute({
+
+        invoke(pendensity::ppendensity, x = fit, val=x1)
+
+      })
+
+
       Distribution$new(name = paste("Pendensity Density", self$param_set$values$base),
-                       short_name = paste0(self$param_set$values$base),
-                       pdf = pdf)
+                       short_name = paste("PenDens_", self$param_set$values$base),
+                       pdf = pdf, cdf = cdf)
     },
 
     predict_internal = function(task){
 
-      newdata = as.numeric(unlist(task$data(cols = task$target_names)))
+      newdata = task$truth()
 
-      PredictionDens$new(task = task, pdf = self$model$pdf(newdata))
+      PredictionDens$new(task = task, pdf = self$model$pdf(newdata), cdf = self$model$pdf(newdata))
 
     }
 
