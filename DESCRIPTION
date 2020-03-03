@@ -73,11 +73,10 @@ Roxygen: list(markdown = TRUE, r6 = FALSE)
 RoxygenNote: 7.0.2
 RdMacros: mlr3misc
 Collate:
-    'DensGss.R'
     'LearnerDens.R'
     'LearnerDensHistogram.R'
     'LearnerDensKDE.R'
-    'LearnerDensPenGss.R'
+    'LearnerDensSpline.R'
     'LearnerProbreg.R'
     'LearnerProbregGaussian.R'
     'LearnerSurv.R'
