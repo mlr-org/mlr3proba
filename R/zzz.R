@@ -69,7 +69,7 @@ register_mlr3 = function() {
    x$add("dens.pen", LearnerDensPenalized)
    x$add("dens.kdeKD", LearnerDensKDEkd)
    x$add("dens.kdeKS", LearnerDensKDEks)
-   x$add("dens.logspline", LearnerDensLogspline)
+   x$add("dens.spline", LearnerDensSpline)
 
    x$add("surv.coxph", LearnerSurvCoxPH)
    x$add("surv.kaplan", LearnerSurvKaplan)
