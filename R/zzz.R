@@ -64,7 +64,7 @@ register_mlr3 = function() {
 
    x$add("dens.hist", LearnerDensHistogram)
    x$add("dens.kde", LearnerDensKDE)
-   x$add("dens.kdeSM", LearnerDensKDEsm)
+   x$add("dens.nonpar", LearnerDensNonparametric)
 
    x$add("surv.coxph", LearnerSurvCoxPH)
    x$add("surv.kaplan", LearnerSurvKaplan)
