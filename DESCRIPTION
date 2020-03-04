@@ -16,10 +16,14 @@ Authors@R:
              role = "aut",
              email = "michellang@gmail.com",
              comment = c(ORCID = "0000-0001-9754-0393")),
+      person(given = "Nurul Ain",
+             family = "Toha",
+             role = "ctb",
+             email = "nurul.toha.15@ucl.ac.uk"),
       person(given="Andreas",
              family="Bender",
              email="bender.at.R@gmail.com",
-             role = c("ctb"),
+             role = "ctb",
              comment=c(ORCID = "0000-0001-5628-8611")))
 Description: Provides extensions for probabilistic supervised
     learning for 'mlr3'.  This includes extending the regression task to
@@ -46,14 +50,19 @@ Suggests:
     flexsurv,
     gbm,
     glmnet,
+    kerdiest,
+    gss,
     knitr,
+    ks,
     lgr,
     logspline,
+    locfit,
     mboost,
     mlr3tuning,
     obliqueRSF,
     pec,
     penalized,
+    pendensity,
     randomForestSRC,
     ranger,
     riskRegression,
@@ -78,6 +87,11 @@ Collate:
     'LearnerDensHistogram.R'
     'LearnerDensKDE.R'
     'LearnerDensPenLP.R'
+    'LearnerDensKDEkd.R'
+    'LearnerDensKDEks.R'
+    'LearnerDensLocfit.R'
+    'LearnerDensPenalized.R'
+    'LearnerDensSpline.R'
     'LearnerProbreg.R'
     'LearnerProbregGaussian.R'
     'LearnerSurv.R'
@@ -134,6 +148,7 @@ Collate:
     'MeasureSurvUnoTNR.R'
     'MeasureSurvUnoTPR.R'
     'MeasureSurvXuR2.R'
+    'PDDens.R'
     'PipeOpCrankCompositor.R'
     'PipeOpDistrCompositor.R'
     'PredictionDens.R'
