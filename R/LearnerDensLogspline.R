@@ -1,6 +1,6 @@
 #' @template dens_learner
 #' @templateVar title Logspline
-#' @templateVar fullname LearnerDensPenLP
+#' @templateVar fullname LearnerDensLogspline
 #' @templateVar caller [logspline::logspline()]
 #'
 #' @export
