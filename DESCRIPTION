@@ -55,6 +55,7 @@ Suggests:
     knitr,
     ks,
     lgr,
+    logspline,
     locfit,
     mboost,
     mlr3tuning,
@@ -81,12 +82,14 @@ Roxygen: list(markdown = TRUE, r6 = FALSE)
 RoxygenNote: 7.0.2
 RdMacros: mlr3misc
 Collate:
+    'DensLogspline.R'
     'LearnerDens.R'
     'LearnerDensHistogram.R'
     'LearnerDensKDE.R'
     'LearnerDensKDEkd.R'
     'LearnerDensKDEks.R'
     'LearnerDensLocfit.R'
+    'LearnerDensLogspline.R'
     'LearnerDensPenalized.R'
     'LearnerDensSpline.R'
     'LearnerProbreg.R'
