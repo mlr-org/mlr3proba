@@ -33,6 +33,7 @@ Other density estimators:
 \code{\link{LearnerDensKDE}},
 \code{\link{LearnerDensLocfit}},
 \code{\link{LearnerDensLogspline}},
+\code{\link{LearnerDensNonparametric}},
 \code{\link{LearnerDensPenalized}},
 \code{\link{LearnerDensSpline}}
 }
