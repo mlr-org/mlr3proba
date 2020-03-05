@@ -59,23 +59,27 @@ LearnerDensKDEbwnp <- R6::R6Class("LearnerDensKDEbwnp", inherit = LearnerDens,
 
       data = task$truth()
 
-     bw = self$param_set$values$bws
+      bw = self$param_set$values$bws
+
+      bw.comp  = self$param_set$values$bws == FALSE
 
       pdf <- function(x1){}
 
       body(pdf) <- substitute({
 
-        ifelse(is.null(bw), invoke(np::npudens, tdat = data, edat = x1, .args = pars)$dens,
-               invoke(np::npudens, bws = invoke(np::npudensbw, dat = data, edat = x1,  .args = pars), edat = x1)$dens)
+        if(is.null(bw)){
 
-#      invoke(np::npudens, tdat = data, edat = x1, bws = bw)$dens
+          return(np::npudens(bws = invoke(np::npudensbw, dat = data, .args = pars), edat = x1)$dens)
 
-      }, list(bw = bw))
+        } else{invoke(np::npudens, edat = x1, bws = invoke(np::npudensbw, dat = data, bandwidth.compute = bw.comp, .args = pars))$dens}
+
+        }, list(bw = bw))
 
       Distribution$new(name = paste("np KDE", self$param_set$values$ckertype),
                        short_name = paste0("npKDE_", self$param_set$values$ckertype),
                        pdf= pdf)
     },
+
 
     predict_internal = function(task){
 
