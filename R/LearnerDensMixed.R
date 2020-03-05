@@ -61,7 +61,7 @@ LearnerDensMixed <- R6::R6Class("LearnerDensMixed", inherit = LearnerDens,
               pars = self$param_set$get_values(tag="train")))
 
       Distribution$new(name = paste("Mixed KDE", self$param_set$values$ckertype),
-                       short_name = paste0("MixedKDE", self$param_set$values$ckertype),
+                       short_name = paste0("MixedKDE_", self$param_set$values$ckertype),
                        pdf= pdf)
     },
 
