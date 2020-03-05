@@ -28,6 +28,12 @@ lrn("dens.kdeBWNP")
 \seealso{
 Other density estimators: 
 \code{\link{LearnerDensHistogram}},
-\code{\link{LearnerDensKDE}}
+\code{\link{LearnerDensKDEkd}},
+\code{\link{LearnerDensKDEks}},
+\code{\link{LearnerDensKDE}},
+\code{\link{LearnerDensLocfit}},
+\code{\link{LearnerDensLogspline}},
+\code{\link{LearnerDensPenalized}},
+\code{\link{LearnerDensSpline}}
 }
 \concept{density estimators}
