@@ -76,7 +76,7 @@ Collate:
     'LearnerDens.R'
     'LearnerDensHistogram.R'
     'LearnerDensKDE.R'
-    'LearnerDensKDEsm.R'
+    'LearnerDensNonparametric.R'
     'LearnerProbreg.R'
     'LearnerProbregGaussian.R'
     'LearnerSurv.R'

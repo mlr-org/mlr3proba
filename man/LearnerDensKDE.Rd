@@ -28,6 +28,6 @@ lrn("dens.kde")
 \seealso{
 Other density estimators: 
 \code{\link{LearnerDensHistogram}},
-\code{\link{LearnerDensKDEsm}}
+\code{\link{LearnerDensNonparametric}}
 }
 \concept{density estimators}
