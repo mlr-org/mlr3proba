@@ -55,7 +55,7 @@ LearnerDensMixed <- R6::R6Class("LearnerDensMixed", inherit = LearnerDens,
 
       pdf <- function(x1){}
       body(pdf) <- substitute({
-        invoke(np::npudens, tdat = data.frame(data), edat = data.frame(x1), .args = pars)$dens
+        with_package("np", invoke(np::npudens, tdat = data.frame(data), edat = data.frame(x1), .args = pars)$dens)
       }, list(data = task$truth(),
               pars = self$param_set$get_values(tag="train")))
 
