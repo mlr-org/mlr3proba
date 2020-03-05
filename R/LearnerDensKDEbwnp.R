@@ -6,42 +6,49 @@
 #' @export
 LearnerDensKDEbwnp <- R6::R6Class("LearnerDensKDEbwnp", inherit = LearnerDens,
   public = list(initialize = function(id = "dens.kdeBWNP"){
-    super$initialize(
-      id = id,
-      param_set = ParamSet$new(
+
+      ps = ParamSet$new(
         params = list(
+          ParamDbl$new(id = "bws", tags = "train"),
           ParamFct$new(id = "ckertype", default = "gaussian",
-                       levels = c("gaussian", "epanechnikov"),
+                       levels = c("gaussian", "epanechnikov", "uniform"),
                        tags = c("train", "predict")),
           ParamUty$new(id = "bandwidth.compute", default = TRUE, tags = "train"),
+          ParamLgl$new(id = "bwscaling", default = FALSE, tags = "train"),
           ParamFct$new(id = "bwmethod", default = "cv.ml",
                        levels = c("cv.ml", "cv.ls", "normal-referenc"),
                        tags = "train"),
           ParamFct$new(id = "bwtype", default = "fixed",
                        levels = c("fixed", "generalized_nn", "adaptive_nn"),
                        tags = "train"),
-          ParamDbl$new(id = "ckeorder", default= 2, tags = "train"),
+          ParamInt$new(id = "ckerorder", default= 2, lower = 2, upper = 8, tags = "train"),
           ParamLgl$new(id = "remin", default = TRUE,  tags = "train"),
-          ParamDbl$new(id = "itmax", default= 10000, tags = "train"),
+          ParamInt$new(id = "itmax", lower = 1,  default= 10000, tags = "train"),
+          ParamInt$new(id = "nmulti", lower = 1,  tags = "train"),
           ParamDbl$new(id = "ftol", default= 1.490116e-07, tags = "train"),
           ParamDbl$new(id = "tol", default= 1.490116e-04, tags = "train"),
           ParamDbl$new(id = "small", default= 1.490116e-05, tags = "train"),
           ParamDbl$new(id = "lbc.dir", default= 0.5, tags = "train"),
           ParamDbl$new(id = "dfc.dir", default= 0.5, tags = "train"),
-          ParamDbl$new(id = "cfac.dir", default=2.5*(3.0-sqrt(5)), tags = "train"),
+          ParamUty$new(id = "cfac.dir", default=2.5*(3.0-sqrt(5)), tags = "train"),
           ParamDbl$new(id = "initc.dir", default= 1.0, tags = "train"),
           ParamDbl$new(id = "lbd.dir", default = 0.1, tags = "train"),
           ParamDbl$new(id = "hbd.dir", default = 1, tags = "train"),
-          ParamDbl$new(id = "dfac.dir", default = 0.25*(3.0-sqrt(5)), tags = "train"),
+          ParamUty$new(id = "dfac.dir", default = 0.25*(3.0-sqrt(5)), tags = "train"),
           ParamDbl$new(id = "initd.dir", default= 1.0, tags = "train"),
-          # ParamDbl$new(id = "lbc.init", default= 0.1, tags = "train"),
+          ParamDbl$new(id = "lbc.init", default= 0.1, tags = "train"),
           ParamDbl$new(id = "hbc.init", default= 2.0, tags = "train"),
           ParamDbl$new(id = "cfac.init", default= 0.5, tags = "train"),
           ParamDbl$new(id = "lbd.init", default= 0.1, tags = "train"),
           ParamDbl$new(id = "hbd.init", default= 0.9, tags = "train"),
           ParamDbl$new(id = "dfac.init", default= 0.37, tags = "train"),
-          ParamDbl$new(id = "bws", tags = "predict")
-        )),
+          ParamFct$new(id = "ukertype", levels = c("aitchisonaitken", "liracine"), tags = "train"),
+          ParamFct$new(id = "okertype", levels = c("wangvanryzin", "liracine"), tags = "train")
+        ))
+      ps$values = list(ckertype = "gaussian", bwmethod = "cv.ml", bwscaling = FALSE, bwtype = "fixed")
+      super$initialize(
+      id = id,
+      param_set = ps,
       feature_types =  c("logical", "integer", "numeric", "character", "factor", "ordered"),
       predict_types = "pdf",
       packages = c("np", "distr6")
@@ -50,34 +57,31 @@ LearnerDensKDEbwnp <- R6::R6Class("LearnerDensKDEbwnp", inherit = LearnerDens,
 
       pars = self$param_set$get_values(tag="train")
 
-      data = as.data.frame(unlist(task$data(cols = task$target_names)))
+      data = task$truth()
 
-      # pdf <- function(x1){}
-      #
-      # body(pdf) <- substitute({
+     bw = self$param_set$values$bws
 
+      pdf <- function(x1){}
 
-      target = task$truth()
+      body(pdf) <- substitute({
 
-      invoke(np::npudensbw, dat = data, edat = target, .args = pars)
+        ifelse(is.null(bw), invoke(np::npudens, tdat = data, edat = x1, .args = pars)$dens,
+               invoke(np::npudens, bws = invoke(np::npudensbw, dat = data, edat = x1,  .args = pars), edat = x1)$dens)
 
-      # })
-      #
-      #
-      # Distribution$new(name = paste("Gaussian KDE"),
-      #                  short_name = paste0("GausKDE"),
-      #                  pdf= pdf)
+#      invoke(np::npudens, tdat = data, edat = x1, bws = bw)$dens
+
+      }, list(bw = bw))
+
+      Distribution$new(name = paste("np KDE", self$param_set$values$ckertype),
+                       short_name = paste0("npKDE_", self$param_set$values$ckertype),
+                       pdf= pdf)
     },
 
     predict_internal = function(task){
 
-      pars = self$param_set$get_values(tags = "predict")
+      newdata = task$truth()
 
-      newdata = as.data.frame(unlist(task$data(cols = task$target_names)))
-
-      pdf = as.numeric(invoke(np::npudens,  bws = self$model, edat = newdata, .args = pars)$dens)
-
-      PredictionDens$new(task = task, pdf = pdf)
+      PredictionDens$new(task = task, pdf = self$model$pdf(newdata))
 
     }
 
