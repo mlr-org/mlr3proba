@@ -21,6 +21,7 @@ lrn("dens.plug")
 \item Type: "dens"
 \item Predict Types: \code{pdf}
 \item Feature Types: \verb{logical, integer, numeric, character, factor, ordered}
+\item Properties: \code{missings}
 \item Packages: \CRANpkg{plugdensity} \CRANpkg{distr6}
 }
 }
@@ -28,6 +29,14 @@ lrn("dens.plug")
 \seealso{
 Other density estimators: 
 \code{\link{LearnerDensHistogram}},
-\code{\link{LearnerDensKDE}}
+\code{\link{LearnerDensKDEkd}},
+\code{\link{LearnerDensKDEks}},
+\code{\link{LearnerDensKDE}},
+\code{\link{LearnerDensLocfit}},
+\code{\link{LearnerDensLogspline}},
+\code{\link{LearnerDensMixed}},
+\code{\link{LearnerDensNonparametric}},
+\code{\link{LearnerDensPenalized}},
+\code{\link{LearnerDensSpline}}
 }
 \concept{density estimators}

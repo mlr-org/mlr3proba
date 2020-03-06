@@ -35,9 +35,8 @@ lrn("dens.kde")
 \cite{mlr3proba}{silverman_1986}
 }
 \seealso{
-Other density estimators:
+Other density estimators: 
 \code{\link{LearnerDensHistogram}},
-\code{\link{LearnerDensKDEpd}}
 \code{\link{LearnerDensKDEkd}},
 \code{\link{LearnerDensKDEks}},
 \code{\link{LearnerDensLocfit}},
@@ -45,6 +44,7 @@ Other density estimators:
 \code{\link{LearnerDensMixed}},
 \code{\link{LearnerDensNonparametric}},
 \code{\link{LearnerDensPenalized}},
+\code{\link{LearnerDensPlugin}},
 \code{\link{LearnerDensSpline}}
 }
 \concept{density estimators}
