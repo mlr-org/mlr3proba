@@ -42,10 +42,6 @@ LearnerDensNonparametric<- R6::R6Class("LearnerDensNonparametric", inherit = Lea
         pars$weights = task$weights$weight
       }
 
-      saved_ctrl = sm::sm.options()
-      on.exit(invoke(sm::sm.options, .args = saved_ctrl))
-      sm::sm.options()
-
       pdf <- function(x1){}
       body(pdf) <- substitute({
         invoke(sm::sm.density, x = data, eval.points = x1, display = "none", show.script = FALSE,
