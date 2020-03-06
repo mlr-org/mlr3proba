@@ -33,6 +33,7 @@ lrn("surv.svm")
 \item Type: "surv"
 \item Predict Types: \code{crank}
 \item Feature Types: \verb{integer, numeric}
+\item Properties: \code{-}
 \item Packages: \CRANpkg{survivalsvm}
 }
 }

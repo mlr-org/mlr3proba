@@ -30,6 +30,7 @@ lrn("surv.penalized")
 \item Type: "surv"
 \item Predict Types: \verb{distr, crank}
 \item Feature Types: \verb{integer, numeric, factor, ordered}
+\item Properties: \code{importance}
 \item Packages: \CRANpkg{penalized} \CRANpkg{distr6}
 }
 }

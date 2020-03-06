@@ -21,6 +21,7 @@ lrn("dens.kdeKS")
 \item Type: "dens"
 \item Predict Types: \code{pdf}
 \item Feature Types: \verb{logical, integer, numeric, character, factor, ordered}
+\item Properties: \code{-}
 \item Packages: \CRANpkg{ks} \CRANpkg{distr6}
 }
 }
@@ -29,7 +30,13 @@ lrn("dens.kdeKS")
 Other density estimators: 
 \code{\link{LearnerDensHistogram}},
 \code{\link{LearnerDensKDEgk}},
+\code{\link{LearnerDensKDEkd}},
 \code{\link{LearnerDensKDE}},
+\code{\link{LearnerDensLocfit}},
+\code{\link{LearnerDensLogspline}},
+\code{\link{LearnerDensMixed}},
+\code{\link{LearnerDensNonparametric}},
+\code{\link{LearnerDensPenalized}},
 \code{\link{LearnerDensSpline}}
 }
 \concept{density estimators}

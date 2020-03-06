@@ -21,6 +21,7 @@
 #' * Type: "dens"
 #' * Predict Types: `<%= format_types(learn$predict_types) %>`
 #' * Feature Types: `<%= format_types(learn$feature_types) %>`
+#' * Properties: `<%= format_types(learn$properties) %>`
 #' * Packages: <%= paste0("\\CRANpkg{", learn$packages, "}") %>
 #'
 #' @family density estimators

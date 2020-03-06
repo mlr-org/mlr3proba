@@ -51,21 +51,27 @@ Suggests:
     gbm,
     GenKern,
     glmnet,
+    kerdiest,
     gss,
     knitr,
     ks,
     lgr,
+    logspline,
+    locfit,
     mboost,
     mlr3tuning,
+    np,
     obliqueRSF,
     pec,
     penalized,
+    pendensity,
     randomForestSRC,
     ranger,
     riskRegression,
     rpart,
     set6,
     simsurv,
+    sm,
     survAUC,
     survivalsvm,
     testthat
@@ -79,11 +85,18 @@ Roxygen: list(markdown = TRUE, r6 = FALSE)
 RoxygenNote: 7.0.2
 RdMacros: mlr3misc
 Collate:
+    'DensLogspline.R'
     'LearnerDens.R'
     'LearnerDensHistogram.R'
     'LearnerDensKDE.R'
     'LearnerDensKDEgk.R'
+    'LearnerDensKDEkd.R'
     'LearnerDensKDEks.R'
+    'LearnerDensLocfit.R'
+    'LearnerDensLogspline.R'
+    'LearnerDensMixed.R'
+    'LearnerDensNonparametric.R'
+    'LearnerDensPenalized.R'
     'LearnerDensSpline.R'
     'LearnerProbreg.R'
     'LearnerProbregGaussian.R'
@@ -141,6 +154,7 @@ Collate:
     'MeasureSurvUnoTNR.R'
     'MeasureSurvUnoTPR.R'
     'MeasureSurvXuR2.R'
+    'PDDens.R'
     'PipeOpCrankCompositor.R'
     'PipeOpDistrCompositor.R'
     'PredictionDens.R'

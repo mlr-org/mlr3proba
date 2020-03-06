@@ -13,7 +13,11 @@ format_range = function(range) {
 
 # used in roxygen templates
 format_types = function(types) {
-  paste0(types, collapse = ", ")
+  if (length(types) == 0) {
+    return("-")
+  } else {
+    return(paste0(types, collapse = ", "))
+  }
 }
 
 toproper <- function(str, split = " ", fixed = TRUE){

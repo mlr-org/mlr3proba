@@ -63,8 +63,15 @@ register_mlr3 = function() {
    x = utils::getFromNamespace("mlr_learners", ns = "mlr3")
 
    x$add("dens.hist", LearnerDensHistogram)
+   x$add("dens.kde", LearnerDensHistogram)
+   x$add("dens.locfit", LearnerDensLocfit)
    x$add("dens.kde", LearnerDensKDE)
    x$add("dens.kdeGK", LearnerDensKDEgk)
+   x$add("dens.nonpar", LearnerDensNonparametric)
+   x$add("dens.mixed", LearnerDensMixed)
+   x$add("dens.logspline", LearnerDensLogspline)
+   x$add("dens.pen", LearnerDensPenalized)
+   x$add("dens.kdeKD", LearnerDensKDEkd)
    x$add("dens.kdeKS", LearnerDensKDEks)
    x$add("dens.spline", LearnerDensSpline)
 
