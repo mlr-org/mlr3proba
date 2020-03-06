@@ -21,6 +21,7 @@ lrn("dens.nonpar")
 \item Type: "dens"
 \item Predict Types: \code{pdf}
 \item Feature Types: \verb{logical, integer, numeric, character, factor, ordered}
+\item Properties: \code{weights}
 \item Packages: \CRANpkg{sm} \CRANpkg{distr6}
 }
 }
