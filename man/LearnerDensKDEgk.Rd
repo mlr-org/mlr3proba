@@ -21,15 +21,22 @@ lrn("dens.kdeGK")
 \item Type: "dens"
 \item Predict Types: \code{pdf}
 \item Feature Types: \verb{logical, integer, numeric, character, factor, ordered}
-\item Packages: \CRANpkg{GenKern} \CRANpkg{distr6}
+\item Properties: \code{missings}
+\item Packages: \CRANpkg{GenKern} \CRANpkg{KernSmooth} \CRANpkg{distr6}
 }
 }
 
 \seealso{
 Other density estimators: 
 \code{\link{LearnerDensHistogram}},
+\code{\link{LearnerDensKDEkd}},
 \code{\link{LearnerDensKDEks}},
 \code{\link{LearnerDensKDE}},
+\code{\link{LearnerDensLocfit}},
+\code{\link{LearnerDensLogspline}},
+\code{\link{LearnerDensMixed}},
+\code{\link{LearnerDensNonparametric}},
+\code{\link{LearnerDensPenalized}},
 \code{\link{LearnerDensSpline}}
 }
 \concept{density estimators}
