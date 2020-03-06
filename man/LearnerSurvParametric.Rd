@@ -48,6 +48,7 @@ lrn("surv.parametric")
 \item Type: "surv"
 \item Predict Types: \verb{distr, lp, crank}
 \item Feature Types: \verb{logical, integer, numeric, factor}
+\item Properties: \code{weights}
 \item Packages: \CRANpkg{survival} \CRANpkg{distr6} \CRANpkg{set6}
 }
 }

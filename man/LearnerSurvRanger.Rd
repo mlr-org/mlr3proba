@@ -25,6 +25,7 @@ lrn("surv.ranger")
 \item Type: "surv"
 \item Predict Types: \verb{distr, crank}
 \item Feature Types: \verb{logical, integer, numeric, character, factor, ordered}
+\item Properties: \verb{importance, oob_error, weights}
 \item Packages: \CRANpkg{ranger} \CRANpkg{distr6}
 }
 }

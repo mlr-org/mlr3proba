@@ -28,6 +28,7 @@ lrn("surv.gbm")
 \item Type: "surv"
 \item Predict Types: \verb{crank, lp}
 \item Feature Types: \verb{integer, numeric, factor, ordered}
+\item Properties: \verb{importance, missings, weights}
 \item Packages: \CRANpkg{gbm}
 }
 }

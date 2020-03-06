@@ -26,6 +26,7 @@ lrn("dens.kde")
 \item Type: "dens"
 \item Predict Types: \code{pdf}
 \item Feature Types: \verb{logical, integer, numeric, character, factor, ordered}
+\item Properties: \code{missings}
 \item Packages: \CRANpkg{distr6}
 }
 }

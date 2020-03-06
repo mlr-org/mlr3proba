@@ -27,6 +27,7 @@ lrn("surv.rpart")
 \item Type: "surv"
 \item Predict Types: \verb{crank, distr}
 \item Feature Types: \verb{logical, integer, numeric, character, factor, ordered}
+\item Properties: \verb{importance, missings, selected_features, weights}
 \item Packages: \CRANpkg{rpart} \CRANpkg{distr6} \CRANpkg{survival}
 }
 }

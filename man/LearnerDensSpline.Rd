@@ -21,6 +21,7 @@ lrn("dens.spline")
 \item Type: "dens"
 \item Predict Types: \verb{pdf, cdf}
 \item Feature Types: \verb{logical, integer, numeric, character, factor, ordered}
+\item Properties: \code{missings}
 \item Packages: \CRANpkg{gss} \CRANpkg{distr6}
 }
 }

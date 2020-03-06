@@ -26,6 +26,7 @@ lrn("surv.coxph")
 \item Type: "surv"
 \item Predict Types: \verb{distr, crank, lp}
 \item Feature Types: \verb{logical, integer, numeric, factor}
+\item Properties: \code{importance}
 \item Packages: \CRANpkg{survival} \CRANpkg{distr6}
 }
 }

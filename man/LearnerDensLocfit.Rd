@@ -21,6 +21,7 @@ lrn("dens.locfit")
 \item Type: "dens"
 \item Predict Types: \code{pdf}
 \item Feature Types: \verb{logical, integer, numeric, character, factor, ordered}
+\item Properties: \code{-}
 \item Packages: \CRANpkg{locfit} \CRANpkg{distr6}
 }
 }

@@ -30,6 +30,7 @@ lrn("surv.cvglmnet")
 \item Type: "surv"
 \item Predict Types: \verb{crank, lp}
 \item Feature Types: \verb{integer, numeric, factor}
+\item Properties: \code{weights}
 \item Packages: \CRANpkg{glmnet} \CRANpkg{survival}
 }
 }

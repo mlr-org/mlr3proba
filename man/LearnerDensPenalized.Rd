@@ -21,6 +21,7 @@ lrn("dens.pen")
 \item Type: "dens"
 \item Predict Types: \verb{pdf, cdf}
 \item Feature Types: \verb{logical, integer, numeric, character, factor, ordered}
+\item Properties: \code{-}
 \item Packages: \CRANpkg{pendensity} \CRANpkg{distr6}
 }
 }

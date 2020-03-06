@@ -21,6 +21,7 @@ lrn("dens.kdeKD")
 \item Type: "dens"
 \item Predict Types: \code{pdf}
 \item Feature Types: \verb{logical, integer, numeric, character, factor, ordered}
+\item Properties: \code{-}
 \item Packages: \CRANpkg{kerdiest} \CRANpkg{distr6}
 }
 }

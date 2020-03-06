@@ -27,6 +27,7 @@ lrn("surv.obliqueRSF")
 \item Type: "surv"
 \item Predict Types: \verb{crank, distr}
 \item Feature Types: \verb{integer, numeric, factor, ordered}
+\item Properties: \code{missings}
 \item Packages: \CRANpkg{obliqueRSF} \CRANpkg{distr6}
 }
 }
