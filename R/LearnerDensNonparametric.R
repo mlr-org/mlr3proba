@@ -14,7 +14,6 @@ LearnerDensNonparametric<- R6::R6Class("LearnerDensNonparametric", inherit = Lea
           ParamUty$new(id = "model", default = "none", tags = "train"),
           ParamDbl$new(id = "weights", tags ="train"),
           ParamUty$new(id = "groups",  tags = "train"),
-          ParamLgl$new(id = "add", default = TRUE, tags = "train"),
           ParamLgl$new(id = "band",  tags = "train"),
           ParamDbl$new(id = "delta", tags = "train"),
           ParamUty$new(id = "describe", default = FALSE, tags = "train"),
