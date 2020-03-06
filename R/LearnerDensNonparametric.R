@@ -54,7 +54,7 @@ LearnerDensNonparametric<- R6::R6Class("LearnerDensNonparametric", inherit = Lea
 
       body(pdf) <- substitute({
 
-        invoke(sm::sm.density, x = data, eval.points = x1, add = TRUE, display = "none", .args = pars)$estimate
+        invoke(sm::sm.density, x = data, eval.points = x1,  display = "none", .args = pars)$estimate
 
       })
 
