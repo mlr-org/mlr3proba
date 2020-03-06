@@ -20,7 +20,6 @@ LearnerDensNonparametric<- R6::R6Class("LearnerDensNonparametric", inherit = Lea
             ParamDbl$new(id = "h.weights",  default = 1, tags = "train"),
             ParamUty$new(id = "hmult", default = 1, tags = "train"),
             ParamFct$new(id = "method",  default = "normal", levels = c("normal", "cv", "sj", "df", "aicc"), tags = "train"),
-            ParamDbl$new(id = "nbins",  tags = "train"),
             ParamDbl$new(id = "nboot", default = 100, tags = "train"),
             ParamDbl$new(id = "period",  tags = "train"),
             ParamInt$new(id = "poly.index", default = 1, lower = 0, upper = 1, tags = "train"),
