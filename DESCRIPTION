@@ -64,6 +64,7 @@ Suggests:
     pec,
     penalized,
     pendensity,
+    plugdensity,
     randomForestSRC,
     ranger,
     riskRegression,
@@ -95,6 +96,7 @@ Collate:
     'LearnerDensMixed.R'
     'LearnerDensNonparametric.R'
     'LearnerDensPenalized.R'
+    'LearnerDensPlugin.R'
     'LearnerDensSpline.R'
     'LearnerProbreg.R'
     'LearnerProbregGaussian.R'

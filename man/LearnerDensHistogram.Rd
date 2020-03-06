@@ -36,6 +36,7 @@ Other density estimators:
 \code{\link{LearnerDensMixed}},
 \code{\link{LearnerDensNonparametric}},
 \code{\link{LearnerDensPenalized}},
+\code{\link{LearnerDensPlugin}},
 \code{\link{LearnerDensSpline}}
 }
 \concept{density estimators}
