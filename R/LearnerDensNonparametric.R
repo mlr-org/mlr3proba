@@ -50,8 +50,7 @@ LearnerDensNonparametric<- R6::R6Class("LearnerDensNonparametric", inherit = Lea
       body(pdf) <- substitute({
         invoke(sm::sm.density, x = data, eval.points = x1, display = "none", show.script = FALSE,
                .args = pars)$estimate
-      },
-      data = task$truth())
+      }, list(data = task$truth()))
 
       Distribution$new(name = "Nonparametric Density",
                        short_name = "NonparDens",
