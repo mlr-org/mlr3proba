@@ -31,6 +31,7 @@ lrn("surv.randomForestSRC")
 \item Type: "surv"
 \item Predict Types: \verb{crank, distr}
 \item Feature Types: \verb{logical, integer, numeric, factor, ordered}
+\item Properties: \verb{importance, missings, weights}
 \item Packages: \CRANpkg{randomForestSRC} \CRANpkg{distr6}
 }
 }
