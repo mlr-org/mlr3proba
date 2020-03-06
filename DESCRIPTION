@@ -70,6 +70,7 @@ Suggests:
     rpart,
     set6,
     simsurv,
+    sm,
     survAUC,
     survivalsvm,
     testthat
@@ -92,6 +93,7 @@ Collate:
     'LearnerDensLocfit.R'
     'LearnerDensLogspline.R'
     'LearnerDensMixed.R'
+    'LearnerDensNonparametric.R'
     'LearnerDensPenalized.R'
     'LearnerDensSpline.R'
     'LearnerProbreg.R'
