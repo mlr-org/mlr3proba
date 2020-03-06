@@ -25,6 +25,7 @@ lrn("surv.nelson")
 \item Type: "surv"
 \item Predict Types: \verb{crank, distr}
 \item Feature Types: \verb{logical, integer, numeric, character, factor, ordered}
+\item Properties: \code{missings}
 \item Packages: \CRANpkg{survival} \CRANpkg{distr6}
 }
 }

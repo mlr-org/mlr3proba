@@ -34,6 +34,7 @@ lrn("surv.glmboost")
 \item Type: "surv"
 \item Predict Types: \verb{distr, crank, lp}
 \item Feature Types: \verb{integer, numeric, factor, logical}
+\item Properties: \code{-}
 \item Packages: \CRANpkg{mboost} \CRANpkg{distr6} \CRANpkg{survival}
 }
 }
