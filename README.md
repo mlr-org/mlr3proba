@@ -7,8 +7,12 @@ Package website: [release](https://mlr3proba.mlr-org.com/) |
 Probabilistic Supervised Learning for
 **[mlr3](https://github.com/mlr-org/mlr3)**.
 
+<!-- badges: start -->
+
 [![Build
 Status](https://img.shields.io/travis/mlr-org/mlr3proba/master?label=Linux&logo=travis&style=flat-square)](https://travis-ci.org/mlr-org/mlr3proba)
+[![R CMD Check via
+{tic}](https://img.shields.io/github/workflow/status/mlr-org/mlr3proba/R%20CMD%20Check%20via%20%7Btic%7D?logo=github&label=R%20CMD%20Check%20via%20%7Btic%7D&style=flat-square)](https://github.com/mlr-org/mlr3proba/actions)
 [![cran
 checks](https://cranchecks.info/badges/worst/mlr3proba)](https://cran.r-project.org/web/checks/check_results_mlr3proba.html)
 
@@ -17,6 +21,7 @@ Badge](https://www.r-pkg.org/badges/version-ago/mlr3proba)](https://cran.r-proje
 [![codecov](https://codecov.io/gh/mlr-org/mlr3proba/branch/master/graph/badge.svg)](https://codecov.io/gh/mlr-org/mlr3proba)
 [![StackOverflow](https://img.shields.io/badge/stackoverflow-mlr3-orange.svg)](https://stackoverflow.com/questions/tagged/mlr3)
 [![Dependencies](https://tinyverse.netlify.com/badge/mlr3proba)](https://cran.r-project.org/package=mlr3proba)
+<!-- badges: end -->
 
 ## What is mlr3proba ?
 
@@ -85,8 +90,7 @@ Install the last release from CRAN:
 install.packages("mlr3proba")
 ```
 
-Install the development version from
-GitHub:
+Install the development version from GitHub:
 
 ``` r
 remotes::install_github("mlr-org/mlr3proba")
