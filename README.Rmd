@@ -1,8 +1,8 @@
 ---
-  output: github_document
+output: github_document
 ---
   
-  ```{r, include = FALSE}
+```{r, include = FALSE}
 knitr::opts_chunk$set(
   cache = FALSE,
   collapse = TRUE,
