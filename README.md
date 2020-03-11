@@ -149,7 +149,7 @@ remotes::install_github("mlr-org/mlr3proba")
 | ID                                                                                   | Learner                                                       | Package                                                       |
 | :----------------------------------------------------------------------------------- | :------------------------------------------------------------ | :------------------------------------------------------------ |
 | [dens.hist](https://mlr3proba.mlr-org.com/reference/LearnerDensKDE.html)             | Univariate Histogram Density Estimator                        | [stats](https://CRAN.R-project.org/package=stats)             |
-| [dens.kde](https://mlr3proba.mlr-org.com/reference/LearnerDensKDE.html)              | Univariate kDE for Different Kernels                          | [distr6](https://CRAN.R-project.org/package=distr6)           |
+| [dens.kde](https://mlr3proba.mlr-org.com/reference/LearnerDensKDE.html)              | Univariate KDE for Different Kernels                          | [distr6](https://CRAN.R-project.org/package=distr6)           |
 | [dens.kdeKD](https://mlr3proba.mlr-org.com/reference/LearnerDensKDEkd.html)          | Nonparametric KDE Using Plug-in Method of Polansky and Baker  | [kerdiest](https://CRAN.R-project.org/package=kerdiest)       |
 | [dens.kdeKS](https://mlr3proba.mlr-org.com/reference/LearnerDensKDEks.html)          | Nonparametric Gaussian KDE                                    | [ks](https://CRAN.R-project.org/package=ks)                   |
 | [dens.locfit](https://mlr3proba.mlr-org.com/reference/LearnerDensLocfit.html)        | Nonparametric KDE Using Gaussian kernel                       | [locfit](https://CRAN.R-project.org/package=locfit)           |
@@ -168,8 +168,6 @@ remotes::install_github("mlr-org/mlr3proba")
 
 ## Near-Future Plans
 
-  - Add `TaskDensity`, `PredictionDensity`, `LearnerDensity`, and
-    associated learners/measures
   - Add `prob` predict type to `TaskRegr`, and associated
     learners/measures
   - Allow `MeasureSurv` to return measures at multiple time-points
