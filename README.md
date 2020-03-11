@@ -85,7 +85,8 @@ Install the last release from CRAN:
 install.packages("mlr3proba")
 ```
 
-Install the development version from GitHub:
+Install the development version from
+GitHub:
 
 ``` r
 remotes::install_github("mlr-org/mlr3proba")
