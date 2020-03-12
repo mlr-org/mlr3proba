@@ -2,7 +2,7 @@
 % Please edit documentation in R/PipeOpCrankCompositor.R
 \name{PipeOpCrankCompositor}
 \alias{PipeOpCrankCompositor}
-\alias{mlr_pipeops_crankcompositor}
+\alias{mlr_pipeops_crankcompose}
 \title{PipeOpCrankCompositor}
 \format{\code{\link{R6Class}} inheriting from \code{\link{PipeOp}}.}
 \description{

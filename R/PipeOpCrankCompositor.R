@@ -1,7 +1,7 @@
 #' @title PipeOpCrankCompositor
 #'
 #' @usage NULL
-#' @aliases mlr_pipeops_crankcompositor
+#' @aliases mlr_pipeops_crankcompose
 #' @format [`R6Class`] inheriting from [`PipeOp`].
 #'
 #' @description
