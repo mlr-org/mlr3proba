@@ -2,7 +2,7 @@
 % Please edit documentation in R/PipeOpDistrCompositor.R
 \name{PipeOpDistrCompositor}
 \alias{PipeOpDistrCompositor}
-\alias{mlr_pipeops_distrcompositor}
+\alias{mlr_pipeops_distrcompose}
 \title{PipeOpDistrCompositor}
 \format{\code{\link{R6Class}} inheriting from \code{\link{PipeOp}}.}
 \description{

@@ -1,7 +1,7 @@
 #' @title PipeOpDistrCompositor
 #'
 #' @usage NULL
-#' @aliases mlr_pipeops_distrcompositor
+#' @aliases mlr_pipeops_distrcompose
 #' @format [`R6Class`] inheriting from [`PipeOp`].
 #'
 #' @description
