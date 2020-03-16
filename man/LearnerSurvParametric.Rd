@@ -4,7 +4,6 @@
 \alias{LearnerSurvParametric}
 \alias{mlr_learners_surv.parametric}
 \title{Fully Parametric Survival Learner}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerSurv}.}
 \description{
 Calls \code{\link[survival:survreg]{survival::survreg()}}.
 \itemize{
@@ -35,8 +34,10 @@ The distribution \code{distr} is composed using the \code{lp} and specifying a m
 where \eqn{S_0}{S0} is the estimated baseline survival distribution (in this case
 with a given parametric form), and \eqn{lp} is the predicted linear predictor.
 }
-\section{Construction}{
-\preformatted{LearnerSurvParametric$new()
+\section{Dictionary}{
+
+This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerSurvParametric$new()
 mlr_learners$get("surv.parametric")
 lrn("surv.parametric")
 }

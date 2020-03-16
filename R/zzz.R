@@ -50,6 +50,7 @@ register_mlr3 = function() {
   # tasks
    x = utils::getFromNamespace("mlr_tasks", ns = "mlr3")
    x$add("precip", load_precip)
+   x$add("faithful", load_faithful)
    x$add("rats", load_rats)
    x$add("lung", load_lung)
    x$add("unemployment", load_unemployment)

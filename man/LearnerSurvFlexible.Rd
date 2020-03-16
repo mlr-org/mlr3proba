@@ -4,7 +4,6 @@
 \alias{LearnerSurvFlexible}
 \alias{mlr_learners_surv.flexible}
 \title{Flexible Parametric Spline Survival Learner}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerSurv}.}
 \description{
 Calls \code{\link[flexsurv:flexsurvspline]{flexsurv::flexsurvspline()}}.
 \itemize{
@@ -30,8 +29,10 @@ As flexible spline models estimate the baseline hazard as the intercept, the lin
 and covariates \eqn{X^T = (X_0,...,X_P)^T}{X^T = (X0,...,XP)^T}, where \eqn{X_0}{X0} is a column
 of \eqn{1}s: \eqn{lp = \beta X}{lp = \betaX}.
 }
-\section{Construction}{
-\preformatted{LearnerSurvFlexible$new()
+\section{Dictionary}{
+
+This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerSurvFlexible$new()
 mlr_learners$get("surv.flexible")
 lrn("surv.flexible")
 }

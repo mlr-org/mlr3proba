@@ -4,7 +4,6 @@
 \alias{LearnerSurvSVM}
 \alias{mlr_learners_surv.svm}
 \title{Regression, Ranking and Hybrid Support Vector Machines Survival Learner}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerSurv}.}
 \description{
 Calls \code{\link[survivalsvm:survivalsvm]{survivalsvm::survivalsvm()}}.
 \itemize{
@@ -20,8 +19,10 @@ but in any case all can be considered a valid continuous ranking.
 To be in line with the Van Belle papers and to prevent the learner crashing without
 user-set parameters, the default \code{diff.meth} is set to \code{diffmeth3} with \code{gamma.mu} equal to 0.1.
 }
-\section{Construction}{
-\preformatted{LearnerSurvSVM$new()
+\section{Dictionary}{
+
+This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerSurvSVM$new()
 mlr_learners$get("surv.svm")
 lrn("surv.svm")
 }

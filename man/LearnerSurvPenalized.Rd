@@ -4,7 +4,6 @@
 \alias{LearnerSurvPenalized}
 \alias{mlr_learners_surv.penalized}
 \title{L1 and L2 Penalized Estimation in GLMs Survival Learner}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerSurv}.}
 \description{
 Calls \code{\link[penalized:penalized]{penalized::penalized()}}.
 \itemize{
@@ -17,8 +16,10 @@ differently than in \code{\link[penalized:penalized]{penalized::penalized()}}. H
 instead it is assumed that every variable is penalized unless stated in the \code{unpenalized} parameter,
 see examples.
 }
-\section{Construction}{
-\preformatted{LearnerSurvPenalized$new()
+\section{Dictionary}{
+
+This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerSurvPenalized$new()
 mlr_learners$get("surv.penalized")
 lrn("surv.penalized")
 }

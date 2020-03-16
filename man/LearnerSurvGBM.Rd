@@ -4,7 +4,6 @@
 \alias{LearnerSurvGBM}
 \alias{mlr_learners_surv.gbm}
 \title{Generalized Boosting Regression Modeling Survival Learner}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerSurv}.}
 \description{
 Calls \code{\link[gbm:gbm]{gbm::gbm()}}.
 \itemize{
@@ -15,8 +14,10 @@ Calls \code{\link[gbm:gbm]{gbm::gbm()}}.
 Parameter \code{distribution} is set to \code{coxph} as this is the only distribution implemented
 in \code{\link[gbm:gbm]{gbm::gbm()}} for survival analysis; parameter \code{keep.data} is set to \code{FALSE} for efficiency.
 }
-\section{Construction}{
-\preformatted{LearnerSurvGBM$new()
+\section{Dictionary}{
+
+This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerSurvGBM$new()
 mlr_learners$get("surv.gbm")
 lrn("surv.gbm")
 }

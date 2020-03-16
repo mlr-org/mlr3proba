@@ -4,7 +4,6 @@
 \alias{LearnerSurvGamboost}
 \alias{mlr_learners_surv.gamboost}
 \title{Gradient Boosting for Additive Models Survival Learner}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerSurv}.}
 \description{
 Calls \code{\link[mboost:gamboost]{mboost::gamboost()}}.
 \itemize{
@@ -26,8 +25,10 @@ allows one to specify default degrees of freedom for smooth effects specified vi
 \code{baselearner = "bbs"}. In all other cases, degrees of freedom need to be set manually via a
 specific definition of the corresponding base-learner.
 }
-\section{Construction}{
-\preformatted{LearnerSurvGamboost$new()
+\section{Dictionary}{
+
+This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerSurvGamboost$new()
 mlr_learners$get("surv.gamboost")
 lrn("surv.gamboost")
 }

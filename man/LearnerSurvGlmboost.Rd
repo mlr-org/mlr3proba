@@ -4,7 +4,6 @@
 \alias{LearnerSurvGlmboost}
 \alias{mlr_learners_surv.glmboost}
 \title{Gradient Boosting with Component-wise Linear Models Survival Learner}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerSurv}.}
 \description{
 Calls \code{\link[mboost:glmboost]{mboost::glmboost()}}.
 \itemize{
@@ -21,8 +20,10 @@ survival models, instead we have by default \code{"coxph"}.
 If the value given to the \code{Family} parameter is "custom.family" then an object of class
 \code{\link[mboost:Family]{mboost::Family()}} needs to be passed to the \code{custom.family} parameter.
 }
-\section{Construction}{
-\preformatted{LearnerSurvGlmboost$new()
+\section{Dictionary}{
+
+This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerSurvGlmboost$new()
 mlr_learners$get("surv.glmboost")
 lrn("surv.glmboost")
 }

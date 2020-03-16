@@ -4,7 +4,6 @@
 \alias{LearnerDensKDE}
 \alias{mlr_learners_dens.kde}
 \title{Kernel Density Estimator}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerDens}.}
 \description{
 Calls kernels implemented in \CRANpkg{distr6} and the result is coerced to a \link[distr6:Distribution]{distr6::Distribution}.
 }
@@ -13,8 +12,10 @@ The default bandwidth uses Silverman's rule-of-thumb for Gaussian kernels, howev
 non-Gaussian kernels it is recommended to use \CRANpkg{mlr3tuning} to tune the bandwidth with
 cross-validation. Other density learners can be used for automated bandwidth selection.
 }
-\section{Construction}{
-\preformatted{LearnerDensKDE$new()
+\section{Dictionary}{
+
+This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerDensKDE$new()
 mlr_learners$get("dens.kde")
 lrn("dens.kde")
 }

@@ -4,14 +4,17 @@
 \alias{LearnerSurvNelson}
 \alias{mlr_learners_surv.nelson}
 \title{Nelson-Aalen Estimator Survival Learner}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerSurv}.}
 \description{
-Nelson-Aalen Estimator Survival Learner
-
-Nelson-Aalen Estimator Survival Learner
+Calls \code{\link[survival:survfit]{survival::survfit()}}.
+\itemize{
+\item distr is predicted by estimating the cumulative hazard function with \code{\link[survival:survfit]{survival::survfit()}}
+\item \code{crank} is predicted as the expectation of the survival distribution, \code{distr}
 }
-\section{Construction}{
-\preformatted{LearnerSurvNelson$new()
+}
+\section{Dictionary}{
+
+This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerSurvNelson$new()
 mlr_learners$get("surv.nelson")
 lrn("surv.nelson")
 }

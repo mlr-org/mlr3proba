@@ -4,14 +4,15 @@
 \alias{LearnerSurvCoxPH}
 \alias{mlr_learners_surv.coxph}
 \title{Cox Proportional Hazards Survival Learner}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerSurv}.}
 \description{
 Cox Proportional Hazards Survival Learner
 
 Cox Proportional Hazards Survival Learner
 }
-\section{Construction}{
-\preformatted{LearnerSurvCoxPH$new()
+\section{Dictionary}{
+
+This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerSurvCoxPH$new()
 mlr_learners$get("surv.coxph")
 lrn("surv.coxph")
 }

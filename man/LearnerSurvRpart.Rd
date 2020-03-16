@@ -4,12 +4,19 @@
 \alias{LearnerSurvRpart}
 \alias{mlr_learners_surv.rpart}
 \title{Rpart Survival Forest Survival Learner}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerSurv}.}
 \description{
+Calls \code{\link[rpart:rpart]{rpart::rpart()}}.
+\itemize{
+\item distr is predicted using \code{\link[pec:pecRpart]{pec::pecRpart()}} and \code{\link[pec:predictSurvProb]{pec::predictSurvProb()}}
+\item \code{crank} is predicted as the expectation of the survival distribution, \code{distr}
+}
+
 Parameter \code{xval} is set to 0 in order to save some computation time.
 }
-\section{Construction}{
-\preformatted{LearnerSurvRpart$new()
+\section{Dictionary}{
+
+This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerSurvRpart$new()
 mlr_learners$get("surv.rpart")
 lrn("surv.rpart")
 }

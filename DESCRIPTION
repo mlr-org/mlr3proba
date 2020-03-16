@@ -159,6 +159,7 @@ Collate:
     'PredictionProbreg.R'
     'PredictionSurv.R'
     'TaskDens.R'
+    'TaskDens_faithful.R'
     'TaskDens_precip.R'
     'TaskGeneratorSimdens.R'
     'TaskGeneratorSimsurv.R'

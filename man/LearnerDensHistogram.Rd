@@ -4,14 +4,13 @@
 \alias{LearnerDensHistogram}
 \alias{mlr_learners_dens.hist}
 \title{Histogram Density Estimator}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerDens}.}
 \description{
-Histogram Density Estimator
-
-Histogram Density Estimator
+Calls \code{\link[graphics:hist]{graphics::hist()}} and the result is coerced to a \link[distr6:Distribution]{distr6::Distribution}.
 }
-\section{Construction}{
-\preformatted{LearnerDensHistogram$new()
+\section{Dictionary}{
+
+This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerDensHistogram$new()
 mlr_learners$get("dens.hist")
 lrn("dens.hist")
 }

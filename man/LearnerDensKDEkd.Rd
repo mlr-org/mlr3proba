@@ -4,14 +4,13 @@
 \alias{LearnerDensKDEkd}
 \alias{mlr_learners_dens.kdeKD}
 \title{Kerdiest Kernel Density Estimator}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerDens}.}
 \description{
-Kerdiest Kernel Density Estimator
-
-Kerdiest Kernel Density Estimator
+Calls \code{\link[kerdiest:kde]{kerdiest::kde()}} and the result is coerced to a \link[distr6:Distribution]{distr6::Distribution}.
 }
-\section{Construction}{
-\preformatted{LearnerDensKDEkd$new()
+\section{Dictionary}{
+
+This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerDensKDEkd$new()
 mlr_learners$get("dens.kdeKD")
 lrn("dens.kdeKD")
 }

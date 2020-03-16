@@ -4,7 +4,6 @@
 \alias{LearnerSurvCVGlmnet}
 \alias{mlr_learners_surv.cvglmnet}
 \title{Cross-Validated GLM with Elastic Net Regularization Survival Learner}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerSurv}.}
 \description{
 Calls \code{\link[glmnet:cv.glmnet]{glmnet::cv.glmnet()}}.
 \itemize{
@@ -17,8 +16,10 @@ cross-validation, respectively. Tuning using the internal optimizer in \link{Lea
 may be more efficient when tuning lambda only. However, for tuning multiple hyperparameters,
 \CRANpkg{mlr3tuning} and \link{LearnerSurvGlmnet} will likely give better results.
 }
-\section{Construction}{
-\preformatted{LearnerSurvCVGlmnet$new()
+\section{Dictionary}{
+
+This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerSurvCVGlmnet$new()
 mlr_learners$get("surv.cvglmnet")
 lrn("surv.cvglmnet")
 }

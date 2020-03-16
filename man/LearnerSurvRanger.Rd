@@ -4,14 +4,15 @@
 \alias{LearnerSurvRanger}
 \alias{mlr_learners_surv.ranger}
 \title{Ranger Survival Forest Survival Learner}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerSurv}.}
 \description{
 Ranger Survival Forest Survival Learner
 
 Ranger Survival Forest Survival Learner
 }
-\section{Construction}{
-\preformatted{LearnerSurvRanger$new()
+\section{Dictionary}{
+
+This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerSurvRanger$new()
 mlr_learners$get("surv.ranger")
 lrn("surv.ranger")
 }

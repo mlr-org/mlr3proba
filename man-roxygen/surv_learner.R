@@ -10,8 +10,6 @@
 #'
 #' @include LearnerSurv.R
 #' @title <%=title%> Survival Learner
-#' @usage NULL
-#' @format [R6::R6Class()] inheriting from [LearnerSurv].
 #' @aliases <%= paste("mlr_learners", shortname, sep = "_")%>
 #' @description
 #' Calls <%=caller%>.
@@ -22,9 +20,9 @@
 #' <%= if(!exists("crank") & exists("lp")) crank_lp_str %>
 #' <%= if(!exists("crank") & !exists("lp")) crank_distr_str %>
 #'
-#'
-#'
-#' @section Construction:
+#' @section Dictionary:
+#' This [Learner][mlr3::Learner] can be instantiated via the [dictionary][mlr3misc::Dictionary]
+#' [mlr_learners][mlr3::mlr_learners] or with the associated sugar function [lrn()][mlr3::lrn]:
 #' ```
 #' <%=fullname%>$new()
 #' mlr_learners$get("<%=shortname%>")

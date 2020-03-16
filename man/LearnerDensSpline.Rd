@@ -4,14 +4,13 @@
 \alias{LearnerDensSpline}
 \alias{mlr_learners_dens.spline}
 \title{Smoothing Splines Density Estimator}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerDens}.}
 \description{
-Smoothing Splines Density Estimator
-
-Smoothing Splines Density Estimator
+Calls \code{\link[gss:ssden]{gss::ssden()}} and the result is coerced to a \link[distr6:Distribution]{distr6::Distribution}.
 }
-\section{Construction}{
-\preformatted{LearnerDensSpline$new()
+\section{Dictionary}{
+
+This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerDensSpline$new()
 mlr_learners$get("dens.spline")
 lrn("dens.spline")
 }

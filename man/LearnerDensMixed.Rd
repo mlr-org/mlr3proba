@@ -4,14 +4,13 @@
 \alias{LearnerDensMixed}
 \alias{mlr_learners_dens.mixed}
 \title{Mixed Data Kernel Density Estimator}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerDens}.}
 \description{
-Mixed Data Kernel Density Estimator
-
-Mixed Data Kernel Density Estimator
+Calls \code{\link[np:npudens]{np::npudens()}} and the result is coerced to a \link[distr6:Distribution]{distr6::Distribution}.
 }
-\section{Construction}{
-\preformatted{LearnerDensMixed$new()
+\section{Dictionary}{
+
+This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerDensMixed$new()
 mlr_learners$get("dens.mixed")
 lrn("dens.mixed")
 }

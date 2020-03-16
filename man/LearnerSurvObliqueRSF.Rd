@@ -4,12 +4,19 @@
 \alias{LearnerSurvObliqueRSF}
 \alias{mlr_learners_surv.obliqueRSF}
 \title{Oblique Random Survival Forest Survival Learner}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerSurv}.}
 \description{
+Calls \code{\link[obliqueRSF:ORSF]{obliqueRSF::ORSF()}}.
+\itemize{
+\item distr is predicted by \code{\link[obliqueRSF:predict.orsf]{obliqueRSF::predict.orsf()}}
+\item \code{crank} is predicted as the expectation of the survival distribution, \code{distr}
+}
+
 Parameter \code{verbose} is set to \code{FALSE}.
 }
-\section{Construction}{
-\preformatted{LearnerSurvObliqueRSF$new()
+\section{Dictionary}{
+
+This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerSurvObliqueRSF$new()
 mlr_learners$get("surv.obliqueRSF")
 lrn("surv.obliqueRSF")
 }

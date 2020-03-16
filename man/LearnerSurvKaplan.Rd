@@ -4,14 +4,15 @@
 \alias{LearnerSurvKaplan}
 \alias{mlr_learners_surv.kaplan}
 \title{Kaplan-Meier Estimator Survival Learner}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerSurv}.}
 \description{
 Kaplan-Meier Estimator Survival Learner
 
 Kaplan-Meier Estimator Survival Learner
 }
-\section{Construction}{
-\preformatted{LearnerSurvKaplan$new()
+\section{Dictionary}{
+
+This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerSurvKaplan$new()
 mlr_learners$get("surv.kaplan")
 lrn("surv.kaplan")
 }

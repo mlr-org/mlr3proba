@@ -4,14 +4,13 @@
 \alias{LearnerDensPenalized}
 \alias{mlr_learners_dens.pen}
 \title{Penalized Density Estimator}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerDens}.}
 \description{
-Penalized Density Estimator
-
-Penalized Density Estimator
+Calls \code{\link[pendensity:pendensity]{pendensity::pendensity()}} and the result is coerced to a \link[distr6:Distribution]{distr6::Distribution}.
 }
-\section{Construction}{
-\preformatted{LearnerDensPenalized$new()
+\section{Dictionary}{
+
+This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerDensPenalized$new()
 mlr_learners$get("dens.pen")
 lrn("dens.pen")
 }

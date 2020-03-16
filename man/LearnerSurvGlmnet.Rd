@@ -4,7 +4,6 @@
 \alias{LearnerSurvGlmnet}
 \alias{mlr_learners_surv.glmnet}
 \title{GLM with Elastic Net Regularization Survival Learner}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerSurv}.}
 \description{
 Calls \code{\link[glmnet:glmnet]{glmnet::glmnet()}}.
 \itemize{
@@ -20,8 +19,10 @@ may be more efficient when tuning lambda only. However, for tuning multiple hype
 Parameter \code{s} (value of the regularization parameter used for predictions) is set to the median
 of the \code{lambda} sequence by default, but needs to be tuned by the user.
 }
-\section{Construction}{
-\preformatted{LearnerSurvGlmnet$new()
+\section{Dictionary}{
+
+This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerSurvGlmnet$new()
 mlr_learners$get("surv.glmnet")
 lrn("surv.glmnet")
 }

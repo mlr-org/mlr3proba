@@ -4,7 +4,6 @@
 \alias{LearnerSurvRandomForestSRC}
 \alias{mlr_learners_surv.randomForestSRC}
 \title{RandomForestSRC Survival Forest Survival Learner}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerSurv}.}
 \description{
 Calls \code{\link[randomForestSRC:rfsrc]{randomForestSRC::rfsrc()}}.
 \itemize{
@@ -18,8 +17,10 @@ but uses different estimators to derive these. \code{chf} uses a bootstrapped Ne
 The choice of which estimator to use is given by the extra \code{estimator} hyper-parameter,
 default is \code{nelson}.
 }
-\section{Construction}{
-\preformatted{LearnerSurvRandomForestSRC$new()
+\section{Dictionary}{
+
+This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerSurvRandomForestSRC$new()
 mlr_learners$get("surv.randomForestSRC")
 lrn("surv.randomForestSRC")
 }
