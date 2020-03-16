@@ -92,7 +92,7 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
                        packages = "distr6")
       },
 
-    train_internal = function(inputs) {
+    .train = function(inputs) {
       self$state = list()
       list(NULL)
       },

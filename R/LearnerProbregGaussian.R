@@ -8,7 +8,7 @@
 #     packages = "distr6"
 #   )
 # })
-# LearnerProbregGaussian$set("public", "train_internal", function(task){
+# LearnerProbregGaussian$set("public", ".train", function(task){
 #   set_class(list(mean = mean(task$truth()), var = var(task$truth()), features = task$feature_names),
 #             "probreg.Gaussian_model")
 # })

@@ -26,7 +26,7 @@ LearnerDensPenalized <- R6::R6Class("LearnerDensPenalized", inherit = LearnerDen
       packages = c("pendensity", "distr6")
     )},
 
-    train_internal = function(task){
+    .train = function(task){
 
       pars = self$param_set$get_values(tag="train")
 

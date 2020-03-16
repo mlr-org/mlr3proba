@@ -116,7 +116,7 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
                        packages = "distr6")
       },
 
-    train_internal = function(inputs) {
+    .train = function(inputs) {
       self$state = list()
       list(NULL)
       },

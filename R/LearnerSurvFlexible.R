@@ -60,7 +60,7 @@ LearnerSurvFlexible = R6Class("LearnerSurvFlexible", inherit = LearnerSurv,
         )
       },
 
-    train_internal = function(task) {
+    .train = function(task) {
       # Passes control parameters to survreg.control
       pars_ctrl = c("maxiter","rel.tolerance","toler.chol","outer.max")
       pv = self$param_set$get_values(tags = "train")

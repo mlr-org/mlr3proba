@@ -26,7 +26,7 @@ LearnerDensNonparametric<- R6::R6Class("LearnerDensNonparametric", inherit = Lea
         packages = c("sm", "distr6")
       )},
 
-    train_internal = function(task){
+    .train = function(task){
 
       pars = self$param_set$get_values(tag="train")
       if ("weights" %in% task$properties) {

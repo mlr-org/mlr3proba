@@ -29,7 +29,7 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
       )
     },
 
-    train_internal = function(task) {
+    .train = function(task) {
 
       pv = self$param_set$get_values(tags = "train")
 

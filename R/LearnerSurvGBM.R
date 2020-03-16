@@ -56,7 +56,7 @@ LearnerSurvGBM = R6Class("LearnerSurvGBM", inherit = LearnerSurv,
       )
     },
 
-    train_internal = function(task) {
+    .train = function(task) {
 
       # hacky formula construction as gbm fails when "type" argument specified in Surv()
       tn = task$target_names

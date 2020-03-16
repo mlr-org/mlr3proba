@@ -126,7 +126,7 @@ expect_pipeop = function(po) {
   expect_character(po$packages, any.missing = FALSE, unique = TRUE, label = label)
   expect_function(po$train, nargs = 1)
   expect_function(po$predict, nargs = 1)
-  expect_function(po$train_internal, nargs = 1)
+  expect_function(po$.train, nargs = 1)
   expect_function(po$predict, nargs = 1)
   expect_function(po$predict_internal, nargs = 1)
   expect_data_table(po$input, any.missing = FALSE)

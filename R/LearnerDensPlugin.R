@@ -14,7 +14,7 @@ LearnerDensPlugin <- R6::R6Class("LearnerDensPlugin", inherit = LearnerDens,
       packages = c("plugdensity", "distr6")
     )},
 
-    train_internal = function(task){
+    .train = function(task){
 
       pdf <- function(x1){}
       body(pdf) <- substitute({

@@ -18,7 +18,7 @@ LearnerDensHistogram <- R6::R6Class("LearnerDensHistogram", inherit = LearnerDen
       )
     },
 
-    train_internal = function(task){
+    .train = function(task){
 
       pars = self$param_set$get_values(tag="train")
 

@@ -74,7 +74,7 @@ LearnerSurvRandomForestSRC = R6Class("LearnerSurvRandomForestSRC", inherit = Lea
       )
     },
 
-    train_internal = function(task) {
+    .train = function(task) {
       pv = self$param_set$get_values(tags = "train")
 
       invoke(randomForestSRC::rfsrc, formula = task$formula(), data = task$data(),

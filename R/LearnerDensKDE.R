@@ -32,7 +32,7 @@ LearnerDensKDE = R6::R6Class("LearnerDensKDE", inherit = LearnerDens,
       )
     },
 
-    train_internal = function(task){
+    .train = function(task){
       kernel = get(as.character(subset(listKernels(),
                                        ShortName == self$param_set$values$kernel,
                                        ClassName)))$new()

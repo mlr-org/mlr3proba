@@ -54,7 +54,7 @@ LearnerSurvSVM = R6Class("LearnerSurvSVM", inherit = LearnerSurv,
         packages = c("survivalsvm")
         )
       },
-    train_internal = function(task) {
+    .train = function(task) {
       invoke(survivalsvm::survivalsvm,
              formula = task$formula(),
              data = task$data(),

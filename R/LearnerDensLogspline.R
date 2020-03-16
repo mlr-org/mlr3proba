@@ -23,7 +23,7 @@ LearnerDensLogspline<- R6::R6Class("LearnerDensLogspline", inherit = LearnerDens
       packages = c("logspline", "distr6")
     )},
 
-    train_internal = function(task){
+    .train = function(task){
 
       data = task$truth()
 

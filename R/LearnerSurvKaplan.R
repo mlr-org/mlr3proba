@@ -20,7 +20,7 @@ LearnerSurvKaplan = R6Class("LearnerSurvKaplan", inherit = LearnerSurv,
       )
     },
 
-    train_internal = function(task) {
+    .train = function(task) {
       invoke(survival::survfit, formula = task$formula(1), data = task$data())
     },
 

@@ -30,7 +30,7 @@ LearnerDensSpline <- R6::R6Class("LearnerDensSpline", inherit = LearnerDens,
       packages = c("gss", "distr6")
     )},
 
-    train_internal = function(task){
+    .train = function(task){
 
       pars = self$param_set$get_values(tags = "train")
 

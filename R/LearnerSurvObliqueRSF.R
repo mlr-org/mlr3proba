@@ -45,7 +45,7 @@ LearnerSurvObliqueRSF = R6Class("LearnerSurvObliqueRSF", inherit = LearnerSurv,
       )
     },
 
-    train_internal = function(task) {
+    .train = function(task) {
       pv = self$param_set$get_values(tags = "train")
       targets = task$target_names
 

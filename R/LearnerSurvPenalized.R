@@ -55,7 +55,7 @@ LearnerSurvPenalized = R6Class("LearnerSurvPenalized", inherit = LearnerSurv,
         )
       },
 
-    train_internal = function(task) {
+    .train = function(task) {
 
       # Checks missing data early to prevent crashing
       if(any(task$missings() > 0))

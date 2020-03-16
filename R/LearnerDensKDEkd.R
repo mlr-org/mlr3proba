@@ -21,7 +21,7 @@ LearnerDensKDEkd <- R6::R6Class("LearnerDensKDEkd", inherit = LearnerDens,
         packages = c("kerdiest", "distr6")
     )},
 
-    train_internal = function(task){
+    .train = function(task){
 
       pars = self$param_set$get_values(tag="train")
 

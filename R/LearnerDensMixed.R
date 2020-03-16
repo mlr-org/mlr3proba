@@ -52,7 +52,7 @@ LearnerDensMixed <- R6::R6Class("LearnerDensMixed", inherit = LearnerDens,
       predict_types = "pdf",
       packages = c("np", "distr6")
     )},
-    train_internal = function(task){
+    .train = function(task){
 
       pdf <- function(x1){}
       body(pdf) <- substitute({

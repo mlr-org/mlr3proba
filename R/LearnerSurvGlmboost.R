@@ -55,7 +55,7 @@ LearnerSurvGlmboost = R6Class("LearnerSurvGlmboost", inherit = LearnerSurv,
           )
         },
 
-      train_internal = function(task) {
+      .train = function(task) {
 
         pars = self$param_set$get_values(tags = "train")
 
