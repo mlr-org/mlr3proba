@@ -89,18 +89,26 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-importance"></a>}}
 \subsection{Method \code{importance()}}{
+The importance scores are extracted from the model slot \code{variable.importance}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{LearnerSurvCoxPH$importance()}\if{html}{\out{</div>}}
 }
 
+\subsection{Returns}{
+Named \code{numeric()}.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-selected_features"></a>}}
 \subsection{Method \code{selected_features()}}{
+Selected features are extracted from the model slot \code{frame$var}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{LearnerSurvCoxPH$selected_features()}\if{html}{\out{</div>}}
 }
 
+\subsection{Returns}{
+\code{character()}.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

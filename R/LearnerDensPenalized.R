@@ -6,6 +6,8 @@
 #' @export
 LearnerDensPenalized <- R6::R6Class("LearnerDensPenalized", inherit = LearnerDens,
   public = list(
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id = "dens.pen"){
     super$initialize(
       id = id,

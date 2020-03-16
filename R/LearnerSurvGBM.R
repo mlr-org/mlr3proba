@@ -57,6 +57,9 @@ LearnerSurvGBM = R6Class("LearnerSurvGBM", inherit = LearnerSurv,
       )
     },
 
+    #' @description
+    #' The importance scores are extracted from the model slot `variable.importance`.
+    #' @return Named `numeric()`.
     importance = function() {
       if (is.null(self$model)) {
         stopf("No model stored")

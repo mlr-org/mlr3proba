@@ -6,6 +6,8 @@
 #' @export
 LearnerDensPlugin <- R6::R6Class("LearnerDensPlugin", inherit = LearnerDens,
   public = list(
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id = "dens.plug"){
     super$initialize(
       id = id,

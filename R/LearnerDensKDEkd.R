@@ -6,6 +6,8 @@
 #' @export
 LearnerDensKDEkd <- R6::R6Class("LearnerDensKDEkd", inherit = LearnerDens,
   public = list(
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id = "dens.kdeKD"){
         ps = ParamSet$new(
         params = list(

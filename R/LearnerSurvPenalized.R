@@ -56,6 +56,9 @@ LearnerSurvPenalized = R6Class("LearnerSurvPenalized", inherit = LearnerSurv,
         )
       },
 
+    #' @description
+    #' The importance scores are extracted from the model slot `variable.importance`.
+    #' @return Named `numeric()`.
     importance = function() {
       if (is.null(self$model))
         stopf("No model stored")
@@ -63,7 +66,7 @@ LearnerSurvPenalized = R6Class("LearnerSurvPenalized", inherit = LearnerSurv,
       # importance defined by decreasing fitted weights
       sort(self$model@weights, decreasing = TRUE)
       }
-    ),
+  ),
 
   private = list(
     .train = function(task) {

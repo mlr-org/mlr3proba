@@ -75,6 +75,9 @@ LearnerSurvRandomForestSRC = R6Class("LearnerSurvRandomForestSRC", inherit = Lea
       )
     },
 
+    #' @description
+    #' The importance scores are extracted from the model slot `variable.importance`.
+    #' @return Named `numeric()`.
     importance = function() {
       if (is.null(self$model)) {
         stopf("No model stored")
@@ -86,6 +89,9 @@ LearnerSurvRandomForestSRC = R6Class("LearnerSurvRandomForestSRC", inherit = Lea
       sort(self$model$importance, decreasing = TRUE)
     },
 
+    #' @description
+    #' Selected features are extracted from the model slot `frame$var`.
+    #' @return `character()`.
     selected_features = function() {
       if (is.null(self$model)) {
         stopf("No model stored")

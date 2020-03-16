@@ -6,6 +6,8 @@
 #' @export
 LearnerDensHistogram <- R6::R6Class("LearnerDensHistogram", inherit = LearnerDens,
   public = list(
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id = "dens.hist"){
     super$initialize(
       id = id,

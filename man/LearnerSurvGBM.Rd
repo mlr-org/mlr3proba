@@ -107,10 +107,14 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-importance"></a>}}
 \subsection{Method \code{importance()}}{
+The importance scores are extracted from the model slot \code{variable.importance}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{LearnerSurvGBM$importance()}\if{html}{\out{</div>}}
 }
 
+\subsection{Returns}{
+Named \code{numeric()}.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
