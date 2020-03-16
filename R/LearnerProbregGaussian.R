@@ -8,11 +8,11 @@
 #     packages = "distr6"
 #   )
 # })
-# LearnerProbregGaussian$set("public", "train_internal", function(task){
+# LearnerProbregGaussian$set("public", ".train", function(task){
 #   set_class(list(mean = mean(task$truth()), var = var(task$truth()), features = task$feature_names),
 #             "probreg.Gaussian_model")
 # })
-# LearnerProbregGaussian$set("public", "predict_internal", function(task){
+# LearnerProbregGaussian$set("public", ".predict", function(task){
 #   prob = VectorDistribution$new(distribution = Normal,
 #                          params = data.table::data.table(mean = rep(self$model$mean, length(task$truth())),
 #                                                          var = rep(self$model$var, length(task$truth()))))

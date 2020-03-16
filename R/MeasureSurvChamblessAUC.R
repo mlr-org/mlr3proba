@@ -28,10 +28,12 @@ MeasureSurvChamblessAUC = R6Class("MeasureSurvChamblessAUC",
                        times = times,
                        id = "surv.chamblessAUC",
                        properties = c("requires_learner", "requires_task", "requires_train_set"))
-    },
+    }
+  ),
 
-    score_internal = function(prediction, learner, task, train_set, ...) {
-      super$score_internal(prediction = prediction,
+  private = list(
+    .score = function(prediction, learner, task, train_set, ...) {
+      super$.score(prediction = prediction,
                            learner = learner,
                            task = task,
                            train_set = train_set,

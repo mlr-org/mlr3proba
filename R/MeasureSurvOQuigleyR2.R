@@ -28,9 +28,11 @@ MeasureSurvOQuigleyR2 = R6Class("MeasureSurvOQuigleyR2",
         predict_type = "lp",
         properties = c("requires_task", "requires_train_set")
       )
-    },
+    }
+  ),
 
-    score_internal = function(prediction, task, train_set, ...) {
+  private = list(
+    .score = function(prediction, task, train_set, ...) {
       surv_train = task$truth(train_set)
 
       survAUC::OXS(surv_train, prediction$lp, rep(0, length(prediction$lp)))

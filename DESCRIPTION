@@ -39,7 +39,7 @@ Imports:
     checkmate,
     data.table,
     distr6 (>= 1.3.4),
-    mlr3 (>= 0.1.4),
+    mlr3 (>= 0.1.7),
     mlr3misc (>= 0.1.7),
     mlr3pipelines,
     paradox (>= 0.1.0),

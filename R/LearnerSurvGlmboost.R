@@ -53,50 +53,52 @@ LearnerSurvGlmboost = R6Class("LearnerSurvGlmboost", inherit = LearnerSurv,
           predict_types = c("distr","crank","lp"),
           packages = c("mboost","distr6","survival")
           )
-        },
+        }
+  ),
 
-      train_internal = function(task) {
+ private = list(
+   .train = function(task) {
 
-        pars = self$param_set$get_values(tags = "train")
+     pars = self$param_set$get_values(tags = "train")
 
-        # convert data to model matrix
-        x = model.matrix(~., as.data.frame(task$data(cols = task$feature_names)))
+     # convert data to model matrix
+     x = model.matrix(~., as.data.frame(task$data(cols = task$feature_names)))
 
-        family = switch(pars$family,
-                        coxph = mboost::CoxPH(),
-                        weibull = mboost::Weibull(nuirange = pars$nuirange),
-                        loglog = mboost::Loglog(nuirange = pars$nuirange),
-                        lognormal = mboost::Lognormal(nuirange = pars$nuirange),
-                        gehan = mboost::Gehan(),
-                        custom = pars$custom.family
-        )
+     family = switch(pars$family,
+                     coxph = mboost::CoxPH(),
+                     weibull = mboost::Weibull(nuirange = pars$nuirange),
+                     loglog = mboost::Loglog(nuirange = pars$nuirange),
+                     lognormal = mboost::Lognormal(nuirange = pars$nuirange),
+                     gehan = mboost::Gehan(),
+                     custom = pars$custom.family
+     )
 
-        pars = pars[!(names(pars) %in% c("family", "nuirange", "custom.family"))]
+     pars = pars[!(names(pars) %in% c("family", "nuirange", "custom.family"))]
 
-       invoke(mboost::glmboost, x = x, y = task$truth(), family = family, .args = pars)
- },
+     invoke(mboost::glmboost, x = x, y = task$truth(), family = family, .args = pars)
+   },
 
-    predict_internal = function(task) {
+   .predict = function(task) {
 
-      # convert data to model matrix
-      newdata = model.matrix(~., as.data.frame(task$data(cols = task$feature_names)))
+     # convert data to model matrix
+     newdata = model.matrix(~., as.data.frame(task$data(cols = task$feature_names)))
 
-      # predict linear predictor
-      lp = as.numeric(invoke(predict, self$model, newdata = newdata, type = "link"))
+     # predict linear predictor
+     lp = as.numeric(invoke(predict, self$model, newdata = newdata, type = "link"))
 
-      # predict survival
-      surv = invoke(mboost::survFit, self$model, newdata = newdata)
-      surv$cdf = 1 - surv$surv
+     # predict survival
+     surv = invoke(mboost::survFit, self$model, newdata = newdata)
+     surv$cdf = 1 - surv$surv
 
-      # define WeightedDiscrete distr6 object from predicted survival function
-      x = rep(list(data = data.frame(x = surv$time, cdf = 0)), task$nrow)
-      for(i in 1:task$nrow)
-        x[[i]]$cdf = surv$cdf[, i]
+     # define WeightedDiscrete distr6 object from predicted survival function
+     x = rep(list(data = data.frame(x = surv$time, cdf = 0)), task$nrow)
+     for(i in 1:task$nrow)
+       x[[i]]$cdf = surv$cdf[, i]
 
-      distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
-                                             decorators = c("CoreStatistics", "ExoticStatistics"))
+     distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
+                                            decorators = c("CoreStatistics", "ExoticStatistics"))
 
-      PredictionSurv$new(task = task, crank = lp, distr = distr, lp = lp)
-      }
-  )
+     PredictionSurv$new(task = task, crank = lp, distr = distr, lp = lp)
+   }
+ )
 )

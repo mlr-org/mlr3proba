@@ -5,7 +5,8 @@
 #'
 #' @export
 LearnerDensMixed <- R6::R6Class("LearnerDensMixed", inherit = LearnerDens,
-  public = list(initialize = function(id = "dens.mixed"){
+  public = list(
+    initialize = function(id = "dens.mixed"){
     ps = ParamSet$new(
       params = list(
         ParamUty$new(id = "bws", tags = "train"),
@@ -51,8 +52,11 @@ LearnerDensMixed <- R6::R6Class("LearnerDensMixed", inherit = LearnerDens,
       feature_types =  c("logical", "integer", "numeric", "character", "factor", "ordered"),
       predict_types = "pdf",
       packages = c("np", "distr6")
-    )},
-    train_internal = function(task){
+    )}
+  ),
+
+  private = list(
+    .train = function(task){
 
       pdf <- function(x1){}
       body(pdf) <- substitute({
@@ -65,7 +69,7 @@ LearnerDensMixed <- R6::R6Class("LearnerDensMixed", inherit = LearnerDens,
                        pdf= pdf)
     },
 
-    predict_internal = function(task){
+    .predict = function(task){
       PredictionDens$new(task = task, pdf = self$model$pdf(task$truth()))
     }
   )

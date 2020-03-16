@@ -38,15 +38,6 @@ MeasureSurvUnoTNR = R6Class("MeasureSurvUnoTNR",
 
       assertNumeric(lp_thresh, len = 1)
       private$.lp_thresh = lp_thresh
-    },
-
-    score_internal = function(prediction, ...) {
-      tnr = super$score_internal(prediction = prediction,
-                                 FUN = survAUC::spec.uno,
-                                 task = task
-      )
-
-      tnr[, findInterval(self$lp_thresh, sort(unique(prediction$lp)))]
     }
   ),
 
@@ -62,6 +53,14 @@ MeasureSurvUnoTNR = R6Class("MeasureSurvUnoTNR",
   ),
 
   private = list(
-    .lp_thresh = numeric(0)
+    .lp_thresh = numeric(0),
+    .score = function(prediction, ...) {
+      tnr = super$.score(prediction = prediction,
+                         FUN = survAUC::spec.uno,
+                         task = task
+      )
+
+      tnr[, findInterval(self$lp_thresh, sort(unique(prediction$lp)))]
+    }
   )
 )

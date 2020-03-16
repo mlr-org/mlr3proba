@@ -58,9 +58,11 @@ LearnerSurvParametric = R6Class("LearnerSurvParametric", inherit = LearnerSurv,
         properties = "weights",
         packages = c("survival", "distr6", "set6")
       )
-    },
+    }
+  ),
 
-    train_internal = function(task) {
+  private = list(
+    .train = function(task) {
       # Passes control parameters to survreg.control
       pars_ctrl = c("maxiter","rel.tolerance","toler.chol","outer.max")
       pv = self$param_set$get_values(tags = "train")
@@ -92,25 +94,25 @@ LearnerSurvParametric = R6Class("LearnerSurvParametric", inherit = LearnerSurv,
 
 
       basedist = switch(fit$dist,
-                 "gaussian" = distr6::Normal$new(mean = location, sd = scale,
-                                                 decorators = "ExoticStatistics"),
-                 "weibull" = distr6::Weibull$new(shape = 1/scale, scale = exp(location),
-                                                 decorators = "ExoticStatistics"),
-                 "exponential" = distr6::Exponential$new(scale = exp(location),
-                                                         decorators = "ExoticStatistics"),
-                 "logistic" = distr6::Logistic$new(mean = location, scale = scale,
-                                                   decorators = "ExoticStatistics"),
-                 "lognormal" = distr6::Lognormal$new(meanlog = location, sdlog = scale,
-                                                     decorators = "ExoticStatistics"),
-                 "loglogistic" = distr6::Loglogistic$new(scale = exp(location),
-                                                         shape = 1/scale,
-                                                         decorators = "ExoticStatistics")
+                        "gaussian" = distr6::Normal$new(mean = location, sd = scale,
+                                                        decorators = "ExoticStatistics"),
+                        "weibull" = distr6::Weibull$new(shape = 1/scale, scale = exp(location),
+                                                        decorators = "ExoticStatistics"),
+                        "exponential" = distr6::Exponential$new(scale = exp(location),
+                                                                decorators = "ExoticStatistics"),
+                        "logistic" = distr6::Logistic$new(mean = location, scale = scale,
+                                                          decorators = "ExoticStatistics"),
+                        "lognormal" = distr6::Lognormal$new(meanlog = location, sdlog = scale,
+                                                            decorators = "ExoticStatistics"),
+                        "loglogistic" = distr6::Loglogistic$new(scale = exp(location),
+                                                                shape = 1/scale,
+                                                                decorators = "ExoticStatistics")
       )
 
       set_class(list(fit = fit, basedist = basedist), "surv.parametric")
     },
 
-    predict_internal = function(task) {
+    .predict = function(task) {
 
       # As we are using a custom predict method the missing assertions are performed here manually
       # (as opposed to the automatic assertions that take place after prediction)

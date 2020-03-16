@@ -5,7 +5,8 @@
 #'
 #' @export
 LearnerDensSpline <- R6::R6Class("LearnerDensSpline", inherit = LearnerDens,
-  public = list(initialize = function(id = "dens.spline"){
+  public = list(
+    initialize = function(id = "dens.spline"){
     super$initialize(
       id = id,
       param_set = ParamSet$new(
@@ -28,9 +29,11 @@ LearnerDensSpline <- R6::R6Class("LearnerDensSpline", inherit = LearnerDens,
       properties = "missings",
       predict_types = c("pdf", "cdf"),
       packages = c("gss", "distr6")
-    )},
+    )}
+  ),
 
-    train_internal = function(task){
+  private = list(
+    .train = function(task){
 
       pars = self$param_set$get_values(tags = "train")
 
@@ -65,10 +68,11 @@ LearnerDensSpline <- R6::R6Class("LearnerDensSpline", inherit = LearnerDens,
                        pdf = pdf, cdf = cdf, quantile = quantile)
     },
 
-    predict_internal = function(task){
+    .predict = function(task){
       newdata = task$truth()
 
       PredictionDens$new(task = task, pdf = self$model$pdf(newdata),
                          cdf = self$model$cdf(newdata))
     }
-  ))
+  )
+)

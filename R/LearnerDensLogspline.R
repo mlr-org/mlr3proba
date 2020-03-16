@@ -5,7 +5,8 @@
 #'
 #' @export
 LearnerDensLogspline<- R6::R6Class("LearnerDensLogspline", inherit = LearnerDens,
-  public = list(initialize = function(id = "dens.logspline"){
+  public = list(
+    initialize = function(id = "dens.logspline"){
     super$initialize(
       id = id,
       param_set = ParamSet$new(list(
@@ -21,9 +22,11 @@ LearnerDensLogspline<- R6::R6Class("LearnerDensLogspline", inherit = LearnerDens
       feature_types =  c("logical", "integer", "numeric", "character", "factor", "ordered"),
       predict_types = c("pdf", "cdf"),
       packages = c("logspline", "distr6")
-    )},
+    )}
+  ),
 
-    train_internal = function(task){
+  private = list(
+    .train = function(task){
 
       data = task$truth()
 
@@ -33,7 +36,7 @@ LearnerDensLogspline<- R6::R6Class("LearnerDensLogspline", inherit = LearnerDens
 
       pdf <- function(x1){}
       body(pdf) <- substitute({
-       invoke(logspline::dlogspline, q = x1, fit = fit)
+        invoke(logspline::dlogspline, q = x1, fit = fit)
       })
 
       cdf <- function(x1){}
@@ -57,9 +60,10 @@ LearnerDensLogspline<- R6::R6Class("LearnerDensLogspline", inherit = LearnerDens
 
     },
 
-    predict_internal = function(task){
+    .predict = function(task){
       PredictionDens$new(task = task,
                          pdf = self$model$pdf(task$truth()),
                          cdf = self$model$cdf(task$truth()))
     }
-  ))
+  )
+)

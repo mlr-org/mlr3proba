@@ -18,13 +18,15 @@ LearnerSurvKaplan = R6Class("LearnerSurvKaplan", inherit = LearnerSurv,
         properties = "missings",
         packages = c("survival", "distr6")
       )
-    },
+    }
+  ),
 
-    train_internal = function(task) {
+  private = list(
+    .train = function(task) {
       invoke(survival::survfit, formula = task$formula(1), data = task$data())
     },
 
-    predict_internal = function(task) {
+    .predict = function(task) {
       # Ensures that at all times before the first observed time the survival is 1, as expected.
       # surv = c(1, self$model$surv)
       # time = c(0, self$model$time)

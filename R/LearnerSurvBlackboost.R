@@ -13,7 +13,7 @@
 #' \cite{mlr3proba}{hothorn_2006}
 #'
 #' \cite{mlr3proba}{freund_1996}
-#' 
+#'
 #' \cite{mlr3proba}{friedman_2001}
 #'
 #' \cite{mlr3proba}{ridgeway_1999}
@@ -83,9 +83,11 @@ LearnerSurvBlackboost = R6Class("LearnerSurvBlackboost", inherit = LearnerSurv,
         predict_types = c("distr","crank","lp"),
         packages = c("mboost","distr6","survival","partykit","mvtnorm")
       )
-    },
+    }
+  ),
 
-    train_internal = function(task) {
+  private = list(
+    .train = function(task) {
 
       pars = self$param_set$get_values(tags = "train")
 
@@ -137,7 +139,7 @@ LearnerSurvBlackboost = R6Class("LearnerSurvBlackboost", inherit = LearnerSurv,
              data = task$data(), family = family, .args = pars)
     },
 
-    predict_internal = function(task) {
+    .predict = function(task) {
       newdata = task$data(cols = task$feature_names)
       # predict linear predictor
       lp = as.numeric(invoke(predict, self$model, newdata = newdata, type = "link"))

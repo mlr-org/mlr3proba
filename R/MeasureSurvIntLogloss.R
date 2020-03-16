@@ -47,15 +47,6 @@ MeasureSurvIntLogloss = R6::R6Class("MeasureSurvIntLogloss",
 
       assertNumeric(eps)
       private$.eps <- eps
-    },
-
-    score_internal = function(prediction, ...) {
-      integrated_score(score = weighted_logloss(truth = prediction$truth,
-                                             distribution = prediction$distr,
-                                             times = self$times,
-                                             eps = self$eps),
-                    integrated = self$integrated,
-                    method = self$method)
     }
   ),
 
@@ -71,6 +62,14 @@ MeasureSurvIntLogloss = R6::R6Class("MeasureSurvIntLogloss",
   ),
 
   private = list(
-    .eps = numeric(0)
+    .eps = numeric(0),
+    .score = function(prediction, ...) {
+      integrated_score(score = weighted_logloss(truth = prediction$truth,
+                                                distribution = prediction$distr,
+                                                times = self$times,
+                                                eps = self$eps),
+                       integrated = self$integrated,
+                       method = self$method)
+    }
   )
 )

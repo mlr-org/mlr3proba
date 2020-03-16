@@ -29,9 +29,11 @@ MeasureSurvUnoC = R6Class("MeasureSurvUnoC",
         predict_type = "crank",
         properties = c("na_score", "requires_task", "requires_train_set")
       )
-    },
+    }
+  ),
 
-    score_internal = function(prediction, task, train_set, ...) {
+  private = list(
+    .score = function(prediction, task, train_set, ...) {
       surv_train = task$truth(train_set)
       perf = survAUC::UnoC(surv_train, prediction$truth, prediction$crank)
       if (is.nan(perf)) {

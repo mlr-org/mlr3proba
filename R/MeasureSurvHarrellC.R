@@ -23,9 +23,11 @@ MeasureSurvHarrellC = R6Class("MeasureSurvHarrellC",
         minimize = FALSE,
         predict_type = "crank"
       )
-    },
+    }
+  ),
 
-    score_internal = function(prediction, ...) {
+  private = list(
+    .score = function(prediction, ...) {
       cindex(prediction$truth, prediction$crank)
     }
   )

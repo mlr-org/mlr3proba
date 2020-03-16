@@ -5,7 +5,8 @@
 #'
 #' @export
 LearnerDensPenalized <- R6::R6Class("LearnerDensPenalized", inherit = LearnerDens,
-  public = list(initialize = function(id = "dens.pen"){
+  public = list(
+    initialize = function(id = "dens.pen"){
     super$initialize(
       id = id,
       param_set = ParamSet$new(
@@ -24,9 +25,11 @@ LearnerDensPenalized <- R6::R6Class("LearnerDensPenalized", inherit = LearnerDen
       feature_types =  c("logical", "integer", "numeric", "character", "factor", "ordered"),
       predict_types = c("pdf", "cdf"),
       packages = c("pendensity", "distr6")
-    )},
+    )}
+  ),
 
-    train_internal = function(task){
+  private = list(
+    .train = function(task){
 
       pars = self$param_set$get_values(tag="train")
 
@@ -55,14 +58,13 @@ LearnerDensPenalized <- R6::R6Class("LearnerDensPenalized", inherit = LearnerDen
                        pdf = pdf, cdf = cdf)
     },
 
-    predict_internal = function(task){
+    .predict = function(task){
 
       newdata = task$truth()
 
       PredictionDens$new(task = task, pdf = self$model$pdf(newdata), cdf = self$model$pdf(newdata))
 
     }
-
   )
 )
 

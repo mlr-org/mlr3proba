@@ -30,9 +30,11 @@ LearnerDensKDEks <- R6::R6Class("LearnerDensKDEks", inherit = LearnerDens,
       feature_types =  c("logical", "integer", "numeric", "character", "factor", "ordered"),
       predict_types = "pdf",
       packages = c("ks", "distr6")
-    )},
+    )}
+  ),
 
-    train_internal = function(task){
+  private = list(
+    .train = function(task){
 
       pars = self$param_set$get_values(tag="train")
 
@@ -51,7 +53,7 @@ LearnerDensKDEks <- R6::R6Class("LearnerDensKDEks", inherit = LearnerDens,
                        pdf = pdf)
     },
 
-    predict_internal = function(task){
+    .predict = function(task){
       PredictionDens$new(task = task, pdf = self$model$pdf(task$truth()))
     }
   )

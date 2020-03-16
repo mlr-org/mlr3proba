@@ -37,10 +37,6 @@ MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
 
       assertNumeric(eps)
       private$.eps <- eps
-    },
-
-    score_internal = function(prediction, ...) {
-      mean(surv_logloss(prediction$truth, prediction$distr, self$eps))
     }
   ),
 
@@ -56,6 +52,9 @@ MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
   ),
 
   private = list(
-    .eps = numeric(0)
+    .eps = numeric(0),
+    .score = function(prediction, ...) {
+      mean(surv_logloss(prediction$truth, prediction$distr, self$eps))
+    }
   )
 )

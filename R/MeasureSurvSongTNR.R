@@ -37,18 +37,6 @@ MeasureSurvSongTNR = R6Class("MeasureSurvSongTNR",
 
       assertNumeric(lp_thresh, len = 1)
       private$.lp_thresh = lp_thresh
-    },
-
-    score_internal = function(prediction, learner, task, train_set, ...) {
-      tnr = super$score_internal(prediction = prediction,
-                                 learner = learner,
-                                 task = task,
-                                 train_set = train_set,
-                                 FUN = survAUC::spec.sh,
-                                 ...
-      )
-
-      tnr[, findInterval(self$lp_thresh, sort(unique(prediction$lp)))]
     }
   ),
 
@@ -64,6 +52,17 @@ MeasureSurvSongTNR = R6Class("MeasureSurvSongTNR",
   ),
 
   private = list(
-    .lp_thresh = numeric(0)
+    .lp_thresh = numeric(0),
+    .score = function(prediction, learner, task, train_set, ...) {
+      tnr = super$.score(prediction = prediction,
+                         learner = learner,
+                         task = task,
+                         train_set = train_set,
+                         FUN = survAUC::spec.sh,
+                         ...
+      )
+
+      tnr[, findInterval(self$lp_thresh, sort(unique(prediction$lp)))]
+    }
   )
 )

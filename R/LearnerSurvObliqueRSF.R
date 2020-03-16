@@ -43,9 +43,11 @@ LearnerSurvObliqueRSF = R6Class("LearnerSurvObliqueRSF", inherit = LearnerSurv,
         properties    = c("missings"),
         packages      = c("obliqueRSF", "distr6")
       )
-    },
+    }
+  ),
 
-    train_internal = function(task) {
+  private = list(
+    .train = function(task) {
       pv = self$param_set$get_values(tags = "train")
       targets = task$target_names
 
@@ -58,7 +60,7 @@ LearnerSurvObliqueRSF = R6Class("LearnerSurvObliqueRSF", inherit = LearnerSurv,
       )
     },
 
-    predict_internal = function(task) {
+    .predict = function(task) {
 
 
       newdata = task$data(cols = task$feature_names)
@@ -84,6 +86,5 @@ LearnerSurvObliqueRSF = R6Class("LearnerSurvObliqueRSF", inherit = LearnerSurv,
       PredictionSurv$new(task = task, crank = crank, distr = distr)
 
     }
-
   )
 )

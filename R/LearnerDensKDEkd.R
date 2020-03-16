@@ -5,7 +5,8 @@
 #'
 #' @export
 LearnerDensKDEkd <- R6::R6Class("LearnerDensKDEkd", inherit = LearnerDens,
-  public = list(initialize = function(id = "dens.kdeKD"){
+  public = list(
+    initialize = function(id = "dens.kdeKD"){
         ps = ParamSet$new(
         params = list(
           ParamDbl$new(id = "bw",  lower = 0, tags = "train"),
@@ -19,9 +20,11 @@ LearnerDensKDEkd <- R6::R6Class("LearnerDensKDEkd", inherit = LearnerDens,
         feature_types =  c("logical", "integer", "numeric", "character", "factor", "ordered"),
         predict_types = "pdf",
         packages = c("kerdiest", "distr6")
-    )},
+    )}
+  ),
 
-    train_internal = function(task){
+  private = list(
+    .train = function(task){
 
       pars = self$param_set$get_values(tag="train")
 
@@ -40,7 +43,7 @@ LearnerDensKDEkd <- R6::R6Class("LearnerDensKDEkd", inherit = LearnerDens,
                        pdf = pdf)
     },
 
-    predict_internal = function(task){
+    .predict = function(task){
 
       newdata = task$truth()
 

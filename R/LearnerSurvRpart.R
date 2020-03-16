@@ -39,7 +39,24 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart", inherit = LearnerSurv,
       )
     },
 
-    train_internal = function(task) {
+    importance = function() {
+      if (is.null(self$model$fit$rpart)) {
+        stopf("No model stored")
+      }
+      # importance is only present if there is at least on split
+      sort(self$model$fit$rpart$variable.importance %??% set_names(numeric()), decreasing = TRUE)
+    },
+
+    selected_features = function() {
+      if (is.null(self$model)) {
+        stopf("No model stored")
+      }
+      unique(setdiff(self$model$fit$rpart$frame$var, "<leaf>"))
+    }
+  ),
+
+  private = list(
+    .train = function(task) {
       pv = self$param_set$get_values(tags = "train")
       if ("weights" %in% task$properties) {
         pv = insert_named(pv, list(weights = task$weights$weight))
@@ -52,7 +69,7 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart", inherit = LearnerSurv,
       set_class(list(fit = fit, times = sort(unique(task$truth()[,1]))), "surv.rpart")
     },
 
-    predict_internal = function(task) {
+    .predict = function(task) {
       newdata = task$data(cols = task$feature_names)
 
       cdf = 1 - invoke(pec::predictSurvProb, .args = list(object = self$model$fit, newdata = newdata,
@@ -83,21 +100,6 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart", inherit = LearnerSurv,
 
       # note the ranking of lp and crank is identical
       PredictionSurv$new(task = task, crank = crank, distr = distr)
-    },
-
-    importance = function() {
-      if (is.null(self$model$fit$rpart)) {
-        stopf("No model stored")
-      }
-      # importance is only present if there is at least on split
-      sort(self$model$fit$rpart$variable.importance %??% set_names(numeric()), decreasing = TRUE)
-    },
-
-    selected_features = function() {
-      if (is.null(self$model)) {
-        stopf("No model stored")
-      }
-      unique(setdiff(self$model$fit$rpart$frame$var, "<leaf>"))
     }
   )
 )

@@ -5,16 +5,19 @@
 #'
 #' @export
 LearnerDensPlugin <- R6::R6Class("LearnerDensPlugin", inherit = LearnerDens,
-  public = list(initialize = function(id = "dens.plug"){
+  public = list(
+    initialize = function(id = "dens.plug"){
     super$initialize(
       id = id,
       feature_types =  c("logical", "integer", "numeric", "character", "factor", "ordered"),
       predict_types = "pdf",
       properties = "missings",
       packages = c("plugdensity", "distr6")
-    )},
+    )}
+  ),
 
-    train_internal = function(task){
+  private = list(
+    .train = function(task){
 
       pdf <- function(x1){}
       body(pdf) <- substitute({
@@ -27,8 +30,9 @@ LearnerDensPlugin <- R6::R6Class("LearnerDensPlugin", inherit = LearnerDens,
                        pdf = pdf)
     },
 
-    predict_internal = function(task){
+    .predict = function(task){
       PredictionDens$new(task = task, pdf = self$model$pdf(task$truth()))
     }
-  ))
+  )
+)
 

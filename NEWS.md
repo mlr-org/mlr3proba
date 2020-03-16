@@ -1,7 +1,8 @@
-# mlr3proba 0.1.4
+# mlr3proba 0.1.3-9000
 
 * Density estimation has now been added to mlr3proba, see `TaskDens`, `LearnerDens`, `PredictionDens`, and `MeasureDens`.
 * Added learners for density estimation, see `mlr3::mlr_learners$keys("^dens")` for the full list
+* In line with mlr3 0.1.7, public methods `train_internal`, `predict_internal`, `score_internal` are now private methods `.train`,`.predict`,`.score` 
 
 # mlr3proba 0.1.3
 

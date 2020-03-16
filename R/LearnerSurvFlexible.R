@@ -58,9 +58,11 @@ LearnerSurvFlexible = R6Class("LearnerSurvFlexible", inherit = LearnerSurv,
         properties = c("weights"),
         packages = c("flexsurv", "survival", "distr6", "set6")
         )
-      },
+      }
+  ),
 
-    train_internal = function(task) {
+  private = list(
+    .train = function(task) {
       # Passes control parameters to survreg.control
       pars_ctrl = c("maxiter","rel.tolerance","toler.chol","outer.max")
       pv = self$param_set$get_values(tags = "train")
@@ -76,9 +78,9 @@ LearnerSurvFlexible = R6Class("LearnerSurvFlexible", inherit = LearnerSurv,
         pv$weights = task$weights$weight
 
       invoke(flexsurv::flexsurvspline, formula =  task$formula(task$feature_names), data = task$data(), .args = pv)
-      },
+    },
 
-    predict_internal = function(task) {
+    .predict = function(task) {
 
       # As we are using a custom predict method the missing assertions are performed here manually
       # (as opposed to the automatic assertions that take place after prediction)

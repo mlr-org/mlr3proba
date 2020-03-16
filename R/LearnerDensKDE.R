@@ -30,9 +30,11 @@ LearnerDensKDE = R6::R6Class("LearnerDensKDE", inherit = LearnerDens,
         properties = "missings",
         packages = "distr6"
       )
-    },
+    }
+  ),
 
-    train_internal = function(task){
+  private = list(
+    .train = function(task){
       kernel = get(as.character(subset(listKernels(),
                                        ShortName == self$param_set$values$kernel,
                                        ClassName)))$new()
@@ -60,7 +62,7 @@ LearnerDensKDE = R6::R6Class("LearnerDensKDE", inherit = LearnerDens,
                        pdf = pdf)
     },
 
-    predict_internal = function(task){
+    .predict = function(task){
       PredictionDens$new(task = task, pdf = self$model$pdf(task$truth()))
     }
   )

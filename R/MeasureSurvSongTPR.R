@@ -39,19 +39,6 @@ MeasureSurvSongTPR = R6Class("MeasureSurvSongTPR",
       assertNumeric(lp_thresh, len = 1)
       private$.lp_thresh = lp_thresh
       private$.type <- match.arg(type)
-    },
-
-    score_internal = function(prediction, learner, task, train_set, ...) {
-      tpr = super$score_internal(prediction = prediction,
-                                 learner = learner,
-                                 task = task,
-                                 train_set = train_set,
-                                 FUN = survAUC::sens.sh,
-                                 type = self$type,
-                                 ...
-      )
-
-      tpr[, findInterval(self$lp_thresh, sort(unique(prediction$lp)))]
     }
   ),
 
@@ -79,6 +66,18 @@ MeasureSurvSongTPR = R6Class("MeasureSurvSongTPR",
 
   private = list(
     .lp_thresh = numeric(0),
-    .type = character(0)
+    .type = character(0),
+    .score = function(prediction, learner, task, train_set, ...) {
+      tpr = super$.score(prediction = prediction,
+                         learner = learner,
+                         task = task,
+                         train_set = train_set,
+                         FUN = survAUC::sens.sh,
+                         type = self$type,
+                         ...
+      )
+
+      tpr[, findInterval(self$lp_thresh, sort(unique(prediction$lp)))]
+    }
   )
 )

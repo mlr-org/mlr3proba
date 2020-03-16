@@ -74,44 +74,6 @@ LearnerSurvRandomForestSRC = R6Class("LearnerSurvRandomForestSRC", inherit = Lea
       )
     },
 
-    train_internal = function(task) {
-      pv = self$param_set$get_values(tags = "train")
-
-      invoke(randomForestSRC::rfsrc, formula = task$formula(), data = task$data(),
-        case.wt = task$weights$weight, .args = pv)
-    },
-
-    predict_internal = function(task) {
-      newdata = task$data(cols = task$feature_names)
-      pars = self$param_set$get_values(tags = "predict")
-      # estimator parameter is used internally for composition (i.e. outside of rfsrc) and is
-      # thus ignored for now
-      pars$estimator = NULL
-
-      p = invoke(predict, object = self$model, newdata = newdata, .args = pars)
-
-      # rfsrc uses Nelson-Aalen in chf and Kaplan-Meier for survival, as these
-      # don't give equivalent results one must be chosen and the relevant functions are transformed
-      # as required.
-      if(self$param_set$values$estimator == "nelson")
-        cdf = 1 - exp(-p$chf)
-      else
-        cdf = 1 - p$survival
-
-      # define WeightedDiscrete distr6 object from predicted survival function
-      x = rep(list(data = data.frame(x = self$model$time.interest, cdf = 0)), task$nrow)
-      for(i in 1:task$nrow)
-        x[[i]]$cdf = cdf[i, ]
-
-      distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
-                                             decorators = c("CoreStatistics", "ExoticStatistics"))
-
-      crank = as.numeric(sapply(x, function(y) sum(y[,1] * c(y[,2][1], diff(y[,2])))))
-
-      PredictionSurv$new(task = task, crank = crank, distr = distr)
-
-    },
-
     importance = function() {
       if (is.null(self$model)) {
         stopf("No model stored")
@@ -140,5 +102,45 @@ LearnerSurvRandomForestSRC = R6Class("LearnerSurvRandomForestSRC", inherit = Lea
     # oob_error = function() {
     #   self$model$prediction.error
     # }
+  ),
+
+  private = list(
+    .train = function(task) {
+      pv = self$param_set$get_values(tags = "train")
+
+      invoke(randomForestSRC::rfsrc, formula = task$formula(), data = task$data(),
+             case.wt = task$weights$weight, .args = pv)
+    },
+
+    .predict = function(task) {
+      newdata = task$data(cols = task$feature_names)
+      pars = self$param_set$get_values(tags = "predict")
+      # estimator parameter is used internally for composition (i.e. outside of rfsrc) and is
+      # thus ignored for now
+      pars$estimator = NULL
+
+      p = invoke(predict, object = self$model, newdata = newdata, .args = pars)
+
+      # rfsrc uses Nelson-Aalen in chf and Kaplan-Meier for survival, as these
+      # don't give equivalent results one must be chosen and the relevant functions are transformed
+      # as required.
+      if(self$param_set$values$estimator == "nelson")
+        cdf = 1 - exp(-p$chf)
+      else
+        cdf = 1 - p$survival
+
+      # define WeightedDiscrete distr6 object from predicted survival function
+      x = rep(list(data = data.frame(x = self$model$time.interest, cdf = 0)), task$nrow)
+      for(i in 1:task$nrow)
+        x[[i]]$cdf = cdf[i, ]
+
+      distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
+                                             decorators = c("CoreStatistics", "ExoticStatistics"))
+
+      crank = as.numeric(sapply(x, function(y) sum(y[,1] * c(y[,2][1], diff(y[,2])))))
+
+      PredictionSurv$new(task = task, crank = crank, distr = distr)
+
+    }
   )
 )
