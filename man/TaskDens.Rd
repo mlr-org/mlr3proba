@@ -3,43 +3,13 @@
 \name{TaskDens}
 \alias{TaskDens}
 \title{Density Task}
-\format{\link[R6:R6Class]{R6::R6Class} object inheriting from \link{Task}.}
 \description{
 This task specializes \link{Task} for density estimation problems.
 The target column is assumed to be numeric.
 The \code{task_type} is set to \code{"density"}.
 
-Predefined tasks are stored in the \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} \link{mlr_tasks}.
+Predefined tasks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks}.
 }
-\section{Construction}{
-\preformatted{t = TaskDens$new(id, backend, target)
-}
-\itemize{
-\item \code{id} :: \code{character(1)}\cr
-Identifier for the task.
-\item \code{backend} :: (\link{DataBackend} | \code{data.frame()} | ...)\cr
-Either a \link{DataBackend}, or any object which is convertible to a DataBackend with \code{as_data_backend()}.
-E.g., a \code{data.frame()} will be converted to a \link{DataBackendDataTable}.
-\item \code{target} :: \code{character(1)}\cr
-Name of the target column.
-}
-}
-
-\section{Fields}{
-
-See \link{Task}.
-}
-
-\section{Methods}{
-
-All methods from \link{Task}, and additionally:
-\itemize{
-\item \code{truth(rows = NULL)} :: \code{any}\cr
-True response for specified \code{row_ids}. Format depends on the task type.
-Defaults to all rows with role "use".
-}
-}
-
 \examples{
 task = TaskDens$new("precip", backend = data.frame(target = precip), target = "target")
 task$task_type
@@ -86,18 +56,48 @@ Other Task:
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
 \subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TaskDens$new(id, backend, target)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{(\code{character(1)})\cr
+Identifier for the new instance.}
+
+\item{\code{backend}}{(\link{DataBackend})\cr
+Either a \link{DataBackend}, or any object which is convertible to a \link{DataBackend} with \code{as_data_backend()}.
+E.g., a \code{data.frame()} will be converted to a \link{DataBackendDataTable}.}
+
+\item{\code{target}}{(\code{character(1)})\cr
+Name of the target column.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-truth"></a>}}
 \subsection{Method \code{truth()}}{
+Returns the target column for specified \code{row_ids}, this is unsupervised so should not be
+thought of as a 'true' prediction.
+Defaults to all rows with role "use".
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TaskDens$truth(rows = NULL)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{rows}}{\code{integer()}\cr
+Row indices.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{numeric()}.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

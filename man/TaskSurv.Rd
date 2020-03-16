@@ -3,7 +3,6 @@
 \name{TaskSurv}
 \alias{TaskSurv}
 \title{Survival Task}
-\format{\link[R6:R6Class]{R6::R6Class} object inheriting from \link{Task}/\link{TaskSupervised}.}
 \description{
 This task specializes \link[mlr3:Task]{mlr3::Task} and \link[mlr3:TaskSupervised]{mlr3::TaskSupervised} for possibly-censored survival problems.
 The target is comprised of survival times and an event indicator.
@@ -11,43 +10,6 @@ Predefined tasks are stored in \link[mlr3:mlr_tasks]{mlr3::mlr_tasks}.
 
 The \code{task_type} is set to \code{"surv"}.
 }
-\section{Construction}{
-\preformatted{TaskSurv$new(id, backend, time, event, time2,
-   type = c("right","left","counting","interval","interval2","mstate"))
-}
-\itemize{
-\item \code{id} :: \code{character(1)}\cr
-Name of the task.
-\item \code{backend} :: \link{DataBackend}
-\item \code{time} :: \code{numeric()}\cr
-Event time if data is right censored. Starting time if interval censored.
-\item \code{event} :: \code{integer()} | \code{logical()}\cr
-Event indicator.
-If data is right censored then "0"/\code{FALSE} means alive (no event),
-"1"/\code{TRUE} means dead (event). If \code{type} is \code{"interval"} then "0" means right censored,
-"1" means dead (event), "2" means left censored, and "3" means interval censored. If \code{type} is
-\code{"interval2"} then \code{event} is ignored.
-\item \code{time2} :: \code{numeric()}\cr
-Ending time for interval censored data. Ignored otherwise.
-\item \code{type} :: character()\cr
-Type of censoring. Default is 'right' censoring.
-}
-}
-
-\section{Fields}{
-
-All fields from \link[mlr3:TaskSupervised]{mlr3::TaskSupervised}, and additionally:
-\itemize{
-\item \code{censtype :: character()}\cr
-Returns the type of censoring, one of "right", "left", "counting", "interval", "interval2" or "mstate".
-}
-}
-
-\section{Methods}{
-
-See \link[mlr3:TaskSupervised]{mlr3::TaskSupervised}.
-}
-
 \examples{
 library(mlr3)
 lung = mlr3misc::load_dataset("lung", package = "survival")
@@ -68,6 +30,14 @@ Other Task:
 \concept{Task}
 \section{Super classes}{
 \code{\link[mlr3:Task]{mlr3::Task}} -> \code{\link[mlr3:TaskSupervised]{mlr3::TaskSupervised}} -> \code{TaskSurv}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{censtype}}{\code{character(1)}\cr
+Returns the type of censoring, one of "right", "left", "counting", "interval", "interval2" or "mstate".}
+}
+\if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
@@ -102,6 +72,7 @@ Other Task:
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
 \subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TaskSurv$new(
   id,
@@ -113,22 +84,75 @@ Other Task:
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{(\code{character(1)})\cr
+Identifier for the new instance.}
+
+\item{\code{backend}}{(\link{DataBackend})\cr
+Either a \link{DataBackend}, or any object which is convertible to a \link{DataBackend} with \code{as_data_backend()}.
+E.g., a \code{data.frame()} will be converted to a \link{DataBackendDataTable}.}
+
+\item{\code{time}}{(\code{character(1)})\cr
+Name of the column for event time if data is right censored, otherwise starting time if
+interval censored.}
+
+\item{\code{event}}{(\code{character(1)})\cr
+Name of the column giving the event indicator.
+If data is right censored then "0"/\code{FALSE} means alive (no event), "1"/\code{TRUE} means dead
+(event). If \code{type} is \code{"interval"} then "0" means right censored, "1" means dead (event),
+"2" means left censored, and "3" means interval censored. If \code{type} is \code{"interval2"} then
+\code{event} is ignored.}
+
+\item{\code{time2}}{(\code{character(1)})\cr
+Name of the column for ending time for interval censored data, otherwise ignored.}
+
+\item{\code{type}}{(\code{character(1)})\cr
+Name of the column giving the type of censoring. Default is 'right' censoring.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-truth"></a>}}
 \subsection{Method \code{truth()}}{
+True response for specified \code{row_ids}. Format depends on the task type.
+Defaults to all rows with role "use".
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TaskSurv$truth(rows = NULL)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{rows}}{\code{integer()}\cr
+Row indices.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{numeric()}.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-formula"></a>}}
 \subsection{Method \code{formula()}}{
+Creates a formula for survival models with \link[survival:Surv]{survival::Surv} on the LHS.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TaskSurv$formula(rhs = NULL)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{rhs}}{If \code{NULL} RHS is \code{.}, otherwise gives RHS of formula.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{numeric()}.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

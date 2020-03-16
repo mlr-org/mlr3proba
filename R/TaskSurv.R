@@ -1,8 +1,5 @@
 #' @title Survival Task
 #'
-#' @usage NULL
-#' @format [R6::R6Class] object inheriting from [Task]/[TaskSupervised].
-#'
 #' @description
 #' This task specializes [mlr3::Task] and [mlr3::TaskSupervised] for possibly-censored survival problems.
 #' The target is comprised of survival times and an event indicator.
@@ -10,42 +7,9 @@
 #'
 #' The `task_type` is set to `"surv"`.
 #'
-#' @section Construction:
-#' ```
-#' TaskSurv$new(id, backend, time, event, time2,
-#'    type = c("right","left","counting","interval","interval2","mstate"))
-#' ```
-#'
-#' * `id` :: `character(1)`\cr
-#'   Name of the task.
-#'
-#' * `backend` :: [DataBackend]
-#'
-#' * `time` :: `numeric()`\cr
-#'   Event time if data is right censored. Starting time if interval censored.
-#'
-#' * `event` :: `integer()` | `logical()`\cr
-#'   Event indicator.
-#'   If data is right censored then "0"/`FALSE` means alive (no event),
-#'   "1"/`TRUE` means dead (event). If `type` is `"interval"` then "0" means right censored,
-#'   "1" means dead (event), "2" means left censored, and "3" means interval censored. If `type` is
-#'   `"interval2"` then `event` is ignored.
-#'
-#' * `time2` :: `numeric()`\cr
-#'   Ending time for interval censored data. Ignored otherwise.
-#'
-#' * `type` :: character()\cr
-#'    Type of censoring. Default is 'right' censoring.
-#'
-#' @section Fields:
-#' All fields from [mlr3::TaskSupervised], and additionally:
-#'
-#' * `censtype :: character()`\cr
-#'    Returns the type of censoring, one of "right", "left", "counting", "interval", "interval2" or "mstate".
-#'
-#'
-#' @section Methods:
-#' See [mlr3::TaskSupervised].
+#' @template param_rows
+#' @template param_id
+#' @template param_backend
 #'
 #' @family Task
 #' @export
@@ -62,75 +26,107 @@
 #' task$formula()
 #' task$truth()
 TaskSurv = R6::R6Class("TaskSurv",
-                       inherit = TaskSupervised,
-                       public = list(
-                         initialize = function(id, backend, time, event, time2,
-                                               type = c("right","left","counting","interval","interval2","mstate")) {
-                           type = match.arg(type)
+  inherit = TaskSupervised,
+  public = list(
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param time (`character(1)`)\cr
+    #' Name of the column for event time if data is right censored, otherwise starting time if
+    #' interval censored.
+    #'
+    #' @param event (`character(1)`)\cr
+    #' Name of the column giving the event indicator.
+    #' If data is right censored then "0"/`FALSE` means alive (no event), "1"/`TRUE` means dead
+    #' (event). If `type` is `"interval"` then "0" means right censored, "1" means dead (event),
+    #' "2" means left censored, and "3" means interval censored. If `type` is `"interval2"` then
+    #' `event` is ignored.
+    #'
+    #' @param time2 (`character(1)`)\cr
+    #' Name of the column for ending time for interval censored data, otherwise ignored.
+    #'
+    #' @param type (`character(1)`)\cr
+    #' Name of the column giving the type of censoring. Default is 'right' censoring.
+    initialize = function(id, backend, time, event, time2,
+                          type = c("right","left","counting","interval","interval2","mstate")) {
+      type = match.arg(type)
 
-                           if (type %in% c("right", "left", "mstate")) {
-                             super$initialize(id = id, task_type = "surv", backend = backend,
-                                              target = c(time, event))
-                           } else if(type %in% "interval2") {
-                             super$initialize(id = id, task_type = "surv", backend = backend,
-                                              target = c(time, time2))
-                           } else {
-                             super$initialize(id = id, task_type = "surv", backend = backend,
-                                              target = c(time, time2, event))
-                           }
+      if (type %in% c("right", "left", "mstate")) {
+        super$initialize(id = id, task_type = "surv", backend = backend,
+                         target = c(time, event))
+      } else if(type %in% "interval2") {
+        super$initialize(id = id, task_type = "surv", backend = backend,
+                         target = c(time, time2))
+      } else {
+        super$initialize(id = id, task_type = "surv", backend = backend,
+                         target = c(time, time2, event))
+      }
 
-                           if(type %nin% "interval2") {
-                             event = self$data(cols = event)[[1L]]
-                             if (!is.logical(event)) {
-                               assert_integerish(event, lower = 0, upper = 3)
-                             }
-                           }
+      if(type %nin% "interval2") {
+        event = self$data(cols = event)[[1L]]
+        if (!is.logical(event)) {
+          assert_integerish(event, lower = 0, upper = 3)
+        }
+      }
 
-                           private$.censtype = type
-                         },
+      private$.censtype = type
+    },
 
-                         truth = function(rows = NULL) {
-                           # truth is defined as the survival outcome as a Survival object
-                           tn = self$target_names
-                           d = self$data(rows, cols = self$target_names)
-                           args = list(time = d[[tn[1L]]], type = self$censtype)
-                           if(self$censtype %in% "interval2") {
-                             args$time2 = d[[tn[2L]]]
-                           } else if(length(tn) == 2) {
-                             args$event = as.integer(d[[tn[2L]]])
-                           } else {
-                             args$event = as.integer(d[[tn[3L]]])
-                             args$time2 = d[[tn[2L]]]
-                           }
+    #' @description
+    #' True response for specified `row_ids`. Format depends on the task type.
+    #' Defaults to all rows with role "use".
+    #' @return `numeric()`.
+    truth = function(rows = NULL) {
+      # truth is defined as the survival outcome as a Survival object
+      tn = self$target_names
+      d = self$data(rows, cols = self$target_names)
+      args = list(time = d[[tn[1L]]], type = self$censtype)
+      if(self$censtype %in% "interval2") {
+        args$time2 = d[[tn[2L]]]
+      } else if(length(tn) == 2) {
+        args$event = as.integer(d[[tn[2L]]])
+      } else {
+        args$event = as.integer(d[[tn[3L]]])
+        args$time2 = d[[tn[2L]]]
+      }
 
-                           if(allMissing(args$event) & allMissing(args$time)) {
-                             return(suppressWarnings(invoke(Surv, .args = args)))
-                           } else {
-                             return(invoke(Surv, .args = args))
-                           }
-                         },
+      if(allMissing(args$event) & allMissing(args$time)) {
+        return(suppressWarnings(invoke(Surv, .args = args)))
+      } else {
+        return(invoke(Surv, .args = args))
+      }
+    },
 
-                         formula = function(rhs = NULL) {
-                           # formula appends the rhs argument to Surv(time, event)~
-                           tn = self$target_names
-                           if(self$censtype %in% "interval2") {
-                             lhs = sprintf("Surv(time = %s, time2 = %s, type = 'interval2')", tn[1L], tn[2L])
-                           } else if(length(tn) == 2) {
-                             lhs = sprintf("Surv(%s, %s, type = '%s')", tn[1L], tn[2L], self$censtype)
-                           } else {
-                             lhs = sprintf("Surv(%s, %s, %s, type = '%s')", tn[1L], tn[2L], tn[3L], self$censtype)
-                           }
-                           formulate(lhs, rhs %??% ".", env = getNamespace("survival"))
-                         }
-                       ),
+    #' @description
+    #' Creates a formula for survival models with [survival::Surv] on the LHS.
+    #'
+    #' @param rhs
+    #' If `NULL` RHS is `.`, otherwise gives RHS of formula.
+    #'
+    #' @return `numeric()`.
+    formula = function(rhs = NULL) {
+      # formula appends the rhs argument to Surv(time, event)~
+      tn = self$target_names
+      if(self$censtype %in% "interval2") {
+        lhs = sprintf("Surv(time = %s, time2 = %s, type = 'interval2')", tn[1L], tn[2L])
+      } else if(length(tn) == 2) {
+        lhs = sprintf("Surv(%s, %s, type = '%s')", tn[1L], tn[2L], self$censtype)
+      } else {
+        lhs = sprintf("Surv(%s, %s, %s, type = '%s')", tn[1L], tn[2L], tn[3L], self$censtype)
+      }
+      formulate(lhs, rhs %??% ".", env = getNamespace("survival"))
+    }
+  ),
 
-                       active = list(
-                         censtype = function(){
-                           return(private$.censtype)
-                         }
-                       ),
+  active = list(
+    #' @field censtype `character(1)`\cr
+    #' Returns the type of censoring, one of "right", "left", "counting", "interval", "interval2" or "mstate".
+    censtype = function(){
+      return(private$.censtype)
+    }
+  ),
 
-                       private = list(
-                         .censtype = character()
-                       )
+  private = list(
+    .censtype = character()
+  )
 )
