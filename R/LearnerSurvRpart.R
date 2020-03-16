@@ -13,6 +13,7 @@
 #' @export
 LearnerSurvRpart = R6Class("LearnerSurvRpart", inherit = LearnerSurv,
   public = list(
+    #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       ps = ParamSet$new(list(
         ParamDbl$new("parms", default = 1, tags = "train"),

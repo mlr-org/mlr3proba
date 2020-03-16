@@ -100,3 +100,68 @@ Other survival compositors:
 \code{\link{PipeOpDistrCompositor}}
 }
 \concept{survival compositors}
+\section{Super class}{
+\code{\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}} -> \code{PipeOpCrankCompositor}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{PipeOpCrankCompositor$new()}}
+\item \href{#method-train_internal}{\code{PipeOpCrankCompositor$train_internal()}}
+\item \href{#method-predict_internal}{\code{PipeOpCrankCompositor$predict_internal()}}
+\item \href{#method-clone}{\code{PipeOpCrankCompositor$clone()}}
+}
+}
+\if{html}{
+\out{<details open ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="predict">}\href{../../mlr3pipelines/html/PipeOp.html#method-predict}{\code{mlr3pipelines::PipeOp$predict()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="print">}\href{../../mlr3pipelines/html/PipeOp.html#method-print}{\code{mlr3pipelines::PipeOp$print()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="train">}\href{../../mlr3pipelines/html/PipeOp.html#method-train}{\code{mlr3pipelines::PipeOp$train()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{PipeOpCrankCompositor$new(
+  id = "crankcompose",
+  param_vals = list(method = "mean")
+)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-train_internal"></a>}}
+\subsection{Method \code{train_internal()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{PipeOpCrankCompositor$train_internal(inputs)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-predict_internal"></a>}}
+\subsection{Method \code{predict_internal()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{PipeOpCrankCompositor$predict_internal(inputs)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{PipeOpCrankCompositor$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}

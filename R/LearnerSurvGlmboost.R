@@ -27,6 +27,7 @@
 #' resample(task, learner, resampling)
 LearnerSurvGlmboost = R6Class("LearnerSurvGlmboost", inherit = LearnerSurv,
     public = list(
+      #' @description Creates a new instance of this [R6][R6::R6Class] class.
       initialize = function() {
         ps = ParamSet$new(
           params = list(

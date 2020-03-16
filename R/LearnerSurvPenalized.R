@@ -29,6 +29,7 @@
 #' learner$model@unpenalized
 LearnerSurvPenalized = R6Class("LearnerSurvPenalized", inherit = LearnerSurv,
   public = list(
+    #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       super$initialize(
         id = "surv.penalized",

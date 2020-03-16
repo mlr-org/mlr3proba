@@ -125,3 +125,68 @@ Other survival compositors:
 \code{\link{PipeOpCrankCompositor}}
 }
 \concept{survival compositors}
+\section{Super class}{
+\code{\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}} -> \code{PipeOpDistrCompositor}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{PipeOpDistrCompositor$new()}}
+\item \href{#method-train_internal}{\code{PipeOpDistrCompositor$train_internal()}}
+\item \href{#method-predict_internal}{\code{PipeOpDistrCompositor$predict_internal()}}
+\item \href{#method-clone}{\code{PipeOpDistrCompositor$clone()}}
+}
+}
+\if{html}{
+\out{<details open ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="predict">}\href{../../mlr3pipelines/html/PipeOp.html#method-predict}{\code{mlr3pipelines::PipeOp$predict()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="print">}\href{../../mlr3pipelines/html/PipeOp.html#method-print}{\code{mlr3pipelines::PipeOp$print()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="train">}\href{../../mlr3pipelines/html/PipeOp.html#method-train}{\code{mlr3pipelines::PipeOp$train()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{PipeOpDistrCompositor$new(
+  id = "distrcompose",
+  param_vals = list(form = "aft", overwrite = FALSE)
+)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-train_internal"></a>}}
+\subsection{Method \code{train_internal()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{PipeOpDistrCompositor$train_internal(inputs)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-predict_internal"></a>}}
+\subsection{Method \code{predict_internal()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{PipeOpDistrCompositor$predict_internal(inputs)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{PipeOpDistrCompositor$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}

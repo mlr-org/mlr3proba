@@ -24,6 +24,7 @@
 TaskGeneratorSimdens = R6::R6Class("TaskGeneratorSimdens",
   inherit = TaskGenerator,
   public = list(
+    #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       param_set = ParamSet$new(list(
         ParamFct$new("distribution", default = "Normal", levels = distr6::listDistributions(T)),

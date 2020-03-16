@@ -19,6 +19,7 @@
 MeasureSurvOQuigleyR2 = R6Class("MeasureSurvOQuigleyR2",
   inherit = MeasureSurv,
   public = list(
+    #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       super$initialize(
         id = "surv.oquigleyR2",

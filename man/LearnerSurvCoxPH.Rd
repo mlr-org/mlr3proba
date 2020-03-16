@@ -6,12 +6,9 @@
 \title{Cox Proportional Hazards Survival Learner}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerSurv}.}
 \description{
-Calls \code{\link[survival:coxph]{survival::coxph()}}.
-\itemize{
-\item lp is predicted by \code{\link[survival:predict.coxph]{survival::predict.coxph()}}
-\item distr is predicted by \code{\link[survival:survfit.coxph]{survival::survfit.coxph()}}
-\item \code{crank} is identical to \code{lp}
-}
+Cox Proportional Hazards Survival Learner
+
+Cox Proportional Hazards Survival Learner
 }
 \section{Construction}{
 \preformatted{LearnerSurvCoxPH$new()
@@ -55,3 +52,70 @@ Other survival learners:
 \code{\link{LearnerSurvSVM}}
 }
 \concept{survival learners}
+\section{Super classes}{
+\code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{\link[mlr3proba:LearnerSurv]{mlr3proba::LearnerSurv}} -> \code{LearnerSurvCoxPH}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{LearnerSurvCoxPH$new()}}
+\item \href{#method-importance}{\code{LearnerSurvCoxPH$importance()}}
+\item \href{#method-selected_features}{\code{LearnerSurvCoxPH$selected_features()}}
+\item \href{#method-clone}{\code{LearnerSurvCoxPH$clone()}}
+}
+}
+\if{html}{
+\out{<details ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="format">}\href{../../mlr3/html/Learner.html#method-format}{\code{mlr3::Learner$format()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="help">}\href{../../mlr3/html/Learner.html#method-help}{\code{mlr3::Learner$help()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict">}\href{../../mlr3/html/Learner.html#method-predict}{\code{mlr3::Learner$predict()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict_newdata">}\href{../../mlr3/html/Learner.html#method-predict_newdata}{\code{mlr3::Learner$predict_newdata()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="print">}\href{../../mlr3/html/Learner.html#method-print}{\code{mlr3::Learner$print()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="reset">}\href{../../mlr3/html/Learner.html#method-reset}{\code{mlr3::Learner$reset()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="train">}\href{../../mlr3/html/Learner.html#method-train}{\code{mlr3::Learner$train()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerSurvCoxPH$new()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-importance"></a>}}
+\subsection{Method \code{importance()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerSurvCoxPH$importance()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-selected_features"></a>}}
+\subsection{Method \code{selected_features()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerSurvCoxPH$selected_features()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerSurvCoxPH$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}

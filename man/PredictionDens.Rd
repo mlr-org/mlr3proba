@@ -46,3 +46,54 @@ Other Prediction:
 \code{\link{PredictionSurv}}
 }
 \concept{Prediction}
+\section{Super class}{
+\code{\link[mlr3:Prediction]{mlr3::Prediction}} -> \code{PredictionDens}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{PredictionDens$new()}}
+\item \href{#method-clone}{\code{PredictionDens$clone()}}
+}
+}
+\if{html}{
+\out{<details open ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="format">}\href{../../mlr3/html/Prediction.html#method-format}{\code{mlr3::Prediction$format()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="help">}\href{../../mlr3/html/Prediction.html#method-help}{\code{mlr3::Prediction$help()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="print">}\href{../../mlr3/html/Prediction.html#method-print}{\code{mlr3::Prediction$print()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="score">}\href{../../mlr3/html/Prediction.html#method-score}{\code{mlr3::Prediction$score()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{PredictionDens$new(
+  task = NULL,
+  row_ids = task$row_ids,
+  truth = task$truth(),
+  pdf = NULL,
+  cdf = NULL
+)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{PredictionDens$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}

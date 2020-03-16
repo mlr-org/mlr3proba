@@ -66,3 +66,84 @@ Other Task:
 \code{\link{TaskDens}}
 }
 \concept{Task}
+\section{Super classes}{
+\code{\link[mlr3:Task]{mlr3::Task}} -> \code{\link[mlr3:TaskSupervised]{mlr3::TaskSupervised}} -> \code{TaskSurv}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{TaskSurv$new()}}
+\item \href{#method-truth}{\code{TaskSurv$truth()}}
+\item \href{#method-formula}{\code{TaskSurv$formula()}}
+\item \href{#method-clone}{\code{TaskSurv$clone()}}
+}
+}
+\if{html}{
+\out{<details ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="cbind">}\href{../../mlr3/html/Task.html#method-cbind}{\code{mlr3::Task$cbind()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="data">}\href{../../mlr3/html/Task.html#method-data}{\code{mlr3::Task$data()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="droplevels">}\href{../../mlr3/html/Task.html#method-droplevels}{\code{mlr3::Task$droplevels()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="filter">}\href{../../mlr3/html/Task.html#method-filter}{\code{mlr3::Task$filter()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="format">}\href{../../mlr3/html/Task.html#method-format}{\code{mlr3::Task$format()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="head">}\href{../../mlr3/html/Task.html#method-head}{\code{mlr3::Task$head()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="help">}\href{../../mlr3/html/Task.html#method-help}{\code{mlr3::Task$help()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="levels">}\href{../../mlr3/html/Task.html#method-levels}{\code{mlr3::Task$levels()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="missings">}\href{../../mlr3/html/Task.html#method-missings}{\code{mlr3::Task$missings()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="print">}\href{../../mlr3/html/Task.html#method-print}{\code{mlr3::Task$print()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rbind">}\href{../../mlr3/html/Task.html#method-rbind}{\code{mlr3::Task$rbind()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rename">}\href{../../mlr3/html/Task.html#method-rename}{\code{mlr3::Task$rename()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="select">}\href{../../mlr3/html/Task.html#method-select}{\code{mlr3::Task$select()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_col_role">}\href{../../mlr3/html/Task.html#method-set_col_role}{\code{mlr3::Task$set_col_role()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_row_role">}\href{../../mlr3/html/Task.html#method-set_row_role}{\code{mlr3::Task$set_row_role()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TaskSurv$new(
+  id,
+  backend,
+  time,
+  event,
+  time2,
+  type = c("right", "left", "counting", "interval", "interval2", "mstate")
+)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-truth"></a>}}
+\subsection{Method \code{truth()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TaskSurv$truth(rows = NULL)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-formula"></a>}}
+\subsection{Method \code{formula()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TaskSurv$formula(rhs = NULL)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TaskSurv$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}
