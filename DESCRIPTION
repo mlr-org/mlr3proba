@@ -85,7 +85,6 @@ Roxygen: list(markdown = TRUE, r6 = FALSE)
 RoxygenNote: 7.0.2
 RdMacros: mlr3misc
 Collate:
-    'DensLogspline.R'
     'LearnerDens.R'
     'LearnerDensHistogram.R'
     'LearnerDensKDE.R'
@@ -154,7 +153,6 @@ Collate:
     'MeasureSurvUnoTNR.R'
     'MeasureSurvUnoTPR.R'
     'MeasureSurvXuR2.R'
-    'PDDens.R'
     'PipeOpCrankCompositor.R'
     'PipeOpDistrCompositor.R'
     'PredictionDens.R'
@@ -170,7 +168,6 @@ Collate:
     'TaskSurv_rats.R'
     'TaskSurv_unemployment.R'
     'assertions.R'
-    'check_subsetpattern.R'
     'crankcompositor.R'
     'distrcompositor.R'
     'helpers.R'
