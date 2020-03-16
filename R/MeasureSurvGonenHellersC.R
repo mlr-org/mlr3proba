@@ -30,7 +30,7 @@ MeasureSurvGonenC = R6Class("MeasureSurvGonenC",
       )
     },
 
-    score_internal = function(prediction, ...) {
+    .score = function(prediction, ...) {
       survAUC::GHCI(prediction$lp)
     }
   )

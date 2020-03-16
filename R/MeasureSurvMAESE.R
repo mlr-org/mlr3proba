@@ -25,7 +25,7 @@ MeasureSurvMAESE = R6::R6Class("MeasureSurvMAESE",
       )
     },
 
-    score_internal = function(prediction, ...) {
+    .score = function(prediction, ...) {
       surv_mae(prediction$truth, prediction$response)$se
     }
   )

@@ -39,8 +39,8 @@ MeasureSurvUnoTPR = R6Class("MeasureSurvUnoTPR",
       private$.lp_thresh = lp_thresh
     },
 
-    score_internal = function(prediction, task, train_set, ...) {
-      tpr = super$score_internal(prediction = prediction,
+    .score = function(prediction, task, train_set, ...) {
+      tpr = super$.score(prediction = prediction,
                                  task = task,
                                  train_set = train_set,
                                  FUN = survAUC::sens.uno

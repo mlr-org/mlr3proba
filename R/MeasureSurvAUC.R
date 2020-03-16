@@ -18,7 +18,7 @@ MeasureSurvAUC = R6Class("MeasureSurvAUC",
       )
     },
 
-    score_internal = function(prediction, learner, task, train_set, FUN, ...) {
+    .score = function(prediction, learner, task, train_set, FUN, ...) {
       args = list()
       if("requires_train_set" %in% self$properties)
         args$Surv.rsp = task$truth(train_set)

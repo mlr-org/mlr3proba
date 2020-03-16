@@ -40,8 +40,8 @@ MeasureSurvUnoTNR = R6Class("MeasureSurvUnoTNR",
       private$.lp_thresh = lp_thresh
     },
 
-    score_internal = function(prediction, ...) {
-      tnr = super$score_internal(prediction = prediction,
+    .score = function(prediction, ...) {
+      tnr = super$.score(prediction = prediction,
                                  FUN = survAUC::spec.uno,
                                  task = task
       )

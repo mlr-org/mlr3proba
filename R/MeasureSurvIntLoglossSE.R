@@ -42,7 +42,7 @@ MeasureSurvIntLoglossSE = R6::R6Class("MeasureSurvIntLoglossSE",
         private$.eps <- eps
       },
 
-      score_internal = function(prediction, ...) {
+      .score = function(prediction, ...) {
         integrated_se(score = weighted_logloss(truth = prediction$truth,
                                                distribution = prediction$distr,
                                                times = self$times,

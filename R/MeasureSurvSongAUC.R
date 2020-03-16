@@ -34,8 +34,8 @@ MeasureSurvSongAUC = R6Class("MeasureSurvSongAUC",
       private$.type <- match.arg(type)
     },
 
-    score_internal = function(prediction, learner, task, train_set, ...) {
-      super$score_internal(prediction = prediction,
+    .score = function(prediction, learner, task, train_set, ...) {
+      super$.score(prediction = prediction,
                            learner = learner,
                            task = task,
                            train_set = train_set,

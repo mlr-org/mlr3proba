@@ -26,7 +26,7 @@ MeasureSurvRMSE = R6::R6Class("MeasureSurvRMSE",
       )
     },
 
-    score_internal = function(prediction, ...) {
+    .score = function(prediction, ...) {
       sqrt(mean(surv_mse(prediction$truth, prediction$response)$mse))
     }
   )

@@ -12,7 +12,7 @@
 #                                 )
 #                               },
 #
-#                               score_internal = function(prediction, ...) {
+#                               .score = function(prediction, ...) {
 #                                 return(mean(-log(as.numeric(do.call(prediction$prob$pdf,
 #                                                                     as.list(prediction$truth))))))
 #                               }

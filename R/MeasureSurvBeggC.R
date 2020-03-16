@@ -31,7 +31,7 @@ MeasureSurvBeggC = R6Class("MeasureSurvBeggC",
       )
     },
 
-    score_internal = function(prediction, learner, task, train_set, ...) {
+    .score = function(prediction, learner, task, train_set, ...) {
       surv_train = task$truth(train_set)
       lp_train = learner$model$linear.predictors
 

@@ -39,8 +39,8 @@ MeasureSurvSongTNR = R6Class("MeasureSurvSongTNR",
       private$.lp_thresh = lp_thresh
     },
 
-    score_internal = function(prediction, learner, task, train_set, ...) {
-      tnr = super$score_internal(prediction = prediction,
+    .score = function(prediction, learner, task, train_set, ...) {
+      tnr = super$.score(prediction = prediction,
                                  learner = learner,
                                  task = task,
                                  train_set = train_set,

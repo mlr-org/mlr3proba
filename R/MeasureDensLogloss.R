@@ -34,7 +34,7 @@ MeasureDensLogloss = R6::R6Class("MeasureDensLogloss",
       private$.eps <- eps
     },
 
-    score_internal = function(prediction, ...) {
+    .score = function(prediction, ...) {
       pdf = prediction$pdf
       pdf[pdf == 0] = self$eps
       return(mean(-log(pdf)))

@@ -30,7 +30,7 @@ MeasureSurvNagelkR2 = R6Class("MeasureSurvNagelkR2",
       )
     },
 
-    score_internal = function(prediction, task, train_set, ...) {
+    .score = function(prediction, task, train_set, ...) {
       surv_train = task$truth(train_set)
 
       survAUC::Nagelk(surv_train, prediction$lp, rep(0, length(prediction$lp)))

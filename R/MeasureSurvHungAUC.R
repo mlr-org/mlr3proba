@@ -30,8 +30,8 @@ MeasureSurvHungAUC = R6Class("MeasureSurvHungAUC",
                        properties = c("requires_task", "requires_train_set"))
     },
 
-    score_internal = function(prediction, task, train_set, ...) {
-      super$score_internal(prediction = prediction,
+    .score = function(prediction, task, train_set, ...) {
+      super$.score(prediction = prediction,
                            task = task,
                            train_set = train_set,
                            FUN = survAUC::AUC.hc,

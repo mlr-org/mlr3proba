@@ -25,7 +25,7 @@ MeasureSurvLoglossSE = R6::R6Class("MeasureSurvLoglossSE",
         super$initialize(eps, id = "surv.loglossSE")
       },
 
-      score_internal = function(prediction, ...) {
+      .score = function(prediction, ...) {
         ll = surv_logloss(prediction$truth, prediction$distr, self$eps)
 
         sd(ll)/sqrt(length(ll))

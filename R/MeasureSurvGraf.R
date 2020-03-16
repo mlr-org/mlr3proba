@@ -47,7 +47,7 @@ MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
       )
     },
 
-    score_internal = function(prediction, ...) {
+    .score = function(prediction, ...) {
       integrated_score(score = weighted_graf(truth = prediction$truth,
                                              distribution = prediction$distr,
                                              times = self$times),
