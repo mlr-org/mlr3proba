@@ -115,33 +115,33 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
       return(list(PredictionSurv$new(row_ids = inpred$row_ids, truth = inpred$truth, crank = crank,
                                      distr = inpred$distr, lp = lp)))
     }
-  ),
-
-  private = list(
-    .train = function(inputs) {
-      self$state = list()
-      list(NULL)
-    },
-
-    .predict = function(inputs) {
-      inpred = inputs[[1]]
-
-      assert("distr" %in% inpred$predict_types)
-      method = self$param_set$values$method
-      if(length(method) == 0) method = "mean"
-      crank = as.numeric(switch(method,
-                                median = inpred$distr$median(),
-                                mode = inpred$distr$mode(),
-                                inpred$distr$mean()
-      ))
-
-      if (length(inpred$lp) == 0)
-        lp = NULL
-      else
-        lp = inpred$lp
-
-      return(list(PredictionSurv$new(row_ids = inpred$row_ids, truth = inpred$truth, crank = crank,
-                                     distr = inpred$distr, lp = lp)))
-    }
   )
+
+  # private = list(
+  #   .train = function(inputs) {
+  #     self$state = list()
+  #     list(NULL)
+  #   },
+  #
+  #   .predict = function(inputs) {
+  #     inpred = inputs[[1]]
+  #
+  #     assert("distr" %in% inpred$predict_types)
+  #     method = self$param_set$values$method
+  #     if(length(method) == 0) method = "mean"
+  #     crank = as.numeric(switch(method,
+  #                               median = inpred$distr$median(),
+  #                               mode = inpred$distr$mode(),
+  #                               inpred$distr$mean()
+  #     ))
+  #
+  #     if (length(inpred$lp) == 0)
+  #       lp = NULL
+  #     else
+  #       lp = inpred$lp
+  #
+  #     return(list(PredictionSurv$new(row_ids = inpred$row_ids, truth = inpred$truth, crank = crank,
+  #                                    distr = inpred$distr, lp = lp)))
+  #   }
+  # )
 )
