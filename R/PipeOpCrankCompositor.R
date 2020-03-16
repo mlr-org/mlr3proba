@@ -97,7 +97,7 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
       list(NULL)
       },
 
-    predict_internal = function(inputs) {
+    .predict = function(inputs) {
       inpred = inputs[[1]]
 
       assert("distr" %in% inpred$predict_types)

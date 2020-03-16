@@ -40,7 +40,7 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
       invoke(survival::coxph, formula = task$formula(), data = task$data(), .args = pv, x = TRUE)
     },
 
-    predict_internal = function(task) {
+    .predict = function(task) {
 
       newdata = task$data(cols = task$feature_names)
 

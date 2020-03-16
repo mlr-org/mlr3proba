@@ -86,7 +86,7 @@ LearnerSurvGlmnet = R6Class("LearnerSurvGlmnet", inherit = LearnerSurv,
       invoke(glmnet::glmnet, x = x, y = target, family = "cox", .args = pars)
     },
 
-    predict_internal = function(task) {
+    .predict = function(task) {
       pars = self$param_set$get_values(tags = "predict")
 
       # convert data to model matrix

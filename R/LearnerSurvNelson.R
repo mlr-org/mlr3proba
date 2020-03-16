@@ -28,7 +28,7 @@ LearnerSurvNelson = R6Class("LearnerSurvNelson", inherit = LearnerSurv,
       invoke(survival::survfit, formula = task$formula(1), data = task$data())
       },
 
-    predict_internal = function(task) {
+    .predict = function(task) {
       # Ensures that at all times before the first observed time the cumulative hazard is 0, as expected.
       # cumhaz = c(0, self$model$cumhaz)
       # time = c(0, self$model$time)

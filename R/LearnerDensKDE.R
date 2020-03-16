@@ -60,7 +60,7 @@ LearnerDensKDE = R6::R6Class("LearnerDensKDE", inherit = LearnerDens,
                        pdf = pdf)
     },
 
-    predict_internal = function(task){
+    .predict = function(task){
       PredictionDens$new(task = task, pdf = self$model$pdf(task$truth()))
     }
   )

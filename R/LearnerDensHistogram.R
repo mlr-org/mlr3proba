@@ -29,7 +29,7 @@ LearnerDensHistogram <- R6::R6Class("LearnerDensHistogram", inherit = LearnerDen
       set_class(list(distr = fit$distr, hist = fit$hist), "dens.hist")
     },
 
-    predict_internal = function(task){
+    .predict = function(task){
       newdata = as.numeric(unlist(task$data(cols = task$target_names)))
       PredictionDens$new(task = task, pdf = self$model$distr$pdf(newdata), cdf = self$model$distr$cdf(newdata))
     }

@@ -76,7 +76,7 @@ LearnerSurvPenalized = R6Class("LearnerSurvPenalized", inherit = LearnerSurv,
              data = task$data(cols = task$feature_names), model = "cox", .args = pars))))
       },
 
-    predict_internal = function(task) {
+    .predict = function(task) {
       # Again the penalized and unpenalized covariates are automatically converted to the
       # correct formula
       pars = self$param_set$get_values(tags = "predict")

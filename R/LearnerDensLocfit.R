@@ -54,7 +54,7 @@ LearnerDensLocfit <- R6::R6Class("LearnerDensLocfit", inherit = LearnerDens,
                        pdf = pdf)
     },
 
-    predict_internal = function(task){
+    .predict = function(task){
 
       newdata = task$truth()
 

@@ -76,7 +76,7 @@ LearnerSurvGlmboost = R6Class("LearnerSurvGlmboost", inherit = LearnerSurv,
        invoke(mboost::glmboost, x = x, y = task$truth(), family = family, .args = pars)
  },
 
-    predict_internal = function(task) {
+    .predict = function(task) {
 
       # convert data to model matrix
       newdata = model.matrix(~., as.data.frame(task$data(cols = task$feature_names)))

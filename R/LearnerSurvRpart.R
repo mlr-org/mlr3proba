@@ -52,7 +52,7 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart", inherit = LearnerSurv,
       set_class(list(fit = fit, times = sort(unique(task$truth()[,1]))), "surv.rpart")
     },
 
-    predict_internal = function(task) {
+    .predict = function(task) {
       newdata = task$data(cols = task$feature_names)
 
       cdf = 1 - invoke(pec::predictSurvProb, .args = list(object = self$model$fit, newdata = newdata,

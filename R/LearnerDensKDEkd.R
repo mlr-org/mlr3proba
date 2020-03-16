@@ -40,7 +40,7 @@ LearnerDensKDEkd <- R6::R6Class("LearnerDensKDEkd", inherit = LearnerDens,
                        pdf = pdf)
     },
 
-    predict_internal = function(task){
+    .predict = function(task){
 
       newdata = task$truth()
 

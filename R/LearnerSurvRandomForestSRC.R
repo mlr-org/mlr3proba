@@ -81,7 +81,7 @@ LearnerSurvRandomForestSRC = R6Class("LearnerSurvRandomForestSRC", inherit = Lea
         case.wt = task$weights$weight, .args = pv)
     },
 
-    predict_internal = function(task) {
+    .predict = function(task) {
       newdata = task$data(cols = task$feature_names)
       pars = self$param_set$get_values(tags = "predict")
       # estimator parameter is used internally for composition (i.e. outside of rfsrc) and is

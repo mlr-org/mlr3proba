@@ -58,7 +58,7 @@ LearnerSurvObliqueRSF = R6Class("LearnerSurvObliqueRSF", inherit = LearnerSurv,
       )
     },
 
-    predict_internal = function(task) {
+    .predict = function(task) {
 
 
       newdata = task$data(cols = task$feature_names)

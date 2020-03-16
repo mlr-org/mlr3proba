@@ -55,7 +55,7 @@ LearnerDensPenalized <- R6::R6Class("LearnerDensPenalized", inherit = LearnerDen
                        pdf = pdf, cdf = cdf)
     },
 
-    predict_internal = function(task){
+    .predict = function(task){
 
       newdata = task$truth()
 

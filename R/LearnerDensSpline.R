@@ -65,7 +65,7 @@ LearnerDensSpline <- R6::R6Class("LearnerDensSpline", inherit = LearnerDens,
                        pdf = pdf, cdf = cdf, quantile = quantile)
     },
 
-    predict_internal = function(task){
+    .predict = function(task){
       newdata = task$truth()
 
       PredictionDens$new(task = task, pdf = self$model$pdf(newdata),

@@ -121,7 +121,7 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
       list(NULL)
       },
 
-    predict_internal = function(inputs) {
+    .predict = function(inputs) {
       base = inputs$base
       inpred = inputs$pred
 

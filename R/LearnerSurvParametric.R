@@ -110,7 +110,7 @@ LearnerSurvParametric = R6Class("LearnerSurvParametric", inherit = LearnerSurv,
       set_class(list(fit = fit, basedist = basedist), "surv.parametric")
     },
 
-    predict_internal = function(task) {
+    .predict = function(task) {
 
       # As we are using a custom predict method the missing assertions are performed here manually
       # (as opposed to the automatic assertions that take place after prediction)

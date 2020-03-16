@@ -75,7 +75,7 @@ LearnerSurvGBM = R6Class("LearnerSurvGBM", inherit = LearnerSurv,
       )
     },
 
-    predict_internal = function(task) {
+    .predict = function(task) {
 
       pv = self$param_set$get_values(tags = "predict")
       newdata = task$data()

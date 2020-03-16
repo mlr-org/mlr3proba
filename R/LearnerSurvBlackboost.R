@@ -137,7 +137,7 @@ LearnerSurvBlackboost = R6Class("LearnerSurvBlackboost", inherit = LearnerSurv,
              data = task$data(), family = family, .args = pars)
     },
 
-    predict_internal = function(task) {
+    .predict = function(task) {
       newdata = task$data(cols = task$feature_names)
       # predict linear predictor
       lp = as.numeric(invoke(predict, self$model, newdata = newdata, type = "link"))

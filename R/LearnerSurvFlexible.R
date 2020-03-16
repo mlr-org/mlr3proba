@@ -78,7 +78,7 @@ LearnerSurvFlexible = R6Class("LearnerSurvFlexible", inherit = LearnerSurv,
       invoke(flexsurv::flexsurvspline, formula =  task$formula(task$feature_names), data = task$data(), .args = pv)
       },
 
-    predict_internal = function(task) {
+    .predict = function(task) {
 
       # As we are using a custom predict method the missing assertions are performed here manually
       # (as opposed to the automatic assertions that take place after prediction)

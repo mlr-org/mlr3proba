@@ -61,7 +61,7 @@ LearnerSurvSVM = R6Class("LearnerSurvSVM", inherit = LearnerSurv,
              .args = self$param_set$get_values(tags = "train"))
       },
 
-    predict_internal = function(task) {
+    .predict = function(task) {
       # only a continuous ranking is returned
       fit = predict(self$model, newdata = task$data(cols = task$feature_names))
       PredictionSurv$new(task = task, crank = as.numeric(fit$predicted))

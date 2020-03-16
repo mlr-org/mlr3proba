@@ -57,7 +57,7 @@ LearnerDensLogspline<- R6::R6Class("LearnerDensLogspline", inherit = LearnerDens
 
     },
 
-    predict_internal = function(task){
+    .predict = function(task){
       PredictionDens$new(task = task,
                          pdf = self$model$pdf(task$truth()),
                          cdf = self$model$cdf(task$truth()))
