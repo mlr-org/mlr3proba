@@ -30,8 +30,10 @@ LearnerDensKDE = R6::R6Class("LearnerDensKDE", inherit = LearnerDens,
         properties = "missings",
         packages = "distr6"
       )
-    },
+    }
+  ),
 
+  private = list(
     .train = function(task){
       kernel = get(as.character(subset(listKernels(),
                                        ShortName == self$param_set$values$kernel,

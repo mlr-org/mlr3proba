@@ -32,12 +32,6 @@ MeasureDensLogloss = R6::R6Class("MeasureDensLogloss",
 
       assertNumeric(eps)
       private$.eps <- eps
-    },
-
-    .score = function(prediction, ...) {
-      pdf = prediction$pdf
-      pdf[pdf == 0] = self$eps
-      return(mean(-log(pdf)))
     }
   ),
 
@@ -53,6 +47,11 @@ MeasureDensLogloss = R6::R6Class("MeasureDensLogloss",
   ),
 
   private = list(
-    .eps = numeric(0)
+    .eps = numeric(0),
+    .score = function(prediction, ...) {
+      pdf = prediction$pdf
+      pdf[pdf == 0] = self$eps
+      return(mean(-log(pdf)))
+    }
   )
 )

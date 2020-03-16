@@ -13,7 +13,7 @@
 #' \cite{mlr3proba}{hothorn_2006}
 #'
 #' \cite{mlr3proba}{freund_1996}
-#' 
+#'
 #' \cite{mlr3proba}{friedman_2001}
 #'
 #' \cite{mlr3proba}{ridgeway_1999}
@@ -83,8 +83,10 @@ LearnerSurvBlackboost = R6Class("LearnerSurvBlackboost", inherit = LearnerSurv,
         predict_types = c("distr","crank","lp"),
         packages = c("mboost","distr6","survival","partykit","mvtnorm")
       )
-    },
+    }
+  ),
 
+  private = list(
     .train = function(task) {
 
       pars = self$param_set$get_values(tags = "train")

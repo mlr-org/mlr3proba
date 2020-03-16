@@ -5,7 +5,8 @@
 #'
 #' @export
 LearnerDensLocfit <- R6::R6Class("LearnerDensLocfit", inherit = LearnerDens,
-  public = list(initialize = function(id = "dens.locfit"){
+  public = list(
+    initialize = function(id = "dens.locfit"){
     super$initialize(
       id = id,
       param_set = ParamSet$new(
@@ -33,8 +34,10 @@ LearnerDensLocfit <- R6::R6Class("LearnerDensLocfit", inherit = LearnerDens,
       feature_types =  c("logical", "integer", "numeric", "character", "factor", "ordered"),
       predict_types = "pdf",
       packages = c("locfit", "distr6")
-    )},
+    )}
+  ),
 
+  private = list(
     .train = function(task){
 
       pars = self$param_set$get_values(tag="train")
@@ -60,6 +63,6 @@ LearnerDensLocfit <- R6::R6Class("LearnerDensLocfit", inherit = LearnerDens,
 
       PredictionDens$new(task = task, pdf = self$model$pdf(newdata))
     }
-
-  ))
+  )
+)
 

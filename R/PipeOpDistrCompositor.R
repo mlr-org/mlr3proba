@@ -114,12 +114,14 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
                        input = data.table(name = c("base","pred"), train = "NULL", predict = "PredictionSurv"),
                        output = data.table(name = "output", train = "NULL", predict = "PredictionSurv"),
                        packages = "distr6")
-      },
+      }
+  ),
 
+  private = list(
     .train = function(inputs) {
       self$state = list()
       list(NULL)
-      },
+    },
 
     .predict = function(inputs) {
       base = inputs$base

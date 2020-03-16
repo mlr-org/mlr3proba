@@ -58,8 +58,10 @@ LearnerSurvFlexible = R6Class("LearnerSurvFlexible", inherit = LearnerSurv,
         properties = c("weights"),
         packages = c("flexsurv", "survival", "distr6", "set6")
         )
-      },
+      }
+  ),
 
+  private = list(
     .train = function(task) {
       # Passes control parameters to survreg.control
       pars_ctrl = c("maxiter","rel.tolerance","toler.chol","outer.max")
@@ -76,7 +78,7 @@ LearnerSurvFlexible = R6Class("LearnerSurvFlexible", inherit = LearnerSurv,
         pv$weights = task$weights$weight
 
       invoke(flexsurv::flexsurvspline, formula =  task$formula(task$feature_names), data = task$data(), .args = pv)
-      },
+    },
 
     .predict = function(task) {
 

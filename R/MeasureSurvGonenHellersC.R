@@ -28,8 +28,10 @@ MeasureSurvGonenC = R6Class("MeasureSurvGonenC",
         packages = "survAUC",
         predict_type = "lp"
       )
-    },
+    }
+  ),
 
+  private = list(
     .score = function(prediction, ...) {
       survAUC::GHCI(prediction$lp)
     }

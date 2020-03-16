@@ -55,6 +55,16 @@ LearnerSurvPenalized = R6Class("LearnerSurvPenalized", inherit = LearnerSurv,
         )
       },
 
+    importance = function() {
+      if (is.null(self$model))
+        stopf("No model stored")
+
+      # importance defined by decreasing fitted weights
+      sort(self$model@weights, decreasing = TRUE)
+      }
+    ),
+
+  private = list(
     .train = function(task) {
 
       # Checks missing data early to prevent crashing
@@ -73,8 +83,8 @@ LearnerSurvPenalized = R6Class("LearnerSurvPenalized", inherit = LearnerSurv,
       }
 
       suppressWarnings(suppressMessages((invoke(penalized::penalized, response = task$truth(), penalized = penalized,
-             data = task$data(cols = task$feature_names), model = "cox", .args = pars))))
-      },
+                                                data = task$data(cols = task$feature_names), model = "cox", .args = pars))))
+    },
 
     .predict = function(task) {
       # Again the penalized and unpenalized covariates are automatically converted to the
@@ -101,14 +111,6 @@ LearnerSurvPenalized = R6Class("LearnerSurvPenalized", inherit = LearnerSurv,
       crank = as.numeric(sapply(x, function(y) sum(y[,1] * c(y[,2][1], diff(y[,2])))))
 
       PredictionSurv$new(task = task, distr = distr, crank = crank)
-      },
-
-    importance = function() {
-      if (is.null(self$model))
-        stopf("No model stored")
-
-      # importance defined by decreasing fitted weights
-      sort(self$model@weights, decreasing = TRUE)
-      }
-    )
+    }
+  )
 )

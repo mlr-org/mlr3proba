@@ -5,7 +5,8 @@
 #'
 #' @export
 LearnerDensHistogram <- R6::R6Class("LearnerDensHistogram", inherit = LearnerDens,
-  public = list(initialize = function(id = "dens.hist"){
+  public = list(
+    initialize = function(id = "dens.hist"){
     super$initialize(
       id = id,
       param_set = ParamSet$new(
@@ -16,8 +17,10 @@ LearnerDensHistogram <- R6::R6Class("LearnerDensHistogram", inherit = LearnerDen
       predict_types = c("pdf","cdf"),
       packages = c("graphics", "distr6")
       )
-    },
+    }
+  ),
 
+  private = list(
     .train = function(task){
 
       pars = self$param_set$get_values(tag="train")
@@ -33,6 +36,7 @@ LearnerDensHistogram <- R6::R6Class("LearnerDensHistogram", inherit = LearnerDen
       newdata = as.numeric(unlist(task$data(cols = task$target_names)))
       PredictionDens$new(task = task, pdf = self$model$distr$pdf(newdata), cdf = self$model$distr$cdf(newdata))
     }
-  ))
+  )
+)
 
 

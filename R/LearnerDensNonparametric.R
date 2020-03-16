@@ -24,8 +24,10 @@ LearnerDensNonparametric<- R6::R6Class("LearnerDensNonparametric", inherit = Lea
         predict_types = "pdf",
         properties = "weights",
         packages = c("sm", "distr6")
-      )},
+      )}
+  ),
 
+  private = list(
     .train = function(task){
 
       pars = self$param_set$get_values(tag="train")

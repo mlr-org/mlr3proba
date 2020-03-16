@@ -46,17 +46,34 @@ LearnerSurvRanger = R6Class("LearnerSurvRanger", inherit = LearnerSurv,
       )
     },
 
+    importance = function() {
+      if (is.null(self$model)) {
+        stopf("No model stored")
+      }
+      if (self$model$importance.mode == "none") {
+        stopf("No importance stored")
+      }
+
+      sort(self$model$variable.importance, decreasing = TRUE)
+    },
+
+    oob_error = function() {
+      self$model$prediction.error
+    }
+  ),
+
+  private = list(
     .train = function(task) {
       pv = self$param_set$get_values(tags = "train")
       targets = task$target_names
 
       invoke(ranger::ranger,
-        formula = NULL,
-        dependent.variable.name = targets[1L],
-        status.variable.name = targets[2L],
-        data = task$data(),
-        case.weights = task$weights$weight,
-        .args = pv
+             formula = NULL,
+             dependent.variable.name = targets[1L],
+             status.variable.name = targets[2L],
+             data = task$data(),
+             case.weights = task$weights$weight,
+             .args = pv
       )
     },
 
@@ -75,21 +92,6 @@ LearnerSurvRanger = R6Class("LearnerSurvRanger", inherit = LearnerSurv,
       crank = as.numeric(sapply(x, function(y) sum(y[,1] * c(y[,2][1], diff(y[,2])))))
 
       PredictionSurv$new(task = task, distr = distr, crank = crank)
-    },
-
-    importance = function() {
-      if (is.null(self$model)) {
-        stopf("No model stored")
-      }
-      if (self$model$importance.mode == "none") {
-        stopf("No importance stored")
-      }
-
-      sort(self$model$variable.importance, decreasing = TRUE)
-    },
-
-    oob_error = function() {
-      self$model$prediction.error
     }
   )
 )

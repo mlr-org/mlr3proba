@@ -30,8 +30,10 @@ LearnerDensKDEks <- R6::R6Class("LearnerDensKDEks", inherit = LearnerDens,
       feature_types =  c("logical", "integer", "numeric", "character", "factor", "ordered"),
       predict_types = "pdf",
       packages = c("ks", "distr6")
-    )},
+    )}
+  ),
 
+  private = list(
     .train = function(task){
 
       pars = self$param_set$get_values(tag="train")

@@ -56,6 +56,19 @@ LearnerSurvGBM = R6Class("LearnerSurvGBM", inherit = LearnerSurv,
       )
     },
 
+    importance = function() {
+      if (is.null(self$model)) {
+        stopf("No model stored")
+      }
+      sum = summary(self$model, plotit = FALSE)
+      relinf = sum$rel.inf
+      names(relinf) = sum$var
+
+      relinf
+    }
+  ),
+
+  private = list(
     .train = function(task) {
 
       # hacky formula construction as gbm fails when "type" argument specified in Surv()
@@ -97,17 +110,6 @@ LearnerSurvGBM = R6Class("LearnerSurvGBM", inherit = LearnerSurv,
 
       PredictionSurv$new(task = task, crank = lp, lp = lp)
 
-    },
-
-    importance = function() {
-      if (is.null(self$model)) {
-        stopf("No model stored")
-      }
-      sum = summary(self$model, plotit = FALSE)
-      relinf = sum$rel.inf
-      names(relinf) = sum$var
-
-      relinf
     }
   )
 )

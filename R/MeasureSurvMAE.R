@@ -24,8 +24,10 @@ MeasureSurvMAE = R6::R6Class("MeasureSurvMAE",
         minimize = TRUE,
         predict_type = "response"
       )
-    },
+    }
+  ),
 
+  private = list(
     .score = function(prediction, ...) {
       mean(surv_mae(prediction$truth, prediction$response)$mae)
     }

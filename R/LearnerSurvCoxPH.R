@@ -29,6 +29,27 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
       )
     },
 
+    importance = function() {
+     if (is.null(self$model)) {
+       stopf("No model stored")
+     }
+      # coefficient importance defined by the p-values
+      sort(1-summary(self$model)$coefficients[,5L], decreasing = TRUE)
+    },
+
+    selected_features = function() {
+
+    if (is.null(self$model)) {
+      stopf("No model stored")
+    }
+
+    # features are selected if their coefficients are non-NA
+    beta = coef(self$model)
+    names(beta)[!is.na(beta)]
+    }
+  ),
+
+  private = list(
     .train = function(task) {
 
       pv = self$param_set$get_values(tags = "train")
@@ -68,25 +89,6 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
 
       # note the ranking of lp and crank is identical
       PredictionSurv$new(task = task, crank = lp, distr = distr, lp = lp)
-    },
-
-    importance = function() {
-     if (is.null(self$model)) {
-       stopf("No model stored")
-     }
-      # coefficient importance defined by the p-values
-      sort(1-summary(self$model)$coefficients[,5L], decreasing = TRUE)
-    },
-
-    selected_features = function() {
-
-    if (is.null(self$model)) {
-      stopf("No model stored")
-    }
-
-    # features are selected if their coefficients are non-NA
-    beta = coef(self$model)
-    names(beta)[!is.na(beta)]
     }
   )
 )

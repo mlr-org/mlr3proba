@@ -22,11 +22,13 @@ LearnerSurvNelson = R6Class("LearnerSurvNelson", inherit = LearnerSurv,
         properties = "missings",
         packages = c("survival", "distr6")
      )
-    },
+    }
+  ),
 
+  private = list(
     .train = function(task) {
       invoke(survival::survfit, formula = task$formula(1), data = task$data())
-      },
+    },
 
     .predict = function(task) {
       # Ensures that at all times before the first observed time the cumulative hazard is 0, as expected.

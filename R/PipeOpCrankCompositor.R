@@ -90,12 +90,14 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
                        input = data.table(name = "input", train = "NULL", predict = "PredictionSurv"),
                        output = data.table(name = "output", train = "NULL", predict = "PredictionSurv"),
                        packages = "distr6")
-      },
+      }
+  ),
 
+  private = list(
     .train = function(inputs) {
       self$state = list()
       list(NULL)
-      },
+    },
 
     .predict = function(inputs) {
       inpred = inputs[[1]]

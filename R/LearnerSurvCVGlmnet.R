@@ -55,8 +55,10 @@ LearnerSurvCVGlmnet = R6Class("LearnerSurvCVGlmnet", inherit = LearnerSurv,
         properties = "weights",
         packages = c("glmnet","survival")
       )
-    },
+    }
+  ),
 
+  private = list(
     .train = function(task) {
 
       pars = self$param_set$get_values(tags = "train")

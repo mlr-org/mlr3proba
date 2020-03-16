@@ -18,8 +18,10 @@ LearnerSurvKaplan = R6Class("LearnerSurvKaplan", inherit = LearnerSurv,
         properties = "missings",
         packages = c("survival", "distr6")
       )
-    },
+    }
+  ),
 
+  private = list(
     .train = function(task) {
       invoke(survival::survfit, formula = task$formula(1), data = task$data())
     },

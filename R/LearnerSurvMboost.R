@@ -69,8 +69,10 @@ LearnerSurvMboost = R6Class("LearnerSurvMboost", inherit = LearnerSurv,
         # properties = "weights",
         packages = c("mboost","distr6","survival")
       )
-    },
+    }
+  ),
 
+  private = list(
     .train = function(task) {
 
       pars = self$param_set$get_values(tags = "train")

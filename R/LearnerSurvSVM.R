@@ -53,13 +53,16 @@ LearnerSurvSVM = R6Class("LearnerSurvSVM", inherit = LearnerSurv,
         predict_types = c("crank"),
         packages = c("survivalsvm")
         )
-      },
+      }
+  ),
+
+  private = list(
     .train = function(task) {
       invoke(survivalsvm::survivalsvm,
              formula = task$formula(),
              data = task$data(),
              .args = self$param_set$get_values(tags = "train"))
-      },
+    },
 
     .predict = function(task) {
       # only a continuous ranking is returned

@@ -74,11 +74,42 @@ LearnerSurvRandomForestSRC = R6Class("LearnerSurvRandomForestSRC", inherit = Lea
       )
     },
 
+    importance = function() {
+      if (is.null(self$model)) {
+        stopf("No model stored")
+      }
+      if (is.null(self$model$importance)) {
+        stopf("Importance not stored. Set 'importance' parameter to one of {'TRUE', 'permute', 'random', 'anti'}.")
+      }
+
+      sort(self$model$importance, decreasing = TRUE)
+    },
+
+    selected_features = function() {
+      if (is.null(self$model)) {
+        stopf("No model stored")
+      }
+      if (is.null(self$model$var.used)) {
+        stopf("Variables used not stored. Set var.used to one of {'all.trees', 'by.tree'}.")
+      }
+
+      self$model$var.used
+    }
+
+    # Note that we could return prediction error but it would first have to be evaluated using Harrel's C
+    # to be in line with other learners such as rpart.
+    #
+    # oob_error = function() {
+    #   self$model$prediction.error
+    # }
+  ),
+
+  private = list(
     .train = function(task) {
       pv = self$param_set$get_values(tags = "train")
 
       invoke(randomForestSRC::rfsrc, formula = task$formula(), data = task$data(),
-        case.wt = task$weights$weight, .args = pv)
+             case.wt = task$weights$weight, .args = pv)
     },
 
     .predict = function(task) {
@@ -110,35 +141,6 @@ LearnerSurvRandomForestSRC = R6Class("LearnerSurvRandomForestSRC", inherit = Lea
 
       PredictionSurv$new(task = task, crank = crank, distr = distr)
 
-    },
-
-    importance = function() {
-      if (is.null(self$model)) {
-        stopf("No model stored")
-      }
-      if (is.null(self$model$importance)) {
-        stopf("Importance not stored. Set 'importance' parameter to one of {'TRUE', 'permute', 'random', 'anti'}.")
-      }
-
-      sort(self$model$importance, decreasing = TRUE)
-    },
-
-    selected_features = function() {
-      if (is.null(self$model)) {
-        stopf("No model stored")
-      }
-      if (is.null(self$model$var.used)) {
-        stopf("Variables used not stored. Set var.used to one of {'all.trees', 'by.tree'}.")
-      }
-
-      self$model$var.used
     }
-
-    # Note that we could return prediction error but it would first have to be evaluated using Harrel's C
-    # to be in line with other learners such as rpart.
-    #
-    # oob_error = function() {
-    #   self$model$prediction.error
-    # }
   )
 )

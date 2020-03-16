@@ -23,8 +23,10 @@ MeasureSurvLoglossSE = R6::R6Class("MeasureSurvLoglossSE",
     public = list(
       initialize = function(eps = 1e-15) {
         super$initialize(eps, id = "surv.loglossSE")
-      },
+      }
+    ),
 
+    private = list(
       .score = function(prediction, ...) {
         ll = surv_logloss(prediction$truth, prediction$distr, self$eps)
 

@@ -23,8 +23,10 @@ MeasureSurvRMSESE = R6::R6Class("MeasureSurvRMSESE",
         minimize = TRUE,
         predict_type = "response"
       )
-    },
+    }
+  ),
 
+  private = list(
     .score = function(prediction, ...) {
       mse = surv_mse(prediction$truth, prediction$response)
       mse$se/(2*sqrt(mean(mse$mse)))
