@@ -8,9 +8,9 @@ LearnerDensKDEks <- R6::R6Class("LearnerDensKDEks", inherit = LearnerDens,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id = "dens.kdeKS"){
+    initialize = function(){
     super$initialize(
-      id = id,
+      id = "dens.kdeKS",
       param_set = ParamSet$new(
         params = list(
           ParamDbl$new(id = "h", lower = 0,   tags = "train"),

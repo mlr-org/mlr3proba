@@ -14,7 +14,7 @@ LearnerDensKDE = R6::R6Class("LearnerDensKDE", inherit = LearnerDens,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id = "dens.kde"){
+    initialize = function(){
       ps = ParamSet$new(list(ParamFct$new("kernel",
                                           levels = subset(listKernels(),
                                                           select="ShortName")[[1]],
@@ -25,7 +25,7 @@ LearnerDensKDE = R6::R6Class("LearnerDensKDE", inherit = LearnerDens,
       ps$values = list(kernel = "Norm", bandwidth = "silver")
 
       super$initialize(
-        id = id,
+        id = "dens.kde",
         param_set = ps,
         predict_types = "pdf",
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),

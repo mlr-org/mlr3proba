@@ -8,7 +8,7 @@ LearnerDensKDEkd <- R6::R6Class("LearnerDensKDEkd", inherit = LearnerDens,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id = "dens.kdeKD"){
+    initialize = function(){
         ps = ParamSet$new(
         params = list(
           ParamDbl$new(id = "bw",  lower = 0, tags = "train"),
@@ -17,7 +17,7 @@ LearnerDensKDEkd <- R6::R6Class("LearnerDensKDEkd", inherit = LearnerDens,
           ))
       ps$values = list(type_kernel = "n")
       super$initialize(
-        id = id,
+        id = "dens.kdeKD",
         param_set = ps,
         feature_types =  c("logical", "integer", "numeric", "character", "factor", "ordered"),
         predict_types = "pdf",

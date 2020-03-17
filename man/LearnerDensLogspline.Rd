@@ -69,7 +69,7 @@ Other density estimators:
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LearnerDensLogspline$new(id = "dens.logspline")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{LearnerDensLogspline$new()}\if{html}{\out{</div>}}
 }
 
 }

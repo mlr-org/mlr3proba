@@ -8,9 +8,9 @@ LearnerDensNonparametric<- R6::R6Class("LearnerDensNonparametric", inherit = Lea
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id = "dens.nonpar"){
+    initialize = function(){
       super$initialize(
-        id = id,
+        id = "dens.nonpar",
         param_set = ParamSet$new(
           params = list(
             ParamDbl$new(id = "h",  tags = "train"),

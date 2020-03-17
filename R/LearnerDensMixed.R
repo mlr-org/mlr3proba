@@ -8,7 +8,7 @@ LearnerDensMixed <- R6::R6Class("LearnerDensMixed", inherit = LearnerDens,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id = "dens.mixed"){
+    initialize = function(){
     ps = ParamSet$new(
       params = list(
         ParamUty$new(id = "bws", tags = "train"),
@@ -49,7 +49,7 @@ LearnerDensMixed <- R6::R6Class("LearnerDensMixed", inherit = LearnerDens,
       ))
     ps$values = list(ckertype = "gaussian")
     super$initialize(
-      id = id,
+      id = "dens.mixed",
       param_set = ps,
       feature_types =  c("logical", "integer", "numeric", "character", "factor", "ordered"),
       predict_types = "pdf",

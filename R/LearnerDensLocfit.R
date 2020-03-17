@@ -8,9 +8,9 @@ LearnerDensLocfit <- R6::R6Class("LearnerDensLocfit", inherit = LearnerDens,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id = "dens.locfit"){
+    initialize = function(){
     super$initialize(
-      id = id,
+      id = "dens.locfit",
       param_set = ParamSet$new(
         params = list(
           ParamFct$new(id = "window", levels = c("tcub", "rect", "trwt",

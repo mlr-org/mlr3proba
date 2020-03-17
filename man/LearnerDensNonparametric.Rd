@@ -69,7 +69,7 @@ Other density estimators:
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LearnerDensNonparametric$new(id = "dens.nonpar")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{LearnerDensNonparametric$new()}\if{html}{\out{</div>}}
 }
 
 }

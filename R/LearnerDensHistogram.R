@@ -8,9 +8,9 @@ LearnerDensHistogram <- R6::R6Class("LearnerDensHistogram", inherit = LearnerDen
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id = "dens.hist"){
+    initialize = function(){
     super$initialize(
-      id = id,
+      id = "dens.hist",
       param_set = ParamSet$new(
         params = list(
           ParamUty$new(id = "breaks", default = "Sturges", tags = "train")

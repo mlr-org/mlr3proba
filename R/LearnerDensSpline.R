@@ -8,9 +8,9 @@ LearnerDensSpline <- R6::R6Class("LearnerDensSpline", inherit = LearnerDens,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id = "dens.spline"){
+    initialize = function(){
     super$initialize(
-      id = id,
+      id = "dens.spline",
       param_set = ParamSet$new(
         params = list(
           ParamUty$new(id = "type", tags = "train"),
