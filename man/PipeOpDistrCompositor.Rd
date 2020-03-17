@@ -4,7 +4,6 @@
 \alias{PipeOpDistrCompositor}
 \alias{mlr_pipeops_distrcompose}
 \title{PipeOpDistrCompositor}
-\format{\code{\link{R6Class}} inheriting from \code{\link{PipeOp}}.}
 \description{
 Estimates (or 'composes') a survival distribution from a predicted baseline \code{distr} and a
 \code{crank} or \code{lp} from two \link{PredictionSurv}s.
@@ -19,14 +18,12 @@ Compositor Assumptions:
 These assumptions are strong and may not be reasonable. Future updates will upgrade this
 compositor to be more flexible.
 }
-\section{Construction}{
-\preformatted{PipeOpDistrCompositor$new(id = "distrcompose", param_vals = list())
-}
-\itemize{
-\item \code{id} :: \code{character(1)} \cr
-Identifier of the resulting  object, default \code{"distrcompose"}.
-\item \code{param_vals} :: named \code{list} \cr
-List of hyperparameter settings, overwriting the hyperparameter settings that would otherwise be set during construction. Default \code{list()}.
+\section{Dictionary}{
+
+This \link[mlr3pipelines:PipeOp]{PipeOp} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3pipelines:mlr_pipeops]{mlr3pipelines::mlr_pipeops} or with the associated sugar function \code{\link[mlr3pipelines:po]{mlr3pipelines::po()}}:\preformatted{PipeOpDistrCompositor$new()
+mlr_pipeops$get("distrcompose")
+po("distrcompose")
 }
 }
 
@@ -77,12 +74,12 @@ assumed to be the \code{lp} - \strong{this may be a strong and unreasonable assu
 
 \section{Fields}{
 
-Only fields inherited from \link{PipeOp}.
+Only fields inherited from \link[mlr3pipelines:PipeOp]{PipeOp}.
 }
 
 \section{Methods}{
 
-Only methods inherited from \link{PipeOp}.
+Only methods inherited from \link[mlr3pipelines:PipeOp]{PipeOp}.
 }
 
 \examples{
@@ -149,6 +146,7 @@ Other survival compositors:
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
 \subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{PipeOpDistrCompositor$new(
   id = "distrcompose",
@@ -156,22 +154,52 @@ Other survival compositors:
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{(\code{character(1)})\cr
+Identifier of the resulting  object.}
+
+\item{\code{param_vals}}{(\code{list()})\cr
+List of hyperparameter settings, overwriting the hyperparameter settings that would
+otherwise be set during construction.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-train_internal"></a>}}
 \subsection{Method \code{train_internal()}}{
+train_internal
+Internal \code{train} function, will be moved to \code{private} in a near-future update, should be ignored.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{PipeOpDistrCompositor$train_internal(inputs)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{inputs}}{Ignore.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-predict_internal"></a>}}
 \subsection{Method \code{predict_internal()}}{
+predict_internal
+Internal \code{predict} function, will be moved to \code{private} in a near-future update, should be ignored.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{PipeOpDistrCompositor$predict_internal(inputs)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{inputs}}{Ignore.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
