@@ -1,3 +1,4 @@
+#' @title Abstract Class for survAUC Measures
 #' @include MeasureSurvIntegrated.R
 #' @template surv_measure
 #' @templateVar meas
@@ -6,6 +7,7 @@
 #' @template param_times
 #' @template param_id
 #' @template param_measure_properties
+#' @export
 MeasureSurvAUC = R6Class("MeasureSurvAUC",
   inherit = MeasureSurvIntegrated,
   public = list(
