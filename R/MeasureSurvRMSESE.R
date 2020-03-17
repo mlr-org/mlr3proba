@@ -1,6 +1,5 @@
 #' @template surv_measure
 #' @templateVar title Standard Error of Root Mean Squared Error
-#' @templateVar inherit [MeasureSurv]
 #' @templateVar fullname MeasureSurvRMSESE
 #'
 #' @description
@@ -16,6 +15,7 @@
 MeasureSurvRMSESE = R6::R6Class("MeasureSurvRMSESE",
   inherit = MeasureSurv,
   public = list(
+    #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       super$initialize(
         id = "surv.rmseSE",

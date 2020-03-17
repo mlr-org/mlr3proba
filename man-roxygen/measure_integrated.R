@@ -5,6 +5,7 @@
 #' where \eqn{N} is the number of observations, \eqn{S_i} is the predicted survival function for
 #' individual \eqn{i} and \eqn{t_i} is their true survival time.
 #'
-#' If `integrated == TRUE` then an approximation to integration is made by taking the mean over all
-#' \eqn{T} unique time-points, and then the sample mean over all \eqn{N} observations.
+#' If `integrated == TRUE` then an approximation to integration is made by either taking the sample
+#'  mean over all \eqn{T} unique time-points (`method == 1`), or by taking a mean weighted by the difference
+#'  between time-points (`method == 2`). Then the sample mean is taken over all \eqn{N} observations.
 #' \deqn{L(S) = \frac{1}{NT} \sum_{i=1}^N \sum_{j=1}^T L(S_i,t_i|t^*_j)}{L(S) = 1/(NT) \sum_i^N \sum_j^T L(S_i,t_i|t*_j)}

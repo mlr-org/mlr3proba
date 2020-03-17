@@ -1,8 +1,6 @@
 #' @template surv_measure
 #' @templateVar title Harrell's C-Index
-#' @templateVar inherit [MeasureSurv]
 #' @templateVar fullname MeasureSurvHarrellC
-#' @templateVar shortname surv.harrellC
 #'
 #' @description
 #' Calculates Harrell's C, equivalent to the Fortran implementation in \CRANpkg{Hmisc}.
@@ -16,6 +14,7 @@
 MeasureSurvHarrellC = R6Class("MeasureSurvHarrellC",
   inherit = MeasureSurv,
   public = list(
+    #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       super$initialize(
         id = "surv.harrellC",

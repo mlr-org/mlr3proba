@@ -1,20 +1,17 @@
 #' @title PipeOpCrankCompositor
-#'
-#' @usage NULL
 #' @aliases mlr_pipeops_crankcompose
-#' @format [`R6Class`] inheriting from [`PipeOp`].
 #'
 #' @description
 #' Uses a predicted `distr` in a [PredictionSurv] to estimate (or 'compose') a `crank` prediction.
 #'
-#' @section Construction:
+#' @section Dictionary:
+#' This [PipeOp][mlr3pipelines::PipeOp] can be instantiated via the [dictionary][mlr3misc::Dictionary]
+#' [mlr3pipelines::mlr_pipeops] or with the associated sugar function [mlr3pipelines::po()]:
 #' ```
-#' PipeOpCrankCompositor$new(id = "crankcompose", param_vals = list(method = "mean"))
+#' PipeOpCrankCompositor$new()
+#' mlr_pipeops$get("crankcompose")
+#' po("crankcompose")
 #' ```
-#' * `id` :: `character(1)` \cr
-#'   Identifier of the resulting  object, default `"crankcompose"`.
-#' * `param_vals` :: named `list` \cr
-#'   List of hyperparameter settings, overwriting the hyperparameter settings that would otherwise be set during construction. Default `list(method = "mean")`.
 #'
 #' @section Input and Output Channels:
 #' [PipeOpCrankCompositor] has one input channel named "input", which takes
@@ -42,10 +39,10 @@
 #' using [distr6::median.Distribution], [distr6::mode], or [distr6::mean.Distribution] respectively.
 #'
 #' @section Fields:
-#' Only fields inherited from [PipeOp].
+#' Only fields inherited from [PipeOp][mlr3pipelines::PipeOp].
 #'
 #' @section Methods:
-#' Only methods inherited from [PipeOp].
+#' Only fields inherited from [PipeOp][mlr3pipelines::PipeOp].
 #'
 #' @seealso [mlr3pipelines::PipeOp] and [crankcompositor]
 #' @export
@@ -81,6 +78,14 @@
 PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
   inherit = PipeOp,
   public = list(
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param id (`character(1)`)\cr
+    #'   Identifier of the resulting  object.
+    #' @param param_vals (`list()`)\cr
+    #'   List of hyperparameter settings, overwriting the hyperparameter settings that would
+    #'   otherwise be set during construction.
     initialize = function(id = "crankcompose", param_vals = list(method = "mean")) {
       super$initialize(id = id,
                        param_set = ParamSet$new(params = list(
@@ -91,10 +96,20 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
                        output = data.table(name = "output", train = "NULL", predict = "PredictionSurv"),
                        packages = "distr6")
       },
+
+    #' @description train_internal
+    #' Internal `train` function, will be moved to `private` in a near-future update, should be ignored.
+    #' @param inputs
+    #' Ignore.
     train_internal = function(inputs) {
       self$state = list()
       list(NULL)
     },
+
+    #' @description predict_internal
+    #' Internal `predict` function, will be moved to `private` in a near-future update, should be ignored.
+    #' @param inputs
+    #' Ignore.
     predict_internal = function(inputs) {
       inpred = inputs[[1]]
 

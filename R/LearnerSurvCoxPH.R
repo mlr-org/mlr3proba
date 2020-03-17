@@ -4,6 +4,8 @@
 #' @templateVar caller [survival::coxph()]
 #' @templateVar distr by [survival::survfit.coxph()]
 #' @templateVar lp by [survival::predict.coxph()]
+#' @description
+#'
 #'
 #' @references
 #' \cite{mlr3proba}{cox_1972}
@@ -11,6 +13,8 @@
 #' @export
 LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
   public = list(
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       super$initialize(
         id = "surv.coxph",
@@ -29,6 +33,9 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
       )
     },
 
+    #' @description
+    #' The importance scores are extracted from the model slot `variable.importance`.
+    #' @return Named `numeric()`.
     importance = function() {
      if (is.null(self$model)) {
        stopf("No model stored")
@@ -37,6 +44,9 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
       sort(1-summary(self$model)$coefficients[,5L], decreasing = TRUE)
     },
 
+    #' @description
+    #' Selected features are extracted from the model slot `frame$var`.
+    #' @return `character()`.
     selected_features = function() {
 
     if (is.null(self$model)) {

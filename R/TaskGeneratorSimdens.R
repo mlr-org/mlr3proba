@@ -1,19 +1,13 @@
 #' @title Density Task Generator for Package 'distr6'
 #'
-#' @usage NULL
-#' @aliases mlr_task_generators_simdens
-#' @format [R6::R6Class] inheriting from [mlr3::TaskGenerator].
-#'
-#' @section Construction:
-#' ```
-#' TaskGeneratorSimdens$new()
-#' mlr_task_generators$get("simdens")
-#' tgen("simdens")
-#' ```
+#' @name mlr_task_generators_simdens
 #'
 #' @description
 #' A [mlr3::TaskGenerator] calling [distr6::distrSimulate()] from package \CRANpkg{simsurv}.
 #' See [distr6::distrSimulate()] for an explanation of the hyperparameters.
+#'
+#' @templateVar id simdens
+#' @template section_dictionary_task_generator
 #'
 #' @template seealso_task_generator
 #' @export
@@ -24,6 +18,7 @@
 TaskGeneratorSimdens = R6::R6Class("TaskGeneratorSimdens",
   inherit = TaskGenerator,
   public = list(
+    #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       param_set = ParamSet$new(list(
         ParamFct$new("distribution", default = "Normal", levels = distr6::listDistributions(T)),

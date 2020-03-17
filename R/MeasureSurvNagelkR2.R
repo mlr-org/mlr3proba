@@ -1,8 +1,6 @@
 #' @template surv_measure
 #' @templateVar title Nagelkerke's R2
-#' @templateVar inherit [MeasureSurv]
 #' @templateVar fullname MeasureSurvNagelkR2
-#' @templateVar shortname surv.nagelkR2
 #' @description
 #' Calls [survAUC::Nagelk()].
 #'
@@ -19,6 +17,7 @@
 MeasureSurvNagelkR2 = R6Class("MeasureSurvNagelkR2",
   inherit = MeasureSurv,
   public = list(
+    #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       super$initialize(
         id = "surv.nagelkR2",

@@ -5,7 +5,9 @@
 \title{Rats Survival Task}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskSurv}.}
 \description{
-A survival task for the \link[survival:rats]{survival::rats} data set.
+A survival task for the \link{rats} data set.
+}
+\details{
 Column "sex" has been converted to a factor, all others have been converted to integer.
 }
 \section{Construction}{
@@ -14,6 +16,3 @@ mlr3::tsk("rats")
 }
 }
 
-\seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Task]{Tasks}: \link[mlr3:mlr_tasks]{mlr3::mlr_tasks}
-}

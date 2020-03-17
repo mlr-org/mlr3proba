@@ -1,53 +1,9 @@
 #' @title Prediction Object for Survival
 #'
-#' @usage NULL
-#' @format [R6::R6Class] object inheriting from [mlr3::Prediction].
-#'
 #' @description
 #' This object stores the predictions returned by a learner of class [LearnerSurv].
 #'
 #' The `task_type` is set to `"surv"`.
-#'
-#' @section Construction:
-#' ```
-#' PredictionSurv$new(task = NULL, row_ids = task$row_ids, truth = task$truth(),
-#'                    crank = NULL, distr = NULL, lp = NULL, response = NULL)
-#' ```
-#'
-#' * `task` :: [TaskSurv]\cr
-#'   Task, used to extract defaults for `row_ids` and `truth`.
-#'
-#' * `row_ids` :: (`integer()` | `character()`)\cr
-#'   Row ids of the task. Per default, these are extracted from the `task`.
-#'
-#' * `truth` :: `survival::Surv()`\cr
-#'   Observed survival times. Per default, these are extracted from the `task`.
-#'
-#' * `crank` :: `numeric()`\cr
-#'   Vector of continuous ranks. One element for each observation in the test set.
-#'   For a pair of continuous ranks, a higher rank indicates that the observation is more likely
-#'   to experience the event.
-#'   Used in discrimination measures like [surv.harrellC][mlr_measures_surv.harrellC].
-#'
-#' * `distr` :: `distr6::Distribution()`\cr
-#'   [VectorDistribution][distr6::VectorDistribution] from \CRANpkg{distr6}.
-#'   Each individual distribution in the vector represents the random variable 'survival time' for
-#'   an individual observation.
-#'   Used in measures like [surv.graf][mlr_measures_surv.graf].
-#'
-#' * `lp` :: `numeric()`\cr
-#'   Vector of linear predictor scores. One element for each observation in the test set.
-#'   \eqn{lp = X\beta} where \eqn{X} is a matrix of covariates and \eqn{\beta} is a vector of estimated coefficients.
-#'   Used in discrimination measures like [surv.harrellC][mlr_measures_surv.harrellC].
-#'
-#' * `response` :: `numeric()`\cr
-#'   Vector of survival times. One element for each observation in the test set.
-#'   Used in distance measures like [surv.rmse][mlr_measures_surv.rmse].
-#'
-#' @section Fields:
-#' See [mlr3::Prediction].
-#'
-#' The field `task_type` is set to `"surv"`.
 #'
 #' @family Prediction
 #' @export
@@ -59,12 +15,43 @@
 #' head(as.data.table(p))
 PredictionSurv = R6Class("PredictionSurv", inherit = Prediction,
   public = list(
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param task ([TaskSurv])\cr
+    #'   Task, used to extract defaults for `row_ids` and `truth`.
+    #'
+    #' @param row_ids (`integer()`)\cr
+    #'   Row ids of the predicted observations, i.e. the row ids of the test set.
+    #'
+    #' @param truth (`numeric()`)\cr
+    #'   True (observed) response.
+    #'
+    #' @param crank (`numeric()`)\cr
+    #'   Numeric vector of predicted continuous rankings (or relative risks). One element for each
+    #'   observation in the test set. For a pair of continuous ranks, a higher rank indicates that
+    #'   the observation is more likely to experience the event.
+    #'
+    #' @param distr ([VectorDistribution][distr6::VectorDistribution])\cr
+    #'   [VectorDistribution][distr6::VectorDistribution] from \CRANpkg{distr6}.
+    #'   Each individual distribution in the vector represents the random variable 'survival time' for
+    #'   an individual observation.
+    #'
+    #' @param lp (`numeric()`)\cr
+    #'   Numeric vector of linear predictor scores. One element for each observation in the test set.
+    #'   \eqn{lp = X\beta} where \eqn{X} is a matrix of covariates and \eqn{\beta} is a vector of
+    #'   estimated coefficients.
+    #'
+    #' @param response (`numeric()`)\cr
+    #'   Numeric vector of predicted survival times.
+    #'   One element for each observation in the test set.
     initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), crank = NULL,
                           distr = NULL, lp = NULL, response = NULL) {
       assert_row_ids(row_ids)
       n = length(row_ids)
 
       self$task_type = "surv"
+      private$.censtype = task$censtype
 
       # Check returned predict types have correct names and add to data.table
       self$predict_types = c("crank","distr","lp","response")[c(!is.null(crank),!is.null(distr),!is.null(lp),!is.null(response))]
@@ -93,38 +80,41 @@ PredictionSurv = R6Class("PredictionSurv", inherit = Prediction,
       }
 
     }
-# The print method below can be used to print the strprint representation of R6 objects. This
-# may look nicer but has problems with automated testing and in some cases may end up being
-# less informative.
-#
-#     print = function(){
-#       x = as.data.table(self)
-#       x$distr = lapply(x$distr, distr6::strprint)
-#       print(x)
-#     }
   ),
 
   active = list(
+    #' @field truth (`Surv`)\cr
+    #'   True (observed) outcome.
     truth = function() {
-      Surv(self$data$tab$time, self$data$tab$status, type = "right")
+      Surv(self$data$tab$time, self$data$tab$status, type = private$.censtype)
     },
 
+    #' @field crank (`numeric()`)\cr
+    #' Access the stored predicted continuous ranking.
     crank = function() {
       self$data$tab$crank %??% rep(NA_real_, length(self$data$row_ids))
     },
 
+    #' @field distr ([VectorDistribution][distr6::VectorDistribution])\cr
+    #' Access the stored predicted survival distribution.
     distr = function() {
       self$data$tab$distr[[1]]
     },
 
+    #' @field lp (`numeric()`)\cr
+    #' Access the stored predicted linear predictor.
     lp = function() {
       self$data$tab$lp %??% rep(NA_real_, length(self$data$row_ids))
     },
 
+    #' @field response (`numeric()`)\cr
+    #' Access the stored predicted survival time.
     response = function() {
       self$data$tab$response %??% rep(NA_real_, length(self$data$row_ids))
     },
 
+    #' @field missing (`integer()`)\cr
+    #'   Returns `row_ids` for which the predictions are missing or incomplete.
     missing = function() {
       miss = logical(nrow(self$data$tab))
 
@@ -146,6 +136,10 @@ PredictionSurv = R6Class("PredictionSurv", inherit = Prediction,
 
       self$data$tab$row_id[miss]
     }
+  ),
+
+  private = list(
+    .censtype = NULL
   )
 )
 

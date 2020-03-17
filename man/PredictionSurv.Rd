@@ -3,50 +3,11 @@
 \name{PredictionSurv}
 \alias{PredictionSurv}
 \title{Prediction Object for Survival}
-\format{\link[R6:R6Class]{R6::R6Class} object inheriting from \link[mlr3:Prediction]{mlr3::Prediction}.}
 \description{
 This object stores the predictions returned by a learner of class \link{LearnerSurv}.
 
 The \code{task_type} is set to \code{"surv"}.
 }
-\section{Construction}{
-\preformatted{PredictionSurv$new(task = NULL, row_ids = task$row_ids, truth = task$truth(),
-                   crank = NULL, distr = NULL, lp = NULL, response = NULL)
-}
-\itemize{
-\item \code{task} :: \link{TaskSurv}\cr
-Task, used to extract defaults for \code{row_ids} and \code{truth}.
-\item \code{row_ids} :: (\code{integer()} | \code{character()})\cr
-Row ids of the task. Per default, these are extracted from the \code{task}.
-\item \code{truth} :: \code{survival::Surv()}\cr
-Observed survival times. Per default, these are extracted from the \code{task}.
-\item \code{crank} :: \code{numeric()}\cr
-Vector of continuous ranks. One element for each observation in the test set.
-For a pair of continuous ranks, a higher rank indicates that the observation is more likely
-to experience the event.
-Used in discrimination measures like \link[=mlr_measures_surv.harrellC]{surv.harrellC}.
-\item \code{distr} :: \code{distr6::Distribution()}\cr
-\link[distr6:VectorDistribution]{VectorDistribution} from \CRANpkg{distr6}.
-Each individual distribution in the vector represents the random variable 'survival time' for
-an individual observation.
-Used in measures like \link[=mlr_measures_surv.graf]{surv.graf}.
-\item \code{lp} :: \code{numeric()}\cr
-Vector of linear predictor scores. One element for each observation in the test set.
-\eqn{lp = X\beta} where \eqn{X} is a matrix of covariates and \eqn{\beta} is a vector of estimated coefficients.
-Used in discrimination measures like \link[=mlr_measures_surv.harrellC]{surv.harrellC}.
-\item \code{response} :: \code{numeric()}\cr
-Vector of survival times. One element for each observation in the test set.
-Used in distance measures like \link[=mlr_measures_surv.rmse]{surv.rmse}.
-}
-}
-
-\section{Fields}{
-
-See \link[mlr3:Prediction]{mlr3::Prediction}.
-
-The field \code{task_type} is set to \code{"surv"}.
-}
-
 \examples{
 library(mlr3)
 task = tgen("simsurv")$generate(20)
@@ -59,3 +20,113 @@ Other Prediction:
 \code{\link{PredictionDens}}
 }
 \concept{Prediction}
+\section{Super class}{
+\code{\link[mlr3:Prediction]{mlr3::Prediction}} -> \code{PredictionSurv}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{truth}}{(\code{Surv})\cr
+True (observed) outcome.}
+
+\item{\code{crank}}{(\code{numeric()})\cr
+Access the stored predicted continuous ranking.}
+
+\item{\code{distr}}{(\link[distr6:VectorDistribution]{VectorDistribution})\cr
+Access the stored predicted survival distribution.}
+
+\item{\code{lp}}{(\code{numeric()})\cr
+Access the stored predicted linear predictor.}
+
+\item{\code{response}}{(\code{numeric()})\cr
+Access the stored predicted survival time.}
+
+\item{\code{missing}}{(\code{integer()})\cr
+Returns \code{row_ids} for which the predictions are missing or incomplete.}
+}
+\if{html}{\out{</div>}}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{PredictionSurv$new()}}
+\item \href{#method-clone}{\code{PredictionSurv$clone()}}
+}
+}
+\if{html}{
+\out{<details open ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="format">}\href{../../mlr3/html/Prediction.html#method-format}{\code{mlr3::Prediction$format()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="help">}\href{../../mlr3/html/Prediction.html#method-help}{\code{mlr3::Prediction$help()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="print">}\href{../../mlr3/html/Prediction.html#method-print}{\code{mlr3::Prediction$print()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="score">}\href{../../mlr3/html/Prediction.html#method-score}{\code{mlr3::Prediction$score()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{PredictionSurv$new(
+  task = NULL,
+  row_ids = task$row_ids,
+  truth = task$truth(),
+  crank = NULL,
+  distr = NULL,
+  lp = NULL,
+  response = NULL
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{task}}{(\link{TaskSurv})\cr
+Task, used to extract defaults for \code{row_ids} and \code{truth}.}
+
+\item{\code{row_ids}}{(\code{integer()})\cr
+Row ids of the predicted observations, i.e. the row ids of the test set.}
+
+\item{\code{truth}}{(\code{numeric()})\cr
+True (observed) response.}
+
+\item{\code{crank}}{(\code{numeric()})\cr
+Numeric vector of predicted continuous rankings (or relative risks). One element for each
+observation in the test set. For a pair of continuous ranks, a higher rank indicates that
+the observation is more likely to experience the event.}
+
+\item{\code{distr}}{(\link[distr6:VectorDistribution]{VectorDistribution})\cr
+\link[distr6:VectorDistribution]{VectorDistribution} from \CRANpkg{distr6}.
+Each individual distribution in the vector represents the random variable 'survival time' for
+an individual observation.}
+
+\item{\code{lp}}{(\code{numeric()})\cr
+Numeric vector of linear predictor scores. One element for each observation in the test set.
+\eqn{lp = X\beta} where \eqn{X} is a matrix of covariates and \eqn{\beta} is a vector of
+estimated coefficients.}
+
+\item{\code{response}}{(\code{numeric()})\cr
+Numeric vector of predicted survival times.
+One element for each observation in the test set.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{PredictionSurv$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}

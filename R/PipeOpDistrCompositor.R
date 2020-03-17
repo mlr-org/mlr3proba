@@ -1,8 +1,5 @@
 #' @title PipeOpDistrCompositor
-#'
-#' @usage NULL
 #' @aliases mlr_pipeops_distrcompose
-#' @format [`R6Class`] inheriting from [`PipeOp`].
 #'
 #' @description
 #' Estimates (or 'composes') a survival distribution from a predicted baseline `distr` and a
@@ -16,14 +13,14 @@
 #' These assumptions are strong and may not be reasonable. Future updates will upgrade this
 #' compositor to be more flexible.
 #'
-#' @section Construction:
+#' @section Dictionary:
+#' This [PipeOp][mlr3pipelines::PipeOp] can be instantiated via the [dictionary][mlr3misc::Dictionary]
+#' [mlr3pipelines::mlr_pipeops] or with the associated sugar function [mlr3pipelines::po()]:
 #' ```
-#' PipeOpDistrCompositor$new(id = "distrcompose", param_vals = list())
+#' PipeOpDistrCompositor$new()
+#' mlr_pipeops$get("distrcompose")
+#' po("distrcompose")
 #' ```
-#' * `id` :: `character(1)` \cr
-#'   Identifier of the resulting  object, default `"distrcompose"`.
-#' * `param_vals` :: named `list` \cr
-#'   List of hyperparameter settings, overwriting the hyperparameter settings that would otherwise be set during construction. Default `list()`.
 #'
 #' @section Input and Output Channels:
 #' [PipeOpDistrCompositor] has two input channels, "base" and "pred". Both input channels take
@@ -61,10 +58,10 @@
 #' assumed to be the `lp` - **this may be a strong and unreasonable assumption.**
 #'
 #' @section Fields:
-#' Only fields inherited from [PipeOp].
+#' Only fields inherited from [PipeOp][mlr3pipelines::PipeOp].
 #'
 #' @section Methods:
-#' Only methods inherited from [PipeOp].
+#' Only methods inherited from [PipeOp][mlr3pipelines::PipeOp].
 #'
 #' @seealso [mlr3pipelines::PipeOp] and [distrcompositor]
 #' @export
@@ -104,6 +101,14 @@
 PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
   inherit = PipeOp,
   public = list(
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param id (`character(1)`)\cr
+    #'   Identifier of the resulting  object.
+    #' @param param_vals (`list()`)\cr
+    #'   List of hyperparameter settings, overwriting the hyperparameter settings that would
+    #'   otherwise be set during construction.
     initialize = function(id = "distrcompose", param_vals = list(form = "aft", overwrite = FALSE)) {
       super$initialize(id = id,
                        param_set = ParamSet$new(params = list(
@@ -115,10 +120,20 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
                        output = data.table(name = "output", train = "NULL", predict = "PredictionSurv"),
                        packages = "distr6")
       },
+
+    #' @description train_internal
+    #' Internal `train` function, will be moved to `private` in a near-future update, should be ignored.
+    #' @param inputs
+    #' Ignore.
     train_internal = function(inputs) {
       self$state = list()
       list(NULL)
     },
+
+    #' @description predict_internal
+    #' Internal `predict` function, will be moved to `private` in a near-future update, should be ignored.
+    #' @param inputs
+    #' Ignore.
     predict_internal = function(inputs) {
       base = inputs$base
       inpred = inputs$pred

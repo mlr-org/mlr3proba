@@ -5,6 +5,8 @@
 #' @templateVar pars eps = 1e-15
 #' @templateVar eps_par TRUE
 #'
+#' @template param_eps
+#'
 #' @description
 #' Calculates the cross-entropy, or logarithmic (log), loss.
 #'
@@ -12,16 +14,13 @@
 #' density function, \eqn{f}, evaluated at the observed value, \eqn{y},
 #' \deqn{L(f, y) = -log(f(y))}
 #'
-#' @section Fields:
-#' As well as
-#' * eps :: numeric(1) \cr
-#' Very small number to set zero-valued predicted probabilities to, in order to prevent errors in log(0) calculation.
-#'
 #' @family Density estimation measures
 #' @export
 MeasureDensLogloss = R6::R6Class("MeasureDensLogloss",
   inherit = MeasureDens,
   public = list(
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(eps = 1e-15) {
       super$initialize(
         id = "dens.logloss",
@@ -36,6 +35,8 @@ MeasureDensLogloss = R6::R6Class("MeasureDensLogloss",
   ),
 
   active = list(
+    #' @field eps
+    #' Returns `eps` parameter, see `initialize`.
     eps = function(eps){
       if(missing(eps))
         return(private$.eps)

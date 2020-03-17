@@ -3,37 +3,11 @@
 \name{PredictionDens}
 \alias{PredictionDens}
 \title{Prediction Object for Density}
-\format{\link[R6:R6Class]{R6::R6Class} object inheriting from \link[mlr3:Prediction]{mlr3::Prediction}.}
 \description{
 This object stores the predictions returned by a learner of class \link{LearnerDens}.
 
 The \code{task_type} is set to \code{"dens"}.
 }
-\section{Construction}{
-\preformatted{p = PredictionDens$new(task = NULL, row_ids = task$row_ids, truth = task$truth(),
-pdf = pdf, cdf = cdf)
-}
-\itemize{
-\item \code{task} :: \link{TaskDens}\cr
-Task, used to extract defaults for \code{row_ids} and \code{truth}.
-\item \code{row_ids} :: (\code{integer()} | \code{character()})\cr
-Row ids of the task. Per default, these are extracted from the \code{task}.
-\item \code{truth} :: \code{numeric()}\cr
-Observed sample. Per default, these are extracted from the \code{task}.
-\item \code{pdf} :: \code{numeric()}\cr
-Probability density function evaluated at the given points in the test set.
-\item \code{cdf} :: \code{numeric()}\cr
-Cumulative distribution function evaluated at the given points in the test set.
-}
-}
-
-\section{Fields}{
-
-See \link[mlr3:Prediction]{mlr3::Prediction}.
-
-The field \code{task_type} is set to \code{"dens"}.
-}
-
 \examples{
 library(mlr3)
 task = mlr_tasks$get("precip")
@@ -46,3 +20,91 @@ Other Prediction:
 \code{\link{PredictionSurv}}
 }
 \concept{Prediction}
+\section{Super class}{
+\code{\link[mlr3:Prediction]{mlr3::Prediction}} -> \code{PredictionDens}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{pdf}}{(\code{numeric()})\cr
+Access the stored predicted probability density function.}
+
+\item{\code{cdf}}{(\code{numeric()})\cr
+Access the stored predicted cumulative distribution function.}
+
+\item{\code{missing}}{(\code{integer()})\cr
+Returns \code{row_ids} for which the predictions are missing or incomplete.}
+}
+\if{html}{\out{</div>}}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{PredictionDens$new()}}
+\item \href{#method-clone}{\code{PredictionDens$clone()}}
+}
+}
+\if{html}{
+\out{<details open ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="format">}\href{../../mlr3/html/Prediction.html#method-format}{\code{mlr3::Prediction$format()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="help">}\href{../../mlr3/html/Prediction.html#method-help}{\code{mlr3::Prediction$help()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="print">}\href{../../mlr3/html/Prediction.html#method-print}{\code{mlr3::Prediction$print()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="score">}\href{../../mlr3/html/Prediction.html#method-score}{\code{mlr3::Prediction$score()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{PredictionDens$new(
+  task = NULL,
+  row_ids = task$row_ids,
+  truth = task$truth(),
+  pdf = NULL,
+  cdf = NULL
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{task}}{(\link{TaskSurv})\cr
+Task, used to extract defaults for \code{row_ids} and \code{truth}.}
+
+\item{\code{row_ids}}{(\code{integer()})\cr
+Row ids of the predicted observations, i.e. the row ids of the test set.}
+
+\item{\code{truth}}{(\code{numeric()})\cr
+True (observed) response.}
+
+\item{\code{pdf}}{(\code{numeric()})\cr
+Numeric vector of estimated probability density function, evaluated at 'target' column of test set.
+One element for each observation in the test set.}
+
+\item{\code{cdf}}{(\code{numeric()})\cr
+Numeric vector of estimated cumulative distribution function, evaluated at 'target' column of test set.
+One element for each observation in the test set.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{PredictionDens$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}

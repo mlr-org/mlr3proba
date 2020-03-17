@@ -1,15 +1,6 @@
 #' @title Survival Task Generator for Package 'simsurv'
 #'
-#' @usage NULL
-#' @aliases mlr_task_generators_simsurv
-#' @format [R6::R6Class] inheriting from [mlr3::TaskGenerator].
-#'
-#' @section Construction:
-#' ```
-#' TaskGeneratorSimsurv$new()
-#' mlr_task_generators$get("simsurv")
-#' tgen("simsurv")
-#' ```
+#' @name mlr_task_generators_simsurv
 #'
 #' @description
 #' A [mlr3::TaskGenerator] calling [simsurv::simsurv()] from package \CRANpkg{simsurv}.
@@ -22,6 +13,9 @@
 #'
 #' See [simsurv::simsurv()] for an explanation of the hyperparameters.
 #'
+#' @templateVar id simsurv
+#' @template section_dictionary_task_generator
+#'
 #' @template seealso_task_generator
 #' @export
 #' @examples
@@ -31,6 +25,7 @@
 TaskGeneratorSimsurv = R6Class("TaskGeneratorSimsurv",
   inherit = TaskGenerator,
   public = list(
+    #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       ps = ParamSet$new(list(
         ParamFct$new("dist", levels = c("weibull", "exponential", "gompertz"), default = "weibull"),

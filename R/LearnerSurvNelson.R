@@ -3,6 +3,7 @@
 #' @templateVar fullname LearnerSurvNelson
 #' @templateVar caller [survival::survfit()]
 #' @templateVar distr by estimating the cumulative hazard function with [survival::survfit()]
+#' @description
 #'
 #' @references
 #' \cite{mlr3proba}{nelson_1969}
@@ -14,6 +15,8 @@
 #' @export
 LearnerSurvNelson = R6Class("LearnerSurvNelson", inherit = LearnerSurv,
   public = list(
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       super$initialize(
         id = "surv.nelson",

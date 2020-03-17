@@ -1,8 +1,6 @@
 #' @template surv_measure
 #' @templateVar title Xu and O'Quigley's R2
-#' @templateVar inherit [MeasureSurv]
 #' @templateVar fullname MeasureSurvXuR2
-#' @templateVar shortname surv.xuR2
 #' @description
 #' Calls [survAUC::XO()].
 #'
@@ -19,6 +17,7 @@
 MeasureSurvXuR2 = R6Class("MeasureSurvXuR2",
   inherit = MeasureSurv,
   public = list(
+    #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       super$initialize(
         id = "surv.xuR2",

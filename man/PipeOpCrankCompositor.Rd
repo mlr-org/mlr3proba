@@ -4,18 +4,15 @@
 \alias{PipeOpCrankCompositor}
 \alias{mlr_pipeops_crankcompose}
 \title{PipeOpCrankCompositor}
-\format{\code{\link{R6Class}} inheriting from \code{\link{PipeOp}}.}
 \description{
 Uses a predicted \code{distr} in a \link{PredictionSurv} to estimate (or 'compose') a \code{crank} prediction.
 }
-\section{Construction}{
-\preformatted{PipeOpCrankCompositor$new(id = "crankcompose", param_vals = list(method = "mean"))
-}
-\itemize{
-\item \code{id} :: \code{character(1)} \cr
-Identifier of the resulting  object, default \code{"crankcompose"}.
-\item \code{param_vals} :: named \code{list} \cr
-List of hyperparameter settings, overwriting the hyperparameter settings that would otherwise be set during construction. Default \code{list(method = "mean")}.
+\section{Dictionary}{
+
+This \link[mlr3pipelines:PipeOp]{PipeOp} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3pipelines:mlr_pipeops]{mlr3pipelines::mlr_pipeops} or with the associated sugar function \code{\link[mlr3pipelines:po]{mlr3pipelines::po()}}:\preformatted{PipeOpCrankCompositor$new()
+mlr_pipeops$get("crankcompose")
+po("crankcompose")
 }
 }
 
@@ -56,12 +53,12 @@ using \link[distr6:median.Distribution]{distr6::median.Distribution}, \link[dist
 
 \section{Fields}{
 
-Only fields inherited from \link{PipeOp}.
+Only fields inherited from \link[mlr3pipelines:PipeOp]{PipeOp}.
 }
 
 \section{Methods}{
 
-Only methods inherited from \link{PipeOp}.
+Only fields inherited from \link[mlr3pipelines:PipeOp]{PipeOp}.
 }
 
 \examples{
@@ -100,3 +97,99 @@ Other survival compositors:
 \code{\link{PipeOpDistrCompositor}}
 }
 \concept{survival compositors}
+\section{Super class}{
+\code{\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}} -> \code{PipeOpCrankCompositor}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{PipeOpCrankCompositor$new()}}
+\item \href{#method-train_internal}{\code{PipeOpCrankCompositor$train_internal()}}
+\item \href{#method-predict_internal}{\code{PipeOpCrankCompositor$predict_internal()}}
+\item \href{#method-clone}{\code{PipeOpCrankCompositor$clone()}}
+}
+}
+\if{html}{
+\out{<details open ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="predict">}\href{../../mlr3pipelines/html/PipeOp.html#method-predict}{\code{mlr3pipelines::PipeOp$predict()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="print">}\href{../../mlr3pipelines/html/PipeOp.html#method-print}{\code{mlr3pipelines::PipeOp$print()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="train">}\href{../../mlr3pipelines/html/PipeOp.html#method-train}{\code{mlr3pipelines::PipeOp$train()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{PipeOpCrankCompositor$new(
+  id = "crankcompose",
+  param_vals = list(method = "mean")
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{(\code{character(1)})\cr
+Identifier of the resulting  object.}
+
+\item{\code{param_vals}}{(\code{list()})\cr
+List of hyperparameter settings, overwriting the hyperparameter settings that would
+otherwise be set during construction.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-train_internal"></a>}}
+\subsection{Method \code{train_internal()}}{
+train_internal
+Internal \code{train} function, will be moved to \code{private} in a near-future update, should be ignored.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{PipeOpCrankCompositor$train_internal(inputs)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{inputs}}{Ignore.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-predict_internal"></a>}}
+\subsection{Method \code{predict_internal()}}{
+predict_internal
+Internal \code{predict} function, will be moved to \code{private} in a near-future update, should be ignored.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{PipeOpCrankCompositor$predict_internal(inputs)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{inputs}}{Ignore.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{PipeOpCrankCompositor$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}

@@ -6,9 +6,11 @@
 #' @export
 LearnerDensLogspline<- R6::R6Class("LearnerDensLogspline", inherit = LearnerDens,
   public = list(
-    initialize = function(id = "dens.logspline"){
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    initialize = function(){
     super$initialize(
-      id = id,
+      id = "dens.logspline",
       param_set = ParamSet$new(list(
         ParamDbl$new(id = "lbound", tags = "train"),
         ParamDbl$new(id = "ubound", tags = "train"),

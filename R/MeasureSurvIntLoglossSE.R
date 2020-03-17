@@ -1,21 +1,15 @@
 #' @template surv_measure
 #' @templateVar title Standard Error of Integrated Log loss
-#' @templateVar inherit `MeasureSurvIntegrated`/[MeasureSurv]
 #' @templateVar fullname MeasureSurvIntLoglossSE
-#' @templateVar pars integrated = TRUE, times, eps = 1e-15
-#' @templateVar int_par TRUE
-#' @templateVar times_par TRUE
-#' @templateVar eps_par TRUE
 #'
 #' @description
 #' Calculates the standard error of [MeasureSurvIntLogloss].
 #'
 #' @template learner_integratedSE
-#'
-#' @section Fields:
-#' As well as
-#' * eps :: numeric(1) \cr
-#' Very small number to set zero-valued predicted probabilities to, in order to prevent errors in log(0) calculation.
+#' @template param_integrated
+#' @template param_times
+#' @template param_eps
+#' @template field_eps
 #'
 #' @references
 #' \cite{mlr3proba}{graf_1999}
@@ -26,6 +20,8 @@
 MeasureSurvIntLoglossSE = R6::R6Class("MeasureSurvIntLoglossSE",
     inherit = MeasureSurvIntegrated,
     public = list(
+      #' @description
+      #' Creates a new instance of this [R6][R6::R6Class] class.
       initialize = function(integrated = TRUE, times, eps = 1e-15) {
         super$initialize(
           integrated = integrated,

@@ -1,17 +1,14 @@
 #' @template surv_measure
 #' @templateVar title Chambless and Diao's AUC
-#' @templateVar inherit `MeasureSurvAUC`/[MeasureSurv]
 #' @templateVar fullname MeasureSurvChamblessAUC
-#' @templateVar shortname surv.chamblessAUC
-#' @templateVar pars integrated = TRUE, times
-#' @templateVar int_par TRUE
-#' @templateVar times_par TRUE
 #'
 #' @description
 #' Calls [survAUC::AUC.cd()].
 #'
 #' Assumes Cox PH model specification.
 #'
+#' @template param_integrated
+#' @template param_times
 #' @template measure_survAUC
 #'
 #' @references
@@ -23,6 +20,8 @@
 MeasureSurvChamblessAUC = R6Class("MeasureSurvChamblessAUC",
   inherit = MeasureSurvAUC,
   public = list(
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(integrated = TRUE, times) {
       super$initialize(integrated = integrated,
                        times = times,

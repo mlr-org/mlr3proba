@@ -3,6 +3,7 @@
 #' @templateVar fullname LearnerSurvRanger
 #' @templateVar caller [ranger::ranger()]
 #' @templateVar distr using [ranger::predict.ranger()]
+#' @description
 #'
 #' @references
 #' \cite{mlr3proba}{wright_2017}
@@ -12,6 +13,8 @@
 #' @export
 LearnerSurvRanger = R6Class("LearnerSurvRanger", inherit = LearnerSurv,
   public = list(
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       super$initialize(
         id = "surv.ranger",
@@ -46,6 +49,9 @@ LearnerSurvRanger = R6Class("LearnerSurvRanger", inherit = LearnerSurv,
       )
     },
 
+    #' @description
+    #' The importance scores are extracted from the model slot `variable.importance`.
+    #' @return Named `numeric()`.
     importance = function() {
       if (is.null(self$model)) {
         stopf("No model stored")
@@ -57,6 +63,9 @@ LearnerSurvRanger = R6Class("LearnerSurvRanger", inherit = LearnerSurv,
       sort(self$model$variable.importance, decreasing = TRUE)
     },
 
+    #' @description
+    #' The out-of-bag error is extracted from the model slot `prediction.error`.
+    #' @return `numeric(1)`.
     oob_error = function() {
       self$model$prediction.error
     }

@@ -4,10 +4,7 @@
 \alias{MeasureSurvSongTPR}
 \alias{mlr_measures_surv.songTPR}
 \title{Song and Zhou's TPR Survival Measure}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \code{MeasureSurvAUC}/\link{MeasureSurv}.}
 \description{
-
-
 Calls \code{\link[survAUC:sens.sh]{survAUC::sens.sh()}}.
 
 Assumes Cox PH model specification.
@@ -20,15 +17,12 @@ All measures implemented from \CRANpkg{survAUC} should be used with care, we are
 of problems in implementation that sometimes cause fatal errors in R. In future updates these
 measures will all be re-written and implemented directly in \code{mlr3proba}.
 }
-\section{Construction}{
-\preformatted{MeasureSurvSongTPR$new(times = 0, lp_thresh = 0, type = c("incident","cumulative"))
+\section{Dictionary}{
+
+This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvSongTPR$new()
 mlr_measures$get("surv.songTPR")
 msr("surv.songTPR")
-}
-\itemize{
-\item \code{times} :: \code{vector()} \cr If \code{integrate == TRUE} then a vector of time-points over which to integrate the score. If \code{integrate == FALSE} then a single time point at which to return the score. \cr
-\item \code{lp_thresh} :: \code{numeric(1)} \cr Determines where to threshold the linear predictor for calculating the TPR/TNR. \cr
-\item \code{type} :: \code{character(1)} \cr Determines the type of score, one of: \code{'cumulative'}, \code{'incident'}. Default \code{'incident'}. \cr
 }
 }
 
@@ -40,11 +34,6 @@ msr("surv.songTPR")
 \item Minimize: \code{FALSE}
 \item Required prediction: \code{lp}
 }
-}
-
-\section{Fields}{
-
-See \link{MeasureSurv}, as well as all variables passed to the constructor.
 }
 
 \references{
@@ -105,3 +94,80 @@ Other lp survival measures:
 \concept{AUC survival measures}
 \concept{lp survival measures}
 \concept{survival measures}
+\section{Super classes}{
+\code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3proba:MeasureSurv]{mlr3proba::MeasureSurv}} -> \code{\link[mlr3proba:MeasureSurvIntegrated]{mlr3proba::MeasureSurvIntegrated}} -> \code{\link[mlr3proba:MeasureSurvAUC]{mlr3proba::MeasureSurvAUC}} -> \code{MeasureSurvSongTPR}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{lp_thresh}}{\code{numeric(1)}\cr
+Threshold for linear predictor when calculating TPR/TNR.}
+
+\item{\code{type}}{(\code{character(1)})\cr
+Type of measure, one of: \code{'cumulative'}, \code{'incident'}.}
+}
+\if{html}{\out{</div>}}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{MeasureSurvSongTPR$new()}}
+\item \href{#method-clone}{\code{MeasureSurvSongTPR$clone()}}
+}
+}
+\if{html}{
+\out{<details open ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate">}\href{../../mlr3/html/Measure.html#method-aggregate}{\code{mlr3::Measure$aggregate()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format">}\href{../../mlr3/html/Measure.html#method-format}{\code{mlr3::Measure$format()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help">}\href{../../mlr3/html/Measure.html#method-help}{\code{mlr3::Measure$help()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print">}\href{../../mlr3/html/Measure.html#method-print}{\code{mlr3::Measure$print()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score">}\href{../../mlr3/html/Measure.html#method-score}{\code{mlr3::Measure$score()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvSongTPR$new(
+  times = 0,
+  lp_thresh = 0,
+  type = c("incident", "cumulative")
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{times}}{(\code{numeric()})\cr
+If \code{integrate == TRUE} then a vector of time-points over which to integrate the score.
+If \code{integrate == FALSE} then a single time point at which to return the score.}
+
+\item{\code{lp_thresh}}{\code{numeric(1)} \cr
+Determines where to threshold the linear predictor for calculating the TPR/TNR.}
+
+\item{\code{type}}{(\code{character(1)})\cr
+Determines the type of score, one of: \code{'cumulative'}, \code{'incident'}.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvSongTPR$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}

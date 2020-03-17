@@ -1,12 +1,6 @@
 #' @template surv_measure
 #' @templateVar title Uno's AUC
-#' @templateVar alias mlr_measures_surv.unoAUC
-#' @templateVar inherit `MeasureSurvAUC`/[MeasureSurv]
 #' @templateVar fullname MeasureSurvUnoAUC
-#' @templateVar shortname surv.unoAUC
-#' @templateVar pars integrated = TRUE, times
-#' @templateVar int_par TRUE
-#' @templateVar times_par TRUE
 #'
 #' @description
 #' Calls [survAUC::AUC.uno()].
@@ -14,6 +8,8 @@
 #' Assumes random censoring.
 #'
 #' @template measure_survAUC
+#' @template param_integrated
+#' @template param_times
 #'
 #' @references
 #' \cite{mlr3proba}{uno_2007}
@@ -24,6 +20,7 @@
 MeasureSurvUnoAUC = R6Class("MeasureSurvUnoAUC",
   inherit = MeasureSurvAUC,
   public = list(
+    #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(integrated = TRUE, times) {
       super$initialize(integrated = integrated,
                        times = times,

@@ -2,9 +2,12 @@
 % Please edit documentation in R/TaskSurv_unemployment.R
 \name{mlr_tasks_unemployment}
 \alias{mlr_tasks_unemployment}
-\title{Unemployment Duration Task}
+\title{Unemployment Duration Survival Task}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskSurv}.}
 \description{
+A survival task for the \code{UnempDur} data set.
+}
+\details{
 A survival task for the "UnempDur" data set in package \CRANpkg{Ecdat}.
 Contains the following columns of the original data set:
 "spell" (time), "censor1" (status), "age", "ui", "logwage", and "tenure".

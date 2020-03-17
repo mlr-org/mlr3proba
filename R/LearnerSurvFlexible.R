@@ -31,6 +31,8 @@
 #' @export
 LearnerSurvFlexible = R6Class("LearnerSurvFlexible", inherit = LearnerSurv,
   public = list(
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       ps = ParamSet$new(
         params = list(

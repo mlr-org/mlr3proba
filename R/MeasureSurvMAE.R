@@ -1,6 +1,5 @@
 #' @template surv_measure
 #' @templateVar title Mean Absolute Error
-#' @templateVar inherit [MeasureSurv]
 #' @templateVar fullname MeasureSurvMAE
 #'
 #' @description
@@ -17,6 +16,7 @@
 MeasureSurvMAE = R6::R6Class("MeasureSurvMAE",
   inherit = MeasureSurv,
   public = list(
+    #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       super$initialize(
         id = "surv.mae",

@@ -1,8 +1,6 @@
 #' @template surv_measure
 #' @templateVar title Uno's C-Index
-#' @templateVar inherit [MeasureSurv]
 #' @templateVar fullname MeasureSurvUnoC
-#' @templateVar shortname surv.unoC
 #'
 #' @description
 #' Calls [survAUC::UnoC()].
@@ -20,6 +18,7 @@
 MeasureSurvUnoC = R6Class("MeasureSurvUnoC",
   inherit = MeasureSurv,
   public = list(
+    #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       super$initialize(
         id = "surv.unoC",

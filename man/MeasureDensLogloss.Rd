@@ -4,26 +4,13 @@
 \alias{MeasureDensLogloss}
 \alias{mlr_measures_dens.logloss}
 \title{Log loss Density Measure}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureDens}.}
 \description{
-
-
 Calculates the cross-entropy, or logarithmic (log), loss.
 
 The logloss, in the context of probabilistic predictions, is defined as the negative log probability
 density function, \eqn{f}, evaluated at the observed value, \eqn{y},
 \deqn{L(f, y) = -log(f(y))}
 }
-\section{Construction}{
-\preformatted{MeasureDensLogloss$new(eps = 1e-15)
-mlr_measures$get("dens.logloss")
-msr("dens.logloss")
-}
-\itemize{
-\item \code{eps} :: \code{numeric(1)} \cr Very small number to set zero-valued predicted probabilities to, in order to prevent errors in log(0) calculation. \cr
-}
-}
-
 \section{Meta Information}{
 
 \itemize{
@@ -34,17 +21,68 @@ msr("dens.logloss")
 }
 }
 
-\section{Fields}{
-
-See \link{MeasureDens}, as well as all variables passed to the constructor.
-
-
-As well as
-\itemize{
-\item eps :: numeric(1) \cr
-Very small number to set zero-valued predicted probabilities to, in order to prevent errors in log(0) calculation.
-}
-}
-
 \concept{Density estimation measures}
 \concept{density measures}
+\section{Super classes}{
+\code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3proba:MeasureDens]{mlr3proba::MeasureDens}} -> \code{MeasureDensLogloss}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{eps}}{Returns \code{eps} parameter, see \code{initialize}.}
+}
+\if{html}{\out{</div>}}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{MeasureDensLogloss$new()}}
+\item \href{#method-clone}{\code{MeasureDensLogloss$clone()}}
+}
+}
+\if{html}{
+\out{<details open ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate">}\href{../../mlr3/html/Measure.html#method-aggregate}{\code{mlr3::Measure$aggregate()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format">}\href{../../mlr3/html/Measure.html#method-format}{\code{mlr3::Measure$format()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help">}\href{../../mlr3/html/Measure.html#method-help}{\code{mlr3::Measure$help()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print">}\href{../../mlr3/html/Measure.html#method-print}{\code{mlr3::Measure$print()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score">}\href{../../mlr3/html/Measure.html#method-score}{\code{mlr3::Measure$score()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MeasureDensLogloss$new(eps = 1e-15)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{eps}}{(\code{numeric(1)})\cr
+Very small number to set zero-valued predicted probabilities to in order to prevent errors
+in log(0) calculation.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MeasureDensLogloss$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}

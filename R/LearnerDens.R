@@ -1,29 +1,22 @@
 #' @title Density Learner
 #'
-#' @usage NULL
-#' @format [R6::R6Class] object inheriting from [Learner].
-#'
 #' @description
-#' This Learner specializes [Learner] for density estimation problems.
+#' This Learner specializes [Learner] for density estimation problems:
 #'
-#' @section Construction:
-#' ```
-#' l = LearnerDens$new(id, param_set = ParamSet$new(), predict_types = "cdf",
-#' feature_types = character(), properties = character(), data_formats = "data.table",
-#' packages = character())
-#' ```
-#' For a description of the arguments, see [Learner].
-#' `task_type` is set to `"dens"`.
+#' * `task_type` is set to `"dens"`
+#' * Creates [Prediction]s of class [PredictionDens].
+#' * Possible values for `predict_types` are:
+#'   - `"pdf"`: Evaluates the estimated probability density function for each value in the test set.
+#'   - `"se"`: Evaluates the estimated cumulative distribution function for each value in the test set.
 #'
-#' Possible values for `predict_types` are passed to and converted by [PredictionDens]:
-#' * `"pdf"`: Evaluates the estimated probability density function for each value in the test set.
-#' * `"cdf"`: Evaluates the estimated cumulative distribution function for each value in the test set.
-#'
-#' @section Fields:
-#' See [Learner].
-#'
-#' @section Methods:
-#' See [Learner].
+#' @template param_id
+#' @template param_param_set
+#' @template param_predict_types
+#' @template param_feature_types
+#' @template param_learner_properties
+#' @template param_data_formats
+#' @template param_packages
+#' @template param_man
 #'
 #' @family Learner
 #' @export
@@ -36,12 +29,16 @@
 #' # get a specific learner from mlr_learners:
 #' mlr_learners$get("dens.hist")
 #' lrn("dens.hist")
-LearnerDens = R6::R6Class("LearnerDens", inherit = Learner)
-LearnerDens$set("public","initialize", function(id, param_set = ParamSet$new(),
-                                                   predict_types = "cdf", feature_types = character(),
-                                                   properties = character(), data_formats = "data.table",
-                                                   packages = character()){
-                             super$initialize(id = id, task_type = "dens", param_set = param_set,
-                                              predict_types = predict_types, feature_types = feature_types, properties = properties,
-                                              data_formats = data_formats, packages = packages)
-                           })
+LearnerDens = R6::R6Class("LearnerDens", inherit = Learner,
+  public = list(
+    #' @description Creates a new instance of this [R6][R6::R6Class] class.
+    initialize = function(id, param_set = ParamSet$new(),
+                          predict_types = "cdf", feature_types = character(),
+                          properties = character(), data_formats = "data.table",
+                          packages = character()){
+      super$initialize(id = id, task_type = "dens", param_set = param_set,
+                       predict_types = predict_types, feature_types = feature_types, properties = properties,
+                       data_formats = data_formats, packages = packages)
+    }
+  )
+)

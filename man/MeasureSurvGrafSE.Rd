@@ -4,10 +4,7 @@
 \alias{MeasureSurvGrafSE}
 \alias{mlr_measures_surv.grafSE}
 \title{Standard Error of Integrated Graf Score Survival Measure}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \code{MeasureSurvIntegrated}/\link{MeasureSurv}.}
 \description{
-
-
 Calculates the standard error of \link{MeasureSurvGraf}.
 
 If \code{integrated == FALSE} then the standard error of the loss, L, is approximated via,
@@ -18,14 +15,12 @@ If \code{integrated == TRUE} then correlations between time-points need to be ta
 \deqn{se(L) = \sqrt{\frac{\sum_{i = 1}^M\sum_{j=1}^M \Sigma_{i,j}}{NT^2}}}{se(L) = \sqrt((\sum_{i = 1}^M\sum_{j=1}^M cov(T_i, T_j)) / (NT^2))}
 where \eqn{\Sigma_{i, j}}{cov(T_i, T_j)} is the sample covariance matrix over \eqn{M} distinct time-points.
 }
-\section{Construction}{
-\preformatted{MeasureSurvGrafSE$new(integrated = TRUE, times)
+\section{Dictionary}{
+
+This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvGrafSE$new()
 mlr_measures$get("surv.grafSE")
 msr("surv.grafSE")
-}
-\itemize{
-\item \code{integrated} :: \code{logical(1)} \cr If \code{TRUE} (default), returns the integrated score; otherwise, not integrated. \cr
-\item \code{times} :: \code{vector()} \cr If \code{integrate == TRUE} then a vector of time-points over which to integrate the score. If \code{integrate == FALSE} then a single time point at which to return the score. \cr
 }
 }
 
@@ -37,11 +32,6 @@ msr("surv.grafSE")
 \item Minimize: \code{TRUE}
 \item Required prediction: \code{distr}
 }
-}
-
-\section{Fields}{
-
-See \link{MeasureSurv}, as well as all variables passed to the constructor.
 }
 
 \references{
@@ -93,3 +83,62 @@ Other distr survival measures:
 \concept{Probabilistic survival measures}
 \concept{distr survival measures}
 \concept{survival measures}
+\section{Super classes}{
+\code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3proba:MeasureSurv]{mlr3proba::MeasureSurv}} -> \code{\link[mlr3proba:MeasureSurvIntegrated]{mlr3proba::MeasureSurvIntegrated}} -> \code{MeasureSurvGrafSE}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{MeasureSurvGrafSE$new()}}
+\item \href{#method-clone}{\code{MeasureSurvGrafSE$clone()}}
+}
+}
+\if{html}{
+\out{<details open ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate">}\href{../../mlr3/html/Measure.html#method-aggregate}{\code{mlr3::Measure$aggregate()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format">}\href{../../mlr3/html/Measure.html#method-format}{\code{mlr3::Measure$format()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help">}\href{../../mlr3/html/Measure.html#method-help}{\code{mlr3::Measure$help()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print">}\href{../../mlr3/html/Measure.html#method-print}{\code{mlr3::Measure$print()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score">}\href{../../mlr3/html/Measure.html#method-score}{\code{mlr3::Measure$score()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvGrafSE$new(integrated = TRUE, times)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{integrated}}{(\code{logical(1)})\cr
+If \code{TRUE} (default), returns the integrated score; otherwise, not integrated.}
+
+\item{\code{times}}{(\code{numeric()})\cr
+If \code{integrate == TRUE} then a vector of time-points over which to integrate the score.
+If \code{integrate == FALSE} then a single time point at which to return the score.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvGrafSE$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}

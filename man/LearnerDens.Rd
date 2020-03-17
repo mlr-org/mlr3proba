@@ -3,36 +3,18 @@
 \name{LearnerDens}
 \alias{LearnerDens}
 \title{Density Learner}
-\format{\link[R6:R6Class]{R6::R6Class} object inheriting from \link{Learner}.}
 \description{
-This Learner specializes \link{Learner} for density estimation problems.
-}
-\section{Construction}{
-\preformatted{l = LearnerDens$new(id, param_set = ParamSet$new(), predict_types = "cdf",
-feature_types = character(), properties = character(), data_formats = "data.table",
-packages = character())
-}
-
-For a description of the arguments, see \link{Learner}.
-\code{task_type} is set to \code{"dens"}.
-
-Possible values for \code{predict_types} are passed to and converted by \link{PredictionDens}:
+This Learner specializes \link{Learner} for density estimation problems:
+\itemize{
+\item \code{task_type} is set to \code{"dens"}
+\item Creates \link{Prediction}s of class \link{PredictionDens}.
+\item Possible values for \code{predict_types} are:
 \itemize{
 \item \code{"pdf"}: Evaluates the estimated probability density function for each value in the test set.
-\item \code{"cdf"}: Evaluates the estimated cumulative distribution function for each value in the test set.
+\item \code{"se"}: Evaluates the estimated cumulative distribution function for each value in the test set.
 }
 }
-
-\section{Fields}{
-
-See \link{Learner}.
 }
-
-\section{Methods}{
-
-See \link{Learner}.
-}
-
 \examples{
 library(mlr3)
 # get all density learners from mlr_learners:
@@ -48,3 +30,98 @@ Other Learner:
 \code{\link{LearnerSurv}}
 }
 \concept{Learner}
+\section{Super class}{
+\code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{LearnerDens}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{LearnerDens$new()}}
+\item \href{#method-clone}{\code{LearnerDens$clone()}}
+}
+}
+\if{html}{
+\out{<details ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="format">}\href{../../mlr3/html/Learner.html#method-format}{\code{mlr3::Learner$format()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="help">}\href{../../mlr3/html/Learner.html#method-help}{\code{mlr3::Learner$help()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict">}\href{../../mlr3/html/Learner.html#method-predict}{\code{mlr3::Learner$predict()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict_newdata">}\href{../../mlr3/html/Learner.html#method-predict_newdata}{\code{mlr3::Learner$predict_newdata()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="print">}\href{../../mlr3/html/Learner.html#method-print}{\code{mlr3::Learner$print()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="reset">}\href{../../mlr3/html/Learner.html#method-reset}{\code{mlr3::Learner$reset()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="train">}\href{../../mlr3/html/Learner.html#method-train}{\code{mlr3::Learner$train()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerDens$new(
+  id,
+  param_set = ParamSet$new(),
+  predict_types = "cdf",
+  feature_types = character(),
+  properties = character(),
+  data_formats = "data.table",
+  packages = character()
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{(\code{character(1)})\cr
+Identifier for the new instance.}
+
+\item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
+Set of hyperparameters.}
+
+\item{\code{predict_types}}{(\code{character()})\cr
+Supported predict types. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.}
+
+\item{\code{feature_types}}{(\code{character()})\cr
+Feature types the learner operates on. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.}
+
+\item{\code{properties}}{(\code{character()})\cr
+Set of properties of the \link{Learner}.
+Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.
+The following properties are currently standardized and understood by learners in \CRANpkg{mlr3}:
+\itemize{
+\item \code{"missings"}: The learner can handle missing values in the data.
+\item \code{"weights"}: The learner supports observation weights.
+\item \code{"importance"}: The learner supports extraction of importance scores, i.e. comes with an \verb{$importance()} extractor function (see section on optional extractors in \link{Learner}).
+\item \code{"selected_features"}: The learner supports extraction of the set of selected features, i.e. comes with a \verb{$selected_features()} extractor function (see section on optional extractors in \link{Learner}).
+\item \code{"oob_error"}: The learner supports extraction of estimated out of bag error, i.e. comes with a \code{oob_error()} extractor function (see section on optional extractors in \link{Learner}).
+}}
+
+\item{\code{data_formats}}{(\code{character()})\cr
+Set of supported data formats which can be processed during \verb{$train()} and \verb{$predict()},
+e.g. \code{"data.table"}.}
+
+\item{\code{packages}}{(\code{character()})\cr
+Set of required packages.
+A warning is signaled by the constructor if at least one of the packages is not installed,
+but loaded (not attached) later on-demand via \code{\link[=requireNamespace]{requireNamespace()}}.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerDens$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}

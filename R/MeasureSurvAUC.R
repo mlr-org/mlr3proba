@@ -1,7 +1,17 @@
+#' @title Abstract Class for survAUC Measures
+#' @description This is an abstract class that should not be constructed directly.
 #' @include MeasureSurvIntegrated.R
+#'
+#' @template param_integrated
+#' @template param_times
+#' @template param_id
+#' @template param_measure_properties
+#' @export
 MeasureSurvAUC = R6Class("MeasureSurvAUC",
   inherit = MeasureSurvIntegrated,
   public = list(
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(integrated = TRUE, times, id, properties) {
       if(class(self)[[1]] == "MeasureSurvAUC")
         stop("This is an abstract class that should not be constructed directly.")

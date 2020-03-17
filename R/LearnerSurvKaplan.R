@@ -4,12 +4,17 @@
 #' @templateVar caller [survival::survfit()]
 #' @templateVar distr by estimating the survival function with [survival::survfit()]
 #'
+#' @description
+#'
+#'
 #' @references
 #' \cite{mlr3proba}{kaplan_1958}
 #'
 #' @export
 LearnerSurvKaplan = R6Class("LearnerSurvKaplan", inherit = LearnerSurv,
   public = list(
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       super$initialize(
         id = "surv.kaplan",

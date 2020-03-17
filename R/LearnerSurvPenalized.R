@@ -29,6 +29,8 @@
 #' learner$model@unpenalized
 LearnerSurvPenalized = R6Class("LearnerSurvPenalized", inherit = LearnerSurv,
   public = list(
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       super$initialize(
         id = "surv.penalized",
@@ -55,6 +57,9 @@ LearnerSurvPenalized = R6Class("LearnerSurvPenalized", inherit = LearnerSurv,
         )
       },
 
+    #' @description
+    #' The importance scores are extracted from the model slot `variable.importance`.
+    #' @return Named `numeric()`.
     importance = function() {
       if (is.null(self$model))
         stopf("No model stored")
@@ -62,7 +67,7 @@ LearnerSurvPenalized = R6Class("LearnerSurvPenalized", inherit = LearnerSurv,
       # importance defined by decreasing fitted weights
       sort(self$model@weights, decreasing = TRUE)
       }
-    ),
+  ),
 
   private = list(
     .train = function(task) {

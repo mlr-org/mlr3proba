@@ -81,7 +81,7 @@ ByteCompile: true
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
-Roxygen: list(markdown = TRUE, r6 = FALSE)
+Roxygen: list(markdown = TRUE, r6 = TRUE)
 RoxygenNote: 7.0.2
 RdMacros: mlr3misc
 Collate:
@@ -159,6 +159,7 @@ Collate:
     'PredictionProbreg.R'
     'PredictionSurv.R'
     'TaskDens.R'
+    'TaskDens_faithful.R'
     'TaskDens_precip.R'
     'TaskGeneratorSimdens.R'
     'TaskGeneratorSimsurv.R'

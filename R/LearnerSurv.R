@@ -1,44 +1,42 @@
 #' @title Survival Learner
 #'
-#' @usage NULL
-#' @format [R6::R6Class] object inheriting from [mlr3::Learner].
-#'
 #' @description
-#' This Learner specializes [mlr3::Learner] for survival problems.
-#' Predefined learners can be found in the [mlr3misc::Dictionary] [mlr3::mlr_learners].
+#' This Learner specializes [Learner] for survival problems:
 #'
-#' @section Construction:
-#' ```
-#' LearnerSurv$new(id, param_set = ParamSet$new(),
-#'      predict_types = character(),
-#'      feature_types = character(), properties = character(),
-#'      packages = character())
-#' ```
-#' For a description of the arguments, see [mlr3::Learner].
-#' `task_type` is set to `"surv"`.
-#' Possible values for `predict_type` are `"distr"`, `"lp"`, `"crank"`, and `"response"`.
+#' * `task_type` is set to `"surv"`
+#' * Creates [Prediction]s of class [PredictionSurv].
+#' * Possible values for `predict_types` are:
+#'   - `"distr"`: Predicts a probability distribution for each observation in the test set, uses \CRANpkg{distr6}.
+#'   - `"lp"`: Predicts a linear predictor for each observation in the test set.
+#'   - `"crank"`: Predicts a continuous ranking for each observation in the test set.
+#'   - `"response"`: Predicts a survival time for each observation in the test set.
 #'
-#' @section Fields:
-#' See [mlr3::Learner].
-#'
-#' @section Methods:
-#' See [mlr3::Learner].
+#' @template param_id
+#' @template param_param_set
+#' @template param_predict_types
+#' @template param_feature_types
+#' @template param_learner_properties
+#' @template param_data_formats
+#' @template param_packages
+#' @template param_man
 #'
 #' @family Learner
 #' @export
 #' @examples
 #' library(mlr3)
-#' ids = mlr_learners$keys("^surv")
-#' ids
+#' # get all survival learners from mlr_learners:
+#' lrns = mlr_learners$mget(mlr_learners$keys("^surv"))
+#' names(lrns)
 #'
 #' # get a specific learner from mlr_learners:
-#' lrn = mlr_learners$get("surv.rpart")
-#' print(lrn)
+#' mlr_learners$get("surv.coxph")
+#' lrn("surv.coxph")
 LearnerSurv = R6Class("LearnerSurv", inherit = Learner,
-                      public = list(
-                        initialize = function(id, param_set = ParamSet$new(), predict_types = "distr", feature_types = character(), properties = character(), packages = character()) {
-                          super$initialize(id = id, task_type = "surv", param_set = param_set, predict_types = predict_types,
-                                           feature_types = feature_types, properties = properties, packages = packages)
-                        }
-                      )
+  public = list(
+    #' @description Creates a new instance of this [R6][R6::R6Class] class.
+    initialize = function(id, param_set = ParamSet$new(), predict_types = "distr", feature_types = character(), properties = character(), packages = character()) {
+      super$initialize(id = id, task_type = "surv", param_set = param_set, predict_types = predict_types,
+                       feature_types = feature_types, properties = properties, packages = packages)
+    }
+  )
 )

@@ -1,12 +1,11 @@
 #' @template surv_measure
 #' @templateVar title Song and Zhou's AUC
-#' @templateVar inherit `MeasureSurvAUC`/[MeasureSurv]
 #' @templateVar fullname MeasureSurvSongAUC
-#' @templateVar shortname surv.songAUC
-#' @templateVar pars integrated = TRUE, times, type = c("incident","cumulative")
-#' @templateVar int_par TRUE
-#' @templateVar times_par TRUE
-#' @templateVar type_par TRUE
+#'
+#' @template param_integrated
+#' @template param_times
+#' @template param_measure_type
+#' @template field_measure_type
 #'
 #' @description
 #' Calls [survAUC::AUC.sh()].
@@ -24,6 +23,7 @@
 MeasureSurvSongAUC = R6Class("MeasureSurvSongAUC",
   inherit = MeasureSurvAUC,
   public = list(
+    #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(integrated = TRUE, times, type = c("incident","cumulative")) {
       super$initialize(integrated = integrated,
                        times = times,

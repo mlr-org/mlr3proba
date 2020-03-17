@@ -1,6 +1,19 @@
+#' @title Abstract Class for Integrated Measures
+#' @description This is an abstract class that should not be constructed directly.
+#' @template param_integrated
+#' @template param_times
+#' @template param_method
+#' @template param_id
+#' @template param_range
+#' @template param_minimize
+#' @template param_packages
+#' @template param_predict_type
+#' @template param_measure_properties
+#' @export
 MeasureSurvIntegrated = R6Class("MeasureSurvIntegrated",
   inherit = MeasureSurv,
   public = list(
+    #' @description This is an abstract class that should not be constructed directly.
     initialize = function(integrated = TRUE, times, method = 2, id, range, minimize, packages, predict_type, properties) {
       if(class(self)[[1]] == "MeasureSurvIntegrated")
         stop("This is an abstract class that should not be constructed directly.")
@@ -38,6 +51,9 @@ MeasureSurvIntegrated = R6Class("MeasureSurvIntegrated",
   ),
 
   active = list(
+    #' @field integrated `(logical(1))`
+    #' Returns if the measure should be integrated or not.
+    #' Settable.
     integrated = function(integrated){
       if(missing(integrated)){
         return(private$.integrated)
@@ -51,6 +67,9 @@ MeasureSurvIntegrated = R6Class("MeasureSurvIntegrated",
       }
     },
 
+    #' @field times `(numeric())`
+    #' Returns the times at which the measure should be evaluated at, or integrated over.
+    #' Settable.
     times = function(times){
       if (!missing(times)) {
         if (!self$integrated) {
@@ -66,12 +85,15 @@ MeasureSurvIntegrated = R6Class("MeasureSurvIntegrated",
       }
     },
 
+    #' @field method `(integer(1))`
+    #' Returns which method is used for approximating integration.
+    #' Settable.
     method = function(method){
       if(missing(method)){
         return(private$.method)
       } else {
         assertNumeric(method, 1, 2, any.missing = FALSE, all.missing = FALSE)
-        private$.method = method
+        private$.method = as.integer(method)
       }
     }
   ),
@@ -79,6 +101,6 @@ MeasureSurvIntegrated = R6Class("MeasureSurvIntegrated",
   private = list(
     .integrated = logical(),
     .times = numeric(),
-    .method = numeric()
+    .method = integer()
   )
 )
