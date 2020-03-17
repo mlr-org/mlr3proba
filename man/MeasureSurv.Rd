@@ -3,35 +3,17 @@
 \name{MeasureSurv}
 \alias{MeasureSurv}
 \title{Survival Measure}
-\format{\link[R6:R6Class]{R6::R6Class} object inheriting from \link[mlr3:Measure]{mlr3::Measure}.}
 \description{
-This measure specializes \link[mlr3:Measure]{mlr3::Measure} for survival problems.
-Predefined measures can be found in the \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} \link[mlr3:mlr_measures]{mlr3::mlr_measures}.
-}
-\section{Construction}{
-\preformatted{MeasureSurv$new(id, range, minimize, aggregator = NULL,
-                properties = character(), predict_type = "distr",
-                task_properties = character(), packages = character())
+This measure specializes \link[mlr3:Measure]{Measure} for survival problems.
+\itemize{
+\item \code{task_type} is set to \code{"surv"}.
+\item Possible values for \code{predict_type} are \code{"distr"}, \code{"lp"}, \code{"crank"}, and \code{"response"}.
 }
 
-For a description of the arguments, see \link[mlr3:Measure]{mlr3::Measure}.
-The \code{task_type} is set to \code{"surv"}.
-Possible values for \code{predict_type} are \code{"distr"}, \code{"lp"}, \code{"crank"}, and \code{"response"}.
+Predefined measures can be found in the \link[mlr3misc:Dictionary]{dictionary} \link[mlr3:mlr_measures]{mlr3::mlr_measures}.
 }
-
-\section{Fields}{
-
-See \link{Measure}.
-}
-
-\section{Methods}{
-
-See \link{Measure}.
-}
-
 \seealso{
-Example survival measures: \code{\link[=MeasureSurvGraf]{surv.graf}},
-\code{\link[=MeasureSurvHarrellC]{surv.harrellC}}.
+Default survival measures: \code{\link[=mlr_measures_surv.harrellC]{surv.harrellC}}
 
 Other Measure: 
 \code{\link{MeasureDens}}
@@ -60,6 +42,7 @@ Other Measure:
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
 \subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MeasureSurv$new(
   id,
@@ -73,5 +56,49 @@ Other Measure:
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{(\code{character(1)})\cr
+Identifier for the new instance.}
+
+\item{\code{range}}{(\code{numeric(2)})\cr
+Feasible range for this measure as \code{c(lower_bound, upper_bound)}.
+Both bounds may be infinite.}
+
+\item{\code{minimize}}{(\code{logical(1)})\cr
+Set to \code{TRUE} if good predictions correspond to small values,
+and to \code{FALSE} if good predictions correspond to large values.
+If set to \code{NA} (default), tuning this measure is not possible.}
+
+\item{\code{aggregator}}{(\verb{function(x)})\cr
+Function to aggregate individual performance scores \code{x} where \code{x} is a numeric vector.
+If \code{NULL}, defaults to \code{\link[=mean]{mean()}}.}
+
+\item{\code{properties}}{(\code{character()})\cr
+Properties of the measure.
+Must be a subset of \link[=mlr_reflections]{mlr_reflections$measure_properties}.
+Supported by \code{mlr3}:
+\itemize{
+\item \code{"requires_task"} (requires the complete \link{Task}),
+\item \code{"requires_learner"} (requires the trained \link{Learner}),
+\item \code{"requires_train_set"} (requires the training indices from the \link{Resampling}), and
+\item \code{"na_score"} (the measure is expected to occasionally return \code{NA} or \code{NaN}).
+}}
+
+\item{\code{predict_type}}{(\code{character(1)})\cr
+Required predict type of the \link{Learner}.
+Possible values are stored in \link[=mlr_reflections]{mlr_reflections$learner_predict_types}.}
+
+\item{\code{task_properties}}{(\code{character()})\cr
+Required task properties, see \link{Task}.}
+
+\item{\code{packages}}{(\code{character()})\cr
+Set of required packages.
+A warning is signaled by the constructor if at least one of the packages is not installed,
+but loaded (not attached) later on-demand via \code{\link[=requireNamespace]{requireNamespace()}}.}
+}
+\if{html}{\out{</div>}}
+}
 }
 }
