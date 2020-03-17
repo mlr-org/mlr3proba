@@ -1,7 +1,6 @@
 #' @title Abstract Class for survAUC Measures
+#' @description This is an abstract class that should not be constructed directly.
 #' @include MeasureSurvIntegrated.R
-#' @template surv_measure
-#' @templateVar meas
 #'
 #' @template param_integrated
 #' @template param_times

@@ -5,8 +5,6 @@
 \alias{mlr_measures_surv.mae}
 \title{Mean Absolute Error Survival Measure}
 \description{
-
-
 Calculates the mean absolute error (MAE).
 
 The MAE is defined by

@@ -5,8 +5,6 @@
 \alias{mlr_measures_surv.songAUC}
 \title{Song and Zhou's AUC Survival Measure}
 \description{
-
-
 Calls \code{\link[survAUC:AUC.sh]{survAUC::AUC.sh()}}.
 
 Assumes Cox PH model specification.

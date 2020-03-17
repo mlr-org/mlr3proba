@@ -5,8 +5,6 @@
 \alias{mlr_measures_surv.grafSE}
 \title{Standard Error of Integrated Graf Score Survival Measure}
 \description{
-
-
 Calculates the standard error of \link{MeasureSurvGraf}.
 
 If \code{integrated == FALSE} then the standard error of the loss, L, is approximated via,

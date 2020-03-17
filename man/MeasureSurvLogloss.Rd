@@ -5,8 +5,6 @@
 \alias{mlr_measures_surv.logloss}
 \title{Log loss Survival Measure}
 \description{
-
-
 Calculates the cross-entropy, or logarithmic (log), loss.
 
 The logloss, in the context of probabilistic predictions, is defined as the negative log probability
@@ -86,7 +84,7 @@ Other distr survival measures:
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{eps}}{(\code{numeric(1)}) \cr
+\item{\code{eps}}{(\code{numeric(1)})\cr
 Very small number used to prevent log(0) error.}
 }
 \if{html}{\out{</div>}}

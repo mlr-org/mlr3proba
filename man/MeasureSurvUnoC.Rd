@@ -5,8 +5,6 @@
 \alias{mlr_measures_surv.unoC}
 \title{Uno's C-Index Survival Measure}
 \description{
-
-
 Calls \code{\link[survAUC:UnoC]{survAUC::UnoC()}}.
 
 Assumes random censoring.

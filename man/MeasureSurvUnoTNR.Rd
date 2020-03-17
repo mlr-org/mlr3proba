@@ -5,8 +5,6 @@
 \alias{mlr_measures_surv.unoTNR}
 \title{Uno's TNR Survival Measure}
 \description{
-
-
 Calls \code{\link[survAUC:spec.uno]{survAUC::spec.uno()}}.
 
 Assumes random censoring.

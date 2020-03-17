@@ -4,9 +4,7 @@
 \alias{MeasureSurvAUC}
 \title{Abstract Class for survAUC Measures}
 \description{
-Abstract Class for survAUC Measures
-
-Abstract Class for survAUC Measures
+This is an abstract class that should not be constructed directly.
 }
 \section{Super classes}{
 \code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3proba:MeasureSurv]{mlr3proba::MeasureSurv}} -> \code{\link[mlr3proba:MeasureSurvIntegrated]{mlr3proba::MeasureSurvIntegrated}} -> \code{MeasureSurvAUC}

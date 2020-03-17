@@ -5,8 +5,6 @@
 \alias{mlr_measures_surv.beggC}
 \title{Begg's C-Index Survival Measure}
 \description{
-
-
 Calls \code{\link[survAUC:BeggC]{survAUC::BeggC()}}.
 
 Assumes Cox PH model specification.

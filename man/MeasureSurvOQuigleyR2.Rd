@@ -5,8 +5,6 @@
 \alias{mlr_measures_surv.oquigleyR2}
 \title{O'Quigley, Xu, and Stare's R2 Survival Measure}
 \description{
-
-
 Calls \code{\link[survAUC:OXS]{survAUC::OXS()}}.
 
 Assumes Cox PH model specification.

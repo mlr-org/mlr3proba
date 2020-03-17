@@ -5,8 +5,6 @@
 \alias{mlr_measures_surv.loglossSE}
 \title{Standard Error of Log loss Survival Measure}
 \description{
-
-
 Calculates the standard error of \link{MeasureSurvLogloss}.
 
 The standard error of the Logloss, L, is approximated via,

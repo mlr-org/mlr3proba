@@ -5,8 +5,6 @@
 \alias{mlr_measures_surv.rmse}
 \title{Root Mean Squared Error Survival Measure}
 \description{
-
-
 Calculates the root mean squared error (RMSE).
 
 The RMSE is defined by

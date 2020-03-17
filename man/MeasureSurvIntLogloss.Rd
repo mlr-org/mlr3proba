@@ -5,8 +5,6 @@
 \alias{mlr_measures_surv.intlogloss}
 \title{Integrated Log loss Survival Measure}
 \description{
-
-
 Calculates the integrated logarithmic (log), loss, aka integrated cross entropy.
 
 For an individual who dies at time \eqn{t}, with predicted Survival function, \eqn{S}, the
@@ -99,7 +97,7 @@ Other distr survival measures:
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{eps}}{(\code{numeric(1)}) \cr
+\item{\code{eps}}{(\code{numeric(1)})\cr
 Very small number used to prevent log(0) error.}
 }
 \if{html}{\out{</div>}}

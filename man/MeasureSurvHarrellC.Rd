@@ -5,8 +5,6 @@
 \alias{mlr_measures_surv.harrellC}
 \title{Harrell's C-Index Survival Measure}
 \description{
-
-
 Calculates Harrell's C, equivalent to the Fortran implementation in \CRANpkg{Hmisc}.
 }
 \section{Dictionary}{

@@ -5,8 +5,6 @@
 \alias{mlr_measures_surv.maeSE}
 \title{Standard Error of Mean Absolute Error Survival Measure}
 \description{
-
-
 Calculates the standard error of \link{MeasureSurvMAE}.
 
 The standard error of the MAE, L, is approximated via

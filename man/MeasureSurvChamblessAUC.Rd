@@ -5,8 +5,6 @@
 \alias{mlr_measures_surv.chamblessAUC}
 \title{Chambless and Diao's AUC Survival Measure}
 \description{
-
-
 Calls \code{\link[survAUC:AUC.cd]{survAUC::AUC.cd()}}.
 
 Assumes Cox PH model specification.

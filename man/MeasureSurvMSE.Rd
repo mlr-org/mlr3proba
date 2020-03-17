@@ -5,8 +5,6 @@
 \alias{mlr_measures_surv.mse}
 \title{Mean Squared Error Survival Measure}
 \description{
-
-
 Calculates the mean squared error (MSE).
 
 The MSE is defined by

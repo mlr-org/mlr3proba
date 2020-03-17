@@ -5,8 +5,6 @@
 \alias{mlr_measures_surv.songTPR}
 \title{Song and Zhou's TPR Survival Measure}
 \description{
-
-
 Calls \code{\link[survAUC:sens.sh]{survAUC::sens.sh()}}.
 
 Assumes Cox PH model specification.

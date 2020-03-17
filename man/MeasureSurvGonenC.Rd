@@ -5,8 +5,6 @@
 \alias{mlr_measures_surv.gonenC}
 \title{Gonen and Heller's C-Index Survival Measure}
 \description{
-
-
 Calls \code{\link[survAUC:GHCI]{survAUC::GHCI()}}.
 
 Assumes Cox PH model specification.

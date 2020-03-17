@@ -7,8 +7,6 @@
 \alias{mlr_measures_surv.brier}
 \title{Integrated Graf Score Survival Measure}
 \description{
-
-
 Calculates the Integrated Graf Score, aka integrated Brier score or squared loss.
 
 For an individual who dies at time \eqn{t}, with predicted Survival function, \eqn{S}, the

@@ -5,8 +5,6 @@
 \alias{mlr_measures_surv.hungAUC}
 \title{Hung and Chiang's AUC Survival Measure}
 \description{
-
-
 Calls \code{\link[survAUC:AUC.hc]{survAUC::AUC.hc()}}.
 
 Assumes random censoring.

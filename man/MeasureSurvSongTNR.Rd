@@ -5,8 +5,6 @@
 \alias{mlr_measures_surv.songTNR}
 \title{Song and Zhou's TNR Survival Measure}
 \description{
-
-
 Calls \code{\link[survAUC:spec.sh]{survAUC::spec.sh()}}.
 
 Assumes Cox PH model specification.

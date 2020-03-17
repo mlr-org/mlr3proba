@@ -5,8 +5,6 @@
 \alias{mlr_measures_surv.mseSE}
 \title{Standard Error of Mean Squared Error Survival Measure}
 \description{
-
-
 Calculates the standard error of \link{MeasureSurvMSE}.
 
 The standard error of the MSE, L, is approximated via

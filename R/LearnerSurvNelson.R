@@ -14,7 +14,8 @@
 #' @export
 LearnerSurvNelson = R6Class("LearnerSurvNelson", inherit = LearnerSurv,
   public = list(
-    #' @description Creates a new instance of this [R6][R6::R6Class] class.
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       super$initialize(
         id = "surv.nelson",

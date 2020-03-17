@@ -5,8 +5,6 @@
 \alias{mlr_measures_surv.rmseSE}
 \title{Standard Error of Root Mean Squared Error Survival Measure}
 \description{
-
-
 Calculates the standard error of \link{MeasureSurvRMSE}.
 
 The standard error of the RMSE, L, is approximated via first order approximation by

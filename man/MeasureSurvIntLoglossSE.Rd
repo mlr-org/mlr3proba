@@ -5,8 +5,6 @@
 \alias{mlr_measures_surv.intloglossSE}
 \title{Standard Error of Integrated Log loss Survival Measure}
 \description{
-
-
 Calculates the standard error of \link{MeasureSurvIntLogloss}.
 
 If \code{integrated == FALSE} then the standard error of the loss, L, is approximated via,
@@ -91,7 +89,7 @@ Other distr survival measures:
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{eps}}{(\code{numeric(1)}) \cr
+\item{\code{eps}}{(\code{numeric(1)})\cr
 Very small number used to prevent log(0) error.}
 }
 \if{html}{\out{</div>}}

@@ -5,8 +5,6 @@
 \alias{mlr_measures_surv.unoAUC}
 \title{Uno's AUC Survival Measure}
 \description{
-
-
 Calls \code{\link[survAUC:AUC.uno]{survAUC::AUC.uno()}}.
 
 Assumes random censoring.
