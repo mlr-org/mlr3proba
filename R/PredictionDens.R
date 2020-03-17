@@ -1,38 +1,9 @@
 #' @title Prediction Object for Density
 #'
-#' @usage NULL
-#' @format [R6::R6Class] object inheriting from [mlr3::Prediction].
-#'
 #' @description
 #' This object stores the predictions returned by a learner of class [LearnerDens].
 #'
 #' The `task_type` is set to `"dens"`.
-#'
-#' @section Construction:
-#' ```
-#' p = PredictionDens$new(task = NULL, row_ids = task$row_ids, truth = task$truth(),
-#' pdf = pdf, cdf = cdf)
-#' ```
-#'
-#' * `task` :: [TaskDens]\cr
-#'   Task, used to extract defaults for `row_ids` and `truth`.
-#'
-#' * `row_ids` :: (`integer()` | `character()`)\cr
-#'   Row ids of the task. Per default, these are extracted from the `task`.
-#'
-#' * `truth` :: `numeric()`\cr
-#'   Observed sample. Per default, these are extracted from the `task`.
-#'
-#' * `pdf` :: `numeric()`\cr
-#'   Probability density function evaluated at the given points in the test set.
-#'
-#' * `cdf` :: `numeric()`\cr
-#'   Cumulative distribution function evaluated at the given points in the test set.
-#'
-#' @section Fields:
-#' See [mlr3::Prediction].
-#'
-#' The field `task_type` is set to `"dens"`.
 #'
 #' @family Prediction
 #' @export
@@ -42,8 +13,29 @@
 #' learner = mlr_learners$get("dens.hist")
 #' p = learner$train(task)$predict(task)
 #' head(as.data.table(p))
+
+
 PredictionDens = R6Class("PredictionDens", inherit = Prediction,
   public = list(
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param task ([TaskSurv])\cr
+    #'   Task, used to extract defaults for `row_ids` and `truth`.
+    #'
+    #' @param row_ids (`integer()`)\cr
+    #'   Row ids of the predicted observations, i.e. the row ids of the test set.
+    #'
+    #' @param truth (`numeric()`)\cr
+    #'   True (observed) response.
+    #'
+    #' @param pdf (`numeric()`)\cr
+    #'   Numeric vector of estimated probability density function, evaluated at 'target' column of test set.
+    #'   One element for each observation in the test set.
+    #'
+    #' @param cdf (`numeric()`)\cr
+    #'   Numeric vector of estimated cumulative distribution function, evaluated at 'target' column of test set.
+    #'   One element for each observation in the test set.
     initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), pdf = NULL, cdf = NULL) {
       assert_row_ids(row_ids)
       n = length(row_ids)
@@ -68,14 +60,20 @@ PredictionDens = R6Class("PredictionDens", inherit = Prediction,
   ),
 
   active = list(
+    #' @field pdf (`numeric()`)\cr
+    #' Access the stored predicted probability density function.
     pdf = function() {
       self$data$tab$pdf %??% rep(NA_real_, length(self$data$row_ids))
     },
 
+    #' @field cdf (`numeric()`)\cr
+    #' Access the stored predicted cumulative distribution function.
     cdf = function() {
       self$data$tab$cdf %??% rep(NA_real_, length(self$data$row_ids))
     },
 
+    #' @field missing (`integer()`)\cr
+    #' Returns `row_ids` for which the predictions are missing or incomplete.
     missing = function() {
       miss = logical(nrow(self$data$tab))
 
