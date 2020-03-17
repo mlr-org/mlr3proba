@@ -3,6 +3,7 @@
 #' @templateVar fullname LearnerSurvRanger
 #' @templateVar caller [ranger::ranger()]
 #' @templateVar distr using [ranger::predict.ranger()]
+#' @description
 #'
 #' @references
 #' \cite{mlr3proba}{wright_2017}

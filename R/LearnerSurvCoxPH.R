@@ -4,6 +4,8 @@
 #' @templateVar caller [survival::coxph()]
 #' @templateVar distr by [survival::survfit.coxph()]
 #' @templateVar lp by [survival::predict.coxph()]
+#' @description
+#'
 #'
 #' @references
 #' \cite{mlr3proba}{cox_1972}

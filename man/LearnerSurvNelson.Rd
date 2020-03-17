@@ -10,6 +10,8 @@ Calls \code{\link[survival:survfit]{survival::survfit()}}.
 \item distr is predicted by estimating the cumulative hazard function with \code{\link[survival:survfit]{survival::survfit()}}
 \item \code{crank} is predicted as the expectation of the survival distribution, \code{distr}
 }
+
+
 }
 \section{Dictionary}{
 

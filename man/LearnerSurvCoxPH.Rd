@@ -5,9 +5,14 @@
 \alias{mlr_learners_surv.coxph}
 \title{Cox Proportional Hazards Survival Learner}
 \description{
-Cox Proportional Hazards Survival Learner
+Calls \code{\link[survival:coxph]{survival::coxph()}}.
+\itemize{
+\item lp is predicted by \code{\link[survival:predict.coxph]{survival::predict.coxph()}}
+\item distr is predicted by \code{\link[survival:survfit.coxph]{survival::survfit.coxph()}}
+\item \code{crank} is identical to \code{lp}
+}
 
-Cox Proportional Hazards Survival Learner
+
 }
 \section{Dictionary}{
 

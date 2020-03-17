@@ -3,6 +3,7 @@
 #' @templateVar fullname LearnerSurvNelson
 #' @templateVar caller [survival::survfit()]
 #' @templateVar distr by estimating the cumulative hazard function with [survival::survfit()]
+#' @description
 #'
 #' @references
 #' \cite{mlr3proba}{nelson_1969}

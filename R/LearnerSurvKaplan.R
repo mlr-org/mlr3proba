@@ -4,6 +4,9 @@
 #' @templateVar caller [survival::survfit()]
 #' @templateVar distr by estimating the survival function with [survival::survfit()]
 #'
+#' @description
+#'
+#'
 #' @references
 #' \cite{mlr3proba}{kaplan_1958}
 #'

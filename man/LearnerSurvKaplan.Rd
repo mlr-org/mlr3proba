@@ -5,9 +5,13 @@
 \alias{mlr_learners_surv.kaplan}
 \title{Kaplan-Meier Estimator Survival Learner}
 \description{
-Kaplan-Meier Estimator Survival Learner
+Calls \code{\link[survival:survfit]{survival::survfit()}}.
+\itemize{
+\item distr is predicted by estimating the survival function with \code{\link[survival:survfit]{survival::survfit()}}
+\item \code{crank} is predicted as the expectation of the survival distribution, \code{distr}
+}
 
-Kaplan-Meier Estimator Survival Learner
+
 }
 \section{Dictionary}{
 
