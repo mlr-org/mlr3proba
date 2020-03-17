@@ -1,8 +1,6 @@
 #' @template surv_measure
 #' @templateVar title Nagelkerke's R2
-#' @templateVar inherit [MeasureSurv]
 #' @templateVar fullname MeasureSurvNagelkR2
-#' @templateVar shortname surv.nagelkR2
 #' @description
 #' Calls [survAUC::Nagelk()].
 #'

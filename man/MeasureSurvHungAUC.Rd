@@ -4,7 +4,6 @@
 \alias{MeasureSurvHungAUC}
 \alias{mlr_measures_surv.hungAUC}
 \title{Hung and Chiang's AUC Survival Measure}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \code{MeasureSurvAUC}/\link{MeasureSurv}.}
 \description{
 
 
@@ -17,14 +16,12 @@ All measures implemented from \CRANpkg{survAUC} should be used with care, we are
 of problems in implementation that sometimes cause fatal errors in R. In future updates these
 measures will all be re-written and implemented directly in \code{mlr3proba}.
 }
-\section{Construction}{
-\preformatted{MeasureSurvHungAUC$new(integrated = TRUE, times)
+\section{Dictionary}{
+
+This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvHungAUC$new()
 mlr_measures$get("surv.hungAUC")
 msr("surv.hungAUC")
-}
-\itemize{
-\item \code{integrated} :: \code{logical(1)} \cr If \code{TRUE} (default), returns the integrated score; otherwise, not integrated. \cr
-\item \code{times} :: \code{vector()} \cr If \code{integrate == TRUE} then a vector of time-points over which to integrate the score. If \code{integrate == FALSE} then a single time point at which to return the score. \cr
 }
 }
 
@@ -36,11 +33,6 @@ msr("surv.hungAUC")
 \item Minimize: \code{FALSE}
 \item Required prediction: \code{lp}
 }
-}
-
-\section{Fields}{
-
-See \link{MeasureSurv}, as well as all variables passed to the constructor.
 }
 
 \references{
@@ -125,10 +117,23 @@ Other lp survival measures:
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
 \subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MeasureSurvHungAUC$new(integrated = TRUE, times)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{integrated}}{(\code{logical(1)})\cr
+If \code{TRUE} (default), returns the integrated score; otherwise, not integrated.}
+
+\item{\code{times}}{(\code{numeric()})\cr
+If \code{integrate == TRUE} then a vector of time-points over which to integrate the score.
+If \code{integrate == FALSE} then a single time point at which to return the score.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

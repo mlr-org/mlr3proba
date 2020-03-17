@@ -4,7 +4,6 @@
 \alias{MeasureSurvLoglossSE}
 \alias{mlr_measures_surv.loglossSE}
 \title{Standard Error of Log loss Survival Measure}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurvLogloss}/\link{MeasureSurv}.}
 \description{
 
 
@@ -16,13 +15,12 @@ where \eqn{N} are the number of observations in the test set, and \eqn{sd} is th
 
 Censored observations in the test set are ignored.
 }
-\section{Construction}{
-\preformatted{MeasureSurvLoglossSE$new(eps = 1e-15)
+\section{Dictionary}{
+
+This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvLoglossSE$new()
 mlr_measures$get("surv.loglossSE")
 msr("surv.loglossSE")
-}
-\itemize{
-\item \code{eps} :: \code{numeric(1)} \cr Very small number to set zero-valued predicted probabilities to, in order to prevent errors in log(0) calculation. \cr
 }
 }
 
@@ -34,11 +32,6 @@ msr("surv.loglossSE")
 \item Minimize: \code{TRUE}
 \item Required prediction: \code{distr}
 }
-}
-
-\section{Fields}{
-
-See \link{MeasureSurv}, as well as all variables passed to the constructor.
 }
 
 \seealso{
@@ -111,10 +104,20 @@ Other distr survival measures:
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
 \subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MeasureSurvLoglossSE$new(eps = 1e-15)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{eps}}{(\code{numeric(1)})\cr
+Very small number to set zero-valued predicted probabilities to in order to prevent errors
+in log(0) calculation.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

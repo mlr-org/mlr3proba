@@ -1,8 +1,6 @@
 #' @template surv_measure
 #' @templateVar title O'Quigley, Xu, and Stare's R2
-#' @templateVar inherit [MeasureSurv]
 #' @templateVar fullname MeasureSurvOQuigleyR2
-#' @templateVar shortname surv.oquigleyR2
 #' @description
 #' Calls [survAUC::OXS()].
 #'

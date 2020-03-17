@@ -4,7 +4,6 @@
 \alias{MeasureSurvGrafSE}
 \alias{mlr_measures_surv.grafSE}
 \title{Standard Error of Integrated Graf Score Survival Measure}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \code{MeasureSurvIntegrated}/\link{MeasureSurv}.}
 \description{
 
 
@@ -18,14 +17,12 @@ If \code{integrated == TRUE} then correlations between time-points need to be ta
 \deqn{se(L) = \sqrt{\frac{\sum_{i = 1}^M\sum_{j=1}^M \Sigma_{i,j}}{NT^2}}}{se(L) = \sqrt((\sum_{i = 1}^M\sum_{j=1}^M cov(T_i, T_j)) / (NT^2))}
 where \eqn{\Sigma_{i, j}}{cov(T_i, T_j)} is the sample covariance matrix over \eqn{M} distinct time-points.
 }
-\section{Construction}{
-\preformatted{MeasureSurvGrafSE$new(integrated = TRUE, times)
+\section{Dictionary}{
+
+This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvGrafSE$new()
 mlr_measures$get("surv.grafSE")
 msr("surv.grafSE")
-}
-\itemize{
-\item \code{integrated} :: \code{logical(1)} \cr If \code{TRUE} (default), returns the integrated score; otherwise, not integrated. \cr
-\item \code{times} :: \code{vector()} \cr If \code{integrate == TRUE} then a vector of time-points over which to integrate the score. If \code{integrate == FALSE} then a single time point at which to return the score. \cr
 }
 }
 
@@ -37,11 +34,6 @@ msr("surv.grafSE")
 \item Minimize: \code{TRUE}
 \item Required prediction: \code{distr}
 }
-}
-
-\section{Fields}{
-
-See \link{MeasureSurv}, as well as all variables passed to the constructor.
 }
 
 \references{
@@ -117,10 +109,23 @@ Other distr survival measures:
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
 \subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MeasureSurvGrafSE$new(integrated = TRUE, times)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{integrated}}{(\code{logical(1)})\cr
+If \code{TRUE} (default), returns the integrated score; otherwise, not integrated.}
+
+\item{\code{times}}{(\code{numeric()})\cr
+If \code{integrate == TRUE} then a vector of time-points over which to integrate the score.
+If \code{integrate == FALSE} then a single time point at which to return the score.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

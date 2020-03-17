@@ -1,6 +1,5 @@
 #' @template surv_measure
 #' @templateVar title Standard Error of Mean Absolute Error
-#' @templateVar inherit [MeasureSurv]
 #' @templateVar fullname MeasureSurvMAESE
 #'
 #' @description

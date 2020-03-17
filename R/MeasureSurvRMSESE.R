@@ -1,6 +1,5 @@
 #' @template surv_measure
 #' @templateVar title Standard Error of Root Mean Squared Error
-#' @templateVar inherit [MeasureSurv]
 #' @templateVar fullname MeasureSurvRMSESE
 #'
 #' @description

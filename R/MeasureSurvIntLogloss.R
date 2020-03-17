@@ -1,12 +1,6 @@
 #' @template surv_measure
 #' @templateVar title Integrated Log loss
-#' @templateVar inherit `MeasureSurvIntegrated`/[MeasureSurv]
 #' @templateVar fullname MeasureSurvIntLogloss
-#' @templateVar pars integrated = TRUE, times, eps = 1e-15, method = 2
-#' @templateVar int_par TRUE
-#' @templateVar times_par TRUE
-#' @templateVar eps_par TRUE
-#' @templateVar meth_par TRUE
 #'
 #' @description
 #' Calculates the integrated logarithmic (log), loss, aka integrated cross entropy.
@@ -17,11 +11,11 @@
 #' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
 #'
 #' @template measure_integrated
-#'
-#' @section Fields:
-#' As well as
-#' * eps :: numeric(1) \cr
-#' Very small number to set zero-valued predicted probabilities to, in order to prevent errors in log(0) calculation.
+#' @template param_integrated
+#' @template param_times
+#' @template param_eps
+#' @template field_eps
+#' @template param_method
 #'
 #' @references
 #' \cite{mlr3proba}{graf_1999}
@@ -32,6 +26,8 @@
 MeasureSurvIntLogloss = R6::R6Class("MeasureSurvIntLogloss",
   inherit = MeasureSurvIntegrated,
   public = list(
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(integrated = TRUE, times, eps = 1e-15, method = 2) {
       super$initialize(
         integrated = integrated,

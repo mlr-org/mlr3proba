@@ -4,14 +4,15 @@
 \alias{MeasureSurvHarrellC}
 \alias{mlr_measures_surv.harrellC}
 \title{Harrell's C-Index Survival Measure}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurv}.}
 \description{
 
 
 Calculates Harrell's C, equivalent to the Fortran implementation in \CRANpkg{Hmisc}.
 }
-\section{Construction}{
-\preformatted{MeasureSurvHarrellC$new()
+\section{Dictionary}{
+
+This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvHarrellC$new()
 mlr_measures$get("surv.harrellC")
 msr("surv.harrellC")
 }
@@ -25,11 +26,6 @@ msr("surv.harrellC")
 \item Minimize: \code{FALSE}
 \item Required prediction: \code{crank}
 }
-}
-
-\section{Fields}{
-
-See \link{MeasureSurv}, as well as all variables passed to the constructor.
 }
 
 \references{

@@ -4,7 +4,6 @@
 \alias{MeasureSurvMSE}
 \alias{mlr_measures_surv.mse}
 \title{Mean Squared Error Survival Measure}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurv}.}
 \description{
 
 
@@ -16,8 +15,10 @@ where \eqn{t} is the true value and \eqn{\hat{t}}{t*} is the prediction.
 
 Censored observations in the test set are ignored.
 }
-\section{Construction}{
-\preformatted{MeasureSurvMSE$new()
+\section{Dictionary}{
+
+This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvMSE$new()
 mlr_measures$get("surv.mse")
 msr("surv.mse")
 }
@@ -31,11 +32,6 @@ msr("surv.mse")
 \item Minimize: \code{TRUE}
 \item Required prediction: \code{response}
 }
-}
-
-\section{Fields}{
-
-See \link{MeasureSurv}, as well as all variables passed to the constructor.
 }
 
 \seealso{

@@ -1,11 +1,6 @@
 #' @template surv_measure
 #' @templateVar title Hung and Chiang's AUC
-#' @templateVar inherit `MeasureSurvAUC`/[MeasureSurv]
 #' @templateVar fullname MeasureSurvHungAUC
-#' @templateVar shortname surv.hungAUC
-#' @templateVar pars integrated = TRUE, times
-#' @templateVar int_par TRUE
-#' @templateVar times_par TRUE
 #'
 #' @description
 #' Calls [survAUC::AUC.hc()].
@@ -13,6 +8,8 @@
 #' Assumes random censoring.
 #'
 #' @template measure_survAUC
+#' @template param_integrated
+#' @template param_times
 #'
 #' @references
 #' \cite{mlr3proba}{hung_2010}
@@ -23,6 +20,7 @@
 MeasureSurvHungAUC = R6Class("MeasureSurvHungAUC",
   inherit = MeasureSurvAUC,
   public = list(
+    #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(integrated = TRUE, times) {
       super$initialize(integrated = integrated,
                        times = times,

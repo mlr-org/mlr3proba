@@ -1,11 +1,6 @@
 #' @template surv_measure
 #' @templateVar title Integrated Graf Score
-#' @templateVar inherit `MeasureSurvIntegrated`/[MeasureSurv]
 #' @templateVar fullname MeasureSurvGraf
-#' @templateVar pars integrated = TRUE, times, method = 2
-#' @templateVar int_par TRUE
-#' @templateVar times_par TRUE
-#' @templateVar meth_par TRUE
 #'
 #' @aliases MeasureSurvBrier mlr_measures_surv.brier
 #'
@@ -23,6 +18,9 @@
 #' Whereas some other packages use `prodlim` with `reverse = TRUE` (meaning Kaplan-Meier is not used).
 #'
 #' @template measure_integrated
+#' @template param_integrated
+#' @template param_times
+#' @template param_method
 #'
 #' @references
 #' \cite{mlr3proba}{graf_1999}
@@ -33,6 +31,8 @@
 MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
   inherit = MeasureSurvIntegrated,
   public = list(
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(integrated = TRUE, times, method = 2) {
       super$initialize(
         integrated = integrated,

@@ -1,8 +1,6 @@
 #' @template surv_measure
 #' @templateVar title Uno's C-Index
-#' @templateVar inherit [MeasureSurv]
 #' @templateVar fullname MeasureSurvUnoC
-#' @templateVar shortname surv.unoC
 #'
 #' @description
 #' Calls [survAUC::UnoC()].

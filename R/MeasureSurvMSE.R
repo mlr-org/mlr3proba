@@ -1,6 +1,5 @@
 #' @template surv_measure
 #' @templateVar title Mean Squared Error
-#' @templateVar inherit [MeasureSurv]
 #' @templateVar fullname MeasureSurvMSE
 #'
 #' @description

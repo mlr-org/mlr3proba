@@ -6,7 +6,6 @@
 \alias{MeasureSurvBrier}
 \alias{mlr_measures_surv.brier}
 \title{Integrated Graf Score Survival Measure}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \code{MeasureSurvIntegrated}/\link{MeasureSurv}.}
 \description{
 
 
@@ -28,18 +27,17 @@ score is given by
 where \eqn{N} is the number of observations, \eqn{S_i} is the predicted survival function for
 individual \eqn{i} and \eqn{t_i} is their true survival time.
 
-If \code{integrated == TRUE} then an approximation to integration is made by taking the mean over all
-\eqn{T} unique time-points, and then the sample mean over all \eqn{N} observations.
+If \code{integrated == TRUE} then an approximation to integration is made by either taking the sample
+mean over all \eqn{T} unique time-points (\code{method == 1}), or by taking a mean weighted by the difference
+between time-points (\code{method == 2}). Then the sample mean is taken over all \eqn{N} observations.
 \deqn{L(S) = \frac{1}{NT} \sum_{i=1}^N \sum_{j=1}^T L(S_i,t_i|t^*_j)}{L(S) = 1/(NT) \sum_i^N \sum_j^T L(S_i,t_i|t*_j)}
 }
-\section{Construction}{
-\preformatted{MeasureSurvGraf$new(integrated = TRUE, times, method = 2)
+\section{Dictionary}{
+
+This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvGraf$new()
 mlr_measures$get("surv.graf")
 msr("surv.graf")
-}
-\itemize{
-\item \code{integrated} :: \code{logical(1)} \cr If \code{TRUE} (default), returns the integrated score; otherwise, not integrated. \cr
-\item \code{times} :: \code{vector()} \cr If \code{integrate == TRUE} then a vector of time-points over which to integrate the score. If \code{integrate == FALSE} then a single time point at which to return the score. \cr
 }
 }
 
@@ -51,11 +49,6 @@ msr("surv.graf")
 \item Minimize: \code{TRUE}
 \item Required prediction: \code{distr}
 }
-}
-
-\section{Fields}{
-
-See \link{MeasureSurv}, as well as all variables passed to the constructor.
 }
 
 \references{
@@ -131,10 +124,29 @@ Other distr survival measures:
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
 \subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MeasureSurvGraf$new(integrated = TRUE, times, method = 2)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{integrated}}{(\code{logical(1)})\cr
+If \code{TRUE} (default), returns the integrated score; otherwise, not integrated.}
+
+\item{\code{times}}{(\code{numeric()})\cr
+If \code{integrate == TRUE} then a vector of time-points over which to integrate the score.
+If \code{integrate == FALSE} then a single time point at which to return the score.}
+
+\item{\code{method}}{(\code{integer(1)})\cr
+If \code{integrate == TRUE} selects the integration weighting method.
+\code{method == 1} corresponds to weighting each time-point equally and taking the mean score over
+discrete time-points. \code{method == 2} corresponds to calculating a mean weighted by the difference
+between time-points. \code{method == 2} is default to be in line with other packages.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

@@ -1,10 +1,6 @@
 #' @template surv_measure
 #' @templateVar title Log loss
-#' @templateVar inherit [MeasureSurv]
 #' @templateVar fullname MeasureSurvLogloss
-#' @templateVar shortname surv.logloss
-#' @templateVar pars eps = 1e-15
-#' @templateVar eps_par TRUE
 #'
 #' @description
 #' Calculates the cross-entropy, or logarithmic (log), loss.
@@ -15,10 +11,9 @@
 #'
 #' Censored observations in the test set are ignored.
 #'
-#' @section Fields:
-#' As well as
-#' * eps :: numeric(1) \cr
-#' Very small number to set zero-valued predicted probabilities to, in order to prevent errors in log(0) calculation.
+#' @template param_id
+#' @template param_eps
+#' @template field_eps
 #'
 #' @family Probabilistic survival measures
 #' @family distr survival measures
@@ -26,6 +21,8 @@
 MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
   inherit = MeasureSurv,
   public = list(
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(eps = 1e-15, id = "surv.logloss") {
       super$initialize(
         id = id,

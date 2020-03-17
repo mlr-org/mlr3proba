@@ -1,11 +1,6 @@
 #' @template surv_measure
 #' @templateVar title Song and Zhou's TNR
-#' @templateVar inherit `MeasureSurvAUC`/[MeasureSurv]
 #' @templateVar fullname MeasureSurvSongTNR
-#' @templateVar shortname surv.songTNR
-#' @templateVar pars times = 0, lp_thresh = 0
-#' @templateVar times_par TRUE
-#' @templateVar thresh_par TRUE
 #'
 #' @description
 #' Calls [survAUC::spec.sh()].
@@ -16,6 +11,9 @@
 #' specified.
 #'
 #' @template measure_survAUC
+#' @template param_times
+#' @template param_thresh
+#' @template field_thresh
 #'
 #' @references
 #' \cite{mlr3proba}{song_2008}
@@ -26,6 +24,7 @@
 MeasureSurvSongTNR = R6Class("MeasureSurvSongTNR",
   inherit = MeasureSurvAUC,
   public = list(
+    #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(times = 0, lp_thresh = 0) {
 
       assertNumeric(times, len = 1)

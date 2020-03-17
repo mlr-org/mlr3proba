@@ -4,7 +4,6 @@
 \alias{MeasureSurvXuR2}
 \alias{mlr_measures_surv.xuR2}
 \title{Xu and O'Quigley's R2 Survival Measure}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurv}.}
 \description{
 
 
@@ -17,8 +16,10 @@ All measures implemented from \CRANpkg{survAUC} should be used with care, we are
 of problems in implementation that sometimes cause fatal errors in R. In future updates these
 measures will all be re-written and implemented directly in \code{mlr3proba}.
 }
-\section{Construction}{
-\preformatted{MeasureSurvXuR2$new()
+\section{Dictionary}{
+
+This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvXuR2$new()
 mlr_measures$get("surv.xuR2")
 msr("surv.xuR2")
 }
@@ -32,11 +33,6 @@ msr("surv.xuR2")
 \item Minimize: \code{FALSE}
 \item Required prediction: \code{lp}
 }
-}
-
-\section{Fields}{
-
-See \link{MeasureSurv}, as well as all variables passed to the constructor.
 }
 
 \references{

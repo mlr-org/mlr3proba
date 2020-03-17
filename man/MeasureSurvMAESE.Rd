@@ -4,7 +4,6 @@
 \alias{MeasureSurvMAESE}
 \alias{mlr_measures_surv.maeSE}
 \title{Standard Error of Mean Absolute Error Survival Measure}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurv}.}
 \description{
 
 
@@ -15,8 +14,10 @@ The standard error of the MAE, L, is approximated via
 
 Censored observations in the test set are ignored.
 }
-\section{Construction}{
-\preformatted{MeasureSurvMAESE$new()
+\section{Dictionary}{
+
+This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvMAESE$new()
 mlr_measures$get("surv.maeSE")
 msr("surv.maeSE")
 }
@@ -30,11 +31,6 @@ msr("surv.maeSE")
 \item Minimize: \code{TRUE}
 \item Required prediction: \code{response}
 }
-}
-
-\section{Fields}{
-
-See \link{MeasureSurv}, as well as all variables passed to the constructor.
 }
 
 \seealso{

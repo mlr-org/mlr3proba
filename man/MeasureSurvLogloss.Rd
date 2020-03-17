@@ -4,7 +4,6 @@
 \alias{MeasureSurvLogloss}
 \alias{mlr_measures_surv.logloss}
 \title{Log loss Survival Measure}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureSurv}.}
 \description{
 
 
@@ -16,13 +15,12 @@ density function, \eqn{f}, evaluated at the observation time, \eqn{t},
 
 Censored observations in the test set are ignored.
 }
-\section{Construction}{
-\preformatted{MeasureSurvLogloss$new(eps = 1e-15)
+\section{Dictionary}{
+
+This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvLogloss$new()
 mlr_measures$get("surv.logloss")
 msr("surv.logloss")
-}
-\itemize{
-\item \code{eps} :: \code{numeric(1)} \cr Very small number to set zero-valued predicted probabilities to, in order to prevent errors in log(0) calculation. \cr
 }
 }
 
@@ -33,18 +31,6 @@ msr("surv.logloss")
 \item Range: \eqn{[0, \infty)}{[0, Inf)}
 \item Minimize: \code{TRUE}
 \item Required prediction: \code{distr}
-}
-}
-
-\section{Fields}{
-
-See \link{MeasureSurv}, as well as all variables passed to the constructor.
-
-
-As well as
-\itemize{
-\item eps :: numeric(1) \cr
-Very small number to set zero-valued predicted probabilities to, in order to prevent errors in log(0) calculation.
 }
 }
 
@@ -97,6 +83,14 @@ Other distr survival measures:
 \section{Super classes}{
 \code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3proba:MeasureSurv]{mlr3proba::MeasureSurv}} -> \code{MeasureSurvLogloss}
 }
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{eps}}{(\code{numeric(1)}) \cr
+Very small number used to prevent log(0) error.}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
@@ -118,10 +112,23 @@ Other distr survival measures:
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
 \subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MeasureSurvLogloss$new(eps = 1e-15, id = "surv.logloss")}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{eps}}{(\code{numeric(1)})\cr
+Very small number to set zero-valued predicted probabilities to in order to prevent errors
+in log(0) calculation.}
+
+\item{\code{id}}{(\code{character(1)})\cr
+Identifier for the new instance.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
