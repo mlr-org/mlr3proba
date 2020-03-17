@@ -104,10 +104,14 @@ Named \code{numeric()}.
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-oob_error"></a>}}
 \subsection{Method \code{oob_error()}}{
+The out-of-bag error is extracted from the model slot \code{prediction.error}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{LearnerSurvRanger$oob_error()}\if{html}{\out{</div>}}
 }
 
+\subsection{Returns}{
+\code{numeric(1)}.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

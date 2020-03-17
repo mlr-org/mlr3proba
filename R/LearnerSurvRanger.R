@@ -61,6 +61,9 @@ LearnerSurvRanger = R6Class("LearnerSurvRanger", inherit = LearnerSurv,
       sort(self$model$variable.importance, decreasing = TRUE)
     },
 
+    #' @description
+    #' The out-of-bag error is extracted from the model slot `prediction.error`.
+    #' @return `numeric(1)`.
     oob_error = function() {
       self$model$prediction.error
     }

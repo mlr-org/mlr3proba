@@ -102,6 +102,9 @@ Other lp survival measures:
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{lp_thresh}}{\code{numeric(1)}\cr
+Threshold for linear predictor when calculating TPR/TNR.}
+
 \item{\code{type}}{(\code{character(1)})\cr
 Type of measure, one of: \code{'cumulative'}, \code{'incident'}.}
 }
@@ -143,6 +146,9 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \item{\code{times}}{(\code{numeric()})\cr
 If \code{integrate == TRUE} then a vector of time-points over which to integrate the score.
 If \code{integrate == FALSE} then a single time point at which to return the score.}
+
+\item{\code{lp_thresh}}{\code{numeric(1)} \cr
+Determines where to threshold the linear predictor for calculating the TPR/TNR.}
 
 \item{\code{type}}{(\code{character(1)})\cr
 Determines the type of score, one of: \code{'cumulative'}, \code{'incident'}.}
