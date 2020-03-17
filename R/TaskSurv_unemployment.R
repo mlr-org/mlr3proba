@@ -4,7 +4,7 @@
 #' @templateVar type Surv
 #' @templateVar ftype survival
 #' @templateVar id unemployment
-#' @templateVar data unemployment
+#' @templateVar data Ecdat::UnempDur
 #' @details
 #' A survival task for the "UnempDur" data set in package \CRANpkg{Ecdat}.
 #' Contains the following columns of the original data set:

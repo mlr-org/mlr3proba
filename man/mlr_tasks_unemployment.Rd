@@ -5,7 +5,7 @@
 \title{Unemployment Duration Survival Task}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskSurv}.}
 \description{
-A survival task for the \link{unemployment} data set.
+A survival task for the \link[Ecdat:UnempDur]{Ecdat::UnempDur} data set.
 }
 \details{
 A survival task for the "UnempDur" data set in package \CRANpkg{Ecdat}.
