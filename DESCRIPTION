@@ -38,7 +38,7 @@ Depends:
 Imports:
     checkmate,
     data.table,
-    distr6 (>= 1.3.4),
+    distr6 (>= 1.3.5),
     mlr3 (>= 0.1.7),
     mlr3misc (>= 0.1.7),
     mlr3pipelines,
