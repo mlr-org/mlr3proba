@@ -39,3 +39,7 @@ R/.DS_Store
 
 /src/*.so
 /src/*.o
+
+docs/
+.vscode/
+*.html
