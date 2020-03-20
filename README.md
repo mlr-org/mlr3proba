@@ -88,7 +88,8 @@ Install the last release from CRAN:
 install.packages("mlr3proba")
 ```
 
-Install the development version from GitHub:
+Install the development version from
+GitHub:
 
 ``` r
 remotes::install_github("mlr-org/mlr3proba")
@@ -150,7 +151,7 @@ remotes::install_github("mlr-org/mlr3proba")
 
 | ID                                                                                   | Learner                                                       | Package                                                       |
 | :----------------------------------------------------------------------------------- | :------------------------------------------------------------ | :------------------------------------------------------------ |
-| [dens.hist](https://mlr3proba.mlr-org.com/reference/LearnerDensKDE.html)             | Univariate Histogram Density Estimator                        | [stats](https://CRAN.R-project.org/package=stats)             |
+| [dens.hist](https://mlr3proba.mlr-org.com/reference/LearnerDensKDE.html)             | Univariate Histogram Density Estimator                        | graphics                                                      |
 | [dens.kde](https://mlr3proba.mlr-org.com/reference/LearnerDensKDE.html)              | Univariate KDE for Different Kernels                          | [distr6](https://CRAN.R-project.org/package=distr6)           |
 | [dens.kdeKD](https://mlr3proba.mlr-org.com/reference/LearnerDensKDEkd.html)          | Nonparametric KDE Using Plug-in Method of Polansky and Baker  | [kerdiest](https://CRAN.R-project.org/package=kerdiest)       |
 | [dens.kdeKS](https://mlr3proba.mlr-org.com/reference/LearnerDensKDEks.html)          | Nonparametric Gaussian KDE                                    | [ks](https://CRAN.R-project.org/package=ks)                   |
