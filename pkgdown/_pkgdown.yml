@@ -61,7 +61,9 @@ reference:
       - starts_with("mlr_measures_surv")
   - title: Survival Tasks
     contents:
-      - starts_with("mlr_tasks_surv")
+      - mlr_tasks_lung
+      - mlr_tasks_rats
+      - mlr_tasks_unemployment
       - TaskGeneratorSimsurv
   - title: Survival PipeOps
     contents:
@@ -76,5 +78,6 @@ reference:
       - starts_with("mlr_measures_dens")
   - title: Density Tasks
     contents:
-      - starts_with("mlr_tasks_dens")
+      - mlr_tasks_faithful
+      - mlr_tasks_precip
       - TaskGeneratorSimdens
