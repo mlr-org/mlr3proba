@@ -155,7 +155,7 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
         if(length(form) == 0) form = "aft"
 
         base = base$distr[1]
-        times = unlist(base$support()$elements)
+        times = unlist(base$support$elements)
 
         nr = nrow(inpred$data$tab)
         nc = length(times)
