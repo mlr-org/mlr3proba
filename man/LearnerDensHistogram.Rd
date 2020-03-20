@@ -23,7 +23,7 @@ lrn("dens.hist")
 \item Predict Types: \verb{pdf, cdf}
 \item Feature Types: \verb{logical, integer, numeric, character, factor, ordered}
 \item Properties: \code{-}
-\item Packages: \CRANpkg{graphics} \CRANpkg{distr6}
+\item Packages: \CRANpkg{distr6}
 }
 }
 

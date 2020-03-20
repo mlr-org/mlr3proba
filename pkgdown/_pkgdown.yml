@@ -49,6 +49,10 @@ reference:
       - LearnerSurv
       - PredictionSurv
       - MeasureSurv
+      - TaskDens
+      - LearnerDens
+      - PredictionDens
+      - MeasureDens
   - title: Survival Learners
     contents:
       - starts_with("mlr_learners_surv")
@@ -57,10 +61,20 @@ reference:
       - starts_with("mlr_measures_surv")
   - title: Survival Tasks
     contents:
-      - starts_with("mlr_tasks")
+      - starts_with("mlr_tasks_surv")
       - TaskGeneratorSimsurv
   - title: Survival PipeOps
     contents:
       - starts_with("mlr_pipeops")
       - crankcompositor
       - distrcompositor
+  - title: Density Learners
+    contents:
+      - starts_with("mlr_learners_dens")
+  - title: Density Measures
+    contents:
+      - starts_with("mlr_measures_dens")
+  - title: Density Tasks
+    contents:
+      - starts_with("mlr_tasks_dens")
+      - TaskGeneratorSimdens

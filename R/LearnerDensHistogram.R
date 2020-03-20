@@ -17,7 +17,7 @@ LearnerDensHistogram <- R6::R6Class("LearnerDensHistogram", inherit = LearnerDen
         )),
       feature_types =  c("logical", "integer", "numeric", "character", "factor", "ordered"),
       predict_types = c("pdf","cdf"),
-      packages = c("graphics", "distr6")
+      packages = c("distr6")
       )
     }
   ),
