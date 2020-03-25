@@ -10,7 +10,7 @@ Probabilistic Supervised Learning for
 <!-- badges: start -->
 
 [![R CMD Check via
-{tic}](https://img.shields.io/github/workflow/status/mlr-org/mlr3proba/R%20CMD%20Check%20via%20%7Btic%7D?logo=github&label=R%20CMD%20Check%20via%20%7Btic%7D&style=flat-square)](https://github.com/mlr-org/mlr3proba/actions)
+{tic}](https://github.com/mlr-org/mlr3proba/workflows/R%20CMD%20Check%20via%20%7Btic%7D/badge.svg?branch=master)](https://github.com/mlr-org/mlr3proba/actions)
 [![cran
 checks](https://cranchecks.info/badges/worst/mlr3proba)](https://cran.r-project.org/web/checks/check_results_mlr3proba.html)
 
@@ -88,8 +88,7 @@ Install the last release from CRAN:
 install.packages("mlr3proba")
 ```
 
-Install the development version from
-GitHub:
+Install the development version from GitHub:
 
 ``` r
 remotes::install_github("mlr-org/mlr3proba")
