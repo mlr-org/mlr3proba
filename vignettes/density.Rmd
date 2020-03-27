@@ -24,11 +24,16 @@ This vignette is an introduction to performing survival analysis in **mlr3proba*
 
 ## A very quick introduction to density estimation
 
-Density estimation is a method to find the unknown probability density function (PDF) of an underlying data set. It is a part of machine learning where it can be supervised (for conditional density) or unsupervised (unconditional density). Here, we focus on the latter and on the univariate setting. The PDF is important to give the overall probability distribution. 
+Density estimation is the learning task to find the unknown distribution from which an i.i.d. data set is generated. We interpret this broadly, with this distribution not necessarily being continuous (so may possess a mass not density). The conditional case, where a distribution is predicted conditional on covariates, is known as ‘probabilistic supervised regression’, and will be implemented in mlr3proba in the near-future. In mlr3proba, (unconditional) density estimation is viewed as an unsupervised task, whereas probabilistic supervised regression (or conditional density estimation) is a supervised task
 
 ## Density Task
 
-`TaskDens` is similar to `TaskClassif` and `TaskRegr`where it has a single `target`. It is the variable that `pdf` is predicted. 
+We consider density estimation as an unsupervised method. Therefore, `TaskDens` is an unsupervised task unlike 'TaskClassif' and `TaskRegr`. Therefore, 'TaskDens' inherits directly from 'Task'. There are two things that should be not misunderstood from `TaskRegr` and `TaskCalssif`: 
+
+* `$target` - the variable to estimate density
+
+* `$truth` - the target column to be estimated and NOT the true density since it is unknown
+
 
 ```{r}
 library(mlr3proba); library(mlr3)
@@ -44,6 +49,7 @@ task$truth()[1:10]
 ```
 
 ## Train and Predict
+Although `TaskDens` is unsupervised, it still has `train` and `predict` methods. The 'train' method creates a 'distr6' object   which contains `pdf` (some learners will have `cdf` and `quantile`). The 'predict' method evaluates the 'pdf' (and 'cdf' if available). 
 
 ```{r}
 
@@ -57,10 +63,11 @@ learner = lrn("dens.kde")
 train_set = sample(task_cars$nrow, 0.8 * task_faithful$nrow)
 test_set = setdiff(seq_len(task_faithful$nrow), train_set)
 
-# fit KDE and inspect model
+# fitting KDE and model inspection
 
 learner$train(task_cars, row_ids = train_set)
 learner$model
+class(learner$model)
 
 # make predictions for new data
 
@@ -68,17 +75,17 @@ prediction = learner$predict(task_faithful, row_ids = test_set)
 prediction
 ```
 
-## Evaluate - pdf, cdf
+## Estimate - pdf, cdf
 
 Every `PredictionDens` object can predict:
 
 * `pdf` - point probability density estimation.
 
-Some of the learners can predict: 
+Some learners can predict: 
 
 * `cdf` - the cumulative density function
 
-Some of the learners model can output:
+Some model can output:
 
 * `quantile `- where the output is a random variable when taking probability as the input
 
