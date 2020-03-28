@@ -1,16 +1,16 @@
 ---
-title: "Density Estimation in mlr3proba"
+  title: "Density Estimation in mlr3proba"
 author: "Nurul Ain Toha"
 output:
   rmarkdown::html_vignette:
-    toc: true
+  toc: true
 vignette: >
   %\VignetteIndexEntry{Density Estimation in mlr3proba}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+%\VignetteEngine{knitr::rmarkdown}
+%\VignetteEncoding{UTF-8}
 ---
-
-```{r, include = FALSE}
+  
+  ```{r, include = FALSE}
 knitr::opts_chunk$set(
   cache = FALSE,
   collapse = TRUE,
@@ -29,8 +29,8 @@ Density estimation is the learning task to find the unknown distribution from wh
 ## Density Task
 
 We consider density estimation as an unsupervised method. Therefore, `TaskDens` is an unsupervised task unlike 'TaskClassif' and `TaskRegr`. Therefore, 'TaskDens' inherits directly from 'Task'. There are two things that should be not misunderstood from `TaskRegr` and `TaskCalssif`: 
-
-* `$target` - the variable to estimate density
+  
+  * `$target` - the variable to estimate density
 
 * `$truth` - the target column to be estimated and NOT the true density since it is unknown
 
@@ -49,7 +49,7 @@ task$truth()[1:10]
 ```
 
 ## Train and Predict
-Although `TaskDens` is unsupervised, it still has `train` and `predict` methods. The 'train' method creates a 'distr6' object   which contains `pdf` (some learners will have `cdf` and `quantile`). The 'predict' method evaluates the 'pdf' (and 'cdf' if available). 
+Although `TaskDens` is unsupervised, it still has `train` and `predict` methods. The 'train' method creates a 'distr6' object   which contains `pdf` (some learners will have `cdf` and `quantile`). The `predict` method evaluates the 'pdf' (and 'cdf' if available). 
 
 ```{r}
 
@@ -78,16 +78,16 @@ prediction
 ## Estimate - pdf, cdf
 
 Every `PredictionDens` object can predict:
-
-* `pdf` - point probability density estimation.
+  
+  * `pdf` - point probability density estimation.
 
 Some learners can predict: 
-
-* `cdf` - the cumulative density function
+  
+  * `cdf` - the cumulative density function
 
 Some model can output:
-
-* `quantile `- where the output is a random variable when taking probability as the input
+  
+  * `quantile `- where the output is a random variable when taking probability as the input
 
 ```{r}
 
