@@ -44,6 +44,7 @@ Other survival learners:
 \code{\link{LearnerSurvBlackboost}},
 \code{\link{LearnerSurvCVCoxboost}},
 \code{\link{LearnerSurvCoxPH}},
+\code{\link{LearnerSurvCoxboost}},
 \code{\link{LearnerSurvFlexible}},
 \code{\link{LearnerSurvGBM}},
 \code{\link{LearnerSurvGamboost}},

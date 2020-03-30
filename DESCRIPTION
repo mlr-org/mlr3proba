@@ -106,6 +106,7 @@ Collate:
     'LearnerSurvCVCoxboost.R'
     'LearnerSurvCVGlmnet.R'
     'LearnerSurvCoxPH.R'
+    'LearnerSurvCoxboost.R'
     'predict_flexsurvreg.R'
     'LearnerSurvFlexible.R'
     'LearnerSurvGBM.R'
