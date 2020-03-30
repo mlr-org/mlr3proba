@@ -103,6 +103,7 @@ Collate:
     'LearnerProbregGaussian.R'
     'LearnerSurv.R'
     'LearnerSurvBlackboost.R'
+    'LearnerSurvCVCoxboost.R'
     'LearnerSurvCVGlmnet.R'
     'LearnerSurvCoxPH.R'
     'LearnerSurvCoxboost.R'

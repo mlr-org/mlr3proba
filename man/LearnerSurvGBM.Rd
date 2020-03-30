@@ -54,6 +54,7 @@ lrn("surv.gbm")
 \seealso{
 Other survival learners: 
 \code{\link{LearnerSurvBlackboost}},
+\code{\link{LearnerSurvCVCoxboost}},
 \code{\link{LearnerSurvCVGlmnet}},
 \code{\link{LearnerSurvCoxPH}},
 \code{\link{LearnerSurvCoxboost}},
