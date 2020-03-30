@@ -59,6 +59,7 @@ Other survival learners:
 \code{\link{LearnerSurvBlackboost}},
 \code{\link{LearnerSurvCVGlmnet}},
 \code{\link{LearnerSurvCoxPH}},
+\code{\link{LearnerSurvCoxboost}},
 \code{\link{LearnerSurvGBM}},
 \code{\link{LearnerSurvGamboost}},
 \code{\link{LearnerSurvGlmboost}},
