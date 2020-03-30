@@ -101,6 +101,7 @@ Collate:
     'LearnerProbregGaussian.R'
     'LearnerSurv.R'
     'LearnerSurvBlackboost.R'
+    'LearnerSurvCVCoxboost.R'
     'LearnerSurvCVGlmnet.R'
     'LearnerSurvCoxPH.R'
     'predict_flexsurvreg.R'
