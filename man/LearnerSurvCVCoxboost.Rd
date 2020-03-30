@@ -17,6 +17,9 @@ cross-validation of boosting step number, respectively. Tuning using the interna
 \link{LearnerSurvCVCoxboost} may be more efficient when tuning \code{stepno} only. However, for tuning
 multiple hyperparameters, \CRANpkg{mlr3tuning} and \link{LearnerSurvCoxboost} will likely give better
 results.
+
+If \code{penalty == "optimCoxBoostPenalty"} then \link[CoxBoost:optimCoxBoostPenalty]{CoxBoost::optimCoxBoostPenalty} is used to determine
+the penalty value to be used in \link[CoxBoost:cv.CoxBoost]{CoxBoost::cv.CoxBoost}.
 }
 \section{Dictionary}{
 
