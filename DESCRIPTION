@@ -120,6 +120,7 @@ Collate:
     'LearnerSurvRanger.R'
     'LearnerSurvRpart.R'
     'LearnerSurvSVM.R'
+    'LearnerSurvXGBoost.R'
     'MeasureDens.R'
     'MeasureDensLogloss.R'
     'MeasureRegrLogloss.R'
