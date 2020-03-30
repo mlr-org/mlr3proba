@@ -12,7 +12,11 @@ Calls \link[CoxBoost:CoxBoost]{CoxBoost::CoxBoost}.
 \item \code{crank} is identical to \code{lp}
 }
 
-
+Use \link{LearnerSurvCoxboost} and \link{LearnerSurvCVCoxboost} for Cox boosting without and with internal
+cross-validation of boosting step number, respectively. Tuning using the internal optimizer in
+\link{LearnerSurvCVCoxboost} may be more efficient when tuning \code{stepno} only. However, for tuning
+multiple hyperparameters, \CRANpkg{mlr3tuning} and \link{LearnerSurvCoxboost} will likely give better
+results.
 }
 \section{Dictionary}{
 

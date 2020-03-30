@@ -4,8 +4,13 @@
 #' @templateVar caller [CoxBoost::CoxBoost]
 #' @templateVar distr by [CoxBoost::predict.CoxBoost]
 #' @templateVar lp by [CoxBoost::predict.CoxBoost]
-#' @description
 #'
+#' @description
+#' Use [LearnerSurvCoxboost] and [LearnerSurvCVCoxboost] for Cox boosting without and with internal
+#' cross-validation of boosting step number, respectively. Tuning using the internal optimizer in
+#' [LearnerSurvCVCoxboost] may be more efficient when tuning `stepno` only. However, for tuning
+#' multiple hyperparameters, \CRANpkg{mlr3tuning} and [LearnerSurvCoxboost] will likely give better
+#' results.
 #'
 #' @references
 #' \cite{mlr3proba}{binder_2009}
