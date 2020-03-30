@@ -117,11 +117,11 @@ LearnerSurvCVCoxboost = R6Class("LearnerSurvCVCoxboost", inherit = LearnerSurv,
 
     .predict = function(task) {
 
-      lp = invoke(predict,
+      lp = as.numeric(invoke(predict,
                   self$model,
                   newdata = model.matrix(~., as.data.frame(task$data(cols = task$feature_names)))[,-1,drop=FALSE],
                   .args = self$param_set$get_values(tags = "predict"),
-                  type = "lp")
+                  type = "lp"))
 
       cdf = invoke(predict,
                    self$model,
