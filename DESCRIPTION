@@ -47,6 +47,7 @@ Imports:
     survival
 Suggests:
     bibtex,
+    CoxBoost,
     flexsurv,
     gbm,
     glmnet,
@@ -57,6 +58,7 @@ Suggests:
     lgr,
     logspline,
     locfit,
+    Matrix,
     mboost,
     mlr3tuning,
     np,
@@ -101,6 +103,7 @@ Collate:
     'LearnerProbregGaussian.R'
     'LearnerSurv.R'
     'LearnerSurvBlackboost.R'
+    'LearnerSurvCVCoxboost.R'
     'LearnerSurvCVGlmnet.R'
     'LearnerSurvCoxPH.R'
     'predict_flexsurvreg.R'
