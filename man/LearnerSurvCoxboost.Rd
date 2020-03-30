@@ -7,8 +7,8 @@
 \description{
 Calls \link[CoxBoost:CoxBoost]{CoxBoost::CoxBoost}.
 \itemize{
-\item lp is predicted by \link[CoxBoost:CoxBoost]{CoxBoost::CoxBoost}
-\item distr is predicted by \link[CoxBoost:CoxBoost]{CoxBoost::CoxBoost}
+\item lp is predicted by \link[CoxBoost:predict.CoxBoost]{CoxBoost::predict.CoxBoost}
+\item distr is predicted by \link[CoxBoost:predict.CoxBoost]{CoxBoost::predict.CoxBoost}
 \item \code{crank} is identical to \code{lp}
 }
 
