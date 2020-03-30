@@ -74,7 +74,8 @@ Suggests:
     sm,
     survAUC,
     survivalsvm,
-    testthat
+    testthat,
+    xgboost
 VignetteBuilder:
     knitr
 ByteCompile: true
