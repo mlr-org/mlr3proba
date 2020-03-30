@@ -22,7 +22,7 @@ LearnerSurvCoxboost = R6Class("LearnerSurvCoxboost", inherit = LearnerSurv,
           params = list(
             ParamUty$new(id = "unpen.index", tags = "train"),
             ParamLgl$new(id = "standardize", default = TRUE, tags = "train"),
-            ParamInt$new(id = "stepno", default = 100, lower = 1, tags = "train"),
+            ParamInt$new(id = "stepno", default = 100, lower = 0, tags = "train"),
             ParamDbl$new(id = "penalty", tags = "train"),
             ParamFct$new(id = "criterion", default = "pscore", levels = c("pscore", "score", "hpscore", "hscore"), tags = "train"),
             ParamDbl$new(id = "stepsize.factor", default = 1, tags = "train"),
