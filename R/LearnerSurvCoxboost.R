@@ -2,8 +2,8 @@
 #' @templateVar title Cox Model with Likelihood Based Boosting
 #' @templateVar fullname LearnerSurvCoxboost
 #' @templateVar caller [CoxBoost::CoxBoost]
-#' @templateVar distr by [CoxBoost::CoxBoost]
-#' @templateVar lp by [CoxBoost::CoxBoost]
+#' @templateVar distr by [CoxBoost::predict.CoxBoost]
+#' @templateVar lp by [CoxBoost::predict.CoxBoost]
 #' @description
 #'
 #'
