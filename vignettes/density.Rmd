@@ -28,11 +28,11 @@ Density estimation is the learning task to find the unknown distribution from wh
 
 ## Density Task
 
-We consider density estimation as an unsupervised method. Therefore, `TaskDens` is an unsupervised task unlike 'TaskClassif' and `TaskRegr`. Therefore, 'TaskDens' inherits directly from 'Task'. There are two things that should be not misunderstood from `TaskRegr` and `TaskCalssif`: 
+Unconditional density estimation is an unsupervised method. Hence, `TaskDens` is an unsupervised task which inherits directly from `Task` unlike `TaskClassif` and `TaskRegr`. However, `TaskDens` still has `$target` and `$truth` output in which :
   
   * `$target` - the variable to estimate density
 
-* `$truth` - the target column to be estimated and NOT the true density since it is unknown
+* `$truth` - eturn the target column to be estimated and NOT the true density since it is unknown. 
 
 
 ```{r}
@@ -49,7 +49,7 @@ task$truth()[1:10]
 ```
 
 ## Train and Predict
-Although `TaskDens` is unsupervised, it still has `train` and `predict` methods. The 'train' method creates a 'distr6' object   which contains `pdf` (some learners will have `cdf` and `quantile`). The `predict` method evaluates the 'pdf' (and 'cdf' if available). 
+Although `TaskDens` is unsupervised, it still has `train` and `predict` methods. The 'train' method creates a `distr6` object   which contains `pdf` (some learners will have `cdf` and `quantile`). The `predict` method then evaluates the `pdf` (and `cdf` if available). 
 
 ```{r}
 
@@ -102,12 +102,6 @@ test_set = setdiff(seq_len(task_boston$nrow), train_set)
 learner$train(task_boston, row_ids = train_set)
 prediction = learner$predict(task_boston, row_ids = test_set)
 prediction
-
-# An example of learner where the model can output quantile 
-
-# In the previous example, `dens.spline` learner can output the quantile 
-
-learner$model$quantile(0.1)
 
 # `pdf` is evaluated using the `log-loss`
 
