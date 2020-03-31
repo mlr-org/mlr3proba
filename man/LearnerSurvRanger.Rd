@@ -58,7 +58,8 @@ Other survival learners:
 \code{\link{LearnerSurvPenalized}},
 \code{\link{LearnerSurvRandomForestSRC}},
 \code{\link{LearnerSurvRpart}},
-\code{\link{LearnerSurvSVM}}
+\code{\link{LearnerSurvSVM}},
+\code{\link{LearnerSurvXgboost}}
 }
 \concept{survival learners}
 \section{Super classes}{

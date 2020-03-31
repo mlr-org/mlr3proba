@@ -76,7 +76,8 @@ Suggests:
     sm,
     survAUC,
     survivalsvm,
-    testthat
+    testthat,
+    xgboost
 VignetteBuilder:
     knitr
 ByteCompile: true
@@ -124,6 +125,7 @@ Collate:
     'LearnerSurvRanger.R'
     'LearnerSurvRpart.R'
     'LearnerSurvSVM.R'
+    'LearnerSurvXGBoost.R'
     'MeasureDens.R'
     'MeasureDensLogloss.R'
     'MeasureRegrLogloss.R'
