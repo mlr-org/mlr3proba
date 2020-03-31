@@ -2,7 +2,7 @@
 #' @templateVar title CoxPH models based on gradient boosted trees
 #' @templateVar fullname LearnerSurvXgboost
 #' @templateVar caller [xgboost::xgboost()]
-#' @templateVar distr by [stats::predict()]
+#' @templateVar distr by [xgboost::predict.xgb.Booster()]
 #'
 #' @description
 #' #' eXtreme Gradient Boosting regression for Cox PH model.
@@ -86,8 +86,7 @@ LearnerSurvXgboost = R6Class("LearnerSurvXgboost", inherit = LearnerSurv,
       ps$add_dep("top_k", "booster", CondEqual$new("gblinear"))
       ps$add_dep("top_k", "feature_selector", CondAnyOf$new(c("greedy", "thrifty")))
 
-      ps$values = list(nrounds = 1L, verbose = 0L, objective = "survival:cox",
-        eval_metric = "cox-nloglik")
+      ps$values = list(nrounds = 1L, verbose = 0L, eval_metric = "cox-nloglik")
 
       super$initialize(
         id            = "surv.xgboost",
@@ -120,6 +119,7 @@ LearnerSurvXgboost = R6Class("LearnerSurvXgboost", inherit = LearnerSurv,
     .train = function(task) {
 
       pars = self$param_set$get_values(tags = "train")
+      pars[["objective"]] <- "survival:cox"
       targets = task$target_names
 
       data   = task$data(cols = task$feature_names)
@@ -149,9 +149,9 @@ LearnerSurvXgboost = R6Class("LearnerSurvXgboost", inherit = LearnerSurv,
       model    = self$model
       newdata  = data.matrix(task$data(cols = task$feature_names))
       newdata  = newdata[, model$feature_names, drop = FALSE]
-      crank = invoke(predict, model, newdata = newdata, .args = pars)
+      lp = invoke(predict, model, newdata = newdata, .args = pars)
 
-      PredictionSurv$new(task = task, crank = crank, lp = crank)
+      PredictionSurv$new(task = task, crank = lp, lp = crank)
 
     }
   )
