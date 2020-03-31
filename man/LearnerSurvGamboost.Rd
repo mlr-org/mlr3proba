@@ -86,7 +86,7 @@ Other survival learners:
 \code{\link{LearnerSurvRanger}},
 \code{\link{LearnerSurvRpart}},
 \code{\link{LearnerSurvSVM}},
-\code{\link{LearnerSurvXGBoostCoxPH}}
+\code{\link{LearnerSurvXgboost}}
 }
 \concept{survival learners}
 \section{Super classes}{

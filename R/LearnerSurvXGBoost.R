@@ -1,103 +1,157 @@
 #' @template surv_learner
 #' @templateVar title CoxPH models based on gradient boosted trees
-#' @templateVar fullname LearnerSurvXGBoostCoxPH
+#' @templateVar fullname LearnerSurvXgboost
 #' @templateVar caller [xgboost::xgboost()]
 #' @templateVar distr by [stats::predict()]
 #'
-#' @description Parameter \code{verbose} is set to \code{0}.
-#' @description Parameter \code{objective} is set to \code{"survival:cox"}
-#' @description Parameter \code{eval_metric} is set to \code{"cox-nloglik"}
-#' @description Parameter \code{nrounds} is set to \code{100}, but this is arbitrary.
-#' Please modify.
+#' @description
+#' #' eXtreme Gradient Boosting regression for Cox PH model.
+#' Calls [xgboost::xgb.train()] from package \CRANpkg{xgboost}.
 #'
+#' We changed the following defaults for this learner:
+#' * Verbosity is reduced by setting `verbose` to `0`.
+#' * Number of boosting iterations `nrounds` is set to `1`.
+#' * The `objective` is set to `survival:cox`.
+#' * The `eval_metric` is set to `cox-nloglik`
 #'
 #' @references
 #' \cite{mlr3proba}{chen_2016}
 #'
 #' @export
-LearnerSurvXGBoostCoxPH = R6Class("LearnerSurvXGBoostCoxPH", inherit = LearnerSurv,
+LearnerSurvXgboost = R6Class("LearnerSurvXgboost", inherit = LearnerSurv,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      ps = ParamSet$new(
-        params = list(
-          ParamInt$new(id = "nrounds", tag = "train"),
-          ParamDbl$new(id = "eta", default = 0.3, lower = 0, upper = 1, tags = "train"),
-          ParamInt$new(id = "gamma", default = 0, lower = 0, tags = "train"),
-          ParamInt$new(id = "max_depth", default = 6L, lower = 1L, tags = "train"),
-          ParamInt$new(id = "min_child_weight", default = 1L, lower = 1L, tags = "train"),
-          ParamInt$new(id = "max_delta_step", default = 0, lower = 0, tags = "train"),
-          ParamInt$new(id = "subsample", default = 1, lower = 0, upper = 1, tags = "train"),
-          ParamInt$new(id = "colsample_bytree", default = 1, lower = 0, upper = 1, tags = "train"),
-          ParamDbl$new(id = "colsample_bynode", default = 1, lower = 0, upper = 1, tags = "train"),
-          ParamDbl$new(id = "lambda", default = 1, lower = 1, tags = "train"),
-          ParamInt$new(id = "alpha", default = 0, lower = 0, tags = "train"),
-          ParamInt$new(id = "verbose", default = 1L, lower = 0L, upper = 2L, tags = "train"),
-          ParamInt$new(id = "print_every_n", default = 1L, lower=1L, tags = "train"),
-          # ParamInt$new(id = "early_stopping_rounds", default = NULL, tags = "train"),
-          ParamLgl$new(id = "outputmargin", default = FALSE, tags = "predict"),
-          # ParamInt$new(id = "ntreelimit", default = NULL, lower = 1L, tags = "predict"),
-          ParamLgl$new(id = "predleaf", default = FALSE, tags = "predict"),
-          ParamLgl$new(id = "predcontrib", default = FALSE, tags = "predict"),
-          ParamLgl$new(id = "approxcontrib", default = FALSE, tags = "predict"),
-          ParamLgl$new(id = "predinteraction", default = FALSE, tags = "predict"),
-          ParamLgl$new(id = "reshape", default = FALSE, tags = "predict")
-        )
-      )
+      ps = ParamSet$new(list(
+        ParamFct$new("booster", default = "gbtree", levels = c("gbtree", "gblinear", "dart"), tags = "train"),
+        ParamUty$new("watchlist", default = NULL, tags = "train"),
+        ParamDbl$new("eta", default = 0.3, lower = 0, upper = 1, tags = "train"),
+        ParamDbl$new("gamma", default = 0, lower = 0, tags = "train"),
+        ParamInt$new("max_depth", default = 6L, lower = 0L, tags = "train"),
+        ParamDbl$new("min_child_weight", default = 1, lower = 0, tags = "train"),
+        ParamDbl$new("subsample", default = 1, lower = 0, upper = 1, tags = "train"),
+        ParamDbl$new("colsample_bytree", default = 1, lower = 0, upper = 1, tags = "train"),
+        ParamDbl$new("colsample_bylevel", default = 1, lower = 0, upper = 1, tags = "train"),
+        ParamDbl$new("colsample_bynode", default = 1, lower = 0, upper = 1, tags = "train"),
+        ParamInt$new("num_parallel_tree", default = 1L, lower = 1L, tags = "train"),
+        ParamDbl$new("lambda", default = 1, lower = 0, tags = "train"),
+        ParamDbl$new("lambda_bias", default = 0, lower = 0, tags = "train"),
+        ParamDbl$new("alpha", default = 0, lower = 0, tags = "train"),
+        ParamUty$new("objective", default = "reg:linear", tags = c("train", "predict")),
+        ParamUty$new("eval_metric", default = "rmse", tags = "train"),
+        ParamDbl$new("base_score", default = 0.5, tags = "train"),
+        ParamDbl$new("max_delta_step", lower = 0, default = 0, tags = "train"),
+        ParamDbl$new("missing", default = NA, tags = c("train", "predict"), special_vals = list(NA, NA_real_, NULL)),
+        ParamInt$new("monotone_constraints", default = 0L, lower = -1L, upper = 1L, tags = "train"),
+        ParamDbl$new("tweedie_variance_power", lower = 1, upper = 2, default = 1.5, tags = "train"),
+        ParamInt$new("nthread", lower = 1L, tags = "train"),
+        ParamInt$new("nrounds", lower = 1L, tags = "train"),
+        ParamUty$new("feval", default = NULL, tags = "train"),
+        ParamInt$new("verbose", default = 1L, lower = 0L, upper = 2L, tags = "train"),
+        ParamInt$new("print_every_n", default = 1L, lower = 1L, tags = "train"),
+        ParamInt$new("early_stopping_rounds", default = NULL, lower = 1L, special_vals = list(NULL), tags = "train"),
+        ParamLgl$new("maximize", default = NULL, special_vals = list(NULL), tags = "train"),
+        ParamFct$new("sample_type", default = "uniform", levels = c("uniform", "weighted"), tags = "train"),
+        ParamFct$new("normalize_type", default = "tree", levels = c("tree", "forest"), tags = "train"),
+        ParamDbl$new("rate_drop", default = 0, lower = 0, upper = 1, tags = "train"),
+        ParamDbl$new("skip_drop", default = 0, lower = 0, upper = 1, tags = "train"),
+        ParamLgl$new("one_drop", default = FALSE, tags = "train"),
+        ParamFct$new("tree_method", default = "auto", levels = c("auto", "exact", "approx", "hist", "gpu_hist"), tags = "train"),
+        ParamFct$new("grow_policy", default = "depthwise", levels = c("depthwise", "lossguide"), tags = "train"),
+        ParamInt$new("max_leaves", default = 0L, lower = 0L, tags = "train"),
+        ParamInt$new("max_bin", default = 256L, lower = 2L, tags = "train"),
+        ParamUty$new("callbacks", default = list(), tags = "train"),
+        ParamDbl$new("sketch_eps", default = 0.03, lower = 0, upper = 1, tags = "train"),
+        ParamDbl$new("scale_pos_weight", default = 1, tags = "train"),
+        ParamUty$new("updater", tags = "train"), # Default depends on the selected booster
+        ParamLgl$new("refresh_leaf", default = TRUE, tags = "train"),
+        ParamFct$new("feature_selector", default = "cyclic", levels = c("cyclic", "shuffle", "random", "greedy", "thrifty"), tags = "train"),
+        ParamInt$new("top_k", default = 0, lower = 0, tags = "train"),
+        ParamFct$new("predictor", default = "cpu_predictor", levels = c("cpu_predictor", "gpu_predictor"), tags = "train")
+      ))
+      # param deps
+      ps$add_dep("print_every_n", "verbose", CondEqual$new(1L))
+      ps$add_dep("sample_type", "booster", CondEqual$new("dart"))
+      ps$add_dep("normalize_type", "booster", CondEqual$new("dart"))
+      ps$add_dep("rate_drop", "booster", CondEqual$new("dart"))
+      ps$add_dep("skip_drop", "booster", CondEqual$new("dart"))
+      ps$add_dep("one_drop", "booster", CondEqual$new("dart"))
+      ps$add_dep("tree_method", "booster", CondAnyOf$new(c("gbtree", "dart")))
+      ps$add_dep("grow_policy", "tree_method", CondEqual$new("hist"))
+      ps$add_dep("max_leaves", "grow_policy", CondEqual$new("lossguide"))
+      ps$add_dep("max_bin", "tree_method", CondEqual$new("hist"))
+      ps$add_dep("sketch_eps", "tree_method", CondEqual$new("approx"))
+      ps$add_dep("feature_selector", "booster", CondEqual$new("gblinear"))
+      ps$add_dep("top_k", "booster", CondEqual$new("gblinear"))
+      ps$add_dep("top_k", "feature_selector", CondAnyOf$new(c("greedy", "thrifty")))
 
-      ps$values = insert_named(ps$values, list(verbose = 0))
-      ps$values = insert_named(ps$values, list(nrounds = 100))
+      ps$values = list(nrounds = 1L, verbose = 0L, objective = "survival:cox",
+        eval_metric = "cox-nloglik")
 
       super$initialize(
-        id            = "surv.XGBoostCoxPH",
+        id            = "surv.xgboost",
         param_set     = ps,
         predict_types = c("crank", "lp"),
-        feature_types = c("integer", "numeric", "factor", "ordered"),
-        properties    = c("weights"),
+        feature_types = c("logical", "integer", "numeric"),
+        properties    = c("weights", "missings", "importance"),
         packages      = c("xgboost")
       )
+    },
+
+    #' @description
+    #' The importance scores are calculated with [xgboost::xgb.importance()].
+    #'
+    #' @return Named `numeric()`.
+    importance = function() {
+      if (is.null(self$model)) {
+        stopf("No model stored")
+      }
+
+      imp = xgboost::xgb.importance(
+        feature_names = self$model$features,
+        model = self$model
+      )
+      set_names(imp$Gain, imp$Feature)
     }
   ),
 
   private = list(
     .train = function(task) {
 
-      pv = self$param_set$get_values(tags = "train")
+      pars = self$param_set$get_values(tags = "train")
       targets = task$target_names
 
-      data <- task$data()
-      time <- data[[task$target_names[[1]]]]
-      status <- data[[task$target_names[[2]]]]
-      label <- time
-      label[status != 1] <- -1L * label[status != 1]
-      mm <- model.matrix(
-        ~ .,
-        data = data[, task$feature_names, with = FALSE])[, -1, drop = FALSE]
+      data   = task$data(cols = task$feature_names)
+      target = task$data(cols = task$target_names)
+      label = target[[targets[1]]]
+      status = target[[targets[2]]]
+      label[status != 1] = -1L * label[status != 1]
+      data = xgboost::xgb.DMatrix(
+        data = data.matrix(data),
+        label = label)
 
-      invoke(
-        xgboost::xgboost,
-        data     = mm,
-        label    = label,
-        objective = "survival:cox",
-        eval_metric = "cox-nloglik",
-        .args    = pv
-      )
+      if ("weights" %in% task$properties) {
+        xgboost::setinfo(data, "weight", task$weights$weight)
+      }
+
+      if (is.null(pars$watchlist)) {
+        pars$watchlist = list(train = data)
+      }
+
+      invoke(xgboost::xgb.train, data = data, .args = pars)
 
     },
 
     .predict = function(task) {
-      data = task$data()
-      newdata = model.matrix(
-        ~ .,
-        data = data[, task$feature_names, with = FALSE])[, -1, drop = FALSE]
 
-      pv = self$param_set$get_values(tags = "predict")
+      pars     = self$param_set$get_values(tags = "predict")
+      model    = self$model
+      newdata  = data.matrix(task$data(cols = task$feature_names))
+      newdata  = newdata[, model$feature_names, drop = FALSE]
+      crank = invoke(predict, model, newdata = newdata, .args = pars)
 
-      p = invoke(predict, self$model, newdata = newdata, .args = pv)
-      # define WeightedDiscrete distr6 object from predicted survival function
-
-      PredictionSurv$new(task = task, crank = p, lp = p)
+      PredictionSurv$new(task = task, crank = crank, lp = crank)
 
     }
   )
