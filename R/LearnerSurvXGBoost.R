@@ -151,7 +151,7 @@ LearnerSurvXgboost = R6Class("LearnerSurvXgboost", inherit = LearnerSurv,
       newdata  = newdata[, model$feature_names, drop = FALSE]
       lp = invoke(predict, model, newdata = newdata, .args = pars)
 
-      PredictionSurv$new(task = task, crank = lp, lp = crank)
+      PredictionSurv$new(task = task, crank = lp, lp = lp)
 
     }
   )
