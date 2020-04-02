@@ -3,7 +3,9 @@
 \name{mlr_tasks_precip}
 \alias{mlr_tasks_precip}
 \title{Annual Precipitation Density Task}
-\format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskDens}.}
+\format{
+\link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskDens}.
+}
 \description{
 A density task for the \link{precip} data set.
 }
