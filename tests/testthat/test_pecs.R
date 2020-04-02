@@ -1,10 +1,11 @@
 context("pecs")
 
+task = tgen("simsurv")$generate(5)
+
 test_that("pecs.list", {
-  task = tsk("rats")
   learns = lrns(c("surv.kaplan", "surv.coxph", "surv.ranger"))
-  expect_error(pecs(learns), "trained learners")
-  lapply(learns, function(x) x$train(task))
+  expect_error(pecs(learns), "trained survival learners")
+  suppressWarnings({lapply(learns, function(x) x$train(task))})
   expect_error(pecs(learns, meas = "sdsd"))
   expect_silent(pecs(learns, task = task, times = c(20, 90), n = 10))
   expect_silent(pecs(learns, task = task, n = 10))
@@ -14,6 +15,6 @@ test_that("pecs.list", {
 })
 
 test_that("pecs.PredictionSurv", {
-  p = lrn("surv.coxph")$train(task)$predict(task)
+  suppressWarnings({p = lrn("surv.coxph")$train(task)$predict(task)})
   expect_silent(pecs(p))
 })
