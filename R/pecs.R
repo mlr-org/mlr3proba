@@ -13,6 +13,10 @@
 #'   Small error value to pass to [MeasureSurvIntLogloss] to prevent errors resulting from a log(0)
 #'   calculation.
 #' @param task ([TaskSurv])
+#' @param row_ids (`integer()`) \cr
+#'   Passed to `Learner$predict`.
+#' @param new_data (`data.frame()`) \cr
+#'   If not missing `Learner$predict_newdata` is called instead of `Learner$predict`.
 #' @param ... Additional arguments.
 #'
 #' @details If `times` and `n` are missing then `measure` is evaluated over all observed time-points
@@ -48,14 +52,19 @@ pecs = function(x, measure = c("graf","logloss"), times, n, eps = 1e-15, ...){
 
 #' @rdname pecs
 #' @export
-pecs.list = function(x, measure = c("graf","logloss"), times, n, eps = 1e-15, task,...){
+pecs.list = function(x, measure = c("graf","logloss"), times, n, eps = 1e-15, task = NULL, row_ids = NULL, new_data,...){
   measure = match.arg(measure)
 
   assert(all(sapply(x, function(y) !is.null(y$model))), "x must be a list of trained survival learners")
   assertClass(task, "TaskSurv")
 
-  p = lapply(x, function(y) y$predict(task))
-  true_times = sort(unique(task$truth()[,1]))
+  if (missing(newdata)) {
+    p = lapply(x, function(y) y$predict(task = task, row_ids = row_ids))
+  } else {
+    p = lapply(x, function(y) y$predict_newdata(newdata = newdata, task = task))
+  }
+
+  true_times = sort(unique(task$truth()[, task$target_names == "time"]))
 
   times = .pec_times(true_times = true_times, times = times, n = n)
 
