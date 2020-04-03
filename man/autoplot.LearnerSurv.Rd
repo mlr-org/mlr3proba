@@ -4,21 +4,51 @@
 \alias{autoplot.LearnerSurv}
 \title{Visualization of fitted \code{LearnerSurv} objects}
 \usage{
-\method{autoplot}{LearnerSurv}(object, task, fun = "survival", row_ids = NULL, newdata, ...)
+autoplot.LearnerSurv(
+  object,
+  task,
+  fun = c("pdf", "cdf", "quantile", "survival", "hazard", "cumhazard"),
+  row_ids = NULL,
+  newdata,
+  ...
+)
+}
+\arguments{
+\item{object}{(\link{LearnerSurv})}
+
+\item{task}{(\link{TaskSurv})}
+
+\item{fun}{(\code{character}) \cr
+Passed to \code{distr6::plot.VectorDistribution}}
+
+\item{row_ids}{(\code{integer()}) \cr
+Passed to \code{Learner$predict}}
+
+\item{newdata}{(\code{data.frame()}) \cr
+If not missing \code{Learner$predict_newdata} is called instead of \code{Learner$predict}.}
+
+\item{...}{Additional arguments passed to \code{distr6::plot.VectorDistribution}}
 }
 \description{
-Wrapper around \code{predict.LearnerSurv} and `plot.
+Wrapper around \code{predict.LearnerSurv} and \code{plot.VectorDistribution}.
 }
 \examples{
 library(mlr3)
+library(mlr3viz)
 task = tsk("rats")
 
 # Prediction Error Curves for prediction object
 learn = lrn("surv.coxph")
-autoplot(learn)
+learn$train(task)
 
-autoplot(object, task, "survival", ind = 1:10)
-autoplot(object, task, "survival", newdata = ndf)
+autoplot(learn, task, "survival", ind = 10)
+autoplot(learn, task, "survival", row_ids = 1:5)
+autoplot(learn, task, "survival", newdata = task$data()[1:5,])
+autoplot(learn, task, "survival", newdata = task$data()[1:5,], ylim=c(0, 1))
+
+## problems
+# autoplot(learn, task, "survival", ind = 1:5) # what's happening?
+# autoplot(learn, task, "survival", n = 5) # confuses n with newdata
 
 
 }

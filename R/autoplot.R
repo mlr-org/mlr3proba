@@ -1,14 +1,21 @@
 #' @title Visualization of fitted `LearnerSurv` objects
 #' @description Wrapper around `predict.LearnerSurv` and `plot.VectorDistribution`.
 #'
-#' @inherit mlr3viz::autoplot
-#' @param object An object of class `LearnerSurv`
-#' @param task An object of class `TaskSurv`
-#' @param fun
+#' @importFrom graphics plot
+#' @param object ([LearnerSurv])
+#' @param task ([TaskSurv])
+#' @param fun (`character`) \cr
+#'   Passed to `distr6::plot.VectorDistribution`
+#' @param row_ids (`integer()`) \cr
+#'   Passed to `Learner$predict`
+#' @param newdata (`data.frame()`) \cr
+#'   If not missing `Learner$predict_newdata` is called instead of `Learner$predict`.
+#' @param ... Additional arguments passed to `distr6::plot.VectorDistribution`
 #'
 #'
 #' @examples
 #' library(mlr3)
+#' library(mlr3viz)
 #' task = tsk("rats")
 #'
 #' # Prediction Error Curves for prediction object
@@ -16,13 +23,13 @@
 #' learn$train(task)
 #'
 #' autoplot(learn, task, "survival", ind = 10)
-#' autoplot(learn, task, "survival", row_ids = 1:10)
-#' autoplot(learn, task, "survival", newdata = task$data()[1:10,])
-#' autoplot(learn, task, "survival", newdata = task$data()[1:10,], ylim=c(0, 1))
+#' autoplot(learn, task, "survival", row_ids = 1:5)
+#' autoplot(learn, task, "survival", newdata = task$data()[1:5,])
+#' autoplot(learn, task, "survival", newdata = task$data()[1:5,], ylim=c(0, 1))
 #'
 #' ## problems
-#' autoplot(learn, task, "survival", ind = 1:5) # what's happening?
-#' autoplot(learn, task, "survival", n = 5) # confuses n with newdata
+#' # autoplot(learn, task, "survival", ind = 1:5) # what's happening?
+#' # autoplot(learn, task, "survival", n = 5) # confuses n with newdata
 #'
 #'
 #' @export
