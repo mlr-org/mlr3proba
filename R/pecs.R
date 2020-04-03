@@ -13,7 +13,7 @@
 #'   Small error value to pass to [MeasureSurvIntLogloss] to prevent errors resulting from a log(0)
 #'   calculation.
 #' @param task ([TaskSurv])
-#' @param ... Additional arguments to pass down to plotting functions.
+#' @param ... Additional arguments.
 #'
 #' @details If `times` and `n` are missing then `meas` is evaluated over all observed time-points
 #' from the [PredictionSurv] or [TaskSurv] object. If a range is provided for `times` without `n`,
@@ -27,12 +27,14 @@
 #' learn = lrn("surv.coxph")
 #' p = learn$train(task)$predict(task)
 #' pecs(p)
-#' pecs(p, meas = "logloss", times = c(20, 40, 60, 80))
+#' pecs(p, meas = "logloss", times = c(20, 40, 60, 80)) +
+#'   ggplot2::geom_point() +
+#'   ggplot2::ggtitle("Logloss Prediction Error Curve for Cox PH")
 #'
 #' # Prediction Error Curves for fitted learners
 #' learns = lrns(c("surv.kaplan", "surv.coxph", "surv.ranger"))
 #' lapply(learns, function(x) x$train(task))
-#' pecs(learns, task = task, times = c(20, 90), n = 10)
+#' pecs(learns, task = task, meas = "logloss", times = c(20, 90), n = 10)
 #'
 #'
 #' @export
@@ -46,7 +48,7 @@ pecs = function(x, meas = c("graf","logloss"), times, n, eps = 1e-15, ...){
 
 #' @rdname pecs
 #' @export
-pecs.list = function(x, meas = c("graf","logloss"), times, n, eps = 1e-15, task,...){
+pecs.list = function(x, meas = c("graf","logloss"), times, n, eps = 1e-15, task){
   meas = match.arg(meas)
 
   assert(all(sapply(x, function(y) !is.null(y$model))), "x must be a list of trained survival learners")
@@ -80,13 +82,13 @@ pecs.list = function(x, meas = c("graf","logloss"), times, n, eps = 1e-15, task,
   scores$time = times
   scores = melt(scores, "time", value.name = meas, variable.name = "learner")
 
-  ggplot2::ggplot(data = scores, ggplot2::aes_string(x = "time", color = "learner", y = meas),...) +
-    ggplot2::geom_line(...)
+  ggplot2::ggplot(data = scores, ggplot2::aes_string(x = "time", color = "learner", y = meas)) +
+    ggplot2::geom_line()
 }
 
 #' @rdname pecs
 #' @export
-pecs.PredictionSurv = function(x, meas = c("graf","logloss"), times, n, eps = 1e-15,...){
+pecs.PredictionSurv = function(x, meas = c("graf","logloss"), times, n, eps = 1e-15){
   meas = match.arg(meas)
 
   true_times = sort(unique(x$truth[,1]))
@@ -109,8 +111,8 @@ pecs.PredictionSurv = function(x, meas = c("graf","logloss"), times, n, eps = 1e
   scores$time = round(as.numeric(rownames(scores)), 3)
   rownames(scores) = NULL
 
-  ggplot2::ggplot(data = scores, ggplot2::aes_string(x = "time", y = meas),...) +
-    ggplot2::geom_line(...)
+  ggplot2::ggplot(data = scores, ggplot2::aes_string(x = "time", y = meas)) +
+    ggplot2::geom_line()
 }
 
 .pec_times = function(true_times, times, n){

@@ -8,9 +8,9 @@
 \usage{
 pecs(x, meas = c("graf", "logloss"), times, n, eps = 1e-15, ...)
 
-\method{pecs}{list}(x, meas = c("graf", "logloss"), times, n, eps = 1e-15, task, ...)
+\method{pecs}{list}(x, meas = c("graf", "logloss"), times, n, eps = 1e-15, task)
 
-\method{pecs}{PredictionSurv}(x, meas = c("graf", "logloss"), times, n, eps = 1e-15, ...)
+\method{pecs}{PredictionSurv}(x, meas = c("graf", "logloss"), times, n, eps = 1e-15)
 }
 \arguments{
 \item{x}{(\link{PredictionSurv} or \code{list} of \link{LearnerSurv}s)}
@@ -29,7 +29,7 @@ If \code{times} is missing or given as a range, then \code{n} provide number of 
 Small error value to pass to \link{MeasureSurvIntLogloss} to prevent errors resulting from a log(0)
 calculation.}
 
-\item{...}{Additional arguments to pass down to plotting functions.}
+\item{...}{Additional arguments.}
 
 \item{task}{(\link{TaskSurv})}
 }
@@ -50,12 +50,14 @@ task = tsk("rats")
 learn = lrn("surv.coxph")
 p = learn$train(task)$predict(task)
 pecs(p)
-pecs(p, meas = "logloss", times = c(20, 40, 60, 80))
+pecs(p, meas = "logloss", times = c(20, 40, 60, 80)) +
+  ggplot2::geom_point() +
+  ggplot2::ggtitle("Logloss Prediction Error Curve for Cox PH")
 
 # Prediction Error Curves for fitted learners
 learns = lrns(c("surv.kaplan", "surv.coxph", "surv.ranger"))
 lapply(learns, function(x) x$train(task))
-pecs(learns, task = task, times = c(20, 90), n = 10)
+pecs(learns, task = task, meas = "logloss", times = c(20, 90), n = 10)
 
 
 }
