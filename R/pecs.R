@@ -15,7 +15,7 @@
 #' @param task ([TaskSurv])
 #' @param row_ids (`integer()`) \cr
 #'   Passed to `Learner$predict`.
-#' @param new_data (`data.frame()`) \cr
+#' @param newdata (`data.frame()`) \cr
 #'   If not missing `Learner$predict_newdata` is called instead of `Learner$predict`.
 #' @param ... Additional arguments.
 #'
@@ -52,7 +52,7 @@ pecs = function(x, measure = c("graf","logloss"), times, n, eps = 1e-15, ...){
 
 #' @rdname pecs
 #' @export
-pecs.list = function(x, measure = c("graf","logloss"), times, n, eps = 1e-15, task = NULL, row_ids = NULL, new_data,...){
+pecs.list = function(x, measure = c("graf","logloss"), times, n, eps = 1e-15, task = NULL, row_ids = NULL, newdata,...){
   measure = match.arg(measure)
 
   assert(all(sapply(x, function(y) !is.null(y$model))), "x must be a list of trained survival learners")

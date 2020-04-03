@@ -16,7 +16,7 @@ pecs(x, measure = c("graf", "logloss"), times, n, eps = 1e-15, ...)
   eps = 1e-15,
   task = NULL,
   row_ids = NULL,
-  new_data,
+  newdata,
   ...
 )
 
@@ -46,7 +46,7 @@ calculation.}
 \item{row_ids}{(\code{integer()}) \cr
 Passed to \code{Learner$predict}.}
 
-\item{new_data}{(\code{data.frame()}) \cr
+\item{newdata}{(\code{data.frame()}) \cr
 If not missing \code{Learner$predict_newdata} is called instead of \code{Learner$predict}.}
 }
 \description{
