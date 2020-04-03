@@ -48,7 +48,7 @@ pecs = function(x, meas = c("graf","logloss"), times, n, eps = 1e-15, ...){
 
 #' @rdname pecs
 #' @export
-pecs.list = function(x, meas = c("graf","logloss"), times, n, eps = 1e-15, task){
+pecs.list = function(x, meas = c("graf","logloss"), times, n, eps = 1e-15, task,...){
   meas = match.arg(meas)
 
   assert(all(sapply(x, function(y) !is.null(y$model))), "x must be a list of trained survival learners")
@@ -88,7 +88,7 @@ pecs.list = function(x, meas = c("graf","logloss"), times, n, eps = 1e-15, task)
 
 #' @rdname pecs
 #' @export
-pecs.PredictionSurv = function(x, meas = c("graf","logloss"), times, n, eps = 1e-15){
+pecs.PredictionSurv = function(x, meas = c("graf","logloss"), times, n, eps = 1e-15,...){
   meas = match.arg(meas)
 
   true_times = sort(unique(x$truth[,1]))

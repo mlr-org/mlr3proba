@@ -8,9 +8,9 @@
 \usage{
 pecs(x, meas = c("graf", "logloss"), times, n, eps = 1e-15, ...)
 
-\method{pecs}{list}(x, meas = c("graf", "logloss"), times, n, eps = 1e-15, task)
+\method{pecs}{list}(x, meas = c("graf", "logloss"), times, n, eps = 1e-15, task, ...)
 
-\method{pecs}{PredictionSurv}(x, meas = c("graf", "logloss"), times, n, eps = 1e-15)
+\method{pecs}{PredictionSurv}(x, meas = c("graf", "logloss"), times, n, eps = 1e-15, ...)
 }
 \arguments{
 \item{x}{(\link{PredictionSurv} or \code{list} of \link{LearnerSurv}s)}
