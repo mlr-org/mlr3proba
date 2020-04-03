@@ -61,7 +61,6 @@ Suggests:
     Matrix,
     mboost,
     mlr3tuning,
-    mlr3viz,
     np,
     obliqueRSF,
     pec,
