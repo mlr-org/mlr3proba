@@ -1,5 +1,6 @@
 context("pecs")
 
+set.seed(1)
 task = tgen("simsurv")$generate(5)
 
 test_that("pecs.list", {
@@ -7,11 +8,10 @@ test_that("pecs.list", {
   expect_error(pecs(learns), "trained survival learners")
   suppressWarnings({lapply(learns, function(x) x$train(task))})
   expect_error(pecs(learns, meas = "sdsd"))
-  expect_silent(pecs(learns, task = task, times = c(20, 90), n = 10))
   expect_silent(pecs(learns, task = task, n = 10))
   expect_silent(pecs(learns, task = task, meas = "logloss"))
   expect_error(pecs(learns, times = 1))
-  expect_error(pecs(learns, times = -10:-5))
+  expect_error(pecs(learns, times = -10:-5, task = task), "Not enough")
 })
 
 test_that("pecs.PredictionSurv", {

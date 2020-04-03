@@ -64,9 +64,13 @@ pecs.list = function(x, measure = c("graf","logloss"), times, n, eps = 1e-15, ta
     p = lapply(x, function(y) y$predict_newdata(newdata = newdata, task = task))
   }
 
-  true_times = sort(unique(task$truth()[, task$target_names == "time"]))
+  true_times = sort(unique(task$truth()[, "time"]))
 
   times = .pec_times(true_times = true_times, times = times, n = n)
+  if(length(times) <= 1){
+    stop(sprintf("Not enough `times` in the true observed times range: %s",
+                 paste0("[", paste0(round(range(true_times), 3), collapse = ", "), "]")))
+  }
 
   if(measure == "logloss"){
     scores = lapply(p, function(y){
