@@ -2,20 +2,20 @@
 #' @description Methods to plot prediction error curves (pecs) for either a [PredictionSurv] object
 #' or a list of trained [LearnerSurv]s.
 #' @param x ([PredictionSurv] or `list` of [LearnerSurv]s)
-#' @param meas (`character(1)`) \cr
+#' @param measure (`character(1)`) \cr
 #'   Either `"graf"` for [MeasureSurvGraf], or `"logloss"` for [MeasureSurvIntLogloss]
 #' @param times (`numeric()`) \cr
-#'   If provided then either a vector of time-points to evaluate `meas` or a range of time-points.
+#'   If provided then either a vector of time-points to evaluate `measure` or a range of time-points.
 #' @param n (`integer()`) \cr
 #'   If `times` is missing or given as a range, then `n` provide number of time-points to evaluate
-#'    `meas` over.
+#'    `measure` over.
 #' @param eps (`numeric()`) \cr
 #'   Small error value to pass to [MeasureSurvIntLogloss] to prevent errors resulting from a log(0)
 #'   calculation.
 #' @param task ([TaskSurv])
 #' @param ... Additional arguments.
 #'
-#' @details If `times` and `n` are missing then `meas` is evaluated over all observed time-points
+#' @details If `times` and `n` are missing then `measure` is evaluated over all observed time-points
 #' from the [PredictionSurv] or [TaskSurv] object. If a range is provided for `times` without `n`,
 #' then all time-points between the range are returned.
 #'
@@ -27,18 +27,18 @@
 #' learn = lrn("surv.coxph")
 #' p = learn$train(task)$predict(task)
 #' pecs(p)
-#' pecs(p, meas = "logloss", times = c(20, 40, 60, 80)) +
+#' pecs(p, measure = "logloss", times = c(20, 40, 60, 80)) +
 #'   ggplot2::geom_point() +
 #'   ggplot2::ggtitle("Logloss Prediction Error Curve for Cox PH")
 #'
 #' # Prediction Error Curves for fitted learners
 #' learns = lrns(c("surv.kaplan", "surv.coxph", "surv.ranger"))
 #' lapply(learns, function(x) x$train(task))
-#' pecs(learns, task = task, meas = "logloss", times = c(20, 90), n = 10)
+#' pecs(learns, task = task, measure = "logloss", times = c(20, 90), n = 10)
 #'
 #'
 #' @export
-pecs = function(x, meas = c("graf","logloss"), times, n, eps = 1e-15, ...){
+pecs = function(x, measure = c("graf","logloss"), times, n, eps = 1e-15, ...){
   if(!missing(times)) assertNumeric(times, min.len = 1)
   if(!missing(n)) assertIntegerish(n, len = 1)
   assertNumeric(eps, lower = -1, upper = 1)
@@ -48,8 +48,8 @@ pecs = function(x, meas = c("graf","logloss"), times, n, eps = 1e-15, ...){
 
 #' @rdname pecs
 #' @export
-pecs.list = function(x, meas = c("graf","logloss"), times, n, eps = 1e-15, task,...){
-  meas = match.arg(meas)
+pecs.list = function(x, measure = c("graf","logloss"), times, n, eps = 1e-15, task,...){
+  measure = match.arg(measure)
 
   assert(all(sapply(x, function(y) !is.null(y$model))), "x must be a list of trained survival learners")
   assertClass(task, "TaskSurv")
@@ -59,7 +59,7 @@ pecs.list = function(x, meas = c("graf","logloss"), times, n, eps = 1e-15, task,
 
   times = .pec_times(true_times = true_times, times = times, n = n)
 
-  if(meas == "logloss"){
+  if(measure == "logloss"){
     scores = lapply(p, function(y){
       integrated_score(score = weighted_logloss(truth = task$truth(),
                                                 distribution = y$distr,
@@ -80,22 +80,22 @@ pecs.list = function(x, meas = c("graf","logloss"), times, n, eps = 1e-15, task,
   scores = round(rbindlist(list(scores)), 4)
   colnames(scores) = sapply(x, function(y) gsub("surv.", "", y$id, fixed = TRUE))
   scores$time = times
-  scores = melt(scores, "time", value.name = meas, variable.name = "learner")
+  scores = melt(scores, "time", value.name = measure, variable.name = "learner")
 
-  ggplot2::ggplot(data = scores, ggplot2::aes_string(x = "time", color = "learner", y = meas)) +
+  ggplot2::ggplot(data = scores, ggplot2::aes_string(x = "time", color = "learner", y = measure)) +
     ggplot2::geom_line()
 }
 
 #' @rdname pecs
 #' @export
-pecs.PredictionSurv = function(x, meas = c("graf","logloss"), times, n, eps = 1e-15,...){
-  meas = match.arg(meas)
+pecs.PredictionSurv = function(x, measure = c("graf","logloss"), times, n, eps = 1e-15,...){
+  measure = match.arg(measure)
 
   true_times = sort(unique(x$truth[,1]))
   times = .pec_times(true_times = true_times, times = times, n = n)
 
 
-  if(meas == "logloss"){
+  if(measure == "logloss"){
     scores = data.frame(logloss = integrated_score(score = weighted_logloss(truth = x$truth,
                                                                             distribution = x$distr,
                                                                             times = times,
@@ -111,7 +111,7 @@ pecs.PredictionSurv = function(x, meas = c("graf","logloss"), times, n, eps = 1e
   scores$time = round(as.numeric(rownames(scores)), 3)
   rownames(scores) = NULL
 
-  ggplot2::ggplot(data = scores, ggplot2::aes_string(x = "time", y = meas)) +
+  ggplot2::ggplot(data = scores, ggplot2::aes_string(x = "time", y = measure)) +
     ggplot2::geom_line()
 }
 
