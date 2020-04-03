@@ -7,7 +7,7 @@
 \description{
 Calls \code{\link[xgboost:xgboost]{xgboost::xgboost()}}.
 \itemize{
-\item distr is predicted by \code{\link[stats:predict]{stats::predict()}}
+\item distr is predicted by \code{\link[xgboost:predict.xgb.Booster]{xgboost::predict.xgb.Booster()}}
 \item \code{crank} is predicted as the expectation of the survival distribution, \code{distr}
 }
 
@@ -48,8 +48,10 @@ lrn("surv.xgboost")
 \seealso{
 Other survival learners: 
 \code{\link{LearnerSurvBlackboost}},
+\code{\link{LearnerSurvCVCoxboost}},
 \code{\link{LearnerSurvCVGlmnet}},
 \code{\link{LearnerSurvCoxPH}},
+\code{\link{LearnerSurvCoxboost}},
 \code{\link{LearnerSurvFlexible}},
 \code{\link{LearnerSurvGBM}},
 \code{\link{LearnerSurvGamboost}},

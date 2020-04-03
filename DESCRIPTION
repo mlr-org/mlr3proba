@@ -175,6 +175,7 @@ Collate:
     'TaskSurv_rats.R'
     'TaskSurv_unemployment.R'
     'assertions.R'
+    'autoplot.R'
     'crankcompositor.R'
     'distrcompositor.R'
     'helpers.R'
