@@ -3,7 +3,9 @@
 \name{mlr_tasks_rats}
 \alias{mlr_tasks_rats}
 \title{Rats Survival Task}
-\format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskSurv}.}
+\format{
+\link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskSurv}.
+}
 \description{
 A survival task for the \link{rats} data set.
 }

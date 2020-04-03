@@ -79,7 +79,6 @@ register_mlr3 = function() {
 
    x$add("surv.coxph", LearnerSurvCoxPH)
    x$add("surv.kaplan", LearnerSurvKaplan)
-   x$add("surv.nelson", LearnerSurvNelson)
    x$add("surv.glmnet", LearnerSurvGlmnet)
    x$add("surv.cvglmnet", LearnerSurvCVGlmnet)
    x$add("surv.glmboost", LearnerSurvGlmboost)
@@ -91,7 +90,6 @@ register_mlr3 = function() {
    x$add("surv.ranger", LearnerSurvRanger)
    x$add("surv.randomForestSRC", LearnerSurvRandomForestSRC)
    x$add("surv.svm", LearnerSurvSVM)
-   x$add("surv.parametric", LearnerSurvParametric)
    x$add("surv.flexible", LearnerSurvFlexible)
    x$add("surv.gbm", LearnerSurvGBM)
    x$add("surv.obliqueRSF", LearnerSurvObliqueRSF)
