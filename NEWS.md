@@ -1,6 +1,6 @@
 # mlr3proba 0.1.4.9000
 
-
+* `LearnerSurvParametric` and `LearnerSurvNelson` moved to `mlr3learners/mlr3learners.survival ` repo
 
 # mlr3proba 0.1.4
 
