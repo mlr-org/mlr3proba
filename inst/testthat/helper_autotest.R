@@ -220,7 +220,7 @@ run_autotest = function(learner, N = 30L, exclude = NULL, predict_types = learne
 
 
         x = try(run$prediction$distr, silent = TRUE)
-        x = if(is.null(x)) FALSE else class(x) != "try-error"
+        x = if(is.null(x)) FALSE else class(x)[1] != "try-error"
         if(x){
           if(inherits(run$prediction$distr,"VectorDistribution")){
             if (!all.equal(as.data.table(run$prediction)[,-c("distr")],
