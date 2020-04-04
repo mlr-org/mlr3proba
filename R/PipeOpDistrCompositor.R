@@ -6,7 +6,7 @@
 #' `crank` or `lp` from two [PredictionSurv]s.
 #'
 #' Compositor Assumptions:
-#' * The baseline `distr` is a discrete estimator, i.e. Kaplan-Meier or Nelson-Aalen
+#' * The baseline `distr` is a discrete estimator, i.e. [surv.kaplan][LearnerSurvKaplan] or [surv.nelson][mlr3learners.survival::LearnerSurvNelson]
 #' * The composed `distr` is of a linear form
 #' * If `lp` is missing then `crank` is equivalent
 #'

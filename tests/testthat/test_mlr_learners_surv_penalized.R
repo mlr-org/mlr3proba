@@ -23,10 +23,3 @@ test_that("unpenalized",{
   expect_equal(names(learner$model@unpenalized), c("height"))
   expect_prediction_surv(learner$predict(task))
 })
-
-test_that("importance",{
-  learner = lrn("surv.penalized")
-  expect_error(learner$importance(), "No model stored")
-  learner$train(tsk("rats"))
-  expect_silent(learner$importance())
-})
