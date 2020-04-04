@@ -71,6 +71,7 @@ Returns the type of censoring, one of "right", "left", "counting", "interval", "
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
@@ -116,6 +117,7 @@ Name of the column giving the type of censoring. Default is 'right' censoring.}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-truth"></a>}}
+\if{latex}{\out{\hypertarget{method-truth}{}}}
 \subsection{Method \code{truth()}}{
 True response for specified \code{row_ids}. Format depends on the task type.
 Defaults to all rows with role "use".
@@ -137,6 +139,7 @@ Row indices.}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-formula"></a>}}
+\if{latex}{\out{\hypertarget{method-formula}{}}}
 \subsection{Method \code{formula()}}{
 Creates a formula for survival models with \link[survival:Surv]{survival::Surv} on the LHS.
 \subsection{Usage}{
@@ -156,6 +159,7 @@ Creates a formula for survival models with \link[survival:Surv]{survival::Surv} 
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

@@ -3,7 +3,9 @@
 \name{mlr_tasks_faithful}
 \alias{mlr_tasks_faithful}
 \title{Old Faithful Eruptions Density Task}
-\format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskDens}.}
+\format{
+\link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskDens}.
+}
 \description{
 A density task for the \link{faithful} data set.
 }
