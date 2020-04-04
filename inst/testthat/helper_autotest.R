@@ -5,7 +5,7 @@ expect_task_dens = function(task) {
 
   f = task$formula()
   expect_formula(f)
-  expect_set_equal(extract_vars(f)$lhs, task$target_names)
+  expect_set_equal(mlr3misc::extract_vars(f)$lhs, task$target_names)
 }
 
 generate_tasks.LearnerDens = function(learner, N = 30L) {
@@ -44,7 +44,7 @@ expect_task_surv = function(task) {
 
   f = task$formula()
   expect_formula(f)
-  expect_set_equal(extract_vars(f)$lhs, task$target_names)
+  expect_set_equal(mlr3misc::extract_vars(f)$lhs, task$target_names)
   #  expect_is(task$survfit(), "survfit")
 }
 
@@ -170,7 +170,7 @@ run_experiment = function(task, learner, seed = NULL) {
         return(err(msg))
       msg = checkmate::check_names(names(importance), subset.of = task$feature_names)
       if (!isTRUE(msg))
-        return(err("Names of returned importance scores do not match task names: %s", str_collapse(names(importance))))
+        return(err("Names of returned importance scores do not match task names: %s", mlr3misc::str_collapse(names(importance))))
       if ("unimportant" %in% head(names(importance), 1L))
         return(err("unimportant feature is important"))
     }

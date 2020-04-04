@@ -9,9 +9,9 @@
 #' @description
 #' Parameter `k` is changed to `1` and `scale` is changed to `odds`, as these are more in line with
 #' the Royston/Parmar proposed models, and the package defaults are equivalent to fitting a
-#' parametric model and therefore [surv.parametric][LearnerSurvParametric] should be used instead.
+#' parametric model and therefore [surv.parametric][mlr3learners.survival::LearnerSurvParametric] should be used instead.
 #'
-#' If fitting a model with `k = 0` then consider using [surv.parametric][LearnerSurvParametric] as
+#' If fitting a model with `k = 0` then consider using [surv.parametric][mlr3learners.survival::LearnerSurvParametric] as
 #' this is likely to have more optimal results, and has more options for tuning.
 #'
 #' @details
