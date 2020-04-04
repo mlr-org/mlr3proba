@@ -14,9 +14,9 @@ Calls \code{\link[flexsurv:flexsurvspline]{flexsurv::flexsurvspline()}}.
 
 Parameter \code{k} is changed to \code{1} and \code{scale} is changed to \code{odds}, as these are more in line with
 the Royston/Parmar proposed models, and the package defaults are equivalent to fitting a
-parametric model and therefore \link[=LearnerSurvParametric]{surv.parametric} should be used instead.
+parametric model and therefore \link[mlr3learners.survival:LearnerSurvParametric]{surv.parametric} should be used instead.
 
-If fitting a model with \code{k = 0} then consider using \link[=LearnerSurvParametric]{surv.parametric} as
+If fitting a model with \code{k = 0} then consider using \link[mlr3learners.survival:LearnerSurvParametric]{surv.parametric} as
 this is likely to have more optimal results, and has more options for tuning.
 }
 \details{
@@ -67,9 +67,7 @@ Other survival learners:
 \code{\link{LearnerSurvGlmnet}},
 \code{\link{LearnerSurvKaplan}},
 \code{\link{LearnerSurvMboost}},
-\code{\link{LearnerSurvNelson}},
 \code{\link{LearnerSurvObliqueRSF}},
-\code{\link{LearnerSurvParametric}},
 \code{\link{LearnerSurvPenalized}},
 \code{\link{LearnerSurvRandomForestSRC}},
 \code{\link{LearnerSurvRanger}},
@@ -103,6 +101,7 @@ Other survival learners:
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
@@ -112,6 +111,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
