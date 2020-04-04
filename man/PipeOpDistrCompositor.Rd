@@ -10,7 +10,7 @@ Estimates (or 'composes') a survival distribution from a predicted baseline \cod
 
 Compositor Assumptions:
 \itemize{
-\item The baseline \code{distr} is a discrete estimator, i.e. \link{LearnerSurvKaplan} or \link{LearnerSurvNelson}
+\item The baseline \code{distr} is a discrete estimator, i.e. Kaplan-Meier or Nelson-Aalen
 \item The composed \code{distr} is of a linear form
 \item If \code{lp} is missing then \code{crank} is equivalent
 }

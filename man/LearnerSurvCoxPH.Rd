@@ -29,7 +29,7 @@ lrn("surv.coxph")
 \item Type: "surv"
 \item Predict Types: \verb{distr, crank, lp}
 \item Feature Types: \verb{logical, integer, numeric, factor}
-\item Properties: \code{importance}
+\item Properties: \code{weights}
 \item Packages: \CRANpkg{survival} \CRANpkg{distr6}
 }
 }
@@ -66,8 +66,6 @@ Other survival learners:
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{LearnerSurvCoxPH$new()}}
-\item \href{#method-importance}{\code{LearnerSurvCoxPH$importance()}}
-\item \href{#method-selected_features}{\code{LearnerSurvCoxPH$selected_features()}}
 \item \href{#method-clone}{\code{LearnerSurvCoxPH$clone()}}
 }
 }
@@ -93,32 +91,6 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \if{html}{\out{<div class="r">}}\preformatted{LearnerSurvCoxPH$new()}\if{html}{\out{</div>}}
 }
 
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-importance"></a>}}
-\if{latex}{\out{\hypertarget{method-importance}{}}}
-\subsection{Method \code{importance()}}{
-The importance scores are extracted from the model slot \code{variable.importance}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LearnerSurvCoxPH$importance()}\if{html}{\out{</div>}}
-}
-
-\subsection{Returns}{
-Named \code{numeric()}.
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-selected_features"></a>}}
-\if{latex}{\out{\hypertarget{method-selected_features}{}}}
-\subsection{Method \code{selected_features()}}{
-Selected features are extracted from the model slot \code{frame$var}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LearnerSurvCoxPH$selected_features()}\if{html}{\out{</div>}}
-}
-
-\subsection{Returns}{
-\code{character()}.
-}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

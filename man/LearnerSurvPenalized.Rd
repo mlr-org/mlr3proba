@@ -31,7 +31,7 @@ lrn("surv.penalized")
 \item Type: "surv"
 \item Predict Types: \verb{distr, crank}
 \item Feature Types: \verb{integer, numeric, factor, ordered}
-\item Properties: \code{importance}
+\item Properties: \code{-}
 \item Packages: \CRANpkg{penalized} \CRANpkg{distr6}
 }
 }
@@ -84,7 +84,6 @@ Other survival learners:
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{LearnerSurvPenalized$new()}}
-\item \href{#method-importance}{\code{LearnerSurvPenalized$importance()}}
 \item \href{#method-clone}{\code{LearnerSurvPenalized$clone()}}
 }
 }
@@ -110,19 +109,6 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \if{html}{\out{<div class="r">}}\preformatted{LearnerSurvPenalized$new()}\if{html}{\out{</div>}}
 }
 
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-importance"></a>}}
-\if{latex}{\out{\hypertarget{method-importance}{}}}
-\subsection{Method \code{importance()}}{
-The importance scores are extracted from the model slot \code{variable.importance}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LearnerSurvPenalized$importance()}\if{html}{\out{</div>}}
-}
-
-\subsection{Returns}{
-Named \code{numeric()}.
-}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

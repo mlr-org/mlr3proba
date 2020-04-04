@@ -12,8 +12,8 @@ test_that("PipeOpDistrCompositor - assertions", {
   pred = lrn("surv.coxph")$train(task)$predict(task)
   pod = po("distrcompose", param_vals = list(form = "aft", overwrite = TRUE))
   expect_error(pod$predict(list(base = base, pred = pred)), "Assertion on 'distr'")
-  expect_silent(pod$predict(list(base = lrn("surv.kaplan")$train(task)$predict(task),
-                                pred = lrn("surv.nelson")$train(task)$predict(task))))
+  # expect_silent(pod$predict(list(base = lrn("surv.kaplan")$train(task)$predict(task),
+  #                               pred = lrn("surv.nelson")$train(task)$predict(task))))
 })
 
 test_that("PipeOpDistrCompositor - overwrite = FALSE", {

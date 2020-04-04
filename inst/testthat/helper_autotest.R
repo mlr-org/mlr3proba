@@ -45,7 +45,7 @@ expect_task_surv = function(task) {
   f = task$formula()
   expect_formula(f)
   expect_set_equal(extract_vars(f)$lhs, task$target_names)
-#  expect_is(task$survfit(), "survfit")
+  #  expect_is(task$survfit(), "survfit")
 }
 
 generate_tasks.LearnerSurv = function(learner, N = 20L) {
@@ -193,7 +193,7 @@ run_experiment = function(task, learner, seed = NULL) {
   return(list(ok = TRUE, learner = learner, prediction = prediction, error = character(), seed = seed))
 }
 
-run_autotest = function(learner, N = 30L, exclude = NULL, predict_types = learner$predict_types) {
+run_autotest = function(learner, N = 30L, exclude = NULL) {
   learner = learner$clone(deep = TRUE)
   id = learner$id
   tasks = generate_tasks(learner, N = N)
@@ -201,40 +201,33 @@ run_autotest = function(learner, N = 30L, exclude = NULL, predict_types = learne
     tasks = tasks[!grepl(exclude, names(tasks))]
 
   for (task in tasks) {
-    for (predict_type in predict_types) {
-      learner$id = sprintf("%s:%s", id, predict_type)
-      learner$predict_type = predict_type
+    predict_type = learner$predict_type
+    learner$id = sprintf("%s:%s", id, predict_type)
+    learner$predict_type = predict_type
 
-      run = run_experiment(task, learner)
-      if (!run$ok) {
-        return(run)
+    run = run_experiment(task, learner)
+    if (!run$ok) {
+      return(run)
+    }
+
+    # re-run task with same seed for feat_all
+    if (startsWith(task$id, "feat_all")) {
+      repeated_run = run_experiment(task, learner, seed = run$seed)
+
+      if (!repeated_run$ok) {
+        return(repeated_run)
       }
 
-      # re-run task with same seed for feat_all
-      if (startsWith(task$id, "feat_all")) {
-        repeated_run = run_experiment(task, learner, seed = run$seed)
 
-        if (!repeated_run$ok) {
-          return(repeated_run)
-        }
-
-
-        x = try(run$prediction$distr, silent = TRUE)
-        x = if(is.null(x)) FALSE else class(x)[1] != "try-error"
-        if(x){
-          if(inherits(run$prediction$distr,"VectorDistribution")){
-            if (!all.equal(as.data.table(run$prediction)[,-c("distr")],
-                           as.data.table(repeated_run$prediction)[,-c("distr")])) {
-              run$ok = FALSE
-              run$error = sprintf("Different results for replicated runs using fixed seed %i", seed)
-              return(run)
-            }
-          } else {
-            if (!all.equal(as.data.table(run$prediction), as.data.table(repeated_run$prediction))) {
-              run$ok = FALSE
-              run$error = sprintf("Different results for replicated runs using fixed seed %i", seed)
-              return(run)
-            }
+      x = try(run$prediction$distr, silent = TRUE)
+      x = if(is.null(x)) FALSE else class(x)[1] != "try-error"
+      if(x){
+        if(inherits(run$prediction$distr,"VectorDistribution")){
+          if (!all.equal(as.data.table(run$prediction)[,-c("distr")],
+                         as.data.table(repeated_run$prediction)[,-c("distr")])) {
+            run$ok = FALSE
+            run$error = sprintf("Different results for replicated runs using fixed seed %i", seed)
+            return(run)
           }
         } else {
           if (!all.equal(as.data.table(run$prediction), as.data.table(repeated_run$prediction))) {
@@ -242,6 +235,12 @@ run_autotest = function(learner, N = 30L, exclude = NULL, predict_types = learne
             run$error = sprintf("Different results for replicated runs using fixed seed %i", seed)
             return(run)
           }
+        }
+      } else {
+        if (!all.equal(as.data.table(run$prediction), as.data.table(repeated_run$prediction))) {
+          run$ok = FALSE
+          run$error = sprintf("Different results for replicated runs using fixed seed %i", seed)
+          return(run)
         }
       }
     }
