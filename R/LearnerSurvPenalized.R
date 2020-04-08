@@ -52,21 +52,16 @@ LearnerSurvPenalized = R6Class("LearnerSurvPenalized", inherit = LearnerSurv,
           ),
         feature_types = c("integer", "numeric","factor","ordered"),
         predict_types = c("distr","crank"),
-        properties = "importance",
         packages = c("penalized","distr6")
         )
-      },
-
-    #' @description
-    #' The importance scores are extracted from the model slot `variable.importance`.
-    #' @return Named `numeric()`.
-    importance = function() {
-      if (is.null(self$model))
-        stopf("No model stored")
-
-      # importance defined by decreasing fitted weights
-      sort(self$model@weights, decreasing = TRUE)
       }
+    # importance = function() {
+    #   if (is.null(self$model))
+    #     stopf("No model stored")
+    #
+    #   # importance defined by decreasing fitted weights
+    #   sort(self$model@weights, decreasing = TRUE)
+    #   }
   ),
 
   private = list(

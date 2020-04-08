@@ -28,34 +28,9 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
         ),
         predict_types = c("distr","crank","lp"),
         feature_types = c("logical", "integer", "numeric", "factor"),
-        properties = c("importance"),
+        properties = "weights",
         packages = c("survival", "distr6")
       )
-    },
-
-    #' @description
-    #' The importance scores are extracted from the model slot `variable.importance`.
-    #' @return Named `numeric()`.
-    importance = function() {
-     if (is.null(self$model)) {
-       stopf("No model stored")
-     }
-      # coefficient importance defined by the p-values
-      sort(1-summary(self$model)$coefficients[,5L], decreasing = TRUE)
-    },
-
-    #' @description
-    #' Selected features are extracted from the model slot `frame$var`.
-    #' @return `character()`.
-    selected_features = function() {
-
-    if (is.null(self$model)) {
-      stopf("No model stored")
-    }
-
-    # features are selected if their coefficients are non-NA
-    beta = coef(self$model)
-    names(beta)[!is.na(beta)]
     }
   ),
 
@@ -64,9 +39,9 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
 
       pv = self$param_set$get_values(tags = "train")
 
-      # if ("weights" %in% task$properties) {
-      #   pv$weights = as.numeric(task$weights$weight)
-      # }
+      if ("weights" %in% task$properties) {
+        pv$weights = task$weights$weight
+      }
 
       invoke(survival::coxph, formula = task$formula(), data = task$data(), .args = pv, x = TRUE)
     },

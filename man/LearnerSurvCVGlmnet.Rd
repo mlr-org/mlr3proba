@@ -42,9 +42,7 @@ lrn("surv.cvglmnet")
 \seealso{
 Other survival learners: 
 \code{\link{LearnerSurvBlackboost}},
-\code{\link{LearnerSurvCVCoxboost}},
 \code{\link{LearnerSurvCoxPH}},
-\code{\link{LearnerSurvCoxboost}},
 \code{\link{LearnerSurvFlexible}},
 \code{\link{LearnerSurvGBM}},
 \code{\link{LearnerSurvGamboost}},
@@ -52,9 +50,7 @@ Other survival learners:
 \code{\link{LearnerSurvGlmnet}},
 \code{\link{LearnerSurvKaplan}},
 \code{\link{LearnerSurvMboost}},
-\code{\link{LearnerSurvNelson}},
 \code{\link{LearnerSurvObliqueRSF}},
-\code{\link{LearnerSurvParametric}},
 \code{\link{LearnerSurvPenalized}},
 \code{\link{LearnerSurvRandomForestSRC}},
 \code{\link{LearnerSurvRanger}},
@@ -88,6 +84,7 @@ Other survival learners:
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
@@ -97,6 +94,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

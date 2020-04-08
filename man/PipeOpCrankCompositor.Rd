@@ -120,6 +120,7 @@ Other survival compositors:
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
@@ -144,6 +145,7 @@ otherwise be set during construction.}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-train_internal"></a>}}
+\if{latex}{\out{\hypertarget{method-train_internal}{}}}
 \subsection{Method \code{train_internal()}}{
 train_internal
 Internal \code{train} function, will be moved to \code{private} in a near-future update, should be ignored.
@@ -161,6 +163,7 @@ Internal \code{train} function, will be moved to \code{private} in a near-future
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-predict_internal"></a>}}
+\if{latex}{\out{\hypertarget{method-predict_internal}{}}}
 \subsection{Method \code{predict_internal()}}{
 predict_internal
 Internal \code{predict} function, will be moved to \code{private} in a near-future update, should be ignored.
@@ -178,6 +181,7 @@ Internal \code{predict} function, will be moved to \code{private} in a near-futu
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
