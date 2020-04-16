@@ -7,11 +7,11 @@ test_that("PipeOpCrankCompositor - basic properties", {
 
 task = tgen("simsurv")$generate(20)
 
-test_that("PipeOpCrankCompositor - assertions", {
-  expect_error(crankcompositor(lrn("surv.svm")), "Assertion on 'distr'")
-  expect_error(po("crankcompose")$predict(
-    list(lrn("surv.svm")$train(task)$predict(task))), "Assertion on 'distr'")
-})
+# test_that("PipeOpCrankCompositor - assertions", {
+#   expect_error(crankcompositor(lrn("surv.svm")), "Assertion on 'distr'")
+#   expect_error(po("crankcompose")$predict(
+#     list(lrn("surv.svm")$train(task)$predict(task))), "Assertion on 'distr'")
+# })
 
 test_that("PipeOpCrankCompositor - estimate", {
   gr = crankcompositor(lrn("surv.coxph"), method = "mode")

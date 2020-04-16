@@ -34,9 +34,10 @@
 LearnerSurv = R6Class("LearnerSurv", inherit = Learner,
   public = list(
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id, param_set = ParamSet$new(), predict_types = "distr", feature_types = character(), properties = character(), packages = character()) {
+    initialize = function(id, param_set = ParamSet$new(), predict_types = "distr", feature_types = character(), properties = character(), packages = character(),
+                          man = NA_character_) {
       super$initialize(id = id, task_type = "surv", param_set = param_set, predict_types = predict_types,
-                       feature_types = feature_types, properties = properties, packages = packages)
+                       feature_types = feature_types, properties = properties, packages = packages, man = man)
     }
   )
 )

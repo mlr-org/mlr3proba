@@ -1,6 +1,6 @@
 Package: mlr3proba
 Title: Probabilistic Supervised Learning for 'mlr3'
-Version: 0.1.4.9000
+Version: 0.1.5
 Authors@R:
     c(person(given = "Raphael",
              family = "Sonabend",
@@ -38,8 +38,8 @@ Depends:
 Imports:
     checkmate,
     data.table,
-    distr6 (>= 1.3.5),
-    mlr3 (>= 0.1.7),
+    distr6 (>= 1.3.6),
+    mlr3 (>= 0.1.8),
     mlr3misc (>= 0.1.7),
     mlr3pipelines,
     paradox (>= 0.1.0),
@@ -47,16 +47,19 @@ Imports:
     survival
 Suggests:
     bibtex,
+    CoxBoost,
     flexsurv,
     gbm,
+    ggplot2,
     glmnet,
-    kerdiest,
     gss,
+    kerdiest,
     knitr,
     ks,
     lgr,
     logspline,
     locfit,
+    Matrix,
     mboost,
     mlr3tuning,
     np,
@@ -74,7 +77,8 @@ Suggests:
     sm,
     survAUC,
     survivalsvm,
-    testthat
+    testthat,
+    xgboost
 VignetteBuilder:
     knitr
 ByteCompile: true
@@ -82,7 +86,7 @@ Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
 Roxygen: list(markdown = TRUE, r6 = TRUE)
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 RdMacros: mlr3misc
 Collate:
     'LearnerDens.R'
@@ -111,15 +115,12 @@ Collate:
     'LearnerSurvGlmnet.R'
     'LearnerSurvKaplan.R'
     'LearnerSurvMboost.R'
-    'LearnerSurvNelson.R'
     'LearnerSurvObliqueRSF.R'
-    'predict_survreg.R'
-    'LearnerSurvParametric.R'
     'LearnerSurvPenalized.R'
     'LearnerSurvRandomForestSRC.R'
     'LearnerSurvRanger.R'
     'LearnerSurvRpart.R'
-    'LearnerSurvSVM.R'
+    'LearnerSurvXGBoost.R'
     'MeasureDens.R'
     'MeasureDensLogloss.R'
     'MeasureRegrLogloss.R'
@@ -169,11 +170,13 @@ Collate:
     'TaskSurv_rats.R'
     'TaskSurv_unemployment.R'
     'assertions.R'
+    'autoplot.R'
     'crankcompositor.R'
     'distrcompositor.R'
     'helpers.R'
     'histogram.R'
     'integrated_scores.R'
+    'pecs.R'
     'surv_measures.R'
     'weighted_survival_score.R'
     'zzz.R'

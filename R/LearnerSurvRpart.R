@@ -1,8 +1,8 @@
 #' @template surv_learner
-#' @templateVar title Rpart Survival Forest
+#' @templateVar title Rpart Survival Trees
 #' @templateVar fullname LearnerSurvRpart
 #' @templateVar caller [rpart::rpart()]
-#' @templateVar distr using [pec::pecRpart()] and [pec::predictSurvProb()]
+#' @templateVar crank using [rpart::predict.rpart()]
 #'
 #' @description
 #' Parameter `xval` is set to 0 in order to save some computation time.
@@ -45,11 +45,11 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart", inherit = LearnerSurv,
     #' The importance scores are extracted from the model slot `variable.importance`.
     #' @return Named `numeric()`.
     importance = function() {
-      if (is.null(self$model$fit$rpart)) {
+      if (is.null(self$model)) {
         stopf("No model stored")
       }
       # importance is only present if there is at least on split
-      sort(self$model$fit$rpart$variable.importance %??% set_names(numeric()), decreasing = TRUE)
+      sort(self$model$variable.importance %??% set_names(numeric()), decreasing = TRUE)
     },
 
     #' @description
@@ -59,7 +59,7 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart", inherit = LearnerSurv,
       if (is.null(self$model)) {
         stopf("No model stored")
       }
-      unique(setdiff(self$model$fit$rpart$frame$var, "<leaf>"))
+      unique(setdiff(self$model$frame$var, "<leaf>"))
     }
   ),
 
@@ -70,44 +70,16 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart", inherit = LearnerSurv,
         pv = insert_named(pv, list(weights = task$weights$weight))
       }
 
-      # The model is fit via the pec package to return the required models for composition to a
-      # survival distribution.
-      fit = invoke(pec::pecRpart, formula = task$formula(), data = task$data(), method = "exp", .args = pv)
-
-      set_class(list(fit = fit, times = sort(unique(task$truth()[,1]))), "surv.rpart")
+      invoke(rpart::rpart, formula = task$formula(), data = task$data(),
+             method = "exp", .args = pv)
     },
 
     .predict = function(task) {
-      newdata = task$data(cols = task$feature_names)
-
-      cdf = 1 - invoke(pec::predictSurvProb, .args = list(object = self$model$fit, newdata = newdata,
-                                                          times = self$model$times))
-
-      # We assume that any NAs in prediction are due to the observation being dead. This certainly
-      # looks like the case when looking through predictions - i.e. predictions are made for survival
-      # for an observation until the first '0' is predicted, then NA is returned.
-      cdf[is.na(cdf)] = 1
-      # surv2 = t(apply(surv,1,function(x){
-      #   if(any(is.na(x))){
-      #     if(round(x[which(is.na(x))[1]-1]) == 0)
-      #       x[is.na(x)] = 0
-      #   }
-      #   return(x)
-      # }))
-
-
-      # define WeightedDiscrete distr6 object from predicted survival function
-      x = rep(list(data = data.frame(x = self$model$times, cdf = 0)), task$nrow)
-      for(i in 1:task$nrow)
-        x[[i]]$cdf = cdf[i, ]
-
-      distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
-                                             decorators = c("CoreStatistics", "ExoticStatistics"))
-
-      crank = as.numeric(sapply(x, function(y) sum(y[,1] * c(y[,2][1], diff(y[,2])))))
-
-      # note the ranking of lp and crank is identical
-      PredictionSurv$new(task = task, crank = crank, distr = distr)
+      PredictionSurv$new(task = task,
+                         crank = invoke(predict,
+                                        object = self$model,
+                                        newdata = task$data(cols = task$feature_names)
+                         ))
     }
   )
 )

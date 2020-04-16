@@ -8,14 +8,14 @@ test_that("Construction", {
 
 test_that("Internally constructed Prediction", {
   task = tsk("lung")
-  lrn = lrn("surv.rpart")
+  lrn = lrn("surv.kaplan")
   p = lrn$train(task)$predict(task)
   expect_prediction_surv(p)
 })
 
 test_that("c", {
   task = tsk("lung")
-  lrn = lrn("surv.rpart")
+  lrn = lrn("surv.kaplan")
   resampling = rsmp("cv", folds = 3)
   rr = resample(task, lrn, resampling)
 
@@ -29,7 +29,7 @@ test_that("c", {
 
   task = tgen("simsurv")$generate(20)
   p1 = lrn("surv.kaplan")$train(task)$predict(task)
-  p2 = lrn("surv.svm")$train(task)$predict(task)
+  p2 = lrn("surv.coxph")$train(task)$predict(task)
   expect_error(c(p1,p2), "Cannot rbind")
 
   lrn = lrn("surv.kaplan")

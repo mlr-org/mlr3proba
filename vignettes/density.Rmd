@@ -1,0 +1,90 @@
+---
+title: "Density Estimation in mlr3proba"
+author: "Nurul Ain Toha"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{Density Estimation in mlr3proba}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+  
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  cache = FALSE,
+  collapse = TRUE,
+  comment = "#>"
+)
+set.seed(1)
+lgr::get_logger("mlr3")$set_threshold("error")
+```
+
+This vignette is an introduction to performing density estimation in **mlr3proba**.
+
+## A very quick introduction to density estimation
+
+Density estimation is the learning task to find the unknown distribution from which an i.i.d. data set is generated. We interpret this broadly, with this distribution not necessarily being continuous (so may possess a mass not density). The conditional case, where a distribution is predicted conditional on covariates, is known as ‘probabilistic supervised regression’, and will be implemented in **mlr3proba** in the near-future. In **mlr3proba**, (unconditional) density estimation is viewed as an unsupervised task, whereas probabilistic supervised regression (or conditional density estimation) is a supervised task
+
+## Density Task
+
+Unconditional density estimation is an unsupervised method. Hence, `TaskDens` is an unsupervised task which inherits directly from `Task` unlike `TaskClassif` and `TaskRegr`. However, `TaskDens` still has a `target` and a `$truth` field defined by:
+  
+  * `target` - the variable for which to estimate density
+  * `truth` -  the `target`. This is *not* the true density which is always unknown. 
+
+
+```{r}
+library(mlr3proba); library(mlr3)
+
+task = TaskDens$new(id = "mpg", backend = datasets::mtcars, target = "mpg")
+
+task
+
+task$truth()[1:10]
+```
+
+## Train and Predict
+
+Density learners have `train` and `predict` methods, though being unsupervised, 'prediction' is actually 'estimation'. In training, a [distr6](https://cran.r-project.org/package=distr6) object is created,
+[see here](https://alan-turing-institute.github.io/distr6/) for full tutorials on how to access the `pdf`, `cdf`, and other important fields and methods. The predict method is simply a wrapper around `self$model$pdf` and if available `self$model$cdf`, i.e. evaluates the pdf/cdf at given points. Note
+that in prediction the points to evaluate the pdf and cdf are determined by the `target` column in the `TaskDens` object used for testing.
+
+```{r}
+# create task and learner
+
+task_faithful = TaskDens$new(id = "eruptions", backend = datasets::faithful,
+                             target = "eruptions")
+learner = lrn("dens.spline")
+
+# train/test split 
+
+train_set = sample(task_faithful$nrow, 0.8 * task_faithful$nrow)
+test_set = setdiff(seq_len(task_faithful$nrow), train_set)
+
+# fitting KDE and model inspection
+
+learner$train(task_faithful, row_ids = train_set)
+learner$model
+class(learner$model)
+
+# make predictions for new data
+
+prediction = learner$predict(task_faithful, row_ids = test_set)
+```
+
+Every `PredictionDens` object can estimate:
+  
+  * `pdf` - probability density function
+
+Some learners can estimate: 
+  
+  * `cdf` - cumulative distribution function
+
+```{r}
+prediction
+
+# `pdf` is evaluated using the `log-loss`
+
+prediction$score()
+```

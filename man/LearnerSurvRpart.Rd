@@ -3,12 +3,11 @@
 \name{LearnerSurvRpart}
 \alias{LearnerSurvRpart}
 \alias{mlr_learners_surv.rpart}
-\title{Rpart Survival Forest Survival Learner}
+\title{Rpart Survival Trees Survival Learner}
 \description{
 Calls \code{\link[rpart:rpart]{rpart::rpart()}}.
 \itemize{
-\item distr is predicted using \code{\link[pec:pecRpart]{pec::pecRpart()}} and \code{\link[pec:predictSurvProb]{pec::predictSurvProb()}}
-\item \code{crank} is predicted as the expectation of the survival distribution, \code{distr}
+\item crank is predicted using \code{\link[rpart:predict.rpart]{rpart::predict.rpart()}}
 }
 
 Parameter \code{xval} is set to 0 in order to save some computation time.
@@ -48,13 +47,11 @@ Other survival learners:
 \code{\link{LearnerSurvGlmnet}},
 \code{\link{LearnerSurvKaplan}},
 \code{\link{LearnerSurvMboost}},
-\code{\link{LearnerSurvNelson}},
 \code{\link{LearnerSurvObliqueRSF}},
-\code{\link{LearnerSurvParametric}},
 \code{\link{LearnerSurvPenalized}},
 \code{\link{LearnerSurvRandomForestSRC}},
 \code{\link{LearnerSurvRanger}},
-\code{\link{LearnerSurvSVM}}
+\code{\link{LearnerSurvXgboost}}
 }
 \concept{survival learners}
 \section{Super classes}{
@@ -84,6 +81,7 @@ Other survival learners:
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
@@ -93,6 +91,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-importance"></a>}}
+\if{latex}{\out{\hypertarget{method-importance}{}}}
 \subsection{Method \code{importance()}}{
 The importance scores are extracted from the model slot \code{variable.importance}.
 \subsection{Usage}{
@@ -105,6 +104,7 @@ Named \code{numeric()}.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-selected_features"></a>}}
+\if{latex}{\out{\hypertarget{method-selected_features}{}}}
 \subsection{Method \code{selected_features()}}{
 Selected features are extracted from the model slot \code{frame$var}.
 \subsection{Usage}{
@@ -117,6 +117,7 @@ Selected features are extracted from the model slot \code{frame$var}.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

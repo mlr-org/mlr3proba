@@ -234,8 +234,7 @@ task = tgen("simsurv")$generate(50)
 composed_lrn_gbm = distrcompositor(lrn("surv.gbm", bag.fraction = 1, n.trees = 50L),
                                    "kaplan", "ph")
 
-lrns = lapply(paste0("surv.", c("kaplan", "coxph", "parametric")), lrn)
-lrns[[3]]$param_set$values = list(dist = "weibull", type = "ph")
+lrns = lapply(paste0("surv.", c("kaplan", "coxph")), lrn)
 
 design = benchmark_grid(tasks = task, learners = c(lrns, list(composed_lrn_gbm)),
                         resamplings = rsmp("cv", folds = 2))
