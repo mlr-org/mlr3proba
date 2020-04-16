@@ -79,7 +79,7 @@ Suggests:
     testthat,
     xgboost
 Remotes:
-    alan-turing-institute/distr6
+    alan-turing-institute/distr6,
 VignetteBuilder:
     knitr
 ByteCompile: true
@@ -121,7 +121,6 @@ Collate:
     'LearnerSurvRandomForestSRC.R'
     'LearnerSurvRanger.R'
     'LearnerSurvRpart.R'
-    'LearnerSurvSVM.R'
     'LearnerSurvXGBoost.R'
     'MeasureDens.R'
     'MeasureDensLogloss.R'

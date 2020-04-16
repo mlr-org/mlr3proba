@@ -11,7 +11,6 @@ NULL
 load_rats = function() {
   data = load_dataset("rats", "survival")
   data = map_at(data, c("rx", "time", "status"), as.integer)
-  data$status = as.logical(data$status)
   data$sex = factor(data$sex, levels = c("f", "m"))
 
   b = as_data_backend(data)

@@ -3,12 +3,11 @@
 \name{LearnerSurvRpart}
 \alias{LearnerSurvRpart}
 \alias{mlr_learners_surv.rpart}
-\title{Rpart Survival Forest Survival Learner}
+\title{Rpart Survival Trees Survival Learner}
 \description{
 Calls \code{\link[rpart:rpart]{rpart::rpart()}}.
 \itemize{
-\item distr is predicted using \code{\link[pec:pecRpart]{pec::pecRpart()}} and \code{\link[pec:predictSurvProb]{pec::predictSurvProb()}}
-\item \code{crank} is predicted as the expectation of the survival distribution, \code{distr}
+\item crank is predicted using \code{\link[rpart:predict.rpart]{rpart::predict.rpart()}}
 }
 
 Parameter \code{xval} is set to 0 in order to save some computation time.
@@ -52,7 +51,6 @@ Other survival learners:
 \code{\link{LearnerSurvPenalized}},
 \code{\link{LearnerSurvRandomForestSRC}},
 \code{\link{LearnerSurvRanger}},
-\code{\link{LearnerSurvSVM}},
 \code{\link{LearnerSurvXgboost}}
 }
 \concept{survival learners}

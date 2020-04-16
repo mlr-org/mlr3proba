@@ -61,7 +61,6 @@ Other survival learners:
 \code{\link{LearnerSurvPenalized}},
 \code{\link{LearnerSurvRanger}},
 \code{\link{LearnerSurvRpart}},
-\code{\link{LearnerSurvSVM}},
 \code{\link{LearnerSurvXgboost}}
 }
 \concept{survival learners}

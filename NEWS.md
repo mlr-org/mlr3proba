@@ -2,6 +2,8 @@
 
 * `LearnerSurvParametric` and `LearnerSurvNelson` moved to `mlr3learners/mlr3learners.survival ` repo
 * `LearnerSurvCoxboost` and `LearnerSurvCVCoxboost` moved to `mlr3learners/mlr3learners.coxboost ` repo
+* `LearnerSurvSVM` moved to `mlr3learners/mlr3learners.survivalsvm` repo
+* Minor internal changes
 
 # mlr3proba 0.1.4
 

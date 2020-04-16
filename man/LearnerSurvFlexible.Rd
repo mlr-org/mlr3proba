@@ -70,7 +70,6 @@ Other survival learners:
 \code{\link{LearnerSurvRandomForestSRC}},
 \code{\link{LearnerSurvRanger}},
 \code{\link{LearnerSurvRpart}},
-\code{\link{LearnerSurvSVM}},
 \code{\link{LearnerSurvXgboost}}
 }
 \concept{survival learners}
