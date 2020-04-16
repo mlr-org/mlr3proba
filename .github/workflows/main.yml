@@ -11,6 +11,8 @@ name: R CMD Check via {tic}
 jobs:
   R-CMD-check:
     runs-on: ${{ matrix.config.os }}
+    # add ability to skip commits
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
 
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
 
