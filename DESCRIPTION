@@ -79,8 +79,6 @@ Suggests:
     survivalsvm,
     testthat,
     xgboost
-Remotes:
-    alan-turing-institute/distr6,
 VignetteBuilder:
     knitr
 ByteCompile: true
