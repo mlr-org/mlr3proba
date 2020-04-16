@@ -70,6 +70,10 @@ pecs(p, measure = "logloss", times = c(20, 40, 60, 80)) +
   ggplot2::geom_point() +
   ggplot2::ggtitle("Logloss Prediction Error Curve for Cox PH")
 
+# Access underlying data
+x = pecs(p)
+x$data
+
 # Prediction Error Curves for fitted learners
 learns = lrns(c("surv.kaplan", "surv.coxph", "surv.ranger"))
 lapply(learns, function(x) x$train(task))

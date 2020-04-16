@@ -35,6 +35,10 @@
 #'   ggplot2::geom_point() +
 #'   ggplot2::ggtitle("Logloss Prediction Error Curve for Cox PH")
 #'
+#' # Access underlying data
+#' x = pecs(p)
+#' x$data
+#'
 #' # Prediction Error Curves for fitted learners
 #' learns = lrns(c("surv.kaplan", "surv.coxph", "surv.ranger"))
 #' lapply(learns, function(x) x$train(task))
