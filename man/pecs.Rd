@@ -59,6 +59,7 @@ from the \link{PredictionSurv} or \link{TaskSurv} object. If a range is provided
 then all time-points between the range are returned.
 }
 \examples{
+\dontrun{
 library(mlr3)
 task = tsk("rats")
 
@@ -78,6 +79,7 @@ x$data
 learns = lrns(c("surv.kaplan", "surv.coxph", "surv.ranger"))
 lapply(learns, function(x) x$train(task))
 pecs(learns, task = task, measure = "logloss", times = c(20, 90), n = 10)
+}
 
 
 }
