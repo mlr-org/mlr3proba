@@ -35,10 +35,11 @@ LearnerDens = R6::R6Class("LearnerDens", inherit = Learner,
     initialize = function(id, param_set = ParamSet$new(),
                           predict_types = "cdf", feature_types = character(),
                           properties = character(), data_formats = "data.table",
-                          packages = character()){
+                          packages = character(),
+                          man = NA_character_){
       super$initialize(id = id, task_type = "dens", param_set = param_set,
                        predict_types = predict_types, feature_types = feature_types, properties = properties,
-                       data_formats = data_formats, packages = packages)
+                       data_formats = data_formats, packages = packages,man = NA_character_)
     }
   )
 )
