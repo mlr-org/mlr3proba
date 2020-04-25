@@ -39,7 +39,9 @@ LearnerDensSpline <- R6::R6Class("LearnerDensSpline", inherit = LearnerDens,
 
       pars = self$param_set$get_values(tags = "train")
 
-      fit = invoke(gss::ssden, formula = ~ task$truth(), .args = pars)
+      data = task$truth()
+
+      fit = invoke(gss::ssden, formula = ~data, .args = pars)
 
       pdf <- function(x1){}
       body(pdf) <- substitute({
