@@ -1,3 +1,7 @@
+# mlr3proba 0.1.5.9000
+
+* All learners except `LearnerSurvKaplan, LearnerSurvCoxPH, LearnerDensHist, LearnerDensKDE` moved to either `mlr3learners` [repo](https://mlr3learners.mlr-org.com/dev/index.html) or `mlr3learners` [org](https://mlr3learners.mlr-org.com/dev/articles/learners/additional-learners.html).
+
 # mlr3proba 0.1.5
 
 * `LearnerSurvParametric` and `LearnerSurvNelson` moved to `mlr3learners/mlr3learners.survival ` repo
