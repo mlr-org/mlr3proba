@@ -65,17 +65,6 @@ register_mlr3 = function() {
 
    x$add("dens.hist", LearnerDensHistogram)
    x$add("dens.kde", LearnerDensKDE)
-   x$add("dens.plug", LearnerDensPlugin)
-   x$add("dens.kde", LearnerDensHistogram)
-   x$add("dens.locfit", LearnerDensLocfit)
-   x$add("dens.kde", LearnerDensKDE)
-   x$add("dens.nonpar", LearnerDensNonparametric)
-   x$add("dens.mixed", LearnerDensMixed)
-   x$add("dens.logspline", LearnerDensLogspline)
-   x$add("dens.pen", LearnerDensPenalized)
-   x$add("dens.kdeKD", LearnerDensKDEkd)
-   x$add("dens.kdeKS", LearnerDensKDEks)
-   x$add("dens.spline", LearnerDensSpline)
 
    x$add("surv.coxph", LearnerSurvCoxPH)
    x$add("surv.kaplan", LearnerSurvKaplan)
@@ -85,13 +74,9 @@ register_mlr3 = function() {
    x$add("surv.gamboost", LearnerSurvGamboost)
    x$add("surv.mboost", LearnerSurvMboost)
    x$add("surv.blackboost", LearnerSurvBlackboost)
-   x$add("surv.penalized", LearnerSurvPenalized)
    x$add("surv.rpart", LearnerSurvRpart)
    x$add("surv.ranger", LearnerSurvRanger)
-   x$add("surv.randomForestSRC", LearnerSurvRandomForestSRC)
-   x$add("surv.flexible", LearnerSurvFlexible)
    x$add("surv.gbm", LearnerSurvGBM)
-   x$add("surv.obliqueRSF", LearnerSurvObliqueRSF)
    x$add("surv.xgboost", LearnerSurvXgboost)
 
   # measures
