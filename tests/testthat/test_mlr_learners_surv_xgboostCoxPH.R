@@ -5,6 +5,6 @@ test_that("autotest", {
   set.seed(1)
   learner = mlr_learners$get("surv.xgboost")
   expect_learner(learner)
-  result = run_autotest(learner, N = 10)
+  result = run_autotest(learner, N = 10, check_replicable = FALSE)
   expect_true(result, info = result$error)
 })
