@@ -33,7 +33,7 @@ LearnerSurvBlackboost = R6Class("LearnerSurvBlackboost", inherit = LearnerSurv,
       ps = ParamSet$new(
         params = list(
           ParamFct$new(id = "family", default = "coxph",
-                       levels = c("coxph", "weibull", "loglog", "lognormal", "gehan",
+                       levels = c("coxph", "weibull", "loglog", "lognormal", "gehan", "cindex",
                                   "custom"), tags = "train"),
           ParamUty$new(id = "nuirange", default = c(0, 100), tags = "train"),
           ParamUty$new(id = "custom.family", tags = "train"),
@@ -72,17 +72,21 @@ LearnerSurvBlackboost = R6Class("LearnerSurvBlackboost", inherit = LearnerSurv,
           ParamInt$new(id = "splittry", default = 2L, lower = 1L, tags = "train"),
           ParamLgl$new(id = "intersplit", default = FALSE, tags = "train"),
           ParamLgl$new(id = "majority", default = FALSE, tags = "train"),
-          ParamLgl$new(id = "caseweights", default = TRUE, tags = "train")
+          ParamLgl$new(id = "caseweights", default = TRUE, tags = "train"),
+          ParamDbl$new(id = "sigma", default = 0.1, lower = 0, upper = 1, tags = "train"),
+          ParamUtyl$new(id = "ipcw", default = 1, tags = "train")
         )
       )
 
       ps$values = list(family = "coxph")
+      ps$add_dep("sigma", "family", CondEqual$new("cindex"))
+      ps$add_dep("ipcw", "family", CondEqual$new("ipcw"))
 
       super$initialize(
         id = "surv.blackboost",
         param_set = ps,
         feature_types = c("integer", "numeric", "factor"),
-        predict_types = c("distr","crank","lp"),
+        predict_types = c("distr","crank","lp","response"),
         packages = c("mboost","distr6","survival","partykit","mvtnorm")
       )
     }
@@ -132,10 +136,11 @@ LearnerSurvBlackboost = R6Class("LearnerSurvBlackboost", inherit = LearnerSurv,
                       loglog = mboost::Loglog(nuirange = pars$nuirange),
                       lognormal = mboost::Lognormal(nuirange = pars$nuirange),
                       gehan = mboost::Gehan(),
+                      cindex = mboost::Cindex(sigma = sigma, ipcw = ipcw),
                       custom = pars$custom.family
       )
 
-      pars = pars[!(names(pars) %in% c("family", "nuirange", "custom.family"))]
+      pars = pars[!(names(pars) %in% c("family", "nuirange", "custom.family", "ipcw", "sigma"))]
 
       invoke(mboost::blackboost, formula = task$formula(task$feature_names),
              data = task$data(), family = family, .args = pars)
@@ -158,7 +163,14 @@ LearnerSurvBlackboost = R6Class("LearnerSurvBlackboost", inherit = LearnerSurv,
       distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
                                              decorators = c("CoreStatistics", "ExoticStatistics"))
 
-      PredictionSurv$new(task = task, crank = lp, distr = distr, lp = lp)
+      response = NULL
+      if (!is.null(self$param_set$values$family)) {
+        if(self$param_set$values$family %in% c("weibull", "loglog", "lognormal")) {
+          response = exp(lp)
+        }
+      }
+
+      PredictionSurv$new(task = task, crank = lp, distr = distr, lp = lp, response = response)
     }
   )
 )
