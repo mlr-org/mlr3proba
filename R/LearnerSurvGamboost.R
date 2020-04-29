@@ -58,7 +58,7 @@ LearnerSurvGamboost = R6Class("LearnerSurvGamboost", inherit = LearnerSurv,
                        levels = c("bbs", "bols", "btree"), tags = "train"),
           ParamInt$new(id = "dfbase", default = 4, lower = 0, tags = "train"),
           ParamDbl$new(id = "sigma", default = 0.1, lower = 0, upper = 1, tags = "train"),
-          ParamUtyl$new(id = "ipcw", default = 1, tags = "train")
+          ParamUty$new(id = "ipcw", default = 1, tags = "train")
         )
       )
 

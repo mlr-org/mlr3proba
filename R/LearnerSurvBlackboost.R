@@ -74,7 +74,7 @@ LearnerSurvBlackboost = R6Class("LearnerSurvBlackboost", inherit = LearnerSurv,
           ParamLgl$new(id = "majority", default = FALSE, tags = "train"),
           ParamLgl$new(id = "caseweights", default = TRUE, tags = "train"),
           ParamDbl$new(id = "sigma", default = 0.1, lower = 0, upper = 1, tags = "train"),
-          ParamUtyl$new(id = "ipcw", default = 1, tags = "train")
+          ParamUty$new(id = "ipcw", default = 1, tags = "train")
         )
       )
 

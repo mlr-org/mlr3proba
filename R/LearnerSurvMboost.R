@@ -59,7 +59,7 @@ LearnerSurvMboost = R6Class("LearnerSurvMboost", inherit = LearnerSurv,
           ParamFct$new(id = "baselearner", default = "bbs",
                        levels = c("bbs", "bols", "btree"), tags = "train"),
           ParamDbl$new(id = "sigma", default = 0.1, lower = 0, upper = 1, tags = "train"),
-          ParamUtyl$new(id = "ipcw", default = 1, tags = "train")
+          ParamUty$new(id = "ipcw", default = 1, tags = "train")
         )
       )
 

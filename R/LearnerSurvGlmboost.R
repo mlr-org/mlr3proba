@@ -44,7 +44,7 @@ LearnerSurvGlmboost = R6Class("LearnerSurvGlmboost", inherit = LearnerSurv,
             ParamLgl$new(id = "stopintern", default = FALSE, tags = "train"),
             ParamLgl$new(id = "trace", default = FALSE, tags = "train"),
             ParamDbl$new(id = "sigma", default = 0.1, lower = 0, upper = 1, tags = "train"),
-            ParamUtyl$new(id = "ipcw", default = 1, tags = "train")
+            ParamUty$new(id = "ipcw", default = 1, tags = "train")
           )
         )
 
