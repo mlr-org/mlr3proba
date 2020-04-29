@@ -44,3 +44,4 @@ docs/
 .vscode/
 *.html
 sandbox/
+tests/testthat/Rplots.pdf
