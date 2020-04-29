@@ -42,7 +42,7 @@ LearnerSurvGamboost = R6Class("LearnerSurvGamboost", inherit = LearnerSurv,
       ps = ParamSet$new(
         params = list(
           ParamFct$new(id = "family", default = "coxph",
-                       levels = c("coxph", "weibull", "loglog", "lognormal", "gehan",
+                       levels = c("coxph", "weibull", "loglog", "lognormal", "gehan", "cindex",
                                   "custom"), tags = "train"),
           ParamUty$new(id = "nuirange", default = c(0, 100), tags = "train"),
           ParamUty$new(id = "custom.family", tags = "train"),
@@ -56,20 +56,51 @@ LearnerSurvGamboost = R6Class("LearnerSurvGamboost", inherit = LearnerSurv,
           ParamUty$new(id = "oobweights", tags = "train"),
           ParamFct$new(id = "baselearner", default = "bbs",
                        levels = c("bbs", "bols", "btree"), tags = "train"),
-          ParamInt$new(id = "dfbase", default = 4, lower = 0, tags = "train")
+          ParamInt$new(id = "dfbase", default = 4, lower = 0, tags = "train"),
+          ParamDbl$new(id = "sigma", default = 0.1, lower = 0, upper = 1, tags = "train"),
+          ParamUty$new(id = "ipcw", default = 1, tags = "train")
         )
       )
 
       ps$values = list(family = "coxph")
+      ps$add_dep("sigma", "family", CondEqual$new("cindex"))
+      ps$add_dep("ipcw", "family", CondEqual$new("cindex"))
 
       super$initialize(
         id = "surv.gamboost",
         param_set = ps,
         feature_types = c("integer", "numeric", "factor", "logical"),
-        predict_types = c("distr","crank","lp"),
-        # properties = "weights",
+        predict_types = c("distr","crank","lp","response"),
+        properties = c("weights", "importance", "selected_features"),
         packages = c("mboost","distr6","survival")
       )
+    },
+
+    #' @description
+    #' The importance scores are extracted with the function [mboost::varimp()] with the
+    #' default arguments.
+    #' @return Named `numeric()`.
+    importance = function() {
+      if (is.null(self$model)) {
+        stopf("No model stored")
+      }
+
+      vimp = as.numeric(mboost::varimp(self$model))
+      names(vimp) = unname(variable.names(self$model))
+
+      sort(vimp, decreasing = TRUE)
+    },
+
+    #' @description
+    #' Selected features are extracted with the function [mboost::variable.names.mboost()], with
+    #' `used.only = TRUE`.
+    #' @return `character()`.
+    selected_features = function() {
+      if (is.null(self$model)) {
+        stopf("No model stored")
+      }
+
+      unname(variable.names(self$model, usedonly = TRUE))
     }
   ),
 
@@ -77,6 +108,10 @@ LearnerSurvGamboost = R6Class("LearnerSurvGamboost", inherit = LearnerSurv,
     .train = function(task) {
 
       pars = self$param_set$get_values(tags = "train")
+
+      if ("weights" %in% task$properties) {
+        pars$weights = task$weights$weight
+      }
 
       # Save control settings and return on exit
       saved_ctrl = mboost::boost_control()
@@ -92,19 +127,18 @@ LearnerSurvGamboost = R6Class("LearnerSurvGamboost", inherit = LearnerSurv,
       # convert data to model matrix
       # x = model.matrix(~., as.data.frame(task$data(cols = task$feature_names)))
 
-      # if ("weights" %in% task$properties)
-      #   pars$weights = task$weights$weight
-
       family = switch(pars$family,
                       coxph = mboost::CoxPH(),
                       weibull = mboost::Weibull(nuirange = pars$nuirange),
                       loglog = mboost::Loglog(nuirange = pars$nuirange),
                       lognormal = mboost::Lognormal(nuirange = pars$nuirange),
                       gehan = mboost::Gehan(),
+                      cindex = mboost::Cindex(sigma = sigma, ipcw = ipcw),
                       custom = pars$custom.family
       )
 
-      pars = pars[!(names(pars) %in% c("family", "nuirange", "custom.family"))]
+      pars = pars[!(names(pars) %in% c("family", "nuirange", "custom.family", "ipcw", "sigma"))]
+
 
       with_package("mboost", {
         invoke(mboost::gamboost, formula = task$formula(task$feature_names),
@@ -129,7 +163,14 @@ LearnerSurvGamboost = R6Class("LearnerSurvGamboost", inherit = LearnerSurv,
       distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
                                              decorators = c("CoreStatistics", "ExoticStatistics"))
 
-      PredictionSurv$new(task = task, crank = lp, distr = distr, lp = lp)
+      response = NULL
+      if (!is.null(self$param_set$values$family)) {
+        if(self$param_set$values$family %in% c("weibull", "loglog", "lognormal")) {
+          response = exp(lp)
+        }
+      }
+
+      PredictionSurv$new(task = task, crank = lp, distr = distr, lp = lp, response = response)
     }
   )
 )
