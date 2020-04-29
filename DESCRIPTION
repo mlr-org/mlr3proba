@@ -79,6 +79,8 @@ Suggests:
     survivalsvm,
     testthat,
     xgboost
+Remotes:
+    mlr-org/mlr3
 VignetteBuilder:
     knitr
 ByteCompile: true
