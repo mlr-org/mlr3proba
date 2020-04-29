@@ -3,9 +3,10 @@ context("surv.blackboost")
 test_that("autotest", {
   skip_on_cran()
   set.seed(1)
-  learner = mlr_learners$get("surv.blackboost")
+  learner = lrn("surv.blackboost")
   expect_learner(learner)
-  result = run_autotest(learner, N = 10)
+  # weights are fine for all predict types except 'distr'
+  result = run_autotest(learner, N = 10, exclude = "weights")
   expect_true(result, info = result$error)
 })
 

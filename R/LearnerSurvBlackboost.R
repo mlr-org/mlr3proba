@@ -80,13 +80,14 @@ LearnerSurvBlackboost = R6Class("LearnerSurvBlackboost", inherit = LearnerSurv,
 
       ps$values = list(family = "coxph")
       ps$add_dep("sigma", "family", CondEqual$new("cindex"))
-      ps$add_dep("ipcw", "family", CondEqual$new("ipcw"))
+      ps$add_dep("ipcw", "family", CondEqual$new("cindex"))
 
       super$initialize(
         id = "surv.blackboost",
         param_set = ps,
         feature_types = c("integer", "numeric", "factor"),
         predict_types = c("distr","crank","lp","response"),
+        properties = c("weights"),
         packages = c("mboost","distr6","survival","partykit","mvtnorm")
       )
     }
@@ -96,6 +97,10 @@ LearnerSurvBlackboost = R6Class("LearnerSurvBlackboost", inherit = LearnerSurv,
     .train = function(task) {
 
       pars = self$param_set$get_values(tags = "train")
+
+      if ("weights" %in% task$properties) {
+        pars$weights = task$weights$weight
+      }
 
       # mboost control
       # Save control settings and return on exit

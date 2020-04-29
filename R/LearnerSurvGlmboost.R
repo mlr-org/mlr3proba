@@ -50,16 +50,46 @@ LearnerSurvGlmboost = R6Class("LearnerSurvGlmboost", inherit = LearnerSurv,
 
         ps$values = list(family = "coxph")
         ps$add_dep("sigma", "family", CondEqual$new("cindex"))
-        ps$add_dep("ipcw", "family", CondEqual$new("ipcw"))
+        ps$add_dep("ipcw", "family", CondEqual$new("cindex"))
 
         super$initialize(
           id = "surv.glmboost",
           param_set = ps,
           feature_types = c("integer", "numeric", "factor", "logical"),
           predict_types = c("distr","crank","lp","response"),
+          properties = c("weights"),
           packages = c("mboost","distr6","survival")
           )
-        }
+      }
+
+      #' Importance is supported but fails tests as internally data is coerced to model
+      #' matrix and original names can't be recovered.
+      #'
+      # importance = function() {
+      #   if (is.null(self$model)) {
+      #     stopf("No model stored")
+      #   }
+      #
+      #   sort(mboost::varimp(self$model)[-1], decreasing = TRUE)
+      # },
+
+      #' Importance is supported but fails tests as internally data is coerced to model
+      #' matrix and original names can't be recovered.
+      #'
+      #' description
+      #' Selected features are extracted with the function [mboost::variable.names.mboost()], with
+      #' `used.only = TRUE`.
+      #' return `character()`.
+      # selected_features = function() {
+      #   if (is.null(self$model)) {
+      #     stopf("No model stored")
+      #   }
+      #
+      #   sel = unique(names(self$model$model.frame())[self$model$xselect()])
+      #   sel = sel[!(sel %in% "(Intercept)")]
+      #
+      #   return(sel)
+      # }
   ),
 
  private = list(
@@ -67,8 +97,9 @@ LearnerSurvGlmboost = R6Class("LearnerSurvGlmboost", inherit = LearnerSurv,
 
      pars = self$param_set$get_values(tags = "train")
 
-     # convert data to model matrix
-     x = model.matrix(~., as.data.frame(task$data(cols = task$feature_names)))
+     if ("weights" %in% task$properties) {
+       pars$weights = task$weights$weight
+     }
 
      family = switch(pars$family,
                      coxph = mboost::CoxPH(),
@@ -83,13 +114,13 @@ LearnerSurvGlmboost = R6Class("LearnerSurvGlmboost", inherit = LearnerSurv,
      pars = pars[!(names(pars) %in% c("family", "nuirange", "custom.family", "ipcw", "sigma"))]
 
 
-     invoke(mboost::glmboost, x = x, y = task$truth(), family = family, .args = pars)
+     mlr3misc::invoke(mboost::glmboost, task$formula(task$feature_names),
+            data = task$data(), family = family, .args = pars)
    },
 
    .predict = function(task) {
 
-     # convert data to model matrix
-     newdata = model.matrix(~., as.data.frame(task$data(cols = task$feature_names)))
+     newdata = task$data(cols = task$feature_names)
 
      # predict linear predictor
      lp = as.numeric(invoke(predict, self$model, newdata = newdata, type = "link"))

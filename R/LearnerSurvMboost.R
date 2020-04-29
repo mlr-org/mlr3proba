@@ -65,16 +65,43 @@ LearnerSurvMboost = R6Class("LearnerSurvMboost", inherit = LearnerSurv,
 
       ps$values = list(family = "coxph")
       ps$add_dep("sigma", "family", CondEqual$new("cindex"))
-      ps$add_dep("ipcw", "family", CondEqual$new("ipcw"))
+      ps$add_dep("ipcw", "family", CondEqual$new("cindex"))
 
       super$initialize(
         id = "surv.mboost",
         param_set = ps,
         feature_types = c("integer", "numeric", "factor", "logical"),
         predict_types = c("distr","crank","lp","response"),
-        # properties = "weights",
+        properties = c("weights", "importance", "selected_features"),
         packages = c("mboost","distr6","survival")
       )
+    },
+
+    #' @description
+    #' The importance scores are extracted with the function [mboost::varimp()] with the
+    #' default arguments.
+    #' @return Named `numeric()`.
+    importance = function() {
+      if (is.null(self$model)) {
+        stopf("No model stored")
+      }
+
+      vimp = as.numeric(mboost::varimp(self$model))
+      names(vimp) = unname(variable.names(self$model))
+
+      sort(vimp, decreasing = TRUE)
+    },
+
+    #' @description
+    #' Selected features are extracted with the function [mboost::variable.names.mboost()], with
+    #' `used.only = TRUE`.
+    #' @return `character()`.
+    selected_features = function() {
+      if (is.null(self$model)) {
+        stopf("No model stored")
+      }
+
+      unname(variable.names(self$model, usedonly = TRUE))
     }
   ),
 
@@ -82,6 +109,10 @@ LearnerSurvMboost = R6Class("LearnerSurvMboost", inherit = LearnerSurv,
     .train = function(task) {
 
       pars = self$param_set$get_values(tags = "train")
+
+      if ("weights" %in% task$properties) {
+        pars$weights = task$weights$weight
+      }
 
       # Save control settings and return on exit
       saved_ctrl = mboost::boost_control()
@@ -93,9 +124,6 @@ LearnerSurvMboost = R6Class("LearnerSurvMboost", inherit = LearnerSurv,
         pars$control = do.call(mboost::boost_control, pars[is_ctrl_pars])
         pars = pars[!is_ctrl_pars]
       }
-
-      # if ("weights" %in% task$properties)
-      #   pars$weights = task$weights$weight
 
       family = switch(pars$family,
                       coxph = mboost::CoxPH(),

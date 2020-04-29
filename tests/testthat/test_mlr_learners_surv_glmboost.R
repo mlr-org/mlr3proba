@@ -3,6 +3,7 @@ context("surv.glmboost")
 test_that("autotest", {
   learner = mlr_learners$get("surv.glmboost")
   expect_learner(learner)
-  result = run_autotest(learner)
+  # weights are fine for all predict types except 'distr'
+  result = run_autotest(learner, exclude = c("weights"))
   expect_true(result, info = result$error)
 })
