@@ -4,7 +4,7 @@ test_that("autotest", {
   skip_on_cran()
   learner = mlr_learners$get("surv.glmnet")
   expect_learner(learner)
-  result = run_autotest(learner)
+  result = run_autotest(learner, check_replicable = FALSE)
   expect_true(result, info = result$error)
 })
 

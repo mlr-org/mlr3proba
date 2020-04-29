@@ -5,7 +5,7 @@ test_that("autotest", {
   learner = lrn("surv.coxph")
   expect_learner(learner)
   # no idea why weights check here fails
-  result = run_autotest(learner, exclude = "weights")
+  result = run_autotest(learner, exclude = "weights", check_replicable = FALSE)
   expect_true(result, info = result$error)
 })
 

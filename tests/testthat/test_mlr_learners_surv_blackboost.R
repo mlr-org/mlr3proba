@@ -6,7 +6,7 @@ test_that("autotest", {
   learner = lrn("surv.blackboost")
   expect_learner(learner)
   # weights are fine for all predict types except 'distr'
-  result = run_autotest(learner, N = 10, exclude = "weights")
+  result = run_autotest(learner, N = 10, exclude = "weights", check_replicable = FALSE)
   expect_true(result, info = result$error)
 })
 
