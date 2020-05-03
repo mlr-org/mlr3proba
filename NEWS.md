@@ -1,3 +1,7 @@
+# mlr3proba 0.1.5.9000
+
+* Bug fix in `LearnerSurvXGBoost`, `lp` was previously being returned as exp(lp).
+
 # mlr3proba 0.1.5
 
 * `LearnerSurvParametric` and `LearnerSurvNelson` moved to `mlr3learners/mlr3learners.survival ` repo

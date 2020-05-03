@@ -38,8 +38,18 @@ LearnerSurvXgboost = R6Class("LearnerSurvXgboost", inherit = LearnerSurv,
         ParamDbl$new("lambda", default = 1, lower = 0, tags = "train"),
         ParamDbl$new("lambda_bias", default = 0, lower = 0, tags = "train"),
         ParamDbl$new("alpha", default = 0, lower = 0, tags = "train"),
-        ParamUty$new("objective", default = "reg:linear", tags = c("train", "predict")),
-        ParamUty$new("eval_metric", default = "rmse", tags = "train"),
+        # ParamFct$new("objective", default = "survival:cox",
+        #              levels = c("survival:cox", "survival:aft"), tags = c("train", "predict")),
+        ParamFct$new("objective", default = "survival:cox",
+                     levels = c("survival:cox"), tags = c("train", "predict")),
+        # coming in near future update
+        # ParamFct$new("aft_loss_distribution", default = "normal",
+        #              levels = c("normal", "logistic", "extreme"), tags = c("train")),
+        # ParamDbl$new("aft_loss_distribution_scale", tags = c("train")),
+        # ParamFct$new("eval_metric", default = "cox-nloglik",
+        # levels = c("aft-nloglik", "cox-nloglik"), tags = "train"),
+        ParamFct$new("eval_metric", default = "cox-nloglik", levels = c("cox-nloglik"),
+                     tags = "train"),
         ParamDbl$new("base_score", default = 0.5, tags = "train"),
         ParamDbl$new("max_delta_step", lower = 0, default = 0, tags = "train"),
         ParamDbl$new("missing", default = NA, tags = c("train", "predict"), special_vals = list(NA, NA_real_, NULL)),
@@ -86,11 +96,17 @@ LearnerSurvXgboost = R6Class("LearnerSurvXgboost", inherit = LearnerSurv,
       ps$add_dep("top_k", "booster", CondEqual$new("gblinear"))
       ps$add_dep("top_k", "feature_selector", CondAnyOf$new(c("greedy", "thrifty")))
 
-      ps$values = list(nrounds = 1L, verbose = 0L, eval_metric = "cox-nloglik")
+      # coming in near future update
+      # ps$add_dep("aft_loss_distribution", "objective", CondEqual$new("survival:aft"))
+      # ps$add_dep("aft_loss_distribution_scale", "objective", CondEqual$new("survival:aft"))
+
+      ps$values = list(nrounds = 1L, verbose = 0L, eval_metric = "cox-nloglik",
+                       objective = "survival:cox")
 
       super$initialize(
         id            = "surv.xgboost",
         param_set     = ps,
+        # add response once aft available
         predict_types = c("crank", "lp"),
         feature_types = c("logical", "integer", "numeric"),
         properties    = c("weights", "missings", "importance"),
@@ -119,7 +135,6 @@ LearnerSurvXgboost = R6Class("LearnerSurvXgboost", inherit = LearnerSurv,
     .train = function(task) {
 
       pars = self$param_set$get_values(tags = "train")
-      pars[["objective"]] <- "survival:cox"
       targets = task$target_names
 
       data   = task$data(cols = task$feature_names)
@@ -149,10 +164,14 @@ LearnerSurvXgboost = R6Class("LearnerSurvXgboost", inherit = LearnerSurv,
       model    = self$model
       newdata  = data.matrix(task$data(cols = task$feature_names))
       newdata  = newdata[, model$feature_names, drop = FALSE]
-      lp = invoke(predict, model, newdata = newdata, .args = pars)
 
-      PredictionSurv$new(task = task, crank = lp, lp = lp)
-
+      # if(pars$objective == "survival:aft") {
+      #   response = mlr3misc::invoke(predict, model, newdata = newdata, .args = pars)
+      #   PredictionSurv$new(task = task, response = response, crank = response)
+      # } else {
+        lp = log(mlr3misc::invoke(predict, model, newdata = newdata, .args = pars))
+        PredictionSurv$new(task = task, lp = lp, crank = lp)
+      # }
     }
   )
 )
