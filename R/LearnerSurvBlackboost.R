@@ -170,7 +170,7 @@ LearnerSurvBlackboost = R6Class("LearnerSurvBlackboost", inherit = LearnerSurv,
 
       response = NULL
       if (!is.null(self$param_set$values$family)) {
-        if(self$param_set$values$family %in% c("weibull", "loglog", "lognormal")) {
+        if(self$param_set$values$family %in% c("weibull", "loglog", "lognormal", "gehan")) {
           response = exp(lp)
         }
       }
