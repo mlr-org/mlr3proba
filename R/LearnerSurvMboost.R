@@ -117,7 +117,7 @@ LearnerSurvMboost = R6Class("LearnerSurvMboost", inherit = LearnerSurv,
 
       # Save control settings and return on exit
       saved_ctrl = mboost::boost_control()
-      on.exit(invoke(mboost::boost_control, .args = saved_ctrl))
+      on.exit(mlr3misc::invoke(mboost::boost_control, .args = saved_ctrl))
       is_ctrl_pars = (names(pars) %in% names(saved_ctrl))
 
       # ensure only relevant pars passed to fitted model
@@ -146,7 +146,7 @@ LearnerSurvMboost = R6Class("LearnerSurvMboost", inherit = LearnerSurv,
       pars = pars[!(pars %in% self$param_set$get_values(tags = c("family")))]
 
       with_package("mboost", {
-        invoke(mboost::mboost, formula = task$formula(task$feature_names),
+        mlr3misc::invoke(mboost::mboost, formula = task$formula(task$feature_names),
                data = task$data(), family = family, .args = pars)
       })
     },
@@ -154,10 +154,10 @@ LearnerSurvMboost = R6Class("LearnerSurvMboost", inherit = LearnerSurv,
     .predict = function(task) {
       newdata = task$data(cols = task$feature_names)
       # predict linear predictor
-      lp = as.numeric(invoke(predict, self$model, newdata = newdata, type = "link"))
+      lp = as.numeric(mlr3misc::invoke(predict, self$model, newdata = newdata, type = "link"))
 
       # predict survival
-      surv = invoke(mboost::survFit, self$model, newdata = newdata)
+      surv = mlr3misc::invoke(mboost::survFit, self$model, newdata = newdata)
       surv$cdf = 1 - surv$surv
 
       # define WeightedDiscrete distr6 object from predicted survival function

@@ -130,10 +130,10 @@ LearnerSurvGlmboost = R6Class("LearnerSurvGlmboost", inherit = LearnerSurv,
      newdata = task$data(cols = task$feature_names)
 
      # predict linear predictor
-     lp = as.numeric(invoke(predict, self$model, newdata = newdata, type = "link"))
+     lp = as.numeric(mlr3misc::invoke(predict, self$model, newdata = newdata, type = "link"))
 
      # predict survival
-     surv = invoke(mboost::survFit, self$model, newdata = newdata)
+     surv = mlr3misc::invoke(mboost::survFit, self$model, newdata = newdata)
      surv$cdf = 1 - surv$surv
 
      # define WeightedDiscrete distr6 object from predicted survival function

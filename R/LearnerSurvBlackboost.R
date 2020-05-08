@@ -155,17 +155,17 @@ LearnerSurvBlackboost = R6Class("LearnerSurvBlackboost", inherit = LearnerSurv,
       pars = pars[!(pars %in% self$param_set$get_values(tags = c("cindex")))]
       pars = pars[!(pars %in% self$param_set$get_values(tags = c("family")))]
 
-      invoke(mboost::blackboost, formula = task$formula(task$feature_names),
+      mlr3misc::invoke(mboost::blackboost, formula = task$formula(task$feature_names),
              data = task$data(), family = family, .args = pars)
     },
 
     .predict = function(task) {
       newdata = task$data(cols = task$feature_names)
       # predict linear predictor
-      lp = as.numeric(invoke(predict, self$model, newdata = newdata, type = "link"))
+      lp = as.numeric(mlr3misc::invoke(predict, self$model, newdata = newdata, type = "link"))
 
       # predict survival
-      surv = invoke(mboost::survFit, self$model, newdata = newdata)
+      surv = mlr3misc::invoke(mboost::survFit, self$model, newdata = newdata)
       surv$cdf = 1 - surv$surv
 
       # define WeightedDiscrete distr6 object from predicted survival function
