@@ -34,17 +34,18 @@ LearnerSurvGlmboost = R6Class("LearnerSurvGlmboost", inherit = LearnerSurv,
           params = list(
             ParamFct$new(id = "family", default = "coxph",
                          levels = c("coxph", "weibull", "loglog", "lognormal", "gehan", "cindex",
-                                    "custom"), tags = "train"),
-            ParamUty$new(id = "nuirange", default = c(0, 100), tags = "train"),
-            ParamUty$new(id = "custom.family", tags = "train"),
+                                    "custom"), tags = c("train", "family")),
+            ParamUty$new(id = "custom.family", tags = c("train", "family")),
+            ParamUty$new(id = "nuirange", default = c(0, 100), tags = c("train", "aft")),
             ParamLgl$new(id = "center", default = TRUE, tags = "train"),
             ParamInt$new(id = "mstop", default = 100L, lower = 0L, tags = "train"),
             ParamDbl$new(id = "nu", default = 0.1, lower = 0, upper = 1, tags = "train"),
             ParamFct$new(id = "risk", levels = c("inbag", "oobag", "none"), tags = "train"),
             ParamLgl$new(id = "stopintern", default = FALSE, tags = "train"),
             ParamLgl$new(id = "trace", default = FALSE, tags = "train"),
-            ParamDbl$new(id = "sigma", default = 0.1, lower = 0, upper = 1, tags = "train"),
-            ParamUty$new(id = "ipcw", default = 1, tags = "train")
+            ParamDbl$new(id = "sigma", default = 0.1, lower = 0, upper = 1,
+                         tags = c("train", "cindex")),
+            ParamUty$new(id = "ipcw", default = 1, tags = c("train", "cindex"))
           )
         )
 
@@ -103,16 +104,19 @@ LearnerSurvGlmboost = R6Class("LearnerSurvGlmboost", inherit = LearnerSurv,
 
      family = switch(pars$family,
                      coxph = mboost::CoxPH(),
-                     weibull = mboost::Weibull(nuirange = pars$nuirange),
-                     loglog = mboost::Loglog(nuirange = pars$nuirange),
-                     lognormal = mboost::Lognormal(nuirange = pars$nuirange),
+                     weibull = mlr3misc::invoke(mboost::Weibull,
+                                                .args = self$param_set$get_values(tags = "aft")),
+                     loglog = mlr3misc::invoke(mboost::Loglog,
+                                               .args = self$param_set$get_values(tags = "aft")),
+                     lognormal = mlr3misc::invoke(mboost::Lognormal,
+                                                  .args = self$param_set$get_values(tags = "aft")),
                      gehan = mboost::Gehan(),
-                     cindex = mboost::Cindex(sigma = sigma, ipcw = ipcw),
+                     cindex = mlr3misc::invoke(mboost::Cindex,
+                                               .args = self$param_set$get_values(tags = "cindex")),
                      custom = pars$custom.family
      )
 
-     pars = pars[!(names(pars) %in% c("family", "nuirange", "custom.family", "ipcw", "sigma"))]
-
+     pars = pars[!(pars %in% self$param_set$get_values(tags = c("aft", "cindex", "family")))]
 
      mlr3misc::invoke(mboost::glmboost, task$formula(task$feature_names),
             data = task$data(), family = family, .args = pars)
