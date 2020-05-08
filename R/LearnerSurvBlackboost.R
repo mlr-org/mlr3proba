@@ -150,7 +150,10 @@ LearnerSurvBlackboost = R6Class("LearnerSurvBlackboost", inherit = LearnerSurv,
                       custom = pars$custom.family
       )
 
-      pars = pars[!(pars %in% self$param_set$get_values(tags = c("aft", "cindex", "family")))]
+      # FIXME - until issue closes
+      pars = pars[!(pars %in% self$param_set$get_values(tags = c("aft")))]
+      pars = pars[!(pars %in% self$param_set$get_values(tags = c("cindex")))]
+      pars = pars[!(pars %in% self$param_set$get_values(tags = c("family")))]
 
       invoke(mboost::blackboost, formula = task$formula(task$feature_names),
              data = task$data(), family = family, .args = pars)
