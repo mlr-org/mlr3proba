@@ -34,9 +34,9 @@ LearnerSurvBlackboost = R6Class("LearnerSurvBlackboost", inherit = LearnerSurv,
         params = list(
           ParamFct$new(id = "family", default = "coxph",
                        levels = c("coxph", "weibull", "loglog", "lognormal", "gehan", "cindex",
-                                  "custom"), tags = "train"),
-          ParamUty$new(id = "nuirange", default = c(0, 100), tags = "train"),
-          ParamUty$new(id = "custom.family", tags = "train"),
+                                  "custom"), tags = c("train", "family")),
+          ParamUty$new(id = "custom.family", tags = c("train", "family")),
+          ParamUty$new(id = "nuirange", default = c(0, 100), tags = c("train", "aft")),
           ParamUty$new(id = "offset", tags = "train"),
           ParamLgl$new(id = "center", default = TRUE, tags = "train"),
           ParamInt$new(id = "mstop", default = 100L, lower = 0L, tags = "train"),
@@ -73,8 +73,9 @@ LearnerSurvBlackboost = R6Class("LearnerSurvBlackboost", inherit = LearnerSurv,
           ParamLgl$new(id = "intersplit", default = FALSE, tags = "train"),
           ParamLgl$new(id = "majority", default = FALSE, tags = "train"),
           ParamLgl$new(id = "caseweights", default = TRUE, tags = "train"),
-          ParamDbl$new(id = "sigma", default = 0.1, lower = 0, upper = 1, tags = "train"),
-          ParamUty$new(id = "ipcw", default = 1, tags = "train")
+          ParamDbl$new(id = "sigma", default = 0.1, lower = 0, upper = 1,
+                       tags = c("train", "cindex")),
+          ParamUty$new(id = "ipcw", default = 1, tags = c("train", "cindex"))
         )
       )
 
@@ -137,27 +138,34 @@ LearnerSurvBlackboost = R6Class("LearnerSurvBlackboost", inherit = LearnerSurv,
 
       family = switch(pars$family,
                       coxph = mboost::CoxPH(),
-                      weibull = mboost::Weibull(nuirange = pars$nuirange),
-                      loglog = mboost::Loglog(nuirange = pars$nuirange),
-                      lognormal = mboost::Lognormal(nuirange = pars$nuirange),
+                      weibull = mlr3misc::invoke(mboost::Weibull,
+                                                 .args = self$param_set$get_values(tags = "aft")),
+                      loglog = mlr3misc::invoke(mboost::Loglog,
+                                                .args = self$param_set$get_values(tags = "aft")),
+                      lognormal = mlr3misc::invoke(mboost::Lognormal,
+                                                   .args = self$param_set$get_values(tags = "aft")),
                       gehan = mboost::Gehan(),
-                      cindex = mboost::Cindex(sigma = sigma, ipcw = ipcw),
+                      cindex = mlr3misc::invoke(mboost::Cindex,
+                                                .args = self$param_set$get_values(tags = "cindex")),
                       custom = pars$custom.family
       )
 
-      pars = pars[!(names(pars) %in% c("family", "nuirange", "custom.family", "ipcw", "sigma"))]
+      # FIXME - until issue closes
+      pars = pars[!(pars %in% self$param_set$get_values(tags = c("aft")))]
+      pars = pars[!(pars %in% self$param_set$get_values(tags = c("cindex")))]
+      pars = pars[!(pars %in% self$param_set$get_values(tags = c("family")))]
 
-      invoke(mboost::blackboost, formula = task$formula(task$feature_names),
+      mlr3misc::invoke(mboost::blackboost, formula = task$formula(task$feature_names),
              data = task$data(), family = family, .args = pars)
     },
 
     .predict = function(task) {
       newdata = task$data(cols = task$feature_names)
       # predict linear predictor
-      lp = as.numeric(invoke(predict, self$model, newdata = newdata, type = "link"))
+      lp = as.numeric(mlr3misc::invoke(predict, self$model, newdata = newdata, type = "link"))
 
       # predict survival
-      surv = invoke(mboost::survFit, self$model, newdata = newdata)
+      surv = mlr3misc::invoke(mboost::survFit, self$model, newdata = newdata)
       surv$cdf = 1 - surv$surv
 
       # define WeightedDiscrete distr6 object from predicted survival function
@@ -170,7 +178,7 @@ LearnerSurvBlackboost = R6Class("LearnerSurvBlackboost", inherit = LearnerSurv,
 
       response = NULL
       if (!is.null(self$param_set$values$family)) {
-        if(self$param_set$values$family %in% c("weibull", "loglog", "lognormal")) {
+        if(self$param_set$values$family %in% c("weibull", "loglog", "lognormal", "gehan")) {
           response = exp(lp)
         }
       }
