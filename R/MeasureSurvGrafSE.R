@@ -36,7 +36,7 @@ MeasureSurvGrafSE = R6::R6Class("MeasureSurvGrafSE",
 
   private = list(
     .score = function(prediction, ...) {
-      integrated_se(score = weighted_graf(truth = prediction$truth,
+      integrated_se(score = graf(truth = prediction$truth,
                                           distribution = prediction$distr,
                                           times = self$times),
                     integrated = self$integrated)

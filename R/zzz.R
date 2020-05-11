@@ -1,3 +1,7 @@
+#' @importFrom Rcpp sourceCpp
+#' @useDynLib mlr3proba
+NULL
+
 #' @import checkmate
 #' @import data.table
 #' @import distr6
@@ -108,6 +112,7 @@ register_mlr3 = function() {
    x$add("surv.intlogloss", MeasureSurvIntLogloss)
    x$add("surv.intloglossSE", MeasureSurvIntLoglossSE)
 
+   x$add("surv.cindex", MeasureSurvUnoC)
    x$add("surv.unoC", MeasureSurvUnoC)
    x$add("surv.harrellC", MeasureSurvHarrellC)
    x$add("surv.gonenC", MeasureSurvGonenC)
@@ -158,4 +163,6 @@ register_mlr3pipelines = function(){
    hooks = getHook(event)
    pkgname = vapply(hooks[-1], function(x) environment(x)$pkgname, NA_character_)
    setHook(event, hooks[pkgname != "mlr3proba"], action = "replace")
+
+   library.dynam.unload("mlr3proba", libpath)
 }

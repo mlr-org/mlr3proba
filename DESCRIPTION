@@ -43,6 +43,7 @@ Imports:
     mlr3misc (>= 0.1.7),
     mlr3pipelines,
     paradox (>= 0.1.0),
+    Rcpp (>= 1.0.4),
     R6,
     survival
 Suggests:
@@ -81,6 +82,7 @@ Suggests:
     xgboost
 Remotes:
     mlr-org/mlr3
+LinkingTo: Rcpp
 VignetteBuilder:
     knitr
 ByteCompile: true
@@ -131,6 +133,7 @@ Collate:
     'MeasureSurvAUC.R'
     'MeasureSurvBeggC.R'
     'MeasureSurvChamblessAUC.R'
+    'MeasureSurvCindex.R'
     'MeasureSurvGonenHellersC.R'
     'MeasureSurvGraf.R'
     'MeasureSurvGrafSE.R'
@@ -161,6 +164,7 @@ Collate:
     'PredictionDens.R'
     'PredictionProbreg.R'
     'PredictionSurv.R'
+    'RcppExports.R'
     'TaskDens.R'
     'TaskDens_faithful.R'
     'TaskDens_precip.R'
@@ -173,6 +177,7 @@ Collate:
     'TaskSurv_unemployment.R'
     'assertions.R'
     'autoplot.R'
+    'cindex.R'
     'crankcompositor.R'
     'distrcompositor.R'
     'helpers.R'

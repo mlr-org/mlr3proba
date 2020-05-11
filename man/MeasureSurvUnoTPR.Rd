@@ -43,6 +43,7 @@ msr("surv.unoTPR")
 Other survival measures: 
 \code{\link{MeasureSurvBeggC}},
 \code{\link{MeasureSurvChamblessAUC}},
+\code{\link{MeasureSurvCindex}},
 \code{\link{MeasureSurvGonenC}},
 \code{\link{MeasureSurvGrafSE}},
 \code{\link{MeasureSurvGraf}},

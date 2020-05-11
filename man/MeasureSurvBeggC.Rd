@@ -39,6 +39,7 @@ msr("surv.beggC")
 \seealso{
 Other survival measures: 
 \code{\link{MeasureSurvChamblessAUC}},
+\code{\link{MeasureSurvCindex}},
 \code{\link{MeasureSurvGonenC}},
 \code{\link{MeasureSurvGrafSE}},
 \code{\link{MeasureSurvGraf}},

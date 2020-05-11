@@ -33,9 +33,9 @@ lrn("surv.blackboost")
 
 \itemize{
 \item Type: "surv"
-\item Predict Types: \verb{distr, crank, lp}
+\item Predict Types: \verb{distr, crank, lp, response}
 \item Feature Types: \verb{integer, numeric, factor}
-\item Properties: \code{-}
+\item Properties: \code{weights}
 \item Packages: \CRANpkg{mboost} \CRANpkg{distr6} \CRANpkg{survival} \CRANpkg{partykit} \CRANpkg{mvtnorm}
 }
 }

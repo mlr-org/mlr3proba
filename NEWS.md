@@ -1,3 +1,19 @@
+# mlr3proba 0.2.0
+
+## Deprecated Functions and Classes
+
+* `MeasureSurvBeggC` - use `MeasureSurvCindex` with defaults instead
+* `MeasureSurvHarrellC` - use `MeasureSurvCindex` with defaults instead
+* `MeasureSurvUnoC` - use `MeasureSurvCindex` with `weight_meth = 'G/2'` 
+* `MeasureSurvGonenC` - use `MeasureSurvCindex` with `weight_meth = 'GH'` 
+
+
+
+## Added Functions and Classes
+
+* `MeasureSurvCindex` now generalises c-index with a fast C++ implementation
+* `MeasureSurvGraf` and `MeasureSurvIntLogloss` now have much faster C++ implementations
+
 # mlr3proba 0.1.5
 
 * `LearnerSurvParametric` and `LearnerSurvNelson` moved to `mlr3learners/mlr3learners.survival ` repo

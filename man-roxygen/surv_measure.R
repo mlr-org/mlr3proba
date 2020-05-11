@@ -1,4 +1,4 @@
-#' <% meas = get(fullname)$new() %>
+#' <% meas = suppressWarnings(get(fullname)$new()) %>
 #' <% shortname = meas$id %>
 #'
 #' @include MeasureSurv.R
