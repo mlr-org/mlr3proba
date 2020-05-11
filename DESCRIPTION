@@ -1,6 +1,6 @@
 Package: mlr3proba
 Title: Probabilistic Supervised Learning for 'mlr3'
-Version: 0.1.5.9000
+Version: 0.2.0.9000
 Authors@R:
     c(person(given = "Raphael",
              family = "Sonabend",
@@ -38,7 +38,7 @@ Depends:
 Imports:
     checkmate,
     data.table,
-    distr6 (>= 1.3.6),
+    distr6 (>= 1.4.0),
     mlr3 (>= 0.2.0.9000),
     mlr3misc (>= 0.1.7),
     mlr3pipelines,
@@ -82,6 +82,7 @@ Suggests:
     xgboost
 Remotes:
     mlr-org/mlr3
+    alan-turing-institute/distr6
 LinkingTo: Rcpp
 VignetteBuilder:
     knitr

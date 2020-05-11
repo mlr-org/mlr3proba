@@ -80,7 +80,7 @@ pecs.list = function(x, measure = c("graf","logloss"), times, n, eps = 1e-15, ta
 
   if(measure == "logloss"){
     scores = lapply(p, function(y){
-      integrated_score(score = weighted_logloss(truth = task$truth(),
+      integrated_score(score = intslogloss(truth = task$truth(),
                                                 distribution = y$distr,
                                                 times = times,
                                                 eps = eps),
@@ -88,7 +88,7 @@ pecs.list = function(x, measure = c("graf","logloss"), times, n, eps = 1e-15, ta
     })
   } else {
     scores = lapply(p, function(y){
-      integrated_score(score = weighted_graf(truth = task$truth(),
+      integrated_score(score = graf(truth = task$truth(),
                                              distribution = y$distr,
                                              times = times),
                        integrated = FALSE)
@@ -115,13 +115,13 @@ pecs.PredictionSurv = function(x, measure = c("graf","logloss"), times, n, eps =
 
 
   if(measure == "logloss"){
-    scores = data.frame(logloss = integrated_score(score = weighted_logloss(truth = x$truth,
+    scores = data.frame(logloss = integrated_score(score = intslogloss(truth = x$truth,
                                                                             distribution = x$distr,
                                                                             times = times,
                                                                             eps = eps),
                                                    integrated = FALSE))
   } else {
-    scores = data.frame(graf = integrated_score(score = weighted_graf(truth = x$truth,
+    scores = data.frame(graf = integrated_score(score = graf(truth = x$truth,
                                                                       distribution = x$distr,
                                                                       times = times),
                                                 integrated = FALSE))

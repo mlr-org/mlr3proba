@@ -1,6 +1,6 @@
 context("surv.flexible")
 
-task = TaskGeneratorSimsurv$new()$generate(20)
+task = tgen("simsurv")$generate(20)
 test_that("autotest", {
   set.seed(1)
   learner = lrn("surv.flexible", inits = c(1,2))

@@ -155,7 +155,7 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
         if(length(form) == 0) form = "aft"
 
         base = base$distr[1]
-        times = unlist(base$support$elements)
+        times = unlist(base$properties$support$elements)
 
         nr = nrow(inpred$data$tab)
         nc = length(times)
@@ -176,10 +176,14 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
         else if (form == "po")
           cdf = 1 - (survmat * ({exp(-lpmat) + ((1 - exp(-lpmat)) * survmat)}^-1))
 
-        x = rep(list(data = data.frame(x = times, cdf = 0)), nr)
+        x = rep(list(list(data = times,
+                          cdf = numeric(length(times)),
+                          pdf = numeric(length(times)))), nr)
 
-        for(i in seq_along(times))
+        for(i in seq_along(times)) {
           x[[i]]$cdf = cdf[i,]
+          x[[i]]$pdf = c(x[[i]]$cdf[1], diff(x[[i]]$cdf))
+        }
 
         distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
                                                decorators = c("CoreStatistics", "ExoticStatistics"))

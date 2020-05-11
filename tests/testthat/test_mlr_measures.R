@@ -9,7 +9,7 @@ test_that("mlr_measures", {
     if(grepl("TNR|TPR", key))
       m = mlr_measures$get(key, times = 60)
     else
-      m = mlr_measures$get(key)
+      m = suppressWarnings(mlr_measures$get(key))
 
     expect_measure(m)
 
@@ -33,7 +33,7 @@ test_that("integrated_prob_losses", {
   probs = paste0("surv.", c("graf","grafSE","intlogloss","intloglossSE"))
   expect_error(lapply(probs, msr, times = 34:37, integrated = FALSE), "non-integrated score")
   expect_silent(prediction$score(lapply(probs, msr, integrated = TRUE)))
-  expect_error(prediction$score(lapply(probs, msr, integrated = TRUE, times = c(34:70))), "Times are all")
+  expect_error(prediction$score(lapply(probs, msr, integrated = TRUE, times = c(34:70))), "Requested times")
   expect_silent(prediction$score(lapply(probs, msr, integrated = TRUE, times = c(2:3))))
   expect_silent(prediction$score(lapply(probs, msr, integrated = FALSE, times = 2)))
 })

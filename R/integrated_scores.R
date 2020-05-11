@@ -24,7 +24,7 @@ weighted_survival_score = function(loss, truth, distribution, times, ...) {
                               as.matrix(distribution$cdf(unique_times)), ...)
   }
 
-  cens = survfit(Surv(truth[,"time"], 1 - truth[,"status"]) ~ 1)
+  cens = survival::survfit(Surv(truth[,"time"], 1 - truth[,"status"]) ~ 1)
   score = c_weight_survival_score(score, truth, unique_times, matrix(c(cens$time, cens$surv), ncol = 2))
   colnames(score) = unique_times
 

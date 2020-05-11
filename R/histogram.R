@@ -9,22 +9,29 @@
 
 
 .histogram <- function(dat, breaks = "Sturges"){
-  fit <- graphics::hist(x = dat, breaks = breaks, include.lowest = TRUE, plot = FALSE, right = FALSE)
+  fit <- graphics::hist(x = dat, breaks = breaks, include.lowest = TRUE,
+                        plot = FALSE, right = FALSE)
 
   pdf = function(x1){}
   body(pdf) = substitute({
-    f[findInterval(x1, Intervals, left.open = F, rightmost.closed = T)]
-   }, list(f = fit$density, Intervals = fit$breaks))
+    p = f[findInterval(x1, Intervals, left.open = F, rightmost.closed = T)]
+    p[x1 < min(fit$breaks) | x1 > max(fit$breaks)] = 0
+    return(p)
+  }, list(f = fit$density, Intervals = fit$breaks))
 
   cdf = function(x1){}
   body(cdf) = substitute({
-      sapply(x1, function(x) .histogram_cdf(val = x, Intervals = Intervals, pdf = pdf, counts = counts))
+    c = unlist(sapply(x1, function(x) .histogram_cdf(val = x, Intervals = Intervals, pdf = pdf,
+                                              counts = counts)))
+    c[x1 < min(fit$breaks)] = 0
+    c[x1 > max(fit$breaks)] = 1
+    return(c)
   }, list(counts = fit$counts, pdf = fit$density, Intervals = fit$breaks))
 
   list(distr = distr6::Distribution$new(name = "Histogram Estimator",
-                           short_name = "Histogram",
-                           pdf = pdf, cdf = cdf,
-                           support = set6::Interval$new(min(fit$breaks), max(fit$breaks))),
+                                        short_name = "Histogram",
+                                        pdf = pdf, cdf = cdf,
+                                        support = set6::Interval$new(min(fit$breaks), max(fit$breaks))),
        hist = fit)
 }
 

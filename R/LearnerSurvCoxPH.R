@@ -63,9 +63,14 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
       fit = invoke(survival::survfit, formula = self$model, newdata = newdata, se.fit = FALSE, .args = pv)
 
       # define WeightedDiscrete distr6 object from predicted survival function
-      x = rep(list(list(data = fit$time, cdf = numeric(length(fit$time)))), task$nrow)
-      for(i in 1:task$nrow)
+      x = rep(list(list(data = fit$time,
+                        cdf = numeric(length(fit$time)),
+                        pdf = numeric(length(fit$time)))), task$nrow)
+
+      for(i in 1:task$nrow) {
         x[[i]]$cdf = 1 - fit$surv[, i]
+        x[[i]]$pdf = c(x[[i]]$cdf[1], diff(x[[i]]$cdf))
+      }
 
       distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
                                              decorators = c("CoreStatistics", "ExoticStatistics"))
