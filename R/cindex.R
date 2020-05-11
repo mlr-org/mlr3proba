@@ -14,18 +14,18 @@ cindex = function(truth, crank, cutoff = NULL,
 
   weight_meth = match.arg(weight_meth)
 
-  if (weight_meth %in% c("I", "SG")) {
+  if (weight_meth %in% c("I", "S")) {
     cens = matrix()
   } else {
     cens = survival::survfit(Surv(train[,"time"], 1 - train[,"status"]) ~ 1)
     cens = matrix(c(cens$time, cens$surv), ncol = 2)
   }
 
-  if (weight_meth != "SG") {
-    surv = matrix()
-  } else {
+  if (weight_meth == "SG" | weight_meth == "S") {
     surv = survival::survfit(train ~ 1)
     surv = matrix(c(surv$time, surv$surv), ncol = 2)
+  } else {
+    surv = matrix()
   }
 
   if (is.null(cutoff)) {

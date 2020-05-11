@@ -33,7 +33,7 @@ register_mlr3 = function() {
                                         distr = c("crank","lp","distr","response"),
                                         lp = c("crank","lp","distr","response"),
                                         response = c("crank","lp","distr","response"))
-    x$default_measures$surv = "surv.harrellC"
+    x$default_measures$surv = "surv.cindex"
   }
 
   if (!grepl("dens", x$task_types[,"type"])) {
@@ -112,7 +112,7 @@ register_mlr3 = function() {
    x$add("surv.intlogloss", MeasureSurvIntLogloss)
    x$add("surv.intloglossSE", MeasureSurvIntLoglossSE)
 
-   x$add("surv.cindex", MeasureSurvUnoC)
+   x$add("surv.cindex", MeasureSurvCindex)
    x$add("surv.unoC", MeasureSurvUnoC)
    x$add("surv.harrellC", MeasureSurvHarrellC)
    x$add("surv.gonenC", MeasureSurvGonenC)

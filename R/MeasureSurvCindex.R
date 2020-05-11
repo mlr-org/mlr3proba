@@ -96,12 +96,18 @@ MeasureSurvCindex = R6Class("MeasureSurvCindex",
   ),
 
   private = list(
-    .score = function(prediction, task = NULL, train_set = NULL){
+    .score = function(prediction, task, train_set, ...){
       if (self$weight_meth == "GH") {
         return(c_gonen(prediction$crank, self$tiex))
-      } else {
+      } else if (self$weight_meth == "I") {
        return(cindex(prediction$truth, prediction$crank, self$cutoff, self$weight_meth,
-                     self$tiex, task$truth(train_set)))
+                     self$tiex))
+      } else {
+        if (is.null(task) | is.null(train_set)) {
+          stop("'task' and 'train_set' required for all weighted c-index (except GH).")
+        }
+        return(cindex(prediction$truth, prediction$crank, self$cutoff, self$weight_meth,
+                      self$tiex, task$truth(train_set)))
       }
     },
     .cutoff = numeric(),

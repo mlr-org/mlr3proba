@@ -162,6 +162,7 @@ float c_concordance(NumericVector time, NumericVector status, NumericVector cran
 
   NumericVector surv_times;
   NumericVector surv_surv;
+  int sl;
 
   if (weight_meth == "G2" || weight_meth == "G" || weight_meth == "SG") {
     cens_times = cens(_,0);
@@ -171,6 +172,7 @@ float c_concordance(NumericVector time, NumericVector status, NumericVector cran
   if (weight_meth == "S" || weight_meth == "SG") {
     surv_times = surv(_,0);
     surv_surv = surv(_,1);
+    sl = surv_times.length();
   }
 
   for (int i = 0; i < time.length() - 1; i++) {
@@ -196,9 +198,9 @@ float c_concordance(NumericVector time, NumericVector status, NumericVector cran
             }
 
             if (weight_meth == "SG" || weight_meth == "S") {
-              for (int l = 0; l < cl; l++) {
+              for (int l = 0; l < sl; l++) {
                 if(time[i] >= surv_times[l] &&
-                   (time[i] < surv_times[l + 1]  || l == cl - 1)) {
+                   (time[i] < surv_times[l + 1]  || l == sl - 1)) {
                   if (weight_meth == "S") {
                     weight = surv_surv[l];
                   } else {

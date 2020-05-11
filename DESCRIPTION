@@ -185,5 +185,4 @@ Collate:
     'integrated_scores.R'
     'pecs.R'
     'surv_measures.R'
-    'weighted_survival_score.R'
     'zzz.R'
