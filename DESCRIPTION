@@ -38,7 +38,7 @@ Depends:
 Imports:
     checkmate,
     data.table,
-    distr6 (>= 1.4.0),
+    distr6 (>= 1.4.0.9000),
     mlr3 (>= 0.2.0.9000),
     mlr3misc (>= 0.1.7),
     mlr3pipelines,
@@ -81,7 +81,7 @@ Suggests:
     testthat,
     xgboost
 Remotes:
-    mlr-org/mlr3
+    mlr-org/mlr3,
     alan-turing-institute/distr6
 LinkingTo: Rcpp
 VignetteBuilder:
