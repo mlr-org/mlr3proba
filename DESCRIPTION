@@ -82,7 +82,7 @@ Suggests:
     xgboost
 Remotes:
     mlr-org/mlr3,
-    alan-turing-institute/distr6
+    alan-turing-institute/distr6#198
 LinkingTo: Rcpp
 VignetteBuilder:
     knitr
