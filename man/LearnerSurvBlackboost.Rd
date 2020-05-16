@@ -60,12 +60,10 @@ resample(task, learner, resampling)
 }
 \seealso{
 Other survival learners: 
-\code{\link{LearnerSurvCVGlmnet}},
 \code{\link{LearnerSurvCoxPH}},
 \code{\link{LearnerSurvGBM}},
 \code{\link{LearnerSurvGamboost}},
 \code{\link{LearnerSurvGlmboost}},
-\code{\link{LearnerSurvGlmnet}},
 \code{\link{LearnerSurvKaplan}},
 \code{\link{LearnerSurvMboost}},
 \code{\link{LearnerSurvRanger}},
