@@ -1,3 +1,8 @@
+# mlr3proba 0.1.6
+
+* Minor updates to `mboost` family of learners: added `gehan` family, fixed parameters for `cindex`, added support for:  `weights`, `response` predict type, `importance`, `selected_features`
+* Minor internal changes
+
 # mlr3proba 0.1.5
 
 * `LearnerSurvParametric` and `LearnerSurvNelson` moved to `mlr3learners/mlr3learners.survival ` repo
