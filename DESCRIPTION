@@ -47,6 +47,7 @@ Imports:
     survival
 Suggests:
     bibtex,
+    coin,
     CoxBoost,
     flexsurv,
     gbm,
@@ -107,6 +108,7 @@ Collate:
     'LearnerProbregGaussian.R'
     'LearnerSurv.R'
     'LearnerSurvBlackboost.R'
+    'LearnerSurvCTree.R'
     'LearnerSurvCVGlmnet.R'
     'LearnerSurvCoxPH.R'
     'predict_flexsurvreg.R'

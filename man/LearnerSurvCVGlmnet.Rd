@@ -42,6 +42,7 @@ lrn("surv.cvglmnet")
 \seealso{
 Other survival learners: 
 \code{\link{LearnerSurvBlackboost}},
+\code{\link{LearnerSurvCTree}},
 \code{\link{LearnerSurvCoxPH}},
 \code{\link{LearnerSurvFlexible}},
 \code{\link{LearnerSurvGBM}},
