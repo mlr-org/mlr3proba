@@ -66,7 +66,8 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   feature_types = character(),
   properties = character(),
   data_formats = "data.table",
-  packages = character()
+  packages = character(),
+  man = NA_character_
 )}\if{html}{\out{</div>}}
 }
 
@@ -105,6 +106,10 @@ e.g. \code{"data.table"}.}
 Set of required packages.
 A warning is signaled by the constructor if at least one of the packages is not installed,
 but loaded (not attached) later on-demand via \code{\link[=requireNamespace]{requireNamespace()}}.}
+
+\item{\code{man}}{(\code{character(1)})\cr
+String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
+The referenced help package can be opened via method \verb{$help()}.}
 }
 \if{html}{\out{</div>}}
 }
