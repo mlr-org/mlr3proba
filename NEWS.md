@@ -1,6 +1,7 @@
 # mlr3proba 0.1.5.9000
 
-* All learners except `LearnerSurvKaplan, LearnerSurvCoxPH, LearnerDensHist, LearnerDensKDE` moved to either `mlr3learners` [repo](https://mlr3learners.mlr-org.com/dev/index.html) or `mlr3learners` [org](https://mlr3learners.mlr-org.com/dev/articles/learners/additional-learners.html).
+* All density learners except `LearnerDensHist` and `LearnerDensKDE` have been moved to the [mlr3learners org](https://mlr3learners.mlr-org.com/dev/articles/learners/additional-learners.html)
+* The following survival learners have been moved to  the [mlr3learners org](https://mlr3learners.mlr-org.com/dev/articles/learners/additional-learners.html), LearnerSurv: `Flexible`, `ObliqueRSF`, `Penalized`, `RandomForestSRC`
 
 # mlr3proba 0.1.5
 
