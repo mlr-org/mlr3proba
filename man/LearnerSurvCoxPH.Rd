@@ -40,9 +40,11 @@ lrn("surv.coxph")
 \seealso{
 Other survival learners: 
 \code{\link{LearnerSurvBlackboost}},
+\code{\link{LearnerSurvCVGlmnet}},
 \code{\link{LearnerSurvGBM}},
 \code{\link{LearnerSurvGamboost}},
 \code{\link{LearnerSurvGlmboost}},
+\code{\link{LearnerSurvGlmnet}},
 \code{\link{LearnerSurvKaplan}},
 \code{\link{LearnerSurvMboost}},
 \code{\link{LearnerSurvRanger}},
