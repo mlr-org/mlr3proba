@@ -47,36 +47,22 @@ Imports:
     survival
 Suggests:
     bibtex,
-    CoxBoost,
-    flexsurv,
     gbm,
     ggplot2,
     glmnet,
-    gss,
-    kerdiest,
     knitr,
-    ks,
     lgr,
-    logspline,
-    locfit,
     Matrix,
     mboost,
     mlr3tuning,
-    np,
-    obliqueRSF,
     pec,
-    penalized,
-    pendensity,
-    plugdensity,
     randomForestSRC,
     ranger,
     riskRegression,
     rpart,
     set6,
     simsurv,
-    sm,
     survAUC,
-    survivalsvm,
     testthat,
     xgboost
 Remotes:
@@ -94,32 +80,18 @@ Collate:
     'LearnerDens.R'
     'LearnerDensHistogram.R'
     'LearnerDensKDE.R'
-    'LearnerDensKDEkd.R'
-    'LearnerDensKDEks.R'
-    'LearnerDensLocfit.R'
-    'LearnerDensLogspline.R'
-    'LearnerDensMixed.R'
-    'LearnerDensNonparametric.R'
-    'LearnerDensPenalized.R'
-    'LearnerDensPlugin.R'
-    'LearnerDensSpline.R'
     'LearnerProbreg.R'
     'LearnerProbregGaussian.R'
     'LearnerSurv.R'
     'LearnerSurvBlackboost.R'
     'LearnerSurvCVGlmnet.R'
     'LearnerSurvCoxPH.R'
-    'predict_flexsurvreg.R'
-    'LearnerSurvFlexible.R'
     'LearnerSurvGBM.R'
     'LearnerSurvGamboost.R'
     'LearnerSurvGlmboost.R'
     'LearnerSurvGlmnet.R'
     'LearnerSurvKaplan.R'
     'LearnerSurvMboost.R'
-    'LearnerSurvObliqueRSF.R'
-    'LearnerSurvPenalized.R'
-    'LearnerSurvRandomForestSRC.R'
     'LearnerSurvRanger.R'
     'LearnerSurvRpart.R'
     'LearnerSurvXGBoost.R'
