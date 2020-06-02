@@ -33,9 +33,9 @@ lrn("surv.glmboost")
 
 \itemize{
 \item Type: "surv"
-\item Predict Types: \verb{distr, crank, lp}
+\item Predict Types: \verb{distr, crank, lp, response}
 \item Feature Types: \verb{integer, numeric, factor, logical}
-\item Properties: \code{-}
+\item Properties: \code{weights}
 \item Packages: \CRANpkg{mboost} \CRANpkg{distr6} \CRANpkg{survival}
 }
 }
@@ -63,15 +63,11 @@ Other survival learners:
 \code{\link{LearnerSurvBlackboost}},
 \code{\link{LearnerSurvCVGlmnet}},
 \code{\link{LearnerSurvCoxPH}},
-\code{\link{LearnerSurvFlexible}},
 \code{\link{LearnerSurvGBM}},
 \code{\link{LearnerSurvGamboost}},
 \code{\link{LearnerSurvGlmnet}},
 \code{\link{LearnerSurvKaplan}},
 \code{\link{LearnerSurvMboost}},
-\code{\link{LearnerSurvObliqueRSF}},
-\code{\link{LearnerSurvPenalized}},
-\code{\link{LearnerSurvRandomForestSRC}},
 \code{\link{LearnerSurvRanger}},
 \code{\link{LearnerSurvRpart}},
 \code{\link{LearnerSurvXgboost}}
@@ -105,6 +101,16 @@ Other survival learners:
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
+Importance is supported but fails tests as internally data is coerced to model
+matrix and original names can't be recovered.
+
+Importance is supported but fails tests as internally data is coerced to model
+matrix and original names can't be recovered.
+
+description
+Selected features are extracted with the function \code{\link[mboost:variable.names.mboost]{mboost::variable.names.mboost()}}, with
+\code{used.only = TRUE}.
+return \code{character()}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{LearnerSurvGlmboost$new()}\if{html}{\out{</div>}}
 }

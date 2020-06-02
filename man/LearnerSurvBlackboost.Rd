@@ -33,9 +33,9 @@ lrn("surv.blackboost")
 
 \itemize{
 \item Type: "surv"
-\item Predict Types: \verb{distr, crank, lp}
+\item Predict Types: \verb{distr, crank, lp, response}
 \item Feature Types: \verb{integer, numeric, factor}
-\item Properties: \code{-}
+\item Properties: \code{weights}
 \item Packages: \CRANpkg{mboost} \CRANpkg{distr6} \CRANpkg{survival} \CRANpkg{partykit} \CRANpkg{mvtnorm}
 }
 }
@@ -62,16 +62,12 @@ resample(task, learner, resampling)
 Other survival learners: 
 \code{\link{LearnerSurvCVGlmnet}},
 \code{\link{LearnerSurvCoxPH}},
-\code{\link{LearnerSurvFlexible}},
 \code{\link{LearnerSurvGBM}},
 \code{\link{LearnerSurvGamboost}},
 \code{\link{LearnerSurvGlmboost}},
 \code{\link{LearnerSurvGlmnet}},
 \code{\link{LearnerSurvKaplan}},
 \code{\link{LearnerSurvMboost}},
-\code{\link{LearnerSurvObliqueRSF}},
-\code{\link{LearnerSurvPenalized}},
-\code{\link{LearnerSurvRandomForestSRC}},
 \code{\link{LearnerSurvRanger}},
 \code{\link{LearnerSurvRpart}},
 \code{\link{LearnerSurvXgboost}}

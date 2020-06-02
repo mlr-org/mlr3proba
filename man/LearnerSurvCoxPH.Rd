@@ -41,16 +41,12 @@ lrn("surv.coxph")
 Other survival learners: 
 \code{\link{LearnerSurvBlackboost}},
 \code{\link{LearnerSurvCVGlmnet}},
-\code{\link{LearnerSurvFlexible}},
 \code{\link{LearnerSurvGBM}},
 \code{\link{LearnerSurvGamboost}},
 \code{\link{LearnerSurvGlmboost}},
 \code{\link{LearnerSurvGlmnet}},
 \code{\link{LearnerSurvKaplan}},
 \code{\link{LearnerSurvMboost}},
-\code{\link{LearnerSurvObliqueRSF}},
-\code{\link{LearnerSurvPenalized}},
-\code{\link{LearnerSurvRandomForestSRC}},
 \code{\link{LearnerSurvRanger}},
 \code{\link{LearnerSurvRpart}},
 \code{\link{LearnerSurvXgboost}}
