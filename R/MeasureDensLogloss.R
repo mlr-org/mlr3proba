@@ -30,7 +30,7 @@ MeasureDensLogloss = R6::R6Class("MeasureDensLogloss",
       )
 
       assertNumeric(eps)
-      private$.eps <- eps
+      private$.eps = eps
     }
   ),
 
@@ -42,7 +42,7 @@ MeasureDensLogloss = R6::R6Class("MeasureDensLogloss",
         return(private$.eps)
       } else {
         assertNumeric(eps)
-        private$.eps <- eps
+        private$.eps = eps
       }
     }
   ),

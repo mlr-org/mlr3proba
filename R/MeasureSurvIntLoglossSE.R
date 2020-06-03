@@ -35,7 +35,7 @@ MeasureSurvIntLoglossSE = R6::R6Class("MeasureSurvIntLoglossSE",
       )
 
       assertNumeric(eps)
-      private$.eps <- eps
+      private$.eps = eps
     }
   ),
 
@@ -45,7 +45,7 @@ MeasureSurvIntLoglossSE = R6::R6Class("MeasureSurvIntLoglossSE",
         return(private$.eps)
       } else {
         assertNumeric(eps)
-        private$.eps <- eps
+        private$.eps = eps
       }
     }
   ),

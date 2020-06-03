@@ -68,7 +68,7 @@ MeasureSurvIntegrated = R6Class("MeasureSurvIntegrated",
             "For the non-integrated score, only a single time-point can be returned. Currently self$times = %s",
             paste0("c(", paste0(self$times, collapse = ", "), ").")))
         }
-        private$.integrated <- integrated
+        private$.integrated = integrated
       }
     },
 

@@ -32,7 +32,7 @@ MeasureSurvSongAUC = R6Class("MeasureSurvSongAUC",
         properties = c("requires_learner", "requires_task", "requires_train_set")
       )
 
-      private$.type <- match.arg(type)
+      private$.type = match.arg(type)
     }
   ),
 
@@ -45,7 +45,7 @@ MeasureSurvSongAUC = R6Class("MeasureSurvSongAUC",
         if (is.na(type)) {
           stop("'type' must be on: 'incident', 'cumulative'. Abbreviations allowed.")
         }
-        private$.type <- type
+        private$.type = type
       }
     }
   ),

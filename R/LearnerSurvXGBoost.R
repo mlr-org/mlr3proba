@@ -121,7 +121,7 @@ LearnerSurvXgboost = R6Class("LearnerSurvXgboost",
     .train = function(task) {
 
       pars = self$param_set$get_values(tags = "train")
-      pars[["objective"]] <- "survival:cox"
+      pars[["objective"]] = "survival:cox"
       targets = task$target_names
 
       data = task$data(cols = task$feature_names)

@@ -17,7 +17,7 @@
 #' task = TaskDens$new("precip", backend = data.frame(target = precip), target = "target")
 #' task$task_type
 #' task$truth()
-TaskDens <- R6::R6Class("TaskDens",
+TaskDens = R6::R6Class("TaskDens",
   inherit = Task,
   public = list(
     #' @description

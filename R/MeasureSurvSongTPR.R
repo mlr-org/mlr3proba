@@ -38,7 +38,7 @@ MeasureSurvSongTPR = R6Class("MeasureSurvSongTPR",
 
       assertNumeric(lp_thresh, len = 1)
       private$.lp_thresh = lp_thresh
-      private$.type <- match.arg(type)
+      private$.type = match.arg(type)
     }
   ),
 
@@ -60,7 +60,7 @@ MeasureSurvSongTPR = R6Class("MeasureSurvSongTPR",
         if (is.na(type)) {
           stop("'type' must be on: 'incident', 'cumulative'. Abbreviations allowed.")
         }
-        private$.type <- type
+        private$.type = type
       }
     }
   ),
