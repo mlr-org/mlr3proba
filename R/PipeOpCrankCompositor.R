@@ -71,8 +71,9 @@
 #' gr$predict(task)
 #'
 #' # Method 3 - Syntactic sugar: Wrap the learner in a graph
-#' ranger.crank = crankcompositor(learner = lrn("surv.ranger"),
-#'                             method = "median")
+#' ranger.crank = crankcompositor(
+#'   learner = lrn("surv.ranger"),
+#'   method = "median")
 #' resample(task, ranger.crank, rsmp("cv", folds = 2))$predictions()
 #' }
 PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
@@ -87,15 +88,16 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
     #'   List of hyperparameter settings, overwriting the hyperparameter settings that would
     #'   otherwise be set during construction.
     initialize = function(id = "crankcompose", param_vals = list(method = "mean")) {
-      super$initialize(id = id,
-                       param_set = ParamSet$new(params = list(
-                         ParamFct$new("method", default = "mean", levels = c("mean","median","mode"), tags = c("predict"))
-                       )),
-                       param_vals = param_vals,
-                       input = data.table(name = "input", train = "NULL", predict = "PredictionSurv"),
-                       output = data.table(name = "output", train = "NULL", predict = "PredictionSurv"),
-                       packages = "distr6")
-      },
+      super$initialize(
+        id = id,
+        param_set = ParamSet$new(params = list(
+          ParamFct$new("method", default = "mean", levels = c("mean", "median", "mode"), tags = c("predict"))
+        )),
+        param_vals = param_vals,
+        input = data.table(name = "input", train = "NULL", predict = "PredictionSurv"),
+        output = data.table(name = "output", train = "NULL", predict = "PredictionSurv"),
+        packages = "distr6")
+    },
 
     #' @description train_internal
     #' Internal `train` function, will be moved to `private` in a near-future update, should be ignored.
@@ -111,24 +113,27 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
     #' @param inputs
     #' Ignore.
     predict_internal = function(inputs) {
+
       inpred = inputs[[1]]
 
       assert("distr" %in% inpred$predict_types)
       method = self$param_set$values$method
-      if(length(method) == 0) method = "mean"
+      if (length(method) == 0) method = "mean"
       crank = as.numeric(switch(method,
-                                median = inpred$distr$median(),
-                                mode = inpred$distr$mode(),
-                                inpred$distr$mean()
+        median = inpred$distr$median(),
+        mode = inpred$distr$mode(),
+        inpred$distr$mean()
       ))
 
-      if (length(inpred$lp) == 0)
+      if (length(inpred$lp) == 0) {
         lp = NULL
-      else
+      } else {
         lp = inpred$lp
+      }
 
-      return(list(PredictionSurv$new(row_ids = inpred$row_ids, truth = inpred$truth, crank = crank,
-                                     distr = inpred$distr, lp = lp)))
+      return(list(PredictionSurv$new(
+        row_ids = inpred$row_ids, truth = inpred$truth, crank = crank,
+        distr = inpred$distr, lp = lp)))
     }
   )
 

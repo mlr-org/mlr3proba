@@ -21,7 +21,7 @@ test_that("PipeOpCrankCompositor - estimate", {
   expect_true("crank" %in% p$predict_types)
 })
 
-test_that("no params",{
+test_that("no params", {
   po = PipeOpCrankCompositor$new(param_vals = list())
   p = po$predict(
     list(lrn("surv.kaplan")$train(task)$predict(task)))$output

@@ -10,7 +10,7 @@ test_that("autotest", {
   expect_true(result, info = result$error)
 })
 
-test_that("ctrlpars",{
+test_that("ctrlpars", {
   skip_on_cran()
   set.seed(1)
   task = TaskGeneratorSimsurv$new()$generate(10)

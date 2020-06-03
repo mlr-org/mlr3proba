@@ -24,12 +24,14 @@
 #' @seealso
 #' Default density measures: [`dens.logloss`][mlr_measures_dens.logloss]
 #' @export
-MeasureDens = R6Class("MeasureDens", inherit = Measure, cloneable = FALSE,
+MeasureDens = R6Class("MeasureDens",
+  inherit = Measure, cloneable = FALSE,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id, range, minimize = NA, aggregator = NULL, properties = character(), predict_type = "pdf", task_properties = character(0L), packages = character(0L)) {
-      super$initialize(id, task_type = "dens", range = range, minimize = minimize, aggregator = aggregator,
+      super$initialize(id,
+        task_type = "dens", range = range, minimize = minimize, aggregator = aggregator,
         properties = properties, predict_type = predict_type, task_properties = task_properties, packages = packages)
     }
   )

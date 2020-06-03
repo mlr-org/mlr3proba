@@ -1,31 +1,30 @@
-#Histogram function
-#-------------------
+# Description: Finding the pdf and cdf using histogram using the hist function in R
 
-#Description: Finding the pdf and cdf using histogram using the hist function in R
-
-#Arguments
-#1. data to estimate the density
-#2. numbin: the size of each bins. Can be a single numberr, vector, a function (see hist)
+# Arguments
+# 1. data to estimate the density
+# 2. numbin: the size of each bins. Can be a single numberr, vector, a function (see hist)
 
 
-.histogram <- function(dat, breaks = "Sturges"){
-  fit <- graphics::hist(x = dat, breaks = breaks, include.lowest = TRUE, plot = FALSE, right = FALSE)
+.histogram = function(dat, breaks = "Sturges") {
+  fit = graphics::hist(x = dat, breaks = breaks, include.lowest = TRUE, plot = FALSE, right = FALSE)
 
-  pdf = function(x1){}
+  pdf = function(x1) {} #nolint
   body(pdf) = substitute({
     f[findInterval(x1, Intervals, left.open = F, rightmost.closed = T)]
-   }, list(f = fit$density, Intervals = fit$breaks))
+  }, list(f = fit$density, Intervals = fit$breaks))
 
-  cdf = function(x1){}
+  cdf = function(x1) {} #nolint
   body(cdf) = substitute({
-      sapply(x1, function(x) .histogram_cdf(val = x, Intervals = Intervals, pdf = pdf, counts = counts))
+    sapply(x1, function(x) .histogram_cdf(val = x, Intervals = Intervals, pdf = pdf, counts = counts))
   }, list(counts = fit$counts, pdf = fit$density, Intervals = fit$breaks))
 
-  list(distr = distr6::Distribution$new(name = "Histogram Estimator",
-                           short_name = "Histogram",
-                           pdf = pdf, cdf = cdf,
-                           support = set6::Interval$new(min(fit$breaks), max(fit$breaks))),
-       hist = fit)
+  list(
+    distr = distr6::Distribution$new(
+      name = "Histogram Estimator",
+      short_name = "Histogram",
+      pdf = pdf, cdf = cdf,
+      support = set6::Interval$new(min(fit$breaks), max(fit$breaks))),
+    hist = fit)
 }
 
 
@@ -41,16 +40,16 @@
 # 2. Intervals: The intervals/break of the histogram. A vector
 # 3. Pdf: pdf for each interval. a vector
 
-.histogram_cdf <- function(val, Intervals, pdf, counts){
-
-  ind <- findInterval(val, Intervals, left.open = F, rightmost.closed = T)
-  #finding the index of the breaks for val
-  part_cdf <- cumsum(counts)/sum(counts)
+.histogram_cdf = function(val, Intervals, pdf, counts) {
+  ind = findInterval(val, Intervals, left.open = F, rightmost.closed = T)
+  # finding the index of the breaks for val
+  part_cdf = cumsum(counts) / sum(counts)
   # find the area of the bin up to LHS val
 
   # if ind == 1, it means that its the first Interval,
-  if(ind == 1)
-    return((val - Intervals[ind])*pdf[ind])
-  else
-    return(part_cdf[ind-1] + (val - Intervals[ind])*pdf[ind])
+  if (ind == 1) {
+    return((val - Intervals[ind]) * pdf[ind])
+  } else {
+    return(part_cdf[ind - 1] + (val - Intervals[ind]) * pdf[ind])
+  }
 }

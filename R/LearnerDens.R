@@ -29,17 +29,19 @@
 #' # get a specific learner from mlr_learners:
 #' mlr_learners$get("dens.hist")
 #' lrn("dens.hist")
-LearnerDens = R6::R6Class("LearnerDens", inherit = Learner,
+LearnerDens = R6::R6Class("LearnerDens",
+  inherit = Learner,
   public = list(
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id, param_set = ParamSet$new(),
-                          predict_types = "cdf", feature_types = character(),
-                          properties = character(), data_formats = "data.table",
-                          packages = character(),
-                          man = NA_character_){
-      super$initialize(id = id, task_type = "dens", param_set = param_set,
-                       predict_types = predict_types, feature_types = feature_types, properties = properties,
-                       data_formats = data_formats, packages = packages, man = man)
+      predict_types = "cdf", feature_types = character(),
+      properties = character(), data_formats = "data.table",
+      packages = character(),
+      man = NA_character_) {
+      super$initialize(
+        id = id, task_type = "dens", param_set = param_set,
+        predict_types = predict_types, feature_types = feature_types, properties = properties,
+        data_formats = data_formats, packages = packages, man = man)
     }
   )
 )

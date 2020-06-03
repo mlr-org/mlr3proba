@@ -37,10 +37,10 @@ MeasureDensLogloss = R6::R6Class("MeasureDensLogloss",
   active = list(
     #' @field eps
     #' Returns `eps` parameter, see `initialize`.
-    eps = function(eps){
-      if(missing(eps))
+    eps = function(eps) {
+      if (missing(eps)) {
         return(private$.eps)
-      else {
+      } else {
         assertNumeric(eps)
         private$.eps <- eps
       }

@@ -22,15 +22,16 @@
 #' library("mlr3pipelines")
 #'
 #' task = tgen("simsurv")$generate(20)
-#' cvglm.distr = distrcompositor(learner = lrn("surv.cvglmnet"),
-#'                             estimator = "kaplan",
-#'                             form = "aft")
+#' cvglm.distr = distrcompositor(
+#'   learner = lrn("surv.cvglmnet"),
+#'   estimator = "kaplan",
+#'   form = "aft")
 #'
 #' resample(task, cvglm.distr, rsmp("cv", folds = 2))$predictions()
 #' }
 #' @export
-distrcompositor = function(learner, estimator = c("kaplan", "nelson"), form = c("aft","ph","po"),
-                           overwrite = FALSE, param_vals = list()){
+distrcompositor = function(learner, estimator = c("kaplan", "nelson"), form = c("aft", "ph", "po"),
+  overwrite = FALSE, param_vals = list()) {
 
   pred = po("learner", learner, param_vals = param_vals)
 

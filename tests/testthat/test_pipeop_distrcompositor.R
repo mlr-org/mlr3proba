@@ -19,8 +19,9 @@ task = tgen("simsurv")$generate(20)
 test_that("PipeOpDistrCompositor - overwrite = FALSE", {
   gr = distrcompositor(lrn("surv.coxph"), overwrite = FALSE)
   expect_silent(gr$train(task))
-  expect_equal(gr$predict(task)$distr,
-               lrn("surv.coxph")$train(task)$predict(task)$distr)
+  expect_equal(
+    gr$predict(task)$distr,
+    lrn("surv.coxph")$train(task)$predict(task)$distr)
 })
 
 test_that("PipeOpDistrCompositor - overwrite = TRUE", {
@@ -41,5 +42,3 @@ test_that("no params", {
   pod = po("distrcompose", param_vals = list())
   expect_silent(pod$predict(list(base = base, pred = pred)))
 })
-
-

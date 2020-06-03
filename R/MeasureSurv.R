@@ -24,13 +24,15 @@
 #' @seealso
 #' Default survival measures: [`surv.harrellC`][mlr_measures_surv.harrellC]
 #' @export
-MeasureSurv = R6Class("MeasureSurv", inherit = Measure, cloneable = FALSE,
+MeasureSurv = R6Class("MeasureSurv",
+  inherit = Measure, cloneable = FALSE,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id, range, minimize = NA, aggregator = NULL, properties = character(), predict_type = "distr", task_properties = character(), packages = character()) {
-      super$initialize(id, task_type = "surv", range = range, minimize = minimize, aggregator = aggregator,
-                       properties = properties, predict_type = predict_type, task_properties = task_properties, packages = packages)
+      super$initialize(id,
+        task_type = "surv", range = range, minimize = minimize, aggregator = aggregator,
+        properties = properties, predict_type = predict_type, task_properties = task_properties, packages = packages)
     }
   )
 )

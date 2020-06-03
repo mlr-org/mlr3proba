@@ -18,11 +18,13 @@
 #' \cite{mlr3proba}{chen_2016}
 #'
 #' @export
-LearnerSurvXgboost = R6Class("LearnerSurvXgboost", inherit = LearnerSurv,
+LearnerSurvXgboost = R6Class("LearnerSurvXgboost",
+  inherit = LearnerSurv,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
+
       ps = ParamSet$new(list(
         ParamFct$new("booster", default = "gbtree", levels = c("gbtree", "gblinear", "dart"), tags = "train"),
         ParamUty$new("watchlist", default = NULL, tags = "train"),
@@ -89,12 +91,12 @@ LearnerSurvXgboost = R6Class("LearnerSurvXgboost", inherit = LearnerSurv,
       ps$values = list(nrounds = 1L, verbose = 0L, eval_metric = "cox-nloglik")
 
       super$initialize(
-        id            = "surv.xgboost",
-        param_set     = ps,
+        id = "surv.xgboost",
+        param_set = ps,
         predict_types = c("crank", "lp"),
         feature_types = c("logical", "integer", "numeric"),
-        properties    = c("weights", "missings", "importance"),
-        packages      = c("xgboost")
+        properties = c("weights", "missings", "importance"),
+        packages = c("xgboost")
       )
     },
 
@@ -122,7 +124,7 @@ LearnerSurvXgboost = R6Class("LearnerSurvXgboost", inherit = LearnerSurv,
       pars[["objective"]] <- "survival:cox"
       targets = task$target_names
 
-      data   = task$data(cols = task$feature_names)
+      data = task$data(cols = task$feature_names)
       target = task$data(cols = task$target_names)
       label = target[[targets[1]]]
       status = target[[targets[2]]]
@@ -144,12 +146,11 @@ LearnerSurvXgboost = R6Class("LearnerSurvXgboost", inherit = LearnerSurv,
     },
 
     .predict = function(task) {
-
-      pars     = self$param_set$get_values(tags = "predict")
-      model    = self$model
-      newdata  = data.matrix(task$data(cols = task$feature_names))
-      newdata  = newdata[, model$feature_names, drop = FALSE]
-      lp = invoke(predict, model, newdata = newdata, .args = pars)
+      pars = self$param_set$get_values(tags = "predict")
+      model = self$model
+      newdata = data.matrix(task$data(cols = task$feature_names))
+      newdata = newdata[, model$feature_names, drop = FALSE]
+      lp = log(invoke(predict, model, newdata = newdata, .args = pars))
 
       PredictionSurv$new(task = task, crank = lp, lp = lp)
 

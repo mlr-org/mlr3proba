@@ -7,7 +7,9 @@ test_that("pecs.list", {
   skip_on_cran()
   learns = lrns(c("surv.kaplan", "surv.coxph"))
   expect_error(pecs(learns), "trained survival learners")
-  suppressWarnings({lapply(learns, function(x) x$train(task))})
+  suppressWarnings({
+    lapply(learns, function(x) x$train(task))
+  })
   expect_error(pecs(learns, meas = "sdsd"))
   expect_silent(pecs(learns, task = task, meas = "logloss", n = 10))
   expect_error(pecs(learns, times = 1))
@@ -16,6 +18,8 @@ test_that("pecs.list", {
 
 test_that("pecs.PredictionSurv", {
   skip_on_cran()
-  suppressWarnings({p = lrn("surv.coxph")$train(task)$predict(task)})
+  suppressWarnings({
+    p = lrn("surv.coxph")$train(task)$predict(task)
+  })
   expect_silent(pecs(p))
 })

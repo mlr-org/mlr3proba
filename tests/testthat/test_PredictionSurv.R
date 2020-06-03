@@ -30,7 +30,7 @@ test_that("c", {
   task = tgen("simsurv")$generate(20)
   p1 = lrn("surv.kaplan")$train(task)$predict(task)
   p2 = lrn("surv.coxph")$train(task)$predict(task)
-  expect_error(c(p1,p2), "Cannot rbind")
+  expect_error(c(p1, p2), "Cannot rbind")
 
   lrn = lrn("surv.kaplan")
   resampling = rsmp("cv", folds = 2)
@@ -46,4 +46,3 @@ test_that("c", {
   expect_equal(length(c(p1, p2, keep_duplicates = TRUE)$row_ids), 40)
   expect_equal(length(c(p1, p2, keep_duplicates = FALSE)$row_ids), 20)
 })
-

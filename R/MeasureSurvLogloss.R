@@ -38,10 +38,10 @@ MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
   ),
 
   active = list(
-    eps = function(eps){
-      if(missing(eps))
+    eps = function(eps) {
+      if (missing(eps)) {
         return(private$.eps)
-      else {
+      } else {
         assertNumeric(eps)
         private$.eps <- eps
       }

@@ -23,22 +23,20 @@
 #'
 #' plot(learn, task, "survival", ind = 10)
 #' plot(learn, task, "survival", row_ids = 1:5)
-#' plot(learn, task, "survival", newdata = task$data()[1:5,])
-#' plot(learn, task, "survival", newdata = task$data()[1:5,], ylim=c(0, 1))
-#'
-#'
+#' plot(learn, task, "survival", newdata = task$data()[1:5, ])
+#' plot(learn, task, "survival", newdata = task$data()[1:5, ], ylim = c(0, 1))
 #' @export
 plot.LearnerSurv = function(
   x,
   task,
-  fun     = c("survival", "pdf","cdf","quantile", "hazard", "cumhazard"),
+  fun = c("survival", "pdf", "cdf", "quantile", "hazard", "cumhazard"),
   row_ids = NULL,
   newdata,
   ...) {
 
   fun = match.arg(fun)
 
-  if(missing(newdata)) {
+  if (missing(newdata)) {
     pred = x$predict(task = task, row_ids = row_ids)
   }
   else {

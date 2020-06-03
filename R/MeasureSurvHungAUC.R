@@ -22,20 +22,22 @@ MeasureSurvHungAUC = R6Class("MeasureSurvHungAUC",
   public = list(
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(integrated = TRUE, times) {
-      super$initialize(integrated = integrated,
-                       times = times,
-                       id = "surv.hungAUC",
-                       properties = c("requires_task", "requires_train_set"))
+      super$initialize(
+        integrated = integrated,
+        times = times,
+        id = "surv.hungAUC",
+        properties = c("requires_task", "requires_train_set"))
     }
   ),
 
   private = list(
     .score = function(prediction, task, train_set, ...) {
-      super$.score(prediction = prediction,
-                           task = task,
-                           train_set = train_set,
-                           FUN = survAUC::AUC.hc,
-                           ...)
+      super$.score(
+        prediction = prediction,
+        task = task,
+        train_set = train_set,
+        FUN = survAUC::AUC.hc,
+        ...)
     }
   )
 )

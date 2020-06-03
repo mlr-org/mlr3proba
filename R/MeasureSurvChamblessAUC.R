@@ -23,20 +23,22 @@ MeasureSurvChamblessAUC = R6Class("MeasureSurvChamblessAUC",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(integrated = TRUE, times) {
-      super$initialize(integrated = integrated,
-                       times = times,
-                       id = "surv.chamblessAUC",
-                       properties = c("requires_learner", "requires_task", "requires_train_set"))
+      super$initialize(
+        integrated = integrated,
+        times = times,
+        id = "surv.chamblessAUC",
+        properties = c("requires_learner", "requires_task", "requires_train_set"))
     }
   ),
 
   private = list(
     .score = function(prediction, learner, task, train_set, ...) {
-      super$.score(prediction = prediction,
-                           learner = learner,
-                           task = task,
-                           train_set = train_set,
-                           FUN = survAUC::AUC.cd)
+      super$.score(
+        prediction = prediction,
+        learner = learner,
+        task = task,
+        train_set = train_set,
+        FUN = survAUC::AUC.cd)
     }
   )
 )

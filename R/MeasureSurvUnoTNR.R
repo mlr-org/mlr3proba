@@ -27,14 +27,14 @@ MeasureSurvUnoTNR = R6Class("MeasureSurvUnoTNR",
   public = list(
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(times = 0, lp_thresh = 0) {
-
       assertNumeric(times, len = 1)
 
-      super$initialize(integrated = FALSE,
-                       times = times,
-                       id = "surv.unoTNR",
-                       properties = character()
-                       )
+      super$initialize(
+        integrated = FALSE,
+        times = times,
+        id = "surv.unoTNR",
+        properties = character()
+      )
 
       assertNumeric(lp_thresh, len = 1)
       private$.lp_thresh = lp_thresh
@@ -55,9 +55,10 @@ MeasureSurvUnoTNR = R6Class("MeasureSurvUnoTNR",
   private = list(
     .lp_thresh = numeric(0),
     .score = function(prediction, ...) {
-      tnr = super$.score(prediction = prediction,
-                         FUN = survAUC::spec.uno,
-                         task = task
+      tnr = super$.score(
+        prediction = prediction,
+        FUN = survAUC::spec.uno,
+        task = task
       )
 
       tnr[, findInterval(self$lp_thresh, sort(unique(prediction$lp)))]

@@ -32,20 +32,24 @@
 #' library(mlr3)
 #' task = tgen("simsurv")$generate(20)
 #' learner = lrn("surv.mboost")
-#' learner$param_set$values = mlr3misc::insert_named(learner$param_set$values,
-#'     list(center = TRUE, baselearner = "bols"))
+#' learner$param_set$values = mlr3misc::insert_named(
+#'   learner$param_set$values,
+#'   list(center = TRUE, baselearner = "bols"))
 #' resampling = rsmp("cv", folds = 2)
 #' resample(task, learner, resampling)
-LearnerSurvMboost = R6Class("LearnerSurvMboost", inherit = LearnerSurv,
+LearnerSurvMboost = R6Class("LearnerSurvMboost",
+  inherit = LearnerSurv,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       ps = ParamSet$new(
         params = list(
-          ParamFct$new(id = "family", default = "coxph",
-                       levels = c("coxph", "weibull", "loglog", "lognormal", "gehan", "cindex",
-                                  "custom"), tags = c("train", "family")),
+          ParamFct$new(
+            id = "family", default = "coxph",
+            levels = c(
+              "coxph", "weibull", "loglog", "lognormal", "gehan", "cindex",
+              "custom"), tags = c("train", "family")),
           ParamUty$new(id = "custom.family", tags = c("train", "family")),
           ParamUty$new(id = "nuirange", default = c(0, 100), tags = c("train", "aft")),
           ParamUty$new(id = "offset", tags = "train"),
@@ -56,10 +60,12 @@ LearnerSurvMboost = R6Class("LearnerSurvMboost", inherit = LearnerSurv,
           ParamLgl$new(id = "stopintern", default = FALSE, tags = "train"),
           ParamLgl$new(id = "trace", default = FALSE, tags = "train"),
           ParamUty$new(id = "oobweights", tags = "train"),
-          ParamFct$new(id = "baselearner", default = "bbs",
-                       levels = c("bbs", "bols", "btree"), tags = "train"),
-          ParamDbl$new(id = "sigma", default = 0.1, lower = 0, upper = 1,
-                       tags = c("train", "cindex")),
+          ParamFct$new(
+            id = "baselearner", default = "bbs",
+            levels = c("bbs", "bols", "btree"), tags = "train"),
+          ParamDbl$new(
+            id = "sigma", default = 0.1, lower = 0, upper = 1,
+            tags = c("train", "cindex")),
           ParamUty$new(id = "ipcw", default = 1, tags = c("train", "cindex"))
         )
       )
@@ -72,9 +78,9 @@ LearnerSurvMboost = R6Class("LearnerSurvMboost", inherit = LearnerSurv,
         id = "surv.mboost",
         param_set = ps,
         feature_types = c("integer", "numeric", "factor", "logical"),
-        predict_types = c("distr","crank","lp","response"),
+        predict_types = c("distr", "crank", "lp", "response"),
         properties = c("weights", "importance", "selected_features"),
-        packages = c("mboost","distr6","survival")
+        packages = c("mboost", "distr6", "survival")
       )
     },
 
@@ -127,17 +133,17 @@ LearnerSurvMboost = R6Class("LearnerSurvMboost", inherit = LearnerSurv,
       }
 
       family = switch(pars$family,
-                      coxph = mboost::CoxPH(),
-                      weibull = mlr3misc::invoke(mboost::Weibull,
-                                                 .args = self$param_set$get_values(tags = "aft")),
-                      loglog = mlr3misc::invoke(mboost::Loglog,
-                                                .args = self$param_set$get_values(tags = "aft")),
-                      lognormal = mlr3misc::invoke(mboost::Lognormal,
-                                                   .args = self$param_set$get_values(tags = "aft")),
-                      gehan = mboost::Gehan(),
-                      cindex = mlr3misc::invoke(mboost::Cindex,
-                                                .args = self$param_set$get_values(tags = "cindex")),
-                      custom = pars$custom.family
+        coxph = mboost::CoxPH(),
+        weibull = mlr3misc::invoke(mboost::Weibull,
+          .args = self$param_set$get_values(tags = "aft")),
+        loglog = mlr3misc::invoke(mboost::Loglog,
+          .args = self$param_set$get_values(tags = "aft")),
+        lognormal = mlr3misc::invoke(mboost::Lognormal,
+          .args = self$param_set$get_values(tags = "aft")),
+        gehan = mboost::Gehan(),
+        cindex = mlr3misc::invoke(mboost::Cindex,
+          .args = self$param_set$get_values(tags = "cindex")),
+        custom = pars$custom.family
       )
 
       # FIXME - until issue closes
@@ -146,12 +152,14 @@ LearnerSurvMboost = R6Class("LearnerSurvMboost", inherit = LearnerSurv,
       pars = pars[!(pars %in% self$param_set$get_values(tags = c("family")))]
 
       with_package("mboost", {
-        mlr3misc::invoke(mboost::mboost, formula = task$formula(task$feature_names),
-               data = task$data(), family = family, .args = pars)
+        mlr3misc::invoke(mboost::mboost,
+          formula = task$formula(task$feature_names),
+          data = task$data(), family = family, .args = pars)
       })
     },
 
     .predict = function(task) {
+
       newdata = task$data(cols = task$feature_names)
       # predict linear predictor
       lp = as.numeric(mlr3misc::invoke(predict, self$model, newdata = newdata, type = "link"))
@@ -162,15 +170,17 @@ LearnerSurvMboost = R6Class("LearnerSurvMboost", inherit = LearnerSurv,
 
       # define WeightedDiscrete distr6 object from predicted survival function
       x = rep(list(data = data.frame(x = surv$time, cdf = 0)), task$nrow)
-      for(i in 1:task$nrow)
+      for (i in 1:task$nrow) {
         x[[i]]$cdf = surv$cdf[, i]
+      }
 
-      distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
-                                             decorators = c("CoreStatistics", "ExoticStatistics"))
+      distr = distr6::VectorDistribution$new(
+        distribution = "WeightedDiscrete", params = x,
+        decorators = c("CoreStatistics", "ExoticStatistics"))
 
       response = NULL
       if (!is.null(self$param_set$values$family)) {
-        if(self$param_set$values$family %in% c("weibull", "loglog", "lognormal", "gehan")) {
+        if (self$param_set$values$family %in% c("weibull", "loglog", "lognormal", "gehan")) {
           response = exp(lp)
         }
       }

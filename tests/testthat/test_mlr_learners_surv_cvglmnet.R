@@ -8,7 +8,7 @@ test_that("autotest", {
   expect_true(result, info = result$error)
 })
 
-test_that("ctrl.pars",{
+test_that("ctrl.pars", {
   skip_on_cran()
   set.seed(1)
   task = tgen("simsurv")$generate(20)

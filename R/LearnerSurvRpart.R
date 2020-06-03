@@ -11,7 +11,8 @@
 #' \cite{mlr3proba}{breiman_1984}
 #'
 #' @export
-LearnerSurvRpart = R6Class("LearnerSurvRpart", inherit = LearnerSurv,
+LearnerSurvRpart = R6Class("LearnerSurvRpart",
+  inherit = LearnerSurv,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -37,7 +38,7 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart", inherit = LearnerSurv,
         predict_types = c("crank", "distr"),
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         properties = c("weights", "missings", "importance", "selected_features"),
-        packages = c("rpart","distr6","survival")
+        packages = c("rpart", "distr6", "survival")
       )
     },
 
@@ -70,16 +71,18 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart", inherit = LearnerSurv,
         pv = insert_named(pv, list(weights = task$weights$weight))
       }
 
-      invoke(rpart::rpart, formula = task$formula(), data = task$data(),
-             method = "exp", .args = pv)
+      invoke(rpart::rpart,
+        formula = task$formula(), data = task$data(),
+        method = "exp", .args = pv)
     },
 
     .predict = function(task) {
-      PredictionSurv$new(task = task,
-                         crank = invoke(predict,
-                                        object = self$model,
-                                        newdata = task$data(cols = task$feature_names)
-                         ))
+      PredictionSurv$new(
+        task = task,
+        crank = invoke(predict,
+          object = self$model,
+          newdata = task$data(cols = task$feature_names)
+      ))
     }
   )
 )

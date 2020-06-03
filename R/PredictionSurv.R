@@ -13,7 +13,8 @@
 #' learner = mlr_learners$get("surv.rpart")
 #' p = learner$train(task)$predict(task)
 #' head(as.data.table(p))
-PredictionSurv = R6Class("PredictionSurv", inherit = Prediction,
+PredictionSurv = R6Class("PredictionSurv",
+  inherit = Prediction,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -46,7 +47,8 @@ PredictionSurv = R6Class("PredictionSurv", inherit = Prediction,
     #'   Numeric vector of predicted survival times.
     #'   One element for each observation in the test set.
     initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), crank = NULL,
-                          distr = NULL, lp = NULL, response = NULL) {
+      distr = NULL, lp = NULL, response = NULL) {
+
       assert_row_ids(row_ids)
       n = length(row_ids)
 
@@ -54,7 +56,7 @@ PredictionSurv = R6Class("PredictionSurv", inherit = Prediction,
       private$.censtype = task$censtype
 
       # Check returned predict types have correct names and add to data.table
-      self$predict_types = c("crank","distr","lp","response")[c(!is.null(crank),!is.null(distr),!is.null(lp),!is.null(response))]
+      self$predict_types = c("crank", "distr", "lp", "response")[c(!is.null(crank), !is.null(distr), !is.null(lp), !is.null(response))]
       self$data$tab = data.table(
         row_id = row_ids
       )
@@ -116,6 +118,7 @@ PredictionSurv = R6Class("PredictionSurv", inherit = Prediction,
     #' @field missing (`integer()`)\cr
     #'   Returns `row_ids` for which the predictions are missing or incomplete.
     missing = function() {
+
       miss = logical(nrow(self$data$tab))
 
       if ("crank" %in% self$predict_types) {
@@ -151,6 +154,7 @@ as.data.table.PredictionSurv = function(x, ...) {
 
 #' @export
 c.PredictionSurv = function(..., keep_duplicates = TRUE) {
+
   dots = list(...)
   assert_list(dots, "PredictionSurv")
   assert_flag(keep_duplicates)
@@ -159,8 +163,9 @@ c.PredictionSurv = function(..., keep_duplicates = TRUE) {
   }
 
   predict_types = map(dots, "predict_types")
-  if (!every(predict_types[-1L], setequal, y = predict_types[[1L]]))
+  if (!every(predict_types[-1L], setequal, y = predict_types[[1L]])) {
     stopf("Cannot rbind predictions: Different predict_types in objects.")
+  }
 
   if (any(grepl("distr", predict_types))) {
     tab = map_dtr(dots, function(p) subset(p$data$tab, select = -distr), .fill = FALSE)
@@ -170,11 +175,11 @@ c.PredictionSurv = function(..., keep_duplicates = TRUE) {
     distr = NULL
   }
 
-  if (!keep_duplicates)
+  if (!keep_duplicates) {
     tab = unique(tab, by = "row_id", fromLast = TRUE)
+  }
 
-  PredictionSurv$new(row_ids = tab$row_id, truth = Surv(tab$time, tab$status), crank = tab$crank,
-                     distr = distr, lp = tab$lp, response = tab$response)
+  PredictionSurv$new(
+    row_ids = tab$row_id, truth = Surv(tab$time, tab$status), crank = tab$crank,
+    distr = distr, lp = tab$lp, response = tab$response)
 }
-
-

@@ -11,7 +11,8 @@
 #' \cite{mlr3proba}{breiman_2001}
 #'
 #' @export
-LearnerSurvRanger = R6Class("LearnerSurvRanger", inherit = LearnerSurv,
+LearnerSurvRanger = R6Class("LearnerSurvRanger",
+  inherit = LearnerSurv,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -28,7 +29,7 @@ LearnerSurvRanger = R6Class("LearnerSurvRanger", inherit = LearnerSurv,
             ParamLgl$new(id = "replace", default = TRUE, tags = "train"),
             ParamDbl$new(id = "sample.fraction", lower = 0L, upper = 1L, tags = "train"), # for replace == FALSE, def = 0.632
             # ParamDbl$new(id = "class.weights", defaul = NULL, tags = "train"), #
-            ParamFct$new(id = "splitrule", levels = c("logrank","extratrees","C","maxstat"), default = "logrank", tags = "train"),
+            ParamFct$new(id = "splitrule", levels = c("logrank", "extratrees", "C", "maxstat"), default = "logrank", tags = "train"),
             ParamInt$new(id = "num.random.splits", lower = 1L, default = 1L, tags = "train"), # requires = quote(splitrule == "extratrees")
             ParamDbl$new(id = "split.select.weights", lower = 0, upper = 1, tags = "train"),
             ParamUty$new(id = "always.split.variables", tags = "train"),
@@ -42,7 +43,7 @@ LearnerSurvRanger = R6Class("LearnerSurvRanger", inherit = LearnerSurv,
             ParamLgl$new(id = "oob.error", default = TRUE, tags = "train")
           )
         ),
-        predict_types = c("distr","crank"),
+        predict_types = c("distr", "crank"),
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         properties = c("weights", "importance", "oob_error"),
         packages = c("ranger", "distr6")
@@ -77,28 +78,31 @@ LearnerSurvRanger = R6Class("LearnerSurvRanger", inherit = LearnerSurv,
       targets = task$target_names
 
       invoke(ranger::ranger,
-             formula = NULL,
-             dependent.variable.name = targets[1L],
-             status.variable.name = targets[2L],
-             data = task$data(),
-             case.weights = task$weights$weight,
-             .args = pv
+        formula = NULL,
+        dependent.variable.name = targets[1L],
+        status.variable.name = targets[2L],
+        data = task$data(),
+        case.weights = task$weights$weight,
+        .args = pv
       )
     },
 
     .predict = function(task) {
+
       newdata = task$data(cols = task$feature_names)
       fit = predict(object = self$model, data = newdata)
 
       # define WeightedDiscrete distr6 object from predicted survival function
       x = rep(list(data = data.frame(x = fit$unique.death.times, cdf = 0)), task$nrow)
-      for(i in 1:task$nrow)
+      for (i in 1:task$nrow) {
         x[[i]]$cdf = 1 - fit$survival[i, ]
+      }
 
-      distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
-                                             decorators = c("CoreStatistics", "ExoticStatistics"))
+      distr = distr6::VectorDistribution$new(
+        distribution = "WeightedDiscrete", params = x,
+        decorators = c("CoreStatistics", "ExoticStatistics"))
 
-      crank = as.numeric(sapply(x, function(y) sum(y[,1] * c(y[,2][1], diff(y[,2])))))
+      crank = as.numeric(sapply(x, function(y) sum(y[, 1] * c(y[, 2][1], diff(y[, 2])))))
 
       PredictionSurv$new(task = task, distr = distr, crank = crank)
     }

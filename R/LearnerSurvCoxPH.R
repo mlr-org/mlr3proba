@@ -11,7 +11,8 @@
 #' \cite{mlr3proba}{cox_1972}
 #'
 #' @export
-LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
+LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH",
+  inherit = LearnerSurv,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -26,7 +27,7 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
             ParamInt$new(id = "stype", default = 2L, lower = 1L, upper = 2L, tags = "predict")
           )
         ),
-        predict_types = c("distr","crank","lp"),
+        predict_types = c("distr", "crank", "lp"),
         feature_types = c("logical", "integer", "numeric", "factor"),
         properties = "weights",
         packages = c("survival", "distr6")
@@ -36,7 +37,6 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
 
   private = list(
     .train = function(task) {
-
       pv = self$param_set$get_values(tags = "train")
 
       if ("weights" %in% task$properties) {
@@ -52,10 +52,12 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
 
       # We move the missingness checks here manually as if any NAs are made in predictions then the
       # distribution object cannot be create (initialization of distr6 objects does not handle NAs)
-      if(any(is.na(data.frame(task$data(cols = task$feature_names)))))
-        stop(sprintf("Learner %s on task %s failed to predict: Missing values in new data (line(s) %s)\n",
-                     self$id, task$id,
-                     paste0(which(is.na(data.frame(task$data(cols = task$feature_names)))), collapse = ", ")))
+      if (any(is.na(data.frame(task$data(cols = task$feature_names))))) {
+        stop(sprintf(
+          "Learner %s on task %s failed to predict: Missing values in new data (line(s) %s)\n",
+          self$id, task$id,
+          paste0(which(is.na(data.frame(task$data(cols = task$feature_names)))), collapse = ", ")))
+      }
 
       pv = self$param_set$get_values(tags = "predict")
 
@@ -64,11 +66,13 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH", inherit = LearnerSurv,
 
       # define WeightedDiscrete distr6 object from predicted survival function
       x = rep(list(data = data.frame(x = fit$time, cdf = 0)), task$nrow)
-      for(i in 1:task$nrow)
+      for (i in 1:task$nrow) {
         x[[i]]$cdf = 1 - fit$surv[, i]
+      }
 
-      distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
-                                             decorators = c("CoreStatistics", "ExoticStatistics"))
+      distr = distr6::VectorDistribution$new(
+        distribution = "WeightedDiscrete", params = x,
+        decorators = c("CoreStatistics", "ExoticStatistics"))
 
       lp = predict(self$model, type = "lp", newdata = newdata)
 

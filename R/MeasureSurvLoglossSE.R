@@ -17,20 +17,20 @@
 #' @family distr survival measures
 #' @export
 MeasureSurvLoglossSE = R6::R6Class("MeasureSurvLoglossSE",
-    inherit = MeasureSurvLogloss,
-    public = list(
-      #' @description
-      #' Creates a new instance of this [R6][R6::R6Class] class.
-      initialize = function(eps = 1e-15) {
-        super$initialize(eps, id = "surv.loglossSE")
-      }
-    ),
+  inherit = MeasureSurvLogloss,
+  public = list(
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    initialize = function(eps = 1e-15) {
+      super$initialize(eps, id = "surv.loglossSE")
+    }
+  ),
 
-    private = list(
-      .score = function(prediction, ...) {
-        ll = surv_logloss(prediction$truth, prediction$distr, self$eps)
+  private = list(
+    .score = function(prediction, ...) {
+      ll = surv_logloss(prediction$truth, prediction$distr, self$eps)
 
-        sd(ll)/sqrt(length(ll))
-      }
-    )
+      sd(ll) / sqrt(length(ll))
+    }
+  )
 )

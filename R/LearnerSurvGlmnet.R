@@ -17,7 +17,8 @@
 #' \cite{mlr3proba}{friedman_2010}
 #'
 #' @export
-LearnerSurvGlmnet = R6Class("LearnerSurvGlmnet", inherit = LearnerSurv,
+LearnerSurvGlmnet = R6Class("LearnerSurvGlmnet",
+  inherit = LearnerSurv,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -55,9 +56,9 @@ LearnerSurvGlmnet = R6Class("LearnerSurvGlmnet", inherit = LearnerSurv,
           )
         ),
         feature_types = c("integer", "numeric", "factor"),
-        predict_types = c("crank","lp"),
+        predict_types = c("crank", "lp"),
         properties = "weights",
-        packages = c("glmnet","survival"),
+        packages = c("glmnet", "survival"),
         man = "mlr3proba::mlr_learners_surv.glmnet"
       )
     }
@@ -92,13 +93,15 @@ LearnerSurvGlmnet = R6Class("LearnerSurvGlmnet", inherit = LearnerSurv,
     },
 
     .predict = function(task) {
+
       pars = self$param_set$get_values(tags = "predict")
 
       # convert data to model matrix
       newdata = model.matrix(~., as.data.frame(task$data(cols = task$feature_names)))
 
-      if(length(pars$s) == 0)
+      if (length(pars$s) == 0) {
         pars$s = round(median(sort(self$model$lambda)), 6)
+      }
 
       # predict linear predictor
       lp = invoke(predict, self$model, newx = newdata, type = "link", .args = pars)
