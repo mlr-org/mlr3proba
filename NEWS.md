@@ -1,6 +1,8 @@
 # mlr3proba 0.1.6
 
 * Early release due to backward compatibility error introduced by an upstream dependency
+* Minor updates to `mboost` family of learners: added `gehan` family, fixed parameters for `cindex`, added support for:  `weights`, `response` predict type, `importance`, `selected_features`
+* Minor internal changes
 * All density learners except `LearnerDensHist` and `LearnerDensKDE` have been moved to the [mlr3learners org](https://mlr3learners.mlr-org.com/dev/articles/learners/additional-learners.html)
 * The following survival learners have been moved to  the [mlr3learners org](https://mlr3learners.mlr-org.com/dev/articles/learners/additional-learners.html), LearnerSurv: `Flexible`, `ObliqueRSF`, `Penalized`, `RandomForestSRC`
 
