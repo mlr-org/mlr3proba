@@ -59,6 +59,7 @@ Suggests:
     randomForestSRC,
     ranger,
     riskRegression,
+    rmarkdown,
     rpart,
     set6,
     simsurv,
