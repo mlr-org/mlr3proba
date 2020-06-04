@@ -34,7 +34,9 @@ MeasureSurvSongTPR = R6Class("MeasureSurvSongTPR",
         integrated = FALSE,
         times = times,
         id = "surv.songTPR",
-        properties = c("requires_task", "requires_train_set", "requires_learner"))
+        properties = c("requires_task", "requires_train_set", "requires_learner"),
+        man = "mlr3proba::mlr_measures_surv.songTPR"
+      )
 
       assertNumeric(lp_thresh, len = 1)
       private$.lp_thresh = lp_thresh

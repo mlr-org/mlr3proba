@@ -3,7 +3,7 @@
 #'
 #' @include MeasureSurv.R
 #' @title <%=title%> Survival Measure
-#' @aliases <%= paste("mlr_measures", shortname, sep = "_")%>
+#' @name <%= paste("mlr_measures", shortname, sep = "_")%>
 #'
 #' @section Dictionary:
 #' This [Measure][mlr3::Measure] can be instantiated via the [dictionary][mlr3misc::Dictionary]

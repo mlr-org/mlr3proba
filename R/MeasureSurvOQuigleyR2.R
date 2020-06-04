@@ -25,7 +25,8 @@ MeasureSurvOQuigleyR2 = R6Class("MeasureSurvOQuigleyR2",
         minimize = FALSE,
         packages = "survAUC",
         predict_type = "lp",
-        properties = c("requires_task", "requires_train_set")
+        properties = c("requires_task", "requires_train_set"),
+        man = "mlr3proba::mlr_measures_surv.oquigleyR2"
       )
     }
   ),

@@ -109,9 +109,10 @@ gr = Graph$new()$
 gr$train(task)$gr$predict(task)
 
 # Method 3 - Syntactic sugar: Wrap the learner in a graph.
-cvglm.distr = distrcompositor(learner = lrn("surv.cvglmnet"),
-                            estimator = "kaplan",
-                            form = "aft")
+cvglm.distr = distrcompositor(
+  learner = lrn("surv.cvglmnet"),
+  estimator = "kaplan",
+  form = "aft")
 cvglm.distr$fit(task)$predict(task)
 }
 }

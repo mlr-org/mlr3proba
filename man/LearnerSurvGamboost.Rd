@@ -49,8 +49,9 @@ lrn("surv.gamboost")
 library(mlr3)
 task = tgen("simsurv")$generate(20)
 learner = lrn("surv.gamboost")
-learner$param_set$values = mlr3misc::insert_named(learner$param_set$values,
-     list(dfbase = 3, center = TRUE, baselearner = "bols"))
+learner$param_set$values = mlr3misc::insert_named(
+  learner$param_set$values,
+  list(dfbase = 3, center = TRUE, baselearner = "bols"))
 resampling = rsmp("cv", folds = 2)
 resample(task, learner, resampling)
 }

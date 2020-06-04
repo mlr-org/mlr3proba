@@ -26,7 +26,8 @@ MeasureSurvUnoC = R6Class("MeasureSurvUnoC",
         minimize = FALSE,
         packages = "survAUC",
         predict_type = "crank",
-        properties = c("na_score", "requires_task", "requires_train_set")
+        properties = c("na_score", "requires_task", "requires_train_set"),
+        man = "mlr3proba::mlr_measures_surv.unoC"
       )
     }
   ),

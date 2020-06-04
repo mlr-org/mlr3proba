@@ -9,12 +9,13 @@
 #' @template param_packages
 #' @template param_predict_type
 #' @template param_measure_properties
+#' @template param_man
 #' @export
 MeasureSurvIntegrated = R6Class("MeasureSurvIntegrated",
   inherit = MeasureSurv,
   public = list(
     #' @description This is an abstract class that should not be constructed directly.
-    initialize = function(integrated = TRUE, times, method = 2, id, range, minimize, packages, predict_type, properties) {
+    initialize = function(integrated = TRUE, times, method = 2, id, range, minimize, packages, predict_type, properties = character(), man = NA_character_) {
       if (class(self)[[1]] == "MeasureSurvIntegrated") {
         stop("This is an abstract class that should not be constructed directly.")
       }
@@ -25,7 +26,8 @@ MeasureSurvIntegrated = R6Class("MeasureSurvIntegrated",
         minimize = minimize,
         packages = packages,
         predict_type = predict_type,
-        properties = properties
+        properties = properties,
+        man = man
       )
 
       assertFlag(integrated)

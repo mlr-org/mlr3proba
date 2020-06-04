@@ -22,7 +22,8 @@ MeasureSurvMSE = R6::R6Class("MeasureSurvMSE",
         id = "surv.mse",
         range = c(0, Inf),
         minimize = TRUE,
-        predict_type = "response"
+        predict_type = "response",
+        man = "mlr3proba::mlr_measures_surv.mse"
       )
     }
   ),

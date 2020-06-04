@@ -3,7 +3,7 @@
 #'
 #' @include MeasureDens.R
 #' @title <%=title%> Density Measure
-#' @aliases <%= paste("mlr_measures", shortname, sep = "_")%>
+#' @name <%= paste("mlr_measures", shortname, sep = "_")%>
 #'
 #' @section Meta Information:
 #' * Type: `"density"`

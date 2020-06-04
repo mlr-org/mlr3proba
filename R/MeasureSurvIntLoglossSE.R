@@ -31,7 +31,7 @@ MeasureSurvIntLoglossSE = R6::R6Class("MeasureSurvIntLoglossSE",
         minimize = TRUE,
         packages = "distr6",
         predict_type = "distr",
-        properties = character()
+        man = "mlr3proba::mlr_measures_surv.intloglossSE"
       )
 
       assertNumeric(eps)

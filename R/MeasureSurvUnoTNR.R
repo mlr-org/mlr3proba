@@ -33,7 +33,7 @@ MeasureSurvUnoTNR = R6Class("MeasureSurvUnoTNR",
         integrated = FALSE,
         times = times,
         id = "surv.unoTNR",
-        properties = character()
+        man = "mlr3proba::mlr_measures_surv.unoTNR"
       )
 
       assertNumeric(lp_thresh, len = 1)

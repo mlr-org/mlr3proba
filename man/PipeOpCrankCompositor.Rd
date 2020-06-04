@@ -85,8 +85,9 @@ gr$train(task)
 gr$predict(task)
 
 # Method 3 - Syntactic sugar: Wrap the learner in a graph
-ranger.crank = crankcompositor(learner = lrn("surv.ranger"),
-                            method = "median")
+ranger.crank = crankcompositor(
+  learner = lrn("surv.ranger"),
+  method = "median")
 resample(task, ranger.crank, rsmp("cv", folds = 2))$predictions()
 }
 }
