@@ -80,7 +80,8 @@ LearnerSurvMboost = R6Class("LearnerSurvMboost",
         feature_types = c("integer", "numeric", "factor", "logical"),
         predict_types = c("distr", "crank", "lp", "response"),
         properties = c("weights", "importance", "selected_features"),
-        packages = c("mboost", "distr6", "survival")
+        packages = c("mboost", "distr6", "survival"),
+        man = "mlr3proba::mlr_learners_surv.mboost"
       )
     },
 

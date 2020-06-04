@@ -55,7 +55,8 @@ LearnerSurvGBM = R6Class("LearnerSurvGBM",
         predict_types = c("crank", "lp"),
         feature_types = c("integer", "numeric", "factor", "ordered"),
         properties = c("missings", "weights", "importance"),
-        packages = c("gbm")
+        packages = "gbm",
+        man = "mlr3proba::mlr_learners_surv.gbm"
       )
     },
 

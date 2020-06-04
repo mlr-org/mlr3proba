@@ -56,7 +56,8 @@ LearnerSurvCVGlmnet = R6Class("LearnerSurvCVGlmnet",
         feature_types = c("integer", "numeric", "factor"),
         predict_types = c("crank", "lp"),
         properties = "weights",
-        packages = c("glmnet", "survival")
+        packages = c("glmnet", "survival"),
+        man = "mlr3proba::mlr_learners_surv.cvglmnet"
       )
     }
   ),

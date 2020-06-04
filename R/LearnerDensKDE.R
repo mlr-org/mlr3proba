@@ -33,7 +33,8 @@ LearnerDensKDE = R6::R6Class("LearnerDensKDE",
         predict_types = "pdf",
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         properties = "missings",
-        packages = "distr6"
+        packages = "distr6",
+        man = "mlr3proba::mlr_learners_dens.kde"
       )
     }
   ),

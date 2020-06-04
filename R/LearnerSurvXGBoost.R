@@ -96,7 +96,8 @@ LearnerSurvXgboost = R6Class("LearnerSurvXgboost",
         predict_types = c("crank", "lp"),
         feature_types = c("logical", "integer", "numeric"),
         properties = c("weights", "missings", "importance"),
-        packages = c("xgboost")
+        packages = "xgboost",
+        man = "mlr3proba::mlr_learners_surv.xgboost"
       )
     },
 
