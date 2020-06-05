@@ -6,6 +6,7 @@
 * All density learners except `LearnerDensHist` and `LearnerDensKDE` have been moved to the [mlr3learners org](https://mlr3learners.mlr-org.com/dev/articles/learners/additional-learners.html)
 * The following survival learners have been moved to  the [mlr3learners org](https://mlr3learners.mlr-org.com/dev/articles/learners/additional-learners.html), LearnerSurv: `Flexible`, `ObliqueRSF`, `Penalized`, `RandomForestSRC`
 * Bugfix in `LearnerSurvXgboost` previously `lp` was erroneously returned as `exp(lp)`
+* Now licenced under LPGL-3
 
 # mlr3proba 0.1.5
 
