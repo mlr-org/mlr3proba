@@ -99,7 +99,7 @@ for instructions in how to install learners from the [mlr3learners organisation]
 | [surv.nelson](https://github.com/mlr3learners/mlr3learners.survival) | Nelson-Aalen Estimator | [survival](https://CRAN.R-project.org/package=survival) |
 | [surv.parametric](https://github.com/mlr3learners/mlr3learners.survival) | Fully Parametric Survival Models | [survival](https://CRAN.R-project.org/package=survival) |
 | [surv.penalized](https://github.com/mlr3learners/mlr3learners.penalized) | L1 and L2 Penalized Estimation in GLMs | [penalized](https://CRAN.R-project.org/package=penalized) |
-| [surv.randomForestSRC](https://mlr3proba.mlr-org.com/reference/LearnerSurvRandomForestSRC.html) | RandomForestSRC Survival Forest | [randomForestSRC](https://CRAN.R-project.org/package=randomForestSRC) |
+| [surv.randomForestSRC](https://github.com/mlr3learners/mlr3learners.randomforestsrc) | RandomForestSRC Survival Forest | [randomForestSRC](https://CRAN.R-project.org/package=randomForestSRC) |
 | [surv.ranger](https://mlr3proba.mlr-org.com/reference/LearnerSurvRanger.html) | Ranger Survival Forest | [ranger](https://CRAN.R-project.org/package=ranger) |
 | [surv.rpart](https://mlr3proba.mlr-org.com/reference/LearnerSurvRpart.html) | Rpart Survival Forest | [rpart](https://CRAN.R-project.org/package=rpart) |
 | [surv.svm](https://github.com/mlr3learners/mlr3learners.survivalsvm) |  Regression, Ranking and Hybrid Support Vector Machines | [survivalsvm](https://CRAN.R-project.org/package=survivalsvm) |
