@@ -38,14 +38,7 @@ lrn("surv.kaplan")
 }
 \seealso{
 Other survival learners: 
-\code{\link{LearnerSurvBlackboost}},
-\code{\link{LearnerSurvCVGlmnet}},
 \code{\link{LearnerSurvCoxPH}},
-\code{\link{LearnerSurvGBM}},
-\code{\link{LearnerSurvGamboost}},
-\code{\link{LearnerSurvGlmboost}},
-\code{\link{LearnerSurvGlmnet}},
-\code{\link{LearnerSurvMboost}},
 \code{\link{LearnerSurvRpart}}
 }
 \concept{survival learners}
