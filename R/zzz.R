@@ -77,9 +77,7 @@ register_mlr3 = function() {
   x$add("surv.mboost", LearnerSurvMboost)
   x$add("surv.blackboost", LearnerSurvBlackboost)
   x$add("surv.rpart", LearnerSurvRpart)
-  x$add("surv.ranger", LearnerSurvRanger)
   x$add("surv.gbm", LearnerSurvGBM)
-  x$add("surv.xgboost", LearnerSurvXgboost)
 
   # measures
   x = utils::getFromNamespace("mlr_measures", ns = "mlr3")

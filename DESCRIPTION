@@ -1,6 +1,6 @@
 Package: mlr3proba
 Title: Probabilistic Supervised Learning for 'mlr3'
-Version: 0.1.6
+Version: 0.1.6.9000
 Authors@R:
     c(person(given = "Raphael",
              family = "Sonabend",
@@ -92,9 +92,7 @@ Collate:
     'LearnerSurvGlmnet.R'
     'LearnerSurvKaplan.R'
     'LearnerSurvMboost.R'
-    'LearnerSurvRanger.R'
     'LearnerSurvRpart.R'
-    'LearnerSurvXGBoost.R'
     'MeasureDens.R'
     'MeasureDensLogloss.R'
     'MeasureRegrLogloss.R'

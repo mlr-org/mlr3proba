@@ -1,3 +1,7 @@
+# mlr3proba 0.1.6.9000
+
+- `LearnerSurvXgboost` and `LearnerSurvRanger` have been moved to the [mlr3learners repo](www.github.com/mlr-org/mlr3learners)
+
 # mlr3proba 0.1.6
 
 * Early release due to backward compatibility error introduced by an upstream dependency

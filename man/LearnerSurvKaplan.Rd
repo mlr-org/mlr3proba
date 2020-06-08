@@ -46,9 +46,7 @@ Other survival learners:
 \code{\link{LearnerSurvGlmboost}},
 \code{\link{LearnerSurvGlmnet}},
 \code{\link{LearnerSurvMboost}},
-\code{\link{LearnerSurvRanger}},
-\code{\link{LearnerSurvRpart}},
-\code{\link{LearnerSurvXgboost}}
+\code{\link{LearnerSurvRpart}}
 }
 \concept{survival learners}
 \section{Super classes}{
