@@ -29,7 +29,8 @@ MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
         range = c(0, Inf),
         minimize = TRUE,
         predict_type = "distr",
-        packages = "distr6"
+        packages = "distr6",
+        man = "mlr3proba::mlr_measures_surv.logloss"
       )
 
       assertNumeric(eps)

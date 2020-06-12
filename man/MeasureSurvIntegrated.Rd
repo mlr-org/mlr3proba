@@ -59,7 +59,8 @@ This is an abstract class that should not be constructed directly.
   minimize,
   packages,
   predict_type,
-  properties
+  properties = character(),
+  man = NA_character_
 )}\if{html}{\out{</div>}}
 }
 
@@ -110,6 +111,10 @@ Supported by \code{mlr3}:
 \item \code{"requires_train_set"} (requires the training indices from the \link{Resampling}), and
 \item \code{"na_score"} (the measure is expected to occasionally return \code{NA} or \code{NaN}).
 }}
+
+\item{\code{man}}{(\code{character(1)})\cr
+String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
+The referenced help package can be opened via method \verb{$help()}.}
 }
 \if{html}{\out{</div>}}
 }

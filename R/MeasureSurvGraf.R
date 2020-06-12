@@ -43,7 +43,7 @@ MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
         minimize = TRUE,
         packages = "distr6",
         predict_type = "distr",
-        properties = character()
+        man = "mlr3proba::mlr_measures_surv.graf"
       )
     }
   ),

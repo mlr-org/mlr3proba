@@ -6,13 +6,14 @@
 #' @template param_times
 #' @template param_id
 #' @template param_measure_properties
+#' @template param_man
 #' @export
 MeasureSurvAUC = R6Class("MeasureSurvAUC",
   inherit = MeasureSurvIntegrated,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(integrated = TRUE, times, id, properties) {
+    initialize = function(integrated = TRUE, times, id, properties = character(), man = NA_character_) {
       if (class(self)[[1]] == "MeasureSurvAUC") {
         stop("This is an abstract class that should not be constructed directly.")
       }
@@ -25,7 +26,8 @@ MeasureSurvAUC = R6Class("MeasureSurvAUC",
         minimize = FALSE,
         packages = "survAUC",
         predict_type = "lp",
-        properties = properties
+        properties = properties,
+        man = man
       )
     }
   ),
@@ -52,7 +54,7 @@ MeasureSurvAUC = R6Class("MeasureSurvAUC",
 
       auc = invoke(FUN, lpnew = prediction$lp, .args = args)
 
-      if (self$integrated & !grepl("TNR|TPR", self$id)) {
+      if (self$integrated && !grepl("TNR|TPR", self$id)) {
         return(auc$iauc)
       } else {
         return(auc)
