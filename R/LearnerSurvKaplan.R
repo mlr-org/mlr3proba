@@ -22,7 +22,8 @@ LearnerSurvKaplan = R6Class("LearnerSurvKaplan",
         predict_types = c("crank", "distr"),
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         properties = "missings",
-        packages = c("survival", "distr6")
+        packages = c("survival", "distr6"),
+        man = "mlr3proba::mlr_learners_surv.kaplan"
       )
     }
   ),
