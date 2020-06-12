@@ -38,17 +38,8 @@ lrn("surv.kaplan")
 }
 \seealso{
 Other survival learners: 
-\code{\link{mlr_learners_surv.blackboost}},
 \code{\link{mlr_learners_surv.coxph}},
-\code{\link{mlr_learners_surv.cvglmnet}},
-\code{\link{mlr_learners_surv.gamboost}},
-\code{\link{mlr_learners_surv.gbm}},
-\code{\link{mlr_learners_surv.glmboost}},
-\code{\link{mlr_learners_surv.glmnet}},
-\code{\link{mlr_learners_surv.mboost}},
-\code{\link{mlr_learners_surv.ranger}},
-\code{\link{mlr_learners_surv.rpart}},
-\code{\link{mlr_learners_surv.xgboost}}
+\code{\link{mlr_learners_surv.rpart}}
 }
 \concept{survival learners}
 \section{Super classes}{
