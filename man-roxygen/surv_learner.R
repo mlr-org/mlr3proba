@@ -10,7 +10,7 @@
 #'
 #' @include LearnerSurv.R
 #' @title <%=title%> Survival Learner
-#' @aliases <%= paste("mlr_learners", shortname, sep = "_")%>
+#' @name <%= paste("mlr_learners", shortname, sep = "_")%>
 #' @description
 #' Calls <%=caller%>.
 #'

@@ -29,7 +29,8 @@ MeasureSurvGonenC = R6Class("MeasureSurvGonenC",
         range = 0:1,
         minimize = FALSE,
         packages = "survAUC",
-        predict_type = "lp"
+        predict_type = "lp",
+        man = "mlr3proba::mlr_measures_surv.gonenC"
       )
     }
   ),

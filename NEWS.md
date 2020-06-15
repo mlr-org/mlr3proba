@@ -1,18 +1,21 @@
-# mlr3proba 0.2.0
+# mlr3proba 0.1.6.9000
 
-## Deprecated Functions and Classes
+- `LearnerSurvGlmnet`, `LearnerSurvCVGlmnet`, `LearnerSurvXgboost` and `LearnerSurvRanger` have been moved to the [mlr3learners repo](www.github.com/mlr-org/mlr3learners)
+- `LearnerSurvGBM` has been moved to www.github.com/mlr3learners/mlr3learners.gbm
+- `LearnerSurvMboost`, `LearnerSurvGlmBoost`, `LearnerSurvGamboost`, `LearnerSurvBlackboost` have been moved to www.github.com/mlr3learners/mlr3learners.mboost
+- `MeasureSurvCindex` added. Generalises all c-index measures with a fast C++ implementation
+- The following measures are deprecated use `MeasureSurvCindex` instead with following parameters: `MeasureSurvBeggC`, use defaults; `MeasureSurvHarrellC`, use defaults; `MeasureSurvUnoC`, use `weight_meth = 'G/2'`; `MeasureSurvGonenC`, use `weight_method = 'GH'`
+_ `MeasureSurvGraf` and `MeasureSurvIntLogloss` now have much faster C++ implementation
 
-* `MeasureSurvBeggC` - use `MeasureSurvCindex` with defaults instead
-* `MeasureSurvHarrellC` - use `MeasureSurvCindex` with defaults instead
-* `MeasureSurvUnoC` - use `MeasureSurvCindex` with `weight_meth = 'G/2'` 
-* `MeasureSurvGonenC` - use `MeasureSurvCindex` with `weight_meth = 'GH'` 
+# mlr3proba 0.1.6
 
-
-
-## Added Functions and Classes
-
-* `MeasureSurvCindex` now generalises c-index with a fast C++ implementation
-* `MeasureSurvGraf` and `MeasureSurvIntLogloss` now have much faster C++ implementations
+* Early release due to backward compatibility error introduced by an upstream dependency
+* Minor updates to `mboost` family of learners: added `gehan` family, fixed parameters for `cindex`, added support for:  `weights`, `response` predict type, `importance`, `selected_features`
+* Minor internal changes
+* All density learners except `LearnerDensHist` and `LearnerDensKDE` have been moved to the [mlr3learners org](https://mlr3learners.mlr-org.com/dev/articles/learners/additional-learners.html)
+* The following survival learners have been moved to  the [mlr3learners org](https://mlr3learners.mlr-org.com/dev/articles/learners/additional-learners.html), LearnerSurv: `Flexible`, `ObliqueRSF`, `Penalized`, `RandomForestSRC`
+* Bugfix in `LearnerSurvXgboost` previously `lp` was erroneously returned as `exp(lp)`
+* Now licenced under LPGL-3
 
 # mlr3proba 0.1.5
 

@@ -37,13 +37,13 @@ integrated_score = function(score, integrated, method) {
   }
 
   if (integrated) {
-    if(method == 1)
+    if (method == 1) {
       return(mean(as.numeric(score), na.rm = TRUE))
-    else if(method == 2) {
+    } else if (method == 2) {
       times = as.numeric(colnames(score))
       lt = ncol(score)
       score = as.numeric(colMeans(score, na.rm = TRUE))
-      return((diff(times) %*% (score[1:(lt - 1)] + score[2:lt]))/(2 * (max(times) - min(times))))
+      return((diff(times) %*% (score[1:(lt - 1)] + score[2:lt])) / (2 * (max(times) - min(times))))
     }
   } else {
     return(colMeans(score, na.rm = TRUE))
@@ -52,8 +52,8 @@ integrated_score = function(score, integrated, method) {
 
 integrated_se = function(score, integrated) {
   if (integrated) {
-    return(sqrt(sum(stats::cov(score))/(nrow(score) * ncol(score)^2)))
+    return(sqrt(sum(stats::cov(score)) / (nrow(score) * ncol(score)^2)))
   } else {
-    return(apply(score, 2, function(x) stats::sd(x)/sqrt(nrow(score))))
+    return(apply(score, 2, function(x) stats::sd(x) / sqrt(nrow(score))))
   }
 }

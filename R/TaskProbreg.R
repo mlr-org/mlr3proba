@@ -1,4 +1,4 @@
-# TaskProbreg <- R6::R6Class("TaskProbreg", inherit = TaskSupervised)
+# TaskProbreg = R6::R6Class("TaskProbreg", inherit = TaskSupervised)
 # TaskProbreg$set("public","initialize", function(id, backend, target) {
 #                        checkmate::assert_string(target)
 #                        super$initialize(id = id, task_type = "probreg", backend = backend, target = target)

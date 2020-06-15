@@ -38,21 +38,21 @@ MeasureSurvIntLogloss = R6::R6Class("MeasureSurvIntLogloss",
         minimize = TRUE,
         packages = "distr6",
         predict_type = "distr",
-        properties = character()
+        man = "mlr3proba::mlr_measures_surv.intlogloss"
       )
 
       assertNumeric(eps)
-      private$.eps <- eps
+      private$.eps = eps
     }
   ),
 
   active = list(
-    eps = function(eps){
-      if(missing(eps))
+    eps = function(eps) {
+      if (missing(eps)) {
         return(private$.eps)
-      else {
+      } else {
         assertNumeric(eps)
-        private$.eps <- eps
+        private$.eps = eps
       }
     }
   ),

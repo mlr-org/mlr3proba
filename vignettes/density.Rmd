@@ -55,7 +55,7 @@ that in prediction the points to evaluate the pdf and cdf are determined by the 
 
 task_faithful = TaskDens$new(id = "eruptions", backend = datasets::faithful,
                              target = "eruptions")
-learner = lrn("dens.spline")
+learner = lrn("dens.kde")
 
 # train/test split 
 

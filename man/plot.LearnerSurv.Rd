@@ -42,8 +42,6 @@ learn$train(task)
 
 plot(learn, task, "survival", ind = 10)
 plot(learn, task, "survival", row_ids = 1:5)
-plot(learn, task, "survival", newdata = task$data()[1:5,])
-plot(learn, task, "survival", newdata = task$data()[1:5,], ylim=c(0, 1))
-
-
+plot(learn, task, "survival", newdata = task$data()[1:5, ])
+plot(learn, task, "survival", newdata = task$data()[1:5, ], ylim = c(0, 1))
 }

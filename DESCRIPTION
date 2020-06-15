@@ -1,6 +1,6 @@
 Package: mlr3proba
 Title: Probabilistic Supervised Learning for 'mlr3'
-Version: 0.2.0.9000
+Version: 0.1.6.9000
 Authors@R:
     c(person(given = "Raphael",
              family = "Sonabend",
@@ -29,7 +29,7 @@ Description: Provides extensions for probabilistic supervised
     learning for 'mlr3'.  This includes extending the regression task to
     probabilistic and interval regression, adding a survival task, and
     other specialized models, predictions, and measures.
-License: MIT + file LICENSE
+License: LGPL-3
 URL: https://mlr3proba.mlr-org.com,
     https://github.com/mlr-org/mlr3proba
 BugReports: https://github.com/mlr-org/mlr3proba/issues
@@ -38,8 +38,8 @@ Depends:
 Imports:
     checkmate,
     data.table,
-    distr6 (>= 1.4.0.9000),
-    mlr3 (>= 0.2.0.9000),
+    distr6 (>= 1.3.6),
+    mlr3 (>= 0.3.0),
     mlr3misc (>= 0.1.7),
     mlr3pipelines,
     paradox (>= 0.1.0),
@@ -48,42 +48,26 @@ Imports:
     survival
 Suggests:
     bibtex,
-    CoxBoost,
-    flexsurv,
     gbm,
     ggplot2,
     glmnet,
-    gss,
-    kerdiest,
     knitr,
-    ks,
     lgr,
-    logspline,
-    locfit,
     Matrix,
     mboost,
     mlr3tuning,
-    np,
-    obliqueRSF,
     pec,
-    penalized,
-    pendensity,
-    plugdensity,
+    pracma,
     randomForestSRC,
     ranger,
     riskRegression,
+    rmarkdown,
     rpart,
     set6,
     simsurv,
-    sm,
     survAUC,
-    survivalsvm,
     testthat,
     xgboost
-Remotes:
-    mlr-org/mlr3,
-    alan-turing-institute/distr6#198
-LinkingTo: Rcpp
 VignetteBuilder:
     knitr
 ByteCompile: true
@@ -97,35 +81,12 @@ Collate:
     'LearnerDens.R'
     'LearnerDensHistogram.R'
     'LearnerDensKDE.R'
-    'LearnerDensKDEkd.R'
-    'LearnerDensKDEks.R'
-    'LearnerDensLocfit.R'
-    'LearnerDensLogspline.R'
-    'LearnerDensMixed.R'
-    'LearnerDensNonparametric.R'
-    'LearnerDensPenalized.R'
-    'LearnerDensPlugin.R'
-    'LearnerDensSpline.R'
     'LearnerProbreg.R'
     'LearnerProbregGaussian.R'
     'LearnerSurv.R'
-    'LearnerSurvBlackboost.R'
-    'LearnerSurvCVGlmnet.R'
     'LearnerSurvCoxPH.R'
-    'predict_flexsurvreg.R'
-    'LearnerSurvFlexible.R'
-    'LearnerSurvGBM.R'
-    'LearnerSurvGamboost.R'
-    'LearnerSurvGlmboost.R'
-    'LearnerSurvGlmnet.R'
     'LearnerSurvKaplan.R'
-    'LearnerSurvMboost.R'
-    'LearnerSurvObliqueRSF.R'
-    'LearnerSurvPenalized.R'
-    'LearnerSurvRandomForestSRC.R'
-    'LearnerSurvRanger.R'
     'LearnerSurvRpart.R'
-    'LearnerSurvXGBoost.R'
     'MeasureDens.R'
     'MeasureDensLogloss.R'
     'MeasureRegrLogloss.R'

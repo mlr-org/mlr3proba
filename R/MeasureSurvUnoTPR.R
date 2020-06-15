@@ -26,13 +26,15 @@ MeasureSurvUnoTPR = R6Class("MeasureSurvUnoTPR",
   public = list(
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(times = 0, lp_thresh = 0) {
-
       assertNumeric(times, len = 1)
 
-      super$initialize(integrated = FALSE,
-                       times = times,
-                       id = "surv.unoTPR",
-                       properties = c("requires_task", "requires_train_set"))
+      super$initialize(
+        integrated = FALSE,
+        times = times,
+        id = "surv.unoTPR",
+        properties = c("requires_task", "requires_train_set"),
+        man = "mlr3proba::mlr_measures_surv.unoTPR"
+      )
 
       assertNumeric(lp_thresh, len = 1)
       private$.lp_thresh = lp_thresh
@@ -53,10 +55,11 @@ MeasureSurvUnoTPR = R6Class("MeasureSurvUnoTPR",
   private = list(
     .lp_thresh = numeric(0),
     .score = function(prediction, task, train_set, ...) {
-      tpr = super$.score(prediction = prediction,
-                         task = task,
-                         train_set = train_set,
-                         FUN = survAUC::sens.uno
+      tpr = super$.score(
+        prediction = prediction,
+        task = task,
+        train_set = train_set,
+        FUN = survAUC::sens.uno
       )
 
       tpr[, findInterval(self$lp_thresh, sort(unique(prediction$lp)))]

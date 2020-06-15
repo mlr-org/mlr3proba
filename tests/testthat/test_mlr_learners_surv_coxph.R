@@ -9,7 +9,7 @@ test_that("autotest", {
   expect_true(result, info = result$error)
 })
 
-test_that("weights",{
+test_that("weights", {
   learner = lrn("surv.coxph")
   task = generate_tasks.LearnerSurv(learner)$weights
   expect_silent(learner$train(task))
@@ -17,7 +17,7 @@ test_that("weights",{
 })
 
 
-test_that("missing",{
+test_that("missing", {
   task = TaskGeneratorSimsurv$new()$generate(50)
   learner = lrn("surv.coxph")
   learner$train(task)

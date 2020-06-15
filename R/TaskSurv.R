@@ -18,8 +18,9 @@
 #' lung = mlr3misc::load_dataset("lung", package = "survival")
 #' lung$status = (lung$status == 2L)
 #' b = as_data_backend(lung)
-#' task = TaskSurv$new("lung", backend = b, time = "time",
-#'    event = "status")
+#' task = TaskSurv$new("lung",
+#'   backend = b, time = "time",
+#'   event = "status")
 #'
 #' task$target_names
 #' task$feature_names
@@ -48,21 +49,24 @@ TaskSurv = R6::R6Class("TaskSurv",
     #' @param type (`character(1)`)\cr
     #' Name of the column giving the type of censoring. Default is 'right' censoring.
     initialize = function(id, backend, time, event, time2,
-                          type = c("right","left","counting","interval","interval2","mstate")) {
+      type = c("right", "left", "counting", "interval", "interval2", "mstate")) {
       type = match.arg(type)
 
       if (type %in% c("right", "left", "mstate")) {
-        super$initialize(id = id, task_type = "surv", backend = backend,
-                         target = c(time, event))
-      } else if(type %in% "interval2") {
-        super$initialize(id = id, task_type = "surv", backend = backend,
-                         target = c(time, time2))
+        super$initialize(
+          id = id, task_type = "surv", backend = backend,
+          target = c(time, event))
+      } else if (type %in% "interval2") {
+        super$initialize(
+          id = id, task_type = "surv", backend = backend,
+          target = c(time, time2))
       } else {
-        super$initialize(id = id, task_type = "surv", backend = backend,
-                         target = c(time, time2, event))
+        super$initialize(
+          id = id, task_type = "surv", backend = backend,
+          target = c(time, time2, event))
       }
 
-      if(type %nin% "interval2") {
+      if (type %nin% "interval2") {
         event = self$data(cols = event)[[1L]]
         if (!is.logical(event)) {
           assert_integerish(event, lower = 0, upper = 3)
@@ -81,16 +85,16 @@ TaskSurv = R6::R6Class("TaskSurv",
       tn = self$target_names
       d = self$data(rows, cols = self$target_names)
       args = list(time = d[[tn[1L]]], type = self$censtype)
-      if(self$censtype %in% "interval2") {
+      if (self$censtype %in% "interval2") {
         args$time2 = d[[tn[2L]]]
-      } else if(length(tn) == 2) {
+      } else if (length(tn) == 2) {
         args$event = as.integer(d[[tn[2L]]])
       } else {
         args$event = as.integer(d[[tn[3L]]])
         args$time2 = d[[tn[2L]]]
       }
 
-      if(allMissing(args$event) & allMissing(args$time)) {
+      if (allMissing(args$event) & allMissing(args$time)) {
         return(suppressWarnings(invoke(Surv, .args = args)))
       } else {
         return(invoke(Surv, .args = args))
@@ -107,9 +111,9 @@ TaskSurv = R6::R6Class("TaskSurv",
     formula = function(rhs = NULL) {
       # formula appends the rhs argument to Surv(time, event)~
       tn = self$target_names
-      if(self$censtype %in% "interval2") {
+      if (self$censtype %in% "interval2") {
         lhs = sprintf("Surv(time = %s, time2 = %s, type = 'interval2')", tn[1L], tn[2L])
-      } else if(length(tn) == 2) {
+      } else if (length(tn) == 2) {
         lhs = sprintf("Surv(%s, %s, type = '%s')", tn[1L], tn[2L], self$censtype)
       } else {
         lhs = sprintf("Surv(%s, %s, %s, type = '%s')", tn[1L], tn[2L], tn[3L], self$censtype)
@@ -121,7 +125,7 @@ TaskSurv = R6::R6Class("TaskSurv",
   active = list(
     #' @field censtype `character(1)`\cr
     #' Returns the type of censoring, one of "right", "left", "counting", "interval", "interval2" or "mstate".
-    censtype = function(){
+    censtype = function() {
       return(private$.censtype)
     }
   ),

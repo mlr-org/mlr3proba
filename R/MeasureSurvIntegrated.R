@@ -9,14 +9,16 @@
 #' @template param_packages
 #' @template param_predict_type
 #' @template param_measure_properties
+#' @template param_man
 #' @export
 MeasureSurvIntegrated = R6Class("MeasureSurvIntegrated",
   inherit = MeasureSurv,
   public = list(
     #' @description This is an abstract class that should not be constructed directly.
-    initialize = function(integrated = TRUE, times, method = 2, id, range, minimize, packages, predict_type, properties) {
-      if(class(self)[[1]] == "MeasureSurvIntegrated")
+    initialize = function(integrated = TRUE, times, method = 2, id, range, minimize, packages, predict_type, properties = character(), man = NA_character_) {
+      if (class(self)[[1]] == "MeasureSurvIntegrated") {
         stop("This is an abstract class that should not be constructed directly.")
+      }
 
       super$initialize(
         id = id,
@@ -24,27 +26,31 @@ MeasureSurvIntegrated = R6Class("MeasureSurvIntegrated",
         minimize = minimize,
         packages = packages,
         predict_type = predict_type,
-        properties = properties
+        properties = properties,
+        man = man
       )
 
       assertFlag(integrated)
       private$.integrated = integrated
 
       if (!integrated) {
-        if(missing(times))
+        if (missing(times)) {
           stop("For the non-integrated score, only a single time-point can be returned.")
-        else
-          assertNumeric(times, len = 1,
-                        .var.name = "For the non-integrated score, only a single time-point can be returned.")
+        } else {
+          assertNumeric(times,
+            len = 1,
+            .var.name = "For the non-integrated score, only a single time-point can be returned.")
+        }
         private$.times = times
-      } else{
+      } else {
         assertNumeric(method, 1, 2, any.missing = FALSE, all.missing = FALSE)
         private$.method = method
         if (!missing(times)) {
           assertNumeric(times)
           private$.times = times
-          if(length(times) == 1)
+          if (length(times) == 1) {
             private$.integrated = FALSE
+          }
         }
       }
     }
@@ -54,27 +60,29 @@ MeasureSurvIntegrated = R6Class("MeasureSurvIntegrated",
     #' @field integrated `(logical(1))`
     #' Returns if the measure should be integrated or not.
     #' Settable.
-    integrated = function(integrated){
-      if(missing(integrated)){
+    integrated = function(integrated) {
+      if (missing(integrated)) {
         return(private$.integrated)
       } else {
         assertFlag(integrated)
-        if(!integrated & length(self$times) > 1) {
-          stop(sprintf("For the non-integrated score, only a single time-point can be returned. Currently self$times = %s",
-                       paste0("c(",paste0(self$times, collapse = ", "),").")))
+        if (!integrated & length(self$times) > 1) {
+          stop(sprintf(
+            "For the non-integrated score, only a single time-point can be returned. Currently self$times = %s",
+            paste0("c(", paste0(self$times, collapse = ", "), ").")))
         }
-        private$.integrated <- integrated
+        private$.integrated = integrated
       }
     },
 
     #' @field times `(numeric())`
     #' Returns the times at which the measure should be evaluated at, or integrated over.
     #' Settable.
-    times = function(times){
+    times = function(times) {
       if (!missing(times)) {
         if (!self$integrated) {
-          assertNumeric(times, len = 1,
-                        .var.name = "For the non-integrated score, only a single time-point can
+          assertNumeric(times,
+            len = 1,
+            .var.name = "For the non-integrated score, only a single time-point can
                         be returned.")
         } else {
           assertNumeric(times)
@@ -88,8 +96,8 @@ MeasureSurvIntegrated = R6Class("MeasureSurvIntegrated",
     #' @field method `(integer(1))`
     #' Returns which method is used for approximating integration.
     #' Settable.
-    method = function(method){
-      if(missing(method)){
+    method = function(method) {
+      if (missing(method)) {
         return(private$.method)
       } else {
         assertNumeric(method, 1, 2, any.missing = FALSE, all.missing = FALSE)

@@ -30,7 +30,8 @@ MeasureSurvBeggC = R6Class("MeasureSurvBeggC",
         minimize = FALSE,
         packages = "survAUC",
         predict_type = "lp",
-        properties = c("requires_learner", "requires_task", "requires_train_set")
+        properties = c("requires_learner", "requires_task", "requires_train_set"),
+        man = "mlr3proba::mlr_measures_surv.beggC"
       )
     }
   ),

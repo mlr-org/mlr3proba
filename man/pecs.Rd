@@ -81,5 +81,4 @@ lapply(learns, function(x) x$train(task))
 pecs(learns, task = task, measure = "logloss", times = c(20, 90), n = 10)
 }
 
-
 }

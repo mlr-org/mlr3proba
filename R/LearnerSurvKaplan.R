@@ -11,7 +11,8 @@
 #' \cite{mlr3proba}{kaplan_1958}
 #'
 #' @export
-LearnerSurvKaplan = R6Class("LearnerSurvKaplan", inherit = LearnerSurv,
+LearnerSurvKaplan = R6Class("LearnerSurvKaplan",
+  inherit = LearnerSurv,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -21,7 +22,8 @@ LearnerSurvKaplan = R6Class("LearnerSurvKaplan", inherit = LearnerSurv,
         predict_types = c("crank", "distr"),
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         properties = "missings",
-        packages = c("survival", "distr6")
+        packages = c("survival", "distr6"),
+        man = "mlr3proba::mlr_learners_surv.kaplan"
       )
     }
   ),
