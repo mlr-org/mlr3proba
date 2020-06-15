@@ -8,14 +8,17 @@
 .histogram = function(dat, breaks = "Sturges") {
   fit = graphics::hist(x = dat, breaks = breaks, include.lowest = TRUE, plot = FALSE, right = FALSE)
 
-  pdf = function(x1) {} #nolint
+  pdf = function(x) {} #nolint
   body(pdf) = substitute({
-    f[findInterval(x1, Intervals, left.open = F, rightmost.closed = T)]
+    pdf = numeric(length(x))
+    ind = x >= min(Intervals) & x <= max(Intervals)
+    pdf[ind] = f[findInterval(x[ind], Intervals, left.open = F, rightmost.closed = T)]
+    return(pdf)
   }, list(f = fit$density, Intervals = fit$breaks))
 
-  cdf = function(x1) {} #nolint
+  cdf = function(x) {} #nolint
   body(cdf) = substitute({
-    sapply(x1, function(x) .histogram_cdf(val = x, Intervals = Intervals, pdf = pdf, counts = counts))
+    sapply(x, function(x) .histogram_cdf(val = x, Intervals = Intervals, pdf = pdf, counts = counts))
   }, list(counts = fit$counts, pdf = fit$density, Intervals = fit$breaks))
 
   list(
@@ -23,6 +26,7 @@
       name = "Histogram Estimator",
       short_name = "Histogram",
       pdf = pdf, cdf = cdf,
+      type = set6::Reals$new(),
       support = set6::Interval$new(min(fit$breaks), max(fit$breaks))),
     hist = fit)
 }
@@ -41,15 +45,21 @@
 # 3. Pdf: pdf for each interval. a vector
 
 .histogram_cdf = function(val, Intervals, pdf, counts) {
-  ind = findInterval(val, Intervals, left.open = F, rightmost.closed = T)
-  # finding the index of the breaks for val
-  part_cdf = cumsum(counts) / sum(counts)
-  # find the area of the bin up to LHS val
-
-  # if ind == 1, it means that its the first Interval,
-  if (ind == 1) {
-    return((val - Intervals[ind]) * pdf[ind])
+  if (val < min(Intervals)) {
+    return(0)
+  } else if (val >= max(Intervals)) {
+    return(1)
   } else {
-    return(part_cdf[ind - 1] + (val - Intervals[ind]) * pdf[ind])
+    ind = findInterval(val, Intervals, left.open = F, rightmost.closed = T)
+    # finding the index of the breaks for val
+    part_cdf = cumsum(counts) / sum(counts)
+    # find the area of the bin up to LHS val
+
+    # if ind == 1, it means that its the first Interval,
+    if (ind == 1) {
+      return((val - Intervals[ind]) * pdf[ind])
+    } else {
+      return(part_cdf[ind - 1] + (val - Intervals[ind]) * pdf[ind])
+    }
   }
 }
