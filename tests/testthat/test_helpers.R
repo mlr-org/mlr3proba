@@ -1,8 +1,8 @@
 context("helpers")
 
 test_that("format_range", {
-  expect_equal(format_range(c(0,10)), "\\eqn{[0, 10]}{[0, 10]}")
-  expect_equal(format_range(c(-Inf,Inf)), "\\eqn{(-\\infty, \\infty)}{(-Inf, Inf)}")
+  expect_equal(format_range(c(0, 10)), "\\eqn{[0, 10]}{[0, 10]}")
+  expect_equal(format_range(c(-Inf, Inf)), "\\eqn{(-\\infty, \\infty)}{(-Inf, Inf)}")
 })
 
 test_that("format_types", {
@@ -10,6 +10,7 @@ test_that("format_types", {
 })
 test_that("check_subsetpattern", {
   expect_true(check_subsetpattern("a", letters))
-  expect_equal(check_subsetpattern(1, letters[1:3]),
-               "Must be a subset of {a, b, c}, but is {1}")
+  expect_equal(
+    check_subsetpattern(1, letters[1:3]),
+    "Must be a subset of {a, b, c}, but is {1}")
 })

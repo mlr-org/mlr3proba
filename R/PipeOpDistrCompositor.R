@@ -93,9 +93,10 @@
 #' gr$train(task)$gr$predict(task)
 #'
 #' # Method 3 - Syntactic sugar: Wrap the learner in a graph.
-#' cvglm.distr = distrcompositor(learner = lrn("surv.cvglmnet"),
-#'                             estimator = "kaplan",
-#'                             form = "aft")
+#' cvglm.distr = distrcompositor(
+#'   learner = lrn("surv.cvglmnet"),
+#'   estimator = "kaplan",
+#'   form = "aft")
 #' cvglm.distr$fit(task)$predict(task)
 #' }
 PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
@@ -110,16 +111,17 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
     #'   List of hyperparameter settings, overwriting the hyperparameter settings that would
     #'   otherwise be set during construction.
     initialize = function(id = "distrcompose", param_vals = list(form = "aft", overwrite = FALSE)) {
-      super$initialize(id = id,
-                       param_set = ParamSet$new(params = list(
-                         ParamFct$new("form", default = "aft", levels = c("aft","ph","po"), tags = c("predict")),
-                         ParamLgl$new("overwrite", default = FALSE, tags = c("predict"))
-                       )),
-                       param_vals = param_vals,
-                       input = data.table(name = c("base","pred"), train = "NULL", predict = "PredictionSurv"),
-                       output = data.table(name = "output", train = "NULL", predict = "PredictionSurv"),
-                       packages = "distr6")
-      },
+      super$initialize(
+        id = id,
+        param_set = ParamSet$new(params = list(
+          ParamFct$new("form", default = "aft", levels = c("aft", "ph", "po"), tags = c("predict")),
+          ParamLgl$new("overwrite", default = FALSE, tags = c("predict"))
+        )),
+        param_vals = param_vals,
+        input = data.table(name = c("base", "pred"), train = "NULL", predict = "PredictionSurv"),
+        output = data.table(name = "output", train = "NULL", predict = "PredictionSurv"),
+        packages = "distr6")
+    },
 
     #' @description train_internal
     #' Internal `train` function, will be moved to `private` in a near-future update, should be ignored.
@@ -139,7 +141,7 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
       inpred = inputs$pred
 
       overwrite = self$param_set$values$overwrite
-      if(length(overwrite) == 0) overwrite = FALSE
+      if (length(overwrite) == 0) overwrite = FALSE
 
       if ("distr" %in% inpred$predict_types & !overwrite) {
         return(list(inpred))
@@ -152,7 +154,7 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
         map(inputs, function(x) assert_true(identical(truth, x$truth)))
 
         form = self$param_set$values$form
-        if(length(form) == 0) form = "aft"
+        if (length(form) == 0) form = "aft"
 
         base = base$distr[1]
         times = unlist(base$support$elements)
@@ -160,37 +162,45 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
         nr = nrow(inpred$data$tab)
         nc = length(times)
 
-        if(is.null(inpred$lp) | length(inpred$lp) == 0)
+        if (is.null(inpred$lp) | length(inpred$lp) == 0) {
           lp = inpred$crank
-        else
+        } else {
           lp = inpred$lp
+        }
 
         timesmat = matrix(times, nrow = nr, ncol = nc, byrow = T)
         survmat = matrix(base$survival(times), nrow = nr, ncol = nc, byrow = T)
         lpmat = matrix(lp, nrow = nr, ncol = nc)
 
-        if(form == "ph")
-          cdf = 1 - (survmat ^ exp(lpmat))
-        else if (form == "aft")
+        if (form == "ph") {
+          cdf = 1 - (survmat^exp(lpmat))
+        } else if (form == "aft") {
           cdf = t(apply(timesmat / exp(lpmat), 1, function(x) base$cdf(x)))
-        else if (form == "po")
-          cdf = 1 - (survmat * ({exp(-lpmat) + ((1 - exp(-lpmat)) * survmat)}^-1))
+        } else if (form == "po") {
+          cdf = 1 - (survmat * ({
+            exp(-lpmat) + ((1 - exp(-lpmat)) * survmat)
+          }^-1))
+        }
 
         x = rep(list(data = data.frame(x = times, cdf = 0)), nr)
 
-        for(i in seq_along(times))
-          x[[i]]$cdf = cdf[i,]
+        for (i in seq_along(times)) {
+          x[[i]]$cdf = cdf[i, ]
+        }
 
-        distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
-                                               decorators = c("CoreStatistics", "ExoticStatistics"))
+        distr = distr6::VectorDistribution$new(
+          distribution = "WeightedDiscrete", params = x,
+          decorators = c("CoreStatistics", "ExoticStatistics"))
 
-        if(is.null(inpred$lp) | length(inpred$lp) == 0)
+        if (is.null(inpred$lp) | length(inpred$lp) == 0) {
           lp = NULL
-        else
+        } else {
           lp = inpred$lp
+        }
 
-        return(list(PredictionSurv$new(row_ids = row_ids, truth = truth,
-                                       crank = inpred$crank, distr = distr, lp = lp)))
+        return(list(PredictionSurv$new(
+          row_ids = row_ids, truth = truth,
+          crank = inpred$crank, distr = distr, lp = lp)))
       }
     }
   )

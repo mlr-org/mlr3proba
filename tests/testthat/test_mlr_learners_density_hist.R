@@ -9,10 +9,10 @@ test_that("autotest", {
 })
 
 data = data.frame("A" = c(0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6))
-a <- graphics::hist(x = data$A, include.lowest = TRUE, plot = TRUE, right = FALSE, probability = T)
+a = graphics::hist(x = data$A, include.lowest = TRUE, plot = TRUE, right = FALSE, probability = T)
 
 task = TaskDens$new(id = "a", data, target = "A")
-lrn = lrn("dens.hist", breaks =5)
+lrn = lrn("dens.hist", breaks = 5)
 p = lrn$train(task)
 dist = p$model$distr
 
@@ -40,7 +40,7 @@ test_that("cdf", {
 # test with multiple breaks
 # ---------------------------
 # data = data.frame("A" = c(0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6))
-# a <- graphics::hist(x = data$A, breaks =c(0, 0.2, 0.4, 0.6, 0.8, 0.9, 1.0, 1.1, 1.5, 2),
+# a = graphics::hist(x = data$A, breaks =c(0, 0.2, 0.4, 0.6, 0.8, 0.9, 1.0, 1.1, 1.5, 2),
 #                     include.lowest = TRUE, plot = TRUE, right = FALSE, probability = T)
 #
 # task = TaskDens$new(id = "a", data, target = "A")

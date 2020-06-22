@@ -1,3 +1,19 @@
+# mlr3proba 0.1.6.9000
+
+- `LearnerSurvGlmnet`, `LearnerSurvCVGlmnet`, `LearnerSurvXgboost` and `LearnerSurvRanger` have been moved to the [mlr3learners repo](www.github.com/mlr-org/mlr3learners)
+- `LearnerSurvGBM` has been moved to www.github.com/mlr3learners/mlr3learners.gbm
+- `LearnerSurvMboost`, `LearnerSurvGlmBoost`, `LearnerSurvGamboost`, `LearnerSurvBlackboost` have been moved to www.github.com/mlr3learners/mlr3learners.mboost
+
+# mlr3proba 0.1.6
+
+* Early release due to backward compatibility error introduced by an upstream dependency
+* Minor updates to `mboost` family of learners: added `gehan` family, fixed parameters for `cindex`, added support for:  `weights`, `response` predict type, `importance`, `selected_features`
+* Minor internal changes
+* All density learners except `LearnerDensHist` and `LearnerDensKDE` have been moved to the [mlr3learners org](https://mlr3learners.mlr-org.com/dev/articles/learners/additional-learners.html)
+* The following survival learners have been moved to  the [mlr3learners org](https://mlr3learners.mlr-org.com/dev/articles/learners/additional-learners.html), LearnerSurv: `Flexible`, `ObliqueRSF`, `Penalized`, `RandomForestSRC`
+* Bugfix in `LearnerSurvXgboost` previously `lp` was erroneously returned as `exp(lp)`
+* Now licenced under LPGL-3
+
 # mlr3proba 0.1.5
 
 * `LearnerSurvParametric` and `LearnerSurvNelson` moved to `mlr3learners/mlr3learners.survival ` repo

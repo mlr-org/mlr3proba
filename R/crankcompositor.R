@@ -15,12 +15,13 @@
 #' library(mlr3pipelines)
 #'
 #' task = tgen("simsurv")$generate(20)
-#' ranger.crank = crankcompositor(learner = lrn("surv.coxph"),
-#'                             method = "median")
+#' ranger.crank = crankcompositor(
+#'   learner = lrn("surv.coxph"),
+#'   method = "median")
 #' resample(task, ranger.crank, rsmp("cv", folds = 2))$predictions()
 #' }
 #' @export
-crankcompositor = function(learner, method = c("mean","median","mode"), param_vals = list()){
+crankcompositor = function(learner, method = c("mean", "median", "mode"), param_vals = list()) {
   assert("distr" %in% learner$predict_types)
 
   pred = po("learner", learner, param_vals = param_vals)

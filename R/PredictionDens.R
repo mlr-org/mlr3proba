@@ -13,9 +13,8 @@
 #' learner = mlr_learners$get("dens.hist")
 #' p = learner$train(task)$predict(task)
 #' head(as.data.table(p))
-
-
-PredictionDens = R6Class("PredictionDens", inherit = Prediction,
+PredictionDens = R6Class("PredictionDens",
+  inherit = Prediction,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -37,13 +36,14 @@ PredictionDens = R6Class("PredictionDens", inherit = Prediction,
     #'   Numeric vector of estimated cumulative distribution function, evaluated at 'target' column of test set.
     #'   One element for each observation in the test set.
     initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), pdf = NULL, cdf = NULL) {
+
       assert_row_ids(row_ids)
       n = length(row_ids)
 
       self$task_type = "dens"
 
       # Check returned predict types have correct names and add to data.table
-      self$predict_types = c("pdf","cdf")[c(!is.null(pdf),!is.null(cdf))]
+      self$predict_types = c("pdf", "cdf")[c(!is.null(pdf), !is.null(cdf))]
       self$data$tab = data.table(
         row_id = row_ids,
         truth = assert_numeric(truth, len = n, null.ok = TRUE)
@@ -98,6 +98,7 @@ as.data.table.PredictionDens = function(x, ...) {
 
 #' @export
 c.PredictionDens = function(..., keep_duplicates = TRUE) {
+
   dots = list(...)
   assert_list(dots, "PredictionDens")
   assert_flag(keep_duplicates)
@@ -118,5 +119,3 @@ c.PredictionDens = function(..., keep_duplicates = TRUE) {
 
   PredictionDens$new(row_ids = tab$row_id, truth = tab$truth, pdf = tab$pdf, cdf = tab$cdf)
 }
-
-

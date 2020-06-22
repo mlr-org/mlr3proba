@@ -43,18 +43,20 @@ MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
         minimize = TRUE,
         packages = "distr6",
         predict_type = "distr",
-        properties = character()
+        man = "mlr3proba::mlr_measures_surv.graf"
       )
     }
   ),
 
   private = list(
     .score = function(prediction, ...) {
-      integrated_score(score = weighted_graf(truth = prediction$truth,
-                                             distribution = prediction$distr,
-                                             times = self$times),
-                       integrated = self$integrated,
-                       method = self$method)
+      integrated_score(
+        score = weighted_graf(
+          truth = prediction$truth,
+          distribution = prediction$distr,
+          times = self$times),
+        integrated = self$integrated,
+        method = self$method)
     }
   )
 )

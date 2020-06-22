@@ -24,7 +24,9 @@ navbar:
       text: Vignettes
       menu:
         - text: Survival Analysis
-          href: articles/survival.html
+          href: https://mlr3book.mlr-org.com/survival.html
+        - text: Density Estimation
+          href: articles/density.html
     mattermost:
       icon: fa fa-comments
       href: https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/
@@ -64,7 +66,7 @@ reference:
       - mlr_tasks_lung
       - mlr_tasks_rats
       - mlr_tasks_unemployment
-      - TaskGeneratorSimsurv
+      - mlr_task_generators_simsurv
   - title: Survival PipeOps
     contents:
       - starts_with("mlr_pipeops")
@@ -80,4 +82,4 @@ reference:
     contents:
       - mlr_tasks_faithful
       - mlr_tasks_precip
-      - TaskGeneratorSimdens
+      - mlr_task_generators_simdens

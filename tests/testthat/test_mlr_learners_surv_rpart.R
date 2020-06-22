@@ -8,7 +8,7 @@ test_that("autotest", {
 })
 
 
-test_that("importance/selected",{
+test_that("importance/selected", {
   learner = lrn("surv.rpart")
   expect_error(learner$importance(), "No model stored")
   expect_error(learner$selected_features(), "No model stored")

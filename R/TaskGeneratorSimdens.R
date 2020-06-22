@@ -24,10 +24,11 @@ TaskGeneratorSimdens = R6::R6Class("TaskGeneratorSimdens",
         ParamFct$new("distribution", default = "Normal", levels = distr6::listDistributions(T)),
         ParamUty$new("pars")
       ))
-      super$initialize(id = "simdens",
-                       task_type = "dens",
-                       packages = "distr6",
-                       param_set = param_set)
+      super$initialize(
+        id = "simdens",
+        task_type = "dens",
+        packages = "distr6",
+        param_set = param_set)
     }
   ),
 

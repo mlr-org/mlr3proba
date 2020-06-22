@@ -46,11 +46,10 @@
 #' pecs(learns, task = task, measure = "logloss", times = c(20, 90), n = 10)
 #' }
 #'
-#'
 #' @export
-pecs = function(x, measure = c("graf","logloss"), times, n, eps = 1e-15, ...){
-  if(!missing(times)) assertNumeric(times, min.len = 1)
-  if(!missing(n)) assertIntegerish(n, len = 1)
+pecs = function(x, measure = c("graf", "logloss"), times, n, eps = 1e-15, ...) {
+  if (!missing(times)) assertNumeric(times, min.len = 1)
+  if (!missing(n)) assertIntegerish(n, len = 1)
   assertNumeric(eps, lower = -1, upper = 1)
 
   UseMethod("pecs", x)
@@ -58,7 +57,8 @@ pecs = function(x, measure = c("graf","logloss"), times, n, eps = 1e-15, ...){
 
 #' @rdname pecs
 #' @export
-pecs.list = function(x, measure = c("graf","logloss"), times, n, eps = 1e-15, task = NULL, row_ids = NULL, newdata,...){
+pecs.list = function(x, measure = c("graf", "logloss"), times, n, eps = 1e-15, task = NULL, row_ids = NULL, newdata, ...) {
+
   measure = match.arg(measure)
 
   assert(all(sapply(x, function(y) !is.null(y$model))), "x must be a list of trained survival learners")
@@ -73,25 +73,30 @@ pecs.list = function(x, measure = c("graf","logloss"), times, n, eps = 1e-15, ta
   true_times = sort(unique(task$truth()[, "time"]))
 
   times = .pec_times(true_times = true_times, times = times, n = n)
-  if(length(times) <= 1){
-    stop(sprintf("Not enough `times` in the true observed times range: %s",
-                 paste0("[", paste0(round(range(true_times), 3), collapse = ", "), "]")))
+  if (length(times) <= 1) {
+    stop(sprintf(
+      "Not enough `times` in the true observed times range: %s",
+      paste0("[", paste0(round(range(true_times), 3), collapse = ", "), "]")))
   }
 
-  if(measure == "logloss"){
-    scores = lapply(p, function(y){
-      integrated_score(score = weighted_logloss(truth = task$truth(),
-                                                distribution = y$distr,
-                                                times = times,
-                                                eps = eps),
-                       integrated = FALSE)
+  if (measure == "logloss") {
+    scores = lapply(p, function(y) {
+      integrated_score(
+        score = weighted_logloss(
+          truth = task$truth(),
+          distribution = y$distr,
+          times = times,
+          eps = eps),
+        integrated = FALSE)
     })
   } else {
-    scores = lapply(p, function(y){
-      integrated_score(score = weighted_graf(truth = task$truth(),
-                                             distribution = y$distr,
-                                             times = times),
-                       integrated = FALSE)
+    scores = lapply(p, function(y) {
+      integrated_score(
+        score = weighted_graf(
+          truth = task$truth(),
+          distribution = y$distr,
+          times = times),
+        integrated = FALSE)
     })
   }
 
@@ -107,24 +112,29 @@ pecs.list = function(x, measure = c("graf","logloss"), times, n, eps = 1e-15, ta
 
 #' @rdname pecs
 #' @export
-pecs.PredictionSurv = function(x, measure = c("graf","logloss"), times, n, eps = 1e-15,...){
+pecs.PredictionSurv = function(x, measure = c("graf", "logloss"), times, n, eps = 1e-15, ...) {
+
   measure = match.arg(measure)
 
-  true_times = sort(unique(x$truth[,1]))
+  true_times = sort(unique(x$truth[, 1]))
   times = .pec_times(true_times = true_times, times = times, n = n)
 
 
-  if(measure == "logloss"){
-    scores = data.frame(logloss = integrated_score(score = weighted_logloss(truth = x$truth,
-                                                                            distribution = x$distr,
-                                                                            times = times,
-                                                                            eps = eps),
-                                                   integrated = FALSE))
+  if (measure == "logloss") {
+    scores = data.frame(logloss = integrated_score(
+      score = weighted_logloss(
+        truth = x$truth,
+        distribution = x$distr,
+        times = times,
+        eps = eps),
+      integrated = FALSE))
   } else {
-    scores = data.frame(graf = integrated_score(score = weighted_graf(truth = x$truth,
-                                                                      distribution = x$distr,
-                                                                      times = times),
-                                                integrated = FALSE))
+    scores = data.frame(graf = integrated_score(
+      score = weighted_graf(
+        truth = x$truth,
+        distribution = x$distr,
+        times = times),
+      integrated = FALSE))
   }
 
   scores$time = round(as.numeric(rownames(scores)), 3)
@@ -134,9 +144,9 @@ pecs.PredictionSurv = function(x, measure = c("graf","logloss"), times, n, eps =
     ggplot2::geom_line()
 }
 
-.pec_times = function(true_times, times, n){
-  if(missing(times)){
-    if(missing(n)){
+.pec_times = function(true_times, times, n) {
+  if (missing(times)) {
+    if (missing(n)) {
       return(true_times)
     } else {
       return(true_times[seq(1, length(true_times), length.out = n)])
@@ -145,8 +155,8 @@ pecs.PredictionSurv = function(x, measure = c("graf","logloss"), times, n, eps =
     times[times > max(true_times)] = max(true_times)
     times[times < min(true_times)] = min(true_times)
     times = sort(unique(times))
-    if(length(times) == 2){
-      if(missing(n)){
+    if (length(times) == 2) {
+      if (missing(n)) {
         return(true_times[true_times >= times[1] & true_times <= times[2]])
       } else {
         return(seq(times[1], times[2], length.out = n))

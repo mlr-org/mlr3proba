@@ -3,7 +3,7 @@
 #'
 #' @include LearnerDens.R
 #' @title <%=title%> Density Estimator
-#' @aliases <%= paste("mlr_learners", shortname, sep = "_")%>
+#' @name <%= paste("mlr_learners", shortname, sep = "_")%>
 #' @description
 #' Calls <%=caller%> and the result is coerced to a [distr6::Distribution].
 #'

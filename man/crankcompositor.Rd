@@ -34,8 +34,9 @@ library(mlr3)
 library(mlr3pipelines)
 
 task = tgen("simsurv")$generate(20)
-ranger.crank = crankcompositor(learner = lrn("surv.coxph"),
-                            method = "median")
+ranger.crank = crankcompositor(
+  learner = lrn("surv.coxph"),
+  method = "median")
 resample(task, ranger.crank, rsmp("cv", folds = 2))$predictions()
 }
 }

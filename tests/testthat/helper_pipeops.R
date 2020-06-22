@@ -1,5 +1,6 @@
 # see mlr3pipelines
 expect_pipeop_class = function(poclass, constargs = list()) {
+
   skip_on_cran()
   po = do.call(poclass$new, constargs)
 
@@ -91,10 +92,10 @@ expect_deep_clone = function(one, two) {
         return(invisible(NULL))
       }
       if (length(path) > 1 && R6::is.R6(a) && "clone" %nin% names(a)) {
-        return(invisible(NULL))  # don't check if smth is not cloneable
+        return(invisible(NULL)) # don't check if smth is not cloneable
       }
       if (identical(utils::tail(path, 1), c("[element train_task] 'train_task'"))) {
-        return(invisible(NULL))  # workaround for https://github.com/mlr-org/mlr3/issues/382
+        return(invisible(NULL)) # workaround for https://github.com/mlr-org/mlr3/issues/382
       }
       label = sprintf("Object addresses differ at path %s", paste0(path, collapse = "->"))
       expect_true(addr_a != addr_b, label = label)
@@ -119,8 +120,9 @@ expect_deep_clone = function(one, two) {
     }
     for (i in index) {
       if (utils::tail(path, 1) == "[attributes]" && i %in% c("srcref", "srcfile", ".Environment")) next
-      expect_references_differ(base::`[[`(a, i), base::`[[`(b, i), c(path, sprintf("[element %s]%s", i,
-                                                                                   if (!is.null(objnames)) sprintf(" '%s'", if (is.character(index)) i else objnames[[i]]) else "")))
+      expect_references_differ(base::`[[`(a, i), base::`[[`(b, i), c(path, sprintf(
+        "[element %s]%s", i,
+        if (!is.null(objnames)) sprintf(" '%s'", if (is.character(index)) i else objnames[[i]]) else "")))
     }
   }
   expect_references_differ(one, two, "ROOT")

@@ -20,7 +20,8 @@ MeasureSurvHarrellC = R6Class("MeasureSurvHarrellC",
         id = "surv.harrellC",
         range = 0:1,
         minimize = FALSE,
-        predict_type = "crank"
+        predict_type = "crank",
+        man = "mlr3proba::mlr_measures_surv.harrellC"
       )
     }
   ),

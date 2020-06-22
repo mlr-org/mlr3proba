@@ -24,26 +24,29 @@ MeasureSurvSongAUC = R6Class("MeasureSurvSongAUC",
   inherit = MeasureSurvAUC,
   public = list(
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(integrated = TRUE, times, type = c("incident","cumulative")) {
-      super$initialize(integrated = integrated,
-                       times = times,
-                       id = "surv.songAUC",
-                       properties = c("requires_learner", "requires_task", "requires_train_set")
-                       )
+    initialize = function(integrated = TRUE, times, type = c("incident", "cumulative")) {
+      super$initialize(
+        integrated = integrated,
+        times = times,
+        id = "surv.songAUC",
+        properties = c("requires_learner", "requires_task", "requires_train_set"),
+        man = "mlr3proba::mlr_measures_surv.songAUC"
+      )
 
-      private$.type <- match.arg(type)
+      private$.type = match.arg(type)
     }
   ),
 
   active = list(
-    type = function(type){
+    type = function(type) {
       if (mising(type)) {
         return(private$.type)
       } else {
-        type = c("incident", "cumulative")[pmatch(type, c("incident","cumulative"))]
-        if(is.na(type))
+        type = c("incident", "cumulative")[pmatch(type, c("incident", "cumulative"))]
+        if (is.na(type)) {
           stop("'type' must be on: 'incident', 'cumulative'. Abbreviations allowed.")
-        private$.type <- type
+        }
+        private$.type = type
       }
     }
   ),
@@ -51,13 +54,14 @@ MeasureSurvSongAUC = R6Class("MeasureSurvSongAUC",
   private = list(
     .type = character(0),
     .score = function(prediction, learner, task, train_set, ...) {
-      super$.score(prediction = prediction,
-                   learner = learner,
-                   task = task,
-                   train_set = train_set,
-                   FUN = survAUC::AUC.sh,
-                   type = self$type,
-                   ...)
+      super$.score(
+        prediction = prediction,
+        learner = learner,
+        task = task,
+        train_set = train_set,
+        FUN = survAUC::AUC.sh,
+        type = self$type,
+        ...)
     }
   )
 )

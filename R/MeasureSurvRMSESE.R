@@ -21,7 +21,8 @@ MeasureSurvRMSESE = R6::R6Class("MeasureSurvRMSESE",
         id = "surv.rmseSE",
         range = c(0, Inf),
         minimize = TRUE,
-        predict_type = "response"
+        predict_type = "response",
+        man = "mlr3proba::mlr_measures_surv.rmseSE"
       )
     }
   ),
@@ -29,7 +30,7 @@ MeasureSurvRMSESE = R6::R6Class("MeasureSurvRMSESE",
   private = list(
     .score = function(prediction, ...) {
       mse = surv_mse(prediction$truth, prediction$response)
-      mse$se/(2*sqrt(mean(mse$mse)))
+      mse$se / (2 * sqrt(mean(mse$mse)))
     }
   )
 )
