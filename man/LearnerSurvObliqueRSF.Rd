@@ -16,7 +16,7 @@ Parameter \code{verbose} is set to \code{FALSE}.
 \section{Dictionary}{
 
 This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerSurvObliqueRSF$new()
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:mlr_sugar]{lrn()}:\preformatted{LearnerSurvObliqueRSF$new()
 mlr_learners$get("surv.obliqueRSF")
 lrn("surv.obliqueRSF")
 }

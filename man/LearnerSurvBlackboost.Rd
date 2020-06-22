@@ -7,7 +7,7 @@
 \description{
 Calls \code{\link[mboost:blackboost]{mboost::blackboost()}}.
 \itemize{
-\item lp is predicted by \code{\link[mboost:predict.mboost]{mboost::predict.mboost()}}
+\item lp is predicted by \code{\link[mboost:methods]{mboost::predict.mboost()}}
 \item distr is predicted by \code{\link[mboost:survFit]{mboost::survFit()}} which assumes a PH fit with a Breslow estimator
 \item \code{crank} is identical to \code{lp}
 }
@@ -23,7 +23,7 @@ If the value given to the \code{Family} parameter is "custom.family" then an obj
 \section{Dictionary}{
 
 This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerSurvBlackboost$new()
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:mlr_sugar]{lrn()}:\preformatted{LearnerSurvBlackboost$new()
 mlr_learners$get("surv.blackboost")
 lrn("surv.blackboost")
 }
@@ -33,9 +33,9 @@ lrn("surv.blackboost")
 
 \itemize{
 \item Type: "surv"
-\item Predict Types: \verb{distr, crank, lp}
+\item Predict Types: \verb{distr, crank, lp, response}
 \item Feature Types: \verb{integer, numeric, factor}
-\item Properties: \code{-}
+\item Properties: \code{weights}
 \item Packages: \CRANpkg{mboost} \CRANpkg{distr6} \CRANpkg{survival} \CRANpkg{partykit} \CRANpkg{mvtnorm}
 }
 }

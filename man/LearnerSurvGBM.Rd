@@ -17,7 +17,7 @@ in \code{\link[gbm:gbm]{gbm::gbm()}} for survival analysis; parameter \code{keep
 \section{Dictionary}{
 
 This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerSurvGBM$new()
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:mlr_sugar]{lrn()}:\preformatted{LearnerSurvGBM$new()
 mlr_learners$get("surv.gbm")
 lrn("surv.gbm")
 }

@@ -10,7 +10,7 @@ Calls \code{\link[locfit:density.lf]{locfit::density.lf()}} and the result is co
 \section{Dictionary}{
 
 This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerDensLocfit$new()
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:mlr_sugar]{lrn()}:\preformatted{LearnerDensLocfit$new()
 mlr_learners$get("dens.locfit")
 lrn("dens.locfit")
 }

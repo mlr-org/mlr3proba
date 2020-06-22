@@ -5,7 +5,7 @@
 \alias{mlr_learners_surv.xgboost}
 \title{CoxPH models based on gradient boosted trees Survival Learner}
 \description{
-Calls \code{\link[xgboost:xgboost]{xgboost::xgboost()}}.
+Calls \code{\link[xgboost:xgb.train]{xgboost::xgboost()}}.
 \itemize{
 \item distr is predicted by \code{\link[xgboost:predict.xgb.Booster]{xgboost::predict.xgb.Booster()}}
 \item \code{crank} is predicted as the expectation of the survival distribution, \code{distr}
@@ -25,7 +25,7 @@ We changed the following defaults for this learner:
 \section{Dictionary}{
 
 This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerSurvXgboost$new()
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:mlr_sugar]{lrn()}:\preformatted{LearnerSurvXgboost$new()
 mlr_learners$get("surv.xgboost")
 lrn("surv.xgboost")
 }

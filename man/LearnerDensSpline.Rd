@@ -10,7 +10,7 @@ Calls \code{\link[gss:ssden]{gss::ssden()}} and the result is coerced to a \link
 \section{Dictionary}{
 
 This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerDensSpline$new()
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:mlr_sugar]{lrn()}:\preformatted{LearnerDensSpline$new()
 mlr_learners$get("dens.spline")
 lrn("dens.spline")
 }

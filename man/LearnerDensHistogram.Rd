@@ -10,7 +10,7 @@ Calls \code{\link[graphics:hist]{graphics::hist()}} and the result is coerced to
 \section{Dictionary}{
 
 This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerDensHistogram$new()
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:mlr_sugar]{lrn()}:\preformatted{LearnerDensHistogram$new()
 mlr_learners$get("dens.hist")
 lrn("dens.hist")
 }

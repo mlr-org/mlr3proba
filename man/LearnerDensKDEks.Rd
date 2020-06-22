@@ -10,7 +10,7 @@ Calls \code{\link[ks:kde]{ks::kde()}} and the result is coerced to a \link[distr
 \section{Dictionary}{
 
 This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerDensKDEks$new()
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:mlr_sugar]{lrn()}:\preformatted{LearnerDensKDEks$new()
 mlr_learners$get("dens.kdeKS")
 lrn("dens.kdeKS")
 }

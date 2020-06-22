@@ -5,7 +5,7 @@
 \alias{mlr_measures_surv.chamblessAUC}
 \title{Chambless and Diao's AUC Survival Measure}
 \description{
-Calls \code{\link[survAUC:AUC.cd]{survAUC::AUC.cd()}}.
+Calls \code{\link[survAUC:AUC.ChamDiao]{survAUC::AUC.cd()}}.
 
 Assumes Cox PH model specification.
 }
@@ -17,7 +17,7 @@ measures will all be re-written and implemented directly in \code{mlr3proba}.
 \section{Dictionary}{
 
 This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvChamblessAUC$new()
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:mlr_sugar]{msr()}:\preformatted{MeasureSurvChamblessAUC$new()
 mlr_measures$get("surv.chamblessAUC")
 msr("surv.chamblessAUC")
 }

@@ -10,7 +10,7 @@ Calls \code{\link[sm:sm.density]{sm::sm.density()}} and the result is coerced to
 \section{Dictionary}{
 
 This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerDensNonparametric$new()
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:mlr_sugar]{lrn()}:\preformatted{LearnerDensNonparametric$new()
 mlr_learners$get("dens.nonpar")
 lrn("dens.nonpar")
 }

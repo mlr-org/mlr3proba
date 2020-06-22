@@ -16,7 +16,7 @@ Calls \code{\link[ranger:ranger]{ranger::ranger()}}.
 \section{Dictionary}{
 
 This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerSurvRanger$new()
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:mlr_sugar]{lrn()}:\preformatted{LearnerSurvRanger$new()
 mlr_learners$get("surv.ranger")
 lrn("surv.ranger")
 }

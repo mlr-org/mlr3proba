@@ -7,7 +7,7 @@
 \description{
 Calls \code{\link[mboost:gamboost]{mboost::gamboost()}}.
 \itemize{
-\item lp is predicted by \code{\link[mboost:predict.mboost]{mboost::predict.mboost()}}
+\item lp is predicted by \code{\link[mboost:methods]{mboost::predict.mboost()}}
 \item distr is predicted by \code{\link[mboost:survFit]{mboost::survFit()}} which assumes a PH fit with a Breslow estimator
 \item \code{crank} is identical to \code{lp}
 }
@@ -28,7 +28,7 @@ specific definition of the corresponding base-learner.
 \section{Dictionary}{
 
 This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerSurvGamboost$new()
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:mlr_sugar]{lrn()}:\preformatted{LearnerSurvGamboost$new()
 mlr_learners$get("surv.gamboost")
 lrn("surv.gamboost")
 }
@@ -38,9 +38,9 @@ lrn("surv.gamboost")
 
 \itemize{
 \item Type: "surv"
-\item Predict Types: \verb{distr, crank, lp}
+\item Predict Types: \verb{distr, crank, lp, response}
 \item Feature Types: \verb{integer, numeric, factor, logical}
-\item Properties: \code{-}
+\item Properties: \verb{importance, selected_features, weights}
 \item Packages: \CRANpkg{mboost} \CRANpkg{distr6} \CRANpkg{survival}
 }
 }
@@ -93,6 +93,8 @@ Other survival learners:
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{LearnerSurvGamboost$new()}}
+\item \href{#method-importance}{\code{LearnerSurvGamboost$importance()}}
+\item \href{#method-selected_features}{\code{LearnerSurvGamboost$selected_features()}}
 \item \href{#method-clone}{\code{LearnerSurvGamboost$clone()}}
 }
 }
@@ -118,6 +120,34 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \if{html}{\out{<div class="r">}}\preformatted{LearnerSurvGamboost$new()}\if{html}{\out{</div>}}
 }
 
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-importance"></a>}}
+\if{latex}{\out{\hypertarget{method-importance}{}}}
+\subsection{Method \code{importance()}}{
+The importance scores are extracted with the function \code{\link[mboost:varimp]{mboost::varimp()}} with the
+default arguments.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerSurvGamboost$importance()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+Named \code{numeric()}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-selected_features"></a>}}
+\if{latex}{\out{\hypertarget{method-selected_features}{}}}
+\subsection{Method \code{selected_features()}}{
+Selected features are extracted with the function \code{\link[mboost:methods]{mboost::variable.names.mboost()}}, with
+\code{used.only = TRUE}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerSurvGamboost$selected_features()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+\code{character()}.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

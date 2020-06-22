@@ -5,7 +5,7 @@
 \alias{mlr_measures_surv.hungAUC}
 \title{Hung and Chiang's AUC Survival Measure}
 \description{
-Calls \code{\link[survAUC:AUC.hc]{survAUC::AUC.hc()}}.
+Calls \code{\link[survAUC:AUC.HungChiang]{survAUC::AUC.hc()}}.
 
 Assumes random censoring.
 }
@@ -17,7 +17,7 @@ measures will all be re-written and implemented directly in \code{mlr3proba}.
 \section{Dictionary}{
 
 This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvHungAUC$new()
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:mlr_sugar]{msr()}:\preformatted{MeasureSurvHungAUC$new()
 mlr_measures$get("surv.hungAUC")
 msr("surv.hungAUC")
 }

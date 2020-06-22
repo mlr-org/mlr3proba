@@ -22,7 +22,7 @@ of the \code{lambda} sequence by default, but needs to be tuned by the user.
 \section{Dictionary}{
 
 This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerSurvGlmnet$new()
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:mlr_sugar]{lrn()}:\preformatted{LearnerSurvGlmnet$new()
 mlr_learners$get("surv.glmnet")
 lrn("surv.glmnet")
 }

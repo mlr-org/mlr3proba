@@ -19,7 +19,7 @@ how \code{crank} is estimated from the predicted \code{distr}. Default is \code{
 \item{param_vals}{Additional parameters to pass to the \code{learner}.}
 }
 \value{
-\link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner}
+\link[mlr3pipelines:mlr_learners_graph]{mlr3pipelines::GraphLearner}
 }
 \description{
 This is a wrapper around the \link{PipeOpCrankCompositor} pipe operation, which

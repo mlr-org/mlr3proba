@@ -32,7 +32,7 @@ of \eqn{1}s: \eqn{lp = \beta X}{lp = \betaX}.
 \section{Dictionary}{
 
 This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerSurvFlexible$new()
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:mlr_sugar]{lrn()}:\preformatted{LearnerSurvFlexible$new()
 mlr_learners$get("surv.flexible")
 lrn("surv.flexible")
 }

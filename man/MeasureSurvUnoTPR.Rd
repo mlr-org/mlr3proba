@@ -5,7 +5,7 @@
 \alias{mlr_measures_surv.unoTPR}
 \title{Uno's TPR Survival Measure}
 \description{
-Calls \code{\link[survAUC:sens.uno]{survAUC::sens.uno()}}.
+Calls \code{\link[survAUC:AUC.uno]{survAUC::sens.uno()}}.
 
 Assumes random censoring.
 
@@ -20,7 +20,7 @@ measures will all be re-written and implemented directly in \code{mlr3proba}.
 \section{Dictionary}{
 
 This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvUnoTPR$new()
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:mlr_sugar]{msr()}:\preformatted{MeasureSurvUnoTPR$new()
 mlr_measures$get("surv.unoTPR")
 msr("surv.unoTPR")
 }

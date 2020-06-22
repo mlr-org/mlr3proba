@@ -10,7 +10,7 @@ Calls \code{\link[logspline:logspline]{logspline::logspline()}} and the result i
 \section{Dictionary}{
 
 This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerDensLogspline$new()
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:mlr_sugar]{lrn()}:\preformatted{LearnerDensLogspline$new()
 mlr_learners$get("dens.logspline")
 lrn("dens.logspline")
 }
