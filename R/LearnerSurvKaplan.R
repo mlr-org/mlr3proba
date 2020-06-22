@@ -40,8 +40,7 @@ LearnerSurvKaplan = R6Class("LearnerSurvKaplan",
 
       # Define WeightedDiscrete distr6 distribution from the survival function
       cdf = 1 - self$model$surv
-      pdf = c(cdf[1], diff(cdf))
-      x = rep(list(list(data = self$model$time, cdf = cdf, pdf = pdf)), task$nrow)
+      x = rep(list(list(x = self$model$time, cdf = cdf)), task$nrow)
       distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
                                              decorators = c("CoreStatistics", "ExoticStatistics"))
 

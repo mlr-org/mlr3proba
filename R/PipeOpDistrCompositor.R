@@ -182,9 +182,8 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
           }^-1))
         }
 
-        x = rep(list(list(data = times,
-                          cdf = numeric(length(times)),
-                          pdf = numeric(length(times)))), nr)
+        x = rep(list(list(x = times,
+                          cdf = numeric(length(times)))), nr)
 
         for (i in seq_along(times)) {
           x[[i]]$cdf = cdf[i, ]

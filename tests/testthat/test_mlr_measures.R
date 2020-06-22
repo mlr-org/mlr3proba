@@ -9,7 +9,7 @@ test_that("mlr_measures", {
     if (grepl("TNR|TPR", key)) {
       m = mlr_measures$get(key, times = 60)
     } else {
-      m = mlr_measures$get(key)
+      expect_warning({m = mlr_measures$get(key)}, "deprecated")
     }
 
     expect_measure(m)

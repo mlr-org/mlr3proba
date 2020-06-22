@@ -88,15 +88,21 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
     #'   List of hyperparameter settings, overwriting the hyperparameter settings that would
     #'   otherwise be set during construction.
     initialize = function(id = "crankcompose", param_vals = list(method = "mean")) {
+      ps = ParamSet$new(params = list(
+        ParamFct$new("method", default = "mean", levels = c("mean", "median", "mode"),
+                     tags = "predict"),
+        ParamInt$new("which", default = 1, lower = 1, tags = "predict")
+      ))
+      ps$add_dep("which", "method", CondEqual$new("mode"))
+
       super$initialize(
         id = id,
-        param_set = ParamSet$new(params = list(
-          ParamFct$new("method", default = "mean", levels = c("mean", "median", "mode"), tags = c("predict"))
-        )),
+        param_set = ps,
         param_vals = param_vals,
         input = data.table(name = "input", train = "NULL", predict = "PredictionSurv"),
         output = data.table(name = "output", train = "NULL", predict = "PredictionSurv"),
-        packages = "distr6")
+        packages = "distr6"
+        )
     },
 
     #' @description train_internal
@@ -121,7 +127,7 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
       if (length(method) == 0) method = "mean"
       crank = as.numeric(switch(method,
         median = inpred$distr$median(),
-        mode = inpred$distr$mode(),
+        mode = inpred$distr$mode(self$param_set$values$which),
         inpred$distr$mean()
       ))
 

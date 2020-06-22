@@ -6,6 +6,8 @@
 #' @param learner [LearnerSurv] object for which a `crank` is composed (or over-written)
 #' @param method One of `mean`, `mode`, or `median`; abbreviations allowed. Used to determine
 #' how `crank` is estimated from the predicted `distr`. Default is `mean`.
+#' @param which If `method = "mode"` then specifies which mode to use if multi-modal, default
+#' is the first.
 #' @param param_vals Additional parameters to pass to the `learner`.
 #' @details For full details see [PipeOpCrankCompositor].
 #' @return [mlr3pipelines::GraphLearner]
@@ -21,11 +23,12 @@
 #' resample(task, ranger.crank, rsmp("cv", folds = 2))$predictions()
 #' }
 #' @export
-crankcompositor = function(learner, method = c("mean", "median", "mode"), param_vals = list()) {
+crankcompositor = function(learner, method = c("mean", "median", "mode"), which = 1,
+                           param_vals = list()) {
   assert("distr" %in% learner$predict_types)
 
   pred = po("learner", learner, param_vals = param_vals)
-  compositor = po("crankcompose", param_vals = list(method = match.arg(method)))
+  compositor = po("crankcompose", param_vals = list(method = match.arg(method), which = which))
 
   GraphLearner$new(pred %>>% compositor)
 }
