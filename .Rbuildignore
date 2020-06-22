@@ -20,3 +20,5 @@ cran\-comments\.md
 ^\.github$
 ^clang-.*
 ^sandbox$
+README.html
+^\.vscode$
