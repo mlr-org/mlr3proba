@@ -17,18 +17,22 @@
 #' library(mlr3pipelines)
 #'
 #' task = tgen("simsurv")$generate(20)
-#' ranger.crank = crankcompositor(
+#' cox.crank = crankcompositor(
 #'   learner = lrn("surv.coxph"),
 #'   method = "median")
-#' resample(task, ranger.crank, rsmp("cv", folds = 2))$predictions()
+#' resample(task, cox.crank, rsmp("cv", folds = 2))$predictions()
 #' }
 #' @export
-crankcompositor = function(learner, method = c("mean", "median", "mode"), which = 1,
+crankcompositor = function(learner, method = c("mean", "median", "mode"), which = NULL,
                            param_vals = list()) {
   assert("distr" %in% learner$predict_types)
 
   pred = po("learner", learner, param_vals = param_vals)
-  compositor = po("crankcompose", param_vals = list(method = match.arg(method), which = which))
+  pv = list(method = match.arg(method))
+  if (!is.null(which)) {
+    pv$which = which
+  }
+  compositor = po("crankcompose", param_vals = pv)
 
   GraphLearner$new(pred %>>% compositor)
 }

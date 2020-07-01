@@ -48,26 +48,18 @@ Imports:
     survival
 Suggests:
     bibtex,
-    gbm,
     ggplot2,
-    glmnet,
     knitr,
     lgr,
     Matrix,
-    mboost,
     mlr3tuning,
-    pec,
     pracma,
-    randomForestSRC,
-    ranger,
-    riskRegression,
     rmarkdown,
     rpart,
     set6,
     simsurv,
     survAUC,
-    testthat,
-    xgboost
+    testthat
 Remotes:
     alan-turing-institute/distr6
 LinkingTo: Rcpp

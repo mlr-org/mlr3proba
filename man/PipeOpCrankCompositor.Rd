@@ -78,17 +78,17 @@ poc$predict(list(learn))
 \dontrun{
 # Method 2 - Create a graph manually
 gr = Graph$new()$
-  add_pipeop(po("learner", lrn("surv.ranger")))$
+  add_pipeop(po("learner", lrn("surv.coxph")))$
   add_pipeop(po("crankcompose"))$
-  add_edge("surv.ranger", "crankcompose")
+  add_edge("surv.coxph", "crankcompose")
 gr$train(task)
 gr$predict(task)
 
 # Method 3 - Syntactic sugar: Wrap the learner in a graph
-ranger.crank = crankcompositor(
-  learner = lrn("surv.ranger"),
+cox.crank = crankcompositor(
+  learner = lrn("surv.coxph"),
   method = "median")
-resample(task, ranger.crank, rsmp("cv", folds = 2))$predictions()
+resample(task, cox.crank, rsmp("cv", folds = 2))$predictions()
 }
 }
 \seealso{

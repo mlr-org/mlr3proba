@@ -7,7 +7,7 @@
 crankcompositor(
   learner,
   method = c("mean", "median", "mode"),
-  which = 1,
+  which = NULL,
   param_vals = list()
 )
 }
@@ -38,9 +38,9 @@ library(mlr3)
 library(mlr3pipelines)
 
 task = tgen("simsurv")$generate(20)
-ranger.crank = crankcompositor(
+cox.crank = crankcompositor(
   learner = lrn("surv.coxph"),
   method = "median")
-resample(task, ranger.crank, rsmp("cv", folds = 2))$predictions()
+resample(task, cox.crank, rsmp("cv", folds = 2))$predictions()
 }
 }

@@ -102,18 +102,19 @@ pod$predict(list(base = base, pred = pred))
 # Method 2 - Create a graph manually
 gr = Graph$new()$
   add_pipeop(po("learner", lrn("surv.kaplan")))$
-  add_pipeop(po("learner", lrn("surv.glmnet")))$
+  add_pipeop(po("learner", lrn("surv.coxph")))$
   add_pipeop(po("distrcompose"))$
   add_edge("surv.kaplan", "distrcompose", dst_channel = "base")$
-  add_edge("surv.glmnet", "distrcompose", dst_channel = "pred")
-gr$train(task)$gr$predict(task)
+  add_edge("surv.coxph", "distrcompose", dst_channel = "pred")
+gr$train(task)
+gr$predict(task)
 
 # Method 3 - Syntactic sugar: Wrap the learner in a graph.
-cvglm.distr = distrcompositor(
-  learner = lrn("surv.cvglmnet"),
+cox.distr = distrcompositor(
+  learner = lrn("surv.coxph"),
   estimator = "kaplan",
   form = "aft")
-cvglm.distr$fit(task)$predict(task)
+cox.distr$train(task)$predict(task)
 }
 }
 \seealso{
