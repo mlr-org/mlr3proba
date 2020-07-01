@@ -7,6 +7,7 @@
 crankcompositor(
   learner,
   method = c("mean", "median", "mode"),
+  which = 1,
   param_vals = list()
 )
 }
@@ -15,6 +16,9 @@ crankcompositor(
 
 \item{method}{One of \code{mean}, \code{mode}, or \code{median}; abbreviations allowed. Used to determine
 how \code{crank} is estimated from the predicted \code{distr}. Default is \code{mean}.}
+
+\item{which}{If \code{method = "mode"} then specifies which mode to use if multi-modal, default
+is the first.}
 
 \item{param_vals}{Additional parameters to pass to the \code{learner}.}
 }
