@@ -5,7 +5,7 @@
 - `LearnerSurvMboost`, `LearnerSurvGlmBoost`, `LearnerSurvGamboost`, `LearnerSurvBlackboost` have been moved to www.github.com/mlr3learners/mlr3learners.mboost
 - `MeasureSurvCindex` added. Generalises all c-index measures with a fast C++ implementation
 - The following measures are deprecated use `MeasureSurvCindex` instead with following parameters: `MeasureSurvBeggC`, use defaults; `MeasureSurvHarrellC`, use defaults; `MeasureSurvUnoC`, use `weight_meth = 'G/2'`; `MeasureSurvGonenC`, use `weight_method = 'GH'`
-_ `MeasureSurvGraf` and `MeasureSurvIntLogloss` now have much faster C++ implementation
+-  `MeasureSurvGraf` and `MeasureSurvIntLogloss` now have much faster C++ implementation
 
 # mlr3proba 0.1.6
 

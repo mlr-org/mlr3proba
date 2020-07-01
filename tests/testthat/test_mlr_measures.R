@@ -1,5 +1,3 @@
-context("mlr_measures")
-
 task = TaskGeneratorSimsurv$new()$generate(20)
 
 test_that("mlr_measures", {
@@ -9,7 +7,11 @@ test_that("mlr_measures", {
     if (grepl("TNR|TPR", key)) {
       m = mlr_measures$get(key, times = 60)
     } else {
-      expect_warning({m = mlr_measures$get(key)}, "deprecated")
+      if (key %in% c("surv.beggC", "surv.gonenC", "surv.harrellC", "surv.unoC")) {
+        expect_warning({m = mlr_measures$get(key)}, "deprecated")
+      } else {
+        m = mlr_measures$get(key)
+      }
     }
 
     expect_measure(m)
