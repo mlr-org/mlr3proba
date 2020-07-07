@@ -3,6 +3,7 @@
 - `LearnerSurvGlmnet`, `LearnerSurvCVGlmnet`, `LearnerSurvXgboost` and `LearnerSurvRanger` have been moved to the [mlr3learners repo](www.github.com/mlr-org/mlr3learners)
 - `LearnerSurvGBM` has been moved to www.github.com/mlr3learners/mlr3learners.gbm
 - `LearnerSurvMboost`, `LearnerSurvGlmBoost`, `LearnerSurvGamboost`, `LearnerSurvBlackboost` have been moved to www.github.com/mlr3learners/mlr3learners.mboost
+- Akritas estimator added to [mlr3learners.proba repo](www.github.com/mlr3learners/mlr3learners.proba)
 
 # mlr3proba 0.1.6
 

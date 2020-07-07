@@ -2,6 +2,8 @@
 #' @templateVar title Standard Error of Integrated Graf Score
 #' @templateVar fullname MeasureSurvGrafSE
 #'
+#' @aliases MeasureSurvBrierSE mlr_measures_surv.brier_se
+#'
 #' @description
 #' Calculates the standard error of [MeasureSurvGraf].
 #'

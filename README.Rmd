@@ -84,6 +84,7 @@ for instructions in how to install learners from the [mlr3learners organisation]
 
 | ID | Learner | Package |
 | :--| :------ | :------ |
+| [surv.akritas](https://github.com/mlr3learners/mlr3learners.proba) | Akritas Conditional Non-Parametric Estimator |  [mlr3learners.proba](https://github.com/mlr3learners/mlr3learners.proba) |
 | [surv.blackboost](https://mlr3proba.mlr-org.com/reference/LearnerSurvBlackboost.html) | Gradient Boosting with Regression Trees |  [mboost](https://CRAN.R-project.org/package=mboost) |
 | [surv.coxboost](https://github.com/mlr3learners/mlr3learners.coxboost) | Cox Model with Likelihood Based Boosting |  [CoxBoost](https://CRAN.R-project.org/package=CoxBoost) |
 | [surv.coxph](https://mlr3proba.mlr-org.com/reference/LearnerSurvCoxPH.html) | Cox Proportional Hazards | [survival](https://CRAN.R-project.org/package=survival) |
