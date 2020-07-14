@@ -7,7 +7,8 @@
 \description{
 A \link[mlr3:TaskGenerator]{mlr3::TaskGenerator} calling \code{\link[simsurv:simsurv]{simsurv::simsurv()}} from package \CRANpkg{simsurv}.
 
-This generator currently only exposes a small subset of the flexibility of \CRANpkg{simsurv}, and just creates a small data set with the following numerical covariates:
+This generator currently only exposes a small subset of the flexibility of \CRANpkg{simsurv},
+and just creates a small data set with the following numerical covariates:
 \itemize{
 \item \code{treatment}: Bernoulli distributed with log hazard ratio \code{-0.5}.
 \item \code{height}: Normally distributed with log hazard ratio \code{1}.

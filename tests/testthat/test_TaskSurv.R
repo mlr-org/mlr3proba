@@ -16,7 +16,8 @@ test_that("right censoring", {
 
 test_that("left censoring", {
   expect_silent({
-    task = TaskSurv$new("left", backend = survival::rats, time = "time", event = "status", type = "left")
+    task = TaskSurv$new("left", backend = survival::rats, time = "time", event = "status",
+                        type = "left")
   })
   expect_equal(task$censtype, "left")
   expect_equal(task$formula(), as.formula(Surv(time, status, type = "left") ~ .))

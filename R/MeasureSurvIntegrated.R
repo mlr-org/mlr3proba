@@ -15,7 +15,8 @@ MeasureSurvIntegrated = R6Class("MeasureSurvIntegrated",
   inherit = MeasureSurv,
   public = list(
     #' @description This is an abstract class that should not be constructed directly.
-    initialize = function(integrated = TRUE, times, method = 2, id, range, minimize, packages, predict_type, properties = character(), man = NA_character_) {
+    initialize = function(integrated = TRUE, times, method = 2, id, range, minimize, packages,
+                          predict_type, properties = character(), man = NA_character_) {
       if (class(self)[[1]] == "MeasureSurvIntegrated") {
         stop("This is an abstract class that should not be constructed directly.")
       }
@@ -66,9 +67,7 @@ MeasureSurvIntegrated = R6Class("MeasureSurvIntegrated",
       } else {
         assertFlag(integrated)
         if (!integrated & length(self$times) > 1) {
-          stop(sprintf(
-            "For the non-integrated score, only a single time-point can be returned. Currently self$times = %s",
-            paste0("c(", paste0(self$times, collapse = ", "), ").")))
+          stop(sprintf("For the non-integrated score, only a single time-point can be returned. Currently self$times = %s", paste0("c(", paste0(self$times, collapse = ", "), ")."))) # nolint
         }
         private$.integrated = integrated
       }

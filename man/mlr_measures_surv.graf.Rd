@@ -11,13 +11,14 @@ Calculates the Integrated Graf Score, aka integrated Brier score or squared loss
 
 For an individual who dies at time \eqn{t}, with predicted Survival function, \eqn{S}, the
 Graf Score at time \eqn{t^*}{t*} is given by
-\deqn{L(S,t|t^*) = [(S(t^*)^2)I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*))^2)I(t > t^*)(1/G(t^*))]}{L(S,t|t*) = [(S(t*)^2)I(t \le t*, \delta = 1)(1/G(t))] + [((1 - S(t*))^2)I(t > t*)(1/G(t*))]}
+\deqn{L(S,t|t^*) = [(S(t^*)^2)I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*))^2)I(t > t^*)(1/G(t^*))]}{L(S,t|t*) = [(S(t*)^2)I(t \le t*, \delta = 1)(1/G(t))] + [((1 - S(t*))^2)I(t > t*)(1/G(t*))]} # nolint
 where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
 
 Note: If comparing the integrated graf score to other packages, e.g. \code{\link[pec:pec]{pec::pec()}}, then
-\code{method = 2} should be used, however the results may still be very slightly different as
-this package uses \code{survfit} to estimate the censoring distribution, in line with the Graf 1999 paper.
-Whereas some other packages use \code{prodlim} with \code{reverse = TRUE} (meaning Kaplan-Meier is not used).
+\code{method = 2} should be used. However the results may still be very slightly different as
+this package uses \code{survfit} to estimate the censoring distribution, in line with the Graf 1999
+paper; whereas some other packages use \code{prodlim} with \code{reverse = TRUE} (meaning Kaplan-Meier is
+not used).
 
 If \code{integrated == FALSE} then the sample mean is taken for the single specified \code{times}, \eqn{t^*}{t*}, and the returned
 score is given by
@@ -33,7 +34,7 @@ between time-points (\code{method == 2}). Then the sample mean is taken over all
 \section{Dictionary}{
 
 This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:mlr_sugar]{msr()}:\preformatted{MeasureSurvGraf$new()
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvGraf$new()
 mlr_measures$get("surv.graf")
 msr("surv.graf")
 }
@@ -72,6 +73,8 @@ Other survival measures:
 \code{\link{mlr_measures_surv.oquigleyR2}},
 \code{\link{mlr_measures_surv.rmseSE}},
 \code{\link{mlr_measures_surv.rmse}},
+\code{\link{mlr_measures_surv.schmid_se}},
+\code{\link{mlr_measures_surv.schmid}},
 \code{\link{mlr_measures_surv.songAUC}},
 \code{\link{mlr_measures_surv.songTNR}},
 \code{\link{mlr_measures_surv.songTPR}},
@@ -86,14 +89,18 @@ Other Probabilistic survival measures:
 \code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
 \code{\link{mlr_measures_surv.loglossSE}},
-\code{\link{mlr_measures_surv.logloss}}
+\code{\link{mlr_measures_surv.logloss}},
+\code{\link{mlr_measures_surv.schmid_se}},
+\code{\link{mlr_measures_surv.schmid}}
 
 Other distr survival measures: 
 \code{\link{mlr_measures_surv.grafSE}},
 \code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
 \code{\link{mlr_measures_surv.loglossSE}},
-\code{\link{mlr_measures_surv.logloss}}
+\code{\link{mlr_measures_surv.logloss}},
+\code{\link{mlr_measures_surv.schmid_se}},
+\code{\link{mlr_measures_surv.schmid}}
 }
 \concept{Probabilistic survival measures}
 \concept{distr survival measures}

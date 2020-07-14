@@ -10,8 +10,8 @@ This Learner specializes \link{Learner} for density estimation problems:
 \item Creates \link{Prediction}s of class \link{PredictionDens}.
 \item Possible values for \code{predict_types} are:
 \itemize{
-\item \code{"pdf"}: Evaluates the estimated probability density function for each value in the test set.
-\item \code{"se"}: Evaluates the estimated cumulative distribution function for each value in the test set.
+\item \code{"pdf"}: Evaluates estimated probability density function for each value in the test set.
+\item \code{"cdf"}: Evaluates estimated cumulative distribution function for each value in the test set.
 }
 }
 }

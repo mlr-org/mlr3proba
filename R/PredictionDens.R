@@ -29,13 +29,14 @@ PredictionDens = R6Class("PredictionDens",
     #'   True (observed) response.
     #'
     #' @param pdf (`numeric()`)\cr
-    #'   Numeric vector of estimated probability density function, evaluated at 'target' column of test set.
-    #'   One element for each observation in the test set.
+    #'   Numeric vector of estimated probability density function, evaluated at 'target' column of
+    #'   test set. One element for each observation in the test set.
     #'
     #' @param cdf (`numeric()`)\cr
-    #'   Numeric vector of estimated cumulative distribution function, evaluated at 'target' column of test set.
-    #'   One element for each observation in the test set.
-    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), pdf = NULL, cdf = NULL) {
+    #'   Numeric vector of estimated cumulative distribution function, evaluated at 'target' column
+    #'   of test set. One element for each observation in the test set.
+    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), pdf = NULL,
+                          cdf = NULL) {
 
       assert_row_ids(row_ids)
       n = length(row_ids)
@@ -92,7 +93,7 @@ PredictionDens = R6Class("PredictionDens",
 
 
 #' @export
-as.data.table.PredictionDens = function(x, ...) {
+as.data.table.PredictionDens = function(x, ...) { # nolint
   copy(x$data$tab)
 }
 

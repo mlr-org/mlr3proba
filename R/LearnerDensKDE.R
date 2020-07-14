@@ -46,7 +46,8 @@ LearnerDensKDE = R6::R6Class("LearnerDensKDE",
         ShortName == self$param_set$values$kernel,
         ClassName)))$new()
       bw = ifelse(self$param_set$values$bandwidth == "silver",
-        0.9 * min(sd(task$truth()), IQR(task$truth(), na.rm = TRUE) / 1.349, na.rm = TRUE) * length(task$truth())^(-0.2),
+        0.9 * min(sd(task$truth()), IQR(task$truth(), na.rm = TRUE) / 1.349, na.rm = TRUE) *
+          length(task$truth())^-0.2,
         self$param_set$values$bandwidth)
 
       pdf = function(x1) {} #nolint

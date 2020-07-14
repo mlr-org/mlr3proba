@@ -8,7 +8,8 @@
 #' @details Only the `eruptions` column is kept in this task.
 NULL
 load_faithful = function(id = "faithful") {
-  b = as_data_backend(data.table::data.table(precip = load_dataset("faithful", "datasets", keep_rownames = TRUE)$eruptions))
+  b = as_data_backend(data.table::data.table(precip = load_dataset("faithful", "datasets",
+                                                                   keep_rownames = TRUE)$eruptions))
   b$hash = "_mlr3_tasks_faithful_"
   TaskDens$new(id, b, target = "precip")
 }

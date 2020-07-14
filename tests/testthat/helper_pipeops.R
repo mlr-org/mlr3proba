@@ -52,7 +52,8 @@ expect_pipeop = function(po) {
   expect_int(po$innum, lower = 1)
   expect_int(po$outnum, lower = 1)
   # at least one of "train" or "predict" must be in every parameter's tag
-  testthat::expect_true(every(po$param_set$tags, function(x) length(intersect(c("train", "predict"), x)) > 0))
+  testthat::expect_true(every(po$param_set$tags, function(x)
+    length(intersect(c("train", "predict"), x)) > 0))
 
 }
 
@@ -119,10 +120,12 @@ expect_deep_clone = function(one, two) {
       }
     }
     for (i in index) {
-      if (utils::tail(path, 1) == "[attributes]" && i %in% c("srcref", "srcfile", ".Environment")) next
+      if (utils::tail(path, 1) == "[attributes]" && i %in% c("srcref", "srcfile", ".Environment"))
+        next
       expect_references_differ(base::`[[`(a, i), base::`[[`(b, i), c(path, sprintf(
         "[element %s]%s", i,
-        if (!is.null(objnames)) sprintf(" '%s'", if (is.character(index)) i else objnames[[i]]) else "")))
+        if (!is.null(objnames)) sprintf(" '%s'", if (is.character(index)) i else objnames[[i]])
+        else "")))
     }
   }
   expect_references_differ(one, two, "ROOT")

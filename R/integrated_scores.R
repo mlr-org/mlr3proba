@@ -13,9 +13,20 @@ weighted_logloss = function(truth, distribution, times, eps = 1e-15, ...) {
   weighted_survival_score(truth, distribution, times, logloss, eps = eps)
 }
 
+weighted_schmid = function(truth, distribution, times, ...) {
+  # unweighted schmid score at time t* as G(t*) = (I(t > t*) - S(t*))
+  schmid = function(alive, distribution, unique_times) {
+    (alive - transpose(1 - distribution$cdf(unique_times)))
+  }
+
+  weighted_survival_score(truth, distribution, times, schmid)
+}
+
 weighted_graf = function(truth, distribution, times, ...) {
   # unweighted graf score at time t* as G(t*) = (I(t > t*) - S(t*))^2
-  graf = function(alive, distribution, unique_times) (alive - transpose(1 - distribution$cdf(unique_times)))^2
+  graf = function(alive, distribution, unique_times) {
+    (alive - transpose(1 - distribution$cdf(unique_times)))^2
+  }
 
   weighted_survival_score(truth, distribution, times, graf)
 }

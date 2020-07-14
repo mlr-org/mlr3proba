@@ -4,8 +4,8 @@
 \alias{TaskSurv}
 \title{Survival Task}
 \description{
-This task specializes \link[mlr3:Task]{mlr3::Task} and \link[mlr3:TaskSupervised]{mlr3::TaskSupervised} for possibly-censored survival problems.
-The target is comprised of survival times and an event indicator.
+This task specializes \link[mlr3:Task]{mlr3::Task} and \link[mlr3:TaskSupervised]{mlr3::TaskSupervised} for possibly-censored survival
+problems. The target is comprised of survival times and an event indicator.
 Predefined tasks are stored in \link[mlr3:mlr_tasks]{mlr3::mlr_tasks}.
 
 The \code{task_type} is set to \code{"surv"}.
@@ -36,7 +36,8 @@ Other Task:
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{censtype}}{\code{character(1)}\cr
-Returns the type of censoring, one of "right", "left", "counting", "interval", "interval2" or "mstate".}
+Returns the type of censoring, one of "right", "left", "counting", "interval", "interval2"
+or "mstate".}
 }
 \if{html}{\out{</div>}}
 }

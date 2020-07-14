@@ -1,22 +1,14 @@
 #' @template surv_measure
-#' @templateVar title Integrated Graf Score
-#' @templateVar fullname MeasureSurvGraf
-#'
-#' @aliases MeasureSurvBrier mlr_measures_surv.brier
+#' @templateVar title Integrated Schmid Score
+#' @templateVar fullname MeasureSurvSchmid
 #'
 #' @description
-#' Calculates the Integrated Graf Score, aka integrated Brier score or squared loss.
+#' Calculates the Integrated Schmid Score, aka integrated absolute loss.
 #'
 #' For an individual who dies at time \eqn{t}, with predicted Survival function, \eqn{S}, the
-#' Graf Score at time \eqn{t^*}{t*} is given by
-#' \deqn{L(S,t|t^*) = [(S(t^*)^2)I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*))^2)I(t > t^*)(1/G(t^*))]}{L(S,t|t*) = [(S(t*)^2)I(t \le t*, \delta = 1)(1/G(t))] + [((1 - S(t*))^2)I(t > t*)(1/G(t*))]} # nolint
+#' Schmid Score at time \eqn{t^*}{t*} is given by
+#' \deqn{L(S,t|t^*) = [(S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*)))I(t > t^*)(1/G(t^*))]}{L(S,t|t*) = [(S(t*))I(t \le t*, \delta = 1)(1/G(t))] + [((1 - S(t*)))I(t > t*)(1/G(t*))]} # nolint
 #' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
-#'
-#' Note: If comparing the integrated graf score to other packages, e.g. [pec::pec()], then
-#' `method = 2` should be used. However the results may still be very slightly different as
-#' this package uses `survfit` to estimate the censoring distribution, in line with the Graf 1999
-#' paper; whereas some other packages use `prodlim` with `reverse = TRUE` (meaning Kaplan-Meier is
-#' not used).
 #'
 #' @template measure_integrated
 #' @template param_integrated
@@ -24,12 +16,13 @@
 #' @template param_method
 #'
 #' @references
-#' \cite{mlr3proba}{graf_1999}
+#' \cite{mlr3proba}{schemper_2000}
+#' \cite{mlr3proba}{schmid_2011}
 #'
 #' @family Probabilistic survival measures
 #' @family distr survival measures
 #' @export
-MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
+MeasureSurvSchmid = R6::R6Class("MeasureSurvSchmid",
   inherit = MeasureSurvIntegrated,
   public = list(
     #' @description
@@ -39,12 +32,12 @@ MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
         integrated = integrated,
         times = times,
         method = method,
-        id = "surv.graf",
+        id = "surv.schmid",
         range = c(0, Inf),
         minimize = TRUE,
         packages = "distr6",
         predict_type = "distr",
-        man = "mlr3proba::mlr_measures_surv.graf"
+        man = "mlr3proba::mlr_measures_surv.schmid"
       )
     }
   ),
@@ -52,7 +45,7 @@ MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
   private = list(
     .score = function(prediction, ...) {
       integrated_score(
-        score = weighted_graf(
+        score = weighted_schmid(
           truth = prediction$truth,
           distribution = prediction$distr,
           times = self$times),

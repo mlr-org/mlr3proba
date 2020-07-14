@@ -5,18 +5,19 @@
 \alias{MeasureSurvLoglossSE}
 \title{Standard Error of Log loss Survival Measure}
 \description{
-Calculates the standard error of \code{\link[=MeasureSurvLogloss]{MeasureSurvLogloss()}}.
+Calculates the standard error of \link{MeasureSurvLogloss}.
 
 The standard error of the Logloss, L, is approximated via,
 \deqn{se(L) = sd(L)/\sqrt{N}}{se(L) = sd(L)/\sqrt N}
-where \eqn{N} are the number of observations in the test set, and \eqn{sd} is the standard deviation.
+where \eqn{N} are the number of observations in the test set, and \eqn{sd} is the standard
+deviation.
 
 Censored observations in the test set are ignored.
 }
 \section{Dictionary}{
 
 This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:mlr_sugar]{msr()}:\preformatted{MeasureSurvLoglossSE$new()
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvLoglossSE$new()
 mlr_measures$get("surv.loglossSE")
 msr("surv.loglossSE")
 }
@@ -52,6 +53,8 @@ Other survival measures:
 \code{\link{mlr_measures_surv.oquigleyR2}},
 \code{\link{mlr_measures_surv.rmseSE}},
 \code{\link{mlr_measures_surv.rmse}},
+\code{\link{mlr_measures_surv.schmid_se}},
+\code{\link{mlr_measures_surv.schmid}},
 \code{\link{mlr_measures_surv.songAUC}},
 \code{\link{mlr_measures_surv.songTNR}},
 \code{\link{mlr_measures_surv.songTPR}},
@@ -66,14 +69,18 @@ Other Probabilistic survival measures:
 \code{\link{mlr_measures_surv.graf}},
 \code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.logloss}}
+\code{\link{mlr_measures_surv.logloss}},
+\code{\link{mlr_measures_surv.schmid_se}},
+\code{\link{mlr_measures_surv.schmid}}
 
 Other distr survival measures: 
 \code{\link{mlr_measures_surv.grafSE}},
 \code{\link{mlr_measures_surv.graf}},
 \code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.logloss}}
+\code{\link{mlr_measures_surv.logloss}},
+\code{\link{mlr_measures_surv.schmid_se}},
+\code{\link{mlr_measures_surv.schmid}}
 }
 \concept{Probabilistic survival measures}
 \concept{distr survival measures}

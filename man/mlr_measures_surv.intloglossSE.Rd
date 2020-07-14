@@ -18,7 +18,7 @@ where \eqn{\Sigma_{i, j}}{cov(T_i, T_j)} is the sample covariance matrix over \e
 \section{Dictionary}{
 
 This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:mlr_sugar]{msr()}:\preformatted{MeasureSurvIntLoglossSE$new()
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvIntLoglossSE$new()
 mlr_measures$get("surv.intloglossSE")
 msr("surv.intloglossSE")
 }
@@ -57,6 +57,8 @@ Other survival measures:
 \code{\link{mlr_measures_surv.oquigleyR2}},
 \code{\link{mlr_measures_surv.rmseSE}},
 \code{\link{mlr_measures_surv.rmse}},
+\code{\link{mlr_measures_surv.schmid_se}},
+\code{\link{mlr_measures_surv.schmid}},
 \code{\link{mlr_measures_surv.songAUC}},
 \code{\link{mlr_measures_surv.songTNR}},
 \code{\link{mlr_measures_surv.songTPR}},
@@ -71,14 +73,18 @@ Other Probabilistic survival measures:
 \code{\link{mlr_measures_surv.graf}},
 \code{\link{mlr_measures_surv.intlogloss}},
 \code{\link{mlr_measures_surv.loglossSE}},
-\code{\link{mlr_measures_surv.logloss}}
+\code{\link{mlr_measures_surv.logloss}},
+\code{\link{mlr_measures_surv.schmid_se}},
+\code{\link{mlr_measures_surv.schmid}}
 
 Other distr survival measures: 
 \code{\link{mlr_measures_surv.grafSE}},
 \code{\link{mlr_measures_surv.graf}},
 \code{\link{mlr_measures_surv.intlogloss}},
 \code{\link{mlr_measures_surv.loglossSE}},
-\code{\link{mlr_measures_surv.logloss}}
+\code{\link{mlr_measures_surv.logloss}},
+\code{\link{mlr_measures_surv.schmid_se}},
+\code{\link{mlr_measures_surv.schmid}}
 }
 \concept{Probabilistic survival measures}
 \concept{distr survival measures}
