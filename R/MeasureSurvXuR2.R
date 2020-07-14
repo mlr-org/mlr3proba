@@ -35,7 +35,7 @@ MeasureSurvXuR2 = R6Class("MeasureSurvXuR2",
     .score = function(prediction, task, train_set, ...) {
       surv_train = task$truth(train_set)
 
-      survAUC::XO(surv_train, prediction$lp, rep(0, length(prediction$lp)))
+      survAUC::XO(surv_train, prediction$lp, numeric(length(prediction$lp)))
     }
   )
 )

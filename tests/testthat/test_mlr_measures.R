@@ -1,5 +1,6 @@
 context("mlr_measures")
 
+set.seed(1)
 task = TaskGeneratorSimsurv$new()$generate(20)
 
 test_that("mlr_measures", {
