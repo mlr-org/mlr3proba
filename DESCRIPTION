@@ -93,6 +93,8 @@ Collate:
     'MeasureSurvIntegrated.R'
     'MeasureSurvAUC.R'
     'MeasureSurvBeggC.R'
+    'MeasureSurvCalibrationAlpha.R'
+    'MeasureSurvCalibrationBeta.R'
     'MeasureSurvChamblessAUC.R'
     'MeasureSurvGonenHellersC.R'
     'MeasureSurvGraf.R'

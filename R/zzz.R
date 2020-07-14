@@ -93,6 +93,9 @@ register_mlr3 = function() {
   x$add("surv.gonenC", MeasureSurvGonenC)
   x$add("surv.beggC", MeasureSurvBeggC)
 
+  x$add("surv.calib_beta", MeasureSurvCalibrationBeta)
+  x$add("surv.calib_alpha", MeasureSurvCalibrationAlpha)
+
   x$add("surv.nagelkR2", MeasureSurvNagelkR2)
   x$add("surv.oquigleyR2", MeasureSurvOQuigleyR2)
   x$add("surv.xuR2", MeasureSurvXuR2)

@@ -32,6 +32,8 @@ msr("surv.harrellC")
 \seealso{
 Other survival measures: 
 \code{\link{mlr_measures_surv.beggC}},
+\code{\link{mlr_measures_surv.calib_alpha}},
+\code{\link{mlr_measures_surv.calib_beta}},
 \code{\link{mlr_measures_surv.chamblessAUC}},
 \code{\link{mlr_measures_surv.gonenC}},
 \code{\link{mlr_measures_surv.grafSE}},

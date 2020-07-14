@@ -1,0 +1,66 @@
+#' @template surv_measure
+#' @templateVar title Van Houwelingen's Alpha
+#' @templateVar fullname MeasureSurvCalibrationAlpha
+#'
+#' @description
+#' This calibration method is defined by estimating
+#' \deqn{\alpha = \sum \delta_i / \sum H_i(t_i)}
+#' where \eqn{\delta} is the observed censoring indicator from the test data, \eqn{H_i} is the
+#' predicted cumulative hazard, and \eqn{t_i} is the observed survival time.
+#'
+#' The standard error is given by
+#' \deqn{exp(1/\sqrt{\sum \delta_i})}
+#'
+#' The model is well calibrated if the estimated \eqn{\alpha} coefficient is equal to 1.
+#'
+#' @references
+#' \cite{mlr3proba}{vanhouwelingen_2000}
+#'
+#' @family calibration survival measures
+#' @family distr survival measures
+#' @export
+MeasureSurvCalibrationAlpha = R6Class("MeasureSurvCalibrationAlpha",
+  inherit = MeasureSurv,
+  public = list(
+    #' @description Creates a new instance of this [R6][R6::R6Class] class.
+    #' @param se `(logical(1))` \cr
+    #' If `TRUE` returns the standard error of the measure.
+    initialize = function(se = FALSE) {
+      private$.se = assertFlag(se)
+      super$initialize(
+        id = "surv.calib_alpha",
+        range = c(-Inf, Inf),
+        minimize = FALSE,
+        predict_type = "distr",
+        man = "mlr3proba::mlr_measures_surv.calib_alpha"
+      )
+    }
+  ),
+
+  active = list(
+    #' @field se `(logical(1))` \cr
+    #' If `TRUE` returns the standard error of the measure.
+    se = function(x) {
+      if (missing(x)) {
+        private$.se = assertFlag(se)
+      } else {
+        return(private$.se)
+      }
+    }
+  ),
+
+  private = list(
+    .score = function(prediction, ...) {
+      deaths = sum(prediction$truth[, 2])
+
+      if (private$.se) {
+        return(exp(1/sqrt(deaths)))
+      } else {
+        return(deaths /
+                 sum(prediction$distr$cumHazard(data = matrix(prediction$truth[,1], nrow = 1)))
+        )
+      }
+    },
+    .se = FALSE
+  )
+)

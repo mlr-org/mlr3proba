@@ -39,6 +39,8 @@ msr("surv.gonenC")
 \seealso{
 Other survival measures: 
 \code{\link{mlr_measures_surv.beggC}},
+\code{\link{mlr_measures_surv.calib_alpha}},
+\code{\link{mlr_measures_surv.calib_beta}},
 \code{\link{mlr_measures_surv.chamblessAUC}},
 \code{\link{mlr_measures_surv.grafSE}},
 \code{\link{mlr_measures_surv.graf}},
@@ -74,6 +76,7 @@ Other Concordance survival measures:
 
 Other lp survival measures: 
 \code{\link{mlr_measures_surv.beggC}},
+\code{\link{mlr_measures_surv.calib_beta}},
 \code{\link{mlr_measures_surv.chamblessAUC}},
 \code{\link{mlr_measures_surv.hungAUC}},
 \code{\link{mlr_measures_surv.nagelkR2}},
