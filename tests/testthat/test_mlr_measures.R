@@ -1,22 +1,36 @@
 context("mlr_measures")
-
+library(mlr3learners.survival)
 set.seed(1)
 task = TaskGeneratorSimsurv$new()$generate(20)
+learner = lrn("surv.coxph")$train(task)
+pred = learner$predict(task)
+pred_resp = LearnerSurvParametric$new()$train(task)$predict(task)
 
 test_that("mlr_measures", {
   keys = mlr_measures$keys("^surv")
 
   for (key in keys) {
     if (grepl("TNR|TPR", key)) {
-      m = mlr_measures$get(key, times = 60)
+      m = msr(key, times = 60)
     } else {
-      m = mlr_measures$get(key)
+      m = msr(key)
     }
 
     expect_measure(m)
 
-    perf = mlr_learners$get("surv.coxph")$train(task)$predict(task)$score()
+    if (m$predict_type == "response") {
+      perf = pred_resp$score(m, task = task, train_set = seq(task$nrow), learner = learner)
+    } else {
+      perf = pred$score(m, task = task, train_set = seq(task$nrow), learner = learner)
+    }
+
     expect_number(perf, na.ok = "na_score" %in% m$properties)
+
+    if (key %in% c("surv.calib_alpha", "surv.calib_beta")) {
+      m = msr(key, se = TRUE)
+      perf = pred$score(m, task = task, train_set = seq(task$nrow), learner = learner)
+      expect_number(perf, na.ok = "na_score" %in% m$properties)
+    }
   }
 })
 
