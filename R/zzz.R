@@ -81,6 +81,8 @@ register_mlr3 = function() {
 
   x$add("surv.graf", MeasureSurvGraf)
   x$add("surv.grafSE", MeasureSurvGrafSE)
+  x$add("surv.schmid", MeasureSurvSchmid)
+  x$add("surv.schmid_se", MeasureSurvSchmidSE)
   x$add("surv.logloss", MeasureSurvLogloss)
   x$add("surv.loglossSE", MeasureSurvLoglossSE)
   x$add("surv.intlogloss", MeasureSurvIntLogloss)

@@ -16,7 +16,7 @@ Censored observations in the test set are ignored.
 \section{Dictionary}{
 
 This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:mlr_sugar]{msr()}:\preformatted{MeasureSurvLogloss$new()
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvLogloss$new()
 mlr_measures$get("surv.logloss")
 msr("surv.logloss")
 }
@@ -52,6 +52,8 @@ Other survival measures:
 \code{\link{mlr_measures_surv.oquigleyR2}},
 \code{\link{mlr_measures_surv.rmseSE}},
 \code{\link{mlr_measures_surv.rmse}},
+\code{\link{mlr_measures_surv.schmid_se}},
+\code{\link{mlr_measures_surv.schmid}},
 \code{\link{mlr_measures_surv.songAUC}},
 \code{\link{mlr_measures_surv.songTNR}},
 \code{\link{mlr_measures_surv.songTPR}},
@@ -66,14 +68,18 @@ Other Probabilistic survival measures:
 \code{\link{mlr_measures_surv.graf}},
 \code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.loglossSE}}
+\code{\link{mlr_measures_surv.loglossSE}},
+\code{\link{mlr_measures_surv.schmid_se}},
+\code{\link{mlr_measures_surv.schmid}}
 
 Other distr survival measures: 
 \code{\link{mlr_measures_surv.grafSE}},
 \code{\link{mlr_measures_surv.graf}},
 \code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.loglossSE}}
+\code{\link{mlr_measures_surv.loglossSE}},
+\code{\link{mlr_measures_surv.schmid_se}},
+\code{\link{mlr_measures_surv.schmid}}
 }
 \concept{Probabilistic survival measures}
 \concept{distr survival measures}

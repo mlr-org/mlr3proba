@@ -10,7 +10,7 @@ Calculates Harrell's C, equivalent to the Fortran implementation in \CRANpkg{Hmi
 \section{Dictionary}{
 
 This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:mlr_sugar]{msr()}:\preformatted{MeasureSurvHarrellC$new()
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvHarrellC$new()
 mlr_measures$get("surv.harrellC")
 msr("surv.harrellC")
 }
@@ -49,6 +49,8 @@ Other survival measures:
 \code{\link{mlr_measures_surv.oquigleyR2}},
 \code{\link{mlr_measures_surv.rmseSE}},
 \code{\link{mlr_measures_surv.rmse}},
+\code{\link{mlr_measures_surv.schmid_se}},
+\code{\link{mlr_measures_surv.schmid}},
 \code{\link{mlr_measures_surv.songAUC}},
 \code{\link{mlr_measures_surv.songTNR}},
 \code{\link{mlr_measures_surv.songTPR}},

@@ -111,6 +111,8 @@ Collate:
     'MeasureSurvOQuigleyR2.R'
     'MeasureSurvRMSE.R'
     'MeasureSurvRMSESE.R'
+    'MeasureSurvSchmid.R'
+    'MeasureSurvSchmidSE.R'
     'MeasureSurvSongAUC.R'
     'MeasureSurvSongTNR.R'
     'MeasureSurvSongTPR.R'
