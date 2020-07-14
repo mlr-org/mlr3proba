@@ -7,6 +7,7 @@
 crankcompositor(
   learner,
   method = c("mean", "median", "mode"),
+  which = NULL,
   param_vals = list()
 )
 }
@@ -15,6 +16,9 @@ crankcompositor(
 
 \item{method}{One of \code{mean}, \code{mode}, or \code{median}; abbreviations allowed. Used to determine
 how \code{crank} is estimated from the predicted \code{distr}. Default is \code{mean}.}
+
+\item{which}{If \code{method = "mode"} then specifies which mode to use if multi-modal, default
+is the first.}
 
 \item{param_vals}{Additional parameters to pass to the \code{learner}.}
 }
@@ -34,9 +38,9 @@ library(mlr3)
 library(mlr3pipelines)
 
 task = tgen("simsurv")$generate(20)
-ranger.crank = crankcompositor(
+cox.crank = crankcompositor(
   learner = lrn("surv.coxph"),
   method = "median")
-resample(task, ranger.crank, rsmp("cv", folds = 2))$predictions()
+resample(task, cox.crank, rsmp("cv", folds = 2))$predictions()
 }
 }

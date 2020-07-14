@@ -14,7 +14,7 @@ task = tgen("simsurv")$generate(20)
 # })
 
 test_that("PipeOpCrankCompositor - estimate", {
-  gr = crankcompositor(lrn("surv.coxph"), method = "mode")
+  gr = crankcompositor(lrn("surv.coxph"), method = "mode", which = 1)
   expect_silent(gr$train(task))
   p = gr$predict(task)
   expect_prediction_surv(p)

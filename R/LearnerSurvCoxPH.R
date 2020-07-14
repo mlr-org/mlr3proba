@@ -69,7 +69,7 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH",
                    .args = pv)
 
       # define WeightedDiscrete distr6 object from predicted survival function
-      x = rep(list(data = data.frame(x = fit$time, cdf = 0)), task$nrow)
+      x = rep(list(list(x = fit$time, cdf = 0)), task$nrow)
       for (i in 1:task$nrow) {
         x[[i]]$cdf = 1 - fit$surv[, i]
       }

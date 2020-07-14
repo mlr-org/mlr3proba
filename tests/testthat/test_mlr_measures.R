@@ -1,6 +1,5 @@
-context("mlr_measures")
-library(mlr3learners.survival)
 set.seed(1)
+library(mlr3learners.survival)
 task = TaskGeneratorSimsurv$new()$generate(20)
 learner = lrn("surv.coxph")$train(task)
 pred = learner$predict(task)
@@ -13,7 +12,11 @@ test_that("mlr_measures", {
     if (grepl("TNR|TPR", key)) {
       m = msr(key, times = 60)
     } else {
-      m = msr(key)
+      if (key %in% c("surv.beggC", "surv.gonenC", "surv.harrellC", "surv.unoC")) {
+        expect_warning({m = mlr_measures$get(key)}, "deprecated")
+      } else {
+        m = msr(key)
+      }
     }
 
     expect_measure(m)
@@ -47,8 +50,7 @@ test_that("integrated_prob_losses", {
   probs = paste0("surv.", c("graf", "grafSE", "intlogloss", "intloglossSE", "schmid", "schmid_se"))
   expect_error(lapply(probs, msr, times = 34:37, integrated = FALSE), "non-integrated score")
   expect_silent(prediction$score(lapply(probs, msr, integrated = TRUE)))
-  expect_error(prediction$score(lapply(probs, msr, integrated = TRUE, times = c(34:70))),
-               "Times are all")
+  expect_error(prediction$score(lapply(probs, msr, integrated = TRUE, times = c(34:70))), "Requested times")
   expect_silent(prediction$score(lapply(probs, msr, integrated = TRUE, times = c(2:3))))
   expect_silent(prediction$score(lapply(probs, msr, integrated = FALSE, times = 2)))
 })

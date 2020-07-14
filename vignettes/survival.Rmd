@@ -126,7 +126,7 @@ Predicted distributions are implemented in **[distr6](https://CRAN.R-project.org
 contains functionality for plotting and further analysis of probability distributions. See [here](https://alan-turing-institute.github.io/distr6/) for full tutorials. Briefly we will go over the most important parts for **mlr3proba**.
 
 ```{r}
-task = tgen("simsurv")$generate(20)
+task = tsk("rats")
 learner = lrn("surv.coxph")
 
 # In general it is not advised to train/predict on same data
@@ -139,13 +139,12 @@ prediction$distr
 
 # These can be extracted and queried either invidually...
 
-prediction$distr[1]$survival(60:70)
+prediction$distr[1]$survival(90:105)
 prediction$distr[1]$mean()
 
 # ...or together
 
 prediction$distr$cdf(60)[,1:10]
-prediction$distr$mean()[,1:10]
 
 # As well as plotted
 
@@ -241,7 +240,7 @@ design = benchmark_grid(tasks = task, learners = c(lrns, list(composed_lrn_rpart
                         resamplings = rsmp("cv", folds = 2))
 
 bm = benchmark(design)
-bm$aggregate(lapply(c("surv.harrellC","surv.graf","surv.grafSE"), msr))[,c(4, 7:9)]
+bm$aggregate(lapply(c("surv.cindex","surv.graf","surv.grafSE"), msr))[,c(4, 7:9)]
 ```
 
 

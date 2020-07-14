@@ -3,6 +3,9 @@
 - `LearnerSurvGlmnet`, `LearnerSurvCVGlmnet`, `LearnerSurvXgboost` and `LearnerSurvRanger` have been moved to the [mlr3learners repo](www.github.com/mlr-org/mlr3learners)
 - `LearnerSurvGBM` has been moved to www.github.com/mlr3learners/mlr3learners.gbm
 - `LearnerSurvMboost`, `LearnerSurvGlmBoost`, `LearnerSurvGamboost`, `LearnerSurvBlackboost` have been moved to www.github.com/mlr3learners/mlr3learners.mboost
+- `MeasureSurvCindex` added. Generalises all c-index measures with a fast C++ implementation
+- The following measures are deprecated use `MeasureSurvCindex` instead with following parameters: `MeasureSurvBeggC`, use defaults; `MeasureSurvHarrellC`, use defaults; `MeasureSurvUnoC`, use `weight_meth = 'G/2'`; `MeasureSurvGonenC`, use `weight_method = 'GH'`
+-  `MeasureSurvGraf` and `MeasureSurvIntLogloss` now have much faster C++ implementation
 - Akritas estimator added to [mlr3learners.proba repo](www.github.com/mlr3learners/mlr3learners.proba)
 
 # mlr3proba 0.1.6

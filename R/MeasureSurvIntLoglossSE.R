@@ -50,16 +50,14 @@ MeasureSurvIntLoglossSE = R6::R6Class("MeasureSurvIntLoglossSE",
     }
   ),
 
-  private = list(
-    .eps = numeric(0),
-    .score = function(prediction, ...) {
-      integrated_se(
-        score = weighted_logloss(
-          truth = prediction$truth,
-          distribution = prediction$distr,
-          times = self$times,
-          eps = self$eps),
-        integrated = self$integrated)
-    }
-  )
+    private = list(
+      .eps = numeric(0),
+      .score = function(prediction, ...) {
+        integrated_se(score = intslogloss(truth = prediction$truth,
+                                          distribution = prediction$distr,
+                                          times = self$times,
+                                          eps = self$eps),
+                      integrated = self$integrated)
+      }
+    )
 )

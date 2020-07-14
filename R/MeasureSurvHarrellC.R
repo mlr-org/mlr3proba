@@ -16,6 +16,8 @@ MeasureSurvHarrellC = R6Class("MeasureSurvHarrellC",
   public = list(
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
+      warning("This is now deprecated, use MeasureSurvCindex instead with the
+              function defaults.")
       super$initialize(
         id = "surv.harrellC",
         range = 0:1,
@@ -32,20 +34,3 @@ MeasureSurvHarrellC = R6Class("MeasureSurvHarrellC",
     }
   )
 )
-
-#' @useDynLib mlr3proba c_cindex
-cindex = function(S, x) {
-
-  assert_surv(S)
-  assert_numeric(x)
-  if (anyMissing(S)) {
-    return(NA_real_)
-  }
-
-  ord = order(S[, 1L])
-  time = as.double(S[, 1L])[ord]
-  status = as.logical(S[, 2L])[ord]
-  x = -as.double(x)[ord]
-
-  .Call(c_cindex, time, status, x, PACKAGE = "mlr3proba")
-}

@@ -38,35 +38,31 @@ Depends:
 Imports:
     checkmate,
     data.table,
-    distr6 (>= 1.3.6),
+    distr6 (>= 1.3.7.9000),
     mlr3 (>= 0.3.0),
     mlr3misc (>= 0.1.7),
     mlr3pipelines,
     paradox (>= 0.1.0),
+    Rcpp (>= 1.0.4),
     R6,
     survival
 Suggests:
     bibtex,
-    gbm,
     ggplot2,
-    glmnet,
     knitr,
     lgr,
     Matrix,
-    mboost,
     mlr3tuning,
-    pec,
     pracma,
-    randomForestSRC,
-    ranger,
-    riskRegression,
     rmarkdown,
     rpart,
     set6,
     simsurv,
     survAUC,
-    testthat,
-    xgboost
+    testthat
+Remotes:
+    alan-turing-institute/distr6
+LinkingTo: Rcpp
 VignetteBuilder:
     knitr
 ByteCompile: true
@@ -96,6 +92,7 @@ Collate:
     'MeasureSurvCalibrationAlpha.R'
     'MeasureSurvCalibrationBeta.R'
     'MeasureSurvChamblessAUC.R'
+    'MeasureSurvCindex.R'
     'MeasureSurvGonenHellersC.R'
     'MeasureSurvGraf.R'
     'MeasureSurvGrafSE.R'
@@ -128,6 +125,7 @@ Collate:
     'PredictionDens.R'
     'PredictionProbreg.R'
     'PredictionSurv.R'
+    'RcppExports.R'
     'TaskDens.R'
     'TaskDens_faithful.R'
     'TaskDens_precip.R'
@@ -139,13 +137,13 @@ Collate:
     'TaskSurv_rats.R'
     'TaskSurv_unemployment.R'
     'assertions.R'
-    'autoplot.R'
+    'cindex.R'
     'crankcompositor.R'
     'distrcompositor.R'
     'helpers.R'
     'histogram.R'
     'integrated_scores.R'
     'pecs.R'
+    'plot.R'
     'surv_measures.R'
-    'weighted_survival_score.R'
     'zzz.R'

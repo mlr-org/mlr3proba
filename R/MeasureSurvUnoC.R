@@ -20,6 +20,8 @@ MeasureSurvUnoC = R6Class("MeasureSurvUnoC",
   public = list(
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
+      warning("This is now deprecated, use MeasureSurvCindex instead with `weight_meth = 'G/2'`.")
+
       super$initialize(
         id = "surv.unoC",
         range = 0:1,

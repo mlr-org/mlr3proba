@@ -18,8 +18,9 @@ test_that("weights", {
 
 
 test_that("missing", {
-  task = TaskGeneratorSimsurv$new()$generate(50)
+  set.seed(1)
+  task = TaskGeneratorSimsurv$new()$generate(5)
   learner = lrn("surv.coxph")
-  learner$train(task)
+  expect_warning(learner$train(task), "iterations")
   expect_error(learner$predict(tsk("lung")))
 })
