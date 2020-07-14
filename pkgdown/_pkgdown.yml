@@ -83,3 +83,8 @@ reference:
       - mlr_tasks_faithful
       - mlr_tasks_precip
       - mlr_task_generators_simdens
+  - title: Visualisation
+    contents:
+      - pecs
+      - plot.LearnerSurv
+ 
