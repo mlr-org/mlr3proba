@@ -5,8 +5,8 @@
 #' @description
 #' Calculates the cross-entropy, or logarithmic (log), loss.
 #'
-#' The logloss, in the context of probabilistic predictions, is defined as the negative log probability
-#' density function, \eqn{f}, evaluated at the observation time, \eqn{t},
+#' The logloss, in the context of probabilistic predictions, is defined as the negative log
+#' probability density function, \eqn{f}, evaluated at the observation time, \eqn{t},
 #' \deqn{L(f, t) = -log(f(t))}
 #'
 #' Censored observations in the test set are ignored.

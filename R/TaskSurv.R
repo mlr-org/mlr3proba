@@ -1,8 +1,8 @@
 #' @title Survival Task
 #'
 #' @description
-#' This task specializes [mlr3::Task] and [mlr3::TaskSupervised] for possibly-censored survival problems.
-#' The target is comprised of survival times and an event indicator.
+#' This task specializes [mlr3::Task] and [mlr3::TaskSupervised] for possibly-censored survival
+#' problems. The target is comprised of survival times and an event indicator.
 #' Predefined tasks are stored in [mlr3::mlr_tasks].
 #'
 #' The `task_type` is set to `"surv"`.
@@ -124,7 +124,8 @@ TaskSurv = R6::R6Class("TaskSurv",
 
   active = list(
     #' @field censtype `character(1)`\cr
-    #' Returns the type of censoring, one of "right", "left", "counting", "interval", "interval2" or "mstate".
+    #' Returns the type of censoring, one of "right", "left", "counting", "interval", "interval2"
+    #' or "mstate".
     censtype = function() {
       return(private$.censtype)
     }

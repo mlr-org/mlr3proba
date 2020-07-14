@@ -5,7 +5,8 @@
 #' @param measure (`character(1)`) \cr
 #'   Either `"graf"` for [MeasureSurvGraf], or `"logloss"` for [MeasureSurvIntLogloss]
 #' @param times (`numeric()`) \cr
-#'   If provided then either a vector of time-points to evaluate `measure` or a range of time-points.
+#'   If provided then either a vector of time-points to evaluate `measure` or a range of
+#'   time-points.
 #' @param n (`integer()`) \cr
 #'   If `times` is missing or given as a range, then `n` provide number of time-points to evaluate
 #'    `measure` over.
@@ -57,11 +58,13 @@ pecs = function(x, measure = c("graf", "logloss"), times, n, eps = 1e-15, ...) {
 
 #' @rdname pecs
 #' @export
-pecs.list = function(x, measure = c("graf", "logloss"), times, n, eps = 1e-15, task = NULL, row_ids = NULL, newdata, ...) {
+pecs.list = function(x, measure = c("graf", "logloss"), times, n, eps = 1e-15, task = NULL,  # nolint
+                     row_ids = NULL, newdata, ...) {
 
   measure = match.arg(measure)
 
-  assert(all(sapply(x, function(y) !is.null(y$model))), "x must be a list of trained survival learners")
+  assert(all(sapply(x, function(y) !is.null(y$model))),
+         "x must be a list of trained survival learners")
   assertClass(task, "TaskSurv")
 
   if (missing(newdata)) {
@@ -112,7 +115,7 @@ pecs.list = function(x, measure = c("graf", "logloss"), times, n, eps = 1e-15, t
 
 #' @rdname pecs
 #' @export
-pecs.PredictionSurv = function(x, measure = c("graf", "logloss"), times, n, eps = 1e-15, ...) {
+pecs.PredictionSurv = function(x, measure = c("graf", "logloss"), times, n, eps = 1e-15, ...) { # nolint
 
   measure = match.arg(measure)
 

@@ -5,7 +5,8 @@
 #' @description
 #' A [mlr3::TaskGenerator] calling [simsurv::simsurv()] from package \CRANpkg{simsurv}.
 #'
-#' This generator currently only exposes a small subset of the flexibility of \CRANpkg{simsurv}, and just creates a small data set with the following numerical covariates:
+#' This generator currently only exposes a small subset of the flexibility of \CRANpkg{simsurv},
+#' and just creates a small data set with the following numerical covariates:
 #'
 #' * `treatment`: Bernoulli distributed with log hazard ratio `-0.5`.
 #' * `height`: Normally distributed with log hazard ratio `1`.
@@ -51,7 +52,7 @@ TaskGeneratorSimsurv = R6Class("TaskGeneratorSimsurv",
       )
       betas = c(treatment = -0.5, height = 1, weight = 0)
 
-      data = setDT(invoke(simsurv::simsurv, x = covs, betas = , .args = pv))
+      data = setDT(invoke(simsurv::simsurv, x = covs, betas = betas, .args = pv))
       data = rcbind(data, covs)
       TaskSurv$new("simsurv", remove_named(data, "id"), time = "eventtime", event = "status")
     }

@@ -5,8 +5,9 @@
 #' Uses a predicted `distr` in a [PredictionSurv] to estimate (or 'compose') a `crank` prediction.
 #'
 #' @section Dictionary:
-#' This [PipeOp][mlr3pipelines::PipeOp] can be instantiated via the [dictionary][mlr3misc::Dictionary]
-#' [mlr3pipelines::mlr_pipeops] or with the associated sugar function [mlr3pipelines::po()]:
+#' This [PipeOp][mlr3pipelines::PipeOp] can be instantiated via the
+#' [dictionary][mlr3misc::Dictionary] [mlr3pipelines::mlr_pipeops] or with the associated sugar
+#' function [mlr3pipelines::po()]:
 #' ```
 #' PipeOpCrankCompositor$new()
 #' mlr_pipeops$get("crankcompose")
@@ -35,8 +36,9 @@
 #'    Default is `mean`.
 #'
 #' @section Internals:
-#' The `median`, `mode`, or `mean` will use analytical expressions if possible but if not they are calculated
-#' using [distr6::median.Distribution], [distr6::mode], or [distr6::mean.Distribution] respectively.
+#' The `median`, `mode`, or `mean` will use analytical expressions if possible but if not they are
+#' calculated using [distr6::median.Distribution], [distr6::mode], or [distr6::mean.Distribution]
+#' respectively.
 #'
 #' @section Fields:
 #' Only fields inherited from [PipeOp][mlr3pipelines::PipeOp].
@@ -91,7 +93,8 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
       super$initialize(
         id = id,
         param_set = ParamSet$new(params = list(
-          ParamFct$new("method", default = "mean", levels = c("mean", "median", "mode"), tags = c("predict"))
+          ParamFct$new("method", default = "mean", levels = c("mean", "median", "mode"),
+                       tags = c("predict"))
         )),
         param_vals = param_vals,
         input = data.table(name = "input", train = "NULL", predict = "PredictionSurv"),
@@ -100,7 +103,8 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
     },
 
     #' @description train_internal
-    #' Internal `train` function, will be moved to `private` in a near-future update, should be ignored.
+    #' Internal `train` function, will be moved to `private` in a near-future update, should be
+    #' ignored.
     #' @param inputs
     #' Ignore.
     train_internal = function(inputs) {
@@ -109,7 +113,8 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
     },
 
     #' @description predict_internal
-    #' Internal `predict` function, will be moved to `private` in a near-future update, should be ignored.
+    #' Internal `predict` function, will be moved to `private` in a near-future update, should be
+    #' ignored.
     #' @param inputs
     #' Ignore.
     predict_internal = function(inputs) {
@@ -160,7 +165,8 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
   #     else
   #       lp = inpred$lp
   #
-  #     return(list(PredictionSurv$new(row_ids = inpred$row_ids, truth = inpred$truth, crank = crank,
+  #     return(list(PredictionSurv$new(row_ids = inpred$row_ids, truth = inpred$truth,
+  #     crank = crank,
   #                                    distr = inpred$distr, lp = lp)))
   #   }
   # )

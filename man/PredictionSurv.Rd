@@ -99,13 +99,13 @@ the observation is more likely to experience the event.}
 
 \item{\code{distr}}{(\link[distr6:VectorDistribution]{VectorDistribution})\cr
 \link[distr6:VectorDistribution]{VectorDistribution} from \CRANpkg{distr6}.
-Each individual distribution in the vector represents the random variable 'survival time' for
-an individual observation.}
+Each individual distribution in the vector represents the random variable 'survival time'
+for an individual observation.}
 
 \item{\code{lp}}{(\code{numeric()})\cr
-Numeric vector of linear predictor scores. One element for each observation in the test set.
-\eqn{lp = X\beta} where \eqn{X} is a matrix of covariates and \eqn{\beta} is a vector of
-estimated coefficients.}
+Numeric vector of linear predictor scores. One element for each observation in the test
+set. \eqn{lp = X\beta} where \eqn{X} is a matrix of covariates and \eqn{\beta} is a vector
+of estimated coefficients.}
 
 \item{\code{response}}{(\code{numeric()})\cr
 Numeric vector of predicted survival times.

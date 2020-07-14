@@ -10,7 +10,7 @@ Estimates (or 'composes') a survival distribution from a predicted baseline \cod
 
 Compositor Assumptions:
 \itemize{
-\item The baseline \code{distr} is a discrete estimator, i.e. \link[=LearnerSurvKaplan]{surv.kaplan} or \code{surv.nelson}.
+\item The baseline \code{distr} is a discrete estimator, e.g. \link[=LearnerSurvKaplan]{surv.kaplan}.
 \item The composed \code{distr} is of a linear form
 \item If \code{lp} is missing then \code{crank} is equivalent
 }
@@ -20,8 +20,9 @@ compositor to be more flexible.
 }
 \section{Dictionary}{
 
-This \link[mlr3pipelines:PipeOp]{PipeOp} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3pipelines:mlr_pipeops]{mlr3pipelines::mlr_pipeops} or with the associated sugar function \code{\link[mlr3pipelines:po]{mlr3pipelines::po()}}:\preformatted{PipeOpDistrCompositor$new()
+This \link[mlr3pipelines:PipeOp]{PipeOp} can be instantiated via the
+\link[mlr3misc:Dictionary]{dictionary} \link[mlr3pipelines:mlr_pipeops]{mlr3pipelines::mlr_pipeops} or with the associated sugar
+function \code{\link[mlr3pipelines:po]{mlr3pipelines::po()}}:\preformatted{PipeOpDistrCompositor$new()
 mlr_pipeops$get("distrcompose")
 po("distrcompose")
 }
@@ -35,9 +36,9 @@ po("distrcompose")
 \link{PipeOpDistrCompositor} has one output channel named "output", producing \code{NULL} during training
 and a \link{PredictionSurv} during prediction.
 
-The output during prediction is the \link{PredictionSurv} from the "pred" input but with an extra (or overwritten)
-column for \code{distr} predict type; which is composed from the \code{distr} of "base" and \code{lp} or \code{crank}
-of "pred".
+The output during prediction is the \link{PredictionSurv} from the "pred" input but with an extra
+(or overwritten) column for \code{distr} predict type; which is composed from the \code{distr} of "base"
+and \code{lp} or \code{crank} of "pred".
 }
 
 \section{State}{
@@ -54,10 +55,10 @@ Determines the form that the predicted linear survival model should take. This i
 accelerated-failure time, \code{aft}, proportional hazards, \code{ph}, or proportional odds, \code{po}.
 Default \code{aft}.
 \item \code{overwrite} :: \code{logical(1)} \cr
-If \code{FALSE} (default) then if the "pred" input already has a \code{distr}, the compositor does nothing
-and returns the given \link{PredictionSurv}. If \code{TRUE} then the \code{distr} is overwritten with the \code{distr}
-composed from \code{lp}/\code{crank} - this is useful for changing the prediction \code{distr} from one model
-form to another.
+If \code{FALSE} (default) then if the "pred" input already has a \code{distr}, the compositor does
+nothing and returns the given \link{PredictionSurv}. If \code{TRUE} then the \code{distr} is overwritten
+with the \code{distr} composed from \code{lp}/\code{crank} - this is useful for changing the prediction
+\code{distr} from one model form to another.
 }
 }
 
@@ -66,10 +67,10 @@ form to another.
 The respective \code{form}s above have respective survival distributions:
 \deqn{aft: S(t) = S_0(\frac{t}{exp(lp)})}{aft: S(t) = S0(t/exp(lp))}
 \deqn{ph: S(t) = S_0(t)^{exp(lp)}}{ph: S(t) = S0(t)^exp(lp)}
-\deqn{po: S(t) = \frac{S_0(t)}{exp(-lp) + (1-exp(-lp)) S_0(t)}}{po: S(t) = S0(t) / [exp(-lp) + S0(t) (1-exp(-lp))]}
-where \eqn{S_0}{S0} is the estimated baseline survival distribution, and \eqn{lp} is the predicted
-linear predictor. If the input model does not predict a linear predictor then \code{crank} is
-assumed to be the \code{lp} - \strong{this may be a strong and unreasonable assumption.}
+\deqn{po: S(t) = \frac{S_0(t)}{exp(-lp) + (1-exp(-lp)) S_0(t)}}{po: S(t) = S0(t) / [exp(-lp) + S0(t) (1-exp(-lp))]} # nolint
+where \eqn{S_0}{S0} is the estimated baseline survival distribution, and \eqn{lp} is the
+predicted linear predictor. If the input model does not predict a linear predictor then \code{crank}
+is assumed to be the \code{lp} - \strong{this may be a strong and unreasonable assumption.}
 }
 
 \section{Fields}{
@@ -174,7 +175,8 @@ otherwise be set during construction.}
 \if{latex}{\out{\hypertarget{method-train_internal}{}}}
 \subsection{Method \code{train_internal()}}{
 train_internal
-Internal \code{train} function, will be moved to \code{private} in a near-future update, should be ignored.
+Internal \code{train} function, will be moved to \code{private} in a near-future update, should be
+ignored.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{PipeOpDistrCompositor$train_internal(inputs)}\if{html}{\out{</div>}}
 }
@@ -192,7 +194,8 @@ Internal \code{train} function, will be moved to \code{private} in a near-future
 \if{latex}{\out{\hypertarget{method-predict_internal}{}}}
 \subsection{Method \code{predict_internal()}}{
 predict_internal
-Internal \code{predict} function, will be moved to \code{private} in a near-future update, should be ignored.
+Internal \code{predict} function, will be moved to \code{private} in a near-future update, should be
+ignored.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{PipeOpDistrCompositor$predict_internal(inputs)}\if{html}{\out{</div>}}
 }

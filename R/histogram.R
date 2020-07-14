@@ -15,7 +15,8 @@
 
   cdf = function(x1) {} #nolint
   body(cdf) = substitute({
-    sapply(x1, function(x) .histogram_cdf(val = x, Intervals = Intervals, pdf = pdf, counts = counts))
+    sapply(x1, function(x) .histogram_cdf(val = x, Intervals = Intervals, pdf = pdf,
+                                          counts = counts))
   }, list(counts = fit$counts, pdf = fit$density, Intervals = fit$breaks))
 
   list(

@@ -9,8 +9,9 @@ Uses a predicted \code{distr} in a \link{PredictionSurv} to estimate (or 'compos
 }
 \section{Dictionary}{
 
-This \link[mlr3pipelines:PipeOp]{PipeOp} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3pipelines:mlr_pipeops]{mlr3pipelines::mlr_pipeops} or with the associated sugar function \code{\link[mlr3pipelines:po]{mlr3pipelines::po()}}:\preformatted{PipeOpCrankCompositor$new()
+This \link[mlr3pipelines:PipeOp]{PipeOp} can be instantiated via the
+\link[mlr3misc:Dictionary]{dictionary} \link[mlr3pipelines:mlr_pipeops]{mlr3pipelines::mlr_pipeops} or with the associated sugar
+function \code{\link[mlr3pipelines:po]{mlr3pipelines::po()}}:\preformatted{PipeOpCrankCompositor$new()
 mlr_pipeops$get("crankcompose")
 po("crankcompose")
 }
@@ -47,8 +48,9 @@ Default is \code{mean}.
 
 \section{Internals}{
 
-The \code{median}, \code{mode}, or \code{mean} will use analytical expressions if possible but if not they are calculated
-using \link[distr6:median.Distribution]{distr6::median.Distribution}, \link[distr6:mode]{distr6::mode}, or \link[distr6:mean.Distribution]{distr6::mean.Distribution} respectively.
+The \code{median}, \code{mode}, or \code{mean} will use analytical expressions if possible but if not they are
+calculated using \link[distr6:median.Distribution]{distr6::median.Distribution}, \link[distr6:mode]{distr6::mode}, or \link[distr6:mean.Distribution]{distr6::mean.Distribution}
+respectively.
 }
 
 \section{Fields}{
@@ -149,7 +151,8 @@ otherwise be set during construction.}
 \if{latex}{\out{\hypertarget{method-train_internal}{}}}
 \subsection{Method \code{train_internal()}}{
 train_internal
-Internal \code{train} function, will be moved to \code{private} in a near-future update, should be ignored.
+Internal \code{train} function, will be moved to \code{private} in a near-future update, should be
+ignored.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{PipeOpCrankCompositor$train_internal(inputs)}\if{html}{\out{</div>}}
 }
@@ -167,7 +170,8 @@ Internal \code{train} function, will be moved to \code{private} in a near-future
 \if{latex}{\out{\hypertarget{method-predict_internal}{}}}
 \subsection{Method \code{predict_internal()}}{
 predict_internal
-Internal \code{predict} function, will be moved to \code{private} in a near-future update, should be ignored.
+Internal \code{predict} function, will be moved to \code{private} in a near-future update, should be
+ignored.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{PipeOpCrankCompositor$predict_internal(inputs)}\if{html}{\out{</div>}}
 }

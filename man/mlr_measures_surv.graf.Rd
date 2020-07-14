@@ -11,13 +11,14 @@ Calculates the Integrated Graf Score, aka integrated Brier score or squared loss
 
 For an individual who dies at time \eqn{t}, with predicted Survival function, \eqn{S}, the
 Graf Score at time \eqn{t^*}{t*} is given by
-\deqn{L(S,t|t^*) = [(S(t^*)^2)I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*))^2)I(t > t^*)(1/G(t^*))]}{L(S,t|t*) = [(S(t*)^2)I(t \le t*, \delta = 1)(1/G(t))] + [((1 - S(t*))^2)I(t > t*)(1/G(t*))]}
+\deqn{L(S,t|t^*) = [(S(t^*)^2)I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*))^2)I(t > t^*)(1/G(t^*))]}{L(S,t|t*) = [(S(t*)^2)I(t \le t*, \delta = 1)(1/G(t))] + [((1 - S(t*))^2)I(t > t*)(1/G(t*))]} # nolint
 where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
 
 Note: If comparing the integrated graf score to other packages, e.g. \code{\link[pec:pec]{pec::pec()}}, then
-\code{method = 2} should be used, however the results may still be very slightly different as
-this package uses \code{survfit} to estimate the censoring distribution, in line with the Graf 1999 paper.
-Whereas some other packages use \code{prodlim} with \code{reverse = TRUE} (meaning Kaplan-Meier is not used).
+\code{method = 2} should be used. However the results may still be very slightly different as
+this package uses \code{survfit} to estimate the censoring distribution, in line with the Graf 1999
+paper; whereas some other packages use \code{prodlim} with \code{reverse = TRUE} (meaning Kaplan-Meier is
+not used).
 
 If \code{integrated == FALSE} then the sample mean is taken for the single specified \code{times}, \eqn{t^*}{t*}, and the returned
 score is given by

@@ -29,7 +29,7 @@ toproper = function(str, split = " ", fixed = TRUE) {
   return(unlist(str))
 }
 
-check_subsetpattern = function(x, choices, empty.ok = TRUE) {
+check_subsetpattern = function(x, choices, empty.ok = TRUE) { # nolint
   if (all(grepl(paste0(choices, collapse = "|"), x))) {
     return(TRUE)
   } else {

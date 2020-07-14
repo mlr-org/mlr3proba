@@ -35,13 +35,13 @@ PredictionSurv = R6Class("PredictionSurv",
     #'
     #' @param distr ([VectorDistribution][distr6::VectorDistribution])\cr
     #'   [VectorDistribution][distr6::VectorDistribution] from \CRANpkg{distr6}.
-    #'   Each individual distribution in the vector represents the random variable 'survival time' for
-    #'   an individual observation.
+    #'   Each individual distribution in the vector represents the random variable 'survival time'
+    #'   for an individual observation.
     #'
     #' @param lp (`numeric()`)\cr
-    #'   Numeric vector of linear predictor scores. One element for each observation in the test set.
-    #'   \eqn{lp = X\beta} where \eqn{X} is a matrix of covariates and \eqn{\beta} is a vector of
-    #'   estimated coefficients.
+    #'   Numeric vector of linear predictor scores. One element for each observation in the test
+    #'   set. \eqn{lp = X\beta} where \eqn{X} is a matrix of covariates and \eqn{\beta} is a vector
+    #'   of estimated coefficients.
     #'
     #' @param response (`numeric()`)\cr
     #'   Numeric vector of predicted survival times.
@@ -56,7 +56,9 @@ PredictionSurv = R6Class("PredictionSurv",
       private$.censtype = task$censtype
 
       # Check returned predict types have correct names and add to data.table
-      self$predict_types = c("crank", "distr", "lp", "response")[c(!is.null(crank), !is.null(distr), !is.null(lp), !is.null(response))]
+      self$predict_types = c("crank", "distr", "lp", "response")[c(!is.null(crank), !is.null(distr),
+                                                                   !is.null(lp),
+                                                                   !is.null(response))]
       self$data$tab = data.table(
         row_id = row_ids
       )
@@ -148,7 +150,7 @@ PredictionSurv = R6Class("PredictionSurv",
 
 
 #' @export
-as.data.table.PredictionSurv = function(x, ...) {
+as.data.table.PredictionSurv = function(x, ...) { # nolint
   copy(x$data$tab)
 }
 

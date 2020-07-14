@@ -1,5 +1,6 @@
 #' PredictionProbreg = R6::R6Class("PredictionProbreg", inherit = Prediction, cloneable = FALSE)
-#' PredictionProbreg$set("public", "initialize", function(task = NULL, row_ids = task$row_ids, truth = task$truth(),
+#' PredictionProbreg$set("public", "initialize", function(task = NULL, row_ids = task$row_ids,
+#' truth = task$truth(),
 #'                                                        prob = NULL) {
 #'   self$data$row_ids = assert_row_ids(row_ids)
 #'   n = length(row_ids)
@@ -7,17 +8,17 @@
 #'   self$data$prob = distr6::assertDistribution(prob)
 #'   self$task_type = "probreg"
 #' })
-#' PredictionProbreg$set("active","prob",function(){
+#' PredictionProbreg$set("active","prob",function() {
 #'   self$data$prob %??% rep(NA_real_, length(self$data$row_ids))
 #' })
-#' PredictionProbreg$set("active","missing",function(){
+#' PredictionProbreg$set("active","missing",function() {
 #'   miss = logical(length(self$data$row_ids))
 #'   if (!is.null(self$data$prob))
 #'     miss = miss | is.na(self$data$prob)
 #'
 #'   self$data$row_ids[miss]
 #' })
-#' PredictionProbreg$set("public","print",function(){
+#' PredictionProbreg$set("public","print",function() {
 #'   dt = as.data.table(self)
 #'   dt$prob = lapply(dt$prob, strprint)
 #'   print(dt)

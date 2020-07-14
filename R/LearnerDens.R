@@ -6,8 +6,8 @@
 #' * `task_type` is set to `"dens"`
 #' * Creates [Prediction]s of class [PredictionDens].
 #' * Possible values for `predict_types` are:
-#'   - `"pdf"`: Evaluates the estimated probability density function for each value in the test set.
-#'   - `"se"`: Evaluates the estimated cumulative distribution function for each value in the test set.
+#'   - `"pdf"`: Evaluates estimated probability density function for each value in the test set.
+#'   - `"cdf"`: Evaluates estimated cumulative distribution function for each value in the test set.
 #'
 #' @template param_id
 #' @template param_param_set
