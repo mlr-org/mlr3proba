@@ -193,10 +193,7 @@ organisation](https://github.com/mlr3learners).
     learners/measures
   - Allow `MeasureSurv` to return measures at multiple time-points
     simultaneously
-  - Improve estimation of integrated scores, and re-implement
-    **[survAUC](https://CRAN.R-project.org/package=survAUC)** scores in
-    **mlr3proba**
-      - Continue to add survival measures and learners
+  - Continue to add survival measures and learners
 
 ## Bugs, Questions, Feedback
 

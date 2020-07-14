@@ -23,8 +23,6 @@ test_that("mlr_measures", {
 # task = tsk("rats")
 learner = lrn("surv.coxph")$train(task)
 prediction = learner$predict(task)
-times = 60
-train_set = 1:175
 
 test_that("unintegrated_prob_losses", {
   msr = lapply(c("surv.logloss", "surv.loglossSE"), msr)
@@ -41,19 +39,22 @@ test_that("integrated_prob_losses", {
   expect_silent(prediction$score(lapply(probs, msr, integrated = FALSE, times = 2)))
 })
 
-# test_that("AUCs",{
-#   aucs = as.data.table(mlr_measures)$key[grepl("AUC", as.data.table(mlr_measures)$key)]
-#   expect_error(lapply(aucs, msr, times = 34:37, integrated = FALSE), "non-integrated score")
-#   expect_silent(prediction$score(lapply(aucs, msr, integrated = TRUE), task = task,
-#   learner = learner, train_set = train_set))
-#   expect_silent(prediction$score(lapply(aucs, msr, integrated = TRUE), task = task,
-#   learner = learner, train_set = train_set))
-# })
-#
-# test_that("sensspecs",{
-#   sensspecs = as.data.table(mlr_measures)$key[grepl("TNR|TPR", as.data.table(mlr_measures)$key)]
-#   expect_silent(prediction$score(lapply(sensspecs, msr, integrated = TRUE, times = times),
-#    task = task, learner = learner, train_set = train_set))
-#   expect_silent(prediction$score(lapply(sensspecs, msr, integrated = TRUE, times = times),
-#   task = task, learner = learner, train_set = train_set))
-# })
+times = 60
+train_set = 1:20
+
+test_that("AUCs",{
+  aucs = as.data.table(mlr_measures)$key[grepl("AUC", as.data.table(mlr_measures)$key)]
+  expect_error(lapply(aucs, msr, times = 34:37, integrated = FALSE), "non-integrated score")
+  expect_silent(prediction$score(lapply(aucs, msr, integrated = TRUE), task = task,
+  learner = learner, train_set = train_set))
+  expect_silent(prediction$score(lapply(aucs, msr, integrated = TRUE), task = task,
+  learner = learner, train_set = train_set))
+})
+
+test_that("sensspecs",{
+  sensspecs = as.data.table(mlr_measures)$key[grepl("TNR|TPR", as.data.table(mlr_measures)$key)]
+  expect_silent(prediction$score(lapply(sensspecs, msr, integrated = TRUE, times = times),
+   task = task, learner = learner, train_set = train_set))
+  expect_silent(prediction$score(lapply(sensspecs, msr, integrated = TRUE, times = times),
+  task = task, learner = learner, train_set = train_set))
+})
