@@ -50,7 +50,8 @@ NumericVector c_get_unique_times(NumericVector true_times, NumericVector req_tim
 }
 
 // [[Rcpp::export]]
-NumericMatrix c_score_intslogloss(NumericMatrix truth, NumericVector unique_times, NumericMatrix cdf, double eps){
+NumericMatrix c_score_intslogloss(NumericMatrix truth, NumericVector unique_times,
+                                  NumericMatrix cdf, double eps){
   NumericVector obs_times = truth(_,0);
 
   int nr_obs = obs_times.length();
@@ -76,7 +77,8 @@ NumericMatrix c_score_intslogloss(NumericMatrix truth, NumericVector unique_time
 }
 
 // [[Rcpp::export]]
-NumericMatrix c_score_graf(NumericVector truth, NumericVector unique_times, NumericMatrix cdf){
+NumericMatrix c_score_graf_schmid(NumericVector truth, NumericVector unique_times,
+                                  NumericMatrix cdf, int power = 2){
 
   int nr_obs = truth.length();
   int nc_times = unique_times.length();
@@ -85,9 +87,9 @@ NumericMatrix c_score_graf(NumericVector truth, NumericVector unique_times, Nume
   for (int i = 0; i < nr_obs; i++) {
     for (int j = 0; j < nc_times; j++) {
       if(truth[i] > unique_times[j]) {
-        igs(i, j) = std::pow(cdf(j, i), 2);
+        igs(i, j) = std::pow(cdf(j, i), power);
       } else {
-        igs(i, j) = std::pow((1 - cdf(j, i)), 2);
+        igs(i, j) = std::pow((1 - cdf(j, i)), power);
       }
     }
   }

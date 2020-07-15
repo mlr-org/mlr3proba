@@ -52,6 +52,8 @@ msr("surv.cindex")
 \seealso{
 Other survival measures: 
 \code{\link{mlr_measures_surv.beggC}},
+\code{\link{mlr_measures_surv.calib_alpha}},
+\code{\link{mlr_measures_surv.calib_beta}},
 \code{\link{mlr_measures_surv.chamblessAUC}},
 \code{\link{mlr_measures_surv.gonenC}},
 \code{\link{mlr_measures_surv.grafSE}},
@@ -70,6 +72,8 @@ Other survival measures:
 \code{\link{mlr_measures_surv.oquigleyR2}},
 \code{\link{mlr_measures_surv.rmseSE}},
 \code{\link{mlr_measures_surv.rmse}},
+\code{\link{mlr_measures_surv.schmid_se}},
+\code{\link{mlr_measures_surv.schmid}},
 \code{\link{mlr_measures_surv.songAUC}},
 \code{\link{mlr_measures_surv.songTNR}},
 \code{\link{mlr_measures_surv.songTPR}},

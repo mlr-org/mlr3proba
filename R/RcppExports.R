@@ -9,8 +9,8 @@ c_score_intslogloss <- function(truth, unique_times, cdf, eps) {
     .Call('_mlr3proba_c_score_intslogloss', PACKAGE = 'mlr3proba', truth, unique_times, cdf, eps)
 }
 
-c_score_graf <- function(truth, unique_times, cdf) {
-    .Call('_mlr3proba_c_score_graf', PACKAGE = 'mlr3proba', truth, unique_times, cdf)
+c_score_graf_schmid <- function(truth, unique_times, cdf, power = 2L) {
+    .Call('_mlr3proba_c_score_graf_schmid', PACKAGE = 'mlr3proba', truth, unique_times, cdf, power)
 }
 
 c_weight_survival_score <- function(score, truth, unique_times, cens) {

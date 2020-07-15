@@ -82,19 +82,21 @@ pecs.list = function(x, measure = c("graf", "logloss"), times, n, eps = 1e-15, t
       paste0("[", paste0(round(range(true_times), 3), collapse = ", "), "]")))
   }
 
-  if(measure == "logloss"){
+  if (measure == "logloss") {
     scores = lapply(p, function(y){
-      integrated_score(score = intslogloss(truth = task$truth(),
-                                                distribution = y$distr,
-                                                times = times,
-                                                eps = eps),
+      integrated_score(score = weighted_survival_score("intslogloss",
+                                                       truth = task$truth(),
+                                                       distribution = y$distr,
+                                                       times = times,
+                                                       eps = eps),
                        integrated = FALSE)
     })
   } else {
     scores = lapply(p, function(y){
-      integrated_score(score = graf(truth = task$truth(),
-                                             distribution = y$distr,
-                                             times = times),
+      integrated_score(score = weighted_survival_score("graf",
+                                                       truth = task$truth(),
+                                                       distribution = y$distr,
+                                                       times = times),
                        integrated = FALSE)
     })
   }
@@ -119,17 +121,21 @@ pecs.PredictionSurv = function(x, measure = c("graf", "logloss"), times, n, eps 
   times = .pec_times(true_times = true_times, times = times, n = n)
 
 
-  if(measure == "logloss"){
-    scores = data.frame(logloss = integrated_score(score = intslogloss(truth = x$truth,
-                                                                            distribution = x$distr,
-                                                                            times = times,
-                                                                            eps = eps),
-                                                   integrated = FALSE))
+  if (measure == "logloss") {
+    scores = data.frame(logloss = integrated_score(
+      score = weighted_survival_score("intslogloss",
+                                      truth = x$truth,
+                                      distribution = x$distr,
+                                      times = times,
+                                      eps = eps),
+      integrated = FALSE))
   } else {
-    scores = data.frame(graf = integrated_score(score = graf(truth = x$truth,
-                                                                      distribution = x$distr,
-                                                                      times = times),
-                                                integrated = FALSE))
+    scores = data.frame(graf = integrated_score(
+      score = weighted_survival_score("graf",
+                                      truth = x$truth,
+                                      distribution = x$distr,
+                                      times = times),
+      integrated = FALSE))
   }
 
   scores$time = round(as.numeric(rownames(scores)), 3)

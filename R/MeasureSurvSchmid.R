@@ -45,10 +45,10 @@ MeasureSurvSchmid = R6::R6Class("MeasureSurvSchmid",
   private = list(
     .score = function(prediction, ...) {
       integrated_score(
-        score = weighted_schmid(
-          truth = prediction$truth,
-          distribution = prediction$distr,
-          times = self$times),
+        score = weighted_survival_score("schmid",
+                                        truth = prediction$truth,
+                                        distribution = prediction$distr,
+                                        times = self$times),
         integrated = self$integrated,
         method = self$method)
     }

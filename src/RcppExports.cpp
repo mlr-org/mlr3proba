@@ -31,16 +31,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// c_score_graf
-NumericMatrix c_score_graf(NumericVector truth, NumericVector unique_times, NumericMatrix cdf);
-RcppExport SEXP _mlr3proba_c_score_graf(SEXP truthSEXP, SEXP unique_timesSEXP, SEXP cdfSEXP) {
+// c_score_graf_schmid
+NumericMatrix c_score_graf_schmid(NumericVector truth, NumericVector unique_times, NumericMatrix cdf, int power);
+RcppExport SEXP _mlr3proba_c_score_graf_schmid(SEXP truthSEXP, SEXP unique_timesSEXP, SEXP cdfSEXP, SEXP powerSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type truth(truthSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type unique_times(unique_timesSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type cdf(cdfSEXP);
-    rcpp_result_gen = Rcpp::wrap(c_score_graf(truth, unique_times, cdf));
+    Rcpp::traits::input_parameter< int >::type power(powerSEXP);
+    rcpp_result_gen = Rcpp::wrap(c_score_graf_schmid(truth, unique_times, cdf, power));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -92,7 +93,7 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_mlr3proba_c_get_unique_times", (DL_FUNC) &_mlr3proba_c_get_unique_times, 2},
     {"_mlr3proba_c_score_intslogloss", (DL_FUNC) &_mlr3proba_c_score_intslogloss, 4},
-    {"_mlr3proba_c_score_graf", (DL_FUNC) &_mlr3proba_c_score_graf, 3},
+    {"_mlr3proba_c_score_graf_schmid", (DL_FUNC) &_mlr3proba_c_score_graf_schmid, 4},
     {"_mlr3proba_c_weight_survival_score", (DL_FUNC) &_mlr3proba_c_weight_survival_score, 4},
     {"_mlr3proba_c_concordance", (DL_FUNC) &_mlr3proba_c_concordance, 8},
     {"_mlr3proba_c_gonen", (DL_FUNC) &_mlr3proba_c_gonen, 2},

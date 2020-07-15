@@ -37,8 +37,7 @@ MeasureSurvGonenC = R6Class("MeasureSurvGonenC",
 
   private = list(
     .score = function(prediction, ...) {
-      c_gonen(prediction$lp)
-      survAUC::GHCI(prediction$lp)
+      c_gonen(prediction$lp, 0.5)
     }
   )
 )

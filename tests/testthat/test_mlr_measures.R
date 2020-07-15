@@ -1,9 +1,10 @@
 set.seed(1)
-library(mlr3learners.survival)
 task = TaskGeneratorSimsurv$new()$generate(20)
 learner = lrn("surv.coxph")$train(task)
 pred = learner$predict(task)
-pred_resp = LearnerSurvParametric$new()$train(task)$predict(task)
+pred = PredictionSurv$new(row_ids = pred$row_ids, task = task,
+                   crank = pred$crank, lp = pred$lp, distr = pred$distr,
+                   response = 1:20)
 
 test_that("mlr_measures", {
   keys = mlr_measures$keys("^surv")
@@ -21,12 +22,7 @@ test_that("mlr_measures", {
 
     expect_measure(m)
 
-    if (m$predict_type == "response") {
-      perf = pred_resp$score(m, task = task, train_set = seq(task$nrow), learner = learner)
-    } else {
-      perf = pred$score(m, task = task, train_set = seq(task$nrow), learner = learner)
-    }
-
+    perf = pred$score(m, task = task, train_set = seq(task$nrow), learner = learner)
     expect_number(perf, na.ok = "na_score" %in% m$properties)
 
     if (key %in% c("surv.calib_alpha", "surv.calib_beta")) {
@@ -59,7 +55,7 @@ times = 60
 train_set = 1:20
 
 test_that("AUCs",{
-  aucs = as.data.table(mlr_measures)$key[grepl("AUC", as.data.table(mlr_measures)$key)]
+  aucs =  mlr_measures$keys("^surv.[a-zA-Z]*AUC")
   expect_error(lapply(aucs, msr, times = 34:37, integrated = FALSE), "non-integrated score")
   expect_silent(prediction$score(lapply(aucs, msr, integrated = TRUE), task = task,
   learner = learner, train_set = train_set))
@@ -68,7 +64,7 @@ test_that("AUCs",{
 })
 
 test_that("sensspecs",{
-  sensspecs = as.data.table(mlr_measures)$key[grepl("TNR|TPR", as.data.table(mlr_measures)$key)]
+  sensspecs = mlr_measures$keys("^surv.[a-zA-Z]*TPR|TNR")
   expect_silent(prediction$score(lapply(sensspecs, msr, integrated = TRUE, times = times),
    task = task, learner = learner, train_set = train_set))
   expect_silent(prediction$score(lapply(sensspecs, msr, integrated = TRUE, times = times),
