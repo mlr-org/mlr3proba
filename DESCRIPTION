@@ -61,7 +61,7 @@ Suggests:
     survAUC,
     testthat
 Remotes:
-    alan-turing-institute/distr6
+    alan-turing-institute/distr6,
     xoopR/set6
 LinkingTo: Rcpp
 VignetteBuilder:
