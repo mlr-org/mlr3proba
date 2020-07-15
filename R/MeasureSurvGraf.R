@@ -22,6 +22,7 @@
 #' @template param_integrated
 #' @template param_times
 #' @template param_method
+#' @template param_se
 #'
 #' @references
 #' \cite{mlr3proba}{graf_1999}
@@ -34,7 +35,7 @@ MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(integrated = TRUE, times, method = 2) {
+    initialize = function(integrated = TRUE, times, method = 2, se = FALSE) {
       super$initialize(
         integrated = integrated,
         times = times,
@@ -44,19 +45,46 @@ MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
         minimize = TRUE,
         packages = character(),
         predict_type = "distr",
-        man = "mlr3proba::mlr_measures_surv.graf"
+        man = "mlr3proba::mlr_measures_surv.graf",
       )
+
+      private$.se = assertFlag(se)
+    }
+  ),
+
+  active = list(
+    #' @field se `(logical(1))` \cr
+    #' If `TRUE` returns the standard error of the measure.
+    se = function(x) {
+      if (!missing(x)) {
+        private$.se = assertFlag(x)
+      } else {
+        return(private$.se)
+      }
     }
   ),
 
   private = list(
+    .se = FALSE,
     .score = function(prediction, ...) {
-      integrated_score(score = weighted_survival_score("graf",
-                                                       truth = prediction$truth,
-                                                       distribution = prediction$distr,
-                                                       times = self$times),
-                       integrated = self$integrated,
-                       method = self$method)
+      if (self$se) {
+        return(
+          integrated_se(score = weighted_survival_score("graf",
+                                                        truth = prediction$truth,
+                                                        distribution = prediction$distr,
+                                                        times = self$times),
+                        integrated = self$integrated)
+        )
+      } else {
+        return(
+          integrated_score(score = weighted_survival_score("graf",
+                                                           truth = prediction$truth,
+                                                           distribution = prediction$distr,
+                                                           times = self$times),
+                           integrated = self$integrated,
+                           method = self$method)
+        )
+      }
     }
   )
 )

@@ -19,6 +19,7 @@
 #' @template param_task_properties
 #' @template param_packages
 #' @template param_man
+#' @template param_se
 #'
 #' @family Measure
 #' @seealso
@@ -31,11 +32,19 @@ MeasureSurv = R6Class("MeasureSurv",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id, range, minimize = NA, aggregator = NULL, properties = character(),
                           predict_type = "distr", task_properties = character(),
-                          packages = character(), man = NA_character_) {
+                          packages = character(), man = NA_character_, se = FALSE) {
       super$initialize(id,
         task_type = "surv", range = range, minimize = minimize, aggregator = aggregator,
         properties = properties, predict_type = predict_type, task_properties = task_properties,
         packages = packages, man = man)
+    },
+
+    #' @description
+    #' Printer.
+    print = function() {
+      super$print()
+      catf(str_indent("* Return type:", ifelse(is.null(private$.se), "Score",
+                                               ifelse(private$.se, "Standard Error", "Score"))))
     }
   )
 )

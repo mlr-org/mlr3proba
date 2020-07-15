@@ -2,6 +2,8 @@
 #' @templateVar title Root Mean Squared Error
 #' @templateVar fullname MeasureSurvRMSE
 #'
+#' @template param_se
+#'
 #' @description
 #' Calculates the root mean squared error (RMSE).
 #'
@@ -17,20 +19,40 @@ MeasureSurvRMSE = R6::R6Class("MeasureSurvRMSE",
   inherit = MeasureSurv,
   public = list(
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function() {
+    initialize = function(se = FALSE) {
       super$initialize(
         id = "surv.rmse",
         range = c(0, Inf),
         minimize = TRUE,
         predict_type = "response",
-        man = "mlr3proba::mlr_measures_surv.rmse"
+        man = "mlr3proba::mlr_measures_surv.rmse",
       )
+
+      private$.se = assertFlag(se)
+    }
+  ),
+
+  active = list(
+    #' @field se `(logical(1))` \cr
+    #' If `TRUE` returns the standard error of the measure.
+    se = function(x) {
+      if (!missing(x)) {
+        private$.se = assertFlag(x)
+      } else {
+        return(private$.se)
+      }
     }
   ),
 
   private = list(
+    .se = FALSE,
     .score = function(prediction, ...) {
-      sqrt(mean(surv_mse(prediction$truth, prediction$response)$mse))
+      if (self$se) {
+        mse = surv_mse(prediction$truth, prediction$response)
+        return(mse$se / (2 * sqrt(mean(mse$mse))))
+      } else {
+        return(sqrt(mean(surv_mse(prediction$truth, prediction$response)$mse)))
+      }
     }
   )
 )

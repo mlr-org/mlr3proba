@@ -2,6 +2,8 @@
 #' @templateVar title Van Houwelingen's Beta
 #' @templateVar fullname MeasureSurvCalibrationBeta
 #'
+#' @template param_se
+#'
 #' @description
 #' This calibration method fits the predicted linear predictor from a Cox PH model as the only
 #' predictor in a new Cox PH model with the test data as the response.
@@ -22,17 +24,16 @@ MeasureSurvCalibrationBeta = R6Class("MeasureSurvCalibrationBeta",
   inherit = MeasureSurv,
   public = list(
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
-    #' @param se `(logical(1))` \cr
-    #' If `TRUE` returns the standard error of the measure.
     initialize = function(se = FALSE) {
-      private$.se = assertFlag(se)
       super$initialize(
         id = "surv.calib_beta",
         range = c(-Inf, Inf),
         minimize = FALSE,
         predict_type = "lp",
-        man = "mlr3proba::mlr_measures_surv.calib_beta"
+        man = "mlr3proba::mlr_measures_surv.calib_beta",
       )
+
+      private$.se = assertFlag(se)
     }
   ),
 
@@ -40,8 +41,8 @@ MeasureSurvCalibrationBeta = R6Class("MeasureSurvCalibrationBeta",
     #' @field se `(logical(1))` \cr
     #' If `TRUE` returns the standard error of the measure.
     se = function(x) {
-      if (missing(x)) {
-        private$.se = assertFlag(se)
+      if (!missing(x)) {
+        private$.se = assertFlag(x)
       } else {
         return(private$.se)
       }
@@ -49,15 +50,15 @@ MeasureSurvCalibrationBeta = R6Class("MeasureSurvCalibrationBeta",
   ),
 
   private = list(
+    .se = FALSE,
     .score = function(prediction, ...) {
       df = data.frame(truth = prediction$truth, lp = prediction$lp)
       fit = summary(survival::coxph(truth ~ lp, data = df))
-      if (private$.se) {
+      if (self$se) {
         return(fit$coefficients[3])
       } else {
         return(fit$coefficients[1])
       }
-    },
-    .se = FALSE
+    }
   )
 )

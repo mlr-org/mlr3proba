@@ -9,11 +9,17 @@
 #' probability density function, \eqn{f}, evaluated at the observation time, \eqn{t},
 #' \deqn{L(f, t) = -log(f(t))}
 #'
+#' The standard error of the Logloss, L, is approximated via,
+#' \deqn{se(L) = sd(L)/\sqrt{N}}{se(L) = sd(L)/\sqrt N}
+#' where \eqn{N} are the number of observations in the test set, and \eqn{sd} is the standard
+#' deviation.
+#'
 #' Censored observations in the test set are ignored.
 #'
 #' @template param_id
 #' @template param_eps
 #' @template field_eps
+#' @template param_se
 #'
 #' @family Probabilistic survival measures
 #' @family distr survival measures
@@ -23,18 +29,18 @@ MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(eps = 1e-15, id = "surv.logloss") {
+    initialize = function(eps = 1e-15, se = FALSE) {
       super$initialize(
-        id = id,
+        id = "surv.logloss",
         range = c(0, Inf),
         minimize = TRUE,
         predict_type = "distr",
         packages = "distr6",
-        man = "mlr3proba::mlr_measures_surv.logloss"
+        man = "mlr3proba::mlr_measures_surv.logloss",
       )
 
-      assertNumeric(eps)
-      private$.eps = eps
+      private$.eps = assertNumeric(eps)
+      private$.se = assertFlag(se)
     }
   ),
 
@@ -46,13 +52,29 @@ MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
         assertNumeric(eps)
         private$.eps = eps
       }
+    },
+
+    #' @field se `(logical(1))` \cr
+    #' If `TRUE` returns the standard error of the measure.
+    se = function(x) {
+      if (!missing(x)) {
+        private$.se = assertFlag(x)
+      } else {
+        return(private$.se)
+      }
     }
   ),
 
   private = list(
     .eps = numeric(0),
+    .se = FALSE,
     .score = function(prediction, ...) {
-      mean(surv_logloss(prediction$truth, prediction$distr, self$eps))
+      if (self$se) {
+        ll = surv_logloss(prediction$truth, prediction$distr, self$eps)
+        return(sd(ll) / sqrt(length(ll)))
+      } else {
+       return(mean(surv_logloss(prediction$truth, prediction$distr, self$eps)))
+      }
     }
   )
 )

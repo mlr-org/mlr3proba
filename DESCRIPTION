@@ -112,7 +112,6 @@ Collate:
     'MeasureSurvRMSE.R'
     'MeasureSurvRMSESE.R'
     'MeasureSurvSchmid.R'
-    'MeasureSurvSchmidSE.R'
     'MeasureSurvSongAUC.R'
     'MeasureSurvSongTNR.R'
     'MeasureSurvSongTPR.R'

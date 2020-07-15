@@ -49,7 +49,6 @@ Other survival measures:
 \code{\link{mlr_measures_surv.hungAUC}},
 \code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.loglossSE}},
 \code{\link{mlr_measures_surv.logloss}},
 \code{\link{mlr_measures_surv.maeSE}},
 \code{\link{mlr_measures_surv.mae}},
@@ -59,7 +58,6 @@ Other survival measures:
 \code{\link{mlr_measures_surv.oquigleyR2}},
 \code{\link{mlr_measures_surv.rmseSE}},
 \code{\link{mlr_measures_surv.rmse}},
-\code{\link{mlr_measures_surv.schmid_se}},
 \code{\link{mlr_measures_surv.schmid}},
 \code{\link{mlr_measures_surv.songAUC}},
 \code{\link{mlr_measures_surv.songTNR}},
@@ -94,14 +92,6 @@ Other lp survival measures:
 \section{Super classes}{
 \code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3proba:MeasureSurv]{mlr3proba::MeasureSurv}} -> \code{MeasureSurvCalibrationBeta}
 }
-\section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{se}}{\code{(logical(1))} \cr
-If \code{TRUE} returns the standard error of the measure.}
-}
-\if{html}{\out{</div>}}
-}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
@@ -115,8 +105,8 @@ If \code{TRUE} returns the standard error of the measure.}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate">}\href{../../mlr3/html/Measure.html#method-aggregate}{\code{mlr3::Measure$aggregate()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format">}\href{../../mlr3/html/Measure.html#method-format}{\code{mlr3::Measure$format()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help">}\href{../../mlr3/html/Measure.html#method-help}{\code{mlr3::Measure$help()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print">}\href{../../mlr3/html/Measure.html#method-print}{\code{mlr3::Measure$print()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score">}\href{../../mlr3/html/Measure.html#method-score}{\code{mlr3::Measure$score()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3proba" data-topic="MeasureSurv" data-id="print">}\href{../../mlr3proba/html/MeasureSurv.html#method-print}{\code{mlr3proba::MeasureSurv$print()}}\out{</span>}
 }
 \out{</details>}
 }
@@ -132,7 +122,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{se}}{\code{(logical(1))} \cr
+\item{\code{se}}{(\code{logical(1)})\cr
 If \code{TRUE} returns the standard error of the measure.}
 }
 \if{html}{\out{</div>}}

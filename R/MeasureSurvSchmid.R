@@ -14,6 +14,7 @@
 #' @template param_integrated
 #' @template param_times
 #' @template param_method
+#' @template param_se
 #'
 #' @references
 #' \cite{mlr3proba}{schemper_2000}
@@ -27,7 +28,7 @@ MeasureSurvSchmid = R6::R6Class("MeasureSurvSchmid",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(integrated = TRUE, times, method = 2) {
+    initialize = function(integrated = TRUE, times, method = 2, se = FALSE) {
       super$initialize(
         integrated = integrated,
         times = times,
@@ -37,20 +38,39 @@ MeasureSurvSchmid = R6::R6Class("MeasureSurvSchmid",
         minimize = TRUE,
         packages = "distr6",
         predict_type = "distr",
-        man = "mlr3proba::mlr_measures_surv.schmid"
+        man = "mlr3proba::mlr_measures_surv.schmid",
       )
+
+      private$.se = assertFlag(se)
+    }
+  ),
+
+  active = list(
+    #' @field se `(logical(1))` \cr
+    #' If `TRUE` returns the standard error of the measure.
+    se = function(x) {
+      if (!missing(x)) {
+        private$.se = assertFlag(x)
+      } else {
+        return(private$.se)
+      }
     }
   ),
 
   private = list(
     .score = function(prediction, ...) {
-      integrated_score(
-        score = weighted_survival_score("schmid",
-                                        truth = prediction$truth,
-                                        distribution = prediction$distr,
-                                        times = self$times),
-        integrated = self$integrated,
-        method = self$method)
-    }
+      score = weighted_survival_score("schmid",
+                                      truth = prediction$truth,
+                                      distribution = prediction$distr,
+                                      times = self$times)
+
+      if (self$se) {
+        return(integrated_se(score = score, integrated = self$integrated))
+      } else {
+        return(integrated_score(score = score, integrated = self$integrated, method = self$method))
+      }
+    },
+
+    .se = FALSE
   )
 )

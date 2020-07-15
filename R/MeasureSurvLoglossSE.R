@@ -23,7 +23,8 @@ MeasureSurvLoglossSE = R6::R6Class("MeasureSurvLoglossSE",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(eps = 1e-15) {
-      super$initialize(eps, id = "surv.loglossSE")
+      warning('MeasureSurvLoglossSE is now deprecated, use msr("surv.logloss", se = TRUE) instead.')
+      super$initialize(eps)
       self$man = "mlr3proba::mlr_measures_surv.loglossSE"
     }
   ),

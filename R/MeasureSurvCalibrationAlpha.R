@@ -2,6 +2,8 @@
 #' @templateVar title Van Houwelingen's Alpha
 #' @templateVar fullname MeasureSurvCalibrationAlpha
 #'
+#' @template param_se
+#'
 #' @description
 #' This calibration method is defined by estimating
 #' \deqn{\alpha = \sum \delta_i / \sum H_i(t_i)}
@@ -23,17 +25,16 @@ MeasureSurvCalibrationAlpha = R6Class("MeasureSurvCalibrationAlpha",
   inherit = MeasureSurv,
   public = list(
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
-    #' @param se `(logical(1))` \cr
-    #' If `TRUE` returns the standard error of the measure.
     initialize = function(se = FALSE) {
-      private$.se = assertFlag(se)
       super$initialize(
         id = "surv.calib_alpha",
         range = c(-Inf, Inf),
         minimize = FALSE,
         predict_type = "distr",
-        man = "mlr3proba::mlr_measures_surv.calib_alpha"
+        man = "mlr3proba::mlr_measures_surv.calib_alpha",
       )
+
+      private$.se = assertFlag(se)
     }
   ),
 
@@ -41,8 +42,8 @@ MeasureSurvCalibrationAlpha = R6Class("MeasureSurvCalibrationAlpha",
     #' @field se `(logical(1))` \cr
     #' If `TRUE` returns the standard error of the measure.
     se = function(x) {
-      if (missing(x)) {
-        private$.se = assertFlag(se)
+      if (!missing(x)) {
+        private$.se = assertFlag(x)
       } else {
         return(private$.se)
       }
@@ -50,17 +51,17 @@ MeasureSurvCalibrationAlpha = R6Class("MeasureSurvCalibrationAlpha",
   ),
 
   private = list(
+    .se = FALSE,
     .score = function(prediction, ...) {
       deaths = sum(prediction$truth[, 2])
 
-      if (private$.se) {
+      if (self$se) {
         return(exp(1/sqrt(deaths)))
       } else {
         return(deaths /
                  sum(prediction$distr$cumHazard(data = matrix(prediction$truth[,1], nrow = 1)))
         )
       }
-    },
-    .se = FALSE
+    }
   )
 )

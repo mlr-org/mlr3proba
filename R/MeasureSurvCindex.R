@@ -67,7 +67,7 @@ MeasureSurvCindex = R6Class("MeasureSurvCindex",
     #' @field cutoff `(numeric(1))`
     #' Cut-off time to evaluate concordance up to.
     cutoff = function(cutoff){
-      if(missing(cutoff)){
+      if (missing(cutoff)) {
         return(private$.cutoff)
       } else {
         private$.cutoff = assertNumeric(cutoff, null.ok = TRUE)
@@ -77,7 +77,7 @@ MeasureSurvCindex = R6Class("MeasureSurvCindex",
     #' @field weight_meth `(numeric(1))`
     #' Method for weighting concordance.
     weight_meth = function(weight_meth){
-      if(missing(weight_meth)){
+      if (missing(weight_meth)) {
         return(private$.weight_meth)
       } else {
         private$.weight_meth = assertChoice(weight_meth, c("I", "G", "G2", "SG", "S", "GH"))
@@ -87,7 +87,7 @@ MeasureSurvCindex = R6Class("MeasureSurvCindex",
     #' @field tiex `(numeric(1))`
     #' Cut-off time to evaluate concordance up to.
     tiex = function(tiex){
-      if(missing(tiex)){
+      if (missing(tiex)) {
         return(private$.tiex)
       } else {
         private$.tiex = assertNumeric(tiex)

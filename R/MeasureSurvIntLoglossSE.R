@@ -23,6 +23,7 @@ MeasureSurvIntLoglossSE = R6::R6Class("MeasureSurvIntLoglossSE",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(integrated = TRUE, times, eps = 1e-15) {
+      warning('MeasureSurvIntLoglossSE is now deprecated, use msr("surv.intlogloss", se = TRUE) instead.') # nolint
       super$initialize(
         integrated = integrated,
         times = times,

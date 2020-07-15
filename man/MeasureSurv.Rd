@@ -26,6 +26,7 @@ Other Measure:
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{MeasureSurv$new()}}
+\item \href{#method-print}{\code{MeasureSurv$print()}}
 }
 }
 \if{html}{
@@ -34,7 +35,6 @@ Other Measure:
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate">}\href{../../mlr3/html/Measure.html#method-aggregate}{\code{mlr3::Measure$aggregate()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format">}\href{../../mlr3/html/Measure.html#method-format}{\code{mlr3::Measure$format()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help">}\href{../../mlr3/html/Measure.html#method-help}{\code{mlr3::Measure$help()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print">}\href{../../mlr3/html/Measure.html#method-print}{\code{mlr3::Measure$print()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score">}\href{../../mlr3/html/Measure.html#method-score}{\code{mlr3::Measure$score()}}\out{</span>}
 }
 \out{</details>}
@@ -54,7 +54,8 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   predict_type = "distr",
   task_properties = character(),
   packages = character(),
-  man = NA_character_
+  man = NA_character_,
+  se = FALSE
 )}\if{html}{\out{</div>}}
 }
 
@@ -103,8 +104,21 @@ but loaded (not attached) later on-demand via \code{\link[=requireNamespace]{req
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 The referenced help package can be opened via method \verb{$help()}.}
+
+\item{\code{se}}{(\code{logical(1)})\cr
+If \code{TRUE} returns the standard error of the measure.}
 }
 \if{html}{\out{</div>}}
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-print"></a>}}
+\if{latex}{\out{\hypertarget{method-print}{}}}
+\subsection{Method \code{print()}}{
+Printer.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MeasureSurv$print()}\if{html}{\out{</div>}}
+}
+
 }
 }

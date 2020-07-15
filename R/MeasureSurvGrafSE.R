@@ -23,6 +23,7 @@ MeasureSurvGrafSE = R6::R6Class("MeasureSurvGrafSE",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(integrated = TRUE, times) {
+      warning('MeasureSurvGrafSE is now deprecated, use msr("surv.graf", se = TRUE) instead.')
       super$initialize(
         integrated = integrated,
         times = times,

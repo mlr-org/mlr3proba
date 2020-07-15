@@ -60,7 +60,6 @@ Other survival measures:
 \code{\link{mlr_measures_surv.hungAUC}},
 \code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.loglossSE}},
 \code{\link{mlr_measures_surv.logloss}},
 \code{\link{mlr_measures_surv.maeSE}},
 \code{\link{mlr_measures_surv.mae}},
@@ -70,7 +69,6 @@ Other survival measures:
 \code{\link{mlr_measures_surv.oquigleyR2}},
 \code{\link{mlr_measures_surv.rmseSE}},
 \code{\link{mlr_measures_surv.rmse}},
-\code{\link{mlr_measures_surv.schmid_se}},
 \code{\link{mlr_measures_surv.songAUC}},
 \code{\link{mlr_measures_surv.songTNR}},
 \code{\link{mlr_measures_surv.songTPR}},
@@ -85,9 +83,7 @@ Other Probabilistic survival measures:
 \code{\link{mlr_measures_surv.graf}},
 \code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.loglossSE}},
-\code{\link{mlr_measures_surv.logloss}},
-\code{\link{mlr_measures_surv.schmid_se}}
+\code{\link{mlr_measures_surv.logloss}}
 
 Other distr survival measures: 
 \code{\link{mlr_measures_surv.calib_alpha}},
@@ -95,15 +91,21 @@ Other distr survival measures:
 \code{\link{mlr_measures_surv.graf}},
 \code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.loglossSE}},
-\code{\link{mlr_measures_surv.logloss}},
-\code{\link{mlr_measures_surv.schmid_se}}
+\code{\link{mlr_measures_surv.logloss}}
 }
 \concept{Probabilistic survival measures}
 \concept{distr survival measures}
 \concept{survival measures}
 \section{Super classes}{
 \code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3proba:MeasureSurv]{mlr3proba::MeasureSurv}} -> \code{\link[mlr3proba:MeasureSurvIntegrated]{mlr3proba::MeasureSurvIntegrated}} -> \code{MeasureSurvSchmid}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{se}}{\code{(logical(1))} \cr
+If \code{TRUE} returns the standard error of the measure.}
+}
+\if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
@@ -118,8 +120,8 @@ Other distr survival measures:
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate">}\href{../../mlr3/html/Measure.html#method-aggregate}{\code{mlr3::Measure$aggregate()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format">}\href{../../mlr3/html/Measure.html#method-format}{\code{mlr3::Measure$format()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help">}\href{../../mlr3/html/Measure.html#method-help}{\code{mlr3::Measure$help()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print">}\href{../../mlr3/html/Measure.html#method-print}{\code{mlr3::Measure$print()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score">}\href{../../mlr3/html/Measure.html#method-score}{\code{mlr3::Measure$score()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3proba" data-topic="MeasureSurv" data-id="print">}\href{../../mlr3proba/html/MeasureSurv.html#method-print}{\code{mlr3proba::MeasureSurv$print()}}\out{</span>}
 }
 \out{</details>}
 }
@@ -129,7 +131,7 @@ Other distr survival measures:
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvSchmid$new(integrated = TRUE, times, method = 2)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvSchmid$new(integrated = TRUE, times, method = 2, se = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -147,6 +149,9 @@ If \code{integrate == TRUE} selects the integration weighting method.
 \code{method == 1} corresponds to weighting each time-point equally and taking the mean score over
 discrete time-points. \code{method == 2} corresponds to calculating a mean weighted by the difference
 between time-points. \code{method == 2} is default to be in line with other packages.}
+
+\item{\code{se}}{(\code{logical(1)})\cr
+If \code{TRUE} returns the standard error of the measure.}
 }
 \if{html}{\out{</div>}}
 }

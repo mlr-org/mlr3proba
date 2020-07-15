@@ -84,8 +84,8 @@ register_mlr3 = function() {
 
   x$add("surv.graf", MeasureSurvGraf)
   x$add("surv.grafSE", MeasureSurvGrafSE)
+  x$add("surv.brier", MeasureSurvGraf)
   x$add("surv.schmid", MeasureSurvSchmid)
-  x$add("surv.schmid_se", MeasureSurvSchmidSE)
   x$add("surv.logloss", MeasureSurvLogloss)
   x$add("surv.loglossSE", MeasureSurvLoglossSE)
   x$add("surv.intlogloss", MeasureSurvIntLogloss)
@@ -100,18 +100,33 @@ register_mlr3 = function() {
   x$add("surv.calib_beta", MeasureSurvCalibrationBeta)
   x$add("surv.calib_alpha", MeasureSurvCalibrationAlpha)
 
+  x$add("surv.nagelk_r2", MeasureSurvNagelkR2)
+  x$add("surv.oquigley_r2", MeasureSurvOQuigleyR2)
+  x$add("surv.xu_r2", MeasureSurvXuR2)
+  # deprecated - deleted in next release
   x$add("surv.nagelkR2", MeasureSurvNagelkR2)
   x$add("surv.oquigleyR2", MeasureSurvOQuigleyR2)
   x$add("surv.xuR2", MeasureSurvXuR2)
 
+  x$add("surv.chambless_auc", MeasureSurvChamblessAUC)
+  x$add("surv.hung_auc", MeasureSurvHungAUC)
+  x$add("surv.uno_auc", MeasureSurvUnoAUC)
+  x$add("surv.song_auc", MeasureSurvSongAUC)
+  # deprecated - deleted in next release
   x$add("surv.chamblessAUC", MeasureSurvChamblessAUC)
   x$add("surv.hungAUC", MeasureSurvHungAUC)
   x$add("surv.unoAUC", MeasureSurvUnoAUC)
   x$add("surv.songAUC", MeasureSurvSongAUC)
 
+  x$add("surv.uno_tpr", MeasureSurvUnoTPR)
+  x$add("surv.song_tpr", MeasureSurvSongTPR)
+  # deprecated - deleted in next release
   x$add("surv.unoTPR", MeasureSurvUnoTPR)
   x$add("surv.songTPR", MeasureSurvSongTPR)
 
+  x$add("surv.uno_tnr", MeasureSurvUnoTNR)
+  x$add("surv.song_tnr", MeasureSurvSongTNR)
+  # deprecated - deleted in next release
   x$add("surv.unoTNR", MeasureSurvUnoTNR)
   x$add("surv.songTNR", MeasureSurvSongTNR)
 
