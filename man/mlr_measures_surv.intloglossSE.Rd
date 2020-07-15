@@ -50,6 +50,7 @@ Other survival measures:
 \code{\link{mlr_measures_surv.harrellC}},
 \code{\link{mlr_measures_surv.hungAUC}},
 \code{\link{mlr_measures_surv.intlogloss}},
+\code{\link{mlr_measures_surv.loglossSE}},
 \code{\link{mlr_measures_surv.logloss}},
 \code{\link{mlr_measures_surv.maeSE}},
 \code{\link{mlr_measures_surv.mae}},
@@ -73,6 +74,7 @@ Other Probabilistic survival measures:
 \code{\link{mlr_measures_surv.grafSE}},
 \code{\link{mlr_measures_surv.graf}},
 \code{\link{mlr_measures_surv.intlogloss}},
+\code{\link{mlr_measures_surv.loglossSE}},
 \code{\link{mlr_measures_surv.logloss}},
 \code{\link{mlr_measures_surv.schmid}}
 
@@ -81,6 +83,7 @@ Other distr survival measures:
 \code{\link{mlr_measures_surv.grafSE}},
 \code{\link{mlr_measures_surv.graf}},
 \code{\link{mlr_measures_surv.intlogloss}},
+\code{\link{mlr_measures_surv.loglossSE}},
 \code{\link{mlr_measures_surv.logloss}},
 \code{\link{mlr_measures_surv.schmid}}
 }

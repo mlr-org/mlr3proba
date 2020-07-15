@@ -46,6 +46,7 @@ Other survival measures:
 \code{\link{mlr_measures_surv.hungAUC}},
 \code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
+\code{\link{mlr_measures_surv.loglossSE}},
 \code{\link{mlr_measures_surv.logloss}},
 \code{\link{mlr_measures_surv.maeSE}},
 \code{\link{mlr_measures_surv.mseSE}},

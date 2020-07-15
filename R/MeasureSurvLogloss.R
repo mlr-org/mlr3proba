@@ -29,9 +29,9 @@ MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(eps = 1e-15, se = FALSE) {
+    initialize = function(id = "surv.logloss", eps = 1e-15, se = FALSE) {
       super$initialize(
-        id = "surv.logloss",
+        id = id,
         range = c(0, Inf),
         minimize = TRUE,
         predict_type = "distr",

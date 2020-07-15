@@ -28,7 +28,7 @@ test_that("intlogloss", {
 
 test_that("intloglossse", {
   expect_silent({
-    l = MeasureSurvIntLoglossSE$new(eps = 0.001)
+    l = msr("surv.intlogloss", se = TRUE)
   })
   expect_error({
     l$eps = "a"

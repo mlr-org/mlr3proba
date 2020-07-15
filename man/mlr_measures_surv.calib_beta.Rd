@@ -49,6 +49,7 @@ Other survival measures:
 \code{\link{mlr_measures_surv.hungAUC}},
 \code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
+\code{\link{mlr_measures_surv.loglossSE}},
 \code{\link{mlr_measures_surv.logloss}},
 \code{\link{mlr_measures_surv.maeSE}},
 \code{\link{mlr_measures_surv.mae}},
@@ -91,6 +92,14 @@ Other lp survival measures:
 \concept{survival measures}
 \section{Super classes}{
 \code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3proba:MeasureSurv]{mlr3proba::MeasureSurv}} -> \code{MeasureSurvCalibrationBeta}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{se}}{\code{(logical(1))} \cr
+If \code{TRUE} returns the standard error of the measure.}
+}
+\if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
