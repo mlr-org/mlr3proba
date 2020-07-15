@@ -36,7 +36,10 @@ msr("surv.loglossSE")
 \seealso{
 Other survival measures: 
 \code{\link{mlr_measures_surv.beggC}},
+\code{\link{mlr_measures_surv.calib_alpha}},
+\code{\link{mlr_measures_surv.calib_beta}},
 \code{\link{mlr_measures_surv.chamblessAUC}},
+\code{\link{mlr_measures_surv.cindex}},
 \code{\link{mlr_measures_surv.gonenC}},
 \code{\link{mlr_measures_surv.grafSE}},
 \code{\link{mlr_measures_surv.graf}},
@@ -74,6 +77,7 @@ Other Probabilistic survival measures:
 \code{\link{mlr_measures_surv.schmid}}
 
 Other distr survival measures: 
+\code{\link{mlr_measures_surv.calib_alpha}},
 \code{\link{mlr_measures_surv.grafSE}},
 \code{\link{mlr_measures_surv.graf}},
 \code{\link{mlr_measures_surv.intloglossSE}},

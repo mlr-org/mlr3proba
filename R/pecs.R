@@ -42,7 +42,7 @@
 #' x$data
 #'
 #' # Prediction Error Curves for fitted learners
-#' learns = lrns(c("surv.kaplan", "surv.coxph", "surv.ranger"))
+#' learns = lrns(c("surv.kaplan", "surv.coxph"))
 #' lapply(learns, function(x) x$train(task))
 #' pecs(learns, task = task, measure = "logloss", times = c(20, 90), n = 10)
 #' }
@@ -83,23 +83,21 @@ pecs.list = function(x, measure = c("graf", "logloss"), times, n, eps = 1e-15, t
   }
 
   if (measure == "logloss") {
-    scores = lapply(p, function(y) {
-      integrated_score(
-        score = weighted_logloss(
-          truth = task$truth(),
-          distribution = y$distr,
-          times = times,
-          eps = eps),
-        integrated = FALSE)
+    scores = lapply(p, function(y){
+      integrated_score(score = weighted_survival_score("intslogloss",
+                                                       truth = task$truth(),
+                                                       distribution = y$distr,
+                                                       times = times,
+                                                       eps = eps),
+                       integrated = FALSE)
     })
   } else {
-    scores = lapply(p, function(y) {
-      integrated_score(
-        score = weighted_graf(
-          truth = task$truth(),
-          distribution = y$distr,
-          times = times),
-        integrated = FALSE)
+    scores = lapply(p, function(y){
+      integrated_score(score = weighted_survival_score("graf",
+                                                       truth = task$truth(),
+                                                       distribution = y$distr,
+                                                       times = times),
+                       integrated = FALSE)
     })
   }
 
@@ -125,18 +123,18 @@ pecs.PredictionSurv = function(x, measure = c("graf", "logloss"), times, n, eps 
 
   if (measure == "logloss") {
     scores = data.frame(logloss = integrated_score(
-      score = weighted_logloss(
-        truth = x$truth,
-        distribution = x$distr,
-        times = times,
-        eps = eps),
+      score = weighted_survival_score("intslogloss",
+                                      truth = x$truth,
+                                      distribution = x$distr,
+                                      times = times,
+                                      eps = eps),
       integrated = FALSE))
   } else {
     scores = data.frame(graf = integrated_score(
-      score = weighted_graf(
-        truth = x$truth,
-        distribution = x$distr,
-        times = times),
+      score = weighted_survival_score("graf",
+                                      truth = x$truth,
+                                      distribution = x$distr,
+                                      times = times),
       integrated = FALSE))
   }
 

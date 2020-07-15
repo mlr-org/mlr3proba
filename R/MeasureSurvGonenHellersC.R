@@ -22,6 +22,8 @@ MeasureSurvGonenC = R6Class("MeasureSurvGonenC",
   public = list(
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
+      warning("This is now deprecated, use MeasureSurvCindex instead with `weight_meth = 'GH'`.")
+
       super$initialize(
         id = "surv.gonenC",
         range = 0:1,
@@ -35,7 +37,7 @@ MeasureSurvGonenC = R6Class("MeasureSurvGonenC",
 
   private = list(
     .score = function(prediction, ...) {
-      survAUC::GHCI(prediction$lp)
+      c_gonen(prediction$lp, 0.5)
     }
   )
 )

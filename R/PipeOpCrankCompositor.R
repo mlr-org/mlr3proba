@@ -66,17 +66,17 @@
 #' \dontrun{
 #' # Method 2 - Create a graph manually
 #' gr = Graph$new()$
-#'   add_pipeop(po("learner", lrn("surv.ranger")))$
+#'   add_pipeop(po("learner", lrn("surv.coxph")))$
 #'   add_pipeop(po("crankcompose"))$
-#'   add_edge("surv.ranger", "crankcompose")
+#'   add_edge("surv.coxph", "crankcompose")
 #' gr$train(task)
 #' gr$predict(task)
 #'
 #' # Method 3 - Syntactic sugar: Wrap the learner in a graph
-#' ranger.crank = crankcompositor(
-#'   learner = lrn("surv.ranger"),
+#' cox.crank = crankcompositor(
+#'   learner = lrn("surv.coxph"),
 #'   method = "median")
-#' resample(task, ranger.crank, rsmp("cv", folds = 2))$predictions()
+#' resample(task, cox.crank, rsmp("cv", folds = 2))$predictions()
 #' }
 PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
   inherit = PipeOp,
@@ -90,16 +90,21 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
     #'   List of hyperparameter settings, overwriting the hyperparameter settings that would
     #'   otherwise be set during construction.
     initialize = function(id = "crankcompose", param_vals = list(method = "mean")) {
+      ps = ParamSet$new(params = list(
+        ParamFct$new("method", default = "mean", levels = c("mean", "median", "mode"),
+                     tags = "predict"),
+        ParamInt$new("which", default = 1, lower = 1, tags = "predict")
+      ))
+      ps$add_dep("which", "method", CondEqual$new("mode"))
+
       super$initialize(
         id = id,
-        param_set = ParamSet$new(params = list(
-          ParamFct$new("method", default = "mean", levels = c("mean", "median", "mode"),
-                       tags = c("predict"))
-        )),
+        param_set = ps,
         param_vals = param_vals,
         input = data.table(name = "input", train = "NULL", predict = "PredictionSurv"),
         output = data.table(name = "output", train = "NULL", predict = "PredictionSurv"),
-        packages = "distr6")
+        packages = "distr6"
+        )
     },
 
     #' @description train_internal
@@ -126,7 +131,7 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
       if (length(method) == 0) method = "mean"
       crank = as.numeric(switch(method,
         median = inpred$distr$median(),
-        mode = inpred$distr$mode(),
+        mode = inpred$distr$mode(self$param_set$values$which),
         inpred$distr$mean()
       ))
 

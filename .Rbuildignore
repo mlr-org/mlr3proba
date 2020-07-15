@@ -22,3 +22,4 @@ cran\-comments\.md
 ^sandbox$
 README.html
 ^\.vscode$
+^\.lintr$

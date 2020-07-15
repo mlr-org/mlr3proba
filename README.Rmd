@@ -111,6 +111,8 @@ for instructions in how to install learners from the [mlr3learners organisation]
 | ID | Measure | Package |
 | :--| :------ | :------ |
 | [surv.beggC](https://mlr3proba.mlr-org.com/reference/MeasureSurvBeggC.html) | Begg's C-Index | [survAUC](https://CRAN.R-project.org/package=survAUC) |
+| [surv.calib_alpha](https://mlr3proba.mlr-org.com/reference/MeasureSurvCalibrationAlpha.html) | van Houwelingen's Alpha Calibration | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
+| [surv.calib_beta](https://mlr3proba.mlr-org.com/reference/MeasureSurvCalibrationBeta.html) | van Houwelingen's Beta Calibration | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
   | [surv.chamblessAUC](https://mlr3proba.mlr-org.com/reference/MeasureSurvChamblessAUC.html) | Chambless and Diao's AUC | [survAUC](https://CRAN.R-project.org/package=survAUC) |
 | [surv.gonenC](https://mlr3proba.mlr-org.com/reference/MeasureSurvGonenC.html) | Gonen and Heller's C-Index | [survAUC](https://CRAN.R-project.org/package=survAUC) |
   | [surv.graf](https://mlr3proba.mlr-org.com/reference/MeasureSurvGraf.html) | Integrated Graf Score | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |

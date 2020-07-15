@@ -131,29 +131,31 @@ organisation](https://github.com/mlr3learners).
 
 ### Survival Measures
 
-| ID                                                                                        | Measure                                 | Package                                                   |
-| :---------------------------------------------------------------------------------------- | :-------------------------------------- | :-------------------------------------------------------- |
-| [surv.beggC](https://mlr3proba.mlr-org.com/reference/MeasureSurvBeggC.html)               | Begg’s C-Index                          | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.chamblessAUC](https://mlr3proba.mlr-org.com/reference/MeasureSurvChamblessAUC.html) | Chambless and Diao’s AUC                | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.gonenC](https://mlr3proba.mlr-org.com/reference/MeasureSurvGonenC.html)             | Gonen and Heller’s C-Index              | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.graf](https://mlr3proba.mlr-org.com/reference/MeasureSurvGraf.html)                 | Integrated Graf Score                   | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
-| [surv.grafSE](https://mlr3proba.mlr-org.com/reference/MeasureSurvGrafSE.html)             | Standard Error of Integrated Graf Score | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
-| [surv.harrellC](https://mlr3proba.mlr-org.com/reference/MeasureSurvHarrellC.html)         | Harrell’s C-Index                       | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
-| [surv.hungAUC](https://mlr3proba.mlr-org.com/reference/MeasureSurvHungAUC.html)           | Hung and Chiang’s AUC                   | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.intlogloss](https://mlr3proba.mlr-org.com/reference/MeasureSurvIntLogloss.html)     | Integrated Log Loss                     | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
-| [surv.intloglossSE](https://mlr3proba.mlr-org.com/reference/MeasureSurvIntLoglossSE.html) | Standard Error of Integrated Log Loss   | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
-| [surv.logloss](https://mlr3proba.mlr-org.com/reference/MeasureSurvLogloss.html)           | Log Loss                                | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
-| [surv.loglossSE](https://mlr3proba.mlr-org.com/reference/MeasureSurvLoglossSE.html)       | Standard Error of Log Loss              | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
-| [surv.nagelkR2](https://mlr3proba.mlr-org.com/reference/MeasureSurvNagelkR2.html)         | Nagelkerke’s R2                         | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.oquigleyR2](https://mlr3proba.mlr-org.com/reference/MeasureSurvOQuigleyR2.html)     | O’Quigley, Xu, and Stare’s R2           | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.songAUC](https://mlr3proba.mlr-org.com/reference/MeasureSurvSongAUC.html)           | Song and Zhou’s AUC                     | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.songTNR](https://mlr3proba.mlr-org.com/reference/MeasureSurvSongTNR.html)           | Song and Zhou’s TNR                     | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.songTPR](https://mlr3proba.mlr-org.com/reference/MeasureSurvSongTPR.html)           | Song and Zhou’s TPR                     | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.unoAUC](https://mlr3proba.mlr-org.com/reference/MeasureSurvUnoAUC.html)             | Uno’s AUC                               | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.unoC](https://mlr3proba.mlr-org.com/reference/MeasureSurvUnoC.html)                 | Uno’s C-Index                           | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.unoTNR](https://mlr3proba.mlr-org.com/reference/MeasureSurvUnoTNR.html)             | Uno’s TNR                               | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.unoTPR](https://mlr3proba.mlr-org.com/reference/MeasureSurvUnoTPR.html)             | Uno’s TPR                               | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.xuR2](https://mlr3proba.mlr-org.com/reference/MeasureSurvXuR2.html)                 | Xu and O’Quigley’s R2                   | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
+| ID                                                                                            | Measure                                 | Package                                                   |
+| :-------------------------------------------------------------------------------------------- | :-------------------------------------- | :-------------------------------------------------------- |
+| [surv.beggC](https://mlr3proba.mlr-org.com/reference/MeasureSurvBeggC.html)                   | Begg’s C-Index                          | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
+| [surv.calib\_alpha](https://mlr3proba.mlr-org.com/reference/MeasureSurvCalibrationAlpha.html) | van Houwelingen’s Alpha Calibration     | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
+| [surv.calib\_beta](https://mlr3proba.mlr-org.com/reference/MeasureSurvCalibrationBeta.html)   | van Houwelingen’s Beta Calibration      | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
+| [surv.chamblessAUC](https://mlr3proba.mlr-org.com/reference/MeasureSurvChamblessAUC.html)     | Chambless and Diao’s AUC                | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
+| [surv.gonenC](https://mlr3proba.mlr-org.com/reference/MeasureSurvGonenC.html)                 | Gonen and Heller’s C-Index              | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
+| [surv.graf](https://mlr3proba.mlr-org.com/reference/MeasureSurvGraf.html)                     | Integrated Graf Score                   | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
+| [surv.grafSE](https://mlr3proba.mlr-org.com/reference/MeasureSurvGrafSE.html)                 | Standard Error of Integrated Graf Score | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
+| [surv.harrellC](https://mlr3proba.mlr-org.com/reference/MeasureSurvHarrellC.html)             | Harrell’s C-Index                       | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
+| [surv.hungAUC](https://mlr3proba.mlr-org.com/reference/MeasureSurvHungAUC.html)               | Hung and Chiang’s AUC                   | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
+| [surv.intlogloss](https://mlr3proba.mlr-org.com/reference/MeasureSurvIntLogloss.html)         | Integrated Log Loss                     | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
+| [surv.intloglossSE](https://mlr3proba.mlr-org.com/reference/MeasureSurvIntLoglossSE.html)     | Standard Error of Integrated Log Loss   | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
+| [surv.logloss](https://mlr3proba.mlr-org.com/reference/MeasureSurvLogloss.html)               | Log Loss                                | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
+| [surv.loglossSE](https://mlr3proba.mlr-org.com/reference/MeasureSurvLoglossSE.html)           | Standard Error of Log Loss              | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
+| [surv.nagelkR2](https://mlr3proba.mlr-org.com/reference/MeasureSurvNagelkR2.html)             | Nagelkerke’s R2                         | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
+| [surv.oquigleyR2](https://mlr3proba.mlr-org.com/reference/MeasureSurvOQuigleyR2.html)         | O’Quigley, Xu, and Stare’s R2           | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
+| [surv.songAUC](https://mlr3proba.mlr-org.com/reference/MeasureSurvSongAUC.html)               | Song and Zhou’s AUC                     | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
+| [surv.songTNR](https://mlr3proba.mlr-org.com/reference/MeasureSurvSongTNR.html)               | Song and Zhou’s TNR                     | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
+| [surv.songTPR](https://mlr3proba.mlr-org.com/reference/MeasureSurvSongTPR.html)               | Song and Zhou’s TPR                     | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
+| [surv.unoAUC](https://mlr3proba.mlr-org.com/reference/MeasureSurvUnoAUC.html)                 | Uno’s AUC                               | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
+| [surv.unoC](https://mlr3proba.mlr-org.com/reference/MeasureSurvUnoC.html)                     | Uno’s C-Index                           | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
+| [surv.unoTNR](https://mlr3proba.mlr-org.com/reference/MeasureSurvUnoTNR.html)                 | Uno’s TNR                               | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
+| [surv.unoTPR](https://mlr3proba.mlr-org.com/reference/MeasureSurvUnoTPR.html)                 | Uno’s TPR                               | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
+| [surv.xuR2](https://mlr3proba.mlr-org.com/reference/MeasureSurvXuR2.html)                     | Xu and O’Quigley’s R2                   | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
 
 ## Density Estimation
 

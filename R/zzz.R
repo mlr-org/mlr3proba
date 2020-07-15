@@ -1,3 +1,7 @@
+#' @importFrom Rcpp sourceCpp
+#' @useDynLib mlr3proba
+NULL
+
 #' @import checkmate
 #' @import data.table
 #' @import distr6
@@ -25,12 +29,11 @@ register_mlr3 = function() {
     x$task_properties$surv = c("weights", "groups")
     x$learner_properties$surv = x$learner_properties$regr
     x$measure_properties$surv = x$measure_properties$regr
-    x$learner_predict_types$surv = list(
-      crank = c("crank", "lp", "distr", "response"),
-      distr = c("crank", "lp", "distr", "response"),
-      lp = c("crank", "lp", "distr", "response"),
-      response = c("crank", "lp", "distr", "response"))
-    x$default_measures$surv = "surv.harrellC"
+    x$learner_predict_types$surv = list(crank = c("crank","lp","distr","response"),
+                                        distr = c("crank","lp","distr","response"),
+                                        lp = c("crank","lp","distr","response"),
+                                        response = c("crank","lp","distr","response"))
+    x$default_measures$surv = "surv.cindex"
   }
 
   if (!grepl("dens", x$task_types[, "type"])) {
@@ -88,10 +91,14 @@ register_mlr3 = function() {
   x$add("surv.intlogloss", MeasureSurvIntLogloss)
   x$add("surv.intloglossSE", MeasureSurvIntLoglossSE)
 
-  x$add("surv.unoC", MeasureSurvUnoC)
-  x$add("surv.harrellC", MeasureSurvHarrellC)
-  x$add("surv.gonenC", MeasureSurvGonenC)
-  x$add("surv.beggC", MeasureSurvBeggC)
+   x$add("surv.cindex", MeasureSurvCindex)
+   x$add("surv.unoC", MeasureSurvUnoC)
+   x$add("surv.harrellC", MeasureSurvHarrellC)
+   x$add("surv.gonenC", MeasureSurvGonenC)
+   x$add("surv.beggC", MeasureSurvBeggC)
+
+  x$add("surv.calib_beta", MeasureSurvCalibrationBeta)
+  x$add("surv.calib_alpha", MeasureSurvCalibrationAlpha)
 
   x$add("surv.nagelkR2", MeasureSurvNagelkR2)
   x$add("surv.oquigleyR2", MeasureSurvOQuigleyR2)
@@ -135,8 +142,10 @@ register_mlr3pipelines = function() {
   pkgname = vapply(hooks[-1], function(x) environment(x)$pkgname, NA_character_)
   setHook(event, hooks[pkgname != "mlr3proba"], action = "replace")
 
-  event = packageEvent("mlr3pipelines", "onLoad")
-  hooks = getHook(event)
-  pkgname = vapply(hooks[-1], function(x) environment(x)$pkgname, NA_character_)
-  setHook(event, hooks[pkgname != "mlr3proba"], action = "replace")
+   event = packageEvent("mlr3pipelines", "onLoad")
+   hooks = getHook(event)
+   pkgname = vapply(hooks[-1], function(x) environment(x)$pkgname, NA_character_)
+   setHook(event, hooks[pkgname != "mlr3proba"], action = "replace")
+
+   library.dynam.unload("mlr3proba", libpath)
 }
