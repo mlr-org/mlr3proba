@@ -79,7 +79,6 @@ NumericMatrix c_score_intslogloss(NumericMatrix truth, NumericVector unique_time
 // [[Rcpp::export]]
 NumericMatrix c_score_graf_schmid(NumericVector truth, NumericVector unique_times,
                                   NumericMatrix cdf, int power = 2){
-
   int nr_obs = truth.length();
   int nc_times = unique_times.length();
   NumericMatrix igs(nr_obs, nc_times);
@@ -100,7 +99,6 @@ NumericMatrix c_score_graf_schmid(NumericVector truth, NumericVector unique_time
 // [[Rcpp::export]]
 NumericMatrix c_weight_survival_score(NumericMatrix score, NumericMatrix truth,
                                     NumericVector unique_times, NumericMatrix cens){
-
   NumericVector times = truth(_,0);
   NumericVector status = truth(_,1);
 
@@ -153,7 +151,6 @@ NumericMatrix c_weight_survival_score(NumericMatrix score, NumericMatrix truth,
 float c_concordance(NumericVector time, NumericVector status, NumericVector crank,
                     double cutoff, std::string weight_meth, NumericMatrix cens,
                     NumericMatrix surv, float tiex) {
-
   float num = 0;
   float den = 0;
   float weight = -1;

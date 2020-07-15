@@ -56,12 +56,13 @@ Suggests:
     pracma,
     rmarkdown,
     rpart,
-    set6,
+    set6 (>= 0.1.5.9000),
     simsurv,
     survAUC,
     testthat
 Remotes:
     alan-turing-institute/distr6
+    xoopR/set6
 LinkingTo: Rcpp
 VignetteBuilder:
     knitr
