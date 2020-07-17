@@ -56,7 +56,7 @@ Suggests:
     pracma,
     rmarkdown,
     rpart,
-    set6 (>= 0.1.5.9000),
+    set6 (>= 0.1.7),
     simsurv,
     survAUC,
     testthat
