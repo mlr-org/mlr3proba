@@ -62,7 +62,6 @@ Suggests:
     testthat
 Remotes:
     alan-turing-institute/distr6,
-    xoopR/set6
 LinkingTo: Rcpp
 VignetteBuilder:
     knitr
