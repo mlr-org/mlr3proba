@@ -28,3 +28,13 @@ test_that("no params", {
   expect_prediction_surv(p)
   expect_equal(p$lp, numeric(0))
 })
+
+test_that("response", {
+  po = PipeOpCrankCompositor$new(param_vals = list(response = TRUE))
+  p = po$predict(
+    list(lrn("surv.kaplan")$train(task)$predict(task)))$output
+  expect_equal(p$response, p$crank)
+
+  p = crankcompositor(lrn("surv.coxph"), response = TRUE)$train(task)$predict(task)
+  expect_equal(p$response, p$crank)
+})

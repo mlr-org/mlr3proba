@@ -108,7 +108,7 @@ PipeOpSurvAvg = R6Class("PipeOpSurvAvg",
 
       distr = map(inputs, "distr")
       if (all(as.logical(mlr3misc::map_int(distr, length)))) {
-        distr = mixturiseVector(distr)
+        distr = distr6::mixturiseVector(distr, weights)
       } else {
         distr = NULL
       }
