@@ -43,6 +43,10 @@ One of \code{median}, \code{mode}, or \code{mean} corresponding to the respectiv
 survival distribution. Note that for models with a proportional hazards form, the ranking
 implied by \code{mean} and \code{median} will be identical (but not the value of \code{crank} itself).
 Default is \code{mean}.
+\item \code{which} :: \code{numeric(1)}\cr
+If \code{method = "mode"} then specifies which mode to use if multi-modal, default is the first.
+\item \code{response} :: \code{logical(1)}\cr
+If \code{TRUE} then the \code{response} predict type is estimated with the same values as \code{crank}.
 }
 }
 
