@@ -8,6 +8,8 @@
 #' how `crank` is estimated from the predicted `distr`. Default is `mean`.
 #' @param which If `method = "mode"` then specifies which mode to use if multi-modal, default
 #' is the first.
+#' @param response If `TRUE` then the `response` predict type is imputed with the same values
+#' as `crank`.
 #' @param param_vals Additional parameters to pass to the `learner`.
 #' @details For full details see [PipeOpCrankCompositor].
 #' @return [mlr3pipelines::GraphLearner]
@@ -24,11 +26,11 @@
 #' }
 #' @export
 crankcompositor = function(learner, method = c("mean", "median", "mode"), which = NULL,
-                           param_vals = list()) {
+                           response = FALSE, param_vals = list()) {
   assert("distr" %in% learner$predict_types)
 
   pred = po("learner", learner, param_vals = param_vals)
-  pv = list(method = match.arg(method))
+  pv = list(method = match.arg(method), response = response)
   if (!is.null(which)) {
     pv$which = which
   }

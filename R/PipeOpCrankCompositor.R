@@ -34,6 +34,10 @@
 #'    survival distribution. Note that for models with a proportional hazards form, the ranking
 #'    implied by `mean` and `median` will be identical (but not the value of `crank` itself).
 #'    Default is `mean`.
+#' * `which` :: `numeric(1)`\cr
+#'    If `method = "mode"` then specifies which mode to use if multi-modal, default is the first.
+#' * `response` :: `logical(1)`\cr
+#'    If `TRUE` then the `response` predict type is estimated with the same values as `crank`.
 #'
 #' @section Internals:
 #' The `median`, `mode`, or `mean` will use analytical expressions if possible but if not they are
@@ -93,7 +97,8 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
       ps = ParamSet$new(params = list(
         ParamFct$new("method", default = "mean", levels = c("mean", "median", "mode"),
                      tags = "predict"),
-        ParamInt$new("which", default = 1, lower = 1, tags = "predict")
+        ParamInt$new("which", default = 1, lower = 1, tags = "predict"),
+        ParamLgl$new("response", default = FALSE, tags = "predict")
       ))
       ps$add_dep("which", "method", CondEqual$new("mode"))
 
@@ -135,15 +140,22 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
         inpred$distr$mean()
       ))
 
-      if (length(inpred$lp) == 0) {
-        lp = NULL
-      } else {
+      if (length(inpred$lp)) {
         lp = inpred$lp
+      } else {
+        lp = NULL
+      }
+
+      response = self$param_set$values$response
+      if (!is.null(response) && response) {
+        response = crank
+      } else {
+        response = NULL
       }
 
       return(list(PredictionSurv$new(
         row_ids = inpred$row_ids, truth = inpred$truth, crank = crank,
-        distr = inpred$distr, lp = lp)))
+        distr = inpred$distr, lp = lp, response = response)))
     }
   )
 
