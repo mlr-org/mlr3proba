@@ -38,10 +38,9 @@ Depends:
 Imports:
     checkmate,
     data.table,
-    distr6 (>= 1.4.0),
+    distr6 (>= 1.4.0.9000),
     mlr3 (>= 0.3.0),
     mlr3misc (>= 0.1.7),
-    mlr3pipelines,
     paradox (>= 0.1.0),
     Rcpp (>= 1.0.4),
     R6,
@@ -52,6 +51,7 @@ Suggests:
     knitr,
     lgr,
     Matrix,
+    mlr3pipelines,
     mlr3tuning,
     pracma,
     rmarkdown,
@@ -61,7 +61,7 @@ Suggests:
     survAUC,
     testthat
 Remotes:
-    alan-turing-institute/distr6,
+    alan-turing-institute/distr6@217,
 LinkingTo: Rcpp
 VignetteBuilder:
     knitr
@@ -121,6 +121,7 @@ Collate:
     'MeasureSurvXuR2.R'
     'PipeOpCrankCompositor.R'
     'PipeOpDistrCompositor.R'
+    'PipeOpSurvAvg.R'
     'PredictionDens.R'
     'PredictionProbreg.R'
     'PredictionSurv.R'
@@ -144,5 +145,6 @@ Collate:
     'integrated_scores.R'
     'pecs.R'
     'plot.R'
+    'surv_average.R'
     'surv_measures.R'
     'zzz.R'

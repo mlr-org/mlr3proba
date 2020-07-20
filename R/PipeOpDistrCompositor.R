@@ -102,7 +102,7 @@
 #' cox.distr$train(task)$predict(task)
 #' }
 PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
-  inherit = PipeOp,
+  inherit = mlr3pipelines::PipeOp,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.

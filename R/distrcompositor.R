@@ -34,12 +34,14 @@
 distrcompositor = function(learner, estimator = c("kaplan", "nelson"), form = c("aft", "ph", "po"),
   overwrite = FALSE, param_vals = list()) {
 
-  pred = po("learner", learner, param_vals = param_vals)
+  pred = mlr3pipelines::po("learner", learner, param_vals = param_vals)
 
   base = match.arg(estimator)
-  base = po("learner", lrn(paste("surv", base, sep = ".")))
+  base = mlr3pipelines::po("learner", lrn(paste("surv", base, sep = ".")))
 
-  compositor = po("distrcompose", param_vals = list(form = match.arg(form), overwrite = overwrite))
+  compositor = mlr3pipelines::po("distrcompose", param_vals = list(form = match.arg(form),
+                                                                   overwrite = overwrite))
 
-  GraphLearner$new(gunion(list(base, pred)) %>>% compositor)
+  mlr3pipelines::GraphLearner$new(mlr3pipelines::`%>>%`(mlr3pipelines::gunion(list(base, pred)),
+                                                        compositor))
 }
