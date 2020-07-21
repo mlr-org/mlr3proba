@@ -7,6 +7,7 @@ NULL
 #' @import distr6
 #' @rawNamespace import(mlr3, except = PredictionRegr)
 #' @import mlr3misc
+#' @import mlr3pipelines
 #' @import paradox
 #' @importFrom R6 R6Class
 #' @importFrom utils data head tail

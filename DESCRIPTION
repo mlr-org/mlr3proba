@@ -41,6 +41,7 @@ Imports:
     distr6 (>= 1.4.1),
     mlr3 (>= 0.3.0),
     mlr3misc (>= 0.1.7),
+    mlr3pipelines,
     paradox (>= 0.1.0),
     Rcpp (>= 1.0.4),
     R6,
