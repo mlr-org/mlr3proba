@@ -87,7 +87,7 @@ gr = Graph$new()$
 gr$train(task)$predict(task)
 
 # Method 3 - Syntactic sugar: Wrap the learner in a graph
-feat_distr = probregr_compositor(
+feat_distr = probregr_compose(
   learner = lrn("regr.featureless", predict_type = "se"),
   dist = "Logistic")
 resample(task, feat_distr, rsmp("cv", folds = 2))$predictions()
