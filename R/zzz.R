@@ -5,7 +5,7 @@ NULL
 #' @import checkmate
 #' @import data.table
 #' @import distr6
-#' @import mlr3
+#' @rawNamespace import(mlr3, except = PredictionRegr)
 #' @import mlr3misc
 #' @import mlr3pipelines
 #' @import paradox
@@ -141,6 +141,7 @@ register_mlr3pipelines = function() {
   x = utils::getFromNamespace("mlr_pipeops", ns = "mlr3pipelines")
   x$add("distrcompose", PipeOpDistrCompositor)
   x$add("crankcompose", PipeOpCrankCompositor)
+  x$add("probregr", PipeOpProbRegr)
 }
 
 .onLoad = function(libname, pkgname) { # nolint

@@ -122,7 +122,8 @@ cox.distr$train(task)$predict(task)
 \link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp} and \link{distrcompositor}
 
 Other survival compositors: 
-\code{\link{PipeOpCrankCompositor}}
+\code{\link{PipeOpCrankCompositor}},
+\code{\link{PipeOpProbRegr}}
 }
 \concept{survival compositors}
 \section{Super class}{
