@@ -173,7 +173,7 @@ c.PredictionSurv = function(..., keep_duplicates = TRUE) {
     tab = map_dtr(dots, function(p) subset(p$data$tab, select = -distr), .fill = FALSE)
     distr = do.call(c, lapply(dots, function(p) p$distr))
   } else {
-    tab = map_dtr(dots, function(p) subset(p$data$tab), .fill = FALSE)
+    tab = map_dtr(dots, function(p) p$data$tab, .fill = FALSE)
     distr = NULL
   }
 

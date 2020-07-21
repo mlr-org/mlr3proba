@@ -38,7 +38,7 @@ Depends:
 Imports:
     checkmate,
     data.table,
-    distr6 (>= 1.4.0),
+    distr6 (>= 1.4.1),
     mlr3 (>= 0.3.0),
     mlr3misc (>= 0.1.7),
     mlr3pipelines,
@@ -61,7 +61,7 @@ Suggests:
     survAUC,
     testthat
 Remotes:
-    alan-turing-institute/distr6,
+    alan-turing-institute/distr6
 LinkingTo: Rcpp
 VignetteBuilder:
     knitr
@@ -121,8 +121,10 @@ Collate:
     'MeasureSurvXuR2.R'
     'PipeOpCrankCompositor.R'
     'PipeOpDistrCompositor.R'
+    'PipeOpProbRegr.R'
     'PredictionDens.R'
     'PredictionProbreg.R'
+    'PredictionRegr.R'
     'PredictionSurv.R'
     'RcppExports.R'
     'TaskDens.R'
@@ -137,12 +139,13 @@ Collate:
     'TaskSurv_unemployment.R'
     'assertions.R'
     'cindex.R'
-    'crankcompositor.R'
-    'distrcompositor.R'
+    'crank_compositor.R'
+    'distr_compositor.R'
     'helpers.R'
     'histogram.R'
     'integrated_scores.R'
     'pecs.R'
     'plot.R'
+    'probregr_compose.R'
     'surv_measures.R'
     'zzz.R'
