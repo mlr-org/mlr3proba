@@ -10,6 +10,7 @@ the predicted response and standard error.
 This masks the \link[mlr3:PredictionRegr]{mlr3::PredictionRegr} in order to include the \code{distr} predict type.
 }
 \examples{
+library(mlr3)
 task = tsk("boston_housing")
 learner = lrn("regr.featureless", predict_type = "se")
 p = learner$train(task)$predict(task)

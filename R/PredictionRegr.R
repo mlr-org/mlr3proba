@@ -9,6 +9,7 @@
 #' @family Prediction
 #' @export
 #' @examples
+#' library(mlr3)
 #' task = tsk("boston_housing")
 #' learner = lrn("regr.featureless", predict_type = "se")
 #' p = learner$train(task)$predict(task)
