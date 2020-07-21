@@ -38,7 +38,7 @@ Depends:
 Imports:
     checkmate,
     data.table,
-    distr6 (>= 1.4.0.9000),
+    distr6 (>= 1.4.1),
     mlr3 (>= 0.3.0),
     mlr3misc (>= 0.1.7),
     paradox (>= 0.1.0),
@@ -61,7 +61,7 @@ Suggests:
     survAUC,
     testthat
 Remotes:
-    alan-turing-institute/distr6#217,
+    alan-turing-institute/distr6
 LinkingTo: Rcpp
 VignetteBuilder:
     knitr
