@@ -46,11 +46,11 @@ library("mlr3")
 library("mlr3pipelines")
 
 task = tgen("simsurv")$generate(20)
-cvglm.distr = distrcompositor(
-  learner = lrn("surv.cvglmnet"),
+cox.distr = distrcompositor(
+  learner = lrn("surv.coxph"),
   estimator = "kaplan",
   form = "aft")
 
-resample(task, cvglm.distr, rsmp("cv", folds = 2))$predictions()
+resample(task, cox.distr, rsmp("cv", folds = 2))$predictions()
 }
 }

@@ -60,7 +60,7 @@
 #' # Method 1 - Train and predict separately then compose
 #' learn = lrn("regr.featureless", predict_type = "se")
 #' pred = learn$train(task)$predict(task)
-#' poc = po("probregr")
+#' poc = po("probregr_compose")
 #' poc$predict(list(pred))
 #'
 #' # Examples not run to save run-time.
@@ -68,9 +68,10 @@
 #' # Method 2 - Create a graph manually
 #' gr = Graph$new()$
 #'   add_pipeop(po("learner", lrn("regr.featureless", predict_type = "se")))$
-#'   add_pipeop(po("probregr"))$
-#'   add_edge("regr.featureless", "probregr")
-#' gr$train(task)$predict(task)
+#'   add_pipeop(po("probregr_compose"))$
+#'   add_edge("regr.featureless", "probregr_compose")
+#' gr$train(task)
+#' gr$predict(task)
 #'
 #' # Method 3 - Syntactic sugar: Wrap the learner in a graph
 #' feat_distr = probregr_compose(
