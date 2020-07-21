@@ -5,9 +5,8 @@ NULL
 #' @import checkmate
 #' @import data.table
 #' @import distr6
-#' @import mlr3
+#' @rawNamespace import(mlr3, except = PredictionRegr)
 #' @import mlr3misc
-#' @import mlr3pipelines
 #' @import paradox
 #' @importFrom R6 R6Class
 #' @importFrom utils data head tail
@@ -139,8 +138,14 @@ register_mlr3 = function() {
 }
 register_mlr3pipelines = function() {
   x = utils::getFromNamespace("mlr_pipeops", ns = "mlr3pipelines")
+
+  # deprecated
   x$add("distrcompose", PipeOpDistrCompositor)
   x$add("crankcompose", PipeOpCrankCompositor)
+
+  x$add("distr_compose", PipeOpDistrCompositor)
+  x$add("crank_compose", PipeOpCrankCompositor)
+  x$add("probregr_compose", PipeOpProbregrCompositor)
 }
 
 .onLoad = function(libname, pkgname) { # nolint

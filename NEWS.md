@@ -8,6 +8,7 @@
 * Addd calibration measures `MeasureSurvCalibrationBeta` and `MeasureSurvCalibrationAlpha`
 * `surv.brier` alias added for `surv.graf`
 * `response` parameter added to `PipeOpCrankCompositor` and `crankcompositor` to now optionally fill `response` predict type with same values as `crank`
+* Added `PipeOpProbregrCompostior` and `probregr_compose` for composition to `distr` return type from (a) regression learner(s) predicting `response` and `se`
 * Added `PipeOpSurvAvg` and `surv_averager` pipeline for weighted model averaging of distr, lp, crank, and response predictions.
 
 ### Deprecated Functionality
@@ -15,6 +16,7 @@
 * The following measures are deprecated use `MeasureSurvCindex` instead with following parameters: `MeasureSurvBeggC`, use defaults; `MeasureSurvHarrellC`, use defaults; `MeasureSurvUnoC`, use `weight_meth = 'G/2'`; `MeasureSurvGonenC`, use `weight_method = 'GH'`
 * `MeasureSurvGrafSE`, `MeasureSurvLoglossSE`, `MeasureSurvIntLoglossSE`, `MeasureSurvRMSESE`, `MeasureSurvMSESE`, and `MeasureSurvMAESE` all deprecated and will be deleted in v0.4.0. Use `msr("surv.graf", se = TRUE)` instead (for example).
 * Measures renamed such that `surv.nagelkR2` is now `surv.nagelk_r2`, analogously for all R2, AUC, TPR, and TNR measures. Old constructors will be deleted in v0.4.0.
+* Renamed `distrcompose` and `crankcompose` to `distr_compose` and `crank_compose`. Old ids will be deleted in v0.4.0.
 
 ### Edited Functionality
 
