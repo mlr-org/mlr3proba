@@ -7,6 +7,7 @@
 * Added scoring rule `MeasureSurvSchmid`
 * Addd calibration measures `MeasureSurvCalibrationBeta` and `MeasureSurvCalibrationAlpha`
 * `surv.brier` alias added for `surv.graf`
+* `response` parameter added to `PipeOpCrankCompositor` and `crankcompositor` to now optionally fill `response` predict type with same values as `crank`
 
 ### Deprecated Functionality
 

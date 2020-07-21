@@ -8,6 +8,7 @@ crankcompositor(
   learner,
   method = c("mean", "median", "mode"),
   which = NULL,
+  response = FALSE,
   param_vals = list()
 )
 }
@@ -19,6 +20,9 @@ how \code{crank} is estimated from the predicted \code{distr}. Default is \code{
 
 \item{which}{If \code{method = "mode"} then specifies which mode to use if multi-modal, default
 is the first.}
+
+\item{response}{If \code{TRUE} then the \code{response} predict type is imputed with the same values
+as \code{crank}.}
 
 \item{param_vals}{Additional parameters to pass to the \code{learner}.}
 }
