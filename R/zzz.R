@@ -139,9 +139,14 @@ register_mlr3 = function() {
 }
 register_mlr3pipelines = function() {
   x = utils::getFromNamespace("mlr_pipeops", ns = "mlr3pipelines")
+
+  # deprecated
   x$add("distrcompose", PipeOpDistrCompositor)
   x$add("crankcompose", PipeOpCrankCompositor)
-  x$add("probregr", PipeOpProbRegr)
+
+  x$add("distr_compose", PipeOpDistrCompositor)
+  x$add("crank_compose", PipeOpCrankCompositor)
+  x$add("probregr_compose", PipeOpProbregrCompositor)
 }
 
 .onLoad = function(libname, pkgname) { # nolint

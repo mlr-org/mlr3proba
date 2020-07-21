@@ -1,4 +1,4 @@
-#' @title PipeOpProbRegr
+#' @title PipeOpProbregrCompositor
 #' @aliases mlr_pipeops_probregr
 #'
 #' @description
@@ -9,16 +9,16 @@
 #' [dictionary][mlr3misc::Dictionary] [mlr3pipelines::mlr_pipeops] or with the associated sugar
 #' function [mlr3pipelines::po()]:
 #' ```
-#' PipeOpProbRegr$new()
+#' PipeOpProbregrCompositor$new()
 #' mlr_pipeops$get("probregr")
 #' po("probregr")
 #' ```
 #'
 #' @section Input and Output Channels:
-#' [PipeOpProbRegr] has one input channel named "input", which takes
+#' [PipeOpProbregrCompositor] has one input channel named "input", which takes
 #' `NULL` during training and [PredictionSurv] during prediction.
 #'
-#' [PipeOpProbRegr] has one output channel named "output", producing `NULL` during training
+#' [PipeOpProbregrCompositor] has one output channel named "output", producing `NULL` during training
 #' and a [PredictionSurv] during prediction.
 #'
 #' The output during prediction is the [PredictionSurv] from the "pred" input but with the `crank`
@@ -67,20 +67,19 @@
 #' \dontrun{
 #' # Method 2 - Create a graph manually
 #' gr = Graph$new()$
-#'   add_pipeop(po("learner", lrn("surv.coxph")))$
+#'   add_pipeop(po("learner", lrn("regr.featureless", predict_type = "se")))$
 #'   add_pipeop(po("probregr"))$
-#'   add_edge("surv.coxph", "probregr")
-#' gr$train(task)
-#' gr$predict(task)
+#'   add_edge("regr.featureless", "probregr")
+#' gr$train(task)$predict(task)
 #'
 #' # Method 3 - Syntactic sugar: Wrap the learner in a graph
-#' cox.crank = crankcompositor(
-#'   learner = lrn("surv.coxph"),
-#'   method = "median")
-#' resample(task, cox.crank, rsmp("cv", folds = 2))$predictions()
+#' feat_distr = probregr_compose(
+#'   learner = lrn("regr.featureless", predict_type = "se"),
+#'   dist = "Logistic")
+#' resample(task, feat_distr, rsmp("cv", folds = 2))$predictions()
 #' }
-PipeOpProbRegr = R6Class("PipeOpProbRegr",
-  inherit = PipeOp,
+PipeOpProbregrCompositor = R6Class("PipeOpProbregrCompositor",
+  inherit = mlr3pipelines::PipeOp,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -90,7 +89,7 @@ PipeOpProbRegr = R6Class("PipeOpProbRegr",
     #' @param param_vals (`list()`)\cr
     #'   List of hyperparameter settings, overwriting the hyperparameter settings that would
     #'   otherwise be set during construction.
-    initialize = function(id = "probregr", param_vals = list(dist = "Normal")) {
+    initialize = function(id = "probregr_compose", param_vals = list(dist = "Normal")) {
       ps = ParamSet$new(params = list(
         ParamFct$new("dist", default = "Normal",
                      levels = listDistributions(filter = list(Tags = "locscale"), simplify = TRUE),
@@ -105,16 +104,24 @@ PipeOpProbRegr = R6Class("PipeOpProbRegr",
         output = data.table(name = "output", train = "NULL", predict = "PredictionRegr"),
         packages = "distr6"
       )
-    }
-  ),
+    },
 
-  private = list(
-    .train = function(inputs) {
+    #' @description train_internal
+    #' Internal `train` function, will be moved to `private` in a near-future update, should be
+    #' ignored.
+    #' @param inputs
+    #' Ignore.
+    train_internal = function(inputs) {
       self$state = list()
       list(NULL)
     },
 
-    .predict = function(inputs) {
+    #' @description predict_internal
+    #' Internal `predict` function, will be moved to `private` in a near-future update, should be
+    #' ignored.
+    #' @param inputs
+    #' Ignore.
+    predict_internal = function(inputs) {
       learner = inputs[[1]]
 
       assert("se" %in% learner$predict_types)
@@ -132,11 +139,11 @@ PipeOpProbRegr = R6Class("PipeOpProbRegr",
       }
 
 
-      PredictionRegr$new(row_ids = learner$row_ids,
+      list(PredictionRegr$new(row_ids = learner$row_ids,
                          truth = learner$truth,
                          response = learner$response,
                          se = learner$se,
-                         distr = VectorDistribution$new(distribution = dist, params = params))
+                         distr = VectorDistribution$new(distribution = dist, params = params)))
     }
   )
 )

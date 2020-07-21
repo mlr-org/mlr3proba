@@ -102,7 +102,7 @@ resample(task, cox.crank, rsmp("cv", folds = 2))$predictions()
 
 Other survival compositors: 
 \code{\link{PipeOpDistrCompositor}},
-\code{\link{PipeOpProbRegr}}
+\code{\link{PipeOpProbregrCompositor}}
 }
 \concept{survival compositors}
 \section{Super class}{

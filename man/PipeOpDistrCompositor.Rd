@@ -123,7 +123,7 @@ cox.distr$train(task)$predict(task)
 
 Other survival compositors: 
 \code{\link{PipeOpCrankCompositor}},
-\code{\link{PipeOpProbRegr}}
+\code{\link{PipeOpProbregrCompositor}}
 }
 \concept{survival compositors}
 \section{Super class}{
