@@ -48,10 +48,11 @@ test_that("surv_averager", {
   expect_silent({p = poc$predict(list(p1, p2))$output})
 
 
-  p2 = suppressWarnings(surv_averager(lrns(c("surv.coxph", "surv.kaplan")), list(weights = c(0.2, 0.8)))$
-    train(task)$predict(task))
+  p2 = suppressWarnings(surv_averager(lrns(c("surv.coxph", "surv.kaplan")),
+                                      list(weights = c(0.2, 0.8)))$
+                          train(task)$predict(task))
 
   expect_equal(p$crank, p2$crank)
-  expect_equal(p$distr, p2$distr)
+  expect_equal(p$distr$cdf(1:3), p2$distr$cdf(1:3))
 })
 
