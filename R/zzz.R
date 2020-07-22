@@ -144,6 +144,7 @@ register_mlr3pipelines = function() {
   x$add("distrcompose", PipeOpDistrCompositor)
   x$add("crankcompose", PipeOpCrankCompositor)
 
+  x$add("survavg", PipeOpSurvAvg)
   x$add("distr_compose", PipeOpDistrCompositor)
   x$add("crank_compose", PipeOpCrankCompositor)
   x$add("probregr_compose", PipeOpProbregrCompositor)
