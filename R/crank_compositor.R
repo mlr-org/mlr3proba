@@ -29,12 +29,12 @@ crankcompositor = function(learner, method = c("mean", "median", "mode"), which 
                            response = FALSE, param_vals = list()) {
   assert("distr" %in% learner$predict_types)
 
-  pred = po("learner", learner, param_vals = param_vals)
+  pred = mlr3pipelines::po("learner", learner, param_vals = param_vals)
   pv = list(method = match.arg(method), response = response)
   if (!is.null(which)) {
     pv$which = which
   }
-  compositor = po("crankcompose", param_vals = pv)
+  compositor = mlr3pipelines::po("crankcompose", param_vals = pv)
 
-  GraphLearner$new(pred %>>% compositor)
+  mlr3pipelines::GraphLearner$new(mlr3pipelines::`%>>%`(pred, compositor))
 }
