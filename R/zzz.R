@@ -2,10 +2,11 @@
 #' @useDynLib mlr3proba
 NULL
 
+# nolint start
+#' @rawNamespace import(mlr3, except = c(PredictionRegr, as.data.table.PredictionRegr, c.PredictionRegr))
 #' @import checkmate
 #' @import data.table
 #' @import distr6
-#' @rawNamespace import(mlr3, except = PredictionRegr)
 #' @import mlr3misc
 #' @import mlr3pipelines
 #' @import paradox
@@ -14,6 +15,7 @@ NULL
 #' @importFrom stats reformulate model.matrix model.frame sd
 #' @importFrom survival Surv
 "_PACKAGE"
+# nolint end
 
 register_mlr3 = function() {
 
