@@ -1,4 +1,3 @@
-library(mlr3)
 library(mlr3proba)
 library(checkmate)
 library(testthat)
