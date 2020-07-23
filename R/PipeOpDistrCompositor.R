@@ -112,7 +112,7 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
     #' @param param_vals (`list()`)\cr
     #'   List of hyperparameter settings, overwriting the hyperparameter settings that would
     #'   otherwise be set during construction.
-    initialize = function(id = "distrcompose", param_vals = list(form = "aft", overwrite = FALSE)) {
+    initialize = function(id = "compose_distr", param_vals = list(form = "aft", overwrite = FALSE)) {
       super$initialize(
         id = id,
         param_set = ParamSet$new(params = list(
@@ -122,7 +122,8 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
         param_vals = param_vals,
         input = data.table(name = c("base", "pred"), train = "NULL", predict = "PredictionSurv"),
         output = data.table(name = "output", train = "NULL", predict = "PredictionSurv"),
-        packages = "distr6")
+        packages = "distr6"
+        )
     },
 
     #' @description train_internal

@@ -154,7 +154,7 @@ Other survival compositors:
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{PipeOpDistrCompositor$new(
-  id = "distrcompose",
+  id = "compose_distr",
   param_vals = list(form = "aft", overwrite = FALSE)
 )}\if{html}{\out{</div>}}
 }

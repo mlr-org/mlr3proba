@@ -146,9 +146,16 @@ register_mlr3pipelines = function() {
   x$add("distrcompose", PipeOpDistrCompositor)
   x$add("crankcompose", PipeOpCrankCompositor)
 
-  x$add("distr_compose", PipeOpDistrCompositor)
-  x$add("crank_compose", PipeOpCrankCompositor)
-  x$add("probregr_compose", PipeOpProbregrCompositor)
+  x$add("trafotask_regrsurv", PipeOpTaskRegrSurv)
+  x$add("trafotask_survregr", PipeOpTaskSurvRegr)
+  x$add("trafopred_regrsurv", PipeOpPredRegrSurv)
+  x$add("trafopred_survregr", PipeOpPredSurvRegr)
+
+  x$add("trafopredtask_survregr", PipeOpPredTaskSurvRegr)
+
+  x$add("compose_distr", PipeOpDistrCompositor)
+  x$add("compose_crank", PipeOpCrankCompositor)
+  x$add("compose_probregr", PipeOpProbregrCompositor)
 }
 
 .onLoad = function(libname, pkgname) { # nolint

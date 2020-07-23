@@ -130,7 +130,7 @@ Other survival compositors:
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{PipeOpProbregrCompositor$new(
-  id = "probregr_compose",
+  id = "compose_probregr",
   param_vals = list(dist = "Normal")
 )}\if{html}{\out{</div>}}
 }

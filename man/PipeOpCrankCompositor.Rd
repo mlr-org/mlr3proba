@@ -133,7 +133,7 @@ Other survival compositors:
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{PipeOpCrankCompositor$new(
-  id = "crankcompose",
+  id = "compose_crank",
   param_vals = list(method = "mean")
 )}\if{html}{\out{</div>}}
 }

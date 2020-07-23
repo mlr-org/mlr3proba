@@ -90,7 +90,7 @@ PipeOpProbregrCompositor = R6Class("PipeOpProbregrCompositor",
     #' @param param_vals (`list()`)\cr
     #'   List of hyperparameter settings, overwriting the hyperparameter settings that would
     #'   otherwise be set during construction.
-    initialize = function(id = "probregr_compose", param_vals = list(dist = "Normal")) {
+    initialize = function(id = "compose_probregr", param_vals = list(dist = "Normal")) {
       ps = ParamSet$new(params = list(
         ParamFct$new("dist", default = "Normal",
                      levels = listDistributions(filter = list(Tags = "locscale"), simplify = TRUE),

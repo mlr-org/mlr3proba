@@ -93,7 +93,7 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
     #' @param param_vals (`list()`)\cr
     #'   List of hyperparameter settings, overwriting the hyperparameter settings that would
     #'   otherwise be set during construction.
-    initialize = function(id = "crankcompose", param_vals = list(method = "mean")) {
+    initialize = function(id = "compose_crank", param_vals = list(method = "mean")) {
       ps = ParamSet$new(params = list(
         ParamFct$new("method", default = "mean", levels = c("mean", "median", "mode"),
                      tags = "predict"),
