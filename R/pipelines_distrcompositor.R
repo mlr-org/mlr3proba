@@ -29,10 +29,13 @@
 #'   form = "aft")
 #'
 #' resample(task, cox.distr, rsmp("cv", folds = 2))$predictions()
+#'
+#' # alternatively as a graph
+#' ppl("distrcompositor", learner = lrn("surv.coxph"))
 #' }
 #' @export
-distrcompositor = function(learner, estimator = c("kaplan", "nelson"), form = c("aft", "ph", "po"),
-  overwrite = FALSE, param_vals = list()) {
+pipeline_distrcompositor = function(learner, estimator = c("kaplan", "nelson"), form = c("aft", "ph", "po"),
+  overwrite = FALSE, param_vals = list(), graph_learner = TRUE) {
 
   pred = po("learner", learner, param_vals = param_vals)
 
@@ -41,5 +44,16 @@ distrcompositor = function(learner, estimator = c("kaplan", "nelson"), form = c(
 
   compositor = po("distrcompose", param_vals = list(form = match.arg(form), overwrite = overwrite))
 
-  GraphLearner$new(gunion(list(base, pred)) %>>% compositor)
+  gr = gunion(list(base, pred)) %>>% compositor
+
+  if (graph_learner) {
+    return(GraphLearner$new(gr))
+  } else {
+    return(gr)
+  }
+}
+
+distrcompositor = function(...) {
+  warning("Deprecated, please now use pipeline_distrcompositor or ppl('distrcompositor', ...).")
+  pipeline_distrcompositor(...)
 }

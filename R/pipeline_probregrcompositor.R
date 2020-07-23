@@ -19,10 +19,17 @@
 #' resample(task, feat_distr, rsmp("cv", folds = 2))$predictions()
 #' }
 #' @export
-probregr_compose = function(learner, dist = "Normal", param_vals = list()) {
+pipeline_probregrcompositor = function(learner, dist = "Normal", param_vals = list(),
+                                       graph_learner = TRUE) {
 
   pred = mlr3pipelines::po("learner", learner, param_vals = param_vals)
   compositor = mlr3pipelines::po("probregr_compose", param_vals = list(dist = dist))
 
-  mlr3pipelines::GraphLearner$new(mlr3pipelines::`%>>%`(pred, compositor))
+  gr = pred %>>% compositor
+
+  if (graph_learner) {
+    return(GraphLearner$new(gr))
+  } else {
+    return(gr)
+  }
 }

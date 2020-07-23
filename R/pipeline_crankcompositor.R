@@ -25,8 +25,8 @@
 #' resample(task, cox.crank, rsmp("cv", folds = 2))$predictions()
 #' }
 #' @export
-crankcompositor = function(learner, method = c("mean", "median", "mode"), which = NULL,
-                           response = FALSE, param_vals = list()) {
+pipeline_crankcompositor = function(learner, method = c("mean", "median", "mode"), which = NULL,
+                           response = FALSE, param_vals = list(), graph_learner = TRUE) {
   assert("distr" %in% learner$predict_types)
 
   pred = po("learner", learner, param_vals = param_vals)
@@ -36,5 +36,16 @@ crankcompositor = function(learner, method = c("mean", "median", "mode"), which 
   }
   compositor = po("crankcompose", param_vals = pv)
 
-  GraphLearner$new(pred %>>% compositor)
+  gr = pred %>>% compositor
+
+  if (graph_learner) {
+    return(GraphLearner$new(gr))
+  } else {
+    return(gr)
+  }
+}
+
+crankcompositor = function(...) {
+  warning("Deprecated, please now use pipeline_crankcompositor or ppl('crankcompositor', ...).")
+  pipeline_crankcompositor(...)
 }
