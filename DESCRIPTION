@@ -52,6 +52,7 @@ Suggests:
     knitr,
     lgr,
     Matrix,
+    mlr3pipelines,
     mlr3tuning,
     pracma,
     rmarkdown,
@@ -127,6 +128,7 @@ Collate:
     'PipeOpPredRegrSurv.R'
     'PipeOpPredSurvRegr.R'
     'PipeOpProbRegr.R'
+    'PipeOpSurvAvg.R'
     'PipeOpTaskRegrSurv.R'
     'PipeOpTaskSurvRegr.R'
     'PipeOpTaskTransformer.R'
@@ -155,6 +157,7 @@ Collate:
     'pecs.R'
     'plot.R'
     'probregr_compose.R'
+    'surv_average.R'
     'redux_tests.R'
     'surv2regr_redux.R'
     'surv_measures.R'
