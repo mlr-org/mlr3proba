@@ -2,7 +2,8 @@
 #' @aliases mlr_pipeops_probregr
 #'
 #' @description
-#' Uses a predicted `distr` in a [PredictionSurv] to estimate (or 'compose') a `crank` prediction.
+#' Combines a predicted `reponse` and `se` from [PredictionRegr] with a specified probability
+#' distribution to estimate (or 'compose') a `distr` prediction.
 #'
 #' @section Dictionary:
 #' This [PipeOp][mlr3pipelines::PipeOp] can be instantiated via the
@@ -10,35 +11,29 @@
 #' function [mlr3pipelines::po()]:
 #' ```
 #' PipeOpProbregrCompositor$new()
-#' mlr_pipeops$get("probregr")
-#' po("probregr")
+#' mlr_pipeops$get("compose_probregr")
+#' po("compose_probregr")
 #' ```
 #'
 #' @section Input and Output Channels:
-#' [PipeOpProbregrCompositor] has one input channel named "input", which takes
-#' `NULL` during training and [PredictionSurv] during prediction.
+#' [PipeOpProbregrCompositor] has two input channels named `"input_response"` and `"input_se"`,
+#' which take `NULL` during training and two [PredictionRegr]s during prediction, these should
+#' respectively contain the `response` and `se` return type, the same object can be passed twice.
 #'
-#' [PipeOpProbregrCompositor] has one output channel named "output", producing `NULL` during training
-#' and a [PredictionSurv] during prediction.
-#'
-#' The output during prediction is the [PredictionSurv] from the "pred" input but with the `crank`
-#' predict type overwritten by the given estimation method.
+#' The output during prediction is a [PredictionRegr] with the "response" from `input_response`,
+#' the "se" from `input_se` and a "distr" created from combining the two.
 #'
 #' @section State:
 #' The `$state` is left empty (`list()`).
 #'
 #' @section Parameters:
-#' * `method` :: `character(1)` \cr
-#'    Determines what method should be used to produce a continuous ranking from the distribution.
-#'    One of `median`, `mode`, or `mean` corresponding to the respective functions in the predicted
-#'    survival distribution. Note that for models with a proportional hazards form, the ranking
-#'    implied by `mean` and `median` will be identical (but not the value of `crank` itself).
-#'    Default is `mean`.
+#' * `dist` :: `character(1)` \cr
+#'    Location-scale distribution to use for composition. Current choices are `"Normal"` (default),
+#'     `"Cauchy"`, `"Gumbel"`, `"Laplace"`, `"Logistic"`. All implemented via \CRANpkg{distr6}.
 #'
 #' @section Internals:
-#' The `median`, `mode`, or `mean` will use analytical expressions if possible but if not they are
-#' calculated using [distr6::median.Distribution], [distr6::mode], or [distr6::mean.Distribution]
-#' respectively.
+#' The composition is created by substituting the `response` and `se` predictions into the
+#' distribution location and scale parameters respectively.
 #'
 #' @section Fields:
 #' Only fields inherited from [PipeOp][mlr3pipelines::PipeOp].
@@ -46,39 +41,26 @@
 #' @section Methods:
 #' Only fields inherited from [PipeOp][mlr3pipelines::PipeOp].
 #'
-#' @seealso [mlr3pipelines::PipeOp] and [crankcompositor]
 #' @export
-#' @family survival compositors
 #' @examples
 #' library(mlr3)
 #' library(mlr3pipelines)
 #' set.seed(1)
-#'
-#' # Three methods to predict a `crank` from `surv.rpart`
 #' task = tsk("boston_housing")
 #'
-#' # Method 1 - Train and predict separately then compose
+#' # Option 1: Use a learner that can predict se
 #' learn = lrn("regr.featureless", predict_type = "se")
 #' pred = learn$train(task)$predict(task)
-#' poc = po("probregr_compose")
-#' poc$predict(list(pred))
+#' poc = po("compose_probregr")
+#' poc$predict(list(pred, pred))[[1]]
 #'
-#' # Examples not run to save run-time.
-#' \dontrun{
-#' # Method 2 - Create a graph manually
-#' gr = Graph$new()$
-#'   add_pipeop(po("learner", lrn("regr.featureless", predict_type = "se")))$
-#'   add_pipeop(po("probregr_compose"))$
-#'   add_edge("regr.featureless", "probregr_compose")
-#' gr$train(task)
-#' gr$predict(task)
-#'
-#' # Method 3 - Syntactic sugar: Wrap the learner in a graph
-#' feat_distr = probregr_compose(
-#'   learner = lrn("regr.featureless", predict_type = "se"),
-#'   dist = "Logistic")
-#' resample(task, feat_distr, rsmp("cv", folds = 2))$predictions()
-#' }
+#' # Option 2: Use two learners, one for response and the other for se
+#' learn_response = lrn("regr.rpart")
+#' learn_se = lrn("regr.featureless", predict_type = "se")
+#' pred_response = learn_response$train(task)$predict(task)
+#' pred_se = learn_se$train(task)$predict(task)
+#' poc = po("compose_probregr")
+#' poc$predict(list(pred_response, pred_se))[[1]]
 PipeOpProbregrCompositor = R6Class("PipeOpProbregrCompositor",
   inherit = mlr3pipelines::PipeOp,
   public = list(
@@ -101,7 +83,8 @@ PipeOpProbregrCompositor = R6Class("PipeOpProbregrCompositor",
         id = id,
         param_set = ps,
         param_vals = param_vals,
-        input = data.table(name = "input", train = "NULL", predict = "PredictionRegr"),
+        input = data.table(name = c("input_response", "input_se"), train = "NULL",
+                           predict = c("PredictionRegr", "PredictionRegr")),
         output = data.table(name = "output", train = "NULL", predict = "PredictionRegr"),
         packages = "distr6"
       )
@@ -123,27 +106,35 @@ PipeOpProbregrCompositor = R6Class("PipeOpProbregrCompositor",
     #' @param inputs
     #' Ignore.
     predict_internal = function(inputs) {
-      learner = inputs[[1]]
+      pred_response = inputs$input_response
+      pred_se = inputs$input_se
 
-      assert("se" %in% learner$predict_types)
+      if ("se" %nin% pred_se$predict_types) {
+        stopf("'se' is not a predict_type in %s.", pred_se$id)
+      }
 
+      response = pred_response$response
+      se = pred_se$se
+
+      assert(all(pred_response$truth == pred_se$truth))
+      assert(all(pred_response$row_ids == pred_se$row_ids))
 
       pv = self$param_set$values
       dist = pv$dist
 
       if (is.null(dist) || dist %in% c("Normal")) {
-        params = data.table(mean = learner$response, sd = learner$se)
+        params = data.table(mean = response, sd = se)
       } else if (dist %in% c("Cauchy", "Gumbel")) {
-        params = data.table(location = learner$response, scale = learner$se)
+        params = data.table(location = response, scale = se)
       } else if (dist %in% c("Laplace", "Logistic")) {
-        params = data.table(mean = learner$response, scale = learner$se)
+        params = data.table(mean = response, scale = se)
       }
 
 
-      list(PredictionRegr$new(row_ids = learner$row_ids,
-                         truth = learner$truth,
-                         response = learner$response,
-                         se = learner$se,
+      list(PredictionRegr$new(row_ids = pred_response$row_ids,
+                         truth = pred_response$truth,
+                         response = response,
+                         se = se,
                          distr = VectorDistribution$new(distribution = dist, params = params)))
     }
   )

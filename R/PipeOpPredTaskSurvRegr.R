@@ -51,9 +51,9 @@ PipeOpPredTaskSurvRegr = R6Class("PipeOpPredTaskSurvRegr",
       ))
 
       super$initialize(id = id, param_set = ps, param_vals = list(),
-                       input = data.table(name = c("task", "pred"), train = c("TaskSurv", "PredictionSurv"),
+                       input = data.table(name = c("task", "pred"), train = "NULL",
                                           predict = c("TaskSurv", "PredictionSurv")),
-                       output = data.table(name = "output", train = "TaskRegr", predict = "TaskRegr"))
+                       output = data.table(name = "output", train = "NULL", predict = "TaskRegr"))
     }
   ),
 

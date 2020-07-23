@@ -30,6 +30,7 @@
 #'
 #' # assume no censoring
 #' new_pred = po$predict(list(pred = pred, task = NULL))[[1]]
+#' po$train(list(NULL, NULL))
 #' print(new_pred)
 #'
 #' # add censoring
@@ -57,8 +58,15 @@ PipeOpPredRegrSurv = R6Class("PipeOpPredRegrSurv",
     #' @param param_vals (`list()`)\cr
     #'   List of hyperparameter settings, overwriting the hyperparameter settings that would
     #'   otherwise be set during construction.
-    initialize = function(id = "trafopred_regrsurv") {
+    initialize = function(id = "trafopred_regrsurv", param_vals = list()) {
+
+      ps = ParamSet$new(list(
+        ParamFct$new("target_type", default = "response", levels = c("crank", "response", "lp"))
+      ))
+
       super$initialize(id = id,
+                       param_set = ps,
+                       param_vals = param_vals,
                        input = data.table(name = c("pred", "task"), train = "NULL",
                                           predict = c("PredictionRegr", "*")),
                        output = data.table(name = "output", train = "NULL", predict = "PredictionSurv")
@@ -84,8 +92,17 @@ PipeOpPredRegrSurv = R6Class("PipeOpPredRegrSurv",
         distr = NULL
       }
 
+      response = lp = NULL
+      target_type = self$param_set$values$target_type
+      if (target_type == "lp") {
+        lp = input$response
+      } else if (target_type == "response") {
+        response = input$response
+      }
+
       PredictionSurv$new(row_ids = input$row_ids, truth = truth,
-                         distr = distr, response = input$response)
+                         distr = distr, crank = input$response, response = response,
+                         lp = lp)
     }
   )
 )

@@ -46,11 +46,10 @@ library(mlr3)
 task = tgen("simsurv")$generate(20)
 pred = lrn("surv.coxph")$train(task)$predict(task)
 po = po("trafopredtask_survregr", target = "lp")
-po$train(list())
+po$train(list(task = task, pred = pred))[[1]]
 new_task = po$predict(list(task = task, pred = pred))[[1]]
 print(new_task)
 new_task$truth() == pred$lp
-po$state
 
 }
 \seealso{
@@ -77,8 +76,6 @@ Other Transformers:
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{PipeOpPredTaskSurvRegr$new()}}
-\item \href{#method-train_internal}{\code{PipeOpPredTaskSurvRegr$train_internal()}}
-\item \href{#method-predict_internal}{\code{PipeOpPredTaskSurvRegr$predict_internal()}}
 \item \href{#method-clone}{\code{PipeOpPredTaskSurvRegr$clone()}}
 }
 }
@@ -88,6 +85,8 @@ Other Transformers:
 \item \out{<span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="predict">}\href{../../mlr3pipelines/html/PipeOp.html#method-predict}{\code{mlr3pipelines::PipeOp$predict()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="print">}\href{../../mlr3pipelines/html/PipeOp.html#method-print}{\code{mlr3pipelines::PipeOp$print()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="train">}\href{../../mlr3pipelines/html/PipeOp.html#method-train}{\code{mlr3pipelines::PipeOp$train()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3proba" data-topic="PipeOpTransformer" data-id="predict_internal">}\href{../../mlr3proba/html/PipeOpTransformer.html#method-predict_internal}{\code{mlr3proba::PipeOpTransformer$predict_internal()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3proba" data-topic="PipeOpTransformer" data-id="train_internal">}\href{../../mlr3proba/html/PipeOpTransformer.html#method-train_internal}{\code{mlr3proba::PipeOpTransformer$train_internal()}}\out{</span>}
 }
 \out{</details>}
 }
@@ -97,24 +96,6 @@ Other Transformers:
 \subsection{Method \code{new()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{PipeOpPredTaskSurvRegr$new(id = "trafopredtask_survregr", param_vals = list())}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-train_internal"></a>}}
-\if{latex}{\out{\hypertarget{method-train_internal}{}}}
-\subsection{Method \code{train_internal()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{PipeOpPredTaskSurvRegr$train_internal(inputs)}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-predict_internal"></a>}}
-\if{latex}{\out{\hypertarget{method-predict_internal}{}}}
-\subsection{Method \code{predict_internal()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{PipeOpPredTaskSurvRegr$predict_internal(inputs)}\if{html}{\out{</div>}}
 }
 
 }

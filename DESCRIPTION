@@ -155,5 +155,6 @@ Collate:
     'pecs.R'
     'plot.R'
     'probregr_compose.R'
+    'surv2regr_redux.R'
     'surv_measures.R'
     'zzz.R'

@@ -27,7 +27,8 @@
 #' observations is transformed to the observed time plus the mean residual life-time at the moment
 #' of censoring; `"delete"`: censored observations are deleted from the data-set - should be
 #' used with caution if censoring is informative; `"omit"`: the censoring status column is
-#' deleted - again should be used with caution. Note that `"mrl"` and `"ipcw"` will perform worse
+#' deleted - again should be used with caution; `"reorder"`: selects features and targets
+#' and sets the target in the new task object. Note that `"mrl"` and `"ipcw"` will perform worse
 #' with Type I censoring.
 #' * `estimator::(character(1))`\cr
 #' Method for calculating censoring weights or mean residual lifetime in `"mrl"`,
@@ -60,28 +61,33 @@
 #'
 #' # deletion
 #' po = po("trafotask_survregr", method = "delete")
-#' po$train(list(task = task))[[1]] # 42 deleted
+#' po$train(list(task, NULL))[[1]] # 42 deleted
 #'
 #' # omission
 #' po = po("trafotask_survregr", method = "omit")
-#' po$train(list(task = task))[[1]]
+#' po$train(list(task, NULL))[[1]]
 #'
 #' # ipcw with Akritas
 #' po = po("trafotask_survregr", method = "ipcw", estimator = "akritas", lambda = 0.4, alpha = 0)
-#' new_task = po$train(list(task = task))[[1]]
+#' new_task = po$train(list(task, NULL))[[1]]
 #' print(new_task)
 #' new_task$weights
 #'
 #' # mrl with Kaplan-Meier
 #' po = po("trafotask_survregr", method = "mrl")
-#' new_task = po$train(list(task = task))[[1]]
+#' new_task = po$train(list(task, NULL))[[1]]
 #' data.frame(new = new_task$truth(), old = task$truth())
 #'
-#' # outcome doesn't matter in predicting so omission is used
-#' po$predict(list(task = task))[[1]]
+#' # reorder - in practice this will be only be used in a few graphs
+#' po = po("trafotask_survregr", method = "reorder", features = c("sex", "rx", "time", "status"),
+#'        target = "litter")
+#' new_task = po$train(list(task, NULL))[[1]]
+#' print(new_task)
 #'
-#' # note status is saved for use in later transformations
-#' po$state
+#' # reorder using another task for feature names
+#' po = po("trafotask_survregr", method = "reorder", target = "litter")
+#' new_task = po$train(list(task, task))[[1]]
+#' print(new_task)
 #'
 #' @family PipeOps
 #' @family Transformation PipeOps
@@ -97,69 +103,79 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
     #'   Identifier of the resulting  object.
     initialize = function(id = "trafotask_survregr", param_vals = list()) {
       ps = ParamSet$new(list(
-        ParamFct$new("method", default = "ipcw", levels = c("ipcw", "mrl", "delete", "omit"),
+        ParamFct$new("method", default = "ipcw",
+                     levels = c("ipcw", "mrl", "delete", "omit", "reorder"),
                      tags = "train"),
         ParamFct$new("estimator", default = "kaplan", levels = c("kaplan", "akritas", "cox"),
                      tags = "train"),
         ParamDbl$new("alpha", default = 1, lower = 0, upper = 1, tags = "train"),
         ParamDbl$new("lambda", default = 0.5, lower = 0, upper = 1, tags = "train"),
-        ParamDbl$new("eps", default = 1e-15, lower = 0, upper = 1, tags = "train")
+        ParamDbl$new("eps", default = 1e-15, lower = 0, upper = 1, tags = "train"),
+        ParamUty$new("features", tags = "train"),
+        ParamUty$new("target", tags = "train")
       ))
       ps$add_dep("alpha", "method", CondEqual$new("ipcw"))
       ps$add_dep("eps", "method", CondEqual$new("ipcw"))
       ps$add_dep("estimator", "method", CondAnyOf$new(c("ipcw", "mrl")))
       ps$add_dep("lambda", "estimator", CondEqual$new("akritas"))
+      ps$add_dep("features", "method", CondEqual$new("reorder"))
+      ps$add_dep("target", "method", CondEqual$new("reorder"))
 
       super$initialize(id = id,
                        param_set = ps,
                        param_vals = param_vals,
-                       input = data.table(name = "input", train = "TaskSurv", predict = "TaskSurv"),
+                       input = data.table(name = c("input", "input_features"),
+                                          train = c("TaskSurv", "*"),
+                                          predict = c("TaskSurv", "*")),
                        output = data.table(name = "output", train = "TaskRegr", predict = "TaskRegr")
       )
     },
 
     predict_internal = function(inputs) {
-      input = inputs[[1]]
-      self$state$outstatus = input$truth()[, 2L]
-      status = input$target_names[2L]
-      backend = private$.omit(copy(input$data()), status)
-      return(list(TaskRegr$new(id = input$id, backend = backend, target = input$target_names[1L])))
+      pv = self$param_set$values
+      target = pv$target
+      if (is.null(target)) {
+        target = inputs[[1]]$target_names[1L]
+      }
+      backend = private$.reorder(copy(inputs[[1]]$data()), pv$features, target, inputs[[2]])
+      return(list(TaskRegr$new(id = inputs[[1]]$id, backend = backend, target = target)))
     }
   ),
 
   private = list(
-    .transform = function(input) {
+    .transform = function(inputs) {
 
-      input = input[[1]]
+      input = inputs[[1]]
       backend = copy(input$data())
       time = input$target_names[1L]
       status = input$target_names[2L]
 
-      self$state$instatus = input$truth()[,2L]
+      pv = self$param_set$values
 
-      method = self$param_set$values$method
+      method = pv$method
       if (is.null(method)) {
         method = "ipcw"
       }
-      estimator = self$param_set$values$estimator
+      estimator = pv$estimator
       if (is.null(estimator)) {
         estimator = "kaplan"
       }
-      eps = self$param_set$values$eps
+      eps = pv$eps
       if (is.null(eps)) {
         eps = 1e-15
       }
-
-
 
       backend = switch(method,
                        ipcw = private$.ipcw(backend, status, time, estimator, eps),
                        mrl = private$.mrl(backend, status, time, input, estimator),
                        delete = private$.delete(backend, status),
-                       omit = private$.omit(backend, status)
+                       omit = private$.omit(backend, status),
+                       reorder = private$.reorder(backend, pv$features, pv$target, inputs[[2]])
                        )
 
-      new_task = TaskRegr$new(id = input$id, backend = backend, target = time)
+      target = ifelse(method == "reorder", pv$target, time)
+
+      new_task = TaskRegr$new(id = input$id, backend = backend, target = target)
 
       if (method == "ipcw") {
         new_task$col_roles$weight = "ipc_weights"
@@ -243,6 +259,26 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
 
     .omit = function(backend, status) {
       subset(backend, select = -status)
+    },
+
+    .reorder = function(backend, features, target, task) {
+      if (is.null(task)) {
+        if (is.null(features)) {
+          stop("One of 'features' or 'task' must be provided.")
+        } else {
+          features = subset(backend, select = features)
+        }
+      } else {
+        assertClass(task, "TaskSurv")
+        features = copy(task$data(cols = task$feature_names))
+      }
+
+      if (target %nin% colnames(features)) {
+        target = subset(backend, select = target)
+        return(cbind(features, target))
+      } else {
+        return(features)
+      }
     }
   )
 )
