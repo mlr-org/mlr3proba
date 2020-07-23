@@ -151,8 +151,6 @@ register_mlr3pipelines = function() {
   x$add("trafopred_regrsurv", PipeOpPredRegrSurv)
   x$add("trafopred_survregr", PipeOpPredSurvRegr)
 
-  x$add("trafopredtask_survregr", PipeOpPredTaskSurvRegr)
-
   x$add("compose_distr", PipeOpDistrCompositor)
   x$add("compose_crank", PipeOpCrankCompositor)
   x$add("compose_probregr", PipeOpProbregrCompositor)

@@ -56,7 +56,6 @@ task_surv$truth()
 }
 \seealso{
 Other PipeOps: 
-\code{\link{PipeOpPredTaskSurvRegr}},
 \code{\link{PipeOpPredTransformer}},
 \code{\link{PipeOpTaskTransformer}},
 \code{\link{PipeOpTransformer}},

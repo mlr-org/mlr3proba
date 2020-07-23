@@ -38,7 +38,6 @@ po$state
 }
 \seealso{
 Other PipeOps: 
-\code{\link{PipeOpPredTaskSurvRegr}},
 \code{\link{PipeOpPredTransformer}},
 \code{\link{PipeOpTaskTransformer}},
 \code{\link{PipeOpTransformer}},

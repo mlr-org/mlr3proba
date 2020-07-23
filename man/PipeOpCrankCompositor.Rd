@@ -101,8 +101,7 @@ resample(task, cox.crank, rsmp("cv", folds = 2))$predictions()
 \link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp} and \link{crankcompositor}
 
 Other survival compositors: 
-\code{\link{PipeOpDistrCompositor}},
-\code{\link{PipeOpProbregrCompositor}}
+\code{\link{PipeOpDistrCompositor}}
 }
 \concept{survival compositors}
 \section{Super class}{

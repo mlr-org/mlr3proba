@@ -35,7 +35,6 @@ Only fields inherited from \code{\link{PipeOp}}.
 
 \seealso{
 Other PipeOps: 
-\code{\link{PipeOpPredTaskSurvRegr}},
 \code{\link{PipeOpPredTransformer}},
 \code{\link{PipeOpTaskTransformer}},
 \code{\link{mlr_pipeops_trafopred_regrsurv}},
@@ -44,7 +43,6 @@ Other PipeOps:
 \code{\link{mlr_pipeops_trafotask_survregr}}
 
 Other Transformers: 
-\code{\link{PipeOpPredTaskSurvRegr}},
 \code{\link{PipeOpPredTransformer}},
 \code{\link{PipeOpTaskTransformer}}
 }

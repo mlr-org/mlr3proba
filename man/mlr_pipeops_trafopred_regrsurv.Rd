@@ -55,7 +55,6 @@ task_surv$truth()
 }
 \seealso{
 Other PipeOps: 
-\code{\link{PipeOpPredTaskSurvRegr}},
 \code{\link{PipeOpPredTransformer}},
 \code{\link{PipeOpTaskTransformer}},
 \code{\link{PipeOpTransformer}},
@@ -97,7 +96,7 @@ Other Transformation PipeOps:
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{PipeOpPredRegrSurv$new(id = "trafopred_regrsurv")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{PipeOpPredRegrSurv$new(id = "trafopred_regrsurv", param_vals = list())}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

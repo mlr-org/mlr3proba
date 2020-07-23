@@ -5,28 +5,27 @@
 \alias{mlr_pipeops_probregr}
 \title{PipeOpProbregrCompositor}
 \description{
-Uses a predicted \code{distr} in a \link{PredictionSurv} to estimate (or 'compose') a \code{crank} prediction.
+Combines a predicted \code{reponse} and \code{se} from \link{PredictionRegr} with a specified probability
+distribution to estimate (or 'compose') a \code{distr} prediction.
 }
 \section{Dictionary}{
 
 This \link[mlr3pipelines:PipeOp]{PipeOp} can be instantiated via the
 \link[mlr3misc:Dictionary]{dictionary} \link[mlr3pipelines:mlr_pipeops]{mlr3pipelines::mlr_pipeops} or with the associated sugar
 function \code{\link[mlr3pipelines:po]{mlr3pipelines::po()}}:\preformatted{PipeOpProbregrCompositor$new()
-mlr_pipeops$get("probregr")
-po("probregr")
+mlr_pipeops$get("compose_probregr")
+po("compose_probregr")
 }
 }
 
 \section{Input and Output Channels}{
 
-\link{PipeOpProbregrCompositor} has one input channel named "input", which takes
-\code{NULL} during training and \link{PredictionSurv} during prediction.
+\link{PipeOpProbregrCompositor} has two input channels named \code{"input_response"} and \code{"input_se"},
+which take \code{NULL} during training and two \link{PredictionRegr}s during prediction, these should
+respectively contain the \code{response} and \code{se} return type, the same object can be passed twice.
 
-\link{PipeOpProbregrCompositor} has one output channel named "output", producing \code{NULL} during training
-and a \link{PredictionSurv} during prediction.
-
-The output during prediction is the \link{PredictionSurv} from the "pred" input but with the \code{crank}
-predict type overwritten by the given estimation method.
+The output during prediction is a \link{PredictionRegr} with the "response" from \code{input_response},
+the "se" from \code{input_se} and a "distr" created from combining the two.
 }
 
 \section{State}{
@@ -37,20 +36,16 @@ The \verb{$state} is left empty (\code{list()}).
 \section{Parameters}{
 
 \itemize{
-\item \code{method} :: \code{character(1)} \cr
-Determines what method should be used to produce a continuous ranking from the distribution.
-One of \code{median}, \code{mode}, or \code{mean} corresponding to the respective functions in the predicted
-survival distribution. Note that for models with a proportional hazards form, the ranking
-implied by \code{mean} and \code{median} will be identical (but not the value of \code{crank} itself).
-Default is \code{mean}.
+\item \code{dist} :: \code{character(1)} \cr
+Location-scale distribution to use for composition. Current choices are \code{"Normal"} (default),
+\code{"Cauchy"}, \code{"Gumbel"}, \code{"Laplace"}, \code{"Logistic"}. All implemented via \CRANpkg{distr6}.
 }
 }
 
 \section{Internals}{
 
-The \code{median}, \code{mode}, or \code{mean} will use analytical expressions if possible but if not they are
-calculated using \link[distr6:median.Distribution]{distr6::median.Distribution}, \link[distr6:mode]{distr6::mode}, or \link[distr6:mean.Distribution]{distr6::mean.Distribution}
-respectively.
+The composition is created by substituting the \code{response} and \code{se} predictions into the
+distribution location and scale parameters respectively.
 }
 
 \section{Fields}{
@@ -67,41 +62,22 @@ Only fields inherited from \link[mlr3pipelines:PipeOp]{PipeOp}.
 library(mlr3)
 library(mlr3pipelines)
 set.seed(1)
-
-# Three methods to predict a `crank` from `surv.rpart`
 task = tsk("boston_housing")
 
-# Method 1 - Train and predict separately then compose
+# Option 1: Use a learner that can predict se
 learn = lrn("regr.featureless", predict_type = "se")
 pred = learn$train(task)$predict(task)
-poc = po("probregr_compose")
-poc$predict(list(pred))
+poc = po("compose_probregr")
+poc$predict(list(pred, pred))[[1]]
 
-# Examples not run to save run-time.
-\dontrun{
-# Method 2 - Create a graph manually
-gr = Graph$new()$
-  add_pipeop(po("learner", lrn("regr.featureless", predict_type = "se")))$
-  add_pipeop(po("probregr_compose"))$
-  add_edge("regr.featureless", "probregr_compose")
-gr$train(task)
-gr$predict(task)
-
-# Method 3 - Syntactic sugar: Wrap the learner in a graph
-feat_distr = probregr_compose(
-  learner = lrn("regr.featureless", predict_type = "se"),
-  dist = "Logistic")
-resample(task, feat_distr, rsmp("cv", folds = 2))$predictions()
+# Option 2: Use two learners, one for response and the other for se
+learn_response = lrn("regr.rpart")
+learn_se = lrn("regr.featureless", predict_type = "se")
+pred_response = learn_response$train(task)$predict(task)
+pred_se = learn_se$train(task)$predict(task)
+poc = po("compose_probregr")
+poc$predict(list(pred_response, pred_se))[[1]]
 }
-}
-\seealso{
-\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp} and \link{crankcompositor}
-
-Other survival compositors: 
-\code{\link{PipeOpCrankCompositor}},
-\code{\link{PipeOpDistrCompositor}}
-}
-\concept{survival compositors}
 \section{Super class}{
 \code{\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}} -> \code{PipeOpProbregrCompositor}
 }

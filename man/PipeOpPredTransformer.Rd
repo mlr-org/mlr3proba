@@ -32,7 +32,6 @@ objects from one class (e.g. regr, classif) to another.
 
 \seealso{
 Other PipeOps: 
-\code{\link{PipeOpPredTaskSurvRegr}},
 \code{\link{PipeOpTaskTransformer}},
 \code{\link{PipeOpTransformer}},
 \code{\link{mlr_pipeops_trafopred_regrsurv}},
@@ -41,7 +40,6 @@ Other PipeOps:
 \code{\link{mlr_pipeops_trafotask_survregr}}
 
 Other Transformers: 
-\code{\link{PipeOpPredTaskSurvRegr}},
 \code{\link{PipeOpTaskTransformer}},
 \code{\link{PipeOpTransformer}}
 }

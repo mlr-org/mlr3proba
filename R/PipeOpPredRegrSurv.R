@@ -94,10 +94,10 @@ PipeOpPredRegrSurv = R6Class("PipeOpPredRegrSurv",
 
       response = lp = NULL
       target_type = self$param_set$values$target_type
-      if (target_type == "lp") {
-        lp = input$response
-      } else if (target_type == "response") {
+      if (is.null(target_type) || target_type == "response") {
         response = input$response
+      } else  if (target_type == "lp") {
+        lp = input$response
       }
 
       PredictionSurv$new(row_ids = input$row_ids, truth = truth,

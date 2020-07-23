@@ -35,7 +35,8 @@ probability of the censoring distribution evaluated at survival time;
 observations is transformed to the observed time plus the mean residual life-time at the moment
 of censoring; \code{"delete"}: censored observations are deleted from the data-set - should be
 used with caution if censoring is informative; \code{"omit"}: the censoring status column is
-deleted - again should be used with caution. Note that \code{"mrl"} and \code{"ipcw"} will perform worse
+deleted - again should be used with caution; \code{"reorder"}: selects features and targets
+and sets the target in the new task object. Note that \code{"mrl"} and \code{"ipcw"} will perform worse
 with Type I censoring.
 \item \verb{estimator::(character(1))}\cr
 Method for calculating censoring weights or mean residual lifetime in \code{"mrl"},
@@ -65,28 +66,33 @@ task = tsk("rats")$filter(
 
 # deletion
 po = po("trafotask_survregr", method = "delete")
-po$train(list(task = task))[[1]] # 42 deleted
+po$train(list(task, NULL))[[1]] # 42 deleted
 
 # omission
 po = po("trafotask_survregr", method = "omit")
-po$train(list(task = task))[[1]]
+po$train(list(task, NULL))[[1]]
 
 # ipcw with Akritas
 po = po("trafotask_survregr", method = "ipcw", estimator = "akritas", lambda = 0.4, alpha = 0)
-new_task = po$train(list(task = task))[[1]]
+new_task = po$train(list(task, NULL))[[1]]
 print(new_task)
 new_task$weights
 
 # mrl with Kaplan-Meier
 po = po("trafotask_survregr", method = "mrl")
-new_task = po$train(list(task = task))[[1]]
+new_task = po$train(list(task, NULL))[[1]]
 data.frame(new = new_task$truth(), old = task$truth())
 
-# outcome doesn't matter in predicting so omission is used
-po$predict(list(task = task))[[1]]
+# reorder - in practice this will be only be used in a few graphs
+po = po("trafotask_survregr", method = "reorder", features = c("sex", "rx", "time", "status"),
+       target = "litter")
+new_task = po$train(list(task, NULL))[[1]]
+print(new_task)
 
-# note status is saved for use in later transformations
-po$state
+# reorder using another task for feature names
+po = po("trafotask_survregr", method = "reorder", target = "litter")
+new_task = po$train(list(task, task))[[1]]
+print(new_task)
 
 }
 \references{
@@ -96,7 +102,6 @@ po$state
 }
 \seealso{
 Other PipeOps: 
-\code{\link{PipeOpPredTaskSurvRegr}},
 \code{\link{PipeOpPredTransformer}},
 \code{\link{PipeOpTaskTransformer}},
 \code{\link{PipeOpTransformer}},

@@ -125,7 +125,6 @@ Collate:
     'PipeOpPredTransformer.R'
     'PipeOpPredRegrSurv.R'
     'PipeOpPredSurvRegr.R'
-    'PipeOpPredTaskSurvRegr.R'
     'PipeOpProbRegr.R'
     'PipeOpTaskRegrSurv.R'
     'PipeOpTaskSurvRegr.R'
