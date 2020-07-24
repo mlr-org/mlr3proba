@@ -1,6 +1,7 @@
 #' @title PipeOpTaskRegrSurv
 #'
 #' @name mlr_pipeops_trafotask_regrsurv
+#' @template param_pipelines
 #'
 #' @description
 #' Transform [TaskRegr] to [TaskSurv].
@@ -48,9 +49,6 @@ PipeOpTaskRegrSurv = R6Class("PipeOpTaskRegrSurv",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    #'
-    #' @param id (`character(1)`)\cr
-    #'   Identifier of the resulting  object.
     initialize = function(id = "trafotask_regrsurv") {
       super$initialize(id = id,
                        input = data.table(name = c("task_regr", "task_surv"),

@@ -1,5 +1,7 @@
 #' @title PipeOpTaskSurvRegr
 #'
+#' @template param_pipelines
+#'
 #' @name mlr_pipeops_trafotask_survregr
 #'
 #' @description
@@ -98,9 +100,6 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    #'
-    #' @param id (`character(1)`)\cr
-    #'   Identifier of the resulting  object.
     initialize = function(id = "trafotask_survregr", param_vals = list()) {
       ps = ParamSet$new(list(
         ParamFct$new("method", default = "ipcw",
@@ -133,7 +132,7 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
   ),
 
   private = list(
-    .private = function(inputs) {
+    .predict = function(inputs) {
       pv = self$param_set$values
       target = pv$target
       if (is.null(target)) {

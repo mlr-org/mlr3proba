@@ -150,6 +150,10 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \describe{
 \item{\code{id}}{(\code{character(1)})\cr
 Identifier of the resulting  object.}
+
+\item{\code{param_vals}}{(\code{list()})\cr
+List of hyperparameter settings, overwriting the hyperparameter settings that would
+otherwise be set during construction.}
 }
 \if{html}{\out{</div>}}
 }

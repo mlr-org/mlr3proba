@@ -1,7 +1,8 @@
 #' @title PipeOpTransformer
-#'
-#' @usage NULL
-#' @format Abstract [R6Class][R6::R6Class] inheriting from [PipeOp].
+#' @template param_pipelines
+#' @template param_param_set
+#' @template param_packages
+#' @template param_input_output
 #'
 #' @description
 #' Parent class for [PipeOp]s that transform [Task][mlr3::Task] and [Prediction][mlr3::Prediction]
@@ -27,6 +28,8 @@
 PipeOpTransformer = R6Class("PipeOpTransformer",
   inherit = PipeOp,
   public = list(
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id, param_set = ParamSet$new(), param_vals = list(),
                           packages = character(), input = data.table(),
                           output = data.table()) {

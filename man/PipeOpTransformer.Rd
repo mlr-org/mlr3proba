@@ -3,17 +3,13 @@
 \name{PipeOpTransformer}
 \alias{PipeOpTransformer}
 \title{PipeOpTransformer}
-\format{
-Abstract \code{\link{R6Class}} inheriting from \code{\link{PipeOp}}.
-}
 \description{
-Parent class for \code{\link{PipeOp}}s that transform task objects top different types.
+Parent class for \link{PipeOp}s that transform \link[mlr3:Task]{Task} and \link[mlr3:Prediction]{Prediction}
+objects to different types.
 }
 \section{Input and Output Channels}{
 
-\code{\link{PipeOpTransformer}} has one input and output channel named \code{"input"} and \code{"output"}.
-In training and testing these expect and produce \link[mlr3:Task]{mlr3::Task} objects with the type depending on
-the transformers.
+Determined by child classes.
 }
 
 \section{State}{
@@ -23,14 +19,14 @@ The \verb{$state} is left empty (\code{list()}).
 
 \section{Internals}{
 
-The commonality of methods using \code{\link{PipeOpTransformer}} is that they take a \link[mlr3:Task]{mlr3::Task} of
-one class and transform it to another class. This usually involves transformation of the data,
-which can be controlled via parameters.
+The commonality of methods using \link{PipeOpTransformer} is that they take a \link[mlr3:Task]{Task}
+or \link[mlr3:Prediction]{Prediction} of one type (e.g. regr or classif) and transform it to
+another type.
 }
 
 \section{Fields}{
 
-Only fields inherited from \code{\link{PipeOp}}.
+Only fields inherited from \link{PipeOp}.
 }
 
 \seealso{
@@ -72,17 +68,46 @@ Other Transformers:
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{PipeOpTransformer$new(
   id,
   param_set = ParamSet$new(),
   param_vals = list(),
-  packages = character(0),
+  packages = character(),
   input = data.table(),
   output = data.table()
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{(\code{character(1)})\cr
+Identifier of the resulting  object.}
+
+\item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
+Set of hyperparameters.}
+
+\item{\code{param_vals}}{(\code{list()})\cr
+List of hyperparameter settings, overwriting the hyperparameter settings that would
+otherwise be set during construction.}
+
+\item{\code{packages}}{(\code{character()})\cr
+Set of required packages.
+A warning is signaled by the constructor if at least one of the packages is not installed,
+but loaded (not attached) later on-demand via \code{\link[=requireNamespace]{requireNamespace()}}.}
+
+\item{\code{input}}{\link[data.table:data.table]{data.table::data.table}\cr
+\code{data.table} with columns \code{name} (\code{character}), \code{train} (\code{character}), \code{predict} (\code{character}).
+Sets the \verb{$input} slot, see \link[mlr3pipelines:PipeOp]{PipeOp}.}
+
+\item{\code{output}}{\link[data.table:data.table]{data.table::data.table}\cr
+\code{data.table} with columns \code{name} (\code{character}), \code{train} (\code{character}), \code{predict} (\code{character}).
+Sets the \verb{$output} slot, see \link[mlr3pipelines:PipeOp]{PipeOp}.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

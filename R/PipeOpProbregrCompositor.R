@@ -1,5 +1,7 @@
 #' @title PipeOpProbregrCompositor
 #' @aliases mlr_pipeops_probregr
+#' @template param_pipelines
+#'
 #'
 #' @description
 #' Combines a predicted `reponse` and `se` from [PredictionRegr] with a specified probability
@@ -66,12 +68,6 @@ PipeOpProbregrCompositor = R6Class("PipeOpProbregrCompositor",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    #'
-    #' @param id (`character(1)`)\cr
-    #'   Identifier of the resulting  object.
-    #' @param param_vals (`list()`)\cr
-    #'   List of hyperparameter settings, overwriting the hyperparameter settings that would
-    #'   otherwise be set during construction.
     initialize = function(id = "compose_probregr", param_vals = list(dist = "Normal")) {
       ps = ParamSet$new(params = list(
         ParamFct$new("dist", default = "Normal",

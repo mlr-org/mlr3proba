@@ -1,5 +1,6 @@
 #' @title PipeOpCrankCompositor
 #' @aliases mlr_pipeops_crankcompose
+#' @template param_pipelines
 #'
 #' @description
 #' Uses a predicted `distr` in a [PredictionSurv] to estimate (or 'compose') a `crank` prediction.
@@ -67,12 +68,6 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    #'
-    #' @param id (`character(1)`)\cr
-    #'   Identifier of the resulting  object.
-    #' @param param_vals (`list()`)\cr
-    #'   List of hyperparameter settings, overwriting the hyperparameter settings that would
-    #'   otherwise be set during construction.
     initialize = function(id = "compose_crank", param_vals = list(method = "mean")) {
       ps = ParamSet$new(params = list(
         ParamFct$new("method", default = "mean", levels = c("mean", "median", "mode"),

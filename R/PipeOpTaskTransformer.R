@@ -1,7 +1,8 @@
 #' @title PipeOpTaskTransformer
-#'
-#' @usage NULL
-#' @format Abstract [`R6Class`] inheriting from [`PipeOp`].
+#' @template param_pipelines
+#' @template param_param_set
+#' @template param_packages
+#' @template param_input_output
 #'
 #' @description
 #' Parent class for [`PipeOp`]s that transform task objects top different types.
@@ -29,6 +30,8 @@
 PipeOpTaskTransformer = R6Class("PipeOpTaskTransformer",
   inherit = PipeOpTransformer,
   public = list(
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id, param_set = ParamSet$new(), param_vals = list(),
                           packages = character(0), input, output) {
 

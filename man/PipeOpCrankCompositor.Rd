@@ -71,34 +71,14 @@ Only fields inherited from \link[mlr3pipelines:PipeOp]{PipeOp}.
 library(mlr3)
 library(mlr3pipelines)
 set.seed(1)
+task = tgen("simsurv")$generate(20)
 
-# Three methods to predict a `crank` from `surv.rpart`
-task = tgen("simsurv")$generate(30)
-
-# Method 1 - Train and predict separately then compose
 learn = lrn("surv.coxph")$train(task)$predict(task)
 poc = po("crankcompose", param_vals = list(method = "mean"))
-poc$predict(list(learn))
-
-# Examples not run to save run-time.
-\dontrun{
-# Method 2 - Create a graph manually
-gr = Graph$new()$
-  add_pipeop(po("learner", lrn("surv.coxph")))$
-  add_pipeop(po("crankcompose"))$
-  add_edge("surv.coxph", "crankcompose")
-gr$train(task)
-gr$predict(task)
-
-# Method 3 - Syntactic sugar: Wrap the learner in a graph
-cox.crank = crankcompositor(
-  learner = lrn("surv.coxph"),
-  method = "median")
-resample(task, cox.crank, rsmp("cv", folds = 2))$predictions()
-}
+poc$predict(list(learn))[[1]]
 }
 \seealso{
-\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp} and \link{crankcompositor}
+\link{pipeline_crankcompositor}
 
 Other survival compositors: 
 \code{\link{PipeOpDistrCompositor}}

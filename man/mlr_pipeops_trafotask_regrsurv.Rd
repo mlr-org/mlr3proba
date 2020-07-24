@@ -39,15 +39,9 @@ po = po("trafotask_regrsurv")
 new_task = po$train(list(task_regr = task, task_surv = NULL))[[1]]
 print(new_task)
 
-# predict step is identical
-new_task = po$predict(list(task_regr = task, task_surv = NULL))[[1]]
-print(new_task)
-
-po$state
-
 # add censoring
 task_surv = tsk("rats")
-task_regr = po("trafotask_survregr", method = "omit")$train(list(input = task_surv))[[1]]
+task_regr = po("trafotask_survregr", method = "omit")$train(list(task_surv, NULL))[[1]]
 print(task_regr)
 new_task = po$train(list(task_regr = task_regr, task_surv = task_surv))[[1]]
 new_task$truth()

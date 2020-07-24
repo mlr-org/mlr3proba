@@ -1,6 +1,8 @@
 #' @title PipeOpDistrCompositor
 #' @aliases mlr_pipeops_distrcompose
 #'
+#' @template param_pipelines
+#'
 #' @description
 #' Estimates (or 'composes') a survival distribution from a predicted baseline `distr` and a
 #' `crank` or `lp` from two [PredictionSurv]s.
@@ -82,12 +84,6 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    #'
-    #' @param id (`character(1)`)\cr
-    #'   Identifier of the resulting  object.
-    #' @param param_vals (`list()`)\cr
-    #'   List of hyperparameter settings, overwriting the hyperparameter settings that would
-    #'   otherwise be set during construction.
     initialize = function(id = "compose_distr", param_vals = list(form = "aft", overwrite = FALSE)) {
       super$initialize(
         id = id,

@@ -69,6 +69,7 @@ Other Transformers:
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{PipeOpPredTransformer$new(
   id,
@@ -80,6 +81,34 @@ Other Transformers:
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{(\code{character(1)})\cr
+Identifier of the resulting  object.}
+
+\item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
+Set of hyperparameters.}
+
+\item{\code{param_vals}}{(\code{list()})\cr
+List of hyperparameter settings, overwriting the hyperparameter settings that would
+otherwise be set during construction.}
+
+\item{\code{packages}}{(\code{character()})\cr
+Set of required packages.
+A warning is signaled by the constructor if at least one of the packages is not installed,
+but loaded (not attached) later on-demand via \code{\link[=requireNamespace]{requireNamespace()}}.}
+
+\item{\code{input}}{\link[data.table:data.table]{data.table::data.table}\cr
+\code{data.table} with columns \code{name} (\code{character}), \code{train} (\code{character}), \code{predict} (\code{character}).
+Sets the \verb{$input} slot, see \link[mlr3pipelines:PipeOp]{PipeOp}.}
+
+\item{\code{output}}{\link[data.table:data.table]{data.table::data.table}\cr
+\code{data.table} with columns \code{name} (\code{character}), \code{train} (\code{character}), \code{predict} (\code{character}).
+Sets the \verb{$output} slot, see \link[mlr3pipelines:PipeOp]{PipeOp}.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

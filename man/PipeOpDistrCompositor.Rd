@@ -86,40 +86,16 @@ Only methods inherited from \link[mlr3pipelines:PipeOp]{PipeOp}.
 \examples{
 library(mlr3)
 library(mlr3pipelines)
-set.seed(42)
+set.seed(1)
+task = tgen("simsurv")$generate(20)
 
-# Three methods to transform the cox ph predicted `distr` to an
-#  accelerated failure time model
-task = tgen("simsurv")$generate(30)
-
-# Method 1 - Train and predict separately then compose
 base = lrn("surv.kaplan")$train(task)$predict(task)
 pred = lrn("surv.coxph")$train(task)$predict(task)
 pod = po("distrcompose", param_vals = list(form = "aft", overwrite = TRUE))
-pod$predict(list(base = base, pred = pred))
-
-# Examples not run to save run-time.
-\dontrun{
-# Method 2 - Create a graph manually
-gr = Graph$new()$
-  add_pipeop(po("learner", lrn("surv.kaplan")))$
-  add_pipeop(po("learner", lrn("surv.coxph")))$
-  add_pipeop(po("distrcompose"))$
-  add_edge("surv.kaplan", "distrcompose", dst_channel = "base")$
-  add_edge("surv.coxph", "distrcompose", dst_channel = "pred")
-gr$train(task)
-gr$predict(task)
-
-# Method 3 - Syntactic sugar: Wrap the learner in a graph.
-cox.distr = distrcompositor(
-  learner = lrn("surv.coxph"),
-  estimator = "kaplan",
-  form = "aft")
-cox.distr$train(task)$predict(task)
-}
+pod$predict(list(base = base, pred = pred))[[1]]
 }
 \seealso{
-\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp} and \link{distrcompositor}
+\link{pipeline_distrcompositor}
 
 Other survival compositors: 
 \code{\link{PipeOpCrankCompositor}}

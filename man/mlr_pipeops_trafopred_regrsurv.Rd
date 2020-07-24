@@ -44,13 +44,12 @@ print(new_pred)
 
 # add censoring
 task_surv = tsk("rats")
-task_regr = po("trafotask_survregr", method = "omit")$train(list(input = task_surv))[[1]]
+task_regr = po("trafotask_survregr", method = "omit")$train(list(task_surv, NULL))[[1]]
 learn = lrn("regr.featureless")
 pred = learn$train(task_regr)$predict(task_regr)
 po = po("trafopred_regrsurv")
 new_pred = po$predict(list(pred = pred, task = task_surv))[[1]]
-new_pred$truth
-task_surv$truth()
+all.equal(new_pred$truth, task_surv$truth())
 
 }
 \seealso{

@@ -1,6 +1,7 @@
 #' @title PipeOpPredRegrSurv
 #'
 #' @name mlr_pipeops_trafopred_regrsurv
+#' @template param_pipelines
 #'
 #' @description
 #' Transform [PredictionRegr] to [PredictionSurv].
@@ -51,12 +52,6 @@ PipeOpPredRegrSurv = R6Class("PipeOpPredRegrSurv",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    #'
-    #' @param id (`character(1)`)\cr
-    #'   Identifier of the resulting  object.
-    #' @param param_vals (`list()`)\cr
-    #'   List of hyperparameter settings, overwriting the hyperparameter settings that would
-    #'   otherwise be set during construction.
     initialize = function(id = "trafopred_regrsurv", param_vals = list()) {
 
       ps = ParamSet$new(list(

@@ -4,9 +4,6 @@
 \alias{mlr_pipeops_survavg}
 \alias{PipeOpSurvAvg}
 \title{PipeOpSurvAvg}
-\format{
-\link{R6Class} inheriting from \link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}.
-}
 \description{
 Perform (weighted) prediction averaging from survival \link{PredictionSurv}s by connecting
 \code{PipeOpSurvAvg} to multiple \link[mlr3pipelines:PipeOpLearner]{PipeOpLearner} outputs.
@@ -118,7 +115,7 @@ If \code{innum} is 0 (default), a vararg input channel is created that can take 
 number of inputs.}
 
 \item{\code{id}}{(\code{character(1)})\cr
-Identifier of the resulting  object, default \code{"survavg"}.}
+Identifier of the resulting  object.}
 
 \item{\code{param_vals}}{(\code{list()})\cr
 List of hyperparameter settings, overwriting the hyperparameter settings that would

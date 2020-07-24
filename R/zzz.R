@@ -163,7 +163,7 @@ register_mlr3pipelines = function() {
   x$add("probregrcompositor", pipeline_probregrcompositor)
   x$add("survaverager", pipeline_survaverager)
   x$add("survbagging", pipeline_survbagging)
-  x$add("survregr", pipeline_survregr)
+  x$add("survtoregr", pipeline_survtoregr)
 }
 
 .onLoad = function(libname, pkgname) { # nolint

@@ -1,8 +1,6 @@
 #' @title PipeOpSurvAvg
-#'
-#' @usage NULL
+#' @template param_pipelines
 #' @name mlr_pipeops_survavg
-#' @format [R6Class] inheriting from [mlr3pipelines::PipeOp].
 #'
 #' @description
 #' Perform (weighted) prediction averaging from survival [PredictionSurv]s by connecting
@@ -66,11 +64,6 @@ PipeOpSurvAvg = R6Class("PipeOpSurvAvg",
     #'   Determines the number of input channels.
     #'   If `innum` is 0 (default), a vararg input channel is created that can take an arbitrary
     #'   number of inputs.
-    #' @param id (`character(1)`)\cr
-    #'  Identifier of the resulting  object, default `"survavg"`.
-    #' @param param_vals (`list()`)\cr
-    #'   List of hyperparameter settings, overwriting the hyperparameter settings that would
-    #'   otherwise be set during construction.
     #' @param ... `ANY`\cr
     #' Additional arguments passed to [mlr3pipelines::PipeOpEnsemble].
     initialize = function(innum = 0, id = "survavg",
