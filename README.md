@@ -105,57 +105,50 @@ repository](https://github.com/mlr-org/mlr3learners), or the
 instructions in how to install learners from the [mlr3learners
 organisation](https://github.com/mlr3learners).
 
-| ID                                                                                           | Learner                                                   | Package                                                                  |
-| :------------------------------------------------------------------------------------------- | :-------------------------------------------------------- | :----------------------------------------------------------------------- |
-| [surv.akritas](https://github.com/mlr3learners/mlr3learners.proba)                           | Akritas Conditional Non-Parametric Estimator              | [mlr3learners.proba](https://github.com/mlr3learners/mlr3learners.proba) |
-| [surv.blackboost](https://mlr3proba.mlr-org.com/reference/LearnerSurvBlackboost.html)        | Gradient Boosting with Regression Trees                   | [mboost](https://CRAN.R-project.org/package=mboost)                      |
-| [surv.coxboost](https://github.com/mlr3learners/mlr3learners.coxboost)                       | Cox Model with Likelihood Based Boosting                  | [CoxBoost](https://CRAN.R-project.org/package=CoxBoost)                  |
-| [surv.coxph](https://mlr3proba.mlr-org.com/reference/LearnerSurvCoxPH.html)                  | Cox Proportional Hazards                                  | [survival](https://CRAN.R-project.org/package=survival)                  |
-| [surv.cvcoxboost](https://github.com/mlr3learners/mlr3learners.coxboost)                     | Cox Model with Cross-Validation Likelihood Based Boosting | [CoxBoost](https://CRAN.R-project.org/package=CoxBoost)                  |
-| [surv.cvglmnet](https://mlr3learners.mlr-org.com/reference/mlr_learners_surv.cv_glmnet.html) | Cross-Validated GLM with Elastic Net Regularization       | [glmnet](https://CRAN.R-project.org/package=glmnet)                      |
-| [surv.flexible](https://github.com/mlr3learners/mlr3learners.flexsurv)                       | Flexible Parametric Spline Models                         | [flexsurv](https://CRAN.R-project.org/package=flexsurv)                  |
-| [surv.gamboost](https://mlr3proba.mlr-org.com/reference/LearnerSurvGamboost.html)            | Gradient Boosting for Additive Models                     | [mboost](https://CRAN.R-project.org/package=mboost)                      |
-| [surv.gbm](https://mlr3proba.mlr-org.com/reference/LearnerSurvGBM.html)                      | Generalized Boosting Regression Modeling                  | [gbm](https://CRAN.R-project.org/package=gbm)                            |
-| [surv.glmboost](https://mlr3proba.mlr-org.com/reference/LearnerSurvGlmboost.html)            | Gradient Boosting with Component-wise Linear Models       | [mboost](https://CRAN.R-project.org/package=mboost)                      |
-| [surv.glmnet](https://mlr3learners.mlr-org.com/reference/mlr_learners_surv.glmnet.html)      | GLM with Elastic Net Regularization                       | [glmnet](https://CRAN.R-project.org/package=glmnet)                      |
-| [surv.kaplan](https://mlr3proba.mlr-org.com/reference/LearnerSurvKaplan.html)                | Kaplan-Meier Estimator                                    | [survival](https://CRAN.R-project.org/package=survival)                  |
-| [surv.mboost](https://mlr3proba.mlr-org.com/reference/LearnerSurvMboost.html)                | Gradient Boosting for Generalized Additive Models         | [mboost](https://CRAN.R-project.org/package=mboost)                      |
-| [surv.nelson](https://github.com/mlr3learners/mlr3learners.survival)                         | Nelson-Aalen Estimator                                    | [survival](https://CRAN.R-project.org/package=survival)                  |
-| [surv.parametric](https://github.com/mlr3learners/mlr3learners.survival)                     | Fully Parametric Survival Models                          | [survival](https://CRAN.R-project.org/package=survival)                  |
-| [surv.penalized](https://github.com/mlr3learners/mlr3learners.penalized)                     | L1 and L2 Penalized Estimation in GLMs                    | [penalized](https://CRAN.R-project.org/package=penalized)                |
-| [surv.randomForestSRC](https://github.com/mlr3learners/mlr3learners.randomforestsrc)         | RandomForestSRC Survival Forest                           | [randomForestSRC](https://CRAN.R-project.org/package=randomForestSRC)    |
-| [surv.ranger](https://mlr3learners.mlr-org.com/reference/mlr_learners_surv.ranger.html)      | Ranger Survival Forest                                    | [ranger](https://CRAN.R-project.org/package=ranger)                      |
-| [surv.rpart](https://mlr3proba.mlr-org.com/reference/LearnerSurvRpart.html)                  | Rpart Survival Forest                                     | [rpart](https://CRAN.R-project.org/package=rpart)                        |
-| [surv.svm](https://github.com/mlr3learners/mlr3learners.survivalsvm)                         | Regression, Ranking and Hybrid Support Vector Machines    | [survivalsvm](https://CRAN.R-project.org/package=survivalsvm)            |
-| [surv.xgboost](https://mlr3learners.mlr-org.com/reference/mlr_learners_surv.xgboost.html)    | Cox Model with Gradient Boosting Trees                    | [xgboost](https://CRAN.R-project.org/package=xgboost)                    |
+| ID                                                                                   | Learner                                                   | Package                                                                  |
+| :----------------------------------------------------------------------------------- | :-------------------------------------------------------- | :----------------------------------------------------------------------- |
+| [surv.akritas](https://github.com/mlr3learners/mlr3learners.proba)                   | Akritas Conditional Non-Parametric Estimator              | [mlr3learners.proba](https://github.com/mlr3learners/mlr3learners.proba) |
+| [surv.blackboost](https://github.com/mlr3learners/mlr3learners.mboost)               | Gradient Boosting with Regression Trees                   | [mboost](https://CRAN.R-project.org/package=mboost)                      |
+| [surv.coxboost](https://github.com/mlr3learners/mlr3learners.coxboost)               | Cox Model with Likelihood Based Boosting                  | [CoxBoost](https://CRAN.R-project.org/package=CoxBoost)                  |
+| [surv.coxph](https://mlr3proba.mlr-org.com/reference/LearnerSurvCoxPH.html)          | Cox Proportional Hazards                                  | [survival](https://CRAN.R-project.org/package=survival)                  |
+| [surv.cvcoxboost](https://github.com/mlr3learners/mlr3learners.coxboost)             | Cox Model with Cross-Validation Likelihood Based Boosting | [CoxBoost](https://CRAN.R-project.org/package=CoxBoost)                  |
+| [surv.cvglmnet](https://mlr3learners.mlr-org.com/)                                   | Cross-Validated GLM with Elastic Net Regularization       | [glmnet](https://CRAN.R-project.org/package=glmnet)                      |
+| [surv.flexible](https://github.com/mlr3learners/mlr3learners.flexsurv)               | Flexible Parametric Spline Models                         | [flexsurv](https://CRAN.R-project.org/package=flexsurv)                  |
+| [surv.gamboost](https://github.com/mlr3learners/mlr3learners.mboost)                 | Gradient Boosting for Additive Models                     | [mboost](https://CRAN.R-project.org/package=mboost)                      |
+| [surv.gbm](https://github.com/mlr3learners/mlr3learners.gbm)                         | Generalized Boosting Regression Modeling                  | [gbm](https://CRAN.R-project.org/package=gbm)                            |
+| [surv.glmboost](https://github.com/mlr3learners/mlr3learners.mboost)                 | Gradient Boosting with Component-wise Linear Models       | [mboost](https://CRAN.R-project.org/package=mboost)                      |
+| [surv.glmnet](https://mlr3learners.mlr-org.com/)                                     | GLM with Elastic Net Regularization                       | [glmnet](https://CRAN.R-project.org/package=glmnet)                      |
+| [surv.kaplan](https://mlr3proba.mlr-org.com/reference/LearnerSurvKaplan.html)        | Kaplan-Meier Estimator                                    | [survival](https://CRAN.R-project.org/package=survival)                  |
+| [surv.mboost](https://github.com/mlr3learners/mlr3learners.mboost)                   | Gradient Boosting for Generalized Additive Models         | [mboost](https://CRAN.R-project.org/package=mboost)                      |
+| [surv.nelson](https://github.com/mlr3learners/mlr3learners.survival)                 | Nelson-Aalen Estimator                                    | [survival](https://CRAN.R-project.org/package=survival)                  |
+| [surv.parametric](https://github.com/mlr3learners/mlr3learners.survival)             | Fully Parametric Survival Models                          | [survival](https://CRAN.R-project.org/package=survival)                  |
+| [surv.penalized](https://github.com/mlr3learners/mlr3learners.penalized)             | L1 and L2 Penalized Estimation in GLMs                    | [penalized](https://CRAN.R-project.org/package=penalized)                |
+| [surv.randomForestSRC](https://github.com/mlr3learners/mlr3learners.randomforestsrc) | RandomForestSRC Survival Forest                           | [randomForestSRC](https://CRAN.R-project.org/package=randomForestSRC)    |
+| [surv.ranger](https://github.com/mlr-org/mlr3learners/)                              | Ranger Survival Forest                                    | [ranger](https://CRAN.R-project.org/package=ranger)                      |
+| [surv.rpart](https://mlr3proba.mlr-org.com/reference/LearnerSurvRpart.html)          | Rpart Survival Forest                                     | [rpart](https://CRAN.R-project.org/package=rpart)                        |
+| [surv.svm](https://github.com/mlr3learners/mlr3learners.survivalsvm)                 | Regression, Ranking and Hybrid Support Vector Machines    | [survivalsvm](https://CRAN.R-project.org/package=survivalsvm)            |
+| [surv.xgboost](https://github.com/mlr-org/mlr3learners/)                             | Cox Model with Gradient Boosting Trees                    | [xgboost](https://CRAN.R-project.org/package=xgboost)                    |
 
 ### Survival Measures
 
-| ID                                                                                            | Measure                                 | Package                                                   |
-| :-------------------------------------------------------------------------------------------- | :-------------------------------------- | :-------------------------------------------------------- |
-| [surv.beggC](https://mlr3proba.mlr-org.com/reference/MeasureSurvBeggC.html)                   | Begg’s C-Index                          | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.calib\_alpha](https://mlr3proba.mlr-org.com/reference/MeasureSurvCalibrationAlpha.html) | van Houwelingen’s Alpha Calibration     | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
-| [surv.calib\_beta](https://mlr3proba.mlr-org.com/reference/MeasureSurvCalibrationBeta.html)   | van Houwelingen’s Beta Calibration      | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
-| [surv.chamblessAUC](https://mlr3proba.mlr-org.com/reference/MeasureSurvChamblessAUC.html)     | Chambless and Diao’s AUC                | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.gonenC](https://mlr3proba.mlr-org.com/reference/MeasureSurvGonenC.html)                 | Gonen and Heller’s C-Index              | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.graf](https://mlr3proba.mlr-org.com/reference/MeasureSurvGraf.html)                     | Integrated Graf Score                   | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
-| [surv.grafSE](https://mlr3proba.mlr-org.com/reference/MeasureSurvGrafSE.html)                 | Standard Error of Integrated Graf Score | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
-| [surv.harrellC](https://mlr3proba.mlr-org.com/reference/MeasureSurvHarrellC.html)             | Harrell’s C-Index                       | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
-| [surv.hungAUC](https://mlr3proba.mlr-org.com/reference/MeasureSurvHungAUC.html)               | Hung and Chiang’s AUC                   | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.intlogloss](https://mlr3proba.mlr-org.com/reference/MeasureSurvIntLogloss.html)         | Integrated Log Loss                     | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
-| [surv.intloglossSE](https://mlr3proba.mlr-org.com/reference/MeasureSurvIntLoglossSE.html)     | Standard Error of Integrated Log Loss   | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
-| [surv.logloss](https://mlr3proba.mlr-org.com/reference/MeasureSurvLogloss.html)               | Log Loss                                | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
-| [surv.loglossSE](https://mlr3proba.mlr-org.com/reference/MeasureSurvLoglossSE.html)           | Standard Error of Log Loss              | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
-| [surv.nagelkR2](https://mlr3proba.mlr-org.com/reference/MeasureSurvNagelkR2.html)             | Nagelkerke’s R2                         | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.oquigleyR2](https://mlr3proba.mlr-org.com/reference/MeasureSurvOQuigleyR2.html)         | O’Quigley, Xu, and Stare’s R2           | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.songAUC](https://mlr3proba.mlr-org.com/reference/MeasureSurvSongAUC.html)               | Song and Zhou’s AUC                     | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.songTNR](https://mlr3proba.mlr-org.com/reference/MeasureSurvSongTNR.html)               | Song and Zhou’s TNR                     | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.songTPR](https://mlr3proba.mlr-org.com/reference/MeasureSurvSongTPR.html)               | Song and Zhou’s TPR                     | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.unoAUC](https://mlr3proba.mlr-org.com/reference/MeasureSurvUnoAUC.html)                 | Uno’s AUC                               | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.unoC](https://mlr3proba.mlr-org.com/reference/MeasureSurvUnoC.html)                     | Uno’s C-Index                           | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.unoTNR](https://mlr3proba.mlr-org.com/reference/MeasureSurvUnoTNR.html)                 | Uno’s TNR                               | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.unoTPR](https://mlr3proba.mlr-org.com/reference/MeasureSurvUnoTPR.html)                 | Uno’s TPR                               | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.xuR2](https://mlr3proba.mlr-org.com/reference/MeasureSurvXuR2.html)                     | Xu and O’Quigley’s R2                   | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
+| ID                                                                                                  | Measure                             | Package                                                   |
+| :-------------------------------------------------------------------------------------------------- | :---------------------------------- | :-------------------------------------------------------- |
+| [surv.calib\_alpha](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.calib_alpha.html)     | van Houwelingen’s Alpha Calibration | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
+| [surv.calib\_beta](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.calib_beta.html)       | van Houwelingen’s Beta Calibration  | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
+| [surv.chambless\_auc](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.chambless_auc.html) | Chambless and Diao’s AUC            | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
+| [surv.graf](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.graf.html)                    | Integrated Graf Score               | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
+| [surv.hungAUC](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.hung_auc.html)             | Hung and Chiang’s AUC               | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
+| [surv.intlogloss](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.intlogloss.html)        | Integrated Log Loss                 | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
+| [surv.logloss](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.logloss.html)              | Log Loss                            | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
+| [surv.nagelk\_r2](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.nagelk_r2.html)         | Nagelkerke’s R2                     | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
+| [surv.oquigley\_r2](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.oquigley_r2.html)     | O’Quigley, Xu, and Stare’s R2       | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
+| [surv.song\_auc](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.song_auc.html)           | Song and Zhou’s AUC                 | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
+| [surv.song\_tnr](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.song_tnr.html)           | Song and Zhou’s TNR                 | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
+| [surv.song\_tpr](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.song_tpr.html)           | Song and Zhou’s TPR                 | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
+| [surv.uno\_auc](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.uno_auc.html)             | Uno’s AUC                           | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
+| [surv.uno\_tnr](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.uno_tnr.html)             | Uno’s TNR                           | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
+| [surv.uno\_tpr](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.uno_tpr.html)             | Uno’s TPR                           | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
+| [surv.xu\_r2](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.xu_r2.html)                 | Xu and O’Quigley’s R2               | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
 
 ## Density Estimation
 

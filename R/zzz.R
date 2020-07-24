@@ -94,6 +94,7 @@ register_mlr3 = function() {
   x$add("surv.intloglossSE", MeasureSurvIntLoglossSE)
 
    x$add("surv.cindex", MeasureSurvCindex)
+   # deprecated
    x$add("surv.unoC", MeasureSurvUnoC)
    x$add("surv.harrellC", MeasureSurvHarrellC)
    x$add("surv.gonenC", MeasureSurvGonenC)

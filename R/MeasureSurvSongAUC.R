@@ -28,9 +28,9 @@ MeasureSurvSongAUC = R6Class("MeasureSurvSongAUC",
       super$initialize(
         integrated = integrated,
         times = times,
-        id = "surv.songAUC",
+        id = "surv.song_auc",
         properties = c("requires_learner", "requires_task", "requires_train_set"),
-        man = "mlr3proba::mlr_measures_surv.songAUC"
+        man = "mlr3proba::mlr_measures_surv.song_auc"
       )
 
       private$.type = match.arg(type)

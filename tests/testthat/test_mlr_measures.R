@@ -65,7 +65,7 @@ times = 60
 train_set = 1:20
 
 test_that("AUCs",{
-  aucs =  mlr_measures$keys("^surv.[a-zA-Z]*AUC")
+  aucs =  mlr_measures$keys("^surv.[a-zA-Z]*_auc")
   expect_error(lapply(aucs, msr, times = 34:37, integrated = FALSE), "non-integrated score")
   expect_silent(prediction$score(lapply(aucs, msr, integrated = TRUE), task = task,
   learner = learner, train_set = train_set))
@@ -74,7 +74,7 @@ test_that("AUCs",{
 })
 
 test_that("sensspecs",{
-  sensspecs = mlr_measures$keys("^surv.[a-zA-Z]*TPR|TNR")
+  sensspecs = mlr_measures$keys("^surv.[a-zA-Z]*_tpr|^surv.[a-zA-Z]*_tnr")
   expect_silent(prediction$score(lapply(sensspecs, msr, integrated = TRUE, times = times),
    task = task, learner = learner, train_set = train_set))
   expect_silent(prediction$score(lapply(sensspecs, msr, integrated = TRUE, times = times),

@@ -33,8 +33,9 @@ If not missing \code{Learner$predict_newdata} is called instead of \code{Learner
 Wrapper around \code{predict.LearnerSurv} and \code{plot.VectorDistribution}.
 }
 \examples{
+\dontrun{
 library(mlr3)
-task = tsk("rats")
+task = tgen("simsurv")$generate(20)
 
 # Prediction Error Curves for prediction object
 learn = lrn("surv.coxph")
@@ -44,4 +45,5 @@ plot(learn, task, "survival", ind = 10)
 plot(learn, task, "survival", row_ids = 1:5)
 plot(learn, task, "survival", newdata = task$data()[1:5, ])
 plot(learn, task, "survival", newdata = task$data()[1:5, ], ylim = c(0, 1))
+}
 }

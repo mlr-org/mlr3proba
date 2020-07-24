@@ -25,9 +25,9 @@ MeasureSurvUnoAUC = R6Class("MeasureSurvUnoAUC",
       super$initialize(
         integrated = integrated,
         times = times,
-        id = "surv.unoAUC",
+        id = "surv.uno_auc",
         properties = c("requires_task", "requires_train_set"),
-        man = "mlr3proba::mlr_measures_surv.unoAUC"
+        man = "mlr3proba::mlr_measures_surv.uno_auc"
       )
     }
   ),

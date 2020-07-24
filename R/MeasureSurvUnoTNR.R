@@ -32,8 +32,8 @@ MeasureSurvUnoTNR = R6Class("MeasureSurvUnoTNR",
       super$initialize(
         integrated = FALSE,
         times = times,
-        id = "surv.unoTNR",
-        man = "mlr3proba::mlr_measures_surv.unoTNR"
+        id = "surv.uno_tnr",
+        man = "mlr3proba::mlr_measures_surv.uno_tnr"
       )
 
       assertNumeric(lp_thresh, len = 1)

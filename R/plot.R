@@ -14,8 +14,9 @@
 #'
 #'
 #' @examples
+#' \dontrun{
 #' library(mlr3)
-#' task = tsk("rats")
+#' task = tgen("simsurv")$generate(20)
 #'
 #' # Prediction Error Curves for prediction object
 #' learn = lrn("surv.coxph")
@@ -25,6 +26,7 @@
 #' plot(learn, task, "survival", row_ids = 1:5)
 #' plot(learn, task, "survival", newdata = task$data()[1:5, ])
 #' plot(learn, task, "survival", newdata = task$data()[1:5, ], ylim = c(0, 1))
+#' }
 #' @export
 plot.LearnerSurv = function(
   x,

@@ -25,9 +25,9 @@ MeasureSurvHungAUC = R6Class("MeasureSurvHungAUC",
       super$initialize(
         integrated = integrated,
         times = times,
-        id = "surv.hungAUC",
+        id = "surv.hung_auc",
         properties = c("requires_task", "requires_train_set"),
-        man = "mlr3proba::mlr_measures_surv.hungAUC"
+        man = "mlr3proba::mlr_measures_surv.hung_auc"
       )
     }
   ),

@@ -26,9 +26,9 @@ MeasureSurvChamblessAUC = R6Class("MeasureSurvChamblessAUC",
       super$initialize(
         integrated = integrated,
         times = times,
-        id = "surv.chamblessAUC",
+        id = "surv.chambless_auc",
         properties = c("requires_learner", "requires_task", "requires_train_set"),
-        man = "mlr3proba::mlr_measures_surv.chamblessAUC"
+        man = "mlr3proba::mlr_measures_surv.chambless_auc"
       )
     }
   ),

@@ -20,13 +20,13 @@ MeasureSurvNagelkR2 = R6Class("MeasureSurvNagelkR2",
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       super$initialize(
-        id = "surv.nagelkR2",
+        id = "surv.nagelk_r2",
         range = 0:1,
         minimize = FALSE,
         packages = "survAUC",
         predict_type = "lp",
         properties = c("requires_task", "requires_train_set"),
-        man = "mlr3proba::mlr_measures_surv.nagelkR2"
+        man = "mlr3proba::mlr_measures_surv.nagelk_r2"
       )
     }
   ),
