@@ -155,10 +155,14 @@ register_mlr3pipelines = function() {
   x$add("compose_crank", PipeOpCrankCompositor)
   x$add("compose_probregr", PipeOpProbregrCompositor)
 
+  x$add("survavg", PipeOpSurvAvg)
+
   x = utils::getFromNamespace("mlr_graphs", ns = "mlr3pipelines")
   x$add("distrcompositor", pipeline_distrcompositor)
   x$add("crankcompositor", pipeline_crankcompositor)
   x$add("probregrcompositor", pipeline_probregrcompositor)
+  x$add("survaverage", pipeline_survaverage)
+  x$add("survbagging", pipeline_survbagging)
 }
 
 .onLoad = function(libname, pkgname) { # nolint
