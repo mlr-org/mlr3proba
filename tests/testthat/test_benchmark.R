@@ -1,5 +1,3 @@
-context("benchmark")
-
 test_that("benchmark works", {
   learners = lapply(c("surv.kaplan", "surv.coxph"), lrn)
   task = tsk("rats")

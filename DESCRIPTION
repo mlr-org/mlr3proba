@@ -52,7 +52,6 @@ Suggests:
     knitr,
     lgr,
     Matrix,
-    mlr3pipelines,
     mlr3tuning,
     pracma,
     rmarkdown,

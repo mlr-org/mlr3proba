@@ -1,5 +1,3 @@
-context("surv.coxph")
-
 test_that("autotest", {
   set.seed(1)
   learner = lrn("surv.coxph")

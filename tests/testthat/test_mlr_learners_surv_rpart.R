@@ -1,5 +1,3 @@
-context("surv.rpart")
-
 test_that("autotest", {
   learner = mlr_learners$get("surv.rpart")
   expect_learner(learner)

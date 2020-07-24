@@ -1,5 +1,3 @@
-context("dens.kde")
-
 test_that("autotest", {
   set.seed(1)
   learner = lrn("dens.kde")

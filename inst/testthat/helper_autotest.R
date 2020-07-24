@@ -1,4 +1,4 @@
-generate_tasks.LearnerDens = function(learner, N = 30L) { # nolint
+generate_tasks.LearnerDens = function(learner, N = 30L, ...) { # nolint
   target = rnorm(N)
   data = cbind(data.table::data.table(target = target), generate_data(learner, N))
   task = TaskDens$new("proto", mlr3::as_data_backend(data), target = "target")
@@ -17,12 +17,12 @@ generate_tasks.LearnerDens = function(learner, N = 30L) { # nolint
 }
 registerS3method("generate_tasks", "LearnerDens", generate_tasks.LearnerDens)
 
-sanity_check.PredictionDens = function(prediction) { # nolint
+sanity_check.PredictionDens = function(prediction, ...) { # nolint
   prediction$score() >= -50 & prediction$score() <= 50
 }
 registerS3method("sanity_check", "PredictionDens", sanity_check.PredictionDens)
 
-generate_tasks.LearnerSurv = function(learner, N = 20L) { # nolint
+generate_tasks.LearnerSurv = function(learner, N = 20L, ...) { # nolint
 
   real_time = 1 + rexp(N, rate = 2) * 20
   cens_time = 1 + rexp(N, rate = 3) * 20
@@ -44,7 +44,7 @@ generate_tasks.LearnerSurv = function(learner, N = 20L) { # nolint
 }
 registerS3method("generate_tasks", "LearnerSurv", generate_tasks.LearnerSurv)
 
-sanity_check.PredictionSurv = function(prediction) { # nolint
+sanity_check.PredictionSurv = function(prediction, ...) { # nolint
   prediction$score() >= 0
 }
 registerS3method("sanity_check", "PredictionSurv", sanity_check.PredictionSurv)

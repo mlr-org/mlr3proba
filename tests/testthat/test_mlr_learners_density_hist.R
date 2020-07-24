@@ -1,5 +1,3 @@
-context("dens.hist")
-
 test_that("autotest", {
   set.seed(1)
   learner = lrn("dens.hist")
