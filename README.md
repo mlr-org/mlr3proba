@@ -110,7 +110,7 @@ organisation](https://github.com/mlr3learners).
 | [surv.akritas](https://github.com/mlr3learners/mlr3learners.proba)                   | Akritas Conditional Non-Parametric Estimator              | [mlr3learners.proba](https://github.com/mlr3learners/mlr3learners.proba) |
 | [surv.blackboost](https://github.com/mlr3learners/mlr3learners.mboost)               | Gradient Boosting with Regression Trees                   | [mboost](https://CRAN.R-project.org/package=mboost)                      |
 | [surv.coxboost](https://github.com/mlr3learners/mlr3learners.coxboost)               | Cox Model with Likelihood Based Boosting                  | [CoxBoost](https://CRAN.R-project.org/package=CoxBoost)                  |
-| [surv.coxph](https://mlr3proba.mlr-org.com/reference/LearnerSurvCoxPH.html)          | Cox Proportional Hazards                                  | [survival](https://CRAN.R-project.org/package=survival)                  |
+| [surv.coxph](https://mlr3proba.mlr-org.com/reference/mlr_learners_surv.coxph.html)   | Cox Proportional Hazards                                  | [survival](https://CRAN.R-project.org/package=survival)                  |
 | [surv.cvcoxboost](https://github.com/mlr3learners/mlr3learners.coxboost)             | Cox Model with Cross-Validation Likelihood Based Boosting | [CoxBoost](https://CRAN.R-project.org/package=CoxBoost)                  |
 | [surv.cvglmnet](https://mlr3learners.mlr-org.com/)                                   | Cross-Validated GLM with Elastic Net Regularization       | [glmnet](https://CRAN.R-project.org/package=glmnet)                      |
 | [surv.flexible](https://github.com/mlr3learners/mlr3learners.flexsurv)               | Flexible Parametric Spline Models                         | [flexsurv](https://CRAN.R-project.org/package=flexsurv)                  |
@@ -118,14 +118,14 @@ organisation](https://github.com/mlr3learners).
 | [surv.gbm](https://github.com/mlr3learners/mlr3learners.gbm)                         | Generalized Boosting Regression Modeling                  | [gbm](https://CRAN.R-project.org/package=gbm)                            |
 | [surv.glmboost](https://github.com/mlr3learners/mlr3learners.mboost)                 | Gradient Boosting with Component-wise Linear Models       | [mboost](https://CRAN.R-project.org/package=mboost)                      |
 | [surv.glmnet](https://mlr3learners.mlr-org.com/)                                     | GLM with Elastic Net Regularization                       | [glmnet](https://CRAN.R-project.org/package=glmnet)                      |
-| [surv.kaplan](https://mlr3proba.mlr-org.com/reference/LearnerSurvKaplan.html)        | Kaplan-Meier Estimator                                    | [survival](https://CRAN.R-project.org/package=survival)                  |
+| [surv.kaplan](https://mlr3proba.mlr-org.com/reference/mlr_learners_surv.kaplan.html) | Kaplan-Meier Estimator                                    | [survival](https://CRAN.R-project.org/package=survival)                  |
 | [surv.mboost](https://github.com/mlr3learners/mlr3learners.mboost)                   | Gradient Boosting for Generalized Additive Models         | [mboost](https://CRAN.R-project.org/package=mboost)                      |
 | [surv.nelson](https://github.com/mlr3learners/mlr3learners.survival)                 | Nelson-Aalen Estimator                                    | [survival](https://CRAN.R-project.org/package=survival)                  |
 | [surv.parametric](https://github.com/mlr3learners/mlr3learners.survival)             | Fully Parametric Survival Models                          | [survival](https://CRAN.R-project.org/package=survival)                  |
 | [surv.penalized](https://github.com/mlr3learners/mlr3learners.penalized)             | L1 and L2 Penalized Estimation in GLMs                    | [penalized](https://CRAN.R-project.org/package=penalized)                |
 | [surv.randomForestSRC](https://github.com/mlr3learners/mlr3learners.randomforestsrc) | RandomForestSRC Survival Forest                           | [randomForestSRC](https://CRAN.R-project.org/package=randomForestSRC)    |
 | [surv.ranger](https://github.com/mlr-org/mlr3learners/)                              | Ranger Survival Forest                                    | [ranger](https://CRAN.R-project.org/package=ranger)                      |
-| [surv.rpart](https://mlr3proba.mlr-org.com/reference/LearnerSurvRpart.html)          | Rpart Survival Forest                                     | [rpart](https://CRAN.R-project.org/package=rpart)                        |
+| [surv.rpart](https://mlr3proba.mlr-org.com/reference/mlr_learners_surv.rpart.html)   | Rpart Survival Forest                                     | [rpart](https://CRAN.R-project.org/package=rpart)                        |
 | [surv.svm](https://github.com/mlr3learners/mlr3learners.survivalsvm)                 | Regression, Ranking and Hybrid Support Vector Machines    | [survivalsvm](https://CRAN.R-project.org/package=survivalsvm)            |
 | [surv.xgboost](https://github.com/mlr-org/mlr3learners/)                             | Cox Model with Gradient Boosting Trees                    | [xgboost](https://CRAN.R-project.org/package=xgboost)                    |
 
@@ -162,25 +162,25 @@ repository](https://github.com/mlr-org/mlr3learners), or the
 instructions in how to install learners from the [mlr3learners
 organisation](https://github.com/mlr3learners).
 
-| ID                                                                       | Learner                                                       | Package                                                       |
-| :----------------------------------------------------------------------- | :------------------------------------------------------------ | :------------------------------------------------------------ |
-| [dens.hist](https://mlr3proba.mlr-org.com/reference/LearnerDensKDE.html) | Univariate Histogram Density Estimator                        | graphics                                                      |
-| [dens.kde](https://mlr3proba.mlr-org.com/reference/LearnerDensKDE.html)  | Univariate KDE for Different Kernels                          | [distr6](https://CRAN.R-project.org/package=distr6)           |
-| [dens.kdeKD](https://github.com/mlr3learners/mlr3learners.kerdiest)      | Nonparametric KDE Using Plug-in Method of Polansky and Baker  | [kerdiest](https://CRAN.R-project.org/package=kerdiest)       |
-| [dens.kdeKS](https://github.com/mlr3learners/mlr3learners.ks)            | Nonparametric Gaussian KDE                                    | [ks](https://CRAN.R-project.org/package=ks)                   |
-| [dens.locfit](https://github.com/mlr3learners/mlr3learners.locfit)       | Nonparametric KDE Using Gaussian kernel                       | [locfit](https://CRAN.R-project.org/package=locfit)           |
-| [dens.logspline](https://github.com/mlr3learners/mlr3learners.logspline) | Logspline Method for Density Estimation                       | [logspline](https://CRAN.R-project.org/package=logspline)     |
-| [dens.mixed](https://github.com/mlr3learners/mlr3learners.np)            | KDE Using Li and Racine Bandwidth Specification               | [np](https://CRAN.R-project.org/package=np)                   |
-| [dens.nonpar](https://github.com/mlr3learners/mlr3learners.sm)           | Nonparametric KDE Using Normal Optimal Smoothing Parameter    | [sm](https://CRAN.R-project.org/package=sm)                   |
-| [dens.pen](https://github.com/mlr3learners/mlr3learners.pendensity)      | Density Estimation with a Penalized Mixture                   | [pendensity](https://CRAN.R-project.org/package=pendensity)   |
-| [dens.plug](https://github.com/mlr3learners/mlr3learners.plugdensity)    | Density Estimation with Iterative Plug-in Bandwidth Selection | [plugdensity](https://CRAN.R-project.org/package=plugdensity) |
-| [dens.spline](https://github.com/mlr3learners/mlr3learners.gss)          | Density Estimation Using Smoothing Spline ANOVA               | [gss](https://CRAN.R-project.org/package=gss)                 |
+| ID                                                                               | Learner                                                       | Package                                                       |
+| :------------------------------------------------------------------------------- | :------------------------------------------------------------ | :------------------------------------------------------------ |
+| [dens.hist](https://mlr3proba.mlr-org.com/reference/mlr_learners_dens.hist.html) | Univariate Histogram Density Estimator                        | graphics                                                      |
+| [dens.kde](https://mlr3proba.mlr-org.com/reference/mlr_learners_dens.kde.html)   | Univariate KDE for Different Kernels                          | [distr6](https://CRAN.R-project.org/package=distr6)           |
+| [dens.kdeKD](https://github.com/mlr3learners/mlr3learners.kerdiest)              | Nonparametric KDE Using Plug-in Method of Polansky and Baker  | [kerdiest](https://CRAN.R-project.org/package=kerdiest)       |
+| [dens.kdeKS](https://github.com/mlr3learners/mlr3learners.ks)                    | Nonparametric Gaussian KDE                                    | [ks](https://CRAN.R-project.org/package=ks)                   |
+| [dens.locfit](https://github.com/mlr3learners/mlr3learners.locfit)               | Nonparametric KDE Using Gaussian kernel                       | [locfit](https://CRAN.R-project.org/package=locfit)           |
+| [dens.logspline](https://github.com/mlr3learners/mlr3learners.logspline)         | Logspline Method for Density Estimation                       | [logspline](https://CRAN.R-project.org/package=logspline)     |
+| [dens.mixed](https://github.com/mlr3learners/mlr3learners.np)                    | KDE Using Li and Racine Bandwidth Specification               | [np](https://CRAN.R-project.org/package=np)                   |
+| [dens.nonpar](https://github.com/mlr3learners/mlr3learners.sm)                   | Nonparametric KDE Using Normal Optimal Smoothing Parameter    | [sm](https://CRAN.R-project.org/package=sm)                   |
+| [dens.pen](https://github.com/mlr3learners/mlr3learners.pendensity)              | Density Estimation with a Penalized Mixture                   | [pendensity](https://CRAN.R-project.org/package=pendensity)   |
+| [dens.plug](https://github.com/mlr3learners/mlr3learners.plugdensity)            | Density Estimation with Iterative Plug-in Bandwidth Selection | [plugdensity](https://CRAN.R-project.org/package=plugdensity) |
+| [dens.spline](https://github.com/mlr3learners/mlr3learners.gss)                  | Density Estimation Using Smoothing Spline ANOVA               | [gss](https://CRAN.R-project.org/package=gss)                 |
 
 ### Density Measures
 
-| ID                                                                              | Measure  | Package                                                   |
-| :------------------------------------------------------------------------------ | :------- | :-------------------------------------------------------- |
-| [dens.logloss](https://mlr3proba.mlr-org.com/reference/MeasureDensLogloss.html) | Log Loss | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
+| ID                                                                                     | Measure  | Package                                                   |
+| :------------------------------------------------------------------------------------- | :------- | :-------------------------------------------------------- |
+| [dens.logloss](https://mlr3proba.mlr-org.com/reference/mlr_measures_dens.logloss.html) | Log Loss | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
 
 ## Near-Future Plans
 

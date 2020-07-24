@@ -4,7 +4,8 @@ All downstream dependencies OK.
 
 ## Test Results
 
-No ERRORs, WARNINGs, or NOTEs.
+One NOTE about URLs, all manually checked and working.
+No ERRORs or WARNINGs.
 
 ## Test environments
 
