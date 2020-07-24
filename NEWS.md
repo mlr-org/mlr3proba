@@ -1,4 +1,4 @@
-# mlr3proba 0.1.6.9000
+# mlr3proba 0.2.0
 
 ### Added Functionality
 
@@ -8,7 +8,7 @@
 * Addd calibration measures `MeasureSurvCalibrationBeta` and `MeasureSurvCalibrationAlpha`
 * `surv.brier` alias added for `surv.graf`
 * `response` parameter added to `PipeOpCrankCompositor` and `crankcompositor` to now optionally fill `response` predict type with same values as `crank`
-* Added `PipeOpProbregrCompostior` and `probregr_compose` for composition to `distr` return type from (a) regression learner(s) predicting `response` and `se`
+* Added `PipeOpProbregrCompostior` and `compose_probregr` for composition to `distr` return type from (a) regression learner(s) predicting `response` and `se`
 * Added `PipeOpSurvAvg` and `surv_averager` pipeline for weighted model averaging of distr, lp, crank, and response predictions.
 
 ### Deprecated Functionality

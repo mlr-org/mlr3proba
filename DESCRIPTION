@@ -1,6 +1,6 @@
 Package: mlr3proba
 Title: Probabilistic Supervised Learning for 'mlr3'
-Version: 0.1.6.9000
+Version: 0.2.0
 Authors@R:
     c(person(given = "Raphael",
              family = "Sonabend",
@@ -38,7 +38,7 @@ Depends:
 Imports:
     checkmate,
     data.table,
-    distr6 (>= 1.4.1),
+    distr6 (>= 1.4.2),
     mlr3 (>= 0.3.0),
     mlr3misc (>= 0.1.7),
     mlr3pipelines,
@@ -61,8 +61,6 @@ Suggests:
     simsurv,
     survAUC,
     testthat
-Remotes:
-    alan-turing-institute/distr6
 LinkingTo: Rcpp
 VignetteBuilder:
     knitr
