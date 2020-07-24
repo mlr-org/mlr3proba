@@ -129,9 +129,11 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
                                           predict = c("TaskSurv", "*")),
                        output = data.table(name = "output", train = "TaskRegr", predict = "TaskRegr")
       )
-    },
+    }
+  ),
 
-    predict_internal = function(inputs) {
+  private = list(
+    .private = function(inputs) {
       pv = self$param_set$values
       target = pv$target
       if (is.null(target)) {
@@ -139,10 +141,8 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
       }
       backend = private$.reorder(copy(inputs[[1]]$data()), pv$features, target, inputs[[2]])
       return(list(TaskRegr$new(id = inputs[[1]]$id, backend = backend, target = target)))
-    }
-  ),
+    },
 
-  private = list(
     .transform = function(inputs) {
 
       input = inputs[[1]]

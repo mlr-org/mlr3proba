@@ -50,38 +50,18 @@
 #' @section Methods:
 #' Only fields inherited from [PipeOp][mlr3pipelines::PipeOp].
 #'
-#' @seealso [mlr3pipelines::PipeOp] and [crankcompositor]
-#' @export
+#' @seealso [pipeline_crankcompositor]
 #' @family survival compositors
 #' @examples
 #' library(mlr3)
 #' library(mlr3pipelines)
 #' set.seed(1)
+#' task = tgen("simsurv")$generate(20)
 #'
-#' # Three methods to predict a `crank` from `surv.rpart`
-#' task = tgen("simsurv")$generate(30)
-#'
-#' # Method 1 - Train and predict separately then compose
 #' learn = lrn("surv.coxph")$train(task)$predict(task)
 #' poc = po("crankcompose", param_vals = list(method = "mean"))
-#' poc$predict(list(learn))
-#'
-#' # Examples not run to save run-time.
-#' \dontrun{
-#' # Method 2 - Create a graph manually
-#' gr = Graph$new()$
-#'   add_pipeop(po("learner", lrn("surv.coxph")))$
-#'   add_pipeop(po("crankcompose"))$
-#'   add_edge("surv.coxph", "crankcompose")
-#' gr$train(task)
-#' gr$predict(task)
-#'
-#' # Method 3 - Syntactic sugar: Wrap the learner in a graph
-#' cox.crank = crankcompositor(
-#'   learner = lrn("surv.coxph"),
-#'   method = "median")
-#' resample(task, cox.crank, rsmp("cv", folds = 2))$predictions()
-#' }
+#' poc$predict(list(learn))[[1]]
+#' @export
 PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
   inherit = mlr3pipelines::PipeOp,
   public = list(
@@ -110,24 +90,16 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
         output = data.table(name = "output", train = "NULL", predict = "PredictionSurv"),
         packages = "distr6"
         )
-    },
+    }
+  ),
 
-    #' @description train_internal
-    #' Internal `train` function, will be moved to `private` in a near-future update, should be
-    #' ignored.
-    #' @param inputs
-    #' Ignore.
-    train_internal = function(inputs) {
+  private = list(
+    .train = function(inputs) {
       self$state = list()
       list(NULL)
     },
 
-    #' @description predict_internal
-    #' Internal `predict` function, will be moved to `private` in a near-future update, should be
-    #' ignored.
-    #' @param inputs
-    #' Ignore.
-    predict_internal = function(inputs) {
+    .predict = function(inputs) {
 
       inpred = inputs[[1]]
 
@@ -158,33 +130,4 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
         distr = inpred$distr, lp = lp, response = response)))
     }
   )
-
-  # private = list(
-  #   .train = function(inputs) {
-  #     self$state = list()
-  #     list(NULL)
-  #   },
-  #
-  #   .predict = function(inputs) {
-  #     inpred = inputs[[1]]
-  #
-  #     assert("distr" %in% inpred$predict_types)
-  #     method = self$param_set$values$method
-  #     if(length(method) == 0) method = "mean"
-  #     crank = as.numeric(switch(method,
-  #                               median = inpred$distr$median(),
-  #                               mode = inpred$distr$mode(),
-  #                               inpred$distr$mean()
-  #     ))
-  #
-  #     if (length(inpred$lp) == 0)
-  #       lp = NULL
-  #     else
-  #       lp = inpred$lp
-  #
-  #     return(list(PredictionSurv$new(row_ids = inpred$row_ids, truth = inpred$truth,
-  #     crank = crank,
-  #                                    distr = inpred$distr, lp = lp)))
-  #   }
-  # )
 )

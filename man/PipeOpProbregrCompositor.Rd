@@ -85,8 +85,6 @@ poc$predict(list(pred_response, pred_se))[[1]]
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{PipeOpProbregrCompositor$new()}}
-\item \href{#method-train_internal}{\code{PipeOpProbregrCompositor$train_internal()}}
-\item \href{#method-predict_internal}{\code{PipeOpProbregrCompositor$predict_internal()}}
 \item \href{#method-clone}{\code{PipeOpProbregrCompositor$clone()}}
 }
 }
@@ -120,44 +118,6 @@ Identifier of the resulting  object.}
 \item{\code{param_vals}}{(\code{list()})\cr
 List of hyperparameter settings, overwriting the hyperparameter settings that would
 otherwise be set during construction.}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-train_internal"></a>}}
-\if{latex}{\out{\hypertarget{method-train_internal}{}}}
-\subsection{Method \code{train_internal()}}{
-train_internal
-Internal \code{train} function, will be moved to \code{private} in a near-future update, should be
-ignored.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{PipeOpProbregrCompositor$train_internal(inputs)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{inputs}}{Ignore.}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-predict_internal"></a>}}
-\if{latex}{\out{\hypertarget{method-predict_internal}{}}}
-\subsection{Method \code{predict_internal()}}{
-predict_internal
-Internal \code{predict} function, will be moved to \code{private} in a near-future update, should be
-ignored.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{PipeOpProbregrCompositor$predict_internal(inputs)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{inputs}}{Ignore.}
 }
 \if{html}{\out{</div>}}
 }

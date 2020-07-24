@@ -105,6 +105,7 @@ Other PipeOps:
 \code{\link{PipeOpPredTransformer}},
 \code{\link{PipeOpTaskTransformer}},
 \code{\link{PipeOpTransformer}},
+\code{\link{mlr_pipeops_survavg}},
 \code{\link{mlr_pipeops_trafopred_regrsurv}},
 \code{\link{mlr_pipeops_trafopred_survregr}},
 \code{\link{mlr_pipeops_trafotask_regrsurv}}
@@ -123,7 +124,6 @@ Other Transformation PipeOps:
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{PipeOpTaskSurvRegr$new()}}
-\item \href{#method-predict_internal}{\code{PipeOpTaskSurvRegr$predict_internal()}}
 \item \href{#method-clone}{\code{PipeOpTaskSurvRegr$clone()}}
 }
 }
@@ -133,7 +133,6 @@ Other Transformation PipeOps:
 \item \out{<span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="predict">}\href{../../mlr3pipelines/html/PipeOp.html#method-predict}{\code{mlr3pipelines::PipeOp$predict()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="print">}\href{../../mlr3pipelines/html/PipeOp.html#method-print}{\code{mlr3pipelines::PipeOp$print()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="train">}\href{../../mlr3pipelines/html/PipeOp.html#method-train}{\code{mlr3pipelines::PipeOp$train()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3proba" data-topic="PipeOpTransformer" data-id="train_internal">}\href{../../mlr3proba/html/PipeOpTransformer.html#method-train_internal}{\code{mlr3proba::PipeOpTransformer$train_internal()}}\out{</span>}
 }
 \out{</details>}
 }
@@ -154,15 +153,6 @@ Identifier of the resulting  object.}
 }
 \if{html}{\out{</div>}}
 }
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-predict_internal"></a>}}
-\if{latex}{\out{\hypertarget{method-predict_internal}{}}}
-\subsection{Method \code{predict_internal()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{PipeOpTaskSurvRegr$predict_internal(inputs)}\if{html}{\out{</div>}}
-}
-
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

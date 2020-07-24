@@ -161,8 +161,9 @@ register_mlr3pipelines = function() {
   x$add("distrcompositor", pipeline_distrcompositor)
   x$add("crankcompositor", pipeline_crankcompositor)
   x$add("probregrcompositor", pipeline_probregrcompositor)
-  x$add("survaverage", pipeline_survaverage)
+  x$add("survaverager", pipeline_survaverager)
   x$add("survbagging", pipeline_survbagging)
+  x$add("survregr", pipeline_survregr)
 }
 
 .onLoad = function(libname, pkgname) { # nolint

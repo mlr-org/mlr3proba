@@ -37,6 +37,7 @@ Only fields inherited from \code{\link{PipeOp}}.
 Other PipeOps: 
 \code{\link{PipeOpPredTransformer}},
 \code{\link{PipeOpTaskTransformer}},
+\code{\link{mlr_pipeops_survavg}},
 \code{\link{mlr_pipeops_trafopred_regrsurv}},
 \code{\link{mlr_pipeops_trafopred_survregr}},
 \code{\link{mlr_pipeops_trafotask_regrsurv}},
@@ -55,8 +56,6 @@ Other Transformers:
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{PipeOpTransformer$new()}}
-\item \href{#method-train_internal}{\code{PipeOpTransformer$train_internal()}}
-\item \href{#method-predict_internal}{\code{PipeOpTransformer$predict_internal()}}
 \item \href{#method-clone}{\code{PipeOpTransformer$clone()}}
 }
 }
@@ -82,24 +81,6 @@ Other Transformers:
   input = data.table(),
   output = data.table()
 )}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-train_internal"></a>}}
-\if{latex}{\out{\hypertarget{method-train_internal}{}}}
-\subsection{Method \code{train_internal()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{PipeOpTransformer$train_internal(inputs)}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-predict_internal"></a>}}
-\if{latex}{\out{\hypertarget{method-predict_internal}{}}}
-\subsection{Method \code{predict_internal()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{PipeOpTransformer$predict_internal(inputs)}\if{html}{\out{</div>}}
 }
 
 }

@@ -36,9 +36,11 @@ PipeOpPredTransformer = R6Class("PipeOpPredTransformer",
                        input = input,
                        output = output
       )
-    },
+    }
+  ),
 
-    train_internal = function(inputs) {
+  private = list(
+    .train = function(inputs) {
       list(NULL)
     }
   )

@@ -64,43 +64,19 @@
 #' @section Methods:
 #' Only methods inherited from [PipeOp][mlr3pipelines::PipeOp].
 #'
-#' @seealso [mlr3pipelines::PipeOp] and [distrcompositor]
+#' @seealso [pipeline_distrcompositor]
 #' @export
 #' @family survival compositors
 #' @examples
 #' library(mlr3)
 #' library(mlr3pipelines)
-#' set.seed(42)
+#' set.seed(1)
+#' task = tgen("simsurv")$generate(20)
 #'
-#' # Three methods to transform the cox ph predicted `distr` to an
-#' #  accelerated failure time model
-#' task = tgen("simsurv")$generate(30)
-#'
-#' # Method 1 - Train and predict separately then compose
 #' base = lrn("surv.kaplan")$train(task)$predict(task)
 #' pred = lrn("surv.coxph")$train(task)$predict(task)
 #' pod = po("distrcompose", param_vals = list(form = "aft", overwrite = TRUE))
-#' pod$predict(list(base = base, pred = pred))
-#'
-#' # Examples not run to save run-time.
-#' \dontrun{
-#' # Method 2 - Create a graph manually
-#' gr = Graph$new()$
-#'   add_pipeop(po("learner", lrn("surv.kaplan")))$
-#'   add_pipeop(po("learner", lrn("surv.coxph")))$
-#'   add_pipeop(po("distrcompose"))$
-#'   add_edge("surv.kaplan", "distrcompose", dst_channel = "base")$
-#'   add_edge("surv.coxph", "distrcompose", dst_channel = "pred")
-#' gr$train(task)
-#' gr$predict(task)
-#'
-#' # Method 3 - Syntactic sugar: Wrap the learner in a graph.
-#' cox.distr = distrcompositor(
-#'   learner = lrn("surv.coxph"),
-#'   estimator = "kaplan",
-#'   form = "aft")
-#' cox.distr$train(task)$predict(task)
-#' }
+#' pod$predict(list(base = base, pred = pred))[[1]]
 PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
   inherit = mlr3pipelines::PipeOp,
   public = list(
@@ -124,24 +100,16 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
         output = data.table(name = "output", train = "NULL", predict = "PredictionSurv"),
         packages = "distr6"
         )
-    },
+    }
+  ),
 
-    #' @description train_internal
-    #' Internal `train` function, will be moved to `private` in a near-future update, should be
-    #' ignored.
-    #' @param inputs
-    #' Ignore.
-    train_internal = function(inputs) {
+  private = list(
+    .train = function(inputs) {
       self$state = list()
       list(NULL)
     },
 
-    #' @description predict_internal
-    #' Internal `predict` function, will be moved to `private` in a near-future update, should be
-    #' ignored.
-    #' @param inputs
-    #' Ignore.
-    predict_internal = function(inputs) {
+    .predict = function(inputs) {
       base = inputs$base
       inpred = inputs$pred
 
@@ -208,72 +176,4 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
       }
     }
   )
-
-  # private = list(
-  #   .train = function(inputs) {
-  #     self$state = list()
-  #     list(NULL)
-  #   },
-  #
-  #   .predict = function(inputs) {
-  #     base = inputs$base
-  #     inpred = inputs$pred
-  #
-  #     overwrite = self$param_set$values$overwrite
-  #     if(length(overwrite) == 0) overwrite = FALSE
-  #
-  #     if ("distr" %in% inpred$predict_types & !overwrite) {
-  #       return(list(inpred))
-  #     } else {
-  #       assert("distr" %in% base$predict_types)
-  #
-  #       row_ids = inpred$row_ids
-  #       truth = inpred$truth
-  #       map(inputs, function(x) assert_true(identical(row_ids, x$row_ids)))
-  #       map(inputs, function(x) assert_true(identical(truth, x$truth)))
-  #
-  #       form = self$param_set$values$form
-  #       if(length(form) == 0) form = "aft"
-  #
-  #       base = base$distr[1]
-  #       times = unlist(base$support()$elements)
-  #
-  #       nr = nrow(inpred$data$tab)
-  #       nc = length(times)
-  #
-  #       if(is.null(inpred$lp) | length(inpred$lp) == 0)
-  #         lp = inpred$crank
-  #       else
-  #         lp = inpred$lp
-  #
-  #       timesmat = matrix(times, nrow = nr, ncol = nc, byrow = T)
-  #       survmat = matrix(base$survival(times), nrow = nr, ncol = nc, byrow = T)
-  #       lpmat = matrix(lp, nrow = nr, ncol = nc)
-  #
-  #       if(form == "ph")
-  #         cdf = 1 - (survmat ^ exp(lpmat))
-  #       else if (form == "aft")
-  #         cdf = t(apply(timesmat / exp(lpmat), 1, function(x) base$cdf(x)))
-  #       else if (form == "po")
-  #         cdf = 1 - (survmat * ({exp(-lpmat) + ((1 - exp(-lpmat)) * survmat)}^-1))
-  #
-  #       x = rep(list(data = data.frame(x = times, cdf = 0)), nr)
-  #
-  #       for(i in seq_along(times))
-  #         x[[i]]$cdf = cdf[i,]
-  #
-  #       distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
-  #                                              decorators = c("CoreStatistics",
-  #                                              "ExoticStatistics"))
-  #
-  #       if(is.null(inpred$lp) | length(inpred$lp) == 0)
-  #         lp = NULL
-  #       else
-  #         lp = inpred$lp
-  #
-  #       return(list(PredictionSurv$new(row_ids = row_ids, truth = truth,
-  #                                      crank = inpred$crank, distr = distr, lp = lp)))
-  #     }
-  #   }
-  # )
 )

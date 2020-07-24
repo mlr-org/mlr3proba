@@ -39,9 +39,11 @@ PipeOpTaskTransformer = R6Class("PipeOpTaskTransformer",
                        input = input,
                        output = output
                        )
-    },
+    }
+  ),
 
-    predict_internal = function(inputs) {
+  private = list(
+    .predict = function(inputs) {
       list(inputs[[1]]$clone(deep = TRUE))
     }
   )

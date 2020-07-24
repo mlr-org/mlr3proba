@@ -88,24 +88,16 @@ PipeOpProbregrCompositor = R6Class("PipeOpProbregrCompositor",
         output = data.table(name = "output", train = "NULL", predict = "PredictionRegr"),
         packages = "distr6"
       )
-    },
+    }
+  ),
 
-    #' @description train_internal
-    #' Internal `train` function, will be moved to `private` in a near-future update, should be
-    #' ignored.
-    #' @param inputs
-    #' Ignore.
-    train_internal = function(inputs) {
+  private =  list(
+    .train = function(inputs) {
       self$state = list()
       list(NULL)
     },
 
-    #' @description predict_internal
-    #' Internal `predict` function, will be moved to `private` in a near-future update, should be
-    #' ignored.
-    #' @param inputs
-    #' Ignore.
-    predict_internal = function(inputs) {
+    .predict = function(inputs) {
       pred_response = inputs$input_response
       pred_se = inputs$input_se
 
@@ -132,10 +124,10 @@ PipeOpProbregrCompositor = R6Class("PipeOpProbregrCompositor",
 
 
       list(PredictionRegr$new(row_ids = pred_response$row_ids,
-                         truth = pred_response$truth,
-                         response = response,
-                         se = se,
-                         distr = VectorDistribution$new(distribution = dist, params = params)))
+                              truth = pred_response$truth,
+                              response = response,
+                              se = se,
+                              distr = VectorDistribution$new(distribution = dist, params = params)))
     }
   )
 )
