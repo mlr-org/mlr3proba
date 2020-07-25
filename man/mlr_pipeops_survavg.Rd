@@ -58,6 +58,7 @@ Only methods inherited from
 }
 
 \examples{
+\dontrun{
 library(mlr3)
 library(mlr3pipelines)
 set.seed(1)
@@ -67,7 +68,7 @@ p1 = lrn("surv.coxph")$train(task)$predict(task)
 p2 = lrn("surv.kaplan")$train(task)$predict(task)
 poc = po("survavg", param_vals = list(weights = c(0.2, 0.8)))
 poc$predict(list(p1, p2))
-
+}
 }
 \concept{Ensembles}
 \concept{PipeOps}

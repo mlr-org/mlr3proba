@@ -64,6 +64,7 @@ Only fields inherited from \link[mlr3pipelines:PipeOp]{PipeOp}.
 }
 
 \examples{
+\dontrun{
 library(mlr3)
 library(mlr3pipelines)
 set.seed(1)
@@ -77,8 +78,6 @@ pred = learn$train(task)$predict(task)
 poc = po("probregr_compose")
 poc$predict(list(pred))
 
-# Examples not run to save run-time.
-\dontrun{
 # Method 2 - Create a graph manually
 gr = Graph$new()$
   add_pipeop(po("learner", lrn("regr.featureless", predict_type = "se")))$

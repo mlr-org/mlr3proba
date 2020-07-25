@@ -68,6 +68,7 @@
 #' @export
 #' @family survival compositors
 #' @examples
+#' \dontrun{
 #' library(mlr3)
 #' library(mlr3pipelines)
 #' set.seed(42)
@@ -82,8 +83,6 @@
 #' pod = po("distrcompose", param_vals = list(form = "aft", overwrite = TRUE))
 #' pod$predict(list(base = base, pred = pred))
 #'
-#' # Examples not run to save run-time.
-#' \dontrun{
 #' # Method 2 - Create a graph manually
 #' gr = Graph$new()$
 #'   add_pipeop(po("learner", lrn("surv.kaplan")))$

@@ -54,6 +54,7 @@
 #' @export
 #' @family survival compositors
 #' @examples
+#' \dontrun{
 #' library(mlr3)
 #' library(mlr3pipelines)
 #' set.seed(1)
@@ -66,8 +67,6 @@
 #' poc = po("crankcompose", param_vals = list(method = "mean"))
 #' poc$predict(list(learn))
 #'
-#' # Examples not run to save run-time.
-#' \dontrun{
 #' # Method 2 - Create a graph manually
 #' gr = Graph$new()$
 #'   add_pipeop(po("learner", lrn("surv.coxph")))$
