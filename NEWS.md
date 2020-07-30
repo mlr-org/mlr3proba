@@ -1,3 +1,8 @@
+# mlr3proba 0.2.0.9000
+
+* Removed `PredictionRegr` causing masking issues with `{mlr3}`
+* Bug fix in `PipeOpDistrCompositor` causing some `cdf` predictions to be lost
+
 # mlr3proba 0.2.0
 
 ### Added Functionality

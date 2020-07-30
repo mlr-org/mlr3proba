@@ -65,8 +65,8 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH",
       pv = self$param_set$get_values(tags = "predict")
 
       # Get predicted values
-      fit = invoke(survival::survfit, formula = self$model, newdata = newdata, se.fit = FALSE,
-                   .args = pv)
+      fit = mlr3misc::invoke(survival::survfit, formula = self$model, newdata = newdata,
+                             se.fit = FALSE, .args = pv)
 
       # define WeightedDiscrete distr6 object from predicted survival function
       x = rep(list(list(x = fit$time, cdf = 0)), task$nrow)

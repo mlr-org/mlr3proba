@@ -17,8 +17,7 @@ head(as.data.table(p))
 }
 \seealso{
 Other Prediction: 
-\code{\link{PredictionDens}},
-\code{\link{PredictionRegr}}
+\code{\link{PredictionDens}}
 }
 \concept{Prediction}
 \section{Super class}{

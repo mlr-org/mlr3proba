@@ -144,7 +144,7 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
       inpred = inputs$pred
 
       overwrite = self$param_set$values$overwrite
-      if (length(overwrite) == 0) overwrite = FALSE
+      if (!length(overwrite)) overwrite = FALSE
 
       if ("distr" %in% inpred$predict_types & !overwrite) {
         return(list(inpred))
@@ -153,8 +153,8 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
 
         row_ids = inpred$row_ids
         truth = inpred$truth
-        mlr3misc::map(inputs, function(x) assert_true(identical(row_ids, x$row_ids)))
-        mlr3misc::map(inputs, function(x) assert_true(identical(truth, x$truth)))
+        mlr3misc::map(inputs, function(x) checkmate::assert_true(identical(row_ids, x$row_ids)))
+        mlr3misc::map(inputs, function(x) checkmate::assert_true(identical(truth, x$truth)))
 
         form = self$param_set$values$form
         if (length(form) == 0) form = "aft"
@@ -165,7 +165,7 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
         nr = nrow(inpred$data$tab)
         nc = length(times)
 
-        if (is.null(inpred$lp) | length(inpred$lp) == 0) {
+        if (any(is.na(inpred$lp))) {
           lp = inpred$crank
         } else {
           lp = inpred$lp
@@ -186,7 +186,7 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
         x = rep(list(list(x = times,
                           cdf = numeric(length(times)))), nr)
 
-        for (i in seq_along(times)) {
+        for (i in seq_len(nr)) {
           x[[i]]$cdf = cdf[i, ]
         }
 
@@ -194,7 +194,7 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
           distribution = "WeightedDiscrete", params = x,
           decorators = c("CoreStatistics", "ExoticStatistics"))
 
-        if (is.null(inpred$lp) | length(inpred$lp) == 0) {
+        if (any(is.na(inpred$lp))) {
           lp = NULL
         } else {
           lp = inpred$lp

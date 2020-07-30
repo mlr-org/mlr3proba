@@ -1,6 +1,6 @@
 Package: mlr3proba
 Title: Probabilistic Supervised Learning for 'mlr3'
-Version: 0.2.0
+Version: 0.2.0.9000
 Authors@R:
     c(person(given = "Raphael",
              family = "Sonabend",
@@ -74,8 +74,7 @@ Collate:
     'LearnerDens.R'
     'LearnerDensHistogram.R'
     'LearnerDensKDE.R'
-    'LearnerProbreg.R'
-    'LearnerProbregGaussian.R'
+    'LearnerRegrGaussian.R'
     'LearnerSurv.R'
     'LearnerSurvCoxPH.R'
     'LearnerSurvKaplan.R'
@@ -122,8 +121,6 @@ Collate:
     'PipeOpProbRegr.R'
     'PipeOpSurvAvg.R'
     'PredictionDens.R'
-    'PredictionProbreg.R'
-    'PredictionRegr.R'
     'PredictionSurv.R'
     'RcppExports.R'
     'TaskDens.R'
@@ -131,7 +128,6 @@ Collate:
     'TaskDens_precip.R'
     'TaskGeneratorSimdens.R'
     'TaskGeneratorSimsurv.R'
-    'TaskProbreg.R'
     'TaskSurv.R'
     'TaskSurv_lung.R'
     'TaskSurv_rats.R'

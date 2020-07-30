@@ -17,7 +17,6 @@ head(as.data.table(p))
 }
 \seealso{
 Other Prediction: 
-\code{\link{PredictionRegr}},
 \code{\link{PredictionSurv}}
 }
 \concept{Prediction}
