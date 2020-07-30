@@ -17,21 +17,22 @@ task = tgen("simsurv")$generate(20)
 # })
 
 test_that("PipeOpDistrCompositor - overwrite = FALSE", {
-  gr = distrcompositor(lrn("surv.coxph"), overwrite = FALSE)
+  gr = ppl("distrcompositor", lrn("surv.coxph"), overwrite = FALSE)
   expect_silent(gr$train(task))
   expect_equal(
-    gr$predict(task)$distr,
+    gr$predict(task)[[1]]$distr,
     lrn("surv.coxph")$train(task)$predict(task)$distr)
 })
 
 test_that("PipeOpDistrCompositor - overwrite = TRUE", {
-  gr = distrcompositor(lrn("surv.coxph"), overwrite = TRUE, form = "ph")
+  gr = ppl("distrcompositor", lrn("surv.coxph"), overwrite = TRUE, form = "ph")
   expect_silent(gr$train(task))
-  p = gr$predict(task)
+  p = gr$predict(task)[[1]]
   expect_prediction_surv(p)
   expect_true("distr" %in% p$predict_types)
 
-  gr = distrcompositor(lrn("surv.coxph"), overwrite = TRUE, form = "po")
+  gr = ppl("distrcompositor", lrn("surv.coxph"), overwrite = TRUE, form = "po",
+           graph_learner = TRUE)
   expect_silent(expect_prediction_surv(gr$train(task)$predict(task)))
 })
 

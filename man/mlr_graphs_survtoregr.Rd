@@ -15,6 +15,7 @@ pipeline_survtoregr(
   survregr_params = list(method = "ipcw", estimator = "kaplan", alpha = 1),
   distrcompose_params = list(form = "aft"),
   probregr_params = list(dist = "Normal"),
+  learnercv_params = list(resampling.method = "insample"),
   graph_learner = FALSE
 )
 }
@@ -51,6 +52,9 @@ Parameters passed to \link{PipeOpDistrCompositor}, default is accelerated failur
 \item{probregr_params}{\code{list()}\cr
 Parameters passed to \link{PipeOpProbregrCompositor}, default is \link[distr6:Normal]{Normal}
 distribution for composition.}
+
+\item{learnercv_params}{\code{list()}\cr
+Parameters passed to \link{PipeOpLearnerCV}, default is to use insampling.}
 
 \item{graph_learner}{\code{logical(1)}\cr
 If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a

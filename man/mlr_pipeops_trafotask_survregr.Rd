@@ -33,11 +33,12 @@ is column is removed and a \code{weights} column is added, weights are inverse e
 probability of the censoring distribution evaluated at survival time;
 \code{"mrl"} (Klein and Moeschberger, 2003): survival time of censored
 observations is transformed to the observed time plus the mean residual life-time at the moment
-of censoring; \code{"delete"}: censored observations are deleted from the data-set - should be
-used with caution if censoring is informative; \code{"omit"}: the censoring status column is
-deleted - again should be used with caution; \code{"reorder"}: selects features and targets
-and sets the target in the new task object. Note that \code{"mrl"} and \code{"ipcw"} will perform worse
-with Type I censoring.
+of censoring; \code{"bj"} (Buckley and James, 1979): Buckley-James imputation assuming an AFT
+model form, calls \link[bujar:bujar]{bujar::bujar}; \code{"delete"}: censored observations are deleted from the
+data-set - should be used with caution if censoring is informative; \code{"omit"}: the censoring
+status column is deleted - again should be used with caution; \code{"reorder"}: selects features and
+targets and sets the target in the new task object. Note that \code{"mrl"} and \code{"ipcw"} will perform
+worse with Type I censoring.
 \item \verb{estimator::(character(1))}\cr
 Method for calculating censoring weights or mean residual lifetime in \code{"mrl"},
 current options are: \code{"kaplan"}: unconditional Kaplan-Meier estimator;
@@ -48,8 +49,14 @@ When \code{ipcw} is used, optional hyper-parameter that adds an extra penalty to
 censored observations. If set to \code{0} then censored observations are given zero weight and
 deleted, weighting only the non-censored observations. A weight for an observation is then
 \eqn{(\delta + \alpha(1-\delta))/G(t)} where \eqn{\delta} is the censoring indicator.
+\item \code{eps::numeric(1)}\cr
+Small value to replace \code{0} survival probabilities with in IPCW to prevent infinite weights.
 \item \verb{lambda::(numeric(1))}\cr
 Nearest neighbours parameter for \link[mlr3learners.proba:akritas]{akritas} estimator, default \code{0.5}.
+\item \verb{features, target :: character())}\cr
+For \code{"reorder"} method, specify which columns become features and targets.
+\item \verb{learner cneter, mimpu, iter.bj, max.cycle, mstop, nu}\cr
+Passed to \link[bujar:bujar]{bujar::bujar}.
 }
 }
 
@@ -83,6 +90,11 @@ po = po("trafotask_survregr", method = "mrl")
 new_task = po$train(list(task, NULL))[[1]]
 data.frame(new = new_task$truth(), old = task$truth())
 
+# Buckley-James imputation
+po = po("trafotask_survregr", method = "bj")
+new_task = po$train(list(task, NULL))[[1]]
+data.frame(new = new_task$truth(), old = task$truth())
+
 # reorder - in practice this will be only be used in a few graphs
 po = po("trafotask_survregr", method = "reorder", features = c("sex", "rx", "time", "status"),
        target = "litter")
@@ -96,6 +108,8 @@ print(new_task)
 
 }
 \references{
+\cite{mlr3proba}{buckley_1979}
+
 \cite{mlr3proba}{klein_2003}
 
 \cite{mlr3proba}{vock_2016}

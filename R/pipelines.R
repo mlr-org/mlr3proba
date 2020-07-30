@@ -144,7 +144,7 @@ pipeline_crankcompositor = function(learner, method = c("mean", "median", "mode"
 crankcompositor = function(...) {
   warning("Deprecated, please now use pipeline_crankcompositor or ppl('crankcompositor', ...).
           graph_learner will also be FALSE by default.")
-  if (graph_learner %nin% names(list(...))) {
+  if ("graph_learner" %nin% names(list(...))) {
     pipeline_crankcompositor(graph_learner = TRUE, ...)
   } else {
     pipeline_crankcompositor(...)
@@ -216,7 +216,7 @@ pipeline_distrcompositor = function(learner, estimator = c("kaplan", "nelson"),
 distrcompositor = function(...) {
   warning("Deprecated, please now use pipeline_distrcompositor or ppl('distrcompositor', ...).
           graph_learner will also be FALSE by default.")
-  if (graph_learner %nin% names(list(...))) {
+  if ("graph_learner" %nin% names(list(...))) {
     pipeline_distrcompositor(graph_learner = TRUE, ...)
   } else {
     pipeline_distrcompositor(...)

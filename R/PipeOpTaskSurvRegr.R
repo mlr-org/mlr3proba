@@ -27,11 +27,12 @@
 #'  probability of the censoring distribution evaluated at survival time;
 #'  `"mrl"` (Klein and Moeschberger, 2003): survival time of censored
 #' observations is transformed to the observed time plus the mean residual life-time at the moment
-#' of censoring; `"delete"`: censored observations are deleted from the data-set - should be
-#' used with caution if censoring is informative; `"omit"`: the censoring status column is
-#' deleted - again should be used with caution; `"reorder"`: selects features and targets
-#' and sets the target in the new task object. Note that `"mrl"` and `"ipcw"` will perform worse
-#' with Type I censoring.
+#' of censoring; `"bj"` (Buckley and James, 1979): Buckley-James imputation assuming an AFT
+#' model form, calls [bujar::bujar]; `"delete"`: censored observations are deleted from the
+#' data-set - should be used with caution if censoring is informative; `"omit"`: the censoring
+#' status column is deleted - again should be used with caution; `"reorder"`: selects features and
+#' targets and sets the target in the new task object. Note that `"mrl"` and `"ipcw"` will perform
+#' worse with Type I censoring.
 #' * `estimator::(character(1))`\cr
 #' Method for calculating censoring weights or mean residual lifetime in `"mrl"`,
 #' current options are: `"kaplan"`: unconditional Kaplan-Meier estimator;
@@ -42,10 +43,18 @@
 #' censored observations. If set to `0` then censored observations are given zero weight and
 #' deleted, weighting only the non-censored observations. A weight for an observation is then
 #' \eqn{(\delta + \alpha(1-\delta))/G(t)} where \eqn{\delta} is the censoring indicator.
+#' * `eps::numeric(1)`\cr
+#' Small value to replace `0` survival probabilities with in IPCW to prevent infinite weights.
 #' * `lambda::(numeric(1))`\cr
 #' Nearest neighbours parameter for [akritas][mlr3learners.proba::akritas] estimator, default `0.5`.
+#' * `features, target :: character())`\cr
+#' For `"reorder"` method, specify which columns become features and targets.
+#' * `learner cneter, mimpu, iter.bj, max.cycle, mstop, nu`\cr
+#' Passed to [bujar::bujar].
 #'
 #' @references
+#' \cite{mlr3proba}{buckley_1979}
+#'
 #' \cite{mlr3proba}{klein_2003}
 #'
 #' \cite{mlr3proba}{vock_2016}
@@ -80,6 +89,11 @@
 #' new_task = po$train(list(task, NULL))[[1]]
 #' data.frame(new = new_task$truth(), old = task$truth())
 #'
+#' # Buckley-James imputation
+#' po = po("trafotask_survregr", method = "bj")
+#' new_task = po$train(list(task, NULL))[[1]]
+#' data.frame(new = new_task$truth(), old = task$truth())
+#'
 #' # reorder - in practice this will be only be used in a few graphs
 #' po = po("trafotask_survregr", method = "reorder", features = c("sex", "rx", "time", "status"),
 #'        target = "litter")
@@ -103,7 +117,7 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
     initialize = function(id = "trafotask_survregr", param_vals = list()) {
       ps = ParamSet$new(list(
         ParamFct$new("method", default = "ipcw",
-                     levels = c("ipcw", "mrl", "delete", "omit", "reorder"),
+                     levels = c("ipcw", "mrl", "bj", "delete", "omit", "reorder"),
                      tags = "train"),
         ParamFct$new("estimator", default = "kaplan", levels = c("kaplan", "akritas", "cox"),
                      tags = "train"),
@@ -111,7 +125,16 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
         ParamDbl$new("lambda", default = 0.5, lower = 0, upper = 1, tags = "train"),
         ParamDbl$new("eps", default = 1e-15, lower = 0, upper = 1, tags = "train"),
         ParamUty$new("features", tags = "train"),
-        ParamUty$new("target", tags = "train")
+        ParamUty$new("target", tags = "train"),
+        ParamFct$new("learner", default = "linear.regression",
+                     levels = c("linear.regression", "mars", "pspline", "tree", "acosso",
+                                "enet", "enet2", "mnet", "snet"), tags = c("train", "bj")),
+        ParamLgl$new("center", default = TRUE, tags = c("train", "bj")),
+        ParamLgl$new("mimpu", default = NULL, special_vals = list(NULL), tags = c("train", "bj")),
+        ParamInt$new("iter.bj", default = 20, lower = 2, tags = c("train", "bj")),
+        ParamInt$new("max.cycle", default = 5, lower = 1, tags = c("train", "bj")),
+        ParamInt$new("mstop", default = 50, lower = 1, tags = c("train", "bj")),
+        ParamDbl$new("nu", default = 0.1, lower = 0, tags = c("train", "bj"))
       ))
       ps$add_dep("alpha", "method", CondEqual$new("ipcw"))
       ps$add_dep("eps", "method", CondEqual$new("ipcw"))
@@ -119,6 +142,13 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
       ps$add_dep("lambda", "estimator", CondEqual$new("akritas"))
       ps$add_dep("features", "method", CondEqual$new("reorder"))
       ps$add_dep("target", "method", CondEqual$new("reorder"))
+      ps$add_dep("center", "method", CondEqual$new("bj"))
+      ps$add_dep("mimpu", "method", CondEqual$new("bj"))
+      ps$add_dep("iter.bj", "method", CondEqual$new("bj"))
+      ps$add_dep("center", "method", CondEqual$new("bj"))
+      ps$add_dep("mstop", "method", CondEqual$new("bj"))
+      ps$add_dep("nu", "method", CondEqual$new("bj"))
+      ps$add_dep("learner", "method", CondEqual$new("bj"))
 
       super$initialize(id = id,
                        param_set = ps,
@@ -167,6 +197,7 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
       backend = switch(method,
                        ipcw = private$.ipcw(backend, status, time, estimator, eps),
                        mrl = private$.mrl(backend, status, time, input, estimator),
+                       bj = private$.bj(backend, status, time),
                        delete = private$.delete(backend, status),
                        omit = private$.omit(backend, status),
                        reorder = private$.reorder(backend, pv$features, pv$target, inputs[[2]])
@@ -223,12 +254,12 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
       unique_times = sort(unique(backend[[time]]))
 
       if (estimator == "kaplan") {
-        kaplan = LearnerSurvKaplan$new()$train(input)$predict(input, row_ids = 1)$distr[1]
-        mrl = sapply(backend[[time]][cens], function(x) {
-          int_range = unique_times[x <= unique_times & upper >= unique_times]
-          (sum(kaplan$survival(int_range)) * (diff(range(int_range))/length(int_range))) /
-            kaplan$survival(x)
+        est = LearnerSurvKaplan$new()$train(input)$predict(input, row_ids = 1)$distr[1]
+        den = est$survival(backend[[time]][cens])
+        num = sapply(backend[[time]][cens], function(x) {
+          est$survivalAntiDeriv(x)
         })
+        mrl = num/den
       } else {
         if (estimator == "cox") {
           est = LearnerSurvCoxPH$new()$train(input)$predict(input)$distr
@@ -237,7 +268,6 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
           est$param_set$values$lambda = self$param_set$values$lambda
           est = est$train(input)$predict(input)$distr
         }
-
         den = as.numeric(est$survival(data = matrix(backend[[time]], nrow = 1)))[cens]
         mrl = numeric(sum(cens))
         for (i in seq_along(mrl)) {
@@ -250,6 +280,21 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
 
       backend[[time]][cens] =  backend[[time]][cens] + mrl
       return(subset(backend, select = -status))
+    },
+
+    .bj = function(backend, status, time) {
+      x = data.frame(backend)[, colnames(backend) %nin% c(time, status), drop = FALSE]
+      x = model.matrix(~., x)[,-1]
+      bj = mlr3misc::invoke(bujar::bujar,
+                       y = backend[[time]],
+                       cens = backend[[status]],
+                       x = x,
+                       tuning = FALSE,
+                       vimpint = FALSE,
+                       .args = self$param_set$get_values(tags = "bj")
+      )
+      backend[[time]] = bj$ynew
+      return(backend)
     },
 
     .delete = function(backend, status) {
