@@ -99,3 +99,6 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/windows
 
 tests/testthat/Rplots.pdf
+src/*.o
+src/*.so
+src/*.dll
