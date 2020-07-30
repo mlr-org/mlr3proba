@@ -83,24 +83,24 @@ PipeOpSurvAvg = R6Class("PipeOpSurvAvg",
   private = list(
     weighted_avg_predictions = function(inputs, weights, row_ids, truth) {
       response_matrix = map(inputs, "response")
-      if (all(as.logical(mlr3misc::map_int(response_matrix, length)))) {
-        response = c(simplify2array(response_matrix) %*% weights)
-      } else {
+      if (any(mlr3misc::map_lgl(response_matrix, function(.x) any(is.na(.x))))) {
         response = NULL
+      } else {
+        response = c(simplify2array(response_matrix) %*% weights)
       }
 
       crank_matrix = map(inputs, "crank")
-      if (all(as.logical(mlr3misc::map_int(crank_matrix, length)))) {
-        crank = c(simplify2array(crank_matrix) %*% weights)
-      } else {
+      if (any(mlr3misc::map_lgl(crank_matrix, function(.x) any(is.na(.x))))) {
         crank = NULL
+      } else {
+        crank = c(simplify2array(crank_matrix) %*% weights)
       }
 
       lp_matrix = map(inputs, "lp")
-      if (all(as.logical(mlr3misc::map_int(lp_matrix, length)))) {
-        lp = c(simplify2array(lp_matrix) %*% weights)
-      } else {
+      if (any(mlr3misc::map_lgl(lp_matrix, function(.x) any(is.na(.x))))) {
         lp = NULL
+      } else {
+        lp = c(simplify2array(lp_matrix) %*% weights)
       }
 
       if (length(unique(weights)) == 1) {
@@ -108,7 +108,8 @@ PipeOpSurvAvg = R6Class("PipeOpSurvAvg",
       }
 
       distr = map(inputs, "distr")
-      if (all(as.logical(mlr3misc::map_int(distr, length)))) {
+      if (all(mlr3misc::map_lgl(distr, function(.x)
+        checkmate::test_class(.x, "VectorDistribution")))) {
         distr = distr6::mixturiseVector(distr, weights)
       } else {
         distr = NULL

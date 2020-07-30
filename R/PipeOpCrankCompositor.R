@@ -139,7 +139,7 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
         inpred$distr$mean()
       ))
 
-      if (length(inpred$lp)) {
+      if (!any(is.na(inpred$lp))) {
         lp = inpred$lp
       } else {
         lp = NULL

@@ -26,7 +26,7 @@ test_that("no params", {
   p = po$predict(
     list(lrn("surv.kaplan")$train(task)$predict(task)))$output
   expect_prediction_surv(p)
-  expect_equal(p$lp, numeric(0))
+  expect_equal(p$lp, rep(NA_real_, 20))
 })
 
 test_that("response", {

@@ -105,7 +105,7 @@ PredictionSurv = R6Class("PredictionSurv",
     #' @field distr ([VectorDistribution][distr6::VectorDistribution])\cr
     #' Access the stored predicted survival distribution.
     distr = function() {
-      self$data$distr
+      self$data$distr %??% NA_real_
     },
 
     #' @field lp (`numeric()`)\cr
@@ -117,7 +117,7 @@ PredictionSurv = R6Class("PredictionSurv",
     #' @field response (`numeric()`)\cr
     #' Access the stored predicted survival time.
     response = function() {
-      self$data$tab$response %??% rep(NA_real_, length(self$data$row_ids))
+      self$data$tab$response %??% rep(NA_real_, nrow(self$data$tab))
     },
 
     #' @field missing (`integer()`)\cr
