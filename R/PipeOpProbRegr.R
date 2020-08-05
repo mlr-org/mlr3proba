@@ -139,7 +139,7 @@ PipeOpProbregrCompositor = R6Class("PipeOpProbregrCompositor",
       }
 
 
-      list(PredictionRegr$new(row_ids = learner$row_ids,
+      list(mlr3::PredictionRegr$new(row_ids = learner$row_ids,
                          truth = learner$truth,
                          response = learner$response,
                          se = learner$se,
