@@ -7,9 +7,8 @@
 \description{
 Calls \code{\link[survival:survfit]{survival::survfit()}}.
 \itemize{
-\item lp is predicted NA * lp is predicted NA * lp is predicted NA * lp is predicted NA * lp is predicted NA * lp is predicted NA * lp is predicted NA * lp is predicted NA * lp is predicted NA * lp is predicted NA
 \item distr is predicted by estimating the survival function with \code{\link[survival:survfit]{survival::survfit()}}
-\item \code{crank} is identical to \code{lp}
+\item \code{crank} is predicted as the expectation of the survival distribution, \code{distr}
 }
 
 

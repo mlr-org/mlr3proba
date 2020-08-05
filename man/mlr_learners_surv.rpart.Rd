@@ -7,7 +7,6 @@
 \description{
 Calls \code{\link[rpart:rpart]{rpart::rpart()}}.
 \itemize{
-\item lp is predicted NA * lp is predicted NA * lp is predicted NA * lp is predicted NA * lp is predicted NA * lp is predicted NA * lp is predicted NA * lp is predicted NA * lp is predicted NA * lp is predicted NA
 \item crank is predicted using \code{\link[rpart:predict.rpart]{rpart::predict.rpart()}}
 }
 
