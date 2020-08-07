@@ -88,18 +88,24 @@ for instructions in how to install learners from the [mlr3learners organisation]
 | [surv.blackboost](https://github.com/mlr3learners/mlr3learners.mboost) | Gradient Boosting with Regression Trees |  [mboost](https://CRAN.R-project.org/package=mboost) |
 | [surv.coxboost](https://github.com/mlr3learners/mlr3learners.coxboost) | Cox Model with Likelihood Based Boosting |  [CoxBoost](https://CRAN.R-project.org/package=CoxBoost) |
 | [surv.coxph](https://mlr3proba.mlr-org.com/reference/mlr_learners_surv.coxph.html) | Cox Proportional Hazards | [survival](https://CRAN.R-project.org/package=survival) |
+| [surv.coxtime](https://github.com/mlr3learners/mlr3learners.pycox) | Non-Linear Cox Neural Network | [pycox](https://pypi.org/project/pycox/) |
 | [surv.cvcoxboost](https://github.com/mlr3learners/mlr3learners.coxboost) | Cox Model with Cross-Validation Likelihood Based Boosting |  [CoxBoost](https://CRAN.R-project.org/package=CoxBoost) |
 | [surv.cvglmnet](https://mlr3learners.mlr-org.com/) | Cross-Validated GLM with Elastic Net Regularization | [glmnet](https://CRAN.R-project.org/package=glmnet) |
+| [surv.deephit](https://github.com/mlr3learners/mlr3learners.pycox) | Discerete Deep Ranking Neural Network | [pycox](https://pypi.org/project/pycox/) |
+| [surv.deepsurv](https://github.com/mlr3learners/mlr3learners.pycox) | Deep Cox Proportional Hazards | [pycox](https://pypi.org/project/pycox/) |
+| [surv.dnn](https://github.com/mlr3learners/mlr3learners.proba) | Deep Neural Network with Pseudo Values |  [mlr3learners.proba](https://github.com/mlr3learners/mlr3learners.proba) |
 | [surv.flexible](https://github.com/mlr3learners/mlr3learners.flexsurv) | Flexible Parametric Spline Models | [flexsurv](https://CRAN.R-project.org/package=flexsurv) |
 | [surv.gamboost](https://github.com/mlr3learners/mlr3learners.mboost) | Gradient Boosting for Additive Models | [mboost](https://CRAN.R-project.org/package=mboost) |
 | [surv.gbm](https://github.com/mlr3learners/mlr3learners.gbm) | Generalized Boosting Regression Modeling | [gbm](https://CRAN.R-project.org/package=gbm) |
 | [surv.glmboost](https://github.com/mlr3learners/mlr3learners.mboost) | Gradient Boosting with Component-wise Linear Models | [mboost](https://CRAN.R-project.org/package=mboost) |
 | [surv.glmnet](https://mlr3learners.mlr-org.com/) | GLM with Elastic Net Regularization | [glmnet](https://CRAN.R-project.org/package=glmnet) |
 | [surv.kaplan](https://mlr3proba.mlr-org.com/reference/mlr_learners_surv.kaplan.html) | Kaplan-Meier Estimator | [survival](https://CRAN.R-project.org/package=survival) |
+| [surv.loghaz](https://github.com/mlr3learners/mlr3learners.pycox) | Logistic Hazard Neural Network | [pycox](https://pypi.org/project/pycox/) |
 | [surv.mboost](https://github.com/mlr3learners/mlr3learners.mboost) | Gradient Boosting for Generalized Additive Models | [mboost](https://CRAN.R-project.org/package=mboost) |
 | [surv.nelson](https://github.com/mlr3learners/mlr3learners.survival) | Nelson-Aalen Estimator | [survival](https://CRAN.R-project.org/package=survival) |
 | [surv.parametric](https://github.com/mlr3learners/mlr3learners.survival) | Fully Parametric Survival Models | [survival](https://CRAN.R-project.org/package=survival) |
 | [surv.penalized](https://github.com/mlr3learners/mlr3learners.penalized) | L1 and L2 Penalized Estimation in GLMs | [penalized](https://CRAN.R-project.org/package=penalized) |
+| [surv.pchazard](https://github.com/mlr3learners/mlr3learners.pycox) | Piecewise Constant Hazard Neural Network | [pycox](https://pypi.org/project/pycox/) |
 | [surv.randomForestSRC](https://github.com/mlr3learners/mlr3learners.randomforestsrc) | RandomForestSRC Survival Forest | [randomForestSRC](https://CRAN.R-project.org/package=randomForestSRC) |
 | [surv.ranger](https://github.com/mlr-org/mlr3learners/) | Ranger Survival Forest | [ranger](https://CRAN.R-project.org/package=ranger) |
 | [surv.rpart](https://mlr3proba.mlr-org.com/reference/mlr_learners_surv.rpart.html) | Rpart Survival Forest | [rpart](https://CRAN.R-project.org/package=rpart) |
