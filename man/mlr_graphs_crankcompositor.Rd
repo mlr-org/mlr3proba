@@ -45,14 +45,17 @@ Wrapper around \link{PipeOpCrankCompositor} to simplify \link[mlr3pipelines:Grap
 }
 \examples{
 \dontrun{
-library(mlr3)
-library(mlr3pipelines)
+library("mlr3")
+library("mlr3pipelines")
 
-task = tgen("simsurv")$generate(20)
-cox.crank = crankcompositor(
+task = tgen("simsurv")$generate(10)
+pipe = ppl(
+  "crankcompositor",
   learner = lrn("surv.coxph"),
-  method = "median")
-resample(task, cox.crank, rsmp("cv", folds = 2))$predictions()
+  method = "median"
+)
+pipe$train(task)
+pipe$predict(task)
 }
 }
 \seealso{

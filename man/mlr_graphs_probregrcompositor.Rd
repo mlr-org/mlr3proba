@@ -38,14 +38,29 @@ Wrapper around \link{PipeOpProbregrCompositor} to simplify \link[mlr3pipelines:G
 }
 \examples{
 \dontrun{
-library(mlr3)
-library(mlr3pipelines)
+library("mlr3")
+library("mlr3pipelines")
 
 task = tsk("boston_housing")
-feat_distr = probregr_compose(
+
+# method 1 - one learner for response and se
+pipe = ppl(
+  "probregrcompositor",
   learner = lrn("regr.featureless", predict_type = "se"),
-  dist = "Logistic")
-resample(task, feat_distr, rsmp("cv", folds = 2))$predictions()
+  dist = "Normal"
+)
+pipe$train(task)
+pipe$predict(task)
+
+# method 2 - one learner for response and one for se
+pipe = ppl(
+  "probregrcompositor",
+  learner = lrn("regr.rpart"),
+  learner_se = lrn("regr.featureless", predict_type = "se"),
+  dist = "Logistic"
+)
+pipe$train(task)
+pipe$predict(task)
 }
 }
 \seealso{

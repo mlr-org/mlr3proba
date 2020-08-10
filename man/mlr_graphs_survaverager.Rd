@@ -29,14 +29,15 @@ Wrapper around \link{PipeOpSurvAvg} to simplify \link[mlr3pipelines:Graph]{Graph
 library("mlr3")
 library("mlr3pipelines")
 
-task = tgen("simsurv")$generate(5)
+task = tgen("simsurv")$generate(10)
 pipe = ppl(
   "survaverager",
   learners = lrns(c("surv.kaplan", "surv.coxph")),
   param_vals = list(weights = c(0.1, 0.9)),
   graph_learner = FALSE
  )
-pipe$train(task)$predict(task)
+pipe$train(task)
+pipe$predict(task)
 }
 }
 \seealso{

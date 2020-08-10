@@ -68,8 +68,11 @@ PipeOpSurvAvg = R6Class("PipeOpSurvAvg",
     #' Additional arguments passed to [mlr3pipelines::PipeOpEnsemble].
     initialize = function(innum = 0, id = "survavg",
                           param_vals = list(), ...) {
-      super$initialize(innum, id, param_vals = param_vals,
-                       prediction_type = "PredictionSurv", ...)
+      super$initialize(innum = innum,
+                       id = id,
+                       param_vals = param_vals,
+                       prediction_type = "PredictionSurv",
+                       ...)
     }
   ),
   private = list(

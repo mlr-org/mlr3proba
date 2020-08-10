@@ -52,16 +52,15 @@ Wrapper around \link{PipeOpDistrCompositor} to simplify \link[mlr3pipelines:Grap
 library("mlr3")
 library("mlr3pipelines")
 
-task = tgen("simsurv")$generate(20)
-cox.distr = distrcompositor(
-  learner = lrn("surv.coxph"),
+task = tgen("simsurv")$generate(10)
+pipe = ppl(
+  "distrcompositor",
+  learner = lrn("surv.rpart"),
   estimator = "kaplan",
-  form = "aft")
-
-resample(task, cox.distr, rsmp("cv", folds = 2))$predictions()
-
-# alternatively as a graph
-ppl("distrcompositor", learner = lrn("surv.coxph"))
+  form = "ph"
+)
+pipe$train(task)
+pipe$predict(task)
 }
 }
 \seealso{

@@ -11,14 +11,15 @@
 #' library("mlr3")
 #' library("mlr3pipelines")
 #'
-#' task = tgen("simsurv")$generate(5)
+#' task = tgen("simsurv")$generate(10)
 #' pipe = ppl(
 #'   "survaverager",
 #'   learners = lrns(c("surv.kaplan", "surv.coxph")),
 #'   param_vals = list(weights = c(0.1, 0.9)),
 #'   graph_learner = FALSE
 #'  )
-#' pipe$train(task)$predict(task)
+#' pipe$train(task)
+#' pipe$predict(task)
 #' }
 pipeline_survaverager = function(learners, param_vals = list(), graph_learner = FALSE) {
 
@@ -60,13 +61,17 @@ pipeline_survaverager = function(learners, param_vals = list(), graph_learner = 
 #' @examples
 #' \dontrun{
 #' library("mlr3")
+#' library("mlr3pipelines")
 #'
-#' task = tgen("simsurv")$generate(5)
-#' avg = surv_averager(
-#'   learners = lrns(c("surv.kaplan", "surv.coxph")),
-#'   param_vals = list(weights = c(0.1, 0.9))
+#' task = tgen("simsurv")$generate(10)
+#' pipe = ppl(
+#'   "survbagging",
+#'   learner = lrn("surv.coxph"),
+#'   iterations = 5,
+#'   graph_learner = FALSE
 #'  )
-#' avg$train(task)$predict(task)
+#' pipe$train(task)
+#' pipe$predict(task)
 #' }
 pipeline_survbagging = function(learner, iterations = 10, frac = 0.7, weights = 1,
                                 graph_learner = FALSE) {
@@ -104,14 +109,17 @@ pipeline_survbagging = function(learner, iterations = 10, frac = 0.7, weights = 
 #' If `TRUE` then the `response` predict type is also estimated with the same values as `crank`.
 #' @examples
 #' \dontrun{
-#' library(mlr3)
-#' library(mlr3pipelines)
+#' library("mlr3")
+#' library("mlr3pipelines")
 #'
-#' task = tgen("simsurv")$generate(20)
-#' cox.crank = crankcompositor(
+#' task = tgen("simsurv")$generate(10)
+#' pipe = ppl(
+#'   "crankcompositor",
 #'   learner = lrn("surv.coxph"),
-#'   method = "median")
-#' resample(task, cox.crank, rsmp("cv", folds = 2))$predictions()
+#'   method = "median"
+#' )
+#' pipe$train(task)
+#' pipe$predict(task)
 #' }
 pipeline_crankcompositor = function(learner, method = c("mean", "median", "mode"), which = NULL,
                                     response = FALSE, graph_learner = FALSE) {
@@ -174,16 +182,15 @@ crankcompositor = function(...) {
 #' library("mlr3")
 #' library("mlr3pipelines")
 #'
-#' task = tgen("simsurv")$generate(20)
-#' cox.distr = distrcompositor(
-#'   learner = lrn("surv.coxph"),
+#' task = tgen("simsurv")$generate(10)
+#' pipe = ppl(
+#'   "distrcompositor",
+#'   learner = lrn("surv.rpart"),
 #'   estimator = "kaplan",
-#'   form = "aft")
-#'
-#' resample(task, cox.distr, rsmp("cv", folds = 2))$predictions()
-#'
-#' # alternatively as a graph
-#' ppl("distrcompositor", learner = lrn("surv.coxph"))
+#'   form = "ph"
+#' )
+#' pipe$train(task)
+#' pipe$predict(task)
 #' }
 pipeline_distrcompositor = function(learner, estimator = c("kaplan", "nelson"),
                                     form = c("aft", "ph", "po"),
@@ -237,14 +244,29 @@ distrcompositor = function(...) {
 #' Current possibilities are' `"Cauchy", "Gumbel", "Laplace", "Logistic", "Normal` (default).
 #' @examples
 #' \dontrun{
-#' library(mlr3)
-#' library(mlr3pipelines)
+#' library("mlr3")
+#' library("mlr3pipelines")
 #'
 #' task = tsk("boston_housing")
-#' feat_distr = probregr_compose(
+#'
+#' # method 1 - one learner for response and se
+#' pipe = ppl(
+#'   "probregrcompositor",
 #'   learner = lrn("regr.featureless", predict_type = "se"),
-#'   dist = "Logistic")
-#' resample(task, feat_distr, rsmp("cv", folds = 2))$predictions()
+#'   dist = "Normal"
+#' )
+#' pipe$train(task)
+#' pipe$predict(task)
+#'
+#' # method 2 - one learner for response and one for se
+#' pipe = ppl(
+#'   "probregrcompositor",
+#'   learner = lrn("regr.rpart"),
+#'   learner_se = lrn("regr.featureless", predict_type = "se"),
+#'   dist = "Logistic"
+#' )
+#' pipe$train(task)
+#' pipe$predict(task)
 #' }
 pipeline_probregrcompositor = function(learner, learner_se = NULL, dist = "Normal",
                                        graph_learner = FALSE) {
@@ -362,14 +384,44 @@ pipeline_probregrcompositor = function(learner, learner_se = NULL, dist = "Norma
 #'
 #' @examples
 #' \dontrun{
-#' library(mlr3)
-#' library(mlr3pipelines)
+#' library("mlr3")
+#' library("mlr3pipelines")
 #'
-#' task = tsk("boston_housing")
-#' feat_distr = probregr_compose(
-#'   learner = lrn("regr.featureless", predict_type = "se"),
-#'   dist = "Logistic")
-#' resample(task, feat_distr, rsmp("cv", folds = 2))$predictions()
+#' task = tgen("simsurv")$generate(10)
+#'
+#' # method 1 with censoring deletion, compose to distribution
+#' pipe = ppl(
+#'   "survtoregr",
+#'   method = 1,
+#'   regr_learner = lrn("regr.featureless"),
+#'   distrcompose = TRUE,
+#'   survregr_params = list(method = "delete")
+#' )
+#' pipe$train(task)
+#' pipe$predict(task)
+#' }
+#'
+#' # method 2 with censoring imputation (mrl), one regr learner
+#' pipe = ppl(
+#'   "survtoregr",
+#'   method = 2,
+#'   regr_learner = lrn("regr.featureless", predict_type = "se"),
+#'   survregr_params = list(method = "mrl")
+#' )
+#' pipe$train(task)
+#' pipe$predict(task)
+#'
+#' # method 3 with censoring omission and no composition, insample resampling
+#' pipe = ppl(
+#'   "survtoregr",
+#'   method = 3,
+#'   regr_learner = lrn("regr.featureless"),
+#'   distrcompose = FALSE,
+#'   surv_learner = lrn("surv.coxph"),
+#'   survregr_params = list(method = "omission")
+#' )
+#' pipe$train(task)
+#' pipe$predict(task)
 #' }
 #'
 #' @export
@@ -386,10 +438,11 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
 
   if (method == 1) {
     gr = Graph$new()$
-      add_pipeop(po("nop", phase = "predict", id = "task_surv"))$
+      add_pipeop(po("nop", id = "task_surv"))$
       add_pipeop(po("trafotask_survregr", param_vals = survregr_params))$
       add_pipeop(po("learner", regr_learner, id = "regr_learner"))$
       add_pipeop(po("trafopred_regrsurv"))$
+      add_edge("task_surv", "trafotask_survregr", dst_channel = "input")$
       add_edge("trafotask_survregr", "regr_learner")$
       add_edge("regr_learner", "trafopred_regrsurv", dst_channel = "pred")$
       add_edge("task_surv", "trafopred_regrsurv", dst_channel = "task")
@@ -406,7 +459,7 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
   } else if (method == 2) {
 
     gr = Graph$new()$
-      add_pipeop(po("nop", phase = "predict", id = "task_surv"))$
+      add_pipeop(po("nop", id = "task_surv"))$
       add_pipeop(po("trafotask_survregr", param_vals = survregr_params))$
       add_pipeop(po("compose_probregr", param_vals = probregr_params))$
       add_pipeop(po("trafopred_regrsurv"))$
@@ -434,8 +487,8 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
     assert("lp" %in% surv_learner$predict_types)
 
     gr = Graph$new()$
-      add_pipeop(po("nop", phase = "both", id = "task_surv_train"))$
-      add_pipeop(po("nop", phase = "predict", id = "task_surv_predict"))$
+      add_pipeop(po("nop", id = "task_surv_train"))$
+      add_pipeop(po("nop", id = "task_surv_predict"))$
       add_pipeop(po("learner_cv", surv_learner, id = "surv_learner",
                     param_vals = learnercv_params))$
       add_pipeop(po("trafotask_survregr", method = "reorder", target = "surv_learner.lp"))$

@@ -120,19 +120,6 @@ model on these predictions. The resulting regression predictions can then be vie
 predictors of the new data, which can ultimately be composed to a distribution.
 }
 }
-\examples{
-\dontrun{
-library(mlr3)
-library(mlr3pipelines)
-
-task = tsk("boston_housing")
-feat_distr = probregr_compose(
-  learner = lrn("regr.featureless", predict_type = "se"),
-  dist = "Logistic")
-resample(task, feat_distr, rsmp("cv", folds = 2))$predictions()
-}
-
-}
 \seealso{
 Other pipelines: 
 \code{\link{mlr_graphs_crankcompositor}},

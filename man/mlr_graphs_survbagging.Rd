@@ -56,13 +56,17 @@ further enhanced by using a weighted average by supplying \code{weights}.
 \examples{
 \dontrun{
 library("mlr3")
+library("mlr3pipelines")
 
-task = tgen("simsurv")$generate(5)
-avg = surv_averager(
-  learners = lrns(c("surv.kaplan", "surv.coxph")),
-  param_vals = list(weights = c(0.1, 0.9))
+task = tgen("simsurv")$generate(10)
+pipe = ppl(
+  "survbagging",
+  learner = lrn("surv.coxph"),
+  iterations = 5,
+  graph_learner = FALSE
  )
-avg$train(task)$predict(task)
+pipe$train(task)
+pipe$predict(task)
 }
 }
 \seealso{

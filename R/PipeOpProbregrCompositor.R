@@ -71,7 +71,8 @@ PipeOpProbregrCompositor = R6Class("PipeOpProbregrCompositor",
     initialize = function(id = "compose_probregr", param_vals = list(dist = "Normal")) {
       ps = ParamSet$new(params = list(
         ParamFct$new("dist", default = "Normal",
-                     levels = listDistributions(filter = list(Tags = "locscale"), simplify = TRUE),
+                     levels = distr6::listDistributions(filter = list(Tags = "locscale"),
+                                                        simplify = TRUE),
                      tags = "predict")
       ))
 
@@ -123,7 +124,8 @@ PipeOpProbregrCompositor = R6Class("PipeOpProbregrCompositor",
                               truth = pred_response$truth,
                               response = response,
                               se = se,
-                              distr = VectorDistribution$new(distribution = dist, params = params)))
+                              distr = distr6::VectorDistribution$new(distribution = dist,
+                                                                     params = params)))
     }
   )
 )
