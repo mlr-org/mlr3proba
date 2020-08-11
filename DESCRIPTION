@@ -67,7 +67,7 @@ VignetteBuilder:
 RdMacros: 
     mlr3misc
 Remotes:
-    mlr3pipelines
+    mlr-org/mlr3pipelines
 ByteCompile: true
 Encoding: UTF-8
 LazyData: true
