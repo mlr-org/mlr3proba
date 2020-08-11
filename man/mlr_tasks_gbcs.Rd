@@ -10,7 +10,8 @@
 A survival task for the \link{gbcs} data set.
 }
 \details{
-Column "sex" has been converted to a factor, all others have been converted to integer.
+Column "id" and all date columns removed, as well as "rectime" and "censrec".
+Target is time to death.
 }
 \section{Construction}{
 \preformatted{mlr3::mlr_tasks$get("gbcs")
