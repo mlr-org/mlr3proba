@@ -3,12 +3,11 @@
 NULL
 
 # nolint start
-#' @rawNamespace import(mlr3, except = c(PredictionRegr, as.data.table.PredictionRegr, c.PredictionRegr))
 #' @import checkmate
 #' @import data.table
 #' @import distr6
+#' @import mlr3
 #' @import mlr3misc
-#' @import mlr3pipelines
 #' @import paradox
 #' @importFrom R6 R6Class
 #' @importFrom utils data head tail
@@ -159,7 +158,7 @@ register_mlr3pipelines = function() {
 
 .onLoad = function(libname, pkgname) { # nolint
   register_mlr3()
-  register_mlr3pipelines()
+  # register_mlr3pipelines()
   setHook(packageEvent("mlr3", "onLoad"), function(...) register_mlr3(), action = "append")
   setHook(packageEvent("mlr3pipelines", "onLoad"), function(...) register_mlr3pipelines(),
           action = "append")

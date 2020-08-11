@@ -58,12 +58,6 @@
 #' predicted linear predictor. If the input model does not predict a linear predictor then `crank`
 #' is assumed to be the `lp` - **this may be a strong and unreasonable assumption.**
 #'
-#' @section Fields:
-#' Only fields inherited from [PipeOp][mlr3pipelines::PipeOp].
-#'
-#' @section Methods:
-#' Only methods inherited from [PipeOp][mlr3pipelines::PipeOp].
-#'
 #' @seealso [mlr3pipelines::PipeOp] and [distrcompositor]
 #' @export
 #' @family survival compositors
@@ -122,24 +116,16 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
         input = data.table(name = c("base", "pred"), train = "NULL", predict = "PredictionSurv"),
         output = data.table(name = "output", train = "NULL", predict = "PredictionSurv"),
         packages = "distr6")
-    },
+    }
+  ),
 
-    #' @description train_internal
-    #' Internal `train` function, will be moved to `private` in a near-future update, should be
-    #' ignored.
-    #' @param inputs
-    #' Ignore.
-    train_internal = function(inputs) {
+  private = list(
+    .train = function(inputs) {
       self$state = list()
       list(NULL)
     },
 
-    #' @description predict_internal
-    #' Internal `predict` function, will be moved to `private` in a near-future update, should be
-    #' ignored.
-    #' @param inputs
-    #' Ignore.
-    predict_internal = function(inputs) {
+    .predict = function(inputs) {
       base = inputs$base
       inpred = inputs$pred
 
@@ -206,72 +192,4 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
       }
     }
   )
-
-  # private = list(
-  #   .train = function(inputs) {
-  #     self$state = list()
-  #     list(NULL)
-  #   },
-  #
-  #   .predict = function(inputs) {
-  #     base = inputs$base
-  #     inpred = inputs$pred
-  #
-  #     overwrite = self$param_set$values$overwrite
-  #     if(length(overwrite) == 0) overwrite = FALSE
-  #
-  #     if ("distr" %in% inpred$predict_types & !overwrite) {
-  #       return(list(inpred))
-  #     } else {
-  #       assert("distr" %in% base$predict_types)
-  #
-  #       row_ids = inpred$row_ids
-  #       truth = inpred$truth
-  #       map(inputs, function(x) assert_true(identical(row_ids, x$row_ids)))
-  #       map(inputs, function(x) assert_true(identical(truth, x$truth)))
-  #
-  #       form = self$param_set$values$form
-  #       if(length(form) == 0) form = "aft"
-  #
-  #       base = base$distr[1]
-  #       times = unlist(base$support()$elements)
-  #
-  #       nr = nrow(inpred$data$tab)
-  #       nc = length(times)
-  #
-  #       if(is.null(inpred$lp) | length(inpred$lp) == 0)
-  #         lp = inpred$crank
-  #       else
-  #         lp = inpred$lp
-  #
-  #       timesmat = matrix(times, nrow = nr, ncol = nc, byrow = T)
-  #       survmat = matrix(base$survival(times), nrow = nr, ncol = nc, byrow = T)
-  #       lpmat = matrix(lp, nrow = nr, ncol = nc)
-  #
-  #       if(form == "ph")
-  #         cdf = 1 - (survmat ^ exp(lpmat))
-  #       else if (form == "aft")
-  #         cdf = t(apply(timesmat / exp(lpmat), 1, function(x) base$cdf(x)))
-  #       else if (form == "po")
-  #         cdf = 1 - (survmat * ({exp(-lpmat) + ((1 - exp(-lpmat)) * survmat)}^-1))
-  #
-  #       x = rep(list(data = data.frame(x = times, cdf = 0)), nr)
-  #
-  #       for(i in seq_along(times))
-  #         x[[i]]$cdf = cdf[i,]
-  #
-  #       distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
-  #                                              decorators = c("CoreStatistics",
-  #                                              "ExoticStatistics"))
-  #
-  #       if(is.null(inpred$lp) | length(inpred$lp) == 0)
-  #         lp = NULL
-  #       else
-  #         lp = inpred$lp
-  #
-  #       return(list(PredictionSurv$new(row_ids = row_ids, truth = truth,
-  #                                      crank = inpred$crank, distr = distr, lp = lp)))
-  #     }
-  #   }
-  # )
 )

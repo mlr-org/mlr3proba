@@ -40,12 +40,6 @@
 #' calculated using [distr6::median.Distribution], [distr6::mode], or [distr6::mean.Distribution]
 #' respectively.
 #'
-#' @section Fields:
-#' Only fields inherited from [PipeOp][mlr3pipelines::PipeOp].
-#'
-#' @section Methods:
-#' Only fields inherited from [PipeOp][mlr3pipelines::PipeOp].
-#'
 #' @seealso [mlr3pipelines::PipeOp] and [crankcompositor]
 #' @export
 #' @family survival compositors
@@ -104,24 +98,16 @@ PipeOpProbregrCompositor = R6Class("PipeOpProbregrCompositor",
         output = data.table(name = "output", train = "NULL", predict = "PredictionRegr"),
         packages = "distr6"
       )
-    },
+    }
+  ),
 
-    #' @description train_internal
-    #' Internal `train` function, will be moved to `private` in a near-future update, should be
-    #' ignored.
-    #' @param inputs
-    #' Ignore.
-    train_internal = function(inputs) {
+  private = list(
+    .train = function(inputs) {
       self$state = list()
       list(NULL)
     },
 
-    #' @description predict_internal
-    #' Internal `predict` function, will be moved to `private` in a near-future update, should be
-    #' ignored.
-    #' @param inputs
-    #' Ignore.
-    predict_internal = function(inputs) {
+    .predict = function(inputs) {
       learner = inputs[[1]]
 
       assert("se" %in% learner$predict_types)

@@ -1,5 +1,3 @@
-context("populate dictionaries")
-
 test_that("re-populate learners", {
   rm("surv.coxph", envir = mlr_learners$items)
   expect_disjunct("surv.coxph", mlr_learners$keys())
@@ -8,6 +6,7 @@ test_that("re-populate learners", {
 })
 
 test_that("re-populate pipelines", {
+  library(mlr3pipelines)
   rm("distrcompose", envir = mlr_pipeops$items)
   expect_disjunct("distrcompose", mlr_pipeops$keys())
   register_mlr3pipelines()
