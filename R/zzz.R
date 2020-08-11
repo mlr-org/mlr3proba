@@ -60,6 +60,10 @@ register_mlr3 = function() {
   x$add("faithful", load_faithful)
   x$add("rats", load_rats)
   x$add("lung", load_lung)
+  x$add("actg", load_actg)
+  x$add("gbcs", load_gbcs)
+  x$add("grace", load_grace)
+  x$add("whas", load_whas)
   x$add("unemployment", load_unemployment)
 
   # generators
