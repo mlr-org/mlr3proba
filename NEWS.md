@@ -3,7 +3,7 @@
 * Removed `PredictionRegr` causing masking issues with `{mlr3}`
 * Bug fix in `PipeOpDistrCompositor` causing some `cdf` predictions to be lost
 * Internal fixes for `mlr3pipelines`: public train and predict methods to private
-* Added four datasets: `grace`, `actg`, `gbcs`, `whas`
+* Added four datasets and tasks: `grace`, `actg`, `gbcs`, `whas`
 
 # mlr3proba 0.2.0
 
