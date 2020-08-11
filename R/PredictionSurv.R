@@ -49,8 +49,9 @@ PredictionSurv = R6Class("PredictionSurv",
     initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), crank = NULL,
       distr = NULL, lp = NULL, response = NULL) {
 
-      assert_row_ids(row_ids)
+      row_ids = assert_row_ids(row_ids)
       n = length(row_ids)
+      self$data = named_list(c("tab", "distr"))
 
       self$task_type = "surv"
       private$.censtype = task$censtype
@@ -62,6 +63,7 @@ PredictionSurv = R6Class("PredictionSurv",
       self$data$tab = data.table(
         row_id = row_ids
       )
+
       if (!is.null(truth)) {
         assert_surv(truth)
         self$data$tab[, c("time", "status") := list(truth[, 1L], as.logical(truth[, 2L]))]
@@ -152,7 +154,7 @@ PredictionSurv = R6Class("PredictionSurv",
 as.data.table.PredictionSurv = function(x, ...) { # nolint
   tab = copy(x$data$tab)
   if (!is.null(x$distr)) {
-    tab$distr = list(x$distr)
+    tab$distr = list(list(x$distr))
   }
   return(tab)
 }
