@@ -44,12 +44,6 @@
 #' calculated using [distr6::median.Distribution], [distr6::mode], or [distr6::mean.Distribution]
 #' respectively.
 #'
-#' @section Fields:
-#' Only fields inherited from [PipeOp][mlr3pipelines::PipeOp].
-#'
-#' @section Methods:
-#' Only fields inherited from [PipeOp][mlr3pipelines::PipeOp].
-#'
 #' @seealso [mlr3pipelines::PipeOp] and [crankcompositor]
 #' @export
 #' @family survival compositors
@@ -109,24 +103,16 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
         output = data.table(name = "output", train = "NULL", predict = "PredictionSurv"),
         packages = "distr6"
         )
-    },
+    }
+  ),
 
-    #' @description train_internal
-    #' Internal `train` function, will be moved to `private` in a near-future update, should be
-    #' ignored.
-    #' @param inputs
-    #' Ignore.
-    train_internal = function(inputs) {
+  private = list(
+    .train = function(inputs) {
       self$state = list()
       list(NULL)
     },
 
-    #' @description predict_internal
-    #' Internal `predict` function, will be moved to `private` in a near-future update, should be
-    #' ignored.
-    #' @param inputs
-    #' Ignore.
-    predict_internal = function(inputs) {
+    .predict = function(inputs) {
 
       inpred = inputs[[1]]
 
@@ -134,9 +120,9 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
       method = self$param_set$values$method
       if (length(method) == 0) method = "mean"
       crank = as.numeric(switch(method,
-        median = inpred$distr$median(),
-        mode = inpred$distr$mode(self$param_set$values$which),
-        inpred$distr$mean()
+                                median = inpred$distr$median(),
+                                mode = inpred$distr$mode(self$param_set$values$which),
+                                inpred$distr$mean()
       ))
 
       if (!any(is.na(inpred$lp))) {
@@ -157,33 +143,4 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
         distr = inpred$distr, lp = lp, response = response)))
     }
   )
-
-  # private = list(
-  #   .train = function(inputs) {
-  #     self$state = list()
-  #     list(NULL)
-  #   },
-  #
-  #   .predict = function(inputs) {
-  #     inpred = inputs[[1]]
-  #
-  #     assert("distr" %in% inpred$predict_types)
-  #     method = self$param_set$values$method
-  #     if(length(method) == 0) method = "mean"
-  #     crank = as.numeric(switch(method,
-  #                               median = inpred$distr$median(),
-  #                               mode = inpred$distr$mode(),
-  #                               inpred$distr$mean()
-  #     ))
-  #
-  #     if (length(inpred$lp) == 0)
-  #       lp = NULL
-  #     else
-  #       lp = inpred$lp
-  #
-  #     return(list(PredictionSurv$new(row_ids = inpred$row_ids, truth = inpred$truth,
-  #     crank = crank,
-  #                                    distr = inpred$distr, lp = lp)))
-  #   }
-  # )
 )

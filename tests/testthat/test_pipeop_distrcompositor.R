@@ -1,5 +1,3 @@
-context("PipeOpDistrCompositor")
-
 test_that("PipeOpDistrCompositor - basic properties", {
   expect_pipeop(PipeOpDistrCompositor$new())
 })
@@ -26,6 +24,6 @@ test_that("PipeOpDistrCompositor - overwrite = TRUE", {
 test_that("no params", {
   base = lrn("surv.kaplan")$train(task)$predict(task)
   pred = lrn("surv.kaplan", id = "k2")$train(task)$predict(task)
-  pod = po("distrcompose", param_vals = list())
+  pod = mlr3pipelines::po("distrcompose", param_vals = list())
   expect_silent(pod$predict(list(base = base, pred = pred)))
 })

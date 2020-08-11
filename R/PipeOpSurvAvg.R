@@ -1,8 +1,6 @@
 #' @title PipeOpSurvAvg
 #'
-#' @usage NULL
 #' @name mlr_pipeops_survavg
-#' @format [R6Class] inheriting from [mlr3pipelines::PipeOp].
 #'
 #' @description
 #' Perform (weighted) prediction averaging from survival [PredictionSurv]s by connecting
@@ -16,7 +14,6 @@
 #'
 #' Weights can be set as a parameter; if none are provided, defaults to
 #' equal weights for each prediction.
-#'
 #'
 #' @section Input and Output Channels:
 #' Input and output channels are inherited from [PipeOpEnsemble][mlr3pipelines::PipeOpEnsemble]
@@ -32,14 +29,6 @@
 #' @section Internals:
 #' Inherits from [PipeOpEnsemble][mlr3pipelines::PipeOpEnsemble] by implementing the
 #' `private$weighted_avg_predictions()` method.
-#'
-#' @section Fields:
-#' Only fields inherited from
-#' [PipeOpEnsemble][mlr3pipelines::PipeOpEnsemble]/[PipeOp][mlr3pipelines::PipeOp].
-#'
-#' @section Methods:
-#' Only methods inherited from
-#' [PipeOpEnsemble][mlr3pipelines::PipeOpEnsemble]/[PipeOp][mlr3pipelines::PipeOp].
 #'
 #' @family PipeOps
 #' @family Ensembles
@@ -76,7 +65,9 @@ PipeOpSurvAvg = R6Class("PipeOpSurvAvg",
     #' Additional arguments passed to [mlr3pipelines::PipeOpEnsemble].
     initialize = function(innum = 0, id = "survavg",
                           param_vals = list(), ...) {
-      super$initialize(innum, id, param_vals = param_vals,
+      super$initialize(innum = innum,
+                       id = id,
+                       param_vals = param_vals,
                        prediction_type = "PredictionSurv", ...)
     }
   ),
@@ -121,5 +112,3 @@ PipeOpSurvAvg = R6Class("PipeOpSurvAvg",
     }
   )
 )
-
-mlr_pipeops$add("survavg", PipeOpSurvAvg)

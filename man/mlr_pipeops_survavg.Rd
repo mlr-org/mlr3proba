@@ -4,9 +4,6 @@
 \alias{mlr_pipeops_survavg}
 \alias{PipeOpSurvAvg}
 \title{PipeOpSurvAvg}
-\format{
-\link{R6Class} inheriting from \link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}.
-}
 \description{
 Perform (weighted) prediction averaging from survival \link{PredictionSurv}s by connecting
 \code{PipeOpSurvAvg} to multiple \link[mlr3pipelines:PipeOpLearner]{PipeOpLearner} outputs.
@@ -43,18 +40,6 @@ The parameters are the parameters inherited from the
 
 Inherits from \link[mlr3pipelines:PipeOpEnsemble]{PipeOpEnsemble} by implementing the
 \code{private$weighted_avg_predictions()} method.
-}
-
-\section{Fields}{
-
-Only fields inherited from
-\link[mlr3pipelines:PipeOpEnsemble]{PipeOpEnsemble}/\link[mlr3pipelines:PipeOp]{PipeOp}.
-}
-
-\section{Methods}{
-
-Only methods inherited from
-\link[mlr3pipelines:PipeOpEnsemble]{PipeOpEnsemble}/\link[mlr3pipelines:PipeOp]{PipeOp}.
 }
 
 \examples{
