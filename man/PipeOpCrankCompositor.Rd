@@ -66,26 +66,8 @@ task = tgen("simsurv")$generate(20)
 
 learn = lrn("surv.coxph")$train(task)$predict(task)
 poc = po("crankcompose", param_vals = list(method = "mean"))
-<<<<<<< HEAD
-poc$predict(list(learn))
-
-# Method 2 - Create a graph manually
-gr = Graph$new()$
-  add_pipeop(po("learner", lrn("surv.coxph")))$
-  add_pipeop(po("crankcompose"))$
-  add_edge("surv.coxph", "crankcompose")
-gr$train(task)
-gr$predict(task)
-
-# Method 3 - Syntactic sugar: Wrap the learner in a graph
-cox.crank = crankcompositor(
-  learner = lrn("surv.coxph"),
-  method = "median")
-resample(task, cox.crank, rsmp("cv", folds = 2))$predictions()
-}
-=======
 poc$predict(list(learn))[[1]]
->>>>>>> PipeOpTransformers
+}
 }
 \seealso{
 \link{pipeline_crankcompositor}

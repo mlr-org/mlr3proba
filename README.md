@@ -2,10 +2,10 @@
 # mlr3proba
 
 Package website: [release](https://mlr3proba.mlr-org.com/) |
-[dev](https://mlr3proba.mlr-org.com/dev)
+[dev](https://mlr3proba.mlr-org.com/dev/)
 
 Probabilistic Supervised Learning for
-**[mlr3](https://github.com/mlr-org/mlr3)**.
+**[mlr3](https://github.com/mlr-org/mlr3/)**.
 
 <!-- badges: start -->
 

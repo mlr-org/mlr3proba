@@ -172,7 +172,10 @@ register_mlr3pipelines = function() {
 
 .onLoad = function(libname, pkgname) { # nolint
   register_mlr3()
-  # register_mlr3pipelines()
+  if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
+    register_mlr3pipelines()
+  }
+
   setHook(packageEvent("mlr3", "onLoad"), function(...) register_mlr3(), action = "append")
   setHook(packageEvent("mlr3pipelines", "onLoad"), function(...) register_mlr3pipelines(),
           action = "append")

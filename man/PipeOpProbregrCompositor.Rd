@@ -49,7 +49,6 @@ distribution location and scale parameters respectively.
 }
 
 \examples{
-\dontrun{
 library(mlr3)
 library(mlr3pipelines)
 set.seed(1)
@@ -58,34 +57,6 @@ task = tsk("boston_housing")
 # Option 1: Use a learner that can predict se
 learn = lrn("regr.featureless", predict_type = "se")
 pred = learn$train(task)$predict(task)
-<<<<<<< HEAD
-poc = po("probregr_compose")
-poc$predict(list(pred))
-
-# Method 2 - Create a graph manually
-gr = Graph$new()$
-  add_pipeop(po("learner", lrn("regr.featureless", predict_type = "se")))$
-  add_pipeop(po("probregr_compose"))$
-  add_edge("regr.featureless", "probregr_compose")
-gr$train(task)
-gr$predict(task)
-
-# Method 3 - Syntactic sugar: Wrap the learner in a graph
-feat_distr = probregr_compose(
-  learner = lrn("regr.featureless", predict_type = "se"),
-  dist = "Logistic")
-resample(task, feat_distr, rsmp("cv", folds = 2))$predictions()
-}
-}
-\seealso{
-\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp} and \link{crankcompositor}
-
-Other survival compositors: 
-\code{\link{PipeOpCrankCompositor}},
-\code{\link{PipeOpDistrCompositor}}
-}
-\concept{survival compositors}
-=======
 poc = po("compose_probregr")
 poc$predict(list(pred, pred))[[1]]
 
@@ -97,7 +68,6 @@ pred_se = learn_se$train(task)$predict(task)
 poc = po("compose_probregr")
 poc$predict(list(pred_response, pred_se))[[1]]
 }
->>>>>>> PipeOpTransformers
 \section{Super class}{
 \code{\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}} -> \code{PipeOpProbregrCompositor}
 }

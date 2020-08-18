@@ -10,7 +10,7 @@
 ### Added Functionality
 
 * `MeasureSurvCindex` added. Generalises all c-index measures with a fast C++ implementation
-* Akritas estimator added to [mlr3learners.proba repo](https://www.github.com/mlr3learners/mlr3learners.proba)
+* Akritas estimator added to `mlr3learners/mlr3learners.proba`
 * Added scoring rule `MeasureSurvSchmid`
 * Addd calibration measures `MeasureSurvCalibrationBeta` and `MeasureSurvCalibrationAlpha`
 * `surv.brier` alias added for `surv.graf`
@@ -32,7 +32,7 @@
 
 ### Moved Functionality
 
-- `LearnerSurvGlmnet`, `LearnerSurvCVGlmnet`, `LearnerSurvXgboost` and `LearnerSurvRanger` have been moved to the [mlr3learners repo](https://www.github.com/mlr-org/mlr3learners)
+- `LearnerSurvGlmnet`, `LearnerSurvCVGlmnet`, `LearnerSurvXgboost` and `LearnerSurvRanger` have been moved to `mlr-org/mlr3learners`
 
 - `LearnerSurvGBM` has been moved to https://www.github.com/mlr3learners/mlr3learners.gbm
 

@@ -2,7 +2,6 @@
 #' @aliases mlr_pipeops_probregr
 #' @template param_pipelines
 #'
-#'
 #' @description
 #' Combines a predicted `reponse` and `se` from [PredictionRegr] with a specified probability
 #' distribution to estimate (or 'compose') a `distr` prediction.
@@ -36,12 +35,6 @@
 #' @section Internals:
 #' The composition is created by substituting the `response` and `se` predictions into the
 #' distribution location and scale parameters respectively.
-#'
-#' @section Fields:
-#' Only fields inherited from [PipeOp][mlr3pipelines::PipeOp].
-#'
-#' @section Methods:
-#' Only fields inherited from [PipeOp][mlr3pipelines::PipeOp].
 #'
 #' @export
 #' @examples

@@ -5,7 +5,7 @@ test_that("PipeOpDistrCompositor - basic properties", {
 task = tgen("simsurv")$generate(10)
 
 test_that("PipeOpDistrCompositor - overwrite = FALSE", {
-  gr = ppl("distrcompositor", lrn("surv.kaplan", id = "k2"), overwrite = FALSE)
+  gr = mlr3pipelines::ppl("distrcompositor", lrn("surv.kaplan", id = "k2"), overwrite = FALSE)
   expect_silent(gr$train(task))
   expect_equal(
     gr$predict(task)[[1]]$distr,
@@ -13,13 +13,13 @@ test_that("PipeOpDistrCompositor - overwrite = FALSE", {
 })
 
 test_that("PipeOpDistrCompositor - overwrite = TRUE", {
-  gr = ppl("distrcompositor", lrn("surv.kaplan", id = "k2"), overwrite = TRUE, form = "ph")
+  gr = mlr3pipelines::ppl("distrcompositor", lrn("surv.kaplan", id = "k2"), overwrite = TRUE, form = "ph")
   expect_silent(gr$train(task))
   p = gr$predict(task)[[1]]
   expect_prediction_surv(p)
   expect_true("distr" %in% p$predict_types)
 
-  gr = ppl("distrcompositor", lrn("surv.kaplan", id = "k2"), overwrite = TRUE, form = "po",
+  gr = mlr3pipelines::ppl("distrcompositor", lrn("surv.kaplan", id = "k2"), overwrite = TRUE, form = "po",
            graph_learner = TRUE)
   expect_silent(expect_prediction_surv(gr$train(task)$predict(task)))
 })

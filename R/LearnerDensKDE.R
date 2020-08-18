@@ -18,7 +18,7 @@ LearnerDensKDE = R6::R6Class("LearnerDensKDE",
     initialize = function() {
       ps = ParamSet$new(list(
         ParamFct$new("kernel",
-          levels = subset(listKernels(),
+          levels = subset(distr6::listKernels(),
             select = "ShortName")[[1]],
           default = "Norm", tags = "train"),
         ParamDbl$new("bandwidth",

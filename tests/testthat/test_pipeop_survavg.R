@@ -38,18 +38,19 @@ test_that("lp", {
 
 test_that("response", {
   poc = mlr3pipelines::po("survavg")
-  p3 = crankcompositor(lrn("surv.kaplan"), response = TRUE)$train(task)$predict(task)
+  p3 = mlr3pipelines::ppl("crankcompositor", lrn("surv.kaplan"),
+                         response = TRUE, graph_learner = TRUE)$train(task)$predict(task)
   expect_silent({p = poc$predict(list(p3, p3))$output})
   expect_equal(p$response, (p3$response + p3$response)/2)
 })
 
 test_that("surv_averager", {
-  poc = mlr3pipelines::po("survavg", param_vals = list(weights = c(0.2, 0.8)))
-  expect_silent({p = poc$predict(list(p1, p2))$output})
+  poc = mlr3pipelines::po("survavg", weights = c(0.2, 0.8))
+  p = poc$predict(list(p1, p2))[[1]]
 
-
-  p2 = surv_averager(list(lrn("surv.kaplan"), lrn("surv.kaplan", id = "k2")),
-                                      list(weights = c(0.2, 0.8)))$
+  p2 = mlr3pipelines::ppl("survaverager", list(lrn("surv.kaplan"), lrn("surv.kaplan", id = "k2")),
+                                      list(weights = c(0.2, 0.8)),
+                          graph_learner = TRUE)$
                           train(task)$predict(task)
 
   expect_equal(p$crank, p2$crank)

@@ -57,6 +57,7 @@
 #' learn = lrn("surv.coxph")$train(task)$predict(task)
 #' poc = po("crankcompose", param_vals = list(method = "mean"))
 #' poc$predict(list(learn))[[1]]
+#' }
 #' @export
 PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
   inherit = mlr3pipelines::PipeOp,

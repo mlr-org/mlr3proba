@@ -83,29 +83,8 @@ task = tgen("simsurv")$generate(20)
 base = lrn("surv.kaplan")$train(task)$predict(task)
 pred = lrn("surv.coxph")$train(task)$predict(task)
 pod = po("distrcompose", param_vals = list(form = "aft", overwrite = TRUE))
-<<<<<<< HEAD
-pod$predict(list(base = base, pred = pred))
-
-# Method 2 - Create a graph manually
-gr = Graph$new()$
-  add_pipeop(po("learner", lrn("surv.kaplan")))$
-  add_pipeop(po("learner", lrn("surv.coxph")))$
-  add_pipeop(po("distrcompose"))$
-  add_edge("surv.kaplan", "distrcompose", dst_channel = "base")$
-  add_edge("surv.coxph", "distrcompose", dst_channel = "pred")
-gr$train(task)
-gr$predict(task)
-
-# Method 3 - Syntactic sugar: Wrap the learner in a graph.
-cox.distr = distrcompositor(
-  learner = lrn("surv.coxph"),
-  estimator = "kaplan",
-  form = "aft")
-cox.distr$train(task)$predict(task)
-}
-=======
 pod$predict(list(base = base, pred = pred))[[1]]
->>>>>>> PipeOpTransformers
+}
 }
 \seealso{
 \link{pipeline_distrcompositor}

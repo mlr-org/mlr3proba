@@ -74,6 +74,7 @@
 #' pred = lrn("surv.coxph")$train(task)$predict(task)
 #' pod = po("distrcompose", param_vals = list(form = "aft", overwrite = TRUE))
 #' pod$predict(list(base = base, pred = pred))[[1]]
+#' }
 PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
   inherit = mlr3pipelines::PipeOp,
   public = list(

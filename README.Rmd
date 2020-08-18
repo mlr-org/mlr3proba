@@ -12,9 +12,9 @@ knitr::opts_chunk$set(
 
 # mlr3proba
 
-Package website: [release](https://mlr3proba.mlr-org.com/) | [dev](https://mlr3proba.mlr-org.com/dev)
+Package website: [release](https://mlr3proba.mlr-org.com/) | [dev](https://mlr3proba.mlr-org.com/dev/)
 
-Probabilistic Supervised Learning for **[mlr3](https://github.com/mlr-org/mlr3)**.
+Probabilistic Supervised Learning for **[mlr3](https://github.com/mlr-org/mlr3/)**.
 
 <!-- badges: start -->
 [![tic](https://github.com/mlr-org/mlr3proba/workflows/tic/badge.svg?branch=master)](https://github.com/mlr-org/mlr3proba/actions)

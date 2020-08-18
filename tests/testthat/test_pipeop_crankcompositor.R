@@ -1,5 +1,3 @@
-context("PipeOpCrankCompositor")
-
 test_that("PipeOpCrankCompositor - basic properties", {
   expect_pipeop(PipeOpCrankCompositor$new())
   expect_equal(PipeOpCrankCompositor$new()$param_set$values$method, "mean")
@@ -7,14 +5,8 @@ test_that("PipeOpCrankCompositor - basic properties", {
 
 task = tgen("simsurv")$generate(20)
 
-# test_that("PipeOpCrankCompositor - assertions", {
-#   expect_error(crankcompositor(lrn("surv.svm")), "Assertion on 'distr'")
-#   expect_error(po("crankcompose")$predict(
-#     list(lrn("surv.svm")$train(task)$predict(task))), "Assertion on 'distr'")
-# })
-
 test_that("PipeOpCrankCompositor - estimate", {
-  gr = ppl("crankcompositor", lrn("surv.coxph"), method = "mode", which = 1)
+  gr = mlr3pipelines::ppl("crankcompositor", lrn("surv.coxph"), method = "mode", which = 1)
   expect_silent(gr$train(task))
   p = gr$predict(task)[[1]]
   expect_prediction_surv(p)
@@ -35,6 +27,7 @@ test_that("response", {
     list(lrn("surv.kaplan")$train(task)$predict(task)))$output
   expect_equal(p$response, p$crank)
 
-  p = crankcompositor(lrn("surv.coxph"), response = TRUE)$train(task)$predict(task)
+  p = pipeline_crankcompositor(lrn("surv.coxph"), response = TRUE,
+                               graph_learner = TRUE)$train(task)$predict(task)
   expect_equal(p$response, p$crank)
 })

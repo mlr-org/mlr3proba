@@ -120,6 +120,48 @@ model on these predictions. The resulting regression predictions can then be vie
 predictors of the new data, which can ultimately be composed to a distribution.
 }
 }
+\examples{
+\dontrun{
+library("mlr3")
+library("mlr3pipelines")
+
+task = tgen("simsurv")$generate(10)
+
+# method 1 with censoring deletion, compose to distribution
+pipe = ppl(
+  "survtoregr",
+  method = 1,
+  regr_learner = lrn("regr.featureless"),
+  distrcompose = TRUE,
+  survregr_params = list(method = "delete")
+)
+pipe$train(task)
+pipe$predict(task)
+
+# method 2 with censoring imputation (mrl), one regr learner
+pipe = ppl(
+  "survtoregr",
+  method = 2,
+  regr_learner = lrn("regr.featureless", predict_type = "se"),
+  survregr_params = list(method = "mrl")
+)
+pipe$train(task)
+pipe$predict(task)
+
+# method 3 with censoring omission and no composition, insample resampling
+pipe = ppl(
+  "survtoregr",
+  method = 3,
+  regr_learner = lrn("regr.featureless"),
+  distrcompose = FALSE,
+  surv_learner = lrn("surv.coxph"),
+  survregr_params = list(method = "omission")
+)
+pipe$train(task)
+pipe$predict(task)
+}
+
+}
 \seealso{
 Other pipelines: 
 \code{\link{mlr_graphs_crankcompositor}},
