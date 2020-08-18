@@ -60,14 +60,15 @@ Suggests:
     simsurv,
     survAUC,
     testthat
+Remotes:
+    mlr-org/mlr3pipelines,
+    alan-turing-institute/distr6
 LinkingTo: 
     Rcpp
 VignetteBuilder:
     knitr
 RdMacros: 
     mlr3misc
-Remotes:
-    mlr-org/mlr3pipelines
 ByteCompile: true
 Encoding: UTF-8
 LazyData: true
