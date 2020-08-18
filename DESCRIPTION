@@ -38,9 +38,10 @@ Depends:
 Imports:
     checkmate,
     data.table,
-    distr6 (>= 1.4.2),
+    distr6 (>= 1.4.3),
     mlr3 (>= 0.5.0),
     mlr3misc (>= 0.1.7),
+    mlr3pipelines (>= 0.2.1),
     paradox (>= 0.1.0),
     R6,
     Rcpp (>= 1.0.4),
@@ -122,8 +123,15 @@ Collate:
     'MeasureSurvXuR2.R'
     'PipeOpCrankCompositor.R'
     'PipeOpDistrCompositor.R'
-    'PipeOpProbRegr.R'
+    'PipeOpTransformer.R'
+    'PipeOpPredTransformer.R'
+    'PipeOpPredRegrSurv.R'
+    'PipeOpPredSurvRegr.R'
+    'PipeOpProbregrCompositor.R'
     'PipeOpSurvAvg.R'
+    'PipeOpTaskRegrSurv.R'
+    'PipeOpTaskSurvRegr.R'
+    'PipeOpTaskTransformer.R'
     'PredictionDens.R'
     'PredictionSurv.R'
     'RcppExports.R'
@@ -135,15 +143,12 @@ Collate:
     'TaskSurv_X.R'
     'assertions.R'
     'cindex.R'
-    'crank_compositor.R'
     'data.R'
-    'distr_compositor.R'
     'helpers.R'
     'histogram.R'
     'integrated_scores.R'
     'pecs.R'
+    'pipelines.R'
     'plot.R'
-    'probregr_compose.R'
-    'surv_average.R'
     'surv_measures.R'
     'zzz.R'

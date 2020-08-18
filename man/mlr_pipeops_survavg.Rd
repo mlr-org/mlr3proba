@@ -55,6 +55,16 @@ poc = po("survavg", param_vals = list(weights = c(0.2, 0.8)))
 poc$predict(list(p1, p2))
 }
 }
+\seealso{
+Other PipeOps: 
+\code{\link{PipeOpPredTransformer}},
+\code{\link{PipeOpTaskTransformer}},
+\code{\link{PipeOpTransformer}},
+\code{\link{mlr_pipeops_trafopred_regrsurv}},
+\code{\link{mlr_pipeops_trafopred_survregr}},
+\code{\link{mlr_pipeops_trafotask_regrsurv}},
+\code{\link{mlr_pipeops_trafotask_survregr}}
+}
 \concept{Ensembles}
 \concept{PipeOps}
 \section{Super classes}{
@@ -94,7 +104,7 @@ If \code{innum} is 0 (default), a vararg input channel is created that can take 
 number of inputs.}
 
 \item{\code{id}}{(\code{character(1)})\cr
-Identifier of the resulting  object, default \code{"survavg"}.}
+Identifier of the resulting  object.}
 
 \item{\code{param_vals}}{(\code{list()})\cr
 List of hyperparameter settings, overwriting the hyperparameter settings that would

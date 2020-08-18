@@ -1,5 +1,5 @@
 #' @title PipeOpSurvAvg
-#'
+#' @template param_pipelines
 #' @name mlr_pipeops_survavg
 #'
 #' @description
@@ -56,11 +56,6 @@ PipeOpSurvAvg = R6Class("PipeOpSurvAvg",
     #'   Determines the number of input channels.
     #'   If `innum` is 0 (default), a vararg input channel is created that can take an arbitrary
     #'   number of inputs.
-    #' @param id (`character(1)`)\cr
-    #'  Identifier of the resulting  object, default `"survavg"`.
-    #' @param param_vals (`list()`)\cr
-    #'   List of hyperparameter settings, overwriting the hyperparameter settings that would
-    #'   otherwise be set during construction.
     #' @param ... `ANY`\cr
     #' Additional arguments passed to [mlr3pipelines::PipeOpEnsemble].
     initialize = function(innum = 0, id = "survavg",
@@ -68,7 +63,8 @@ PipeOpSurvAvg = R6Class("PipeOpSurvAvg",
       super$initialize(innum = innum,
                        id = id,
                        param_vals = param_vals,
-                       prediction_type = "PredictionSurv", ...)
+                       prediction_type = "PredictionSurv",
+                       ...)
     }
   ),
   private = list(

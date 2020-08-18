@@ -1,5 +1,6 @@
 #' @title PipeOpCrankCompositor
 #' @aliases mlr_pipeops_crankcompose
+#' @template param_pipelines
 #'
 #' @description
 #' Uses a predicted `distr` in a [PredictionSurv] to estimate (or 'compose') a `crank` prediction.
@@ -44,49 +45,25 @@
 #' calculated using [distr6::median.Distribution], [distr6::mode], or [distr6::mean.Distribution]
 #' respectively.
 #'
-#' @seealso [mlr3pipelines::PipeOp] and [crankcompositor]
-#' @export
+#' @seealso [pipeline_crankcompositor]
 #' @family survival compositors
 #' @examples
 #' \dontrun{
 #' library(mlr3)
 #' library(mlr3pipelines)
 #' set.seed(1)
+#' task = tgen("simsurv")$generate(20)
 #'
-#' # Three methods to predict a `crank` from `surv.rpart`
-#' task = tgen("simsurv")$generate(30)
-#'
-#' # Method 1 - Train and predict separately then compose
 #' learn = lrn("surv.coxph")$train(task)$predict(task)
 #' poc = po("crankcompose", param_vals = list(method = "mean"))
-#' poc$predict(list(learn))
-#'
-#' # Method 2 - Create a graph manually
-#' gr = Graph$new()$
-#'   add_pipeop(po("learner", lrn("surv.coxph")))$
-#'   add_pipeop(po("crankcompose"))$
-#'   add_edge("surv.coxph", "crankcompose")
-#' gr$train(task)
-#' gr$predict(task)
-#'
-#' # Method 3 - Syntactic sugar: Wrap the learner in a graph
-#' cox.crank = crankcompositor(
-#'   learner = lrn("surv.coxph"),
-#'   method = "median")
-#' resample(task, cox.crank, rsmp("cv", folds = 2))$predictions()
-#' }
+#' poc$predict(list(learn))[[1]]
+#' @export
 PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
   inherit = mlr3pipelines::PipeOp,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    #'
-    #' @param id (`character(1)`)\cr
-    #'   Identifier of the resulting  object.
-    #' @param param_vals (`list()`)\cr
-    #'   List of hyperparameter settings, overwriting the hyperparameter settings that would
-    #'   otherwise be set during construction.
-    initialize = function(id = "crankcompose", param_vals = list(method = "mean")) {
+    initialize = function(id = "compose_crank", param_vals = list(method = "mean")) {
       ps = ParamSet$new(params = list(
         ParamFct$new("method", default = "mean", levels = c("mean", "median", "mode"),
                      tags = "predict"),

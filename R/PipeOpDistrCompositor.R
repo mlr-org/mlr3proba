@@ -1,6 +1,8 @@
 #' @title PipeOpDistrCompositor
 #' @aliases mlr_pipeops_distrcompose
 #'
+#' @template param_pipelines
+#'
 #' @description
 #' Estimates (or 'composes') a survival distribution from a predicted baseline `distr` and a
 #' `crank` or `lp` from two [PredictionSurv]s.
@@ -58,54 +60,26 @@
 #' predicted linear predictor. If the input model does not predict a linear predictor then `crank`
 #' is assumed to be the `lp` - **this may be a strong and unreasonable assumption.**
 #'
-#' @seealso [mlr3pipelines::PipeOp] and [distrcompositor]
+#' @seealso [pipeline_distrcompositor]
 #' @export
 #' @family survival compositors
 #' @examples
 #' \dontrun{
 #' library(mlr3)
 #' library(mlr3pipelines)
-#' set.seed(42)
+#' set.seed(1)
+#' task = tgen("simsurv")$generate(20)
 #'
-#' # Three methods to transform the cox ph predicted `distr` to an
-#' #  accelerated failure time model
-#' task = tgen("simsurv")$generate(30)
-#'
-#' # Method 1 - Train and predict separately then compose
 #' base = lrn("surv.kaplan")$train(task)$predict(task)
 #' pred = lrn("surv.coxph")$train(task)$predict(task)
 #' pod = po("distrcompose", param_vals = list(form = "aft", overwrite = TRUE))
-#' pod$predict(list(base = base, pred = pred))
-#'
-#' # Method 2 - Create a graph manually
-#' gr = Graph$new()$
-#'   add_pipeop(po("learner", lrn("surv.kaplan")))$
-#'   add_pipeop(po("learner", lrn("surv.coxph")))$
-#'   add_pipeop(po("distrcompose"))$
-#'   add_edge("surv.kaplan", "distrcompose", dst_channel = "base")$
-#'   add_edge("surv.coxph", "distrcompose", dst_channel = "pred")
-#' gr$train(task)
-#' gr$predict(task)
-#'
-#' # Method 3 - Syntactic sugar: Wrap the learner in a graph.
-#' cox.distr = distrcompositor(
-#'   learner = lrn("surv.coxph"),
-#'   estimator = "kaplan",
-#'   form = "aft")
-#' cox.distr$train(task)$predict(task)
-#' }
+#' pod$predict(list(base = base, pred = pred))[[1]]
 PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
   inherit = mlr3pipelines::PipeOp,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    #'
-    #' @param id (`character(1)`)\cr
-    #'   Identifier of the resulting  object.
-    #' @param param_vals (`list()`)\cr
-    #'   List of hyperparameter settings, overwriting the hyperparameter settings that would
-    #'   otherwise be set during construction.
-    initialize = function(id = "distrcompose", param_vals = list(form = "aft", overwrite = FALSE)) {
+    initialize = function(id = "compose_distr", param_vals = list(form = "aft", overwrite = FALSE)) {
       super$initialize(
         id = id,
         param_set = ParamSet$new(params = list(
@@ -115,7 +89,8 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
         param_vals = param_vals,
         input = data.table(name = c("base", "pred"), train = "NULL", predict = "PredictionSurv"),
         output = data.table(name = "output", train = "NULL", predict = "PredictionSurv"),
-        packages = "distr6")
+        packages = "distr6"
+        )
     }
   ),
 

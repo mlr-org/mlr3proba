@@ -77,16 +77,13 @@ is assumed to be the \code{lp} - \strong{this may be a strong and unreasonable a
 \dontrun{
 library(mlr3)
 library(mlr3pipelines)
-set.seed(42)
+set.seed(1)
+task = tgen("simsurv")$generate(20)
 
-# Three methods to transform the cox ph predicted `distr` to an
-#  accelerated failure time model
-task = tgen("simsurv")$generate(30)
-
-# Method 1 - Train and predict separately then compose
 base = lrn("surv.kaplan")$train(task)$predict(task)
 pred = lrn("surv.coxph")$train(task)$predict(task)
 pod = po("distrcompose", param_vals = list(form = "aft", overwrite = TRUE))
+<<<<<<< HEAD
 pod$predict(list(base = base, pred = pred))
 
 # Method 2 - Create a graph manually
@@ -106,13 +103,15 @@ cox.distr = distrcompositor(
   form = "aft")
 cox.distr$train(task)$predict(task)
 }
+=======
+pod$predict(list(base = base, pred = pred))[[1]]
+>>>>>>> PipeOpTransformers
 }
 \seealso{
-\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp} and \link{distrcompositor}
+\link{pipeline_distrcompositor}
 
 Other survival compositors: 
-\code{\link{PipeOpCrankCompositor}},
-\code{\link{PipeOpProbregrCompositor}}
+\code{\link{PipeOpCrankCompositor}}
 }
 \concept{survival compositors}
 \section{Super class}{
@@ -141,7 +140,7 @@ Other survival compositors:
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{PipeOpDistrCompositor$new(
-  id = "distrcompose",
+  id = "compose_distr",
   param_vals = list(form = "aft", overwrite = FALSE)
 )}\if{html}{\out{</div>}}
 }

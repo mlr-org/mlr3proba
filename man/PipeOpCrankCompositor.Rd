@@ -62,13 +62,11 @@ respectively.
 library(mlr3)
 library(mlr3pipelines)
 set.seed(1)
+task = tgen("simsurv")$generate(20)
 
-# Three methods to predict a `crank` from `surv.rpart`
-task = tgen("simsurv")$generate(30)
-
-# Method 1 - Train and predict separately then compose
 learn = lrn("surv.coxph")$train(task)$predict(task)
 poc = po("crankcompose", param_vals = list(method = "mean"))
+<<<<<<< HEAD
 poc$predict(list(learn))
 
 # Method 2 - Create a graph manually
@@ -85,13 +83,15 @@ cox.crank = crankcompositor(
   method = "median")
 resample(task, cox.crank, rsmp("cv", folds = 2))$predictions()
 }
+=======
+poc$predict(list(learn))[[1]]
+>>>>>>> PipeOpTransformers
 }
 \seealso{
-\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp} and \link{crankcompositor}
+\link{pipeline_crankcompositor}
 
 Other survival compositors: 
-\code{\link{PipeOpDistrCompositor}},
-\code{\link{PipeOpProbregrCompositor}}
+\code{\link{PipeOpDistrCompositor}}
 }
 \concept{survival compositors}
 \section{Super class}{
@@ -120,7 +120,7 @@ Other survival compositors:
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{PipeOpCrankCompositor$new(
-  id = "crankcompose",
+  id = "compose_crank",
   param_vals = list(method = "mean")
 )}\if{html}{\out{</div>}}
 }
