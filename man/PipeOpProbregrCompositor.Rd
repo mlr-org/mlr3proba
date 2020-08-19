@@ -49,6 +49,7 @@ distribution location and scale parameters respectively.
 }
 
 \examples{
+\dontrun{
 library(mlr3)
 library(mlr3pipelines)
 set.seed(1)
@@ -67,6 +68,7 @@ pred_response = learn_response$train(task)$predict(task)
 pred_se = learn_se$train(task)$predict(task)
 poc = po("compose_probregr")
 poc$predict(list(pred_response, pred_se))[[1]]
+}
 }
 \section{Super class}{
 \code{\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}} -> \code{PipeOpProbregrCompositor}

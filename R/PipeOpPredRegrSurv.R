@@ -23,6 +23,7 @@
 #' of same length as the prediction object, where `1` is dead and `0` censored.
 #'
 #' @examples
+#' \dontrun{
 #' library(mlr3)
 #' library(mlr3pipelines)
 #'
@@ -43,7 +44,7 @@
 #' po = po("trafopred_regrsurv")
 #' new_pred = po$predict(list(pred = pred, task = task_surv))[[1]]
 #' all.equal(new_pred$truth, task_surv$truth())
-#'
+#' }
 #' @family PipeOps
 #' @family Transformation PipeOps
 #' @include PipeOpPredTransformer.R

@@ -38,6 +38,7 @@
 #'
 #' @export
 #' @examples
+#' \dontrun{
 #' library(mlr3)
 #' library(mlr3pipelines)
 #' set.seed(1)
@@ -56,6 +57,7 @@
 #' pred_se = learn_se$train(task)$predict(task)
 #' poc = po("compose_probregr")
 #' poc$predict(list(pred_response, pred_se))[[1]]
+#' }
 PipeOpProbregrCompositor = R6Class("PipeOpProbregrCompositor",
   inherit = mlr3pipelines::PipeOp,
   public = list(

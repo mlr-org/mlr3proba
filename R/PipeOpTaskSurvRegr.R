@@ -60,6 +60,7 @@
 #' \cite{mlr3proba}{vock_2016}
 #'
 #' @examples
+#' \dontrun{
 #' library(mlr3)
 #' library(mlr3pipelines)
 #'
@@ -105,7 +106,7 @@
 #' po = po("trafotask_survregr", method = "reorder", target = "litter")
 #' new_task = po$train(list(task, task))[[1]]
 #' print(new_task)
-#'
+#' }
 #' @family PipeOps
 #' @family Transformation PipeOps
 #' @include PipeOpPredTransformer.R

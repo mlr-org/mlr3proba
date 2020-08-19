@@ -21,15 +21,18 @@ The \verb{$state} is a named \code{list} with the \verb{$state} elements inherit
 }
 
 \examples{
+\dontrun{
 library(mlr3)
 library(mlr3pipelines)
+library(survival)
 
 # simple example
-pred = PredictionSurv$new(row_ids = 1:10, truth = Surv(1:10, rbinom(10, 1, 0.5)), response = 1:10)
+pred = PredictionSurv$new(row_ids = 1:10, truth = Surv(1:10, rbinom(10, 1, 0.5)),
+   response = 1:10)
 po = po("trafopred_survregr")
 new_pred = po$predict(list(pred = pred))[[1]]
 print(new_pred)
-
+}
 }
 \seealso{
 Other PipeOps: 

@@ -61,6 +61,7 @@ Passed to \link[bujar:bujar]{bujar::bujar}.
 }
 
 \examples{
+\dontrun{
 library(mlr3)
 library(mlr3pipelines)
 
@@ -106,7 +107,7 @@ print(new_task)
 po = po("trafotask_survregr", method = "reorder", target = "litter")
 new_task = po$train(list(task, task))[[1]]
 print(new_task)
-
+}
 }
 \references{
 \cite{mlr3proba}{buckley_1979}
