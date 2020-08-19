@@ -30,7 +30,8 @@ of same length as the prediction object, where \code{1} is dead and \code{0} cen
 }
 
 \examples{
-library("mlr3")
+library(mlr3)
+library(mlr3pipelines)
 
 task = tsk("boston_housing")
 po = po("trafotask_regrsurv")

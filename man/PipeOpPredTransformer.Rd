@@ -4,8 +4,8 @@
 \alias{PipeOpPredTransformer}
 \title{PipeOpPredTransformer}
 \description{
-Parent class for \code{\link{PipeOp}}s that transform \link[mlr3:Prediction]{Prediction} objects to
-different types.
+Parent class for \link[mlr3pipelines:PipeOp]{PipeOp}s that transform \link[mlr3:Prediction]{Prediction}
+objects to different types.
 }
 \section{Input and Output Channels}{
 

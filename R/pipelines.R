@@ -46,11 +46,12 @@ pipeline_survaverager = function(learners, param_vals = list(), graph_learner = 
 #' @param frac `numeric(1)`\cr
 #' Percentage of rows to keep during subsampling. See
 #' [PipeOpSubsample][mlr3pipelines::PipeOpSubsample] for more information. Defaults to 0.7.
-#' @param weight `logical(1)`\cr
+#' @param avg `logical(1)`\cr
 #' If `TRUE` (default) predictions are aggregated with [PipeOpSurvAvg], otherwise returned
 #' as multiple predictions. Can only be `FALSE` if `graph_learner = FALSE`.
 #' @param weights `numeric()` \cr
-#' If `weight = TRUE` then weights to average, by default uniform weighting, see [PipeOpSurvAvg].
+#' Weights for model avering, ignored if `avg = FALSE`. Default is uniform weighting,
+#' see [PipeOpSurvAvg].
 #' @details Bagging (Bootstrap AGGregatING) is the process of bootstrapping data and aggregating
 #' the final predictions. Bootstrapping splits the data into `B` smaller datasets of a given size
 #' and is performed with [PipeOpSubsample][mlr3pipelines::PipeOpSubsample]. Aggregation is
@@ -73,7 +74,7 @@ pipeline_survaverager = function(learners, param_vals = list(), graph_learner = 
 #' pipe$train(task)
 #' pipe$predict(task)
 #' }
-pipeline_survbagging = function(learner, iterations = 10, frac = 0.7, weights = 1,
+pipeline_survbagging = function(learner, iterations = 10, frac = 0.7, avg = TRUE, weights = 1,
                                 graph_learner = FALSE) {
 
   assertCount(iterations)
@@ -84,14 +85,18 @@ pipeline_survbagging = function(learner, iterations = 10, frac = 0.7, weights = 
                                graph)
   subs_repls = mlr3pipelines::pipeline_greplicate(subs, iterations)
 
-  po = mlr3pipelines::po("survavg", param_vals = list(weights = weights))
-
-  gr = mlr3pipelines::`%>>%`(subs_repls, po)
-
-  if (graph_learner) {
-    return(mlr3pipelines::GraphLearner$new(gr))
+  if (!avg) {
+    return(subs_repls)
   } else {
-    return(gr)
+    po = mlr3pipelines::po("survavg", param_vals = list(weights = weights))
+
+    gr = mlr3pipelines::`%>>%`(subs_repls, po)
+
+    if (graph_learner) {
+      return(mlr3pipelines::GraphLearner$new(gr))
+    } else {
+      return(gr)
+    }
   }
 }
 
@@ -108,6 +113,8 @@ pipeline_survbagging = function(learner, iterations = 10, frac = 0.7, weights = 
 #' is the first.
 #' @param response `logical(1)`\cr
 #' If `TRUE` then the `response` predict type is also estimated with the same values as `crank`.
+#' @param ... `ANY`\cr
+#' For use with `crankcompositor`, now deprecated.
 #' @examples
 #' \dontrun{
 #' library("mlr3")
@@ -178,6 +185,8 @@ crankcompositor = function(...) {
 #' If `TRUE` then the `distr` is overwritten by the compositor if
 #' already present, which may be required for changing the prediction `distr` from one model form
 #' to another.
+#' @param ... `ANY`\cr
+#' For use with `distrcompositor`, now deprecated.
 #' @examples
 #' \dontrun{
 #' library("mlr3")
@@ -317,7 +326,7 @@ pipeline_probregrcompositor = function(learner, learner_se = NULL, dist = "Norma
 #' \item [PipeOpTaskSurvRegr] Converts [TaskSurv] to [TaskRegr][mlr3::TaskRegr].
 #' \item A [LearnerRegr] is fit on the new `TaskRegr` to predict `response`, optionally a second
 #' `LearnerRegr` can be fit to predict `se`.
-#' \item [PipeOpProbRegrCompositor] composes a `distr` prediction from the learner(s).
+#' \item [PipeOpProbregrCompositor] composes a `distr` prediction from the learner(s).
 #' \item [PipeOpPredRegrSurv] transforms the resulting [PredictionRegr][mlr3::PredictionRegr]
 #' to [PredictionSurv].
 #' }
@@ -375,7 +384,8 @@ pipeline_probregrcompositor = function(learner, learner_se = NULL, dist = "Norma
 #' Parameters passed to [PipeOpProbregrCompositor], default is [Normal][distr6::Normal]
 #' distribution for composition.
 #' @param learnercv_params `list()`\cr
-#' Parameters passed to [PipeOpLearnerCV], default is to use insampling.
+#' Parameters passed to [PipeOpLearnerCV][mlr3pipelines::PipeOpLearnerCV], default is to use
+#' insampling.
 #' @param graph_learner `logical(1)`\cr
 #' If `TRUE` returns wraps the [Graph][mlr3pipelines::Graph] as a
 #' [GraphLearner][mlr3pipelines::GraphLearner] otherwise (default) returns as a `Graph`.

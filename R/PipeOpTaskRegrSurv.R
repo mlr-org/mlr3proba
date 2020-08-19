@@ -21,9 +21,9 @@
 #' If `NULL` then assumed no censoring in the dataset. Otherwise should be a vector of `0/1`s
 #' of same length as the prediction object, where `1` is dead and `0` censored.
 #'
-#'
 #' @examples
-#' library("mlr3")
+#' library(mlr3)
+#' library(mlr3pipelines)
 #'
 #' task = tsk("boston_housing")
 #' po = po("trafotask_regrsurv")

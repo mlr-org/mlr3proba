@@ -4,7 +4,7 @@
 \alias{PipeOpTaskTransformer}
 \title{PipeOpTaskTransformer}
 \description{
-Parent class for \code{\link{PipeOp}}s that transform task objects top different types.
+Parent class for \link[mlr3pipelines:PipeOp]{PipeOp}s that transform task objects top different types.
 }
 \section{Input and Output Channels}{
 
@@ -23,11 +23,6 @@ The \verb{$state} is left empty (\code{list()}).
 The commonality of methods using \code{\link{PipeOpTaskTransformer}} is that they take a \link[mlr3:Task]{mlr3::Task} of
 one class and transform it to another class. This usually involves transformation of the data,
 which can be controlled via parameters.
-}
-
-\section{Fields}{
-
-Only fields inherited from \code{\link{PipeOp}}.
 }
 
 \seealso{

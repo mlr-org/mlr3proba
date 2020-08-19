@@ -60,7 +60,8 @@
 #' \cite{mlr3proba}{vock_2016}
 #'
 #' @examples
-#' library("mlr3")
+#' library(mlr3)
+#' library(mlr3pipelines)
 #'
 #' # these methods are generally only successful if censoring is not too high
 #' # create survival task by undersampling

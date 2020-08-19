@@ -5,7 +5,7 @@
 #' @template param_input_output
 #'
 #' @description
-#' Parent class for [PipeOp]s that transform [Task][mlr3::Task] and [Prediction][mlr3::Prediction]
+#' Parent class for [PipeOp][mlr3pipelines::PipeOp]s that transform [Task][mlr3::Task] and [Prediction][mlr3::Prediction]
 #' objects to different types.
 #'
 #' @section Input and Output Channels:
@@ -18,9 +18,6 @@
 #' The commonality of methods using [PipeOpTransformer] is that they take a [Task][mlr3::Task]
 #' or [Prediction][mlr3::Prediction] of one type (e.g. regr or classif) and transform it to
 #' another type.
-#'
-#' @section Fields:
-#' Only fields inherited from [PipeOp].
 #'
 #' @family PipeOps
 #' @family Transformers

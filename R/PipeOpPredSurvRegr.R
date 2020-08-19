@@ -17,7 +17,8 @@
 #'
 #'
 #' @examples
-#' library("mlr3")
+#' library(mlr3)
+#' library(mlr3pipelines)
 #'
 #' # simple example
 #' pred = PredictionSurv$new(row_ids = 1:10, truth = Surv(1:10, rbinom(10, 1, 0.5)), response = 1:10)

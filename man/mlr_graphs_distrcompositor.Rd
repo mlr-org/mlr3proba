@@ -40,6 +40,9 @@ to another.}
 \item{graph_learner}{\code{logical(1)}\cr
 If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
 \link[mlr3pipelines:GraphLearner]{GraphLearner} otherwise (default) returns as a \code{Graph}.}
+
+\item{...}{\code{ANY}\cr
+For use with \code{distrcompositor}, now deprecated.}
 }
 \value{
 \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or \link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner}

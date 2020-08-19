@@ -6,8 +6,8 @@
 #' @template param_input_output
 #'
 #' @description
-#' Parent class for [`PipeOp`]s that transform [Prediction][mlr3::Prediction] objects to
-#' different types.
+#' Parent class for [PipeOp][mlr3pipelines::PipeOp]s that transform [Prediction][mlr3::Prediction]
+#' objects to different types.
 #'
 #' @section Input and Output Channels:
 #' [`PipeOpPredTransformer`] has one input and output channel named `"input"` and `"output"`.

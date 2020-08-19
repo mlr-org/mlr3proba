@@ -36,6 +36,9 @@ If \code{TRUE} then the \code{response} predict type is also estimated with the 
 \item{graph_learner}{\code{logical(1)}\cr
 If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
 \link[mlr3pipelines:GraphLearner]{GraphLearner} otherwise (default) returns as a \code{Graph}.}
+
+\item{...}{\code{ANY}\cr
+For use with \code{crankcompositor}, now deprecated.}
 }
 \value{
 \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or \link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner}

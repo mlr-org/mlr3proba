@@ -54,7 +54,8 @@ Parameters passed to \link{PipeOpProbregrCompositor}, default is \link[distr6:No
 distribution for composition.}
 
 \item{learnercv_params}{\code{list()}\cr
-Parameters passed to \link{PipeOpLearnerCV}, default is to use insampling.}
+Parameters passed to \link[mlr3pipelines:PipeOpLearnerCV]{PipeOpLearnerCV}, default is to use
+insampling.}
 
 \item{graph_learner}{\code{logical(1)}\cr
 If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
@@ -86,7 +87,7 @@ predicted \code{response} predict_type.
 \item \link{PipeOpTaskSurvRegr} Converts \link{TaskSurv} to \link[mlr3:TaskRegr]{TaskRegr}.
 \item A \link{LearnerRegr} is fit on the new \code{TaskRegr} to predict \code{response}, optionally a second
 \code{LearnerRegr} can be fit to predict \code{se}.
-\item \link{PipeOpProbRegrCompositor} composes a \code{distr} prediction from the learner(s).
+\item \link{PipeOpProbregrCompositor} composes a \code{distr} prediction from the learner(s).
 \item \link{PipeOpPredRegrSurv} transforms the resulting \link[mlr3:PredictionRegr]{PredictionRegr}
 to \link{PredictionSurv}.
 }

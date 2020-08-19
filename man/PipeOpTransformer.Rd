@@ -4,7 +4,7 @@
 \alias{PipeOpTransformer}
 \title{PipeOpTransformer}
 \description{
-Parent class for \link{PipeOp}s that transform \link[mlr3:Task]{Task} and \link[mlr3:Prediction]{Prediction}
+Parent class for \link[mlr3pipelines:PipeOp]{PipeOp}s that transform \link[mlr3:Task]{Task} and \link[mlr3:Prediction]{Prediction}
 objects to different types.
 }
 \section{Input and Output Channels}{
@@ -22,11 +22,6 @@ The \verb{$state} is left empty (\code{list()}).
 The commonality of methods using \link{PipeOpTransformer} is that they take a \link[mlr3:Task]{Task}
 or \link[mlr3:Prediction]{Prediction} of one type (e.g. regr or classif) and transform it to
 another type.
-}
-
-\section{Fields}{
-
-Only fields inherited from \link{PipeOp}.
 }
 
 \seealso{

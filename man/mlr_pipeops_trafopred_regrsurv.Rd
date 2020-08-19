@@ -31,7 +31,8 @@ of same length as the prediction object, where \code{1} is dead and \code{0} cen
 }
 
 \examples{
-library("mlr3")
+library(mlr3)
+library(mlr3pipelines)
 
 # simple example
 pred = PredictionRegr$new(row_ids = 1:10, truth = 1:10, response = 1:10)

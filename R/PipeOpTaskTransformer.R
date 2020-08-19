@@ -5,7 +5,7 @@
 #' @template param_input_output
 #'
 #' @description
-#' Parent class for [`PipeOp`]s that transform task objects top different types.
+#' Parent class for [PipeOp][mlr3pipelines::PipeOp]s that transform task objects top different types.
 #'
 #' @section Input and Output Channels:
 #' [`PipeOpTaskTransformer`] has one input and output channel named `"input"` and `"output"`.
@@ -19,9 +19,6 @@
 #' The commonality of methods using [`PipeOpTaskTransformer`] is that they take a [mlr3::Task] of
 #' one class and transform it to another class. This usually involves transformation of the data,
 #' which can be controlled via parameters.
-#'
-#' @section Fields:
-#' Only fields inherited from [`PipeOp`].
 #'
 #' @family PipeOps
 #' @family Transformers

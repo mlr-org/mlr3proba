@@ -61,7 +61,8 @@ Passed to \link[bujar:bujar]{bujar::bujar}.
 }
 
 \examples{
-library("mlr3")
+library(mlr3)
+library(mlr3pipelines)
 
 # these methods are generally only successful if censoring is not too high
 # create survival task by undersampling

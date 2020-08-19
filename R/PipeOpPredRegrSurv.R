@@ -23,7 +23,8 @@
 #' of same length as the prediction object, where `1` is dead and `0` censored.
 #'
 #' @examples
-#' library("mlr3")
+#' library(mlr3)
+#' library(mlr3pipelines)
 #'
 #' # simple example
 #' pred = PredictionRegr$new(row_ids = 1:10, truth = 1:10, response = 1:10)

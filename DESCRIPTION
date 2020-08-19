@@ -61,7 +61,6 @@ Suggests:
     survAUC,
     testthat
 Remotes:
-    mlr-org/mlr3pipelines,
     alan-turing-institute/distr6
 LinkingTo: 
     Rcpp

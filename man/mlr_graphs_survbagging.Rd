@@ -9,6 +9,7 @@ pipeline_survbagging(
   learner,
   iterations = 10,
   frac = 0.7,
+  avg = TRUE,
   weights = 1,
   graph_learner = FALSE
 )
@@ -26,16 +27,17 @@ Number of bagging iterations. Defaults to 10.}
 Percentage of rows to keep during subsampling. See
 \link[mlr3pipelines:PipeOpSubsample]{PipeOpSubsample} for more information. Defaults to 0.7.}
 
+\item{avg}{\code{logical(1)}\cr
+If \code{TRUE} (default) predictions are aggregated with \link{PipeOpSurvAvg}, otherwise returned
+as multiple predictions. Can only be \code{FALSE} if \code{graph_learner = FALSE}.}
+
 \item{weights}{\code{numeric()} \cr
-If \code{weight = TRUE} then weights to average, by default uniform weighting, see \link{PipeOpSurvAvg}.}
+Weights for model avering, ignored if \code{avg = FALSE}. Default is uniform weighting,
+see \link{PipeOpSurvAvg}.}
 
 \item{graph_learner}{\code{logical(1)}\cr
 If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
 \link[mlr3pipelines:GraphLearner]{GraphLearner} otherwise (default) returns as a \code{Graph}.}
-
-\item{weight}{\code{logical(1)}\cr
-If \code{TRUE} (default) predictions are aggregated with \link{PipeOpSurvAvg}, otherwise returned
-as multiple predictions. Can only be \code{FALSE} if \code{graph_learner = FALSE}.}
 }
 \value{
 \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or \link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner}
