@@ -22,9 +22,13 @@
 #'
 #' @references
 #' \cite{mlr3proba}{peto_1972}
+#'
 #' \cite{mlr3proba}{harrell_1982}
+#'
 #' \cite{mlr3proba}{goenen_2005}
+#'
 #' \cite{mlr3proba}{schemper_2009}
+#'
 #' \cite{mlr3proba}{uno_2011}
 #'
 #' @template param_id

@@ -4,6 +4,8 @@
 * Bug fix in `PipeOpDistrCompositor` causing some `cdf` predictions to be lost
 * Internal fixes for `mlr3pipelines`: public train and predict methods to private
 * Added four datasets and tasks: `grace`, `actg`, `gbcs`, `whas`
+* Add `overwrite` to `crankcompositor` pipeop and pipeline
+* Bug fix in `surv.kaplan` `crank` prediction
 
 # mlr3proba 0.2.0
 

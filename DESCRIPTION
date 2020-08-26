@@ -60,8 +60,6 @@ Suggests:
     simsurv,
     survAUC,
     testthat
-Remotes:
-    alan-turing-institute/distr6
 LinkingTo: 
     Rcpp
 VignetteBuilder:

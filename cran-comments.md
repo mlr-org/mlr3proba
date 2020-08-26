@@ -1,3 +1,7 @@
+## Comments
+
+This release requires distr6 1.4.3, which has been submitted at the same time.
+
 ## Downstream dependencies
 
 All downstream dependencies OK.

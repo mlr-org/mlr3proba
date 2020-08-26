@@ -113,6 +113,8 @@ pipeline_survbagging = function(learner, iterations = 10, frac = 0.7, avg = TRUE
 #' is the first.
 #' @param response `logical(1)`\cr
 #' If `TRUE` then the `response` predict type is also estimated with the same values as `crank`.
+#' @param overwrite `logical(1)`\cr
+#' If `TRUE` then existing `response` and `crank` predict types are overwritten.
 #' @param ... `ANY`\cr
 #' For use with `crankcompositor`, now deprecated.
 #' @examples
@@ -130,7 +132,7 @@ pipeline_survbagging = function(learner, iterations = 10, frac = 0.7, avg = TRUE
 #' pipe$predict(task)
 #' }
 pipeline_crankcompositor = function(learner, method = c("mean", "median", "mode"), which = NULL,
-                                    response = FALSE, graph_learner = FALSE) {
+                                    response = FALSE, overwrite = FALSE, graph_learner = FALSE) {
 
   if (testCharacter(learner)) {
     warning("Passing a learner id is now deprecated. In the future please pass a constructed
@@ -140,7 +142,7 @@ pipeline_crankcompositor = function(learner, method = c("mean", "median", "mode"
 
   pred = mlr3pipelines::as_graph(learner)
 
-  pv = list(method = match.arg(method), response = response)
+  pv = list(method = match.arg(method), response = response, overwrite = overwrite)
   if (!is.null(which)) {
     pv$which = which
   }

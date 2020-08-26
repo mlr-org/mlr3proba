@@ -39,6 +39,10 @@
 #'    If `method = "mode"` then specifies which mode to use if multi-modal, default is the first.
 #' * `response` :: `logical(1)`\cr
 #'    If `TRUE` then the `response` predict type is estimated with the same values as `crank`.
+#' * `overwrite` :: `logical(1)` \cr
+#'    If `FALSE` (default) then if the "pred" input already has a `crank`, the compositor only
+#'    composes a `response` type if `response = TRUE` and does not already exist. If `TRUE` then
+#'    both the `crank` and `response` are overwritten.
 #'
 #' @section Internals:
 #' The `median`, `mode`, or `mean` will use analytical expressions if possible but if not they are
@@ -64,12 +68,14 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id = "compose_crank", param_vals = list(method = "mean")) {
+    initialize = function(id = "compose_crank", param_vals = list(method = "mean", response = FALSE,
+                                                                  overwrite = FALSE)) {
       ps = ParamSet$new(params = list(
         ParamFct$new("method", default = "mean", levels = c("mean", "median", "mode"),
                      tags = "predict"),
         ParamInt$new("which", default = 1, lower = 1, tags = "predict"),
-        ParamLgl$new("response", default = FALSE, tags = "predict")
+        ParamLgl$new("response", default = FALSE, tags = "predict"),
+        ParamLgl$new("overwrite", default = FALSE, tags = "predict")
       ))
       ps$add_dep("which", "method", CondEqual$new("mode"))
 
@@ -94,31 +100,55 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
 
       inpred = inputs[[1]]
 
-      assert("distr" %in% inpred$predict_types)
-      method = self$param_set$values$method
-      if (length(method) == 0) method = "mean"
-      crank = as.numeric(switch(method,
-                                median = inpred$distr$median(),
-                                mode = inpred$distr$mode(self$param_set$values$which),
-                                inpred$distr$mean()
-      ))
-
-      if (!any(is.na(inpred$lp))) {
-        lp = inpred$lp
-      } else {
-        lp = NULL
-      }
-
       response = self$param_set$values$response
-      if (!is.null(response) && response) {
-        response = crank
-      } else {
-        response = NULL
-      }
+      b_response = !any(is.na(inpred$response))
+      if (!length(response)) response = FALSE
 
-      return(list(PredictionSurv$new(
-        row_ids = inpred$row_ids, truth = inpred$truth, crank = crank,
-        distr = inpred$distr, lp = lp, response = response)))
+      overwrite = self$param_set$values$overwrite
+      if (!length(overwrite)) overwrite = FALSE
+
+      # if crank and response already exist and not overwriting then return prediction
+      if (!overwrite && (!response || (response && b_response))) {
+        return(list(inpred))
+      } else {
+        assert("distr" %in% inpred$predict_types)
+        method = self$param_set$values$method
+        if (length(method) == 0) method = "mean"
+        comp = as.numeric(switch(method,
+                                 median = inpred$distr$median(),
+                                 mode = inpred$distr$mode(self$param_set$values$which),
+                                 inpred$distr$mean()
+        ))
+
+        # if crank exists and not overwriting then return predicted crank, otherwise compose
+        if (!overwrite) {
+          crank = inpred$crank
+        } else {
+          crank = comp
+        }
+
+        # i) not overwriting or requesting response, and already predicted
+        if (b_response && (!overwrite || !response)) {
+          response = inpred$response
+          # ii) not requesting response and doesn't exist
+        } else if (!response) {
+          response = NULL
+          # iii) requesting response and happy to overwrite
+          # iv) requesting response and doesn't exist
+        } else {
+          response = comp
+        }
+
+        if (!any(is.na(inpred$lp))) {
+          lp = inpred$lp
+        } else {
+          lp = NULL
+        }
+
+        return(list(PredictionSurv$new(
+          row_ids = inpred$row_ids, truth = inpred$truth, crank = crank,
+          distr = inpred$distr, lp = lp, response = response)))
+      }
     }
   )
 )
