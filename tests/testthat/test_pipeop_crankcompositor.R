@@ -32,28 +32,37 @@ test_that("response", {
   expect_equal(p$response, unlist(as.numeric(p$distr$mean())))
 })
 
-library(mlr3extralearners)
+test_that("overwrite crank", {
+  pl = mlr3pipelines::ppl("crankcompositor",
+                          lrn("surv.kaplan"),
+                          method = "median",
+                          graph_learner = TRUE)
+  p1 = pl$train(task)$predict(task)
+  p2 = lrn("surv.kaplan")$train(task)$predict(task)
+  expect_true(all(p1$crank == p2$crank))
+
+  pl = mlr3pipelines::ppl("crankcompositor",
+                          lrn("surv.kaplan"),
+                          method = "median",
+                          graph_learner = TRUE,
+                          overwrite = TRUE)
+  p1 = pl$train(task)$predict(task)
+  p2 = lrn("surv.kaplan")$train(task)$predict(task)
+  expect_false(all(p1$crank == p2$crank))
+  expect_equal(p1$crank, as.numeric(unlist(p2$distr$median())))
+})
 
 test_that("overwrite response", {
-  pl = mlr3pipelines::ppl("crankcompositor",
-                          lrn("surv.parametric", type = "aft"),
-                          method = "median",
-                          graph_learner = TRUE,
-                          response = TRUE)
-  p1 = pl$train(task)$predict(task)
-  p2 = lrn("surv.parametric", type = "aft")$train(task)$predict(task)
-  expect_true(all(p1$crank == p2$crank))
+  p = lrn("surv.kaplan")$train(task)$predict(task)
+  p1 = PredictionSurv$new(task = task, crank = p$crank, distr = p$distr, response = rexp(20, 0.5))
+  po = PipeOpCrankCompositor$new(param_vals = list(response = TRUE, overwrite = FALSE))
+  p2 = po$predict(list(p1))[[1]]
   expect_true(all(p1$response == p2$response))
 
-  pl = mlr3pipelines::ppl("crankcompositor",
-                          lrn("surv.parametric", type = "aft"),
-                          method = "median",
-                          graph_learner = TRUE,
-                          overwrite = TRUE,
-                          response = TRUE)
-  p1 = pl$train(task)$predict(task)
-  p2 = lrn("surv.parametric", type = "aft")$train(task)$predict(task)
-  expect_false(all(p1$crank == p2$crank))
+  p1 = PredictionSurv$new(task = task, crank = p$crank, distr = p$distr, response = rexp(20, 0.5))
+  po = PipeOpCrankCompositor$new(param_vals = list(response = TRUE, overwrite = TRUE,
+                                                   method = "median"))
+  p2 = po$predict(list(p1))[[1]]
   expect_false(all(p1$response == p2$response))
-  expect_equal(p1$response, as.numeric(unlist(p2$distr$median())))
+  expect_equal(p2$response, as.numeric(unlist(p1$distr$median())))
 })
