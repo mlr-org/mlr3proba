@@ -47,6 +47,10 @@ Default is \code{mean}.
 If \code{method = "mode"} then specifies which mode to use if multi-modal, default is the first.
 \item \code{response} :: \code{logical(1)}\cr
 If \code{TRUE} then the \code{response} predict type is estimated with the same values as \code{crank}.
+\item \code{overwrite} :: \code{logical(1)} \cr
+If \code{FALSE} (default) then if the "pred" input already has a \code{crank}, the compositor only
+composes a \code{response} type if \code{response = TRUE} and does not already exist. If \code{TRUE} then
+both the \code{crank} and \code{response} are overwritten.
 }
 }
 
@@ -103,7 +107,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{PipeOpCrankCompositor$new(
   id = "compose_crank",
-  param_vals = list(method = "mean")
+  param_vals = list(method = "mean", response = FALSE, overwrite = FALSE)
 )}\if{html}{\out{</div>}}
 }
 

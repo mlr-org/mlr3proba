@@ -11,6 +11,7 @@ pipeline_crankcompositor(
   method = c("mean", "median", "mode"),
   which = NULL,
   response = FALSE,
+  overwrite = FALSE,
   graph_learner = FALSE
 )
 
@@ -32,6 +33,9 @@ is the first.}
 
 \item{response}{\code{logical(1)}\cr
 If \code{TRUE} then the \code{response} predict type is also estimated with the same values as \code{crank}.}
+
+\item{overwrite}{\code{logical(1)}\cr
+If \code{TRUE} then existing \code{response} and \code{crank} predict types are overwritten.}
 
 \item{graph_learner}{\code{logical(1)}\cr
 If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
