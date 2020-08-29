@@ -44,15 +44,16 @@ Inherits from \link[mlr3pipelines:PipeOpEnsemble]{PipeOpEnsemble} by implementin
 
 \examples{
 \dontrun{
+if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 library(mlr3)
 library(mlr3pipelines)
-set.seed(1)
 
-task = tgen("simsurv")$generate(10)
+task = tsk("rats")
 p1 = lrn("surv.coxph")$train(task)$predict(task)
 p2 = lrn("surv.kaplan")$train(task)$predict(task)
 poc = po("survavg", param_vals = list(weights = c(0.2, 0.8)))
 poc$predict(list(p1, p2))
+}
 }
 }
 \seealso{

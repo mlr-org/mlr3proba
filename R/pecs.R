@@ -26,7 +26,8 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(mlr3)
+#' if (requireNamespace("ggplot2", quietly = TRUE)) {
+#' #' library(mlr3)
 #' task = tsk("rats")
 #'
 #' # Prediction Error Curves for prediction object
@@ -46,9 +47,12 @@
 #' lapply(learns, function(x) x$train(task))
 #' pecs(learns, task = task, measure = "logloss", times = c(20, 90), n = 10)
 #' }
+#' }
 #'
 #' @export
 pecs = function(x, measure = c("graf", "logloss"), times, n, eps = 1e-15, ...) {
+  mlr3misc::require_namespaces("ggplot2")
+
   if (!missing(times)) assertNumeric(times, min.len = 1)
   if (!missing(n)) assertIntegerish(n, len = 1)
   assertNumeric(eps, lower = -1, upper = 1)

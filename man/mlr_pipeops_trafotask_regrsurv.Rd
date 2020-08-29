@@ -31,6 +31,7 @@ of same length as the prediction object, where \code{1} is dead and \code{0} cen
 
 \examples{
 \dontrun{
+if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 library(mlr3)
 library(mlr3pipelines)
 
@@ -48,6 +49,7 @@ print(task_regr)
 new_task = po$train(list(task_regr = task_regr, task_surv = task_surv))[[1]]
 new_task$truth()
 task_surv$truth()
+}
 }
 }
 \seealso{

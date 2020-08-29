@@ -26,10 +26,11 @@ Wrapper around \link{PipeOpSurvAvg} to simplify \link[mlr3pipelines:Graph]{Graph
 }
 \examples{
 \dontrun{
+if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 library("mlr3")
 library("mlr3pipelines")
 
-task = tgen("simsurv")$generate(10)
+task = tsk("rats")
 pipe = ppl(
   "survaverager",
   learners = lrns(c("surv.kaplan", "surv.coxph")),
@@ -38,6 +39,7 @@ pipe = ppl(
  )
 pipe$train(task)
 pipe$predict(task)
+}
 }
 }
 \seealso{

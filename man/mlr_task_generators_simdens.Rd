@@ -5,7 +5,7 @@
 \alias{TaskGeneratorSimdens}
 \title{Density Task Generator for Package 'distr6'}
 \description{
-A \link[mlr3:TaskGenerator]{mlr3::TaskGenerator} calling \code{\link[distr6:distrSimulate]{distr6::distrSimulate()}} from package \CRANpkg{simsurv}.
+A \link[mlr3:TaskGenerator]{mlr3::TaskGenerator} calling \code{\link[distr6:distrSimulate]{distr6::distrSimulate()}}.
 See \code{\link[distr6:distrSimulate]{distr6::distrSimulate()}} for an explanation of the hyperparameters.
 }
 \section{Dictionary}{

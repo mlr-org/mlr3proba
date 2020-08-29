@@ -8,10 +8,11 @@
 #' Parameters, including weights, to pass to [PipeOpSurvAvg].
 #' @examples
 #' \dontrun{
+#' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 #' library("mlr3")
 #' library("mlr3pipelines")
 #'
-#' task = tgen("simsurv")$generate(10)
+#' task = tsk("rats")
 #' pipe = ppl(
 #'   "survaverager",
 #'   learners = lrns(c("surv.kaplan", "surv.coxph")),
@@ -20,6 +21,7 @@
 #'  )
 #' pipe$train(task)
 #' pipe$predict(task)
+#' }
 #' }
 pipeline_survaverager = function(learners, param_vals = list(), graph_learner = FALSE) {
 
@@ -61,10 +63,11 @@ pipeline_survaverager = function(learners, param_vals = list(), graph_learner = 
 #' @return [mlr3pipelines::GraphLearner]
 #' @examples
 #' \dontrun{
+#' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 #' library("mlr3")
 #' library("mlr3pipelines")
 #'
-#' task = tgen("simsurv")$generate(10)
+#' task = tsk("rats")
 #' pipe = ppl(
 #'   "survbagging",
 #'   learner = lrn("surv.coxph"),
@@ -73,6 +76,7 @@ pipeline_survaverager = function(learners, param_vals = list(), graph_learner = 
 #'  )
 #' pipe$train(task)
 #' pipe$predict(task)
+#' }
 #' }
 pipeline_survbagging = function(learner, iterations = 10, frac = 0.7, avg = TRUE, weights = 1,
                                 graph_learner = FALSE) {
@@ -119,10 +123,11 @@ pipeline_survbagging = function(learner, iterations = 10, frac = 0.7, avg = TRUE
 #' For use with `crankcompositor`, now deprecated.
 #' @examples
 #' \dontrun{
+#' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 #' library("mlr3")
 #' library("mlr3pipelines")
 #'
-#' task = tgen("simsurv")$generate(10)
+#' task = tsk("rats")
 #' pipe = ppl(
 #'   "crankcompositor",
 #'   learner = lrn("surv.coxph"),
@@ -130,6 +135,7 @@ pipeline_survbagging = function(learner, iterations = 10, frac = 0.7, avg = TRUE
 #' )
 #' pipe$train(task)
 #' pipe$predict(task)
+#' }
 #' }
 pipeline_crankcompositor = function(learner, method = c("mean", "median", "mode"), which = NULL,
                                     response = FALSE, overwrite = FALSE, graph_learner = FALSE) {
@@ -191,10 +197,12 @@ crankcompositor = function(...) {
 #' For use with `distrcompositor`, now deprecated.
 #' @examples
 #' \dontrun{
+#' if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
+#'  requireNamespace("rpart", quietly = TRUE)) {
 #' library("mlr3")
 #' library("mlr3pipelines")
 #'
-#' task = tgen("simsurv")$generate(10)
+#' task = tsk("rats")
 #' pipe = ppl(
 #'   "distrcompositor",
 #'   learner = lrn("surv.rpart"),
@@ -203,6 +211,7 @@ crankcompositor = function(...) {
 #' )
 #' pipe$train(task)
 #' pipe$predict(task)
+#' }
 #' }
 pipeline_distrcompositor = function(learner, estimator = c("kaplan", "nelson"),
                                     form = c("aft", "ph", "po"),
@@ -256,6 +265,8 @@ distrcompositor = function(...) {
 #' Current possibilities are' `"Cauchy", "Gumbel", "Laplace", "Logistic", "Normal` (default).
 #' @examples
 #' \dontrun{
+#' if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
+#'   requireNamespace("rpart", quietly = TRUE)) {
 #' library("mlr3")
 #' library("mlr3pipelines")
 #'
@@ -279,6 +290,7 @@ distrcompositor = function(...) {
 #' )
 #' pipe$train(task)
 #' pipe$predict(task)
+#' }
 #' }
 pipeline_probregrcompositor = function(learner, learner_se = NULL, dist = "Normal",
                                        graph_learner = FALSE) {
@@ -397,10 +409,11 @@ pipeline_probregrcompositor = function(learner, learner_se = NULL, dist = "Norma
 #'
 #' @examples
 #' \dontrun{
+#' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 #' library("mlr3")
 #' library("mlr3pipelines")
 #'
-#' task = tgen("simsurv")$generate(10)
+#' task = tsk("rats")
 #'
 #' # method 1 with censoring deletion, compose to distribution
 #' pipe = ppl(
@@ -435,7 +448,7 @@ pipeline_probregrcompositor = function(learner, learner_se = NULL, dist = "Norma
 #' pipe$train(task)
 #' pipe$predict(task)
 #' }
-#'
+#'}
 #' @export
 pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"),
                           distrcompose = TRUE, distr_estimator = lrn("surv.kaplan"),

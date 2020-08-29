@@ -216,7 +216,7 @@ the python/scikit-learn ecosystem follows a similar interface for
 probabilistic supervised learning and is an architectural predecessor.
 Several packages exist which allow probabilistic predictive modelling
 with a Bayesian model specific general interface, such as
-**[jags](http://mcmc-jags.sourceforge.net/)** and
+**[rjags](https://CRAN.R-project.org/package=rjags)** and
 **[stan](https://github.com/stan-dev/rstan)**. For implementation of a
 few survival models and measures, a central package is
 **[survival](https://github.com/therneau/survival)**. There does not

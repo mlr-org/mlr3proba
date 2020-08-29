@@ -38,6 +38,8 @@ Wrapper around \link{PipeOpProbregrCompositor} to simplify \link[mlr3pipelines:G
 }
 \examples{
 \dontrun{
+if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
+  requireNamespace("rpart", quietly = TRUE)) {
 library("mlr3")
 library("mlr3pipelines")
 
@@ -61,6 +63,7 @@ pipe = ppl(
 )
 pipe$train(task)
 pipe$predict(task)
+}
 }
 }
 \seealso{

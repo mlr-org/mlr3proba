@@ -1,6 +1,6 @@
 Package: mlr3proba
 Title: Probabilistic Supervised Learning for 'mlr3'
-Version: 0.2.1
+Version: 0.2.1.9000
 Authors@R:
     c(person(given = "Raphael",
              family = "Sonabend",
@@ -50,11 +50,7 @@ Suggests:
     ggplot2,
     knitr,
     lgr,
-    Matrix,
     mlr3pipelines (>= 0.2.1),
-    mlr3tuning,
-    pracma,
-    rmarkdown,
     rpart,
     set6 (>= 0.1.7),
     simsurv,

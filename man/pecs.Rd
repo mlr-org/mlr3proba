@@ -61,7 +61,8 @@ then all time-points between the range are returned.
 }
 \examples{
 \dontrun{
-library(mlr3)
+if (requireNamespace("ggplot2", quietly = TRUE)) {
+#' library(mlr3)
 task = tsk("rats")
 
 # Prediction Error Curves for prediction object
@@ -80,6 +81,7 @@ x$data
 learns = lrns(c("surv.kaplan", "surv.coxph"))
 lapply(learns, function(x) x$train(task))
 pecs(learns, task = task, measure = "logloss", times = c(20, 90), n = 10)
+}
 }
 
 }

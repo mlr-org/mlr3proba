@@ -183,7 +183,7 @@ questions, suggestions or feedback, please do not hesitate to open an
 
 Predecessors to this package are previous instances of survival modelling in **[mlr](https://github.com/mlr-org/mlr)**.
 The **[skpro](https://github.com/alan-turing-institute/skpro)** package in the python/scikit-learn ecosystem follows a similar interface for probabilistic supervised learning and is an architectural predecessor.
-Several packages exist which allow probabilistic predictive modelling with a Bayesian model specific general interface, such as **[jags](http://mcmc-jags.sourceforge.net/)** and **[stan](https://github.com/stan-dev/rstan)**.
+Several packages exist which allow probabilistic predictive modelling with a Bayesian model specific general interface, such as **[rjags](https://CRAN.R-project.org/package=rjags)** and **[stan](https://github.com/stan-dev/rstan)**.
 For implementation of a few survival models and measures, a central package is **[survival](https://github.com/therneau/survival)**.
 There does not appear to be a package that provides an architectural framework for distribution/density estimation, see **[this list](https://vita.had.co.nz/papers/density-estimation.pdf)** for a review of density estimation packages in R.
 

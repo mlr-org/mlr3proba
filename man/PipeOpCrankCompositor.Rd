@@ -63,14 +63,15 @@ respectively.
 
 \examples{
 \dontrun{
+if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 library(mlr3)
 library(mlr3pipelines)
-set.seed(1)
-task = tgen("simsurv")$generate(20)
+task = tsk("rats")
 
 learn = lrn("surv.coxph")$train(task)$predict(task)
 poc = po("crankcompose", param_vals = list(method = "mean"))
 poc$predict(list(learn))[[1]]
+}
 }
 }
 \seealso{

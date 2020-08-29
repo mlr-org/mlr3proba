@@ -18,6 +18,7 @@
 #'
 #' @examples
 #' \dontrun{
+#' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 #' library(mlr3)
 #' library(mlr3pipelines)
 #' library(survival)
@@ -28,6 +29,7 @@
 #' po = po("trafopred_survregr")
 #' new_pred = po$predict(list(pred = pred))[[1]]
 #' print(new_pred)
+#' }
 #' }
 #' @family PipeOps
 #' @family Transformation PipeOps

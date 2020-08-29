@@ -46,7 +46,7 @@
 #' * `eps::numeric(1)`\cr
 #' Small value to replace `0` survival probabilities with in IPCW to prevent infinite weights.
 #' * `lambda::(numeric(1))`\cr
-#' Nearest neighbours parameter for [akritas][mlr3learners.proba::akritas] estimator, default `0.5`.
+#' Nearest neighbours parameter for `mlr3learners.proba::akritas` estimator, default `0.5`.
 #' * `features, target :: character())`\cr
 #' For `"reorder"` method, specify which columns become features and targets.
 #' * `learner cneter, mimpu, iter.bj, max.cycle, mstop, nu`\cr

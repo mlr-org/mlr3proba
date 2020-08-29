@@ -18,7 +18,7 @@ LearnerDensHistogram = R6::R6Class("LearnerDensHistogram",
         )),
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         predict_types = c("pdf", "cdf"),
-        packages = c("distr6"),
+        packages = "distr6",
         man = "mlr3proba::mlr_learners_dens.hist"
       )
     }

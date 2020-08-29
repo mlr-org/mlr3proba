@@ -123,10 +123,11 @@ predictors of the new data, which can ultimately be composed to a distribution.
 }
 \examples{
 \dontrun{
+if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 library("mlr3")
 library("mlr3pipelines")
 
-task = tgen("simsurv")$generate(10)
+task = tsk("rats")
 
 # method 1 with censoring deletion, compose to distribution
 pipe = ppl(
@@ -161,7 +162,7 @@ pipe = ppl(
 pipe$train(task)
 pipe$predict(task)
 }
-
+}
 }
 \seealso{
 Other pipelines: 

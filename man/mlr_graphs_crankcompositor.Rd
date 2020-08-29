@@ -52,10 +52,11 @@ Wrapper around \link{PipeOpCrankCompositor} to simplify \link[mlr3pipelines:Grap
 }
 \examples{
 \dontrun{
+if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 library("mlr3")
 library("mlr3pipelines")
 
-task = tgen("simsurv")$generate(10)
+task = tsk("rats")
 pipe = ppl(
   "crankcompositor",
   learner = lrn("surv.coxph"),
@@ -63,6 +64,7 @@ pipe = ppl(
 )
 pipe$train(task)
 pipe$predict(task)
+}
 }
 }
 \seealso{

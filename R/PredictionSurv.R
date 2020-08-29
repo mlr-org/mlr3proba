@@ -8,11 +8,13 @@
 #' @family Prediction
 #' @export
 #' @examples
+#' if (requireNamespace("rpart", quietly = TRUE)) {
 #' library(mlr3)
-#' task = tgen("simsurv")$generate(20)
+#' task = tsk("rats")
 #' learner = mlr_learners$get("surv.rpart")
-#' p = learner$train(task)$predict(task)
+#' p = learner$train(task, row_ids = 1:20)$predict(task, row_ids = 21:30)
 #' head(as.data.table(p))
+#' }
 PredictionSurv = R6Class("PredictionSurv",
   inherit = Prediction,
   public = list(

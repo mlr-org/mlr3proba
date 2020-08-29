@@ -57,10 +57,11 @@ further enhanced by using a weighted average by supplying \code{weights}.
 }
 \examples{
 \dontrun{
+if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 library("mlr3")
 library("mlr3pipelines")
 
-task = tgen("simsurv")$generate(10)
+task = tsk("rats")
 pipe = ppl(
   "survbagging",
   learner = lrn("surv.coxph"),
@@ -69,6 +70,7 @@ pipe = ppl(
  )
 pipe$train(task)
 pipe$predict(task)
+}
 }
 }
 \seealso{

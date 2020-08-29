@@ -3,7 +3,7 @@
 #' @name mlr_task_generators_simdens
 #'
 #' @description
-#' A [mlr3::TaskGenerator] calling [distr6::distrSimulate()] from package \CRANpkg{simsurv}.
+#' A [mlr3::TaskGenerator] calling [distr6::distrSimulate()].
 #' See [distr6::distrSimulate()] for an explanation of the hyperparameters.
 #'
 #' @templateVar id simdens

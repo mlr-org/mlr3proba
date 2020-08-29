@@ -23,6 +23,7 @@
 #'
 #' @examples
 #' \dontrun{
+#' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 #' library(mlr3)
 #' library(mlr3pipelines)
 #'
@@ -40,6 +41,7 @@
 #' new_task = po$train(list(task_regr = task_regr, task_surv = task_surv))[[1]]
 #' new_task$truth()
 #' task_surv$truth()
+#' }
 #' }
 #' @family PipeOps
 #' @family Transformation PipeOps

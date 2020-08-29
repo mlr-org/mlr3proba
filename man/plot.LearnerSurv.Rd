@@ -35,7 +35,7 @@ Wrapper around \code{predict.LearnerSurv} and \code{plot.VectorDistribution}.
 \examples{
 \dontrun{
 library(mlr3)
-task = tgen("simsurv")$generate(20)
+task = tsk("rats")
 
 # Prediction Error Curves for prediction object
 learn = lrn("surv.coxph")
