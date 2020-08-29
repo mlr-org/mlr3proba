@@ -6,7 +6,6 @@ test_that("autotest", {
   expect_true(result, info = result$error)
 })
 
-
 data = data.frame("A" = c(0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6))
 task = TaskDens$new(id = "a", data, target = "A")
 lrn = lrn("dens.kde", bandwidth = 0.1, kernel = "Norm")

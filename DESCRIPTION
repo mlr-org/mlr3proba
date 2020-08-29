@@ -51,6 +51,7 @@ Suggests:
     knitr,
     lgr,
     mlr3pipelines (>= 0.2.1),
+    pracma,
     rpart,
     set6 (>= 0.1.7),
     simsurv,

@@ -20,12 +20,12 @@ LearnerDensKDE = R6::R6Class("LearnerDensKDE",
         ParamFct$new("kernel",
           levels = subset(distr6::listKernels(),
             select = "ShortName")[[1]],
-          default = "Norm", tags = "train"),
+          default = "Epan", tags = "train"),
         ParamDbl$new("bandwidth",
           lower = 0, tags = "train",
           special_vals = list("silver"))))
 
-      ps$values = list(kernel = "Norm", bandwidth = "silver")
+      ps$values = list(kernel = "Epan", bandwidth = "silver")
 
       super$initialize(
         id = "dens.kde",

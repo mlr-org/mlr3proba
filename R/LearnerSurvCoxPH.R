@@ -32,7 +32,7 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH",
         predict_types = c("distr", "crank", "lp"),
         feature_types = c("logical", "integer", "numeric", "factor"),
         properties = "weights",
-        packages = c("survival", "distr6"),
+        packages = c("survival", "distr6", "pracma"),
         man = "mlr3proba::mlr_learners_surv.coxph"
       )
     }
