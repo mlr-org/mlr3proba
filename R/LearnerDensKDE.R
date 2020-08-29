@@ -5,6 +5,7 @@
 #' @details The default bandwidth uses Silverman's rule-of-thumb for Gaussian kernels, however for
 #' non-Gaussian kernels it is recommended to use \CRANpkg{mlr3tuning} to tune the bandwidth with
 #' cross-validation. Other density learners can be used for automated bandwidth selection.
+#' The default kernel is Epanechnikov (chosen to reduce dependencies).
 #'
 #' @references
 #' \cite{mlr3proba}{silverman_1986}

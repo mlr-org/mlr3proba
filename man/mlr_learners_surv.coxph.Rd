@@ -30,7 +30,7 @@ lrn("surv.coxph")
 \item Predict Types: \verb{distr, crank, lp}
 \item Feature Types: \verb{logical, integer, numeric, factor}
 \item Properties: \code{weights}
-\item Packages: \CRANpkg{survival} \CRANpkg{distr6}
+\item Packages: \CRANpkg{survival} \CRANpkg{distr6} \CRANpkg{pracma}
 }
 }
 

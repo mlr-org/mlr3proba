@@ -1,3 +1,7 @@
+# mlr3proba 0.2.1.9000
+
+* Default kernel for `LearnerDensityKDE` is now `Epan` to reduce imports
+
 # mlr3proba 0.2.1
 
 * Removed `PredictionRegr` causing masking issues with `{mlr3}`

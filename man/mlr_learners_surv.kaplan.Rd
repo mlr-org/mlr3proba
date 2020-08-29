@@ -29,7 +29,7 @@ lrn("surv.kaplan")
 \item Predict Types: \verb{crank, distr}
 \item Feature Types: \verb{logical, integer, numeric, character, factor, ordered}
 \item Properties: \code{missings}
-\item Packages: \CRANpkg{survival} \CRANpkg{distr6}
+\item Packages: \CRANpkg{survival} \CRANpkg{distr6} \CRANpkg{pracma}
 }
 }
 

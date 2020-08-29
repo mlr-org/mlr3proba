@@ -61,12 +61,12 @@
 #'
 #' @examples
 #' \dontrun{
+#' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 #' library(mlr3)
 #' library(mlr3pipelines)
 #'
 #' # these methods are generally only successful if censoring is not too high
 #' # create survival task by undersampling
-#' set.seed(1)
 #' task = tsk("rats")$filter(
 #'    c(which(tsk("rats")$truth()[,2]==1),
 #'    sample(which(tsk("rats")$truth()[,2]==0), 42))
@@ -92,9 +92,11 @@
 #' data.frame(new = new_task$truth(), old = task$truth())
 #'
 #' # Buckley-James imputation
+#' if (requireNamespace("bujar", quietly = TRUE)) {
 #' po = po("trafotask_survregr", method = "bj")
 #' new_task = po$train(list(task, NULL))[[1]]
 #' data.frame(new = new_task$truth(), old = task$truth())
+#' }
 #'
 #' # reorder - in practice this will be only be used in a few graphs
 #' po = po("trafotask_survregr", method = "reorder", features = c("sex", "rx", "time", "status"),
@@ -106,6 +108,7 @@
 #' po = po("trafotask_survregr", method = "reorder", target = "litter")
 #' new_task = po$train(list(task, task))[[1]]
 #' print(new_task)
+#' }
 #' }
 #' @family PipeOps
 #' @family Transformation PipeOps
@@ -285,6 +288,8 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
     },
 
     .bj = function(backend, status, time) {
+      mlr3misc::require_namespaces("bujar")
+
       x = data.frame(backend)[, colnames(backend) %nin% c(time, status), drop = FALSE]
       x = model.matrix(~., x)[,-1]
       bj = mlr3misc::invoke(bujar::bujar,

@@ -24,7 +24,7 @@ test_that("pdf", {
 
 test_that("bw", {
   set.seed(1)
-  lrn = lrn("dens.kde")
+  lrn = lrn("dens.kde", kernel = "Norm")
   lrn$train(task)
   d = stats::density(data$A, bw = 0.2908909)
   task_test = TaskDens$new(id = "a", data.frame(a = d$x[20]), target = "a")
