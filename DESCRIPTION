@@ -69,7 +69,7 @@ Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
 Roxygen: list(markdown = TRUE, r6 = TRUE)
-RoxygenNote: 7.1.0.9000
+RoxygenNote: 7.1.1
 Collate:
     'LearnerDens.R'
     'LearnerDensHistogram.R'
@@ -127,6 +127,7 @@ Collate:
     'PipeOpTaskRegrSurv.R'
     'PipeOpTaskSurvRegr.R'
     'PipeOpTaskTransformer.R'
+    'PredictionDataSurv.R'
     'PredictionDens.R'
     'PredictionSurv.R'
     'RcppExports.R'
