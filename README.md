@@ -13,6 +13,7 @@ Probabilistic Supervised Learning for
 [![cran
 checks](https://cranchecks.info/badges/worst/mlr3proba)](https://cran.r-project.org/web/checks/check_results_mlr3proba.html)
 
+[![arXiv](https://img.shields.io/badge/arXiv-2008.08080-brightgreen.svg)](https://arxiv.org/abs/2008.08080)
 [![CRAN Status
 Badge](https://www.r-pkg.org/badges/version-ago/mlr3proba)](https://cran.r-project.org/package=mlr3proba)
 [![codecov](https://codecov.io/gh/mlr-org/mlr3proba/branch/master/graph/badge.svg)](https://codecov.io/gh/mlr-org/mlr3proba)
