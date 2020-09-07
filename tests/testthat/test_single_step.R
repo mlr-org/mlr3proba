@@ -14,4 +14,10 @@ test_that("single-step", {
   expect_true(allMissing(p$time))
   expect_true(allMissing(p$status))
   # expect_set_equal(p$row_id, 3001:3343)
+  #
+  rr = resample(task, learner, rsmp("cv", folds = 3))
+
+  profvis::profvis(
+    rr$prediction()
+  )
 })
