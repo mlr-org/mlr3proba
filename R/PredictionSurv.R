@@ -60,7 +60,7 @@ PredictionSurv = R6Class("PredictionSurv",
       }
 
       self$task_type = "surv"
-      self$man = "mlr3cluster::PredictionSurv"
+      self$man = "mlr3proba::PredictionSurv"
       self$data = pdata
       self$predict_types = intersect(c("crank", "distr", "lp", "response"), names(pdata))
     }

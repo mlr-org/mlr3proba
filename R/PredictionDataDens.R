@@ -12,14 +12,6 @@ check_prediction_data.PredictionDataDens = function(pdata) { # nolint
   assert_numeric(pdata$pdf, len = n, any.missing = FALSE, null.ok = TRUE)
   assert_numeric(pdata$cdf, len = n, any.missing = FALSE, null.ok = TRUE)
 
-
-  if (!is.null(pdata$distr)) {
-    assert_class(pdata$distr, "VectorDistribution")
-    if (is.null(pdata$crank)) {
-      pdata$crank = unname(pdata$distr$mean())
-    }
-  }
-
   pdata
 }
 

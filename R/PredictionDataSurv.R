@@ -29,16 +29,16 @@ check_prediction_data.PredictionDataSurv = function(pdata) { # nolint
 is_missing_prediction_data.PredictionDataSurv = function(pdata) { # nolint
   miss = logical(length(pdata$row_id))
 
-  if (!is.null(pdata$response)) {
-    miss = miss | is.na(self$data$tab$response)
-  }
-
-  if (!is.null(pdata$cran)) {
+  if (!is.null(pdata$crank)) {
     miss = is.na(pdata$crank)
   }
 
   if (!is.null(pdata$lp)) {
     miss = miss | is.na(pdata$lp)
+  }
+
+  if (!is.null(pdata$response)) {
+    miss = miss | is.na(self$data$response)
   }
 
   pdata$row_ids[miss]

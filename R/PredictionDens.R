@@ -46,7 +46,7 @@ PredictionDens = R6Class("PredictionDens",
       }
 
       self$task_type = "dens"
-      self$man = "mlr3cluster::PredictionDens"
+      self$man = "mlr3proba::PredictionDens"
       self$data = pdata
       self$predict_types = intersect(c("pdf", "cdf"), names(pdata))
     }
