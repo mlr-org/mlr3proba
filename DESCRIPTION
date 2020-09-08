@@ -39,7 +39,7 @@ Imports:
     checkmate,
     data.table,
     distr6 (>= 1.4.3),
-    mlr3 (>= 0.5.0),
+    mlr3 (>= 0.5.0-9000),
     mlr3misc (>= 0.1.7),
     paradox (>= 0.1.0),
     R6,
@@ -58,6 +58,8 @@ Suggests:
     simsurv,
     survAUC,
     testthat
+Remotes:
+    mlr-org/mlr3
 LinkingTo: 
     Rcpp
 VignetteBuilder:
