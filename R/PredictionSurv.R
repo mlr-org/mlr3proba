@@ -92,12 +92,6 @@ PredictionSurv = R6Class("PredictionSurv",
     #' Access the stored predicted survival time.
     response = function() {
       self$data$response %??% rep(NA_real_, length(self$data$row_ids))
-    },
-
-    #' @field missing (`integer()`)\cr
-    #'   Returns `row_ids` for which the predictions are missing or incomplete.
-    missing = function() {
-      is_missing_prediction_data(self$data)
     }
   ),
 

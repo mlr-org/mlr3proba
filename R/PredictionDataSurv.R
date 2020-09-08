@@ -62,7 +62,7 @@ c.PredictionDataSurv = function(..., keep_duplicates = TRUE) {
 
   predict_types = predict_types[[1L]]
   row_ids = do.call(c, map(dots, "row_ids"))
-  ii = if (keep_duplicates) seq_along(row_ids) else which(duplicated(row_ids, fromLast = TRUE))
+  ii = if (keep_duplicates) seq_along(row_ids) else which(!duplicated(row_ids, fromLast = TRUE))
 
   elems = c("truth", intersect(c("crank", "lp", "response"), predict_types))
   result = named_list(elems)
