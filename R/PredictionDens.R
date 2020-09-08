@@ -70,5 +70,6 @@ PredictionDens = R6Class("PredictionDens",
 
 #' @export
 as.data.table.PredictionDens = function(x, ...) { # nolint
-  as.data.table(x$data[c("row_ids", "truth", "pdf", "cdf")])
+  tab = as.data.table(x$data[c("row_ids", "truth", "pdf", "cdf")])
+  setnames(tab, "row_ids", "row_id")[]
 }
