@@ -54,15 +54,15 @@ Parameters passed to \link{PipeOpProbregrCompositor}, default is \link[distr6:No
 distribution for composition.}
 
 \item{learnercv_params}{\code{list()}\cr
-Parameters passed to \link[mlr3pipelines:PipeOpLearnerCV]{PipeOpLearnerCV}, default is to use
+Parameters passed to \link[mlr3pipelines:mlr_pipeops_learner_cv]{PipeOpLearnerCV}, default is to use
 insampling.}
 
 \item{graph_learner}{\code{logical(1)}\cr
 If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
-\link[mlr3pipelines:GraphLearner]{GraphLearner} otherwise (default) returns as a \code{Graph}.}
+\link[mlr3pipelines:mlr_learners_graph]{GraphLearner} otherwise (default) returns as a \code{Graph}.}
 }
 \value{
-\link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or \link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner}
+\link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or \link[mlr3pipelines:mlr_learners_graph]{mlr3pipelines::GraphLearner}
 }
 \description{
 Wrapper around multiple \link[mlr3pipelines:PipeOp]{PipeOp}s to help in creation
@@ -93,7 +93,7 @@ to \link{PredictionSurv}.
 }
 \item Survival to Deterministic Regression B
 \enumerate{
-\item \link[mlr3pipelines:PipeOpLearnerCV]{PipeOpLearnerCV} cross-validates and makes predictions from
+\item \link[mlr3pipelines:mlr_pipeops_learner_cv]{PipeOpLearnerCV} cross-validates and makes predictions from
 a linear \link{LearnerSurv} with \code{lp} predict type on the original \link{TaskSurv}.
 \item \link{PipeOpTaskSurvRegr} transforms the \code{lp} predictions into the target of a
 \link[mlr3:TaskRegr]{TaskRegr} with the same features as the original \link{TaskSurv}.

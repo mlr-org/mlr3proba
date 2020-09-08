@@ -5,7 +5,7 @@
 \alias{MeasureSurvSongTPR}
 \title{Song and Zhou's TPR Survival Measure}
 \description{
-Calls \code{\link[survAUC:sens.sh]{survAUC::sens.sh()}}.
+Calls \code{\link[survAUC:AUC.Song_Zhou]{survAUC::sens.sh()}}.
 
 Assumes Cox PH model specification.
 
@@ -20,7 +20,7 @@ measures will all be re-written and implemented directly in \code{mlr3proba}.
 \section{Dictionary}{
 
 This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvSongTPR$new()
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:mlr_sugar]{msr()}:\preformatted{MeasureSurvSongTPR$new()
 mlr_measures$get("surv.song_tpr")
 msr("surv.song_tpr")
 }

@@ -16,7 +16,7 @@ The default kernel is Epanechnikov (chosen to reduce dependencies).
 \section{Dictionary}{
 
 This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerDensKDE$new()
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:mlr_sugar]{lrn()}:\preformatted{LearnerDensKDE$new()
 mlr_learners$get("dens.kde")
 lrn("dens.kde")
 }

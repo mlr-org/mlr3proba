@@ -17,7 +17,7 @@ Assumes fitted model is Cox PH.
 \section{Dictionary}{
 
 This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvCalibrationBeta$new()
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:mlr_sugar]{msr()}:\preformatted{MeasureSurvCalibrationBeta$new()
 mlr_measures$get("surv.calib_beta")
 msr("surv.calib_beta")
 }
