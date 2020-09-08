@@ -72,7 +72,6 @@ c.PredictionDataSurv = function(..., keep_duplicates = TRUE) {
   }
 
   if ("distr" %in% predict_types) {
-    # FIXME: unsure if this is right?
     result$distr = do.call(c, map(dots, "distr"))
   }
 
