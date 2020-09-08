@@ -1,6 +1,6 @@
 #' @export
-as_prediction.PredictionDataDens = function(x) { # nolint
-  invoke(PredictionDens$new, .args = x)
+as_prediction.PredictionDataDens = function(x, check = TRUE) { # nolint
+  invoke(PredictionDens$new, check = check, .args = x)
 }
 
 #' @export

@@ -1,6 +1,6 @@
 #' @export
-as_prediction.PredictionDataSurv = function(x) { # nolint
-  invoke(PredictionSurv$new, .args = x)
+as_prediction.PredictionDataSurv = function(x, check = TRUE) { # nolint
+  invoke(PredictionSurv$new, check = check, .args = x)
 }
 
 
