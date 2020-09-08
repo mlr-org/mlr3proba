@@ -58,6 +58,9 @@ PredictionSurv = R6Class("PredictionSurv",
       if (check) {
         pdata = check_prediction_data(pdata)
       }
+
+      self$task_type = "surv"
+      self$man = "mlr3cluster::PredictionSurv"
       self$data = pdata
       self$predict_types = intersect(c("crank", "distr", "lp", "response"), names(pdata))
     }

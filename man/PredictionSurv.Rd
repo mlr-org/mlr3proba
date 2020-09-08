@@ -42,9 +42,6 @@ Access the stored predicted linear predictor.}
 
 \item{\code{response}}{(\code{numeric()})\cr
 Access the stored predicted survival time.}
-
-\item{\code{missing}}{(\code{integer()})\cr
-Returns \code{row_ids} for which the predictions are missing or incomplete.}
 }
 \if{html}{\out{</div>}}
 }
@@ -78,7 +75,8 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   crank = NULL,
   distr = NULL,
   lp = NULL,
-  response = NULL
+  response = NULL,
+  check = TRUE
 )}\if{html}{\out{</div>}}
 }
 
@@ -91,7 +89,7 @@ Task, used to extract defaults for \code{row_ids} and \code{truth}.}
 \item{\code{row_ids}}{(\code{integer()})\cr
 Row ids of the predicted observations, i.e. the row ids of the test set.}
 
-\item{\code{truth}}{(\code{numeric()})\cr
+\item{\code{truth}}{(\code{survival::Surv()})\cr
 True (observed) response.}
 
 \item{\code{crank}}{(\code{numeric()})\cr

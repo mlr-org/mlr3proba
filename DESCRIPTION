@@ -127,6 +127,7 @@ Collate:
     'PipeOpTaskRegrSurv.R'
     'PipeOpTaskSurvRegr.R'
     'PipeOpTaskTransformer.R'
+    'PredictionDataDens.R'
     'PredictionDataSurv.R'
     'PredictionDens.R'
     'PredictionSurv.R'
