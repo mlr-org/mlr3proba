@@ -16,7 +16,7 @@ Calls \code{\link[survival:survfit]{survival::survfit()}}.
 \section{Dictionary}{
 
 This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerSurvKaplan$new()
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:mlr_sugar]{lrn()}:\preformatted{LearnerSurvKaplan$new()
 mlr_learners$get("surv.kaplan")
 lrn("surv.kaplan")
 }
