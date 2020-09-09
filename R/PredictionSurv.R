@@ -27,7 +27,7 @@ PredictionSurv = R6Class("PredictionSurv",
     #' @param row_ids (`integer()`)\cr
     #'   Row ids of the predicted observations, i.e. the row ids of the test set.
     #'
-    #' @param truth (`numeric()`)\cr
+    #' @param truth (`survival::Surv()`)\cr
     #'   True (observed) response.
     #'
     #' @param crank (`numeric()`)\cr
@@ -49,47 +49,20 @@ PredictionSurv = R6Class("PredictionSurv",
     #'   Numeric vector of predicted survival times.
     #'   One element for each observation in the test set.
     initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), crank = NULL,
-      distr = NULL, lp = NULL, response = NULL) {
+      distr = NULL, lp = NULL, response = NULL, check = TRUE) {
 
-      row_ids = assert_row_ids(row_ids)
-      n = length(row_ids)
-      self$data = named_list(c("tab", "distr"))
+      pdata = list(row_ids = row_ids, truth = truth, crank = crank, distr = distr, lp = lp, response = response)
+      pdata = discard(pdata, is.null)
+      class(pdata) = c("PredictionDataSurv", "PredictionData")
+
+      if (check) {
+        pdata = check_prediction_data(pdata)
+      }
 
       self$task_type = "surv"
-      private$.censtype = task$censtype
-
-      # Check returned predict types have correct names and add to data.table
-      self$predict_types = c("crank", "distr", "lp", "response")[c(!is.null(crank), !is.null(distr),
-                                                                   !is.null(lp),
-                                                                   !is.null(response))]
-      self$data$tab = data.table(
-        row_id = row_ids
-      )
-
-      if (!is.null(truth)) {
-        assert_surv(truth)
-        self$data$tab[, c("time", "status") := list(truth[, 1L], as.logical(truth[, 2L]))]
-      }
-
-      if (!is.null(crank)) {
-        self$data$tab$crank = assert_numeric(crank, len = n, any.missing = FALSE)
-      }
-
-      if (!is.null(distr)) {
-        self$data$distr = assert_class(distr, "VectorDistribution")
-        if (is.null(crank)) {
-          self$data$tab$crank = unname(distr$mean())
-        }
-      }
-
-      if (!is.null(lp)) {
-        self$data$tab$lp = assert_numeric(lp, len = n, any.missing = FALSE)
-      }
-
-      if (!is.null(response)) {
-        self$data$tab$response = assert_numeric(response, len = n, any.missing = FALSE)
-      }
-
+      self$man = "mlr3proba::PredictionSurv"
+      self$data = pdata
+      self$predict_types = intersect(c("crank", "distr", "lp", "response"), names(pdata))
     }
   ),
 
@@ -97,13 +70,13 @@ PredictionSurv = R6Class("PredictionSurv",
     #' @field truth (`Surv`)\cr
     #'   True (observed) outcome.
     truth = function() {
-      Surv(self$data$tab$time, self$data$tab$status, type = private$.censtype)
+      self$data$truth
     },
 
     #' @field crank (`numeric()`)\cr
     #' Access the stored predicted continuous ranking.
     crank = function() {
-      self$data$tab$crank %??% rep(NA_real_, nrow(self$data$tab))
+      self$data$crank %??% rep(NA_real_, length(self$data$row_ids))
     },
 
     #' @field distr ([VectorDistribution][distr6::VectorDistribution])\cr
@@ -115,34 +88,13 @@ PredictionSurv = R6Class("PredictionSurv",
     #' @field lp (`numeric()`)\cr
     #' Access the stored predicted linear predictor.
     lp = function() {
-      self$data$tab$lp %??% rep(NA_real_, nrow(self$data$tab))
+      self$data$lp %??% rep(NA_real_, length(self$data$row_ids))
     },
 
     #' @field response (`numeric()`)\cr
     #' Access the stored predicted survival time.
     response = function() {
-      self$data$tab$response %??% rep(NA_real_, nrow(self$data$tab))
-    },
-
-    #' @field missing (`integer()`)\cr
-    #'   Returns `row_ids` for which the predictions are missing or incomplete.
-    missing = function() {
-
-      miss = logical(nrow(self$data$tab))
-
-      if ("crank" %in% self$predict_types) {
-        miss = is.na(self$data$tab$crank)
-      }
-
-      if ("lp" %in% self$predict_types) {
-        miss = miss | is.na(self$data$tab$lp)
-      }
-
-      if ("response" %in% self$predict_types) {
-        miss = miss | is.na(self$data$tab$response)
-      }
-
-      self$data$tab$row_id[miss]
+      self$data$response %??% rep(NA_real_, length(self$data$row_ids))
     }
   ),
 
@@ -154,41 +106,12 @@ PredictionSurv = R6Class("PredictionSurv",
 
 #' @export
 as.data.table.PredictionSurv = function(x, ...) { # nolint
-  tab = copy(x$data$tab)
-  if (!is.null(x$distr)) {
+  tab = as.data.table(x$data[c("row_ids", "crank", "lp", "response")])
+  setnames(tab, "row_ids", "row_id")
+  tab$time = x$data$truth[, 1L]
+  tab$status = as.logical(x$data$truth[, 2L])
+  if ("distr" %in% x$predict_types) {
     tab$distr = list(list(x$distr))
   }
-  return(tab)
-}
-
-#' @export
-c.PredictionSurv = function(..., keep_duplicates = TRUE) {
-
-  dots = list(...)
-  assert_list(dots, "PredictionSurv")
-  assert_flag(keep_duplicates)
-  if (length(dots) == 1L) {
-    return(dots[[1L]])
-  }
-
-  predict_types = map(dots, "predict_types")
-  if (!every(predict_types[-1L], setequal, y = predict_types[[1L]])) {
-    stopf("Cannot rbind predictions: Different predict_types in objects.")
-  }
-
-  tab = map_dtr(dots, function(p) p$data$tab, .fill = FALSE)
-
-  if (any(grepl("distr", predict_types))) {
-    distr = do.call(c, map(dots, "distr"))
-  } else {
-    distr = NULL
-  }
-
-  if (!keep_duplicates) {
-    tab = unique(tab, by = "row_id", fromLast = TRUE)
-  }
-
-  PredictionSurv$new(
-    row_ids = tab$row_id, truth = Surv(tab$time, tab$status), crank = tab$crank,
-    distr = distr, lp = tab$lp, response = tab$response)
+  setcolorder(tab, c("row_id", "time", "status"))[]
 }

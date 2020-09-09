@@ -27,7 +27,7 @@ test_that("c", {
 
   p1 = lrn("surv.kaplan")$train(task)$predict(task)
   p2 = lrn("surv.coxph")$train(task)$predict(task)
-  expect_error(c(p1, p2), "Cannot rbind")
+  expect_error(c(p1, p2), "Cannot combine")
 
   resampling = rsmp("cv", folds = 2)
   rr = resample(task, lrn, resampling)

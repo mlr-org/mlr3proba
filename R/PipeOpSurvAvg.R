@@ -71,21 +71,21 @@ PipeOpSurvAvg = R6Class("PipeOpSurvAvg",
   private = list(
     weighted_avg_predictions = function(inputs, weights, row_ids, truth) {
       response_matrix = map(inputs, "response")
-      if (any(mlr3misc::map_lgl(response_matrix, function(.x) any(is.na(.x))))) {
+      if (some(response_matrix, anyMissing)) {
         response = NULL
       } else {
         response = c(simplify2array(response_matrix) %*% weights)
       }
 
       crank_matrix = map(inputs, "crank")
-      if (any(mlr3misc::map_lgl(crank_matrix, function(.x) any(is.na(.x))))) {
+      if (some(crank_matrix, anyMissing)) {
         crank = NULL
       } else {
         crank = c(simplify2array(crank_matrix) %*% weights)
       }
 
       lp_matrix = map(inputs, "lp")
-      if (any(mlr3misc::map_lgl(lp_matrix, function(.x) any(is.na(.x))))) {
+      if (some(lp_matrix, anyMissing)) {
         lp = NULL
       } else {
         lp = c(simplify2array(lp_matrix) %*% weights)

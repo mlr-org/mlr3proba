@@ -78,12 +78,8 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart",
     },
 
     .predict = function(task) {
-      PredictionSurv$new(
-        task = task,
-        crank = invoke(predict,
-          object = self$model,
-          newdata = task$data(cols = task$feature_names)
-      ))
+      preds = invoke(predict, object = self$model, newdata = task$data(cols = task$feature_names))
+      list(crank = preds)
     }
   )
 )

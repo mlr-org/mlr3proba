@@ -102,7 +102,7 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
       inpred = inputs[[1]]
 
       response = self$param_set$values$response
-      b_response = !any(is.na(inpred$response))
+      b_response = !anyMissing(inpred$response)
       if (!length(response)) response = FALSE
 
       overwrite = self$param_set$values$overwrite
@@ -140,7 +140,7 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
           response = comp
         }
 
-        if (!any(is.na(inpred$lp))) {
+        if (!anyMissing(inpred$lp)) {
           lp = inpred$lp
         } else {
           lp = NULL
