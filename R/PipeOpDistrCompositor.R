@@ -125,17 +125,17 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
         base = base$distr[1]
         times = unlist(base$properties$support$elements)
 
-        nr = nrow(inpred$data$tab)
+        nr = length(inpred$data$row_ids)
         nc = length(times)
 
-        if (any(is.na(inpred$lp))) {
+        if (anyMissing(inpred$lp)) {
           lp = inpred$crank
         } else {
           lp = inpred$lp
         }
 
-        timesmat = matrix(times, nrow = nr, ncol = nc, byrow = T)
-        survmat = matrix(base$survival(times), nrow = nr, ncol = nc, byrow = T)
+        timesmat = matrix(times, nrow = nr, ncol = nc, byrow = TRUE)
+        survmat = matrix(base$survival(times), nrow = nr, ncol = nc, byrow = TRUE)
         lpmat = matrix(lp, nrow = nr, ncol = nc)
 
         if (form == "ph") {
@@ -157,7 +157,7 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
           distribution = "WeightedDiscrete", params = x,
           decorators = c("CoreStatistics", "ExoticStatistics"))
 
-        if (any(is.na(inpred$lp))) {
+        if (anyMissing(inpred$lp)) {
           lp = NULL
         } else {
           lp = inpred$lp

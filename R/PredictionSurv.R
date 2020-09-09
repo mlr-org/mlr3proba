@@ -113,5 +113,5 @@ as.data.table.PredictionSurv = function(x, ...) { # nolint
   if ("distr" %in% x$predict_types) {
     tab$distr = list(list(x$distr))
   }
-  setcolorder(tab, c("row_ids", "time", "status"))[]
+  setcolorder(tab, c("row_id", "time", "status"))[]
 }
