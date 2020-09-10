@@ -38,7 +38,7 @@ is_missing_prediction_data.PredictionDataSurv = function(pdata) { # nolint
   }
 
   if (!is.null(pdata$response)) {
-    miss = miss | is.na(pdata$data$response)
+    miss = miss | is.na(pdata$response)
   }
 
   pdata$row_ids[miss]
