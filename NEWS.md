@@ -1,6 +1,7 @@
-# mlr3proba 0.2.1.9000
+# mlr3proba 0.2.2
 
 * Default kernel for `LearnerDensityKDE` is now `Epan` to reduce imports
+* Minor internal patches for mlr3 0.6.0 
 
 # mlr3proba 0.2.1
 

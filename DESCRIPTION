@@ -1,6 +1,6 @@
 Package: mlr3proba
 Title: Probabilistic Supervised Learning for 'mlr3'
-Version: 0.2.1.9000
+Version: 0.2.2
 Authors@R:
     c(person(given = "Raphael",
              family = "Sonabend",
@@ -59,8 +59,9 @@ Suggests:
     survAUC,
     testthat
 Remotes:
-    mlr-org/mlr3
-LinkingTo:
+    mlr-org/mlr3,
+    mlr-org/mlr3pipelines#499
+LinkingTo: 
     Rcpp
 VignetteBuilder:
     knitr
