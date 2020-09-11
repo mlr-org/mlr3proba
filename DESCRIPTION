@@ -60,7 +60,7 @@ Suggests:
     testthat
 Remotes:
     mlr-org/mlr3,
-    mlr-org/mlr3pipelines#499
+    mlr-org/mlr3pipelines
 LinkingTo: 
     Rcpp
 VignetteBuilder:
