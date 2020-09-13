@@ -110,6 +110,9 @@ of estimated coefficients.}
 \item{\code{response}}{(\code{numeric()})\cr
 Numeric vector of predicted survival times.
 One element for each observation in the test set.}
+
+\item{\code{check}}{(\code{logical(1)})\cr
+If \code{TRUE}, performs argument checks and predict type conversions.}
 }
 \if{html}{\out{</div>}}
 }

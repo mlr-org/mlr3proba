@@ -48,6 +48,9 @@ PredictionSurv = R6Class("PredictionSurv",
     #' @param response (`numeric()`)\cr
     #'   Numeric vector of predicted survival times.
     #'   One element for each observation in the test set.
+    #'
+    #' @param check (`logical(1)`)\cr
+    #'   If `TRUE`, performs argument checks and predict type conversions.
     initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), crank = NULL,
       distr = NULL, lp = NULL, response = NULL, check = TRUE) {
 
