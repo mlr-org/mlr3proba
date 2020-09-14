@@ -2,7 +2,7 @@ weighted_survival_score = function(loss, truth, distribution, times, ...) {
   assert_surv(truth)
   assertDistribution(distribution)
 
-  if (is.null(times)) {
+  if (is.null(times) || !length(times)) {
     unique_times = unique(sort(truth[, "time"]))
   } else {
     unique_times = c_get_unique_times(truth[, "time"], times)
