@@ -11,7 +11,7 @@ test_that("autotest", {
 test_that("weights", {
   learner = lrn("surv.coxph")
   task = generate_tasks.LearnerSurv(learner)$weights
-  expect_warning(learner$train(task))
+  suppressWarnings(learner$train(task))
   expect_equal(learner$model$weights, task$weights$weight)
 })
 
