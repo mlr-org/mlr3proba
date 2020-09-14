@@ -20,7 +20,7 @@ where \eqn{\Sigma_{i, j}}{cov(T_i, T_j)} is the sample covariance matrix over \e
 \section{Dictionary}{
 
 This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:mlr_sugar]{msr()}:\preformatted{MeasureSurvGrafSE$new()
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvGrafSE$new()
 mlr_measures$get("surv.grafSE")
 msr("surv.grafSE")
 }

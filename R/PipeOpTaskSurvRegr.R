@@ -46,7 +46,7 @@
 #' * `eps::numeric(1)`\cr
 #' Small value to replace `0` survival probabilities with in IPCW to prevent infinite weights.
 #' * `lambda::(numeric(1))`\cr
-#' Nearest neighbours parameter for `mlr3learners.proba::akritas` estimator, default `0.5`.
+#' Nearest neighbours parameter for `mlr3extralearners::akritas` estimator, default `0.5`.
 #' * `features, target :: character())`\cr
 #' For `"reorder"` method, specify which columns become features and targets.
 #' * `learner cneter, mimpu, iter.bj, max.cycle, mstop, nu`\cr
@@ -80,11 +80,13 @@
 #' po = po("trafotask_survregr", method = "omit")
 #' po$train(list(task, NULL))[[1]]
 #'
+#' if (requireNamespace("mlr3extralearners", quietly = TRUE)) {
 #' # ipcw with Akritas
 #' po = po("trafotask_survregr", method = "ipcw", estimator = "akritas", lambda = 0.4, alpha = 0)
 #' new_task = po$train(list(task, NULL))[[1]]
 #' print(new_task)
 #' new_task$weights
+#' }
 #'
 #' # mrl with Kaplan-Meier
 #' po = po("trafotask_survregr", method = "mrl")
@@ -228,7 +230,7 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
       est = switch(estimator,
                    kaplan = LearnerSurvKaplan,
                    cox = LearnerSurvCoxPH,
-                   akritas = mlr3learners.proba::LearnerSurvAkritas)$new()
+                   akritas = mlr3extralearners::LearnerSurvAkritas)$new()
       if (estimator == "akritas") {
         est$param_set$values$lambda = self$param_set$values$lambda
       }
@@ -269,7 +271,7 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
         if (estimator == "cox") {
           est = LearnerSurvCoxPH$new()$train(input)$predict(input)$distr
         } else {
-          est = mlr3learners.proba::LearnerSurvAkritas$new()
+          est = mlr3extralearners::LearnerSurvAkritas$new()
           est$param_set$values$lambda = self$param_set$values$lambda
           est = est$train(input)$predict(input)$distr
         }

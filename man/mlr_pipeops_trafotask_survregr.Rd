@@ -52,7 +52,7 @@ deleted, weighting only the non-censored observations. A weight for an observati
 \item \code{eps::numeric(1)}\cr
 Small value to replace \code{0} survival probabilities with in IPCW to prevent infinite weights.
 \item \verb{lambda::(numeric(1))}\cr
-Nearest neighbours parameter for \code{mlr3learners.proba::akritas} estimator, default \code{0.5}.
+Nearest neighbours parameter for \code{mlr3extralearners::akritas} estimator, default \code{0.5}.
 \item \verb{features, target :: character())}\cr
 For \code{"reorder"} method, specify which columns become features and targets.
 \item \verb{learner cneter, mimpu, iter.bj, max.cycle, mstop, nu}\cr
@@ -81,11 +81,13 @@ po$train(list(task, NULL))[[1]] # 42 deleted
 po = po("trafotask_survregr", method = "omit")
 po$train(list(task, NULL))[[1]]
 
+if (requireNamespace("mlr3extralearners", quietly = TRUE)) {
 # ipcw with Akritas
 po = po("trafotask_survregr", method = "ipcw", estimator = "akritas", lambda = 0.4, alpha = 0)
 new_task = po$train(list(task, NULL))[[1]]
 print(new_task)
 new_task$weights
+}
 
 # mrl with Kaplan-Meier
 po = po("trafotask_survregr", method = "mrl")

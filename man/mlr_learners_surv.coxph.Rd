@@ -17,7 +17,7 @@ Calls \code{\link[survival:coxph]{survival::coxph()}}.
 \section{Dictionary}{
 
 This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:mlr_sugar]{lrn()}:\preformatted{LearnerSurvCoxPH$new()
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerSurvCoxPH$new()
 mlr_learners$get("surv.coxph")
 lrn("surv.coxph")
 }

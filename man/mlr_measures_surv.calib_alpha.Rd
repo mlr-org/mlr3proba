@@ -18,7 +18,7 @@ The model is well calibrated if the estimated \eqn{\alpha} coefficient is equal 
 \section{Dictionary}{
 
 This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:mlr_sugar]{msr()}:\preformatted{MeasureSurvCalibrationAlpha$new()
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvCalibrationAlpha$new()
 mlr_measures$get("surv.calib_alpha")
 msr("surv.calib_alpha")
 }

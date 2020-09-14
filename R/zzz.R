@@ -11,11 +11,12 @@ NULL
 #' @import paradox
 #' @importFrom R6 R6Class
 #' @importFrom utils data head tail
-#' @importFrom stats reformulate model.matrix model.frame sd
+#' @importFrom stats reformulate model.matrix model.frame sd predict
 #' @importFrom survival Surv
 "_PACKAGE"
 # nolint end
 
+utils::globalVariables(c("ShortName", "ClassName", "missing", "task"))
 register_mlr3 = function() {
 
   x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")

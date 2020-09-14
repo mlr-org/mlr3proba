@@ -5,7 +5,7 @@
 \alias{MeasureSurvXuR2}
 \title{Xu and O'Quigley's R2 Survival Measure}
 \description{
-Calls \code{\link[survAUC:OXS]{survAUC::XO()}}.
+Calls \code{\link[survAUC:XO]{survAUC::XO()}}.
 
 Assumes Cox PH model specification.
 }
@@ -17,7 +17,7 @@ measures will all be re-written and implemented directly in \code{mlr3proba}.
 \section{Dictionary}{
 
 This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:mlr_sugar]{msr()}:\preformatted{MeasureSurvXuR2$new()
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvXuR2$new()
 mlr_measures$get("surv.xu_r2")
 msr("surv.xu_r2")
 }

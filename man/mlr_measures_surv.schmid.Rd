@@ -26,7 +26,7 @@ between time-points (\code{method == 2}). Then the sample mean is taken over all
 \section{Dictionary}{
 
 This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:mlr_sugar]{msr()}:\preformatted{MeasureSurvSchmid$new()
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvSchmid$new()
 mlr_measures$get("surv.schmid")
 msr("surv.schmid")
 }
