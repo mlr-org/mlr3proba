@@ -1,15 +1,10 @@
-## Comments
-
-This release requires distr6 1.4.3, which has been submitted at the same time.
-
 ## Downstream dependencies
 
 All downstream dependencies OK.
 
 ## Test Results
 
-One NOTE about URLs, all manually checked and working.
-No ERRORs or WARNINGs.
+No new NOTEs, ERRORs or WARNINGs.
 
 ## Test environments
 

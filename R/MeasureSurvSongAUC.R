@@ -39,7 +39,7 @@ MeasureSurvSongAUC = R6Class("MeasureSurvSongAUC",
 
   active = list(
     type = function(type) {
-      if (mising(type)) {
+      if (missing(type)) {
         return(private$.type)
       } else {
         type = c("incident", "cumulative")[pmatch(type, c("incident", "cumulative"))]

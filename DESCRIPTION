@@ -51,6 +51,7 @@ Suggests:
     ggplot2,
     knitr,
     lgr,
+    mlr3extralearners,
     mlr3pipelines (>= 0.3.0),
     pracma,
     rpart,
