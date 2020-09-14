@@ -35,6 +35,9 @@ PredictionDens = R6Class("PredictionDens",
     #' @param cdf (`numeric()`)\cr
     #'   Numeric vector of estimated cumulative distribution function, evaluated at 'target' column
     #'   of test set. One element for each observation in the test set.
+    #'
+    #' @param check (`logical(1)`)\cr
+    #'   If `TRUE`, performs argument checks and predict type conversions.
     initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), pdf = NULL,
                           cdf = NULL, check = TRUE) {
       pdata = list(row_ids = row_ids, truth = truth, pdf = pdf, cdf = cdf)

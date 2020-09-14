@@ -195,3 +195,5 @@ register_mlr3pipelines = function() {
 
    library.dynam.unload("mlr3proba", libpath)
 }
+
+leanify_package()

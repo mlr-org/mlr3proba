@@ -6,14 +6,14 @@ generate_tasks.LearnerDens = function(learner, N = 30L, ...) { # nolint
   tasks = generate_generic_tasks(learner, task)
 
   # generate sanity task
-  with_seed(100, {
-    data = data.table::data.table(x = c(rnorm(100, 0, 1), rnorm(100, 10, 1)), y = rnorm(200))
-    data$unimportant = runif(nrow(data))
+  data = with_seed(100, {
+    data.table::data.table(x = c(rnorm(100, 0, 1), rnorm(100, 10, 1)), y = rnorm(200),
+      unimportant = runif(200))
   })
-  task = mlr3misc::set_names(list(TaskDens$new("sanity",
-                                               mlr3::as_data_backend(data), target = "y")),
-                             "sanity")
-  tasks = c(tasks, task)
+  tasks$sanity = TaskDens$new("sanity", mlr3::as_data_backend(data), target = "y")
+  tasks$sanity_reordered = tasks$sanity$clone(deep = TRUE)
+
+  tasks
 }
 registerS3method("generate_tasks", "LearnerDens", generate_tasks.LearnerDens)
 
@@ -34,13 +34,14 @@ generate_tasks.LearnerSurv = function(learner, N = 20L, ...) { # nolint
   tasks = generate_generic_tasks(learner, task)
 
   # generate sanity task
-  set.seed(100)
-  data = data.table::data.table(time = obs_time, event = status, x1 = real_time +
-                                  rnorm(N, sd = 0.1))
-  data$unimportant = runif(nrow(data), 0, 20)
-  task = mlr3misc::set_names(list(TaskSurv$new("sanity", mlr3::as_data_backend(data),
-                                               time = "time", event = "event")), "sanity")
-  tasks = c(tasks, task)
+  data = with_seed(100, {
+    data = data.table::data.table(time = obs_time, event = status, x1 = real_time + rnorm(N, sd = 0.1),
+      unimportant = runif(N, 0, 20))
+  })
+  tasks$sanity = TaskSurv$new("sanity", mlr3::as_data_backend(data), time = "time", event = "event")
+  tasks$sanity_reordered = tasks$sanity$clone(deep = TRUE)
+
+  tasks
 }
 registerS3method("generate_tasks", "LearnerSurv", generate_tasks.LearnerSurv)
 
