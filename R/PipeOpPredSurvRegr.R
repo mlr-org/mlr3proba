@@ -1,5 +1,4 @@
 #' @title PipeOpPredSurvRegr
-#'
 #' @name mlr_pipeops_trafopred_survregr
 #' @template param_pipelines
 #'

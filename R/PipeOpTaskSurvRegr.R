@@ -1,7 +1,5 @@
 #' @title PipeOpTaskSurvRegr
-#'
 #' @template param_pipelines
-#'
 #' @name mlr_pipeops_trafotask_survregr
 #'
 #' @description

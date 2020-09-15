@@ -1,5 +1,4 @@
 #' @title PipeOpTaskRegrSurv
-#'
 #' @name mlr_pipeops_trafotask_regrsurv
 #' @template param_pipelines
 #'

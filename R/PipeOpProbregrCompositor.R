@@ -1,5 +1,5 @@
 #' @title PipeOpProbregrCompositor
-#' @aliases mlr_pipeops_probregr
+#' @name mlr_pipeops_compose_probregr
 #' @template param_pipelines
 #'
 #' @description
