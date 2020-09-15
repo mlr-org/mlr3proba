@@ -61,8 +61,8 @@ Suggests:
     testthat
 LinkingTo: 
     Rcpp
-VignetteBuilder:
-    knitr
+Additional_repositories:
+    mlr3extralearners available from www.github.com/mlr-org/mlr3extralearners
 RdMacros:
     mlr3misc
 ByteCompile: true

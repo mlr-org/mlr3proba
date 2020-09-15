@@ -52,12 +52,17 @@ MeasureSurvCalibrationBeta = R6Class("MeasureSurvCalibrationBeta",
   private = list(
     .se = FALSE,
     .score = function(prediction, ...) {
+
       df = data.frame(truth = prediction$truth, lp = prediction$lp)
-      fit = summary(survival::coxph(truth ~ lp, data = df))
-      if (self$se) {
-        return(fit$coefficients[3])
+      fit = try(summary(survival::coxph(truth ~ lp, data = df)), silent = TRUE)
+      if (class(fit)[1] == "try-error") {
+        return(NA)
       } else {
-        return(fit$coefficients[1])
+        if (self$se) {
+          return(fit$coefficients[3])
+        } else {
+          return(fit$coefficients[1])
+        }
       }
     }
   )

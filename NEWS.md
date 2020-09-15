@@ -2,6 +2,7 @@
 
 * Default kernel for `LearnerDensityKDE` is now `Epan` to reduce imports
 * Minor internal patches for mlr3 0.6.0 
+* Bug fix in `MeasureSurvCalibrationBeta` now returns `NA` not error if `lp` predict type not available
 
 # mlr3proba 0.2.1
 
