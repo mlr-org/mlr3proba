@@ -1,3 +1,8 @@
+# mlr3proba 0.2.2.9000
+
+* Fixed bottleneck in `MeasureSurvLogloss`
+* Bugfix in `MeasureSurvCalibrationAlpha`
+
 # mlr3proba 0.2.2
 
 * Default kernel for `LearnerDensityKDE` is now `Epan` to reduce imports

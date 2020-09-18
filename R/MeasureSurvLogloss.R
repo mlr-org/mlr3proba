@@ -29,7 +29,9 @@ MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id = "surv.logloss", eps = 1e-15, se = FALSE) {
+    #' @param rm_cens `(logical(1))` \cr
+    #' If `TRUE` removes censored observations from the calculation.
+    initialize = function(id = "surv.logloss", eps = 1e-15, se = FALSE, rm_cens = TRUE) {
       super$initialize(
         id = id,
         range = c(0, Inf),
@@ -41,6 +43,7 @@ MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
 
       private$.eps = assertNumeric(eps)
       private$.se = assertFlag(se)
+      private$.rm_cens = assertFlag(rm_cens)
     }
   ),
 
@@ -62,18 +65,29 @@ MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
       } else {
         return(private$.se)
       }
+    },
+
+    #' @field rm_cens `(logical(1))` \cr
+    #' If `TRUE` removes censored observations from the calculation.
+    rm_cens = function(x) {
+      if (!missing(x)) {
+        private$.rm_cens = assertFlag(x)
+      } else {
+        return(private$.rm_cens)
+      }
     }
   ),
 
   private = list(
     .eps = numeric(0),
     .se = FALSE,
+    .rm_cens = TRUE,
     .score = function(prediction, ...) {
       if (self$se) {
-        ll = surv_logloss(prediction$truth, prediction$distr, self$eps)
+        ll = surv_logloss(prediction$truth, prediction$distr, self$rm_cens, self$eps)
         return(sd(ll) / sqrt(length(ll)))
       } else {
-       return(mean(surv_logloss(prediction$truth, prediction$distr, self$eps)))
+       return(mean(surv_logloss(prediction$truth, prediction$distr, self$rm_cens, self$eps)))
       }
     }
   )
