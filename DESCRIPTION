@@ -55,7 +55,6 @@ Suggests:
     lgr,
     mlr3extralearners,
     mlr3pipelines (>= 0.3.0),
-    pracma,
     rpart,
     set6 (>= 0.1.7),
     simsurv,

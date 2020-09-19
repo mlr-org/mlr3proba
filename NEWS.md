@@ -2,6 +2,7 @@
 
 * Fixed bottleneck in `MeasureSurvLogloss`
 * Bugfix in `MeasureSurvCalibrationAlpha`
+* Removed `pracma` from `Suggests`
 
 # mlr3proba 0.2.2
 
