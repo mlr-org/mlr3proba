@@ -49,6 +49,7 @@ Imports:
 Suggests:
     bibtex,
     bujar,
+    cubature,
     ggplot2,
     knitr,
     lgr,
@@ -60,6 +61,8 @@ Suggests:
     simsurv,
     survAUC,
     testthat
+Remotes:
+    alan-turing-institute/distr6
 LinkingTo: 
     Rcpp
 RdMacros:

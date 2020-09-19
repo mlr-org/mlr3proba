@@ -47,20 +47,26 @@
 #' @section Internals:
 #' The `median`, `mode`, or `mean` will use analytical expressions if possible but if not they are
 #' calculated using [distr6::median.Distribution], [distr6::mode], or [distr6::mean.Distribution]
-#' respectively.
+#' respectively. `mean` requires \CRANpkg{cubature}.
 #'
 #' @seealso [pipeline_crankcompositor]
 #' @family survival compositors
 #' @examples
 #' \dontrun{
 #' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
-#' library(mlr3)
-#' library(mlr3pipelines)
-#' task = tsk("rats")
+#'   library(mlr3)
+#'   library(mlr3pipelines)
+#'   task = tsk("rats")
 #'
-#' learn = lrn("surv.coxph")$train(task)$predict(task)
-#' poc = po("crankcompose", param_vals = list(method = "mean"))
-#' poc$predict(list(learn))[[1]]
+#'   learn = lrn("surv.coxph")$train(task)$predict(task)
+#'   poc = po("crankcompose", param_vals = list(method = "median"))
+#'   poc$predict(list(learn))[[1]]
+#'
+#'   if (requireNamespace("cubature", quietly = TRUE)) {
+#'     learn = lrn("surv.coxph")$train(task)$predict(task)
+#'     poc = po("crankcompose", param_vals = list(method = "mean"))
+#'     poc$predict(list(learn))[[1]]
+#'   }
 #' }
 #' }
 #' @export
@@ -115,10 +121,11 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
         assert("distr" %in% inpred$predict_types)
         method = self$param_set$values$method
         if (length(method) == 0) method = "mean"
+        if (method == "mean") requireNamespace("cubature")
         comp = as.numeric(switch(method,
                                  median = inpred$distr$median(),
                                  mode = inpred$distr$mode(self$param_set$values$which),
-                                 inpred$distr$mean()
+                                 inpred$distr$mean(cubature = TRUE)
         ))
 
         # if crank exists and not overwriting then return predicted crank, otherwise compose
