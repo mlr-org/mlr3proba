@@ -89,7 +89,9 @@ jobs:
 
       - name: "[Stage] [Linux] Install curl"
         if: runner.os == 'Linux'
-        run: sudo apt install libcurl4-openssl-dev
+        run: |
+          sudo apt install libcurl4-openssl-dev
+          sudo apt-get install -y ninja-build valgrind libc6-dbg:i386
 
       - name: "[Stage] Install"
         if: matrix.config.os != 'macOS-latest' || matrix.config.r != 'devel'
