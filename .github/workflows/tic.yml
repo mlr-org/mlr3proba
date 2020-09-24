@@ -91,7 +91,7 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt install libcurl4-openssl-dev
-          sudo apt-get install -y ninja-build valgrind libc6-dbg:i386
+          sudo apt install -y valgrind
 
       - name: "[Stage] Install"
         if: matrix.config.os != 'macOS-latest' || matrix.config.r != 'devel'
