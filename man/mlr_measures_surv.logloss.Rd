@@ -101,6 +101,9 @@ Very small number used to prevent log(0) error.}
 
 \item{\code{se}}{\code{(logical(1))} \cr
 If \code{TRUE} returns the standard error of the measure.}
+
+\item{\code{rm_cens}}{\code{(logical(1))} \cr
+If \code{TRUE} removes censored observations from the calculation.}
 }
 \if{html}{\out{</div>}}
 }
@@ -128,7 +131,12 @@ If \code{TRUE} returns the standard error of the measure.}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvLogloss$new(id = "surv.logloss", eps = 1e-15, se = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvLogloss$new(
+  id = "surv.logloss",
+  eps = 1e-15,
+  se = FALSE,
+  rm_cens = TRUE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -143,6 +151,9 @@ in log(0) calculation.}
 
 \item{\code{se}}{(\code{logical(1)})\cr
 If \code{TRUE} returns the standard error of the measure.}
+
+\item{\code{rm_cens}}{\code{(logical(1))} \cr
+If \code{TRUE} removes censored observations from the calculation.}
 }
 \if{html}{\out{</div>}}
 }

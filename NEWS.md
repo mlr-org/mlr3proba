@@ -1,7 +1,8 @@
-# mlr3proba 0.2.2.9000
+# mlr3proba 0.2.3
 
 * Fixed bottleneck in `MeasureSurvLogloss`
 * Bugfix in `MeasureSurvCalibrationAlpha`
+* Patch for valgrind
 
 # mlr3proba 0.2.2
 

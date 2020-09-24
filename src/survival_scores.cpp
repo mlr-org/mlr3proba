@@ -157,11 +157,11 @@ float c_concordance(NumericVector time, NumericVector status, NumericVector cran
 
   NumericVector cens_times;
   NumericVector cens_surv;
-  int cl;
+  int cl = 0;
 
   NumericVector surv_times;
   NumericVector surv_surv;
-  int sl;
+  int sl = 0;
 
   if (weight_meth == "G2" || weight_meth == "G" || weight_meth == "SG") {
     cens_times = cens(_,0);
