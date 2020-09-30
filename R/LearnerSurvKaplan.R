@@ -47,7 +47,7 @@ LearnerSurvKaplan = R6Class("LearnerSurvKaplan",
       # Define crank as the mean of the survival distribution
       crank = as.numeric(sum(x[[1]]$x * c(x[[1]]$cdf[1], diff(x[[1]]$cdf))))
 
-      PredictionSurv$new(task = task, crank = rep(crank, task$nrow), distr = distr)
+      list(crank = rep(crank, task$nrow), distr = distr)
     }
   )
 )

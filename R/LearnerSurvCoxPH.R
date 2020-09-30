@@ -81,7 +81,7 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH",
       lp = predict(self$model, type = "lp", newdata = newdata)
 
       # note the ranking of lp and crank is identical
-      PredictionSurv$new(task = task, crank = lp, distr = distr, lp = lp)
+      list(crank = lp, distr = distr, lp = lp)
     }
   )
 )
