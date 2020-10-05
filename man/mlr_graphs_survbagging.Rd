@@ -16,7 +16,7 @@ pipeline_survbagging(
 }
 \arguments{
 \item{learner}{\verb{[mlr3::Learner]|[mlr3pipelines::PipeOp]|[mlr3pipelines::Graph]} \cr
-Either a \code{Learner} which will be wrapped in \link[mlr3pipelines:PipeOpLearner]{mlr3pipelines::PipeOpLearner}, a \code{PipeOp} which will
+Either a \code{Learner} which will be wrapped in \link[mlr3pipelines:mlr_pipeops_learner]{mlr3pipelines::PipeOpLearner}, a \code{PipeOp} which will
 be wrapped in \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or a \code{Graph} itself. Underlying \code{Learner} should be
 \link{LearnerSurv}.}
 
@@ -25,7 +25,7 @@ Number of bagging iterations. Defaults to 10.}
 
 \item{frac}{\code{numeric(1)}\cr
 Percentage of rows to keep during subsampling. See
-\link[mlr3pipelines:PipeOpSubsample]{PipeOpSubsample} for more information. Defaults to 0.7.}
+\link[mlr3pipelines:mlr_pipeops_subsample]{PipeOpSubsample} for more information. Defaults to 0.7.}
 
 \item{avg}{\code{logical(1)}\cr
 If \code{TRUE} (default) predictions are aggregated with \link{PipeOpSurvAvg}, otherwise returned
@@ -37,20 +37,20 @@ see \link{PipeOpSurvAvg}.}
 
 \item{graph_learner}{\code{logical(1)}\cr
 If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
-\link[mlr3pipelines:GraphLearner]{GraphLearner} otherwise (default) returns as a \code{Graph}.}
+\link[mlr3pipelines:mlr_learners_graph]{GraphLearner} otherwise (default) returns as a \code{Graph}.}
 }
 \value{
-\link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or \link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner}
+\link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or \link[mlr3pipelines:mlr_learners_graph]{mlr3pipelines::GraphLearner}
 
-\link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner}
+\link[mlr3pipelines:mlr_learners_graph]{mlr3pipelines::GraphLearner}
 }
 \description{
-Wrapper around \link[mlr3pipelines:PipeOpSubsample]{PipeOpSubsample} and \link{PipeOpSurvAvg} to simplify \link[mlr3pipelines:Graph]{Graph} creation.
+Wrapper around \link[mlr3pipelines:mlr_pipeops_subsample]{PipeOpSubsample} and \link{PipeOpSurvAvg} to simplify \link[mlr3pipelines:Graph]{Graph} creation.
 }
 \details{
 Bagging (Bootstrap AGGregatING) is the process of bootstrapping data and aggregating
 the final predictions. Bootstrapping splits the data into \code{B} smaller datasets of a given size
-and is performed with \link[mlr3pipelines:PipeOpSubsample]{PipeOpSubsample}. Aggregation is
+and is performed with \link[mlr3pipelines:mlr_pipeops_subsample]{PipeOpSubsample}. Aggregation is
 the sample mean of deterministic predictions and a
 \link[distr6:MixtureDistribution]{MixtureDistribution} of distribution predictions. This can be
 further enhanced by using a weighted average by supplying \code{weights}.

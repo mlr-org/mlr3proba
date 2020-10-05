@@ -18,7 +18,7 @@
 #' @template field_measure_type
 #'
 #' @references
-#' \cite{mlr3proba}{song_2008}
+#' `r tools::toRd(bibentries["song_2008"])`
 #'
 #' @family AUC survival measures
 #' @family lp survival measures

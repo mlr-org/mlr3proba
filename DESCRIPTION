@@ -47,7 +47,6 @@ Imports:
     Rcpp (>= 1.0.4),
     survival
 Suggests:
-    bibtex,
     bujar,
     ggplot2,
     knitr,
@@ -60,10 +59,8 @@ Suggests:
     simsurv,
     survAUC,
     testthat
-LinkingTo: 
+LinkingTo:
     Rcpp
-RdMacros:
-    mlr3misc
 ByteCompile: true
 Encoding: UTF-8
 LazyData: true
@@ -139,6 +136,7 @@ Collate:
     'TaskSurv.R'
     'TaskSurv_X.R'
     'assertions.R'
+    'bibentries.R'
     'cindex.R'
     'data.R'
     'helpers.R'

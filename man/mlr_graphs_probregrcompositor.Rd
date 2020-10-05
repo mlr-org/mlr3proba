@@ -14,7 +14,7 @@ pipeline_probregrcompositor(
 }
 \arguments{
 \item{learner}{\verb{[mlr3::Learner]|[mlr3pipelines::PipeOp]|[mlr3pipelines::Graph]} \cr
-Either a \code{Learner} which will be wrapped in \link[mlr3pipelines:PipeOpLearner]{mlr3pipelines::PipeOpLearner}, a \code{PipeOp} which will
+Either a \code{Learner} which will be wrapped in \link[mlr3pipelines:mlr_pipeops_learner]{mlr3pipelines::PipeOpLearner}, a \code{PipeOp} which will
 be wrapped in \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or a \code{Graph} itself. Underlying \code{Learner} should be
 \link[mlr3:LearnerRegr]{LearnerRegr}.}
 
@@ -28,10 +28,10 @@ Current possibilities are' \verb{"Cauchy", "Gumbel", "Laplace", "Logistic", "Nor
 
 \item{graph_learner}{\code{logical(1)}\cr
 If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
-\link[mlr3pipelines:GraphLearner]{GraphLearner} otherwise (default) returns as a \code{Graph}.}
+\link[mlr3pipelines:mlr_learners_graph]{GraphLearner} otherwise (default) returns as a \code{Graph}.}
 }
 \value{
-\link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or \link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner}
+\link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or \link[mlr3pipelines:mlr_learners_graph]{mlr3pipelines::GraphLearner}
 }
 \description{
 Wrapper around \link{PipeOpProbregrCompositor} to simplify \link[mlr3pipelines:Graph]{Graph} creation.

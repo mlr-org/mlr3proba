@@ -10,7 +10,7 @@
 #' @template measure_survAUC
 #'
 #' @references
-#' \cite{mlr3proba}{uno_2011}
+#' `r tools::toRd(bibentries["uno_2011"])`
 #'
 #' @family Concordance survival measures
 #' @family crank survival measures
