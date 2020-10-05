@@ -8,7 +8,7 @@
 #'
 #'
 #' @references
-#' \cite{mlr3proba}{cox_1972}
+#' `r tools::toRd(bibentries["cox_1972"])`
 #'
 #' @export
 LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH",

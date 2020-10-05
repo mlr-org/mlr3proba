@@ -5,7 +5,7 @@
 \alias{MeasureSurvSongAUC}
 \title{Song and Zhou's AUC Survival Measure}
 \description{
-Calls \code{\link[survAUC:AUC.sh]{survAUC::AUC.sh()}}.
+Calls \code{\link[survAUC:AUC.Song_Zhou]{survAUC::AUC.sh()}}.
 
 Assumes Cox PH model specification.
 }
@@ -17,7 +17,7 @@ measures will all be re-written and implemented directly in \code{mlr3proba}.
 \section{Dictionary}{
 
 This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvSongAUC$new()
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:mlr_sugar]{msr()}:\preformatted{MeasureSurvSongAUC$new()
 mlr_measures$get("surv.song_auc")
 msr("surv.song_auc")
 }
@@ -42,11 +42,11 @@ Other survival measures:
 \code{\link{mlr_measures_surv.calib_alpha}},
 \code{\link{mlr_measures_surv.calib_beta}},
 \code{\link{mlr_measures_surv.chambless_auc}},
-\code{\link{mlr_measures_surv.cindex}},
 \code{\link{mlr_measures_surv.gonenC}},
 \code{\link{mlr_measures_surv.grafSE}},
 \code{\link{mlr_measures_surv.graf}},
 \code{\link{mlr_measures_surv.harrellC}},
+\code{\link{mlr_measures_surv.harrell_c}},
 \code{\link{mlr_measures_surv.hung_auc}},
 \code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},

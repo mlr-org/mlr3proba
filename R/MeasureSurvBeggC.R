@@ -12,7 +12,7 @@
 #' @template measure_survAUC
 #'
 #' @references
-#' \cite{mlr3proba}{begg_2000}
+#' `r tools::toRd(bibentries["begg_2000"])`
 #'
 #' @family Concordance survival measures
 #' @family lp survival measures

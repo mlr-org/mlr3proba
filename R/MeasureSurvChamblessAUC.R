@@ -12,7 +12,7 @@
 #' @template measure_survAUC
 #'
 #' @references
-#' \cite{mlr3proba}{chambless_2006}
+#' `r tools::toRd(bibentries["chambless_2006"])`
 #'
 #' @family AUC survival measures
 #' @family lp survival measures
