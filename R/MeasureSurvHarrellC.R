@@ -6,7 +6,7 @@
 #' Calculates Harrell's C, equivalent to the Fortran implementation in \CRANpkg{Hmisc}.
 #'
 #' @references
-#' \cite{mlr3proba}{harrell_1982}
+#' `r tools::toRd(bibentries["harrell_1982"])`
 #'
 #' @family Concordance survival measures
 #' @family crank survival measures

@@ -18,7 +18,7 @@
 #' @family lp survival measures
 #'
 #' @references
-#' \cite{mlr3proba}{uno_2007}
+#' `r tools::toRd(bibentries["uno_2007"])`
 #'
 #' @family AUC survival measures
 #' @export

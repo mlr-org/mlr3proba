@@ -18,7 +18,7 @@ where \eqn{\Sigma_{i, j}}{cov(T_i, T_j)} is the sample covariance matrix over \e
 \section{Dictionary}{
 
 This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvIntLoglossSE$new()
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:mlr_sugar]{msr()}:\preformatted{MeasureSurvIntLoglossSE$new()
 mlr_measures$get("surv.intloglossSE")
 msr("surv.intloglossSE")
 }
@@ -35,7 +35,10 @@ msr("surv.intloglossSE")
 }
 
 \references{
-\cite{mlr3proba}{graf_1999}
+Graf E, Schmoor C, Sauerbrei W, Schumacher M (1999).
+\dQuote{Assessment and comparison of prognostic classification schemes for survival data.}
+\emph{Statistics in Medicine}, \bold{18}(17-18), 2529--2545.
+\doi{10.1002/(sici)1097-0258(19990915/30)18:17/18<2529::aid-sim274>3.0.co;2-5}.
 }
 \seealso{
 Other survival measures: 
@@ -43,11 +46,11 @@ Other survival measures:
 \code{\link{mlr_measures_surv.calib_alpha}},
 \code{\link{mlr_measures_surv.calib_beta}},
 \code{\link{mlr_measures_surv.chambless_auc}},
-\code{\link{mlr_measures_surv.cindex}},
 \code{\link{mlr_measures_surv.gonenC}},
 \code{\link{mlr_measures_surv.grafSE}},
 \code{\link{mlr_measures_surv.graf}},
 \code{\link{mlr_measures_surv.harrellC}},
+\code{\link{mlr_measures_surv.harrell_c}},
 \code{\link{mlr_measures_surv.hung_auc}},
 \code{\link{mlr_measures_surv.intlogloss}},
 \code{\link{mlr_measures_surv.loglossSE}},

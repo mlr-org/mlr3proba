@@ -21,15 +21,7 @@
 #'  The last three require training data.
 #'
 #' @references
-#' \cite{mlr3proba}{peto_1972}
-#'
-#' \cite{mlr3proba}{harrell_1982}
-#'
-#' \cite{mlr3proba}{goenen_2005}
-#'
-#' \cite{mlr3proba}{schemper_2009}
-#'
-#' \cite{mlr3proba}{uno_2011}
+#' `r tools::toRd(bibentries[c("peto_1972", "harrell_1982", "goenen_2005", "schemper_2009", "uno_2011")])`
 #'
 #' @template param_id
 #' @template param_range

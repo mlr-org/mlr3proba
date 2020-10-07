@@ -17,8 +17,7 @@
 #' @template param_se
 #'
 #' @references
-#' \cite{mlr3proba}{schemper_2000}
-#' \cite{mlr3proba}{schmid_2011}
+#' `r tools::toRd(bibentries[c("schemper_2000", "schmid_2011")])`
 #'
 #' @family Probabilistic survival measures
 #' @family distr survival measures

@@ -9,7 +9,7 @@
 #' @template measure_survAUC
 #'
 #' @references
-#' \cite{mlr3proba}{xu_1999}
+#' `r tools::toRd(bibentries["xu_1999"])`
 #'
 #' @family R2 survival measures
 #' @family lp survival measures

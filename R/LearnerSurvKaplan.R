@@ -8,7 +8,7 @@
 #'
 #'
 #' @references
-#' \cite{mlr3proba}{kaplan_1958}
+#' `r tools::toRd(bibentries["kaplan_1958"])`
 #'
 #' @export
 LearnerSurvKaplan = R6Class("LearnerSurvKaplan",

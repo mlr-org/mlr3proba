@@ -5,7 +5,7 @@
 \alias{MeasureSurvChamblessAUC}
 \title{Chambless and Diao's AUC Survival Measure}
 \description{
-Calls \code{\link[survAUC:AUC.cd]{survAUC::AUC.cd()}}.
+Calls \code{\link[survAUC:AUC.ChamDiao]{survAUC::AUC.cd()}}.
 
 Assumes Cox PH model specification.
 }
@@ -17,7 +17,7 @@ measures will all be re-written and implemented directly in \code{mlr3proba}.
 \section{Dictionary}{
 
 This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvChamblessAUC$new()
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:mlr_sugar]{msr()}:\preformatted{MeasureSurvChamblessAUC$new()
 mlr_measures$get("surv.chambless_auc")
 msr("surv.chambless_auc")
 }
@@ -34,18 +34,21 @@ msr("surv.chambless_auc")
 }
 
 \references{
-\cite{mlr3proba}{chambless_2006}
+Chambless LE, Diao G (2006).
+\dQuote{Estimation of time-dependent area under the ROC curve for long-term risk prediction.}
+\emph{Statistics in Medicine}, \bold{25}(20), 3474--3486.
+\doi{10.1002/sim.2299}.
 }
 \seealso{
 Other survival measures: 
 \code{\link{mlr_measures_surv.beggC}},
 \code{\link{mlr_measures_surv.calib_alpha}},
 \code{\link{mlr_measures_surv.calib_beta}},
-\code{\link{mlr_measures_surv.cindex}},
 \code{\link{mlr_measures_surv.gonenC}},
 \code{\link{mlr_measures_surv.grafSE}},
 \code{\link{mlr_measures_surv.graf}},
 \code{\link{mlr_measures_surv.harrellC}},
+\code{\link{mlr_measures_surv.harrell_c}},
 \code{\link{mlr_measures_surv.hung_auc}},
 \code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},

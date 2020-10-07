@@ -12,7 +12,7 @@
 #' @template param_times
 #'
 #' @references
-#' \cite{mlr3proba}{hung_2010}
+#' `r tools::toRd(bibentries["hung_2010"])`
 #'
 #' @family AUC survival measures
 #' @family lp survival measures

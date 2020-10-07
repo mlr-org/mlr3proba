@@ -19,7 +19,7 @@
 #' @template param_se
 #'
 #' @references
-#' \cite{mlr3proba}{graf_1999}
+#' `r tools::toRd(bibentries["graf_1999"])`
 #'
 #' @family Probabilistic survival measures
 #' @family distr survival measures

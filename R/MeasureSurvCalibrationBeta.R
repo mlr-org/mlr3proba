@@ -15,7 +15,7 @@
 #' Assumes fitted model is Cox PH.
 #'
 #' @references
-#' \cite{mlr3proba}{vanhouwelingen_2000}
+#' `r tools::toRd(bibentries["vanhouwelingen_2000"])`
 #'
 #' @family calibration survival measures
 #' @family lp survival measures

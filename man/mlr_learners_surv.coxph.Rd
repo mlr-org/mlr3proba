@@ -17,7 +17,7 @@ Calls \code{\link[survival:coxph]{survival::coxph()}}.
 \section{Dictionary}{
 
 This \link[mlr3:Learner]{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:lrn]{lrn()}:\preformatted{LearnerSurvCoxPH$new()
+\link[mlr3:mlr_learners]{mlr_learners} or with the associated sugar function \link[mlr3:mlr_sugar]{lrn()}:\preformatted{LearnerSurvCoxPH$new()
 mlr_learners$get("surv.coxph")
 lrn("surv.coxph")
 }
@@ -35,7 +35,10 @@ lrn("surv.coxph")
 }
 
 \references{
-\cite{mlr3proba}{cox_1972}
+Cox DR (1972).
+\dQuote{Regression Models and Life-Tables.}
+\emph{Journal of the Royal Statistical Society: Series B (Methodological)}, \bold{34}(2), 187--202.
+\doi{10.1111/j.2517-6161.1972.tb00899.x}.
 }
 \seealso{
 Other survival learners: 
