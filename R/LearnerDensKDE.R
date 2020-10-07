@@ -75,7 +75,7 @@ LearnerDensKDE = R6::R6Class("LearnerDensKDE",
     },
 
     .predict = function(task) {
-      PredictionDens$new(task = task, pdf = self$model$pdf(task$truth()))
+      list(pdf = self$model$pdf(task$truth()))
     }
   )
 )

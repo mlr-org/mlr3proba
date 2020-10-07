@@ -4,7 +4,7 @@
 \alias{TaskDens}
 \title{Density Task}
 \description{
-This task specializes \link{Task} for density estimation problems.
+This task specializes \link{TaskUnsupervised} for density estimation problems.
 The target column is assumed to be numeric.
 The \code{task_type} is set to \code{"density"}.
 
@@ -20,8 +20,8 @@ Other Task:
 \code{\link{TaskSurv}}
 }
 \concept{Task}
-\section{Super class}{
-\code{\link[mlr3:Task]{mlr3::Task}} -> \code{TaskDens}
+\section{Super classes}{
+\code{\link[mlr3:Task]{mlr3::Task}} -> \code{\link[mlr3:TaskUnsupervised]{mlr3::TaskUnsupervised}} -> \code{TaskDens}
 }
 \section{Methods}{
 \subsection{Public methods}{

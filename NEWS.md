@@ -1,8 +1,9 @@
-# mlr3proba 0.2.3
+# mlr3proba 0.2.2.9000
 
 * Fixed bottleneck in `MeasureSurvLogloss`
 * Bugfix in `MeasureSurvCalibrationAlpha`
 * Patch for valgrind
+* `TaskDens` now inherits from `TaskUnsupervised`
 
 # mlr3proba 0.2.2
 

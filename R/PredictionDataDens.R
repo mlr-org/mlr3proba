@@ -8,7 +8,6 @@ check_prediction_data.PredictionDataDens = function(pdata) { # nolint
   row_ids = assert_row_ids(pdata$row_ids)
   n = length(row_ids)
 
-  assert_numeric(pdata$truth, len = n, null.ok = TRUE)
   assert_numeric(pdata$pdf, len = n, any.missing = FALSE, null.ok = TRUE)
   assert_numeric(pdata$cdf, len = n, any.missing = FALSE, null.ok = TRUE)
 
@@ -46,7 +45,7 @@ c.PredictionDataDens = function(..., keep_duplicates = TRUE) { # nolint
     stopf("Cannot combine predictions: Different predict types")
   }
 
-  elems = c("row_ids", "truth", predict_types[[1L]])
+  elems = c("row_ids", predict_types[[1L]])
   tab = map_dtr(dots, function(x) x[elems], .fill = FALSE)
 
   if (!keep_duplicates) {

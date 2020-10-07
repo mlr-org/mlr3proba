@@ -1,5 +1,5 @@
 #' <% meas = suppressWarnings(get(fullname)$new()) %>
-#' <% shortname = meas$id %>
+#' <% shortname = ifelse(meas$id == "surv.harrell_c", "surv.cindex", meas$id) %>
 #'
 #' @include MeasureSurv.R
 #' @title <%=title%> Survival Measure
