@@ -58,7 +58,8 @@ MeasureSurvCindex = R6Class("MeasureSurvCindex",
         minimize = FALSE,
         packages = character(),
         predict_type = "crank",
-        properties = character()
+        properties = character(),
+        man = "mlr3proba::mlr_measures_surv.cindex",
       )
 
       assertNumeric(cutoff, null.ok = TRUE)
