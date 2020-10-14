@@ -13,6 +13,7 @@
 #'
 #' @examples
 #' \donttest{
+#' library(mlr3)
 #' learn = lrn("surv.coxph")
 #' task = tsk("rats")
 #' p = learn$train(task, row_ids = 1:100)$predict(task, row_ids = 101:200)
