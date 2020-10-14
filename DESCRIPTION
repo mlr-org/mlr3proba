@@ -145,5 +145,6 @@ Collate:
     'pecs.R'
     'pipelines.R'
     'plot.R'
+    'plot_calibration.R'
     'surv_measures.R'
     'zzz.R'
