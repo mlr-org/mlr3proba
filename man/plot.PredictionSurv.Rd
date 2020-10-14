@@ -14,6 +14,11 @@ For Kaplan-Meier learner, passed to \verb{$predict}.}
 
 \item{row_ids}{(\code{integer()}) \cr
 For Kaplan-Meier learner, passed to \verb{$predict}.}
+
+\item{times}{(\code{numeric()}) \cr
+Times for plotting over, if \code{NULL} uses all times from \code{task}.}
+
+\item{...}{Additional arguments, currently unused.}
 }
 \description{
 Compares the average predicted survival distribution to a Kaplan-Meier estimate.

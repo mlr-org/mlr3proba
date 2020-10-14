@@ -1,12 +1,15 @@
 #' @title Calibration Plot for `PredictionSurv` Objects
 #' @description Compares the average predicted survival distribution to a Kaplan-Meier estimate.
 #'
-#' @importFrom graphics plot
+#' @importFrom graphics plot lines legend
 #' @param x ([PredictionSurv])
 #' @param task ([TaskSurv]) \cr
 #'   For Kaplan-Meier learner, passed to `$predict`.
 #' @param row_ids (`integer()`) \cr
 #'   For Kaplan-Meier learner, passed to `$predict`.
+#' @param times (`numeric()`) \cr
+#'   Times for plotting over, if `NULL` uses all times from `task`.
+#' @param ... Additional arguments, currently unused.
 #'
 #' @examples
 #' \donttest{
