@@ -26,7 +26,7 @@ MeasureSurvCalibrationBeta = R6Class("MeasureSurvCalibrationBeta",
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(se = FALSE) {
       super$initialize(
-        id = "surv.calib_beta",
+        id = ifelse(se, "surv.calib_beta_se", "surv.calib_beta"),
         range = c(-Inf, Inf),
         minimize = FALSE,
         predict_type = "lp",
