@@ -25,7 +25,7 @@
 #' @template param_se
 #'
 #' @references
-#' \cite{mlr3proba}{graf_1999}
+#' `r tools::toRd(bibentries["graf_1999"])`
 #'
 #' @family Probabilistic survival measures
 #' @family distr survival measures
@@ -40,7 +40,7 @@ MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
         integrated = integrated,
         times = times,
         method = method,
-        id = "surv.graf",
+        id = ifelse(se, "surv.graf_se", "surv.graf"),
         range = c(0, Inf),
         minimize = TRUE,
         packages = character(),

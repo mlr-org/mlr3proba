@@ -31,9 +31,9 @@ MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #' @param rm_cens `(logical(1))` \cr
     #' If `TRUE` removes censored observations from the calculation.
-    initialize = function(id = "surv.logloss", eps = 1e-15, se = FALSE, rm_cens = TRUE) {
+    initialize = function(eps = 1e-15, se = FALSE, rm_cens = TRUE) {
       super$initialize(
-        id = id,
+        id = ifelse(se, "surv.logloss_se", "surv.logloss"),
         range = c(0, Inf),
         minimize = TRUE,
         predict_type = "distr",

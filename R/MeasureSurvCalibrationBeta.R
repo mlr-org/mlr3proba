@@ -15,7 +15,7 @@
 #' Assumes fitted model is Cox PH.
 #'
 #' @references
-#' \cite{mlr3proba}{vanhouwelingen_2000}
+#' `r tools::toRd(bibentries["vanhouwelingen_2000"])`
 #'
 #' @family calibration survival measures
 #' @family lp survival measures
@@ -26,7 +26,7 @@ MeasureSurvCalibrationBeta = R6Class("MeasureSurvCalibrationBeta",
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(se = FALSE) {
       super$initialize(
-        id = "surv.calib_beta",
+        id = ifelse(se, "surv.calib_beta_se", "surv.calib_beta"),
         range = c(-Inf, Inf),
         minimize = FALSE,
         predict_type = "lp",

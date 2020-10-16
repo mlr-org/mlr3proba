@@ -60,7 +60,6 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \if{html}{\out{<div class="r">}}\preformatted{PredictionDens$new(
   task = NULL,
   row_ids = task$row_ids,
-  truth = task$truth(),
   pdf = NULL,
   cdf = NULL,
   check = TRUE
@@ -71,13 +70,10 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{task}}{(\link{TaskSurv})\cr
-Task, used to extract defaults for \code{row_ids} and \code{truth}.}
+Task, used to extract defaults for \code{row_ids}.}
 
 \item{\code{row_ids}}{(\code{integer()})\cr
 Row ids of the predicted observations, i.e. the row ids of the test set.}
-
-\item{\code{truth}}{(\code{numeric()})\cr
-True (observed) response.}
 
 \item{\code{pdf}}{(\code{numeric()})\cr
 Numeric vector of estimated probability density function, evaluated at 'target' column of

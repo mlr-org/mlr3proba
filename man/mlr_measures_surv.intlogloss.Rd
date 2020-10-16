@@ -26,7 +26,7 @@ between time-points (\code{method == 2}). Then the sample mean is taken over all
 \section{Dictionary}{
 
 This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvIntLogloss$new()
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:mlr_sugar]{msr()}:\preformatted{MeasureSurvIntLogloss$new()
 mlr_measures$get("surv.intlogloss")
 msr("surv.intlogloss")
 }
@@ -43,7 +43,10 @@ msr("surv.intlogloss")
 }
 
 \references{
-\cite{mlr3proba}{graf_1999}
+Graf E, Schmoor C, Sauerbrei W, Schumacher M (1999).
+\dQuote{Assessment and comparison of prognostic classification schemes for survival data.}
+\emph{Statistics in Medicine}, \bold{18}(17-18), 2529--2545.
+\doi{10.1002/(sici)1097-0258(19990915/30)18:17/18<2529::aid-sim274>3.0.co;2-5}.
 }
 \seealso{
 Other survival measures: 
@@ -58,7 +61,7 @@ Other survival measures:
 \code{\link{mlr_measures_surv.harrellC}},
 \code{\link{mlr_measures_surv.hung_auc}},
 \code{\link{mlr_measures_surv.intloglossSE}},
-\code{\link{mlr_measures_surv.loglossSE}},
+\code{\link{mlr_measures_surv.logloss_se}},
 \code{\link{mlr_measures_surv.logloss}},
 \code{\link{mlr_measures_surv.maeSE}},
 \code{\link{mlr_measures_surv.mae}},
@@ -82,7 +85,7 @@ Other Probabilistic survival measures:
 \code{\link{mlr_measures_surv.grafSE}},
 \code{\link{mlr_measures_surv.graf}},
 \code{\link{mlr_measures_surv.intloglossSE}},
-\code{\link{mlr_measures_surv.loglossSE}},
+\code{\link{mlr_measures_surv.logloss_se}},
 \code{\link{mlr_measures_surv.logloss}},
 \code{\link{mlr_measures_surv.schmid}}
 
@@ -91,7 +94,7 @@ Other distr survival measures:
 \code{\link{mlr_measures_surv.grafSE}},
 \code{\link{mlr_measures_surv.graf}},
 \code{\link{mlr_measures_surv.intloglossSE}},
-\code{\link{mlr_measures_surv.loglossSE}},
+\code{\link{mlr_measures_surv.logloss_se}},
 \code{\link{mlr_measures_surv.logloss}},
 \code{\link{mlr_measures_surv.schmid}}
 }

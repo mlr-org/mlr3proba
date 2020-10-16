@@ -5,7 +5,7 @@
 \alias{MeasureSurvXuR2}
 \title{Xu and O'Quigley's R2 Survival Measure}
 \description{
-Calls \code{\link[survAUC:XO]{survAUC::XO()}}.
+Calls \code{\link[survAUC:OXS]{survAUC::XO()}}.
 
 Assumes Cox PH model specification.
 }
@@ -17,7 +17,7 @@ measures will all be re-written and implemented directly in \code{mlr3proba}.
 \section{Dictionary}{
 
 This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvXuR2$new()
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:mlr_sugar]{msr()}:\preformatted{MeasureSurvXuR2$new()
 mlr_measures$get("surv.xu_r2")
 msr("surv.xu_r2")
 }
@@ -34,7 +34,10 @@ msr("surv.xu_r2")
 }
 
 \references{
-\cite{mlr3proba}{xu_1999}
+Xu R, O'Quigley J (1999).
+\dQuote{A R2 type measure of dependence for proportional hazards models.}
+\emph{Journal of Nonparametric Statistics}, \bold{12}(1), 83--107.
+\doi{10.1080/10485259908832799}.
 }
 \seealso{
 Other survival measures: 
@@ -50,7 +53,7 @@ Other survival measures:
 \code{\link{mlr_measures_surv.hung_auc}},
 \code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.loglossSE}},
+\code{\link{mlr_measures_surv.logloss_se}},
 \code{\link{mlr_measures_surv.logloss}},
 \code{\link{mlr_measures_surv.maeSE}},
 \code{\link{mlr_measures_surv.mae}},

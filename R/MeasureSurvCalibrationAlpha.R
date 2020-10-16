@@ -16,7 +16,7 @@
 #' The model is well calibrated if the estimated \eqn{\alpha} coefficient is equal to 1.
 #'
 #' @references
-#' \cite{mlr3proba}{vanhouwelingen_2000}
+#' `r tools::toRd(bibentries["vanhouwelingen_2000"])`
 #'
 #' @family calibration survival measures
 #' @family distr survival measures
@@ -27,7 +27,7 @@ MeasureSurvCalibrationAlpha = R6Class("MeasureSurvCalibrationAlpha",
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(se = FALSE) {
       super$initialize(
-        id = "surv.calib_alpha",
+        id = ifelse(se, "surv.calib_alpha_se", "surv.calib_alpha"),
         range = c(-Inf, Inf),
         minimize = FALSE,
         predict_type = "distr",

@@ -5,7 +5,7 @@
 \alias{MeasureSurvHungAUC}
 \title{Hung and Chiang's AUC Survival Measure}
 \description{
-Calls \code{\link[survAUC:AUC.hc]{survAUC::AUC.hc()}}.
+Calls \code{\link[survAUC:AUC.HungChiang]{survAUC::AUC.hc()}}.
 
 Assumes random censoring.
 }
@@ -17,7 +17,7 @@ measures will all be re-written and implemented directly in \code{mlr3proba}.
 \section{Dictionary}{
 
 This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvHungAUC$new()
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:mlr_sugar]{msr()}:\preformatted{MeasureSurvHungAUC$new()
 mlr_measures$get("surv.hung_auc")
 msr("surv.hung_auc")
 }
@@ -34,7 +34,10 @@ msr("surv.hung_auc")
 }
 
 \references{
-\cite{mlr3proba}{hung_2010}
+Hung H, Chiang C (2010).
+\dQuote{Estimation methods for time-dependent AUC models with survival data.}
+\emph{The Canadian Journal of Statistics / La Revue Canadienne de Statistique}, \bold{38}(1), 8--26.
+\url{https://www.jstor.org/stable/27805213}.
 }
 \seealso{
 Other survival measures: 
@@ -49,7 +52,7 @@ Other survival measures:
 \code{\link{mlr_measures_surv.harrellC}},
 \code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.loglossSE}},
+\code{\link{mlr_measures_surv.logloss_se}},
 \code{\link{mlr_measures_surv.logloss}},
 \code{\link{mlr_measures_surv.maeSE}},
 \code{\link{mlr_measures_surv.mae}},

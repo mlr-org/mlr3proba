@@ -17,7 +17,7 @@ measures will all be re-written and implemented directly in \code{mlr3proba}.
 \section{Dictionary}{
 
 This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvUnoC$new()
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:mlr_sugar]{msr()}:\preformatted{MeasureSurvUnoC$new()
 mlr_measures$get("surv.unoC")
 msr("surv.unoC")
 }
@@ -34,7 +34,10 @@ msr("surv.unoC")
 }
 
 \references{
-\cite{mlr3proba}{uno_2011}
+Uno H, Cai T, Pencina MJ, D'Agostino RB, Wei LJ (2011).
+\dQuote{On the C-statistics for evaluating overall adequacy of risk prediction procedures with censored survival data.}
+\emph{Statistics in Medicine}, n/a--n/a.
+\doi{10.1002/sim.4154}.
 }
 \seealso{
 Other survival measures: 
@@ -50,7 +53,7 @@ Other survival measures:
 \code{\link{mlr_measures_surv.hung_auc}},
 \code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.loglossSE}},
+\code{\link{mlr_measures_surv.logloss_se}},
 \code{\link{mlr_measures_surv.logloss}},
 \code{\link{mlr_measures_surv.maeSE}},
 \code{\link{mlr_measures_surv.mae}},

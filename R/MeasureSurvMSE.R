@@ -21,7 +21,7 @@ MeasureSurvMSE = R6::R6Class("MeasureSurvMSE",
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(se = FALSE) {
       super$initialize(
-        id = "surv.mse",
+        id = ifelse(se, "surv.mse_se", "surv.mse"),
         range = c(0, Inf),
         minimize = TRUE,
         predict_type = "response",

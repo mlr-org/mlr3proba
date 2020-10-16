@@ -9,7 +9,7 @@
 #' @template measure_survAUC
 #'
 #' @references
-#' \cite{mlr3proba}{oquigley_2005}
+#' `r tools::toRd(bibentries["oquigley_2005"])`
 #'
 #' @family R2 survival measures
 #' @family lp survival measures

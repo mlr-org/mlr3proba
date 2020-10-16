@@ -17,7 +17,7 @@ measures will all be re-written and implemented directly in \code{mlr3proba}.
 \section{Dictionary}{
 
 This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvBeggC$new()
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:mlr_sugar]{msr()}:\preformatted{MeasureSurvBeggC$new()
 mlr_measures$get("surv.beggC")
 msr("surv.beggC")
 }
@@ -34,7 +34,10 @@ msr("surv.beggC")
 }
 
 \references{
-\cite{mlr3proba}{begg_2000}
+Begg CB, Cramer LD, Venkatraman ES, Rosai J (2000).
+\dQuote{Comparing tumour staging and grading systems: a case study and a review of the issues,  using thymoma as a model.}
+\emph{Statistics in Medicine}, \bold{19}(15), 1997--2014.
+\doi{10.1002/1097-0258(20000815)19:15<1997::aid-sim511>3.0.co;2-c}.
 }
 \seealso{
 Other survival measures: 
@@ -49,7 +52,7 @@ Other survival measures:
 \code{\link{mlr_measures_surv.hung_auc}},
 \code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.loglossSE}},
+\code{\link{mlr_measures_surv.logloss_se}},
 \code{\link{mlr_measures_surv.logloss}},
 \code{\link{mlr_measures_surv.maeSE}},
 \code{\link{mlr_measures_surv.mae}},

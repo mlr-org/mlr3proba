@@ -12,7 +12,7 @@
 #' @template measure_survAUC
 #'
 #' @references
-#' \cite{mlr3proba}{goenen_2005}
+#' `r tools::toRd(bibentries["goenen_2005"])`
 #'
 #' @family Concordance survival measures
 #' @family lp survival measures

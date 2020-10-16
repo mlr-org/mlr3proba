@@ -6,7 +6,7 @@
 \title{PipeOpSurvAvg}
 \description{
 Perform (weighted) prediction averaging from survival \link{PredictionSurv}s by connecting
-\code{PipeOpSurvAvg} to multiple \link[mlr3pipelines:PipeOpLearner]{PipeOpLearner} outputs.
+\code{PipeOpSurvAvg} to multiple \link[mlr3pipelines:mlr_pipeops_learner]{PipeOpLearner} outputs.
 
 The resulting prediction will aggregate any predict types that are contained within all inputs.
 Any predict types missing from at least one input will be set to \code{NULL}. These are aggregated

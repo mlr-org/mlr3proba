@@ -21,15 +21,7 @@
 #'  The last three require training data.
 #'
 #' @references
-#' \cite{mlr3proba}{peto_1972}
-#'
-#' \cite{mlr3proba}{harrell_1982}
-#'
-#' \cite{mlr3proba}{goenen_2005}
-#'
-#' \cite{mlr3proba}{schemper_2009}
-#'
-#' \cite{mlr3proba}{uno_2011}
+#' `r tools::toRd(bibentries[c("peto_1972", "harrell_1982", "goenen_2005", "schemper_2009", "uno_2011")])`
 #'
 #' @template param_id
 #' @template param_range
@@ -49,13 +41,25 @@ MeasureSurvCindex = R6Class("MeasureSurvCindex",
     #' @param tiex (`numeric(1)`) \cr
     #'   Weighting applied to tied rankings, default is to give them half weighting.
     initialize = function(cutoff = NULL, weight_meth = c("I", "G", "G2", "SG", "S", "GH"), tiex = 0.5) {
+
+      weight_meth = match.arg(weight_meth)
+
+      id = switch(weight_meth,
+                  "I" = "surv.harrell_c",
+                  "G" = "surv.Gweight_c",
+                  "G2" = "surv.uno_c",
+                  "SG" = "surv.schemper_c",
+                  "S" = "surv.peto_c",
+                  "GH" = "surv.gonen_c")
+
       super$initialize(
-        id = "surv.cindex",
+        id = id,
         range = 0:1,
         minimize = FALSE,
         packages = character(),
         predict_type = "crank",
-        properties = character()
+        properties = character(),
+        man = "mlr3proba::mlr_measures_surv.cindex",
       )
 
       assertNumeric(cutoff, null.ok = TRUE)

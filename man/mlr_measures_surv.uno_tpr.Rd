@@ -5,7 +5,7 @@
 \alias{MeasureSurvUnoTPR}
 \title{Uno's TPR Survival Measure}
 \description{
-Calls \code{\link[survAUC:sens.uno]{survAUC::sens.uno()}}.
+Calls \code{\link[survAUC:AUC.uno]{survAUC::sens.uno()}}.
 
 Assumes random censoring.
 
@@ -20,7 +20,7 @@ measures will all be re-written and implemented directly in \code{mlr3proba}.
 \section{Dictionary}{
 
 This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvUnoTPR$new()
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:mlr_sugar]{msr()}:\preformatted{MeasureSurvUnoTPR$new()
 mlr_measures$get("surv.uno_tpr")
 msr("surv.uno_tpr")
 }
@@ -37,7 +37,10 @@ msr("surv.uno_tpr")
 }
 
 \references{
-\cite{mlr3proba}{uno_2007}
+Uno H, Cai T, Tian L, Wei LJ (2007).
+\dQuote{Evaluating Prediction Rules fort-Year Survivors With Censored Regression Models.}
+\emph{Journal of the American Statistical Association}, \bold{102}(478), 527--537.
+\doi{10.1198/016214507000000149}.
 }
 \seealso{
 Other survival measures: 
@@ -53,7 +56,7 @@ Other survival measures:
 \code{\link{mlr_measures_surv.hung_auc}},
 \code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.loglossSE}},
+\code{\link{mlr_measures_surv.logloss_se}},
 \code{\link{mlr_measures_surv.logloss}},
 \code{\link{mlr_measures_surv.maeSE}},
 \code{\link{mlr_measures_surv.mae}},

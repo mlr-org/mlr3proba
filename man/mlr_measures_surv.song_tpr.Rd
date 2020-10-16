@@ -5,7 +5,7 @@
 \alias{MeasureSurvSongTPR}
 \title{Song and Zhou's TPR Survival Measure}
 \description{
-Calls \code{\link[survAUC:sens.sh]{survAUC::sens.sh()}}.
+Calls \code{\link[survAUC:AUC.Song_Zhou]{survAUC::sens.sh()}}.
 
 Assumes Cox PH model specification.
 
@@ -20,7 +20,7 @@ measures will all be re-written and implemented directly in \code{mlr3proba}.
 \section{Dictionary}{
 
 This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvSongTPR$new()
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:mlr_sugar]{msr()}:\preformatted{MeasureSurvSongTPR$new()
 mlr_measures$get("surv.song_tpr")
 msr("surv.song_tpr")
 }
@@ -37,7 +37,10 @@ msr("surv.song_tpr")
 }
 
 \references{
-\cite{mlr3proba}{song_2008}
+Song, Xiao, Zhou, Xiao-Hua (2008).
+\dQuote{A semiparametric approach for the covariate specific ROC curve with survival outcome.}
+\emph{Statistica Sinica}, \bold{18}(3), 947--65.
+\url{https://www.jstor.org/stable/24308524}.
 }
 \seealso{
 Other survival measures: 
@@ -53,7 +56,7 @@ Other survival measures:
 \code{\link{mlr_measures_surv.hung_auc}},
 \code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.loglossSE}},
+\code{\link{mlr_measures_surv.logloss_se}},
 \code{\link{mlr_measures_surv.logloss}},
 \code{\link{mlr_measures_surv.maeSE}},
 \code{\link{mlr_measures_surv.mae}},

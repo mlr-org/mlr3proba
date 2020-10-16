@@ -10,7 +10,7 @@ Calculates Harrell's C, equivalent to the Fortran implementation in \CRANpkg{Hmi
 \section{Dictionary}{
 
 This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvHarrellC$new()
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:mlr_sugar]{msr()}:\preformatted{MeasureSurvHarrellC$new()
 mlr_measures$get("surv.harrellC")
 msr("surv.harrellC")
 }
@@ -27,7 +27,9 @@ msr("surv.harrellC")
 }
 
 \references{
-\cite{mlr3proba}{harrell_1982}
+Harrell, E F, Califf, M R, Pryor, B D, Lee, L K, Rosati, A R (1982).
+\dQuote{Evaluating the yield of medical tests.}
+\emph{Jama}, \bold{247}(18), 2543--2546.
 }
 \seealso{
 Other survival measures: 
@@ -42,7 +44,7 @@ Other survival measures:
 \code{\link{mlr_measures_surv.hung_auc}},
 \code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.loglossSE}},
+\code{\link{mlr_measures_surv.logloss_se}},
 \code{\link{mlr_measures_surv.logloss}},
 \code{\link{mlr_measures_surv.maeSE}},
 \code{\link{mlr_measures_surv.mae}},

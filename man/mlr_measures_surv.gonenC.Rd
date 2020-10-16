@@ -17,7 +17,7 @@ measures will all be re-written and implemented directly in \code{mlr3proba}.
 \section{Dictionary}{
 
 This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvGonenC$new()
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:mlr_sugar]{msr()}:\preformatted{MeasureSurvGonenC$new()
 mlr_measures$get("surv.gonenC")
 msr("surv.gonenC")
 }
@@ -34,7 +34,10 @@ msr("surv.gonenC")
 }
 
 \references{
-\cite{mlr3proba}{goenen_2005}
+Gönen M, Heller G (2005).
+\dQuote{Concordance probability and discriminatory power in proportional hazards regression.}
+\emph{Biometrika}, \bold{92}(4), 965--970.
+\doi{10.1093/biomet/92.4.965}.
 }
 \seealso{
 Other survival measures: 
@@ -49,7 +52,7 @@ Other survival measures:
 \code{\link{mlr_measures_surv.hung_auc}},
 \code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.loglossSE}},
+\code{\link{mlr_measures_surv.logloss_se}},
 \code{\link{mlr_measures_surv.logloss}},
 \code{\link{mlr_measures_surv.maeSE}},
 \code{\link{mlr_measures_surv.mae}},

@@ -1,7 +1,7 @@
 #' @title Density Task
 #'
 #' @description
-#' This task specializes [Task] for density estimation problems.
+#' This task specializes [TaskUnsupervised] for density estimation problems.
 #' The target column is assumed to be numeric.
 #' The `task_type` is set to `"density"`.
 #'
@@ -18,7 +18,7 @@
 #' task$task_type
 #' task$truth()
 TaskDens = R6::R6Class("TaskDens",
-  inherit = Task,
+  inherit = TaskUnsupervised,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.

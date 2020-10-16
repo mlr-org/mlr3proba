@@ -8,7 +8,7 @@
 #' The default kernel is Epanechnikov (chosen to reduce dependencies).
 #'
 #' @references
-#' \cite{mlr3proba}{silverman_1986}
+#' `r tools::toRd(bibentries["silverman_1986"])`
 #'
 #' @export
 LearnerDensKDE = R6::R6Class("LearnerDensKDE",
@@ -75,7 +75,7 @@ LearnerDensKDE = R6::R6Class("LearnerDensKDE",
     },
 
     .predict = function(task) {
-      PredictionDens$new(task = task, pdf = self$model$pdf(task$truth()))
+      list(pdf = self$model$pdf(task$truth()))
     }
   )
 )

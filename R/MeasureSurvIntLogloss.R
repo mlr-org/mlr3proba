@@ -19,7 +19,7 @@
 #' @template param_se
 #'
 #' @references
-#' \cite{mlr3proba}{graf_1999}
+#' `r tools::toRd(bibentries["graf_1999"])`
 #'
 #' @family Probabilistic survival measures
 #' @family distr survival measures
@@ -34,7 +34,7 @@ MeasureSurvIntLogloss = R6::R6Class("MeasureSurvIntLogloss",
         integrated = integrated,
         times = times,
         method = method,
-        id = "surv.intlogloss",
+        id = ifelse(se, "surv.intlogloss_se", "surv.intlogloss"),
         range = c(0, Inf),
         minimize = TRUE,
         packages = "distr6",

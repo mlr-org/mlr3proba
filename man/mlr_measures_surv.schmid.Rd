@@ -26,7 +26,7 @@ between time-points (\code{method == 2}). Then the sample mean is taken over all
 \section{Dictionary}{
 
 This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvSchmid$new()
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:mlr_sugar]{msr()}:\preformatted{MeasureSurvSchmid$new()
 mlr_measures$get("surv.schmid")
 msr("surv.schmid")
 }
@@ -43,8 +43,14 @@ msr("surv.schmid")
 }
 
 \references{
-\cite{mlr3proba}{schemper_2000}
-\cite{mlr3proba}{schmid_2011}
+Schemper, Michael, Henderson, Robin (2000).
+\dQuote{Predictive Accuracy and Explained Variation in Cox Regression.}
+\emph{Biometrics}, \bold{56}, 249--255.
+\doi{10.1002/sim.1486}.
+Schmid, Matthias, Hielscher, Thomas, Augustin, Thomas, Gefeller, Olaf (2011).
+\dQuote{A Robust Alternative to the Schemper-Henderson Estimator of Prediction Error.}
+\emph{Biometrics}, \bold{67}(2), 524--535.
+\doi{10.1111/j.1541-0420.2010.01459.x}.
 }
 \seealso{
 Other survival measures: 
@@ -60,7 +66,7 @@ Other survival measures:
 \code{\link{mlr_measures_surv.hung_auc}},
 \code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.loglossSE}},
+\code{\link{mlr_measures_surv.logloss_se}},
 \code{\link{mlr_measures_surv.logloss}},
 \code{\link{mlr_measures_surv.maeSE}},
 \code{\link{mlr_measures_surv.mae}},
@@ -84,7 +90,7 @@ Other Probabilistic survival measures:
 \code{\link{mlr_measures_surv.graf}},
 \code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.loglossSE}},
+\code{\link{mlr_measures_surv.logloss_se}},
 \code{\link{mlr_measures_surv.logloss}}
 
 Other distr survival measures: 
@@ -93,7 +99,7 @@ Other distr survival measures:
 \code{\link{mlr_measures_surv.graf}},
 \code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.loglossSE}},
+\code{\link{mlr_measures_surv.logloss_se}},
 \code{\link{mlr_measures_surv.logloss}}
 }
 \concept{Probabilistic survival measures}

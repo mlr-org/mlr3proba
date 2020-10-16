@@ -17,7 +17,7 @@ measures will all be re-written and implemented directly in \code{mlr3proba}.
 \section{Dictionary}{
 
 This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvOQuigleyR2$new()
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:mlr_sugar]{msr()}:\preformatted{MeasureSurvOQuigleyR2$new()
 mlr_measures$get("surv.oquigley_r2")
 msr("surv.oquigley_r2")
 }
@@ -34,7 +34,10 @@ msr("surv.oquigley_r2")
 }
 
 \references{
-\cite{mlr3proba}{oquigley_2005}
+O'Quigley J, Xu R, Stare J (2005).
+\dQuote{Explained randomness in proportional hazards models.}
+\emph{Statistics in Medicine}, \bold{24}(3), 479--489.
+\doi{10.1002/sim.1946}.
 }
 \seealso{
 Other survival measures: 
@@ -50,7 +53,7 @@ Other survival measures:
 \code{\link{mlr_measures_surv.hung_auc}},
 \code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.loglossSE}},
+\code{\link{mlr_measures_surv.logloss_se}},
 \code{\link{mlr_measures_surv.logloss}},
 \code{\link{mlr_measures_surv.maeSE}},
 \code{\link{mlr_measures_surv.mae}},

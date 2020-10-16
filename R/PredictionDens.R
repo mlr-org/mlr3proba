@@ -20,13 +20,10 @@ PredictionDens = R6Class("PredictionDens",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
     #' @param task ([TaskSurv])\cr
-    #'   Task, used to extract defaults for `row_ids` and `truth`.
+    #'   Task, used to extract defaults for `row_ids`.
     #'
     #' @param row_ids (`integer()`)\cr
     #'   Row ids of the predicted observations, i.e. the row ids of the test set.
-    #'
-    #' @param truth (`numeric()`)\cr
-    #'   True (observed) response.
     #'
     #' @param pdf (`numeric()`)\cr
     #'   Numeric vector of estimated probability density function, evaluated at 'target' column of
@@ -38,9 +35,9 @@ PredictionDens = R6Class("PredictionDens",
     #'
     #' @param check (`logical(1)`)\cr
     #'   If `TRUE`, performs argument checks and predict type conversions.
-    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), pdf = NULL,
+    initialize = function(task = NULL, row_ids = task$row_ids, pdf = NULL,
                           cdf = NULL, check = TRUE) {
-      pdata = list(row_ids = row_ids, truth = truth, pdf = pdf, cdf = cdf)
+      pdata = list(row_ids = row_ids, pdf = pdf, cdf = cdf)
       pdata = discard(pdata, is.null)
       class(pdata) = c("PredictionDataDens", "PredictionData")
 
@@ -73,6 +70,6 @@ PredictionDens = R6Class("PredictionDens",
 
 #' @export
 as.data.table.PredictionDens = function(x, ...) { # nolint
-  tab = as.data.table(x$data[c("row_ids", "truth", "pdf", "cdf")])
+  tab = as.data.table(x$data[c("row_ids", "pdf", "cdf")])
   setnames(tab, "row_ids", "row_id")[]
 }

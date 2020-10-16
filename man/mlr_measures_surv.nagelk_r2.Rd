@@ -5,7 +5,7 @@
 \alias{MeasureSurvNagelkR2}
 \title{Nagelkerke's R2 Survival Measure}
 \description{
-Calls \code{\link[survAUC:Nagelk]{survAUC::Nagelk()}}.
+Calls \code{\link[survAUC:OXS]{survAUC::Nagelk()}}.
 
 Assumes Cox PH model specification.
 }
@@ -17,7 +17,7 @@ measures will all be re-written and implemented directly in \code{mlr3proba}.
 \section{Dictionary}{
 
 This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
-\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:msr]{msr()}:\preformatted{MeasureSurvNagelkR2$new()
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:mlr_sugar]{msr()}:\preformatted{MeasureSurvNagelkR2$new()
 mlr_measures$get("surv.nagelk_r2")
 msr("surv.nagelk_r2")
 }
@@ -34,7 +34,9 @@ msr("surv.nagelk_r2")
 }
 
 \references{
-\cite{mlr3proba}{nagelkerke_1991}
+Nagelkerke, JD N, others (1991).
+\dQuote{A note on a general definition of the coefficient of determination.}
+\emph{Biometrika}, \bold{78}(3), 691--692.
 }
 \seealso{
 Other survival measures: 
@@ -50,7 +52,7 @@ Other survival measures:
 \code{\link{mlr_measures_surv.hung_auc}},
 \code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.loglossSE}},
+\code{\link{mlr_measures_surv.logloss_se}},
 \code{\link{mlr_measures_surv.logloss}},
 \code{\link{mlr_measures_surv.maeSE}},
 \code{\link{mlr_measures_surv.mae}},

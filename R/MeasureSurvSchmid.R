@@ -17,8 +17,7 @@
 #' @template param_se
 #'
 #' @references
-#' \cite{mlr3proba}{schemper_2000}
-#' \cite{mlr3proba}{schmid_2011}
+#' `r tools::toRd(bibentries[c("schemper_2000", "schmid_2011")])`
 #'
 #' @family Probabilistic survival measures
 #' @family distr survival measures
@@ -33,7 +32,7 @@ MeasureSurvSchmid = R6::R6Class("MeasureSurvSchmid",
         integrated = integrated,
         times = times,
         method = method,
-        id = "surv.schmid",
+        id = ifelse(se, "surv.schmid_se", "surv.schmid"),
         range = c(0, Inf),
         minimize = TRUE,
         packages = "distr6",

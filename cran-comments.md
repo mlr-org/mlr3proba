@@ -1,6 +1,6 @@
 ## Reason for Resubmission
 
-Fixed URLs, http -> https
+Fixes valgrind, though this could not be externally checked.
 
 ## Downstream dependencies
 
