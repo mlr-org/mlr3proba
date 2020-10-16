@@ -43,7 +43,7 @@ LearnerDensKDE = R6::R6Class("LearnerDensKDE",
   private = list(
     .train = function(task) {
 
-      if(self$param_set$values$kernel == "Norm" && !requireNamespace("pracma")) {
+      if(self$param_set$values$kernel == "Norm" && !requireNamespace("pracma", quietly = TRUE)) {
         stop("{pracma} is required for Normal kernel, reverting to Epanechnikov.")
         self$param_set$values$kernel == "Epan"
       }
