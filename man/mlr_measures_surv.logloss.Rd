@@ -131,12 +131,7 @@ If \code{TRUE} removes censored observations from the calculation.}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvLogloss$new(
-  id = "surv.logloss",
-  eps = 1e-15,
-  se = FALSE,
-  rm_cens = TRUE
-)}
+\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvLogloss$new(eps = 1e-15, se = FALSE, rm_cens = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
