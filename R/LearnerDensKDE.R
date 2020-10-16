@@ -42,10 +42,18 @@ LearnerDensKDE = R6::R6Class("LearnerDensKDE",
 
   private = list(
     .train = function(task) {
+
+      if(self$param_set$values$kernel == "Norm" && !requireNamespace("pracma")) {
+        stop("{pracma} is required for Normal kernel, reverting to Epanechnikov.")
+        self$param_set$values$kernel == "Epan"
+      }
+
       kernel = get(as.character(subset(
         listKernels(),
         ShortName == self$param_set$values$kernel,
         ClassName)))$new()
+
+
       bw = ifelse(self$param_set$values$bandwidth == "silver",
         0.9 * min(sd(task$truth()), stats::IQR(task$truth(), na.rm = TRUE) / 1.349, na.rm = TRUE) *
           length(task$truth())^-0.2,
