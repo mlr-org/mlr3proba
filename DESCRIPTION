@@ -78,6 +78,7 @@ Collate:
     'LearnerSurvRpart.R'
     'MeasureDens.R'
     'MeasureDensLogloss.R'
+    'MeasureDensSquaredloss.R'
     'MeasureRegrLogloss.R'
     'MeasureSurv.R'
     'MeasureSurvIntegrated.R'
