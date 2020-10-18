@@ -45,15 +45,13 @@ MeasureDensSquared = R6::R6Class("MeasureDensSquared",
       data = task$truth()
 
       #calling the bandwidth
-      if (learner$id == "dens.kde") {
-        bw = learner$param_set$values$bandwidth
-      } else if (learner$id %in% c("dens.kde_ks", "dens.nonpar")) {
-        bw = learner$param_set$values$h
-      } else if (learner$id == "dens.kde_kd") {
-        bw = learner$param_set$values$bw
-      } else if (learner$id == "dens.mixed") {
-        bw = learner$param_set$values$bws
-      }
+      bw = switch(learner$id,
+             "dens.kde" = learner$param_set$values$bandwidth,
+             "dens.kde_ks" = learner$param_set$values$h,
+             "dens.nonpar" = learner$param_set$values$h,
+             "dens.kde_kd" = learner$param_set$values$bw,
+             "dens.mixed" = learner$param_set$values$bws
+             )
 
       #vectorized the data
       dat <- sapply(data, function (x, y) ((x - y) / bw), y = data)
