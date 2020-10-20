@@ -6,6 +6,7 @@
 * Patch for valgrind
 * `TaskDens` now inherits from `TaskUnsupervised`
 * Added calibration plot for comparing average predicted survival distribution to Kaplan-Meier
+* Removed unneccessary `pracma` dependency in learners
 
 # mlr3proba 0.2.2
 

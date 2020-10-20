@@ -145,6 +145,8 @@ register_mlr3 = function() {
   x$add("surv.maeSE", MeasureSurvMAESE)
 }
 register_mlr3pipelines = function() {
+  mlr3pipelines::add_class_hierarchy_cache(c("PredictionSurv", "Prediction"))
+
   x = utils::getFromNamespace("mlr_pipeops", ns = "mlr3pipelines")
 
   # deprecated
@@ -176,6 +178,7 @@ register_mlr3pipelines = function() {
   if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
     register_mlr3pipelines()
   }
+
 
   setHook(packageEvent("mlr3", "onLoad"), function(...) register_mlr3(), action = "append")
   setHook(packageEvent("mlr3pipelines", "onLoad"), function(...) register_mlr3pipelines(),
