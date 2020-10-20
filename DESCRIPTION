@@ -39,7 +39,7 @@ Depends:
 Imports:
     checkmate,
     data.table,
-    distr6 (>= 1.4.4),
+    distr6 (>= 1.4.4.9000),
     mlr3 (>= 0.6.0),
     mlr3misc (>= 0.1.7),
     paradox (>= 0.1.0),
