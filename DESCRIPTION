@@ -39,7 +39,7 @@ Depends:
 Imports:
     checkmate,
     data.table,
-    distr6 (>= 1.4.3),
+    distr6 (>= 1.4.4.9000),
     mlr3 (>= 0.6.0),
     mlr3misc (>= 0.1.7),
     paradox (>= 0.1.0),
@@ -48,6 +48,7 @@ Imports:
     survival
 Suggests:
     bujar,
+    cubature,
     ggplot2,
     knitr,
     lgr,
@@ -59,6 +60,8 @@ Suggests:
     simsurv,
     survAUC,
     testthat
+Remotes:
+    alan-turing-institute/distr6
 LinkingTo:
     Rcpp
 ByteCompile: true

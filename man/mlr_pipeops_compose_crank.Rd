@@ -58,19 +58,25 @@ both the \code{crank} and \code{response} are overwritten.
 
 The \code{median}, \code{mode}, or \code{mean} will use analytical expressions if possible but if not they are
 calculated using \link[distr6:median.Distribution]{distr6::median.Distribution}, \link[distr6:mode]{distr6::mode}, or \link[distr6:mean.Distribution]{distr6::mean.Distribution}
-respectively.
+respectively. \code{mean} requires \CRANpkg{cubature}.
 }
 
 \examples{
 \dontrun{
 if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
-library(mlr3)
-library(mlr3pipelines)
-task = tsk("rats")
+  library(mlr3)
+  library(mlr3pipelines)
+  task = tsk("rats")
 
-learn = lrn("surv.coxph")$train(task)$predict(task)
-poc = po("crankcompose", param_vals = list(method = "mean"))
-poc$predict(list(learn))[[1]]
+  learn = lrn("surv.coxph")$train(task)$predict(task)
+  poc = po("crankcompose", param_vals = list(method = "median"))
+  poc$predict(list(learn))[[1]]
+
+  if (requireNamespace("cubature", quietly = TRUE)) {
+    learn = lrn("surv.coxph")$train(task)$predict(task)
+    poc = po("crankcompose", param_vals = list(method = "mean"))
+    poc$predict(list(learn))[[1]]
+  }
 }
 }
 }
