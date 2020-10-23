@@ -85,11 +85,8 @@ register_mlr3 = function() {
   x = utils::getFromNamespace("mlr_measures", ns = "mlr3")
 
   x$add("dens.logloss", MeasureDensLogloss)
-<<<<<<< Updated upstream
-  x$add("dens.squared", MeasureDensSquared)
-=======
   x$add("dens.squared", MeasureDensSquaredloss)
->>>>>>> Stashed changes
+
 
   # x$add("regr.logloss", MeasureRegrLogloss)
 
