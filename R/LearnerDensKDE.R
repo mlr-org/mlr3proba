@@ -67,15 +67,17 @@ LearnerDensKDE = R6::R6Class("LearnerDensKDE",
         bw = bw,
         kernel = kernel))
 
-      Distribution$new(
-        name = paste(self$param_set$values$kernel, "KDE"),
-        short_name = paste0(self$param_set$values$kernel, "_KDE"),
-        type = set6::Reals$new(),
-        pdf = pdf)
+
+      list(distr = Distribution$new(
+          name = paste(self$param_set$values$kernel, "KDE"),
+          short_name = paste0(self$param_set$values$kernel, "_KDE"),
+          pdf = pdf,
+          type = set6::Reals$new()), bw = bw, kernel = self$param_set$values$kernel)
+
     },
 
     .predict = function(task) {
-      list(pdf = self$model$pdf(task$truth()))
+      list(pdf = self$model$distr$pdf(task$truth()))
     }
   )
 )
