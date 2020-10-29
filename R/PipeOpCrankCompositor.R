@@ -1,5 +1,5 @@
 #' @title PipeOpCrankCompositor
-#' @name mlr_pipeops_crankcompose
+#' @name mlr_pipeops_compose_crank
 #' @template param_pipelines
 #'
 #' @description

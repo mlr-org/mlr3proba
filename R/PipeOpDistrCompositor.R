@@ -1,5 +1,5 @@
 #' @title PipeOpDistrCompositor
-#' @name mlr_pipeops_distrcompose
+#' @name mlr_pipeops_compose_distr
 #' @template param_pipelines
 #'
 #' @description
