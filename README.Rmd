@@ -72,45 +72,13 @@ Install the development version from GitHub:
 remotes::install_github("mlr-org/mlr3proba")
 ```
 
-## Survival Analysis
+## Learners
 
-### Survival Learners
+Core learners are implemented in [mlr3proba](https://github.com/mlr-org/mlr3proba), recommended common learners are implemented in [mlr3learners](https://github.com/mlr-org/mlr3learners), and many more are implemented in [mlr3extralearners](https://github.com/mlr-org/mlr3extralearners). Use the [interactive search table](https://mlr3extralearners.mlr-org.com/articles/learners/list_learners.html) to search for available learners and see the [learner status page](https://mlr3extralearners.mlr-org.com/articles/learners/learner_status.html) for their live status.
 
-Learners are located either in [mlr3proba](https://github.com/mlr-org/mlr3proba), the [mlr3learners repository](https://github.com/mlr-org/mlr3learners), or the
-[mlr3learners organisation](https://github.com/mlr3learners). See [here](https://github.com/mlr3learners/mlr3learners.drat)
-for instructions in how to install learners from the [mlr3learners organisation](https://github.com/mlr3learners).
+## Measures 
 
-| ID | Learner | Package |
-| :--| :------ | :------ |
-| [surv.akritas](https://github.com/mlr3learners/mlr3learners.proba) | Akritas Conditional Non-Parametric Estimator |  [mlr3learners.proba](https://github.com/mlr3learners/mlr3learners.proba) |
-| [surv.blackboost](https://github.com/mlr3learners/mlr3learners.mboost) | Gradient Boosting with Regression Trees |  [mboost](https://CRAN.R-project.org/package=mboost) |
-| [surv.coxboost](https://github.com/mlr3learners/mlr3learners.coxboost) | Cox Model with Likelihood Based Boosting |  [CoxBoost](https://CRAN.R-project.org/package=CoxBoost) |
-| [surv.coxph](https://mlr3proba.mlr-org.com/reference/mlr_learners_surv.coxph.html) | Cox Proportional Hazards | [survival](https://CRAN.R-project.org/package=survival) |
-| [surv.coxtime](https://github.com/mlr3learners/mlr3learners.pycox) | Non-Linear Cox Neural Network | [pycox](https://pypi.org/project/pycox/) |
-| [surv.cvcoxboost](https://github.com/mlr3learners/mlr3learners.coxboost) | Cox Model with Cross-Validation Likelihood Based Boosting |  [CoxBoost](https://CRAN.R-project.org/package=CoxBoost) |
-| [surv.cvglmnet](https://mlr3learners.mlr-org.com/) | Cross-Validated GLM with Elastic Net Regularization | [glmnet](https://CRAN.R-project.org/package=glmnet) |
-| [surv.deephit](https://github.com/mlr3learners/mlr3learners.pycox) | Discerete Deep Ranking Neural Network | [pycox](https://pypi.org/project/pycox/) |
-| [surv.deepsurv](https://github.com/mlr3learners/mlr3learners.pycox) | Deep Cox Proportional Hazards | [pycox](https://pypi.org/project/pycox/) |
-| [surv.dnn](https://github.com/mlr3learners/mlr3learners.proba) | Deep Neural Network with Pseudo Values |  [mlr3learners.proba](https://github.com/mlr3learners/mlr3learners.proba) |
-| [surv.flexible](https://github.com/mlr3learners/mlr3learners.flexsurv) | Flexible Parametric Spline Models | [flexsurv](https://CRAN.R-project.org/package=flexsurv) |
-| [surv.gamboost](https://github.com/mlr3learners/mlr3learners.mboost) | Gradient Boosting for Additive Models | [mboost](https://CRAN.R-project.org/package=mboost) |
-| [surv.gbm](https://github.com/mlr3learners/mlr3learners.gbm) | Generalized Boosting Regression Modeling | [gbm](https://CRAN.R-project.org/package=gbm) |
-| [surv.glmboost](https://github.com/mlr3learners/mlr3learners.mboost) | Gradient Boosting with Component-wise Linear Models | [mboost](https://CRAN.R-project.org/package=mboost) |
-| [surv.glmnet](https://mlr3learners.mlr-org.com/) | GLM with Elastic Net Regularization | [glmnet](https://CRAN.R-project.org/package=glmnet) |
-| [surv.kaplan](https://mlr3proba.mlr-org.com/reference/mlr_learners_surv.kaplan.html) | Kaplan-Meier Estimator | [survival](https://CRAN.R-project.org/package=survival) |
-| [surv.loghaz](https://github.com/mlr3learners/mlr3learners.pycox) | Logistic Hazard Neural Network | [pycox](https://pypi.org/project/pycox/) |
-| [surv.mboost](https://github.com/mlr3learners/mlr3learners.mboost) | Gradient Boosting for Generalized Additive Models | [mboost](https://CRAN.R-project.org/package=mboost) |
-| [surv.nelson](https://github.com/mlr3learners/mlr3learners.survival) | Nelson-Aalen Estimator | [survival](https://CRAN.R-project.org/package=survival) |
-| [surv.parametric](https://github.com/mlr3learners/mlr3learners.survival) | Fully Parametric Survival Models | [survival](https://CRAN.R-project.org/package=survival) |
-| [surv.penalized](https://github.com/mlr3learners/mlr3learners.penalized) | L1 and L2 Penalized Estimation in GLMs | [penalized](https://CRAN.R-project.org/package=penalized) |
-| [surv.pchazard](https://github.com/mlr3learners/mlr3learners.pycox) | Piecewise Constant Hazard Neural Network | [pycox](https://pypi.org/project/pycox/) |
-| [surv.randomForestSRC](https://github.com/mlr3learners/mlr3learners.randomforestsrc) | RandomForestSRC Survival Forest | [randomForestSRC](https://CRAN.R-project.org/package=randomForestSRC) |
-| [surv.ranger](https://github.com/mlr-org/mlr3learners/) | Ranger Survival Forest | [ranger](https://CRAN.R-project.org/package=ranger) |
-| [surv.rpart](https://mlr3proba.mlr-org.com/reference/mlr_learners_surv.rpart.html) | Rpart Survival Forest | [rpart](https://CRAN.R-project.org/package=rpart) |
-| [surv.svm](https://github.com/mlr3learners/mlr3learners.survivalsvm) |  Regression, Ranking and Hybrid Support Vector Machines | [survivalsvm](https://CRAN.R-project.org/package=survivalsvm) |
-| [surv.xgboost](https://github.com/mlr-org/mlr3learners/) |  Cox Model with Gradient Boosting Trees | [xgboost](https://CRAN.R-project.org/package=xgboost) |
-
-### Survival Measures
+For density estimation only the log-loss is currently implemented, for survival analysis, the following measures are implemented:
 
 | ID | Measure | Package |
 | :--| :------ | :------ |
@@ -130,35 +98,6 @@ for instructions in how to install learners from the [mlr3learners organisation]
   | [surv.uno_tnr](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.uno_tnr.html) | Uno's TNR | [survAUC](https://CRAN.R-project.org/package=survAUC) |
 | [surv.uno_tpr](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.uno_tpr.html) | Uno's TPR | [survAUC](https://CRAN.R-project.org/package=survAUC) |
   | [surv.xu_r2](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.xu_r2.html) | Xu and O'Quigley's R2 | [survAUC](https://CRAN.R-project.org/package=survAUC) |
-
-
-## Density Estimation
-
-### Density Learners
-
-Learners are located either in [mlr3proba](https://github.com/mlr-org/mlr3proba), the [mlr3learners repository](https://github.com/mlr-org/mlr3learners), or the
-[mlr3learners organisation](https://github.com/mlr3learners). See [here](https://github.com/mlr3learners/mlr3learners.drat)
-for instructions in how to install learners from the [mlr3learners organisation](https://github.com/mlr3learners).
-
-| ID | Learner | Package |
-| :--| :------ | :------ |
-| [dens.hist](https://mlr3proba.mlr-org.com/reference/mlr_learners_dens.hist.html) | Univariate Histogram Density Estimator |   graphics |
-| [dens.kde](https://mlr3proba.mlr-org.com/reference/mlr_learners_dens.kde.html) | Univariate KDE for Different Kernels |   [distr6](https://CRAN.R-project.org/package=distr6) |
-| [dens.kdeKD](https://github.com/mlr3learners/mlr3learners.kerdiest) | Nonparametric KDE Using Plug-in Method of Polansky and Baker|  [kerdiest](https://CRAN.R-project.org/package=kerdiest) |
-| [dens.kdeKS](https://github.com/mlr3learners/mlr3learners.ks) | Nonparametric Gaussian KDE |  [ks](https://CRAN.R-project.org/package=ks) |
-| [dens.locfit](https://github.com/mlr3learners/mlr3learners.locfit) | Nonparametric KDE Using Gaussian kernel |  [locfit](https://CRAN.R-project.org/package=locfit) |
-| [dens.logspline](https://github.com/mlr3learners/mlr3learners.logspline) | Logspline Method for Density Estimation  |  [logspline](https://CRAN.R-project.org/package=logspline) |
-| [dens.mixed](https://github.com/mlr3learners/mlr3learners.np) | KDE Using Li and Racine Bandwidth Specification  |  [np](https://CRAN.R-project.org/package=np) |
-| [dens.nonpar](https://github.com/mlr3learners/mlr3learners.sm) | Nonparametric KDE Using Normal Optimal Smoothing Parameter |  [sm](https://CRAN.R-project.org/package=sm) |
-| [dens.pen](https://github.com/mlr3learners/mlr3learners.pendensity) | Density Estimation with a Penalized Mixture |  [pendensity](https://CRAN.R-project.org/package=pendensity) |
-| [dens.plug](https://github.com/mlr3learners/mlr3learners.plugdensity) | Density Estimation with Iterative Plug-in Bandwidth Selection |  [plugdensity](https://CRAN.R-project.org/package=plugdensity) |
-| [dens.spline](https://github.com/mlr3learners/mlr3learners.gss) | Density Estimation Using Smoothing Spline ANOVA |  [gss](https://CRAN.R-project.org/package=gss) |
-
-### Density Measures
-
-| ID | Measure | Package |
-| :--| :------ | :------ |
-| [dens.logloss](https://mlr3proba.mlr-org.com/reference/mlr_measures_dens.logloss.html) | Log Loss | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba)|
 
 ## Near-Future Plans
 
