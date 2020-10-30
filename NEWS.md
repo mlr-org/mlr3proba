@@ -3,7 +3,6 @@
 * All learners that previously lived in the mlr3learners organisation are now in the [mlr3extralearners](https://github.com/mlr-org/mlr3extralearners) repository.
 * Fixed bottleneck in `MeasureSurvLogloss`
 * Bugfix in `MeasureSurvCalibrationAlpha`
-* Removed `pracma` from `Suggests`
 * Patch for valgrind
 * `TaskDens` now inherits from `TaskUnsupervised` which means `target`/`truth` has been removed. No specification of a `target` column is required, instead a one-column matrix-like object or numeric vector should be passed to the task `backend` and the density will be estimated for this column, or two columns and one set as `weight`.
 * Fixed bug in  `load_eruption` to fix name of data columns
