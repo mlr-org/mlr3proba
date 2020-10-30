@@ -38,7 +38,8 @@ TaskGeneratorSimsurv = R6Class("TaskGeneratorSimsurv",
       ))
       ps$values = list(lambdas = 0.1, gammas = 1.5, maxt = 5)
 
-      super$initialize(id = "simsurv", task_type = "classif", packages = "mlbench", param_set = ps)
+      super$initialize(id = "simsurv", task_type = "classif", packages = "mlbench", param_set = ps,
+                       man = "mlr3::mlr_task_generators_simsurv")
     }
   ),
 

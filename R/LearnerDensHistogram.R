@@ -16,7 +16,7 @@ LearnerDensHistogram = R6::R6Class("LearnerDensHistogram",
           params = list(
             ParamUty$new(id = "breaks", default = "Sturges", tags = "train")
         )),
-        feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
+        feature_types = c("integer", "numeric"),
         predict_types = c("pdf", "cdf"),
         packages = "distr6",
         man = "mlr3proba::mlr_learners_dens.hist"
@@ -27,16 +27,12 @@ LearnerDensHistogram = R6::R6Class("LearnerDensHistogram",
   private = list(
     .train = function(task) {
       pars = self$param_set$get_values(tag = "train")
-
-      data = as.numeric(unlist(task$data(cols = task$target_names)))
-
-      fit = invoke(.histogram, dat = data, .args = pars)
-
+      fit = invoke(.histogram, dat = task$data()[[1]], .args = pars)
       set_class(list(distr = fit$distr, hist = fit$hist), "dens.hist")
     },
 
     .predict = function(task) {
-      newdata = as.numeric(unlist(task$data(cols = task$target_names)))
+      newdata = task$data()[[1]]
       list(pdf = self$model$distr$pdf(newdata), cdf = self$model$distr$cdf(newdata))
     }
   )

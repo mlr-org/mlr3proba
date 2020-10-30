@@ -5,7 +5,8 @@
 * Bugfix in `MeasureSurvCalibrationAlpha`
 * Removed `pracma` from `Suggests`
 * Patch for valgrind
-* `TaskDens` now inherits from `TaskUnsupervised`
+* `TaskDens` now inherits from `TaskUnsupervised` which means `target`/`truth` has been removed. No specification of a `target` column is required, instead a one-column matrix-like object or numeric vector should be passed to the task `backend` and the density will be estimated for this column, or two columns and one set as `weight`.
+* Fixed bug in  `load_eruption` to fix name of data columns
 * Added calibration plot for comparing average predicted survival distribution to Kaplan-Meier
 * Removed unneccessary `pracma` dependency in learners
 

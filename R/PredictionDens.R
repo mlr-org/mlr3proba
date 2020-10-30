@@ -26,12 +26,12 @@ PredictionDens = R6Class("PredictionDens",
     #'   Row ids of the predicted observations, i.e. the row ids of the test set.
     #'
     #' @param pdf (`numeric()`)\cr
-    #'   Numeric vector of estimated probability density function, evaluated at 'target' column of
-    #'   test set. One element for each observation in the test set.
+    #'   Numeric vector of estimated probability density function, evaluated at values in test set.
+    #'   One element for each observation in the test set.
     #'
     #' @param cdf (`numeric()`)\cr
-    #'   Numeric vector of estimated cumulative distribution function, evaluated at 'target' column
-    #'   of test set. One element for each observation in the test set.
+    #'   Numeric vector of estimated cumulative distribution function, evaluated at values in test
+    #'   set. One element for each observation in the test set.
     #'
     #' @param check (`logical(1)`)\cr
     #'   If `TRUE`, performs argument checks and predict type conversions.

@@ -5,15 +5,14 @@
 \title{Density Task}
 \description{
 This task specializes \link{TaskUnsupervised} for density estimation problems.
-The target column is assumed to be numeric.
+The data in \code{backend} should be a numeric vector or a one column matrix-like object.
 The \code{task_type} is set to \code{"density"}.
 
 Predefined tasks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks}.
 }
 \examples{
-task = TaskDens$new("precip", backend = data.frame(target = precip), target = "target")
+task = TaskDens$new("precip", backend = precip)
 task$task_type
-task$truth()
 }
 \seealso{
 Other Task: 
@@ -27,7 +26,6 @@ Other Task:
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{TaskDens$new()}}
-\item \href{#method-truth}{\code{TaskDens$truth()}}
 \item \href{#method-clone}{\code{TaskDens$clone()}}
 }
 }
@@ -59,7 +57,7 @@ Other Task:
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskDens$new(id, backend, target)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TaskDens$new(id, backend)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -69,36 +67,11 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 Identifier for the new instance.}
 
 \item{\code{backend}}{(\link{DataBackend})\cr
-Either a \link{DataBackend}, or any object which is convertible to a \link{DataBackend} with \code{as_data_backend()}.
-E.g., a \code{data.frame()} will be converted to a \link{DataBackendDataTable}.}
-
-\item{\code{target}}{(\code{character(1)})\cr
-Name of the target column.}
+Either a \link{DataBackend}, a matrix-like object, or a numeric vector.
+If weights are used then two columns expected, otherwise one column. The weight column
+must be clearly specified (via \verb{[Task]$col_roles}) or the learners will break.}
 }
 \if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-truth"></a>}}
-\if{latex}{\out{\hypertarget{method-truth}{}}}
-\subsection{Method \code{truth()}}{
-Returns the target column for specified \code{row_ids}, this is unsupervised so should not be
-thought of as a 'true' prediction.
-Defaults to all rows with role "use".
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskDens$truth(rows = NULL)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{rows}}{\code{integer()}\cr
-Row indices.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{numeric()}.
 }
 }
 \if{html}{\out{<hr>}}

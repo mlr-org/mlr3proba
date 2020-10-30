@@ -1,5 +1,3 @@
-context("mlr_measures_dens")
-
 task = TaskGeneratorSimdens$new()$generate(20)
 
 test_that("mlr_measures", {

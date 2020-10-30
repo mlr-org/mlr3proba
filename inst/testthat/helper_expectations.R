@@ -1,11 +1,11 @@
 expect_task_dens = function(task) {
   expect_is(task, "TaskDens")
   expect_task(task)
-  expect_is(task$truth(), "numeric")
+  expect_is(task$data(), "data.table")
+  expect_equal(task$ncol, 1L)
 
   f = task$formula()
   expect_formula(f)
-  expect_set_equal(mlr3misc::extract_vars(f)$lhs, task$target_names)
 }
 
 expect_prediction_dens = function(p) {

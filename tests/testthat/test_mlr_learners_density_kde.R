@@ -6,13 +6,13 @@ test_that("autotest", {
   expect_true(result, info = result$error)
 })
 
-data = data.frame("A" = c(0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6))
-task = TaskDens$new(id = "a", data, target = "A")
+x = c(0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6)
+task = TaskDens$new(id = "a", x)
 lrn = lrn("dens.kde", bandwidth = 0.5, kernel = "Epan")
 lrn$train(task)
 
 test_that("pdf", {
-  d = stats::density(data$A, kernel = "epan", bw = 0.5)
-  task_test = TaskDens$new(id = "a", data.frame(a = d$x[20]), target = "a")
+  d = stats::density(x, kernel = "epan", bw = 0.5)
+  task_test = TaskDens$new(id = "a", d$x[20])
   expect_equal(round(d$y[20], 2), round(lrn$predict(task_test)$pdf, 2))
 })

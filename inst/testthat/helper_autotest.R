@@ -1,16 +1,15 @@
 generate_tasks.LearnerDens = function(learner, N = 30L, ...) { # nolint
-  target = rnorm(N)
-  data = cbind(data.table::data.table(target = target), generate_data(learner, N))
-  task = TaskDens$new("proto", mlr3::as_data_backend(data), target = "target")
+  task = TaskDens$new("proto", rnorm(N))
 
-  tasks = generate_generic_tasks(learner, task)
+  tasks = list()
+  tasks$feat_single_integer = TaskDens$new("feat_single_integer",
+                                           data.frame(integer = rbinom(N, 10, 0.5)))
+  tasks$feat_single_numeric = TaskDens$new("feat_single_numeric", data.frame(numeric = rnorm(N)))
+  tasks$weights = TaskDens$new("feat_single_numeric", data.frame(x = rnorm(N), weights = runif(N)))
 
   # generate sanity task
-  data = with_seed(100, {
-    data.table::data.table(x = c(rnorm(100, 0, 1), rnorm(100, 10, 1)), y = rnorm(200),
-      unimportant = runif(200))
-  })
-  tasks$sanity = TaskDens$new("sanity", mlr3::as_data_backend(data), target = "y")
+  data = with_seed(100, rnorm(1000, 10, 1))
+  tasks$sanity = TaskDens$new("sanity", data)
   tasks$sanity_reordered = tasks$sanity$clone(deep = TRUE)
 
   tasks

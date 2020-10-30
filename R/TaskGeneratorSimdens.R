@@ -28,15 +28,16 @@ TaskGeneratorSimdens = R6::R6Class("TaskGeneratorSimdens",
         id = "simdens",
         task_type = "dens",
         packages = "distr6",
-        param_set = param_set)
+        param_set = param_set,
+        man = "mlr3::mlr_task_generators_simdens"
+        )
     }
   ),
 
   private = list(
     .generate = function(n) {
       data = invoke(distr6::distrSimulate, n = n, .args = self$param_set$values)
-      data = data.frame(unimportant = stats::runif(n), y = data)
-      TaskDens$new(sprintf("%s_%i", self$id, n), data, target = "y")
+      TaskDens$new(sprintf("%s_%i", self$id, n), data)
     }
   )
 )

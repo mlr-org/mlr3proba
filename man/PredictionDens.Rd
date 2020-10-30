@@ -76,12 +76,12 @@ Task, used to extract defaults for \code{row_ids}.}
 Row ids of the predicted observations, i.e. the row ids of the test set.}
 
 \item{\code{pdf}}{(\code{numeric()})\cr
-Numeric vector of estimated probability density function, evaluated at 'target' column of
-test set. One element for each observation in the test set.}
+Numeric vector of estimated probability density function, evaluated at values in test set.
+One element for each observation in the test set.}
 
 \item{\code{cdf}}{(\code{numeric()})\cr
-Numeric vector of estimated cumulative distribution function, evaluated at 'target' column
-of test set. One element for each observation in the test set.}
+Numeric vector of estimated cumulative distribution function, evaluated at values in test
+set. One element for each observation in the test set.}
 
 \item{\code{check}}{(\code{logical(1)})\cr
 If \code{TRUE}, performs argument checks and predict type conversions.}
