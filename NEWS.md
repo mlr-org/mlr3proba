@@ -8,6 +8,7 @@
 * Fixed bug in  `load_eruption` to fix name of data columns
 * Added calibration plot for comparing average predicted survival distribution to Kaplan-Meier to [mlr3viz](https://github.com/mlr-org/mlr3viz)
 * Removed unneccessary `pracma` dependency in learners
+* Fix in `PipeOpDistrCompositor`, previously base distribution was only using the first predicted distribution, now the baseline is taken by averaging over all predictions with uniform weights
 
 # mlr3proba 0.2.2
 

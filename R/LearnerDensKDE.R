@@ -51,7 +51,7 @@ LearnerDensKDE = R6::R6Class("LearnerDensKDE",
       data = task$data()[[1]]
 
       kernel = get(as.character(subset(
-        listKernels(),
+        distr6::listKernels(),
         ShortName == self$param_set$values$kernel,
         ClassName)))$new()
 

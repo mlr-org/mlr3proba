@@ -121,8 +121,8 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
         form = self$param_set$values$form
         if (length(form) == 0) form = "aft"
 
-        base = base$distr[1]
-        times = unlist(base$properties$support$elements)
+        base = distr6::as.MixtureDistribution(base$distr)
+        times = unlist(base[1]$properties$support$elements)
 
         nr = length(inpred$data$row_ids)
         nc = length(times)
@@ -134,7 +134,7 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
         }
 
         timesmat = matrix(times, nrow = nr, ncol = nc, byrow = TRUE)
-        survmat = matrix(base$survival(times), nrow = nr, ncol = nc, byrow = TRUE)
+        survmat = matrix(1 - base$cdf(times), nrow = nr, ncol = nc, byrow = TRUE)
         lpmat = matrix(lp, nrow = nr, ncol = nc)
 
         if (form == "ph") {
