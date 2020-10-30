@@ -1,4 +1,4 @@
-# mlr3proba 0.2.2.9000
+# mlr3proba 0.2.3
 
 * All learners that previously lived in the mlr3learners organisation are now in the [mlr3extralearners](https://github.com/mlr-org/mlr3extralearners) repository.
 * Fixed bottleneck in `MeasureSurvLogloss`

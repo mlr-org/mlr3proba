@@ -1,10 +1,6 @@
-## Reason for Resubmission
-
-Fixes valgrind, though this could not be externally checked.
-
 ## Downstream dependencies
 
-All downstream dependencies OK.
+This will break `mlr3viz`, a patch is ready to fix this.
 
 ## Test Results
 
