@@ -45,6 +45,6 @@ generate_tasks.LearnerSurv = function(learner, N = 20L, ...) { # nolint
 registerS3method("generate_tasks", "LearnerSurv", generate_tasks.LearnerSurv)
 
 sanity_check.PredictionSurv = function(prediction, ...) { # nolint
-  prediction$score() >= 0
+  prediction$score() >= 0.5
 }
 registerS3method("sanity_check", "PredictionSurv", sanity_check.PredictionSurv)

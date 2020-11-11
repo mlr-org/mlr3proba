@@ -1,3 +1,7 @@
+# mlr3proba 0.2.4
+
+* CRITICAL BUG FIX - `compose_crank` was previously returning ranks with the reverse ordering so that higher ranks implied higher risk not lower.
+
 # mlr3proba 0.2.3
 
 * All learners that previously lived in the mlr3learners organisation are now in the [mlr3extralearners](https://github.com/mlr-org/mlr3extralearners) repository.

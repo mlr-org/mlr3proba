@@ -1,6 +1,10 @@
+## Reason for early submission
+
+Critical bug fix.
+
 ## Downstream dependencies
 
-This will break `mlr3viz`, a patch is ready to fix this.
+All OK.
 
 ## Test Results
 

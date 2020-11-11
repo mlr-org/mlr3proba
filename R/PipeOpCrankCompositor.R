@@ -132,7 +132,7 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
         if (!overwrite) {
           crank = inpred$crank
         } else {
-          crank = comp
+          crank = -comp
         }
 
         # i) not overwriting or requesting response, and already predicted
