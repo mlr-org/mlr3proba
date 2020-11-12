@@ -131,10 +131,12 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
             comp = numeric(length(inpred$crank))
           }
         } else {
-          comp = as.numeric(switch(method,
-                                   median = inpred$distr$median(),
-                                   mode = inpred$distr$mode(self$param_set$values$which)))
+          comp = switch(method,
+                        median = inpred$distr$median(),
+                        mode = inpred$distr$mode(self$param_set$values$which))
         }
+
+        comp = as.numeric(comp)
 
         # if crank exists and not overwriting then return predicted crank, otherwise compose
         if (!overwrite) {
