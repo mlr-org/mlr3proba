@@ -121,18 +121,28 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
         assert("distr" %in% inpred$predict_types)
         method = self$param_set$values$method
         if (length(method) == 0) method = "mean"
-        if (method == "mean") requireNamespace("cubature")
-        comp = as.numeric(switch(method,
-                                 median = inpred$distr$median(),
-                                 mode = inpred$distr$mode(self$param_set$values$which),
-                                 inpred$distr$mean(cubature = TRUE)
-        ))
+        if (method == "mean") {
+          comp = try(inpred$distr$mean(), silent = TRUE)
+          if(class(comp)[1] == "try-error") {
+            requireNamespace("cubature")
+            comp = try(inpred$distr$mean(cubature = TRUE), silent = TRUE)
+          }
+          if(class(comp)[1] == "try-error") {
+            comp = numeric(length(inpred$crank))
+          }
+        } else {
+          comp = as.numeric(switch(method,
+                                   median = inpred$distr$median(),
+                                   mode = inpred$distr$mode(self$param_set$values$which)))
+        }
 
         # if crank exists and not overwriting then return predicted crank, otherwise compose
         if (!overwrite) {
           crank = inpred$crank
         } else {
           crank = -comp
+          crank[is.na(crank)] = 1e3
+          crank[crank == Inf | crank == -Inf] = 1e3
         }
 
         # i) not overwriting or requesting response, and already predicted
@@ -145,6 +155,8 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
           # iv) requesting response and doesn't exist
         } else {
           response = comp
+          response[is.na(response)] = 0
+          response[response == Inf | response == -Inf] = 0
         }
 
         if (!anyMissing(inpred$lp)) {

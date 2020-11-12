@@ -1,3 +1,9 @@
+
+
+# mlr3proba 0.2.4.9000
+
+* `PipeOpCrankCompositor` updated to fix bottleneck in computation via `mean`. Now `Inf` or `NA` is replaced by `0` for `response` and `1000` for `crank`
+
 # mlr3proba 0.2.4
 
 * CRITICAL BUG FIX - `compose_crank` was previously returning ranks with the reverse ordering so that higher ranks implied higher risk not lower.
