@@ -1,3 +1,8 @@
+format_bib = function(...) {
+  str = vapply(list(...), function(entry) tools::toRd(bibentries[[entry]]), FUN.VALUE = "")
+  paste0(str, collapse = "\n\n")
+}
+
 bibentries = c( # nolint start
   aalen_1978 = bibentry("article",
     title             = "Nonparametric Inference for a Family of Counting Processes",

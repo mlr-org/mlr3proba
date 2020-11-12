@@ -12,7 +12,7 @@
 #' @template measure_survAUC
 #'
 #' @references
-#' `r tools::toRd(bibentries["chambless_2006"])`
+#' `r format_bib("chambless_2006")`
 #'
 #' @family AUC survival measures
 #' @family lp survival measures

@@ -12,7 +12,7 @@
 #' @template param_times
 #'
 #' @references
-#' `r tools::toRd(bibentries["hung_2010"])`
+#' `r format_bib("hung_2010")`
 #'
 #' @family AUC survival measures
 #' @family lp survival measures

@@ -8,7 +8,7 @@
 #'
 #'
 #' @references
-#' `r tools::toRd(bibentries["kaplan_1958"])`
+#' `r format_bib("kaplan_1958")`
 #'
 #' @export
 LearnerSurvKaplan = R6Class("LearnerSurvKaplan",

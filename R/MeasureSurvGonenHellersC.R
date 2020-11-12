@@ -12,7 +12,7 @@
 #' @template measure_survAUC
 #'
 #' @references
-#' `r tools::toRd(bibentries["goenen_2005"])`
+#' `r format_bib("goenen_2005")`
 #'
 #' @family Concordance survival measures
 #' @family lp survival measures

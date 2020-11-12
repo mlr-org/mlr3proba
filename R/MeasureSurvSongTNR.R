@@ -16,7 +16,7 @@
 #' @template field_thresh
 #'
 #' @references
-#' `r tools::toRd(bibentries["song_2008"])`
+#' `r format_bib("song_2008")`
 #'
 #' @family AUC survival measures
 #' @family lp survival measures

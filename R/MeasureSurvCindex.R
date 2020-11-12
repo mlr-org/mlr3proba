@@ -21,7 +21,7 @@
 #'  The last three require training data.
 #'
 #' @references
-#' `r tools::toRd(bibentries[c("peto_1972", "harrell_1982", "goenen_2005", "schemper_2009", "uno_2011")])`
+#' `r format_bib("peto_1972", "harrell_1982", "goenen_2005", "schemper_2009", "uno_2011")`
 #'
 #' @template param_id
 #' @template param_range

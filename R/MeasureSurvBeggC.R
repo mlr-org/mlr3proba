@@ -12,7 +12,7 @@
 #' @template measure_survAUC
 #'
 #' @references
-#' `r tools::toRd(bibentries["begg_2000"])`
+#' `r format_bib("begg_2000")`
 #'
 #' @family Concordance survival measures
 #' @family lp survival measures

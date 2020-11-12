@@ -8,7 +8,7 @@
 #' The default kernel is Epanechnikov (chosen to reduce dependencies).
 #'
 #' @references
-#' `r tools::toRd(bibentries["silverman_1986"])`
+#' `r format_bib("silverman_1986")`
 #'
 #' @export
 LearnerDensKDE = R6::R6Class("LearnerDensKDE",

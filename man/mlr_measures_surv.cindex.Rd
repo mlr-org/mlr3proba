@@ -43,20 +43,24 @@ msr("surv.cindex")
 }
 
 \references{
+Peto, Richard, Peto, Julian (1972).
+\dQuote{Asymptotically efficient rank invariant test procedures.}
+\emph{Journal of the Royal Statistical Society: Series A (General)}, \bold{135}(2), 185--198.
+
+Harrell, E F, Califf, M R, Pryor, B D, Lee, L K, Rosati, A R (1982).
+\dQuote{Evaluating the yield of medical tests.}
+\emph{Jama}, \bold{247}(18), 2543--2546.
+
 Gönen M, Heller G (2005).
 \dQuote{Concordance probability and discriminatory power in proportional hazards regression.}
 \emph{Biometrika}, \bold{92}(4), 965--970.
 \doi{10.1093/biomet/92.4.965}.
-Harrell, E F, Califf, M R, Pryor, B D, Lee, L K, Rosati, A R (1982).
-\dQuote{Evaluating the yield of medical tests.}
-\emph{Jama}, \bold{247}(18), 2543--2546.
-Peto, Richard, Peto, Julian (1972).
-\dQuote{Asymptotically efficient rank invariant test procedures.}
-\emph{Journal of the Royal Statistical Society: Series A (General)}, \bold{135}(2), 185--198.
+
 Schemper, Michael, Wakounig, Samo, Heinze, Georg (2009).
 \dQuote{The estimation of average hazard ratios by weighted Cox regression.}
 \emph{Statistics in Medicine}, \bold{28}(19), 2473--2489.
 \doi{10.1002/sim.3623}, \url{https://doi.org/10.1002/sim.3623}.
+
 Uno H, Cai T, Pencina MJ, D'Agostino RB, Wei LJ (2011).
 \dQuote{On the C-statistics for evaluating overall adequacy of risk prediction procedures with censored survival data.}
 \emph{Statistics in Medicine}, n/a--n/a.

@@ -47,6 +47,7 @@ Schemper, Michael, Henderson, Robin (2000).
 \dQuote{Predictive Accuracy and Explained Variation in Cox Regression.}
 \emph{Biometrics}, \bold{56}, 249--255.
 \doi{10.1002/sim.1486}.
+
 Schmid, Matthias, Hielscher, Thomas, Augustin, Thomas, Gefeller, Olaf (2011).
 \dQuote{A Robust Alternative to the Schemper-Henderson Estimator of Prediction Error.}
 \emph{Biometrics}, \bold{67}(2), 524--535.

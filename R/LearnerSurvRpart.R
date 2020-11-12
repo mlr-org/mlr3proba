@@ -8,7 +8,7 @@
 #' Parameter `xval` is set to 0 in order to save some computation time.
 #'
 #' @references
-#' `r tools::toRd(bibentries["breiman_1984"])`
+#' `r format_bib("breiman_1984")`
 #'
 #' @export
 LearnerSurvRpart = R6Class("LearnerSurvRpart",

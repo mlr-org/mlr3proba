@@ -9,7 +9,7 @@
 #' @template measure_survAUC
 #'
 #' @references
-#' `r tools::toRd(bibentries["oquigley_2005"])`
+#' `r format_bib("oquigley_2005")`
 #'
 #' @family R2 survival measures
 #' @family lp survival measures

@@ -16,7 +16,7 @@
 #' The model is well calibrated if the estimated \eqn{\alpha} coefficient is equal to 1.
 #'
 #' @references
-#' `r tools::toRd(bibentries["vanhouwelingen_2000"])`
+#' `r format_bib("vanhouwelingen_2000")`
 #'
 #' @family calibration survival measures
 #' @family distr survival measures

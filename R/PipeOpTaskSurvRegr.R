@@ -51,7 +51,7 @@
 #' Passed to [bujar::bujar].
 #'
 #' @references
-#' `r tools::toRd(bibentries[c("buckley_1979", "klein_2003", "vock_2016")])`
+#' `r format_bib("buckley_1979", "klein_2003", "vock_2016")`
 #'
 #' @examples
 #' \dontrun{

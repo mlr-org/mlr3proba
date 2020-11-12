@@ -8,7 +8,7 @@
 #'
 #'
 #' @references
-#' `r tools::toRd(bibentries["cox_1972"])`
+#' `r format_bib("cox_1972")`
 #'
 #' @export
 LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH",

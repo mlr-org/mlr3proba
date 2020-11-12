@@ -12,7 +12,7 @@
 #' @template param_times
 #'
 #' @references
-#' `r tools::toRd(bibentries["uno_2007"])`
+#' `r format_bib("uno_2007")`
 #'
 #' @family AUC survival measures
 #' @family lp survival measures

@@ -9,7 +9,7 @@
 #' @template measure_survAUC
 #'
 #' @references
-#' `r tools::toRd(bibentries["nagelkerke_1991"])`
+#' `r format_bib("nagelkerke_1991")`
 #'
 #' @family R2 survival measures
 #' @family lp survival measures

@@ -119,10 +119,12 @@ Buckley, Jonathan, James, Ian (1979).
 \dQuote{Linear Regression with Censored Data.}
 \emph{Biometrika}, \bold{66}(3), 429--436.
 \doi{10.2307/2335161}, \url{https://www.jstor.org/stable/2335161}.
+
 Klein, P J, Moeschberger, L M (2003).
 \emph{Survival analysis: techniques for censored and truncated data}, 2 edition.
 Springer Science & Business Media.
 ISBN 0387216456.
+
 Vock, M D, Wolfson, Julian, Bandyopadhyay, Sunayan, Adomavicius, Gediminas, Johnson, E P, Vazquez-Benitez, Gabriela, O'Connor, J P (2016).
 \dQuote{Adapting machine learning techniques to censored time-to-event health record data: A general-purpose approach using inverse probability of censoring weighting.}
 \emph{Journal of Biomedical Informatics}, \bold{61}, 119--131.

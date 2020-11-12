@@ -9,7 +9,7 @@
 #' @template measure_survAUC
 #'
 #' @references
-#' `r tools::toRd(bibentries["xu_1999"])`
+#' `r format_bib("xu_1999")`
 #'
 #' @family R2 survival measures
 #' @family lp survival measures

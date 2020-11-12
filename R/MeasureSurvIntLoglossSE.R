@@ -12,7 +12,7 @@
 #' @template field_eps
 #'
 #' @references
-#' `r tools::toRd(bibentries["graf_1999"])`
+#' `r format_bib("graf_1999")`
 #'
 #' @family Probabilistic survival measures
 #' @family distr survival measures

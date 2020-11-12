@@ -17,7 +17,7 @@
 #' @template param_se
 #'
 #' @references
-#' `r tools::toRd(bibentries[c("schemper_2000", "schmid_2011")])`
+#' `r format_bib("schemper_2000", "schmid_2011")`
 #'
 #' @family Probabilistic survival measures
 #' @family distr survival measures
