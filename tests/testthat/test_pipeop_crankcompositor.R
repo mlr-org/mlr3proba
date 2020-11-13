@@ -25,7 +25,7 @@ test_that("response", {
   po = PipeOpCrankCompositor$new(param_vals = list(response = TRUE))
   p = po$predict(
     list(lrn("surv.kaplan")$train(task)$predict(task)))$output
-  expect_equal(p$response, -p$crank)
+  expect_equal(p$response, unlist(as.numeric(p$distr$mean())))
 
   p = pipeline_crankcompositor(lrn("surv.coxph"), response = TRUE,
                                graph_learner = TRUE)$train(task)$predict(task)
