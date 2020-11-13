@@ -34,7 +34,7 @@ generate_tasks.LearnerSurv = function(learner, N = 20L, ...) { # nolint
 
   # generate sanity task
   data = with_seed(100, {
-    data = data.table::data.table(time = obs_time, event = status, x1 = real_time + rnorm(N, sd = 0.1),
+    data = data.table::data.table(time = obs_time, event = status, x1 = real_time + rnorm(N, sd = 2),
       unimportant = runif(N, 0, 20))
   })
   tasks$sanity = TaskSurv$new("sanity", mlr3::as_data_backend(data), time = "time", event = "event")
@@ -45,6 +45,27 @@ generate_tasks.LearnerSurv = function(learner, N = 20L, ...) { # nolint
 registerS3method("generate_tasks", "LearnerSurv", generate_tasks.LearnerSurv)
 
 sanity_check.PredictionSurv = function(prediction, ...) { # nolint
-  prediction$score() >= 0.5
+  # sanity check discrimination
+  x = prediction$score() >= 0.5
+
+  if ("lp" %in% prediction$predict_types) {
+    # crank should equal lp if available
+    x = x & all(all.equal(as.numeric(prediction$lp),
+                          as.numeric(prediction$crank)) == TRUE)
+  }
+
+  if ("distr" %in% prediction$predict_types) {
+    # crank should have opposite rank to mean distr if available
+    x = x & all(all.equal(rank(as.numeric(-prediction$distr$mean())),
+                          rank(as.numeric(prediction$crank))) == TRUE)
+  }
+
+  if ("response" %in% prediction$predict_types) {
+    # crank should have opposite rank to pred time if available
+    x = x & all(all.equal(rank(as.numeric(-prediction$response)),
+                          rank(as.numeric(prediction$crank))) == TRUE)
+  }
+
+  x
 }
 registerS3method("sanity_check", "PredictionSurv", sanity_check.PredictionSurv)

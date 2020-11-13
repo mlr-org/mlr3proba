@@ -34,20 +34,13 @@ LearnerSurvKaplan = R6Class("LearnerSurvKaplan",
     },
 
     .predict = function(task) {
-      # Ensures that at all times before the first observed time the survival is 1, as expected.
-      # surv = c(1, self$model$surv)
-      # time = c(0, self$model$time)
 
       # Define WeightedDiscrete distr6 distribution from the survival function
-      cdf = 1 - self$model$surv
-      x = rep(list(list(x = self$model$time, cdf = cdf)), task$nrow)
-      distr = distr6::VectorDistribution$new(distribution = "WeightedDiscrete", params = x,
-                                             decorators = c("CoreStatistics", "ExoticStatistics"))
+      times = self$model$time
+      surv = matrix(rep(self$model$surv, task$nrow), ncol = length(times), nrow = task$nrow,
+                    byrow = TRUE)
 
-      # Define crank as the mean of the survival distribution
-      crank = -as.numeric(sum(x[[1]]$x * c(x[[1]]$cdf[1], diff(x[[1]]$cdf))))
-
-      list(crank = rep(crank, task$nrow), distr = distr)
+      .surv_return(times, surv)
     }
   )
 )

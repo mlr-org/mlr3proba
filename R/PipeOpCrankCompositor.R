@@ -143,8 +143,10 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
           crank = inpred$crank
         } else {
           crank = -comp
-          crank[is.na(crank)] = 1e3
-          crank[crank == Inf | crank == -Inf] = 1e3
+          # missing imputed with median
+          crank[is.na(crank)] = median(crank[!is.na(crank)])
+          crank[crank == Inf] = 1e3
+          crank[crank == -Inf] = -1e3
         }
 
         # i) not overwriting or requesting response, and already predicted

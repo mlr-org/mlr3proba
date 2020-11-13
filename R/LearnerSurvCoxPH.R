@@ -68,20 +68,9 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH",
       fit = mlr3misc::invoke(survival::survfit, formula = self$model, newdata = newdata,
                              se.fit = FALSE, .args = pv)
 
-      # define WeightedDiscrete distr6 object from predicted survival function
-      x = rep(list(list(x = fit$time, cdf = 0)), task$nrow)
-      for (i in 1:task$nrow) {
-        x[[i]]$cdf = 1 - fit$surv[, i]
-      }
-
-      distr = distr6::VectorDistribution$new(
-        distribution = "WeightedDiscrete", params = x,
-        decorators = c("CoreStatistics", "ExoticStatistics"))
-
       lp = predict(self$model, type = "lp", newdata = newdata)
 
-      # note the ranking of lp and crank is identical
-      list(crank = lp, distr = distr, lp = lp)
+      .surv_return(times = fit$time, surv = t(fit$surv), lp = lp)
     }
   )
 )
