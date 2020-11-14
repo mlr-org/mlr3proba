@@ -16,6 +16,7 @@
 #' this is added as the first time-point and a column of `1`s is bound to the left of `surv`.
 #' Additionally if the final column of `surv` is not all `1`s, then an additional time is added
 #' as `max(times) + 1e-3` and a column of `1`s is bound to the right of `surv`.
+#' @export
 .surv_return = function(times = NULL, surv = NULL, crank = NULL, lp = NULL, response = NULL) {
 
   out = list()

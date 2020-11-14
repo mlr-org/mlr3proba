@@ -40,7 +40,7 @@ LearnerSurvKaplan = R6Class("LearnerSurvKaplan",
       surv = matrix(rep(self$model$surv, task$nrow), ncol = length(times), nrow = task$nrow,
                     byrow = TRUE)
 
-      .surv_return(times, surv)
+      .surv_return(times = times, surv = surv)
     }
   )
 )
