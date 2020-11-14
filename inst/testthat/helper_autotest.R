@@ -56,8 +56,10 @@ sanity_check.PredictionSurv = function(prediction, ...) { # nolint
 
   if ("distr" %in% prediction$predict_types) {
     # crank should have opposite rank to mean distr if available
-    x = x & all(all.equal(rank(as.numeric(-prediction$distr$mean())),
-                          rank(as.numeric(prediction$crank))) == TRUE)
+    mean = suppressMessages(as.numeric(-prediction$distr$mean(cubature = TRUE)))
+    if(!any(is.nan(mean))) {
+      x = x & all(all.equal(rank(mean), rank(as.numeric(prediction$crank))) == TRUE)
+    }
   }
 
   if ("response" %in% prediction$predict_types) {
