@@ -127,6 +127,7 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
         nr = length(inpred$data$row_ids)
         nc = length(times)
 
+        # assumes PH-style lp where high value = high risk
         if (anyMissing(inpred$lp)) {
           lp = inpred$crank
         } else {

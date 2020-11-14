@@ -40,24 +40,24 @@
       surv = cbind(surv, 0)
     }
 
-    # define WeightedDiscrete distr6 object from predicted survival function
-    x = rep(list(list(x = times, cdf = 0)), nrow(surv))
-    for (i in seq(nrow(surv))) {
-      x[[i]]$cdf = 1 - surv[i, ]
-    }
-
-    out$distr = distr6::VectorDistribution$new(
-      distribution = "WeightedDiscrete", params = x,
-      decorators = c("CoreStatistics", "ExoticStatistics"))
+    cdf <- apply(surv, 1, function(.x) list(cdf = 1 - .x))
+    out$distr <- distr6::VectorDistribution$new(
+      distribution = "WeightedDiscrete",
+      params = cdf,
+      shared_params = list(x = as.numeric(times)),
+      decorators = c("CoreStatistics", "ExoticStatistics")
+    )
   }
 
   if (is.null(crank)) {
     if (!is.null(lp)) {
+      # assumes PH-type lp where high value = high risk
       crank = lp
     } else if (is.null(times) | is.null(surv)) {
       stop("`times` and `surv` must be given if `crank` and `lp` are both NULL.")
     } else {
-      crank = -rowSums(surv)
+      # negative mean survival distribution
+      crank = -apply(1 - surv, 1, function(.x) sum(c(.x[1], diff(.x)) * times))
     }
   }
 
