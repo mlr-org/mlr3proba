@@ -23,8 +23,8 @@ registerS3method("sanity_check", "PredictionDens", sanity_check.PredictionDens)
 
 generate_tasks.LearnerSurv = function(learner, N = 20L, ...) { # nolint
 
-  real_time = 1 + rexp(N, rate = 2) * 20
-  cens_time = 1 + rexp(N, rate = 3) * 20
+  real_time = round(1 + rexp(N, rate = 2) * 20, 1)
+  cens_time = round(1 + rexp(N, rate = 3) * 20, 1)
   status = ifelse(real_time <= cens_time, 1L, 0L)
   obs_time = ifelse(real_time <= cens_time, real_time, cens_time)
 
