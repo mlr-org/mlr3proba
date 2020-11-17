@@ -1,10 +1,10 @@
 ## Reason for early submission
 
-Critical bug fix.
+Further critical bug fixes.
 
 ## Downstream dependencies
 
-All OK.
+Expected to break mlr3learners, we have a patch ready for CRAN.
 
 ## Test Results
 
