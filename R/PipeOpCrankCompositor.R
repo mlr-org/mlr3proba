@@ -144,7 +144,7 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
         } else {
           crank = -comp
           # missing imputed with median
-          crank[is.na(crank)] = median(crank[!is.na(crank)])
+          crank[is.na(crank)] = stats::median(crank[!is.na(crank)])
           crank[crank == Inf] = 1e3
           crank[crank == -Inf] = -1e3
         }
