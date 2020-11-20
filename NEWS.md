@@ -4,7 +4,7 @@
 
 # mlr3proba 0.2.5
 
-* `PipeOpCrankCompositor` updated to fix bottleneck in computation via `mean`. Now `Inf` or `NA` is replaced by `0` for `response` and `1000` for `crank`
+* `PipeOpCrankCompositor` updated to fix bottleneck in computation via `mean`. Now `Inf` or `NA` is replaced by `0` for `response` and imputed with the median for `crank`
 * Bug in `distr` predict types fixed that lead to fitting degenerate distributions and returning incorrect values for mean survival time and `crank`
 
 # mlr3proba 0.2.4
