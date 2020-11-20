@@ -1,4 +1,6 @@
+# mlr3proba 0.2.5.9000
 
+* Minor internal fixes
 
 # mlr3proba 0.2.5
 
