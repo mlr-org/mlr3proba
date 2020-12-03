@@ -1,6 +1,7 @@
 # mlr3proba 0.2.5.9000
 
 * Minor internal fixes
+* `surv.logloss` now includes a `weight_meth` argument to weight the log-loss by the Kaplan-Meier estimated censoring distribution if `weight_meth = "G"`. The default of `weight_meth = "I"` reflects previous implementation however result in a loss that is not proper and therefore not recommended for model comparison. The defaults will be updated in the future to reflect this.
 
 # mlr3proba 0.2.5
 
