@@ -36,8 +36,22 @@ Other Task:
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{censtype}}{\code{character(1)}\cr
-Returns the type of censoring, one of "right", "left", "counting", "interval", "interval2"
-or "mstate".}
+Returns the type of censoring, one of "right", "left", "counting", "interval", or "mstate".}
+
+\item{\code{times}}{\code{numeric()}\cr
+Returns the (unsorted) true outcome times.}
+
+\item{\code{status}}{(\code{integer()}) \cr
+Returns the true event indicator.}
+
+\item{\code{unique_times}}{(\code{numeric()})\cr
+Returns the sorted unique outcome times.}
+
+\item{\code{unique_event_times}}{(\code{numeric()})\cr
+Returns the sorted unique event (or failure) times.}
+
+\item{\code{risk_set}}{(\code{integer()}) \cr
+Returns the \code{row_ids} of the observations 'at risk' (not dead or censored) just before \code{time}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -83,7 +97,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   time,
   event,
   time2,
-  type = c("right", "left", "counting", "interval", "interval2", "mstate")
+  type = c("right", "left", "counting", "interval", "mstate")
 )}\if{html}{\out{</div>}}
 }
 
