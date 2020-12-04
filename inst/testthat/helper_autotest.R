@@ -39,6 +39,7 @@ generate_tasks.LearnerSurv = function(learner, N = 20L, ...) { # nolint
   })
   tasks$sanity = mlr3proba::TaskSurv$new("sanity", mlr3::as_data_backend(data), time = "time", event = "event")
   tasks$sanity_reordered = tasks$sanity$clone(deep = TRUE)
+  tasks$sanity_reordered$id = "sanity_reordered"
 
   tasks
 }
