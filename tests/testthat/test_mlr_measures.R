@@ -80,3 +80,10 @@ test_that("sensspecs",{
   expect_silent(prediction$score(lapply(sensspecs, msr, integrated = TRUE, times = times),
   task = task, learner = learner, train_set = train_set))
 })
+
+test_that("dcalib", {
+  expect_equal(
+    pchisq(prediction$score(msr("surv.dcalib", B = 14)), df = 13, lower.tail = FALSE),
+    suppressWarnings(prediction$score(msr("surv.dcalib", B = 14, chisq = TRUE)))
+  )
+})

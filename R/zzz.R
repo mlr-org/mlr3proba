@@ -97,13 +97,14 @@ register_mlr3 = function() {
   x$add("surv.intlogloss", MeasureSurvIntLogloss)
   x$add("surv.intloglossSE", MeasureSurvIntLoglossSE)
 
-   x$add("surv.cindex", MeasureSurvCindex)
-   # deprecated
-   x$add("surv.unoC", MeasureSurvUnoC)
-   x$add("surv.harrellC", MeasureSurvHarrellC)
-   x$add("surv.gonenC", MeasureSurvGonenC)
-   x$add("surv.beggC", MeasureSurvBeggC)
+  x$add("surv.cindex", MeasureSurvCindex)
+  # deprecated
+  x$add("surv.unoC", MeasureSurvUnoC)
+  x$add("surv.harrellC", MeasureSurvHarrellC)
+  x$add("surv.gonenC", MeasureSurvGonenC)
+  x$add("surv.beggC", MeasureSurvBeggC)
 
+  x$add("surv.dcalib", MeasureSurvDCalibration)
   x$add("surv.calib_beta", MeasureSurvCalibrationBeta)
   x$add("surv.calib_alpha", MeasureSurvCalibrationAlpha)
 
@@ -191,12 +192,12 @@ register_mlr3pipelines = function() {
   pkgname = vapply(hooks[-1], function(x) environment(x)$pkgname, NA_character_)
   setHook(event, hooks[pkgname != "mlr3proba"], action = "replace")
 
-   event = packageEvent("mlr3pipelines", "onLoad")
-   hooks = getHook(event)
-   pkgname = vapply(hooks[-1], function(x) environment(x)$pkgname, NA_character_)
-   setHook(event, hooks[pkgname != "mlr3proba"], action = "replace")
+  event = packageEvent("mlr3pipelines", "onLoad")
+  hooks = getHook(event)
+  pkgname = vapply(hooks[-1], function(x) environment(x)$pkgname, NA_character_)
+  setHook(event, hooks[pkgname != "mlr3proba"], action = "replace")
 
-   library.dynam.unload("mlr3proba", libpath)
+  library.dynam.unload("mlr3proba", libpath)
 }
 
 leanify_package()

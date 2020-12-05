@@ -45,6 +45,7 @@ Other survival measures:
 \code{\link{mlr_measures_surv.calib_alpha}},
 \code{\link{mlr_measures_surv.chambless_auc}},
 \code{\link{mlr_measures_surv.cindex}},
+\code{\link{mlr_measures_surv.dcalib}},
 \code{\link{mlr_measures_surv.gonenC}},
 \code{\link{mlr_measures_surv.grafSE}},
 \code{\link{mlr_measures_surv.graf}},
@@ -73,7 +74,8 @@ Other survival measures:
 \code{\link{mlr_measures_surv.xu_r2}}
 
 Other calibration survival measures: 
-\code{\link{mlr_measures_surv.calib_alpha}}
+\code{\link{mlr_measures_surv.calib_alpha}},
+\code{\link{mlr_measures_surv.dcalib}}
 
 Other lp survival measures: 
 \code{\link{mlr_measures_surv.beggC}},

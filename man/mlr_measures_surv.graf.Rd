@@ -63,6 +63,7 @@ Other survival measures:
 \code{\link{mlr_measures_surv.calib_beta}},
 \code{\link{mlr_measures_surv.chambless_auc}},
 \code{\link{mlr_measures_surv.cindex}},
+\code{\link{mlr_measures_surv.dcalib}},
 \code{\link{mlr_measures_surv.gonenC}},
 \code{\link{mlr_measures_surv.grafSE}},
 \code{\link{mlr_measures_surv.harrellC}},
@@ -99,6 +100,7 @@ Other Probabilistic survival measures:
 
 Other distr survival measures: 
 \code{\link{mlr_measures_surv.calib_alpha}},
+\code{\link{mlr_measures_surv.dcalib}},
 \code{\link{mlr_measures_surv.grafSE}},
 \code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
