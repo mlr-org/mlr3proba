@@ -39,7 +39,7 @@ MeasureDensSquaredloss = R6::R6Class("MeasureDensSquaredloss",
 
         private = list(
         .eps = numeric(0),
-        .score = function(prediction, learner, task, train_set) {
+        .score = function(prediction, task, train_set) {
          # return NA if learner not compatible
          # change `c("dens.kde")` to list of compatible learners
 
