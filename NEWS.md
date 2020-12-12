@@ -1,8 +1,12 @@
+# mlr3proba 0.2.6.9000
+
+* Commonly used survival quantities have been added as active bindings to `TaskSurv` including `times` (observed survival times), `status` (observed survival indicator), `unique_times` (set of sorted unique outcome times), `unique_event_times` (set of sorted unique failure times), `risk_set` (set of observations alive 'just before' a given time)
+* `"interval2"` censoring type has been removed from `TaskSurv` as this is covered by the other types
+* Default values have now been given to the `time` and `event` arguments in `TaskSurv`
+
 # mlr3proba 0.2.6
 
 * Minor internal fixes
-* Commonly used survival quantities have been added as active bindings to `TaskSurv` including `times` (observed survival times), `status` (observed survival indicator), `unique_times` (set of sorted unique outcome times), `unique_event_times` (set of sorted unique failure times), `risk_set` (set of observations alive 'just before' a given time)
-* `"interval2"` censoring type has been removed from `TaskSurv` as this is covered by the other types
 
 # mlr3proba 0.2.5
 
