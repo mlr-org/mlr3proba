@@ -23,17 +23,6 @@ test_that("left censoring", {
   expect_equal(task$formula(), as.formula(Surv(time, status, type = "left") ~ .))
 })
 
-test_that("interval2 censoring", {
-  expect_silent({
-    task = TaskSurv$new(
-      id = "interval2_censored", backend = survival::bladder2[, -c(1, 7)],
-      time = "start", time2 = "stop", type = "interval2")
-  })
-  expect_equal(task$censtype, "interval2")
-  expect_equal(ncol(task$truth()), 3)
-  expect_equal(task$formula(), as.formula(Surv(time = start, time2 = stop, type = "interval2") ~ .))
-})
-
 test_that("interval censoring", {
   expect_silent({
     task = TaskSurv$new(
@@ -43,4 +32,14 @@ test_that("interval censoring", {
   expect_equal(task$censtype, "interval")
   expect_equal(ncol(task$truth()), 3)
   expect_equal(task$formula(), as.formula(Surv(start, stop, status, type = "interval") ~ .))
+})
+
+test_that("surv methods", {
+  task = TaskSurv$new(
+    id = "test", backend = data.frame(event = c(1, 1, 1, 0, 0), time = c(1, 1, 2, 4, 4),
+                                      x1 = runif(5)))
+  expect_equal(task$times(), c(1, 1, 2, 4, 4))
+  expect_equal(task$unique_times(), c(1, 2, 4))
+  expect_equal(task$unique_event_times(), c(1, 2))
+  expect_equal(task$risk_set(2), c(3L, 4L, 5L))
 })
