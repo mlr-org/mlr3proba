@@ -6,7 +6,7 @@
 \title{D-Calibration Survival Measure}
 \description{
 This calibration method is defined by calculating
-\deqn{s = \sum_i (P_i - n/B)^2}
+\deqn{s = B/n \sum_i (P_i - n/B)^2}
 where \eqn{B} is number of 'buckets', \eqn{n} is the number of predictions,
 and \eqn{P_i} is the predicted number of deaths in the \eqn{i}th interval
 [0, 100/B), [100/B, 50/B),....,[(B - 100)/B, 1).

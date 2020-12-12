@@ -18,7 +18,12 @@
 #'  * `"SG"` = Weights concordance by S/G (Shemper et al.)
 #'  * `"S"` = Weights concordance by S (Peto and Peto)
 #'
-#'  The last three require training data.
+#'  The last three require training data. `"GH"` is only applicable to [LearnerSurvCoxPH].
+#'
+#'  @details
+#'  The implementation is slightly different from [survival::concordance]. Firstly this
+#'  implementation is faster, and secondly the weights are computed on the training dataset whereas
+#'  in [survival::concordance] the weights are computed on the same testing data.
 #'
 #' @references
 #' `r format_bib("peto_1972", "harrell_1982", "goenen_2005", "schemper_2009", "uno_2011")`
