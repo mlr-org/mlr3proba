@@ -33,12 +33,17 @@ generate_tasks.LearnerSurv = function(learner, N = 20L, ...) { # nolint
   tasks = generate_generic_tasks(learner, task)
 
   # generate sanity task
+  if (N %% 2 == 1) N = N + 1
   data = with_seed(100, {
-    data = data.table::data.table(time = obs_time, event = status, x1 = real_time + rnorm(N, sd = 2),
-      unimportant = runif(N, 0, 20))
-  })
+    data.table::data.table(
+    x = c(rep(0, N/2), rep(1, N/2)),
+    unimportant = runif(N),
+    time = c(rep(10, N/2), rep(100, N/2)),
+    event = rbinom(N, 1, 0.9)
+  )})
   tasks$sanity = mlr3proba::TaskSurv$new("sanity", mlr3::as_data_backend(data), time = "time", event = "event")
   tasks$sanity_reordered = tasks$sanity$clone(deep = TRUE)
+  tasks$sanity_reordered$id = "sanity_reordered"
 
   tasks
 }
@@ -46,26 +51,26 @@ registerS3method("generate_tasks", "LearnerSurv", generate_tasks.LearnerSurv)
 
 sanity_check.PredictionSurv = function(prediction, ...) { # nolint
   # sanity check discrimination
-  x = prediction$score() >= 0.5
+  x = prediction$score() >= 0.6
 
   if ("lp" %in% prediction$predict_types) {
     # crank should equal lp if available
     x = x & all(all.equal(as.numeric(prediction$lp),
                           as.numeric(prediction$crank)) == TRUE)
-  }
-
-  if ("distr" %in% prediction$predict_types) {
-    # crank should have opposite rank to mean distr if available
-    mean = suppressMessages(as.numeric(-prediction$distr$mean(cubature = TRUE)))
-    if(!any(is.nan(mean))) {
-      x = x & all(all.equal(rank(mean), rank(as.numeric(prediction$crank))) == TRUE)
+  } else if ("response" %in% prediction$predict_types) {
+    # otherwise crank should equal -response if available
+    x = x & all(all.equal(-as.numeric(prediction$response),
+                          as.numeric(prediction$crank)) == TRUE)
+  } else if ("distr" %in% prediction$predict_types) {
+    # try faster method first
+    mean = suppressMessages(as.numeric(prediction$distr$mean(cubature = FALSE)))
+    if (any(is.nan(mean))) {
+      mean = suppressMessages(as.numeric(prediction$distr$mean(cubature = TRUE)))
     }
-  }
-
-  if ("response" %in% prediction$predict_types) {
-    # crank should have opposite rank to pred time if available
-    x = x & all(all.equal(rank(as.numeric(-prediction$response)),
-                          rank(as.numeric(prediction$crank))) == TRUE)
+    if(!any(is.nan(mean))) {
+      # otherwise crank should equal -distr$mean if available
+      x = x & all(all.equal(-mean, as.numeric(prediction$crank)) == TRUE)
+    }
   }
 
   x
