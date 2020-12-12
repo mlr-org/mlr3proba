@@ -14,15 +14,19 @@ The \code{task_type} is set to \code{"surv"}.
 library(mlr3)
 lung = mlr3misc::load_dataset("lung", package = "survival")
 lung$status = (lung$status == 2L)
-b = as_data_backend(lung)
 task = TaskSurv$new("lung",
-  backend = b, time = "time",
+  backend = lung, time = "time",
   event = "status")
 
+# meta data
 task$target_names
 task$feature_names
 task$formula()
+
+# survival data
 task$truth()
+task$
+
 }
 \seealso{
 Other Task: 
@@ -37,21 +41,6 @@ Other Task:
 \describe{
 \item{\code{censtype}}{\code{character(1)}\cr
 Returns the type of censoring, one of "right", "left", "counting", "interval", or "mstate".}
-
-\item{\code{times}}{\code{numeric()}\cr
-Returns the (unsorted) true outcome times.}
-
-\item{\code{status}}{(\code{integer()}) \cr
-Returns the true event indicator.}
-
-\item{\code{unique_times}}{(\code{numeric()})\cr
-Returns the sorted unique outcome times.}
-
-\item{\code{unique_event_times}}{(\code{numeric()})\cr
-Returns the sorted unique event (or failure) times.}
-
-\item{\code{risk_set}}{(\code{integer()}) \cr
-Returns the \code{row_ids} of the observations 'at risk' (not dead or censored) just before \code{time}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -61,6 +50,11 @@ Returns the \code{row_ids} of the observations 'at risk' (not dead or censored) 
 \item \href{#method-new}{\code{TaskSurv$new()}}
 \item \href{#method-truth}{\code{TaskSurv$truth()}}
 \item \href{#method-formula}{\code{TaskSurv$formula()}}
+\item \href{#method-times}{\code{TaskSurv$times()}}
+\item \href{#method-status}{\code{TaskSurv$status()}}
+\item \href{#method-unique_times}{\code{TaskSurv$unique_times()}}
+\item \href{#method-unique_event_times}{\code{TaskSurv$unique_event_times()}}
+\item \href{#method-risk_set}{\code{TaskSurv$risk_set()}}
 \item \href{#method-clone}{\code{TaskSurv$clone()}}
 }
 }
@@ -80,8 +74,8 @@ Returns the \code{row_ids} of the observations 'at risk' (not dead or censored) 
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rbind">}\href{../../mlr3/html/Task.html#method-rbind}{\code{mlr3::Task$rbind()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rename">}\href{../../mlr3/html/Task.html#method-rename}{\code{mlr3::Task$rename()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="select">}\href{../../mlr3/html/Task.html#method-select}{\code{mlr3::Task$select()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_col_roles">}\href{../../mlr3/html/Task.html#method-set_col_roles}{\code{mlr3::Task$set_col_roles()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_row_roles">}\href{../../mlr3/html/Task.html#method-set_row_roles}{\code{mlr3::Task$set_row_roles()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_col_role">}\href{../../mlr3/html/Task.html#method-set_col_role}{\code{mlr3::Task$set_col_role()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_row_role">}\href{../../mlr3/html/Task.html#method-set_row_role}{\code{mlr3::Task$set_row_role()}}\out{</span>}
 }
 \out{</details>}
 }
@@ -94,8 +88,8 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \if{html}{\out{<div class="r">}}\preformatted{TaskSurv$new(
   id,
   backend,
-  time,
-  event,
+  time = "time",
+  event = "event",
   time2,
   type = c("right", "left", "counting", "interval", "mstate")
 )}\if{html}{\out{</div>}}
@@ -171,6 +165,115 @@ Creates a formula for survival models with \link[survival:Surv]{survival::Surv} 
 }
 \subsection{Returns}{
 \code{numeric()}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-times"></a>}}
+\if{latex}{\out{\hypertarget{method-times}{}}}
+\subsection{Method \code{times()}}{
+Returns the (unsorted) outcome times.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TaskSurv$times(rows = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{rows}}{\code{integer()}\cr
+Row indices.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{numeric()}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-status"></a>}}
+\if{latex}{\out{\hypertarget{method-status}{}}}
+\subsection{Method \code{status()}}{
+Returns the event indicator (aka censoring/survival indicator).
+If \code{censtype} is \code{"right"} or \code{"left"} then \code{1} is event and \code{0} is censored.
+If \code{censtype} is \code{"mstate"} then \code{0} is censored and all other values are different events.
+If \code{censtype} is \code{"interval"} then \code{0} is right-censored, \code{1} is event, \code{2} is left-censored,
+\code{3} is interval-censored.
+See \link[survival:Surv]{survival::Surv}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TaskSurv$status(rows = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{rows}}{\code{integer()}\cr
+Row indices.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{integer()}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-unique_times"></a>}}
+\if{latex}{\out{\hypertarget{method-unique_times}{}}}
+\subsection{Method \code{unique_times()}}{
+Returns the sorted unique outcome times.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TaskSurv$unique_times(rows = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{rows}}{\code{integer()}\cr
+Row indices.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{numeric()}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-unique_event_times"></a>}}
+\if{latex}{\out{\hypertarget{method-unique_event_times}{}}}
+\subsection{Method \code{unique_event_times()}}{
+Returns the sorted unique event (or failure) outcome times.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TaskSurv$unique_event_times(rows = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{rows}}{\code{integer()}\cr
+Row indices.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{numeric()}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-risk_set"></a>}}
+\if{latex}{\out{\hypertarget{method-risk_set}{}}}
+\subsection{Method \code{risk_set()}}{
+Returns the \code{row_ids} of the observations 'at risk' (not dead or censored) at \code{time}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TaskSurv$risk_set(time = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{time}}{(\code{numeric(1)}) \cr Time to return risk set for, if \code{NULL} returns all \code{row_ids}.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{integer()}
 }
 }
 \if{html}{\out{<hr>}}

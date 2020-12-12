@@ -17,15 +17,19 @@
 #' library(mlr3)
 #' lung = mlr3misc::load_dataset("lung", package = "survival")
 #' lung$status = (lung$status == 2L)
-#' b = as_data_backend(lung)
 #' task = TaskSurv$new("lung",
-#'   backend = b, time = "time",
+#'   backend = lung, time = "time",
 #'   event = "status")
 #'
+#' # meta data
 #' task$target_names
 #' task$feature_names
 #' task$formula()
+#'
+#' # survival data
 #' task$truth()
+#' task$
+#'
 TaskSurv = R6::R6Class("TaskSurv",
   inherit = TaskSupervised,
   public = list(
@@ -48,16 +52,20 @@ TaskSurv = R6::R6Class("TaskSurv",
     #'
     #' @param type (`character(1)`)\cr
     #' Name of the column giving the type of censoring. Default is 'right' censoring.
-    initialize = function(id, backend, time, event, time2,
+    initialize = function(id, backend, time = "time", event = "event", time2,
       type = c("right", "left", "counting", "interval", "mstate")) {
 
       type = match.arg(type)
 
-      event = backend[, "event"][[1L]]
+      backend = as_data_backend(backend)
+
+      c_ev = backend$.__enclos_env__$private$.data[, event, with=FALSE][[1]]
       if (type == "mstate") {
-        assert_factor(event)
-      } else if (!is.logical(event)) {
-        assert_integerish(event, lower = 0, upper = 2)
+        assert_factor(c_ev)
+      } else if (type == "interval") {
+        assert_integerish(c_ev, lower = 0, upper = 3)
+      } else if (!is.logical(c_ev)) {
+        assert_integerish(c_ev, lower = 0, upper = 2)
       }
 
       private$.censtype = type
@@ -112,32 +120,31 @@ TaskSurv = R6::R6Class("TaskSurv",
         lhs = sprintf("Surv(%s, %s, %s, type = '%s')", tn[1L], tn[2L], tn[3L], self$censtype)
       }
       formulate(lhs, rhs %??% ".", env = getNamespace("survival"))
-    }
-  ),
-
-  active = list(
-    #' @field censtype `character(1)`\cr
-    #' Returns the type of censoring, one of "right", "left", "counting", "interval", or "mstate".
-    censtype = function() {
-      return(private$.censtype)
     },
 
-    #' @field times `numeric()`\cr
-    #' Returns the (unsorted) true outcome times.
+    #' @description
+    #' Returns the (unsorted) outcome times.
+    #' @return `numeric()`
     times = function(rows = NULL) {
       truth = self$truth(rows)
-      if (censtype %in% c("interval", "counting")) {
+      if (self$censtype %in% c("interval", "counting")) {
         return(truth[, 1:2])
       } else {
         return(truth[, 1])
       }
     },
 
-    #' @field status (`integer()`) \cr
-    #' Returns the true event indicator.
+    #' @description
+    #' Returns the event indicator (aka censoring/survival indicator).
+    #' If `censtype` is `"right"` or `"left"` then `1` is event and `0` is censored.
+    #' If `censtype` is `"mstate"` then `0` is censored and all other values are different events.
+    #' If `censtype` is `"interval"` then `0` is right-censored, `1` is event, `2` is left-censored,
+    #' `3` is interval-censored.
+    #' See [survival::Surv].
+    #' @return `integer()`
     status = function(rows = NULL) {
       truth = self$truth(rows)
-      if (censtype %in% c("interval", "counting")) {
+      if (self$censtype %in% c("interval", "counting")) {
         status = truth[, 3L]
       } else {
         status = truth[, 2L]
@@ -146,26 +153,38 @@ TaskSurv = R6::R6Class("TaskSurv",
       as.integer(status)
     },
 
-    #' @field unique_times (`numeric()`)\cr
+    #' @description
     #' Returns the sorted unique outcome times.
+    #' @return `numeric()`
     unique_times = function(rows = NULL) {
       sort(unique(self$times(rows)))
     },
 
-    #' @field unique_event_times (`numeric()`)\cr
-    #' Returns the sorted unique event (or failure) times.
+    #' @description
+    #' Returns the sorted unique event (or failure) outcome times.
+    #' @return `numeric()`
     unique_event_times = function(rows = NULL) {
       sort(unique(self$times(rows)[self$status(rows) != 0]))
     },
 
-    #' @field risk_set (`integer()`) \cr
-    #' Returns the `row_ids` of the observations 'at risk' (not dead or censored) just before `time`.
+    #' @description
+    #' Returns the `row_ids` of the observations 'at risk' (not dead or censored) at `time`.
+    #' @param time (`numeric(1)`) \cr Time to return risk set for, if `NULL` returns all `row_ids`.
+    #' @return `integer()`
     risk_set = function(time = NULL) {
       if (is.null(time)) {
         self$row_ids
       } else {
         self$row_ids[self$times() >= time]
       }
+    }
+  ),
+
+  active = list(
+    #' @field censtype `character(1)`\cr
+    #' Returns the type of censoring, one of "right", "left", "counting", "interval", or "mstate".
+    censtype = function() {
+      return(private$.censtype)
     }
   ),
 
