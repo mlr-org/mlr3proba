@@ -49,8 +49,9 @@ register_mlr3 = function() {
     x$learner_properties$dens = x$learner_properties$regr
     x$measure_properties$dens = x$measure_properties$regr
     x$learner_predict_types$dens = list(
-      pdf = c("pdf", "cdf"),
-      cdf = c("pdf", "cdf"))
+      pdf = c("pdf", "cdf", "distr"),
+      cdf = c("pdf", "cdf", "distr"),
+      distr = c("pdf", "cdf", "distr"))
     x$default_measures$dens = "dens.logloss"
   }
 

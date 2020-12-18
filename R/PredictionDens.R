@@ -33,11 +33,15 @@ PredictionDens = R6Class("PredictionDens",
     #'   Numeric vector of estimated cumulative distribution function, evaluated at values in test
     #'   set. One element for each observation in the test set.
     #'
+    #' @param distr ([Distribution][distr6::Distribution])\cr
+    #'   [Distribution][distr6::Distribution] from \CRANpkg{distr6}.
+    #'   The distribution from which `pdf` and `cdf` are derived.
+    #'
     #' @param check (`logical(1)`)\cr
     #'   If `TRUE`, performs argument checks and predict type conversions.
     initialize = function(task = NULL, row_ids = task$row_ids, pdf = NULL,
-                          cdf = NULL, check = TRUE) {
-      pdata = list(row_ids = row_ids, pdf = pdf, cdf = cdf)
+                          cdf = NULL, distr = NULL, check = TRUE) {
+      pdata = list(row_ids = row_ids, pdf = pdf, cdf = cdf, distr = distr)
       pdata = discard(pdata, is.null)
       class(pdata) = c("PredictionDataDens", "PredictionData")
 
@@ -48,7 +52,7 @@ PredictionDens = R6Class("PredictionDens",
       self$task_type = "dens"
       self$man = "mlr3proba::PredictionDens"
       self$data = pdata
-      self$predict_types = intersect(c("pdf", "cdf"), names(pdata))
+      self$predict_types = intersect(c("pdf", "cdf", "distr"), names(pdata))
     }
   ),
 
@@ -63,6 +67,12 @@ PredictionDens = R6Class("PredictionDens",
     #' Access the stored predicted cumulative distribution function.
     cdf = function() {
       self$data$cdf %??% rep(NA_real_, length(self$data$row_ids))
+    },
+
+    #' @field distr ([Distribution][distr6::Distribution])\cr
+    #' Access the stored estimated distribution.
+    distr = function() {
+      self$data$distr %??% NA_real_
     }
   )
 )
@@ -71,5 +81,9 @@ PredictionDens = R6Class("PredictionDens",
 #' @export
 as.data.table.PredictionDens = function(x, ...) { # nolint
   tab = as.data.table(x$data[c("row_ids", "pdf", "cdf")])
-  setnames(tab, "row_ids", "row_id")[]
+  setnames(tab, "row_ids", "row_id")
+  if ("distr" %in% x$predict_types) {
+    tab$distr = list(list(x$distr))
+  }
+  tab
 }
