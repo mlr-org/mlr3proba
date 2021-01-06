@@ -41,7 +41,7 @@ Imports:
     data.table,
     distr6 (>= 1.4.5),
     mlr3 (>= 0.6.0),
-    mlr3misc (>= 0.1.7),
+    mlr3misc (>= 0.7.0),
     paradox (>= 0.1.0),
     R6,
     Rcpp (>= 1.0.4),
