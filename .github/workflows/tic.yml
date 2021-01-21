@@ -79,7 +79,7 @@ jobs:
       - name: "[Custom block] [macOS] Install xquartz"
         if: runner.os == 'macOS'
         run: |
-          brew cask install xquartz
+          brew install xquartz
 
       # for some strange Windows reason this step and the next one need to be decoupled
       - name: "[Stage] Prepare"
