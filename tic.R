@@ -4,7 +4,7 @@ do_package_checks()
 if (ci_on_ghactions() && ci_has_env("BUILD_PKGDOWN")) {
   
   get_stage("before_deploy") %>%
-    add_step(step_setup_push_deploy(branch = "master", orphan = FALSE))
+    add_step(step_setup_push_deploy(branch = "main", orphan = FALSE))
   
   # creates pkgdown site and pushes to gh-pages branch
   # only for the runner with the "BUILD_PKGDOWN" env var set
