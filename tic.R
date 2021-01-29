@@ -17,6 +17,3 @@ if (ci_on_ghactions() && ci_has_env("BUILD_PKGDOWN")) {
     add_code_step(rmarkdown::render("README.Rmd")) %>%
     add_step(step_do_push_deploy(commit_paths = c("README.md")))
 }
-
-get_stage("after_success") %>%
-  add_code_step(system("curl -s https://raw.githubusercontent.com/mlr-org/mlr3orga/master/trigger-mlr3book.sh | bash"))
