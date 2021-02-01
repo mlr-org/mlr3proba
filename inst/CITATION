@@ -1,11 +1,12 @@
-citHeader("To cite mlr3proba in publications use:")
-
-citEntry(
-  entry    = "Article",
-  title    = "mlr3proba: Machine Learning Survival Analysis in R",
-  author   = "Raphael Sonabend and Franz J Király and Andreas Bender and Bernd Bischl and Michel Lang",
-  journal  = "arXiv:2008.08080 [cs, stat]",
-  year     = "2020",
-  url      = "http://arxiv.org/abs/2008.08080",
-  textVersion = "Sonabend, Raphael, Franz J. Király, Andreas Bender, Bernd Bischl, and Michel Lang. 2020. “mlr3proba: Machine Learning Survival Analysis in R.” ArXiv:2008.08080 [Cs, Stat], August. http://arxiv.org/abs/2008.08080."
+bibentry(
+  bibtype = "Article",
+  title   = "mlr3proba: An R Package for Machine Learning in Survival Analysis",
+  author  = "Raphael Sonabend and Franz J Kir\u00e1ly and Andreas Bender and Bernd Bischl and Michel Lang",
+  journal = "Bioinformatics",
+  month   = "02",
+  year    = "2021",
+  doi     = "10.1093/bioinformatics/btab039",
+  issn    = "1367-4803"
 )
+
+# vim: ft=r
