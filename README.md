@@ -9,7 +9,7 @@ Probabilistic Supervised Learning for
 
 <!-- badges: start -->
 
-[![tic](https://github.com/mlr-org/mlr3proba/workflows/tic/badge.svg?branch=master)](https://github.com/mlr-org/mlr3proba/actions)
+[![tic](https://github.com/mlr-org/mlr3proba/workflows/tic/badge.svg?branch=main)](https://github.com/mlr-org/mlr3proba/actions)
 [![CodeFactor](https://www.codefactor.io/repository/github/mlr-org/mlr3proba/badge)](https://www.codefactor.io/repository/github/mlr-org/mlr3proba)
 [![cran
 checks](https://cranchecks.info/badges/worst/mlr3proba)](https://cran.r-project.org/web/checks/check_results_mlr3proba.html)
