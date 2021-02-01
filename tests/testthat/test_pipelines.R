@@ -46,58 +46,55 @@ test_that("survbagging", {
   expect_prediction_surv(p)
 })
 
-# FIXME - UNCOMMENT ON NEXT PIPELINES UPDATE
-# test_that("survtoregr 1", {
-#   pipe = mlr3pipelines::ppl("survtoregr", method = 1, distrcompose = FALSE)
-#   expect_class(pipe, "Graph")
-#   pipe = mlr3pipelines::ppl("survtoregr", method = 1, distrcompose = FALSE, graph_learner = TRUE)
-#   expect_class(pipe, "GraphLearner")
-#   pipe$train(task)
-#   p = pipe$predict(task)
-#   expect_prediction_surv(p)
-#
-#   pipe = mlr3pipelines::ppl("survtoregr", method = 1, distrcompose = TRUE, graph_learner = TRUE)
-#   expect_class(pipe, "GraphLearner")
-#   pipe$train(task)
-#   p = pipe$predict(task)
-#   expect_prediction_surv(p)
-#   expect_true("distr" %in% p$predict_types)
-# })
+test_that("survtoregr 1", {
+  pipe = mlr3pipelines::ppl("survtoregr", method = 1, distrcompose = FALSE)
+  expect_class(pipe, "Graph")
+  pipe = mlr3pipelines::ppl("survtoregr", method = 1, distrcompose = FALSE, graph_learner = TRUE)
+  expect_class(pipe, "GraphLearner")
+  pipe$train(task)
+  p = pipe$predict(task)
+  expect_prediction_surv(p)
 
-# FIXME - UNCOMMENT ON NEXT PIPELINES UPDATE
-# test_that("survtoregr 2", {
-#   pipe = mlr3pipelines::ppl("survtoregr", method = 2)
-#   expect_class(pipe, "Graph")
-#   pipe = mlr3pipelines::ppl("survtoregr", method = 2, graph_learner = TRUE)
-#   expect_class(pipe, "GraphLearner")
-#   pipe$train(task)
-#   p = pipe$predict(task)
-#   expect_prediction_surv(p)
-#   expect_true("distr" %in% p$predict_types)
-#
-#   pipe = mlr3pipelines::ppl("survtoregr", method = 2, regr_se_learner = lrn("regr.featureless"),
-#              graph_learner = TRUE)
-#   expect_class(pipe, "GraphLearner")
-#   pipe$train(task)
-#   p = pipe$predict(task)
-#   expect_prediction_surv(p)
-#   expect_true("distr" %in% p$predict_types)
-# })
+  pipe = mlr3pipelines::ppl("survtoregr", method = 1, distrcompose = TRUE, graph_learner = TRUE)
+  expect_class(pipe, "GraphLearner")
+  pipe$train(task)
+  p = pipe$predict(task)
+  expect_prediction_surv(p)
+  expect_true("distr" %in% p$predict_types)
+})
 
-# FIXME - UNCOMMENT ON NEXT PIPELINES UPDATE
-# test_that("survtoregr 3", {
-#   pipe = mlr3pipelines::ppl("survtoregr", method = 3, distrcompose = FALSE)
-#   expect_class(pipe, "Graph")
-#   pipe = mlr3pipelines::ppl("survtoregr", method = 3, distrcompose = FALSE, graph_learner = TRUE)
-#   expect_class(pipe, "GraphLearner")
-#   pipe$train(task)
-#   p = pipe$predict(task)
-#   expect_prediction_surv(p)
-#
-#   pipe = mlr3pipelines::ppl("survtoregr", method = 3, distrcompose = TRUE, graph_learner = TRUE)
-#   expect_class(pipe, "GraphLearner")
-#   pipe$train(task)
-#   p = pipe$predict(task)
-#   expect_prediction_surv(p)
-#   expect_true("distr" %in% p$predict_types)
-# })
+test_that("survtoregr 2", {
+  pipe = mlr3pipelines::ppl("survtoregr", method = 2)
+  expect_class(pipe, "Graph")
+  pipe = mlr3pipelines::ppl("survtoregr", method = 2, graph_learner = TRUE)
+  expect_class(pipe, "GraphLearner")
+  pipe$train(task)
+  p = pipe$predict(task)
+  expect_prediction_surv(p)
+  expect_true("distr" %in% p$predict_types)
+
+  pipe = mlr3pipelines::ppl("survtoregr", method = 2, regr_se_learner = lrn("regr.featureless"),
+             graph_learner = TRUE)
+  expect_class(pipe, "GraphLearner")
+  pipe$train(task)
+  p = pipe$predict(task)
+  expect_prediction_surv(p)
+  expect_true("distr" %in% p$predict_types)
+})
+
+test_that("survtoregr 3", {
+  pipe = mlr3pipelines::ppl("survtoregr", method = 3, distrcompose = FALSE)
+  expect_class(pipe, "Graph")
+  pipe = mlr3pipelines::ppl("survtoregr", method = 3, distrcompose = FALSE, graph_learner = TRUE)
+  expect_class(pipe, "GraphLearner")
+  pipe$train(task)
+  p = pipe$predict(task)
+  expect_prediction_surv(p)
+
+  pipe = mlr3pipelines::ppl("survtoregr", method = 3, distrcompose = TRUE, graph_learner = TRUE)
+  expect_class(pipe, "GraphLearner")
+  pipe$train(task)
+  p = pipe$predict(task)
+  expect_prediction_surv(p)
+  expect_true("distr" %in% p$predict_types)
+})
