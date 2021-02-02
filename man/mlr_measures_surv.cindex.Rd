@@ -59,7 +59,7 @@ Gönen M, Heller G (2005).
 Schemper, Michael, Wakounig, Samo, Heinze, Georg (2009).
 \dQuote{The estimation of average hazard ratios by weighted Cox regression.}
 \emph{Statistics in Medicine}, \bold{28}(19), 2473--2489.
-\doi{10.1002/sim.3623}, \url{https://doi.org/10.1002/sim.3623}.
+\doi{10.1002/sim.3623}.
 
 Uno H, Cai T, Pencina MJ, D'Agostino RB, Wei LJ (2011).
 \dQuote{On the C-statistics for evaluating overall adequacy of risk prediction procedures with censored survival data.}

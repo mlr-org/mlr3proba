@@ -554,7 +554,6 @@ bibentries = c( # nolint start
     pages             = "2473--2489",
     publisher         = "John Wiley & Sons, Ltd",
     title             = "The estimation of average hazard ratios by weighted Cox regression",
-    url               = "https://doi.org/10.1002/sim.3623",
     volume            = "28",
     year              = "2009"
   ),
