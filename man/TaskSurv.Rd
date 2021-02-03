@@ -95,7 +95,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   time = "time",
   event = "event",
   time2,
-  type = c("right", "left", "counting", "interval", "mstate")
+  type = c("right", "left", "interval", "counting", "interval2", "mstate")
 )}\if{html}{\out{</div>}}
 }
 
@@ -222,7 +222,7 @@ Row indices.}
 \if{html}{\out{<a id="method-unique_times"></a>}}
 \if{latex}{\out{\hypertarget{method-unique_times}{}}}
 \subsection{Method \code{unique_times()}}{
-Returns the sorted unique outcome times.
+Returns the sorted unique outcome times for 'right', 'left', and 'mcstate'.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TaskSurv$unique_times(rows = NULL)}\if{html}{\out{</div>}}
 }
