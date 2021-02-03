@@ -1,5 +1,3 @@
-context("TaskSurv")
-
 test_that("Task duplicates rows", {
   task = tsk("lung")
   expect_task_surv(task)
@@ -11,6 +9,8 @@ test_that("right censoring", {
     task = TaskSurv$new("right", backend = survival::rats, time = "time", event = "status")
   })
   expect_equal(task$censtype, "right")
+  expect_numeric(task$times())
+  expect_integer(task$status())
   expect_equal(task$formula(), as.formula(Surv(time, status, type = "right") ~ .))
 })
 
@@ -20,6 +20,8 @@ test_that("left censoring", {
                         type = "left")
   })
   expect_equal(task$censtype, "left")
+  expect_numeric(task$times())
+  expect_integer(task$status())
   expect_equal(task$formula(), as.formula(Surv(time, status, type = "left") ~ .))
 })
 
@@ -31,7 +33,22 @@ test_that("interval censoring", {
   })
   expect_equal(task$censtype, "interval")
   expect_equal(ncol(task$truth()), 3)
+  expect_numeric(task$times())
+  expect_integer(task$status())
   expect_equal(task$formula(), as.formula(Surv(start, stop, status, type = "interval") ~ .))
+})
+
+test_that("interval2 censoring", {
+  expect_silent({
+    task = TaskSurv$new(
+      id = "interval2_censored", backend = survival::bladder2,
+      time = "start", time2 = "stop", type = "interval2")
+  })
+  expect_equal(task$censtype, "interval2")
+  expect_equal(ncol(task$truth()), 3)
+  expect_numeric(task$times())
+  expect_integer(task$status())
+  expect_equal(task$formula(), as.formula(Surv(start, stop, type = "interval2") ~ .))
 })
 
 test_that("surv methods", {

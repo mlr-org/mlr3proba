@@ -57,13 +57,13 @@ TaskSurv = R6::R6Class("TaskSurv",
     #' @param type (`character(1)`)\cr
     #' Name of the column giving the type of censoring. Default is 'right' censoring.
     initialize = function(id, backend, time = "time", event = "event", time2,
-      type = c("right", "left", "counting", "interval", "mstate")) {
+      type = c("right", "left", "interval", "counting", "interval2", "mstate")) {
 
       type = match.arg(type)
 
       backend = as_data_backend(backend)
 
-      c_ev = backend$.__enclos_env__$private$.data[, event, with=FALSE][[1]]
+      c_ev = backend$.__enclos_env__$private$.data[, event, with = FALSE][[1]]
       if (type == "mstate") {
         assert_factor(c_ev)
       } else if (type == "interval") {
@@ -78,10 +78,14 @@ TaskSurv = R6::R6Class("TaskSurv",
         super$initialize(
           id = id, task_type = "surv", backend = backend,
           target = c(time, event))
-      } else {
+      } else if (type %in% c("interval", "counting")) {
         super$initialize(
           id = id, task_type = "surv", backend = backend,
           target = c(time, time2, event))
+      } else {
+        super$initialize(
+          id = id, task_type = "surv", backend = backend,
+          target = c(time, time2))
       }
     },
 
@@ -92,12 +96,16 @@ TaskSurv = R6::R6Class("TaskSurv",
     truth = function(rows = NULL) {
       # truth is defined as the survival outcome as a Survival object
       tn = self$target_names
+      ct = self$censtype
       d = self$data(rows, cols = self$target_names)
       args = list(time = d[[tn[1L]]], type = self$censtype)
-      if (length(tn) == 2) {
+
+      if (ct %in% c("right", "left", "mstate")) {
         args$event = as.integer(d[[tn[2L]]])
-      } else {
+      } else if (ct %in% c("interval", "counting")) {
         args$event = as.integer(d[[tn[3L]]])
+        args$time2 = d[[tn[2L]]]
+      } else {
         args$time2 = d[[tn[2L]]]
       }
 
@@ -131,10 +139,10 @@ TaskSurv = R6::R6Class("TaskSurv",
     #' @return `numeric()`
     times = function(rows = NULL) {
       truth = self$truth(rows)
-      if (self$censtype %in% c("interval", "counting")) {
+      if (self$censtype %in% c("interval", "counting", "interval2")) {
         return(truth[, 1:2])
       } else {
-        return(truth[, 1])
+        return(truth[, 1L])
       }
     },
 
@@ -148,7 +156,7 @@ TaskSurv = R6::R6Class("TaskSurv",
     #' @return `integer()`
     status = function(rows = NULL) {
       truth = self$truth(rows)
-      if (self$censtype %in% c("interval", "counting")) {
+      if (self$censtype %in% c("interval", "counting", "interval2")) {
         status = truth[, 3L]
       } else {
         status = truth[, 2L]
@@ -158,9 +166,13 @@ TaskSurv = R6::R6Class("TaskSurv",
     },
 
     #' @description
-    #' Returns the sorted unique outcome times.
+    #' Returns the sorted unique outcome times for 'right', 'left', and 'mcstate'.
     #' @return `numeric()`
     unique_times = function(rows = NULL) {
+      if (self$censtype %in% c("interval", "counting", "interval2")) {
+        stop("Not implemented for 'interval', 'interval2', or 'counting', 'censtype'.")
+      }
+
       sort(unique(self$times(rows)))
     },
 
@@ -168,6 +180,10 @@ TaskSurv = R6::R6Class("TaskSurv",
     #' Returns the sorted unique event (or failure) outcome times.
     #' @return `numeric()`
     unique_event_times = function(rows = NULL) {
+      if (self$censtype %in% c("interval", "counting", "interval2")) {
+        stop("Not implemented for 'interval', 'interval2', or 'counting', 'censtype'.")
+      }
+
       sort(unique(self$times(rows)[self$status(rows) != 0]))
     },
 
@@ -176,6 +192,10 @@ TaskSurv = R6::R6Class("TaskSurv",
     #' @param time (`numeric(1)`) \cr Time to return risk set for, if `NULL` returns all `row_ids`.
     #' @return `integer()`
     risk_set = function(time = NULL) {
+      if (self$censtype %in% c("interval", "counting", "interval2")) {
+        stop("Not implemented for 'interval', 'interval2', or 'counting', 'censtype'.")
+      }
+
       if (is.null(time)) {
         self$row_ids
       } else {
