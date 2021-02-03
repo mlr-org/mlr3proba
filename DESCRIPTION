@@ -136,6 +136,7 @@ Collate:
     'TaskGeneratorSimsurv.R'
     'TaskSurv.R'
     'TaskSurv_X.R'
+    'as_task_surv.R'
     'assertions.R'
     'bibentries.R'
     'cindex.R'

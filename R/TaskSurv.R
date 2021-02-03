@@ -40,22 +40,10 @@ TaskSurv = R6::R6Class("TaskSurv",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
-    #' @param time (`character(1)`)\cr
-    #' Name of the column for event time if data is right censored, otherwise starting time if
-    #' interval censored.
-    #'
-    #' @param event (`character(1)`)\cr
-    #' Name of the column giving the event indicator.
-    #' If data is right censored then "0"/`FALSE` means alive (no event), "1"/`TRUE` means dead
-    #' (event). If `type` is `"interval"` then "0" means right censored, "1" means dead (event),
-    #' "2" means left censored, and "3" means interval censored. If `type` is `"interval2"` then
-    #' `event` is ignored.
-    #'
-    #' @param time2 (`character(1)`)\cr
-    #' Name of the column for ending time for interval censored data, otherwise ignored.
-    #'
-    #' @param type (`character(1)`)\cr
-    #' Name of the column giving the type of censoring. Default is 'right' censoring.
+    #' @template param_time
+    #' @template param_event
+    #' @template param_time2
+    #' @template param_type
     initialize = function(id, backend, time = "time", event = "event", time2,
       type = c("right", "left", "counting", "interval", "mstate")) {
 
