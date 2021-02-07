@@ -1,3 +1,7 @@
+# mlr3proba 0.3.1.9000
+
+* Patched bug causing ``"interval2"`` task type not to work
+
 # mlr3proba 0.3.1
 
 * Reverted removal of `"interval2"`

@@ -63,13 +63,15 @@ TaskSurv = R6::R6Class("TaskSurv",
 
       backend = as_data_backend(backend)
 
-      c_ev = backend$.__enclos_env__$private$.data[, event, with = FALSE][[1]]
-      if (type == "mstate") {
-        assert_factor(c_ev)
-      } else if (type == "interval") {
-        assert_integerish(c_ev, lower = 0, upper = 3)
-      } else if (!is.logical(c_ev)) {
-        assert_integerish(c_ev, lower = 0, upper = 2)
+      if (type != "interval2") {
+        c_ev = backend$.__enclos_env__$private$.data[, event, with = FALSE][[1]]
+        if (type == "mstate") {
+          assert_factor(c_ev)
+        } else if (type == "interval") {
+          assert_integerish(c_ev, lower = 0, upper = 3)
+        } else if (!is.logical(c_ev)) {
+          assert_integerish(c_ev, lower = 0, upper = 2)
+        }
       }
 
       private$.censtype = type

@@ -39,9 +39,10 @@ test_that("interval censoring", {
 })
 
 test_that("interval2 censoring", {
+  # test without 'event'
   expect_silent({
     task = TaskSurv$new(
-      id = "interval2_censored", backend = survival::bladder2,
+      id = "interval2_censored", backend = survival::bladder2[,-c(1, 7)],
       time = "start", time2 = "stop", type = "interval2")
   })
   expect_equal(task$censtype, "interval2")
