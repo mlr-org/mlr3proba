@@ -32,12 +32,12 @@ as_task_surv.TaskSurv = function(x, clone = FALSE, ...) { # nolint
 #'   Defaults to the (deparsed and substituted) name of `x`.
 #' @export
 as_task_surv.data.frame = function(x, time = "time", event = "event", time2, type = "right", id = deparse(substitute(x)), ...) { # nolint
-  TaskSurv$new(id = id, backend = x, time = time, event = event, time2 = time2)
+  TaskSurv$new(id = id, backend = x, time = time, event = event, time2 = time2, type = type)
 }
 
 
 #' @rdname as_task_surv
 #' @export
 as_task_surv.DataBackend = function(x, time = "time", event = "event", time2, type = "right", id = deparse(substitute(x)), ...) { # nolint
-  TaskSurv$new(id = id, backend = x, time = time, event = event, time2 = time2)
+  TaskSurv$new(id = id, backend = x, time = time, event = event, time2 = time2, type = type)
 }
