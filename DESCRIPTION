@@ -63,6 +63,7 @@ Suggests:
 LinkingTo:
     Rcpp
 ByteCompile: true
+Remotes: mlr-org/mlr3pipelines@row_id_rename
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
