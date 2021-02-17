@@ -13,16 +13,17 @@ as_prediction_surv(x, ...)
 \method{as_prediction_surv}{data.frame}(x, ...)
 }
 \arguments{
-\item{x}{(any)\cr
+\item{x}{(\code{any})\cr
 Object to convert.}
 
-\item{...}{(one or more \link[mlr3]{PredictionData} objects).}
+\item{...}{(\code{any})\cr
+Additional arguments.}
 }
 \value{
 \link{PredictionSurv}.
 }
 \description{
-Convert object to a \link{PredictionSurvival}.
+Convert object to a \link{PredictionSurv}.
 }
 \examples{
 library(mlr3)

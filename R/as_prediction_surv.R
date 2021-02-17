@@ -1,7 +1,7 @@
 #' @title Convert to a Survival Prediction
 #'
 #' @description
-#' Convert object to a [PredictionSurvival].
+#' Convert object to a [PredictionSurv].
 #'
 #' @inheritParams mlr3::as_prediction
 #'
