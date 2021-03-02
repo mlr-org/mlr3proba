@@ -316,7 +316,6 @@ pipeline_probregrcompositor = function(learner, learner_se = NULL, dist = "Norma
 
   if (graph_learner) {
     gr <- mlr3pipelines::GraphLearner$new(gr)
-    gr$predict_type <- "response"
   }
 
   gr
