@@ -46,6 +46,12 @@ test_that("survbagging", {
   expect_prediction_surv(p)
 })
 
+test_that("resample survtoregr", {
+  pipe = mlr3pipelines::ppl("survtoregr", method = 1, distrcompose = FALSE, graph_learner = TRUE)
+  rr = resample(task, pipe, rsmp("cv", folds = 2))
+  expect_numeric(rr$aggregate())
+})
+
 test_that("survtoregr 1", {
   pipe = mlr3pipelines::ppl("survtoregr", method = 1, distrcompose = FALSE)
   expect_class(pipe, "Graph")
