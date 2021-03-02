@@ -316,7 +316,7 @@ pipeline_probregrcompositor = function(learner, learner_se = NULL, dist = "Norma
 
   if (graph_learner) {
     gr <- mlr3pipelines::GraphLearner$new(gr)
-    gr$predict_type <- "distr"
+    gr$predict_type <- "response"
   }
 
   gr
@@ -542,7 +542,6 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
 
   if (graph_learner) {
     gr <- mlr3pipelines::GraphLearner$new(gr)
-    gr$predict_type <- "distr"
   }
 
   gr
