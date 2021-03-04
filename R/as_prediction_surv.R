@@ -49,11 +49,15 @@ as_prediction_surv.data.frame = function(x, ...) { # nolint
   assert_names(names(x), must.include = mandatory)
   assert_names(names(x), subset.of = c(mandatory, optional))
 
-  # FIXME: distr removed here, unsure how to combine them for PredictionSurv
-  # do.call(c, distr) is incredibly slow
+  if ("distr" %in% names(x)) {
+    distr = do.call(c, x$distr)
+  } else {
+    distr = NULL
+  }
 
   invoke(PredictionSurv$new,
     truth = Surv(x$time, x$status),
-    .args = x[, -c("time", "status", "distr"), with = FALSE]
+    distr = distr,
+    .args = x[, -intersect(c("time", "status", "distr"), names(x)), with = FALSE],
   )
 }
