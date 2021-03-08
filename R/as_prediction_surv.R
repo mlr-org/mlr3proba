@@ -50,7 +50,7 @@ as_prediction_surv.data.frame = function(x, ...) { # nolint
   assert_names(names(x), subset.of = c(mandatory, optional))
 
   if ("distr" %in% names(x)) {
-    distr = do.call(c, x$distr)
+    distr = x$distr[[1]]
   } else {
     distr = NULL
   }
