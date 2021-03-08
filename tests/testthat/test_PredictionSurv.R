@@ -42,3 +42,16 @@ test_that("c", {
   expect_equal(length(c(p1, p2, keep_duplicates = TRUE)$row_ids), 40)
   expect_equal(length(c(p1, p2, keep_duplicates = FALSE)$row_ids), 20)
 })
+
+test_that("data.frame roundtrip", {
+  p1 = lrn("surv.coxph")$train(task)$predict(task)
+
+  tab = as.data.table(p1)
+  p2 = as_prediction_surv(tab)
+  expect_prediction_surv(p2)
+
+  expect_equal(as.data.table(p1$distr$parameters())$value,
+               as.data.table(p2$distr$parameters())$value)
+
+  expect_equal(as.data.table(p1)[, -6L], as.data.table(p2)[, -6L])
+})

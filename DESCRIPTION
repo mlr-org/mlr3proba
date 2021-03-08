@@ -53,7 +53,7 @@ Suggests:
     knitr,
     lgr,
     mlr3extralearners,
-    mlr3pipelines (>= 0.3.0),
+    mlr3pipelines (>= 0.3.4),
     pracma,
     rpart,
     set6 (>= 0.1.7),
@@ -136,6 +136,7 @@ Collate:
     'TaskGeneratorSimsurv.R'
     'TaskSurv.R'
     'TaskSurv_X.R'
+    'as_prediction_surv.R'
     'as_task_surv.R'
     'assertions.R'
     'bibentries.R'

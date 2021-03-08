@@ -110,11 +110,10 @@ PredictionSurv = R6Class("PredictionSurv",
 #' @export
 as.data.table.PredictionSurv = function(x, ...) { # nolint
   tab = as.data.table(x$data[c("row_ids", "crank", "lp", "response")])
-  setnames(tab, "row_ids", "row_id")
   tab$time = x$data$truth[, 1L]
   tab$status = as.logical(x$data$truth[, 2L])
   if ("distr" %in% x$predict_types) {
     tab$distr = list(list(x$distr))
   }
-  setcolorder(tab, c("row_id", "time", "status"))[]
+  setcolorder(tab, c("row_ids", "time", "status"))[]
 }
