@@ -81,7 +81,6 @@ PredictionDens = R6Class("PredictionDens",
 #' @export
 as.data.table.PredictionDens = function(x, ...) { # nolint
   tab = as.data.table(x$data[c("row_ids", "pdf", "cdf")])
-  setnames(tab, "row_ids", "row_id")
   if ("distr" %in% x$predict_types) {
     tab$distr = list(list(x$distr))
   }
