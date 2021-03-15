@@ -12,7 +12,7 @@ The \code{task_type} is set to \code{"surv"}.
 }
 \examples{
 library(mlr3)
-lung = mlr3misc::load_dataset("lung", package = "survival")
+lung = survival::lung
 lung$status = (lung$status == 2L)
 task = TaskSurv$new("lung",
   backend = lung, time = "time",
