@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>German Breast Cancer Study (GBCS) Dataset — gbcs • mlr3proba</title>
+<title>Convert to a Survival Task — as_task_surv • mlr3proba</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,8 +47,8 @@
 
 
 
-<meta property="og:title" content="German Breast Cancer Study (GBCS) Dataset — gbcs" />
-<meta property="og:description" content="gbcs dataset from Hosmer et al." />
+<meta property="og:title" content="Convert to a Survival Task — as_task_surv" />
+<meta property="og:description" content="Convert object to a survival task (TaskSurv)." />
 <meta property="og:image" content="https://mlr3proba.mlr-org.com/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -153,49 +153,93 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>German Breast Cancer Study (GBCS) Dataset</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3proba/blob/master/R/data.R'><code>R/data.R</code></a></small>
-    <div class="hidden name"><code>gbcs.Rd</code></div>
+    <h1>Convert to a Survival Task</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3proba/blob/master/R/as_task_surv.R'><code>R/as_task_surv.R</code></a></small>
+    <div class="hidden name"><code>as_task_surv.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>gbcs dataset from Hosmer et al.</p>
+    <p>Convert object to a survival task (<a href='TaskSurv.html'>TaskSurv</a>).</p>
     </div>
 
-    <pre class="usage"><span class='va'>gbcs</span></pre>
+    <pre class="usage"><span class='fu'>as_task_surv</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
+<span class='co'># S3 method for TaskSurv</span>
+<span class='fu'>as_task_surv</span><span class='op'>(</span><span class='va'>x</span>, clone <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'>as_task_surv</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  time <span class='op'>=</span> <span class='st'>"time"</span>,
+  event <span class='op'>=</span> <span class='st'>"event"</span>,
+  <span class='va'>time2</span>,
+  type <span class='op'>=</span> <span class='st'>"right"</span>,
+  id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/deparse.html'>deparse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
 
-    
-<dl>
-<dt>id</dt><dd><p>Identification Code</p></dd>
-<dt>diagdate</dt><dd><p>Date of diagnosis.</p></dd>
-<dt>recdate</dt><dd><p>Date of recurrence free survival.</p></dd>
-<dt>deathdate</dt><dd><p>Date of death.</p></dd>
-<dt>age</dt><dd><p>Age at diagnosis (years).</p></dd>
-<dt>menopause</dt><dd><p>Menopausal status. 1 = Yes, 0 = No.</p></dd>
-<dt>hormone</dt><dd><p>Hormone therapy. 1 = Yes. 0 = No.</p></dd>
-<dt>size</dt><dd><p>Tumor size (mm).</p></dd>
-<dt>grade</dt><dd><p>Tumor grade (1-3).</p></dd>
-<dt>nodes</dt><dd><p>Number of nodes.</p></dd>
-<dt>prog_recp</dt><dd><p>Number of progesterone receptors.</p></dd>
-<dt>estrg_recp</dt><dd><p>Number of estrogen receptors.</p></dd>
-<dt>rectime</dt><dd><p>Time to recurrence (days).</p></dd>
-<dt>censrec</dt><dd><p>Recurrence status. 1 = Recurrence. 0 = Censored.</p></dd>
-<dt>survtime</dt><dd><p>Time to death (days).</p></dd>
-<dt>censdead</dt><dd><p>Censoring status. 1 = Death. 0 = Censored.</p></dd>
+<span class='co'># S3 method for DataBackend</span>
+<span class='fu'>as_task_surv</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  time <span class='op'>=</span> <span class='st'>"time"</span>,
+  event <span class='op'>=</span> <span class='st'>"event"</span>,
+  <span class='va'>time2</span>,
+  type <span class='op'>=</span> <span class='st'>"right"</span>,
+  id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/deparse.html'>deparse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
-</dl>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>(<code>any</code>)<br />
+Object to convert, e.g. a <code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>(<code>any</code>)<br />
+Additional arguments.</p></td>
+    </tr>
+    <tr>
+      <th>clone</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+If <code>TRUE</code>, ensures that the returned object is not the same as the input <code>x</code>.</p></td>
+    </tr>
+    <tr>
+      <th>time</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Name of the column for event time if data is right censored, otherwise starting time if
+interval censored.</p></td>
+    </tr>
+    <tr>
+      <th>event</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Name of the column giving the event indicator.
+If data is right censored then "0"/<code>FALSE</code> means alive (no event), "1"/<code>TRUE</code> means dead
+(event). If <code>type</code> is <code>"interval"</code> then "0" means right censored, "1" means dead (event),
+"2" means left censored, and "3" means interval censored. If <code>type</code> is <code>"interval2"</code> then
+<code>event</code> is ignored.</p></td>
+    </tr>
+    <tr>
+      <th>time2</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Name of the column for ending time for interval censored data, otherwise ignored.</p></td>
+    </tr>
+    <tr>
+      <th>type</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Name of the column giving the type of censoring. Default is 'right' censoring.</p></td>
+    </tr>
+    <tr>
+      <th>id</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Id for the new task.
+Defaults to the (deparsed and substituted) name of <code>x</code>.</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
-
-    <p><a href='ftp://ftp.wiley.com/public/sci_tech_med/survival'>ftp://ftp.wiley.com/public/sci_tech_med/survival</a></p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>Hosmer, D.W. and Lemeshow, S. and May, S. (2008)
-Applied Survival Analysis: Regression Modeling of Time to Event Data: Second
-Edition, John Wiley and Sons Inc., New York, NY</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

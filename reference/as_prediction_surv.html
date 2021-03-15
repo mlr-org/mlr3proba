@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>German Breast Cancer Study (GBCS) Dataset — gbcs • mlr3proba</title>
+<title>Convert to a Survival Prediction — as_prediction_surv • mlr3proba</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,8 +47,8 @@
 
 
 
-<meta property="og:title" content="German Breast Cancer Study (GBCS) Dataset — gbcs" />
-<meta property="og:description" content="gbcs dataset from Hosmer et al." />
+<meta property="og:title" content="Convert to a Survival Prediction — as_prediction_surv" />
+<meta property="og:description" content="Convert object to a PredictionSurv." />
 <meta property="og:image" content="https://mlr3proba.mlr-org.com/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -153,50 +153,74 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>German Breast Cancer Study (GBCS) Dataset</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3proba/blob/master/R/data.R'><code>R/data.R</code></a></small>
-    <div class="hidden name"><code>gbcs.Rd</code></div>
+    <h1>Convert to a Survival Prediction</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3proba/blob/master/R/as_prediction_surv.R'><code>R/as_prediction_surv.R</code></a></small>
+    <div class="hidden name"><code>as_prediction_surv.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>gbcs dataset from Hosmer et al.</p>
+    <p>Convert object to a <a href='PredictionSurv.html'>PredictionSurv</a>.</p>
     </div>
 
-    <pre class="usage"><span class='va'>gbcs</span></pre>
+    <pre class="usage"><span class='fu'>as_prediction_surv</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
+<span class='co'># S3 method for PredictionSurv</span>
+<span class='fu'>as_prediction_surv</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'>as_prediction_surv</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
-    
-<dl>
-<dt>id</dt><dd><p>Identification Code</p></dd>
-<dt>diagdate</dt><dd><p>Date of diagnosis.</p></dd>
-<dt>recdate</dt><dd><p>Date of recurrence free survival.</p></dd>
-<dt>deathdate</dt><dd><p>Date of death.</p></dd>
-<dt>age</dt><dd><p>Age at diagnosis (years).</p></dd>
-<dt>menopause</dt><dd><p>Menopausal status. 1 = Yes, 0 = No.</p></dd>
-<dt>hormone</dt><dd><p>Hormone therapy. 1 = Yes. 0 = No.</p></dd>
-<dt>size</dt><dd><p>Tumor size (mm).</p></dd>
-<dt>grade</dt><dd><p>Tumor grade (1-3).</p></dd>
-<dt>nodes</dt><dd><p>Number of nodes.</p></dd>
-<dt>prog_recp</dt><dd><p>Number of progesterone receptors.</p></dd>
-<dt>estrg_recp</dt><dd><p>Number of estrogen receptors.</p></dd>
-<dt>rectime</dt><dd><p>Time to recurrence (days).</p></dd>
-<dt>censrec</dt><dd><p>Recurrence status. 1 = Recurrence. 0 = Censored.</p></dd>
-<dt>survtime</dt><dd><p>Time to death (days).</p></dd>
-<dt>censdead</dt><dd><p>Censoring status. 1 = Death. 0 = Censored.</p></dd>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>(<code>any</code>)<br />
+Object to convert.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>(<code>any</code>)<br />
+Additional arguments.</p></td>
+    </tr>
+    </table>
 
-</dl>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+    <p><a href='PredictionSurv.html'>PredictionSurv</a>.</p>
 
-    <p><a href='ftp://ftp.wiley.com/public/sci_tech_med/survival'>ftp://ftp.wiley.com/public/sci_tech_med/survival</a></p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://mlr3.mlr-org.com'>mlr3</a></span><span class='op'>)</span>
+<span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='https://mlr3.mlr-org.com/reference/mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"rats"</span><span class='op'>)</span>
+<span class='va'>learner</span> <span class='op'>=</span> <span class='va'>mlr_learners</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"surv.coxph"</span><span class='op'>)</span>
+<span class='va'>learner</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>
+<span class='va'>p</span> <span class='op'>=</span> <span class='va'>learner</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>
 
-    <p>Hosmer, D.W. and Lemeshow, S. and May, S. (2008)
-Applied Survival Analysis: Regression Modeling of Time to Event Data: Second
-Edition, John Wiley and Sons Inc., New York, NY</p>
+<span class='co'># convert to a data.table</span>
+<span class='va'>tab</span> <span class='op'>=</span> <span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span>
 
+<span class='co'># convert back to a Prediction</span>
+<span class='fu'>as_prediction_surv</span><span class='op'>(</span><span class='va'>tab</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; &lt;PredictionSurv&gt; for 300 observations:
+#&gt;     row_ids time status      crank         lp                     distr
+#&gt;           1  101  FALSE  1.6603932  1.6603932 &lt;VectorDistribution[300]&gt;
+#&gt;           2   49   TRUE  0.8550971  0.8550971 &lt;VectorDistribution[300]&gt;
+#&gt;           3  104  FALSE  0.8550971  0.8550971 &lt;VectorDistribution[300]&gt;
+#&gt; ---                                                                    
+#&gt;         298   92  FALSE -0.5866651 -0.5866651 &lt;VectorDistribution[300]&gt;
+#&gt;         299  104  FALSE -1.3919612 -1.3919612 &lt;VectorDistribution[300]&gt;
+#&gt;         300  102  FALSE -1.3919612 -1.3919612 &lt;VectorDistribution[300]&gt;</div><div class='input'>
+<span class='co'># split data.table into a list of data.tables based</span>
+<span class='co'># on their survival times (ignoring censoring)</span>
+<span class='va'>tabs</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span><span class='op'>(</span><span class='va'>tab</span>, <span class='fu'><a href='https://rdrr.io/r/base/cut.html'>cut</a></span><span class='op'>(</span><span class='va'>tab</span><span class='op'>$</span><span class='va'>time</span>, <span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='co'># convert back to list of predictions</span>
+<span class='va'>preds</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>tabs</span>, <span class='va'>as_prediction_surv</span><span class='op'>)</span>
+
+<span class='co'># calculate performance in each group</span>
+<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='va'>preds</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span> <span class='va'>p</span><span class='op'>$</span><span class='fu'>score</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; (22.9,50].surv.harrell_c   (50,77].surv.harrell_c  (77,104].surv.harrell_c 
+#&gt;                0.6521739                0.6666667                0.8623877 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

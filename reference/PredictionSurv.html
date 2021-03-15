@@ -84,7 +84,7 @@ The task_type is set to &quot;surv&quot;." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3proba <small>v0.3.1</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3proba <small>v0.3.2</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -279,13 +279,13 @@ If <code>TRUE</code>, performs argument checks and predict type conversions.</p>
 <span class='va'>p</span> <span class='op'>=</span> <span class='va'>learner</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span><span class='va'>task</span>, row_ids <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>20</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span><span class='va'>task</span>, row_ids <span class='op'>=</span> <span class='fl'>21</span><span class='op'>:</span><span class='fl'>30</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>}</span>
-</div><div class='output co'>#&gt;    row_id time status     crank
-#&gt; 1:     21   79  FALSE 0.6483971
-#&gt; 2:     22   91  FALSE 0.6483971
-#&gt; 3:     23   98  FALSE 0.6483971
-#&gt; 4:     24   76  FALSE 0.6483971
-#&gt; 5:     25   89  FALSE 0.6483971
-#&gt; 6:     26  104  FALSE 0.6483971</div></pre>
+</div><div class='output co'>#&gt;    row_ids time status     crank
+#&gt; 1:      21   79  FALSE 0.6483971
+#&gt; 2:      22   91  FALSE 0.6483971
+#&gt; 3:      23   98  FALSE 0.6483971
+#&gt; 4:      24   76  FALSE 0.6483971
+#&gt; 5:      25   89  FALSE 0.6483971
+#&gt; 6:      26  104  FALSE 0.6483971</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
