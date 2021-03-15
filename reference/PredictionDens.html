@@ -259,13 +259,13 @@ If <code>TRUE</code>, performs argument checks and predict type conversions.</p>
 <span class='va'>learner</span> <span class='op'>=</span> <span class='va'>mlr_learners</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"dens.hist"</span><span class='op'>)</span>
 <span class='va'>p</span> <span class='op'>=</span> <span class='va'>learner</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;    row_id         pdf       cdf              distr
-#&gt; 1:      1 0.001428571 0.9957143 &lt;Distribution[38]&gt;
-#&gt; 2:      2 0.007142857 0.9478571 &lt;Distribution[38]&gt;
-#&gt; 3:      3 0.005714286 0.0400000 &lt;Distribution[38]&gt;
-#&gt; 4:      4 0.030000000 0.8692857 &lt;Distribution[38]&gt;
-#&gt; 5:      5 0.012857143 0.1085714 &lt;Distribution[38]&gt;
-#&gt; 6:      6 0.012857143 0.1497143 &lt;Distribution[38]&gt;</div></pre>
+</div><div class='output co'>#&gt;    row_ids         pdf       cdf              distr
+#&gt; 1:       1 0.001428571 0.9957143 &lt;Distribution[38]&gt;
+#&gt; 2:       2 0.007142857 0.9478571 &lt;Distribution[38]&gt;
+#&gt; 3:       3 0.005714286 0.0400000 &lt;Distribution[38]&gt;
+#&gt; 4:       4 0.030000000 0.8692857 &lt;Distribution[38]&gt;
+#&gt; 5:       5 0.012857143 0.1085714 &lt;Distribution[38]&gt;
+#&gt; 6:       6 0.012857143 0.1497143 &lt;Distribution[38]&gt;</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
