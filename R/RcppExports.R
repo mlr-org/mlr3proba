@@ -13,8 +13,8 @@ c_score_graf_schmid <- function(truth, unique_times, cdf, power = 2L) {
     .Call('_mlr3proba_c_score_graf_schmid', PACKAGE = 'mlr3proba', truth, unique_times, cdf, power)
 }
 
-c_weight_survival_score <- function(score, truth, unique_times, cens) {
-    .Call('_mlr3proba_c_weight_survival_score', PACKAGE = 'mlr3proba', score, truth, unique_times, cens)
+c_weight_survival_score <- function(score, truth, unique_times, cens, proper, eps) {
+    .Call('_mlr3proba_c_weight_survival_score', PACKAGE = 'mlr3proba', score, truth, unique_times, cens, proper, eps)
 }
 
 c_concordance <- function(time, status, crank, cutoff, weight_meth, cens, surv, tiex) {

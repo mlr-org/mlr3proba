@@ -13,7 +13,7 @@ This measure specializes \link[mlr3:Measure]{Measure} for survival problems.
 Predefined measures can be found in the \link[mlr3misc:Dictionary]{dictionary} \link[mlr3:mlr_measures]{mlr3::mlr_measures}.
 }
 \seealso{
-Default survival measures: \code{\link[=mlr_measures_surv.harrellC]{surv.harrellC}}
+Default survival measures: \code{\link[=mlr_measures_surv.cindex]{surv.cindex}}
 
 Other Measure: 
 \code{\link{MeasureDens}}

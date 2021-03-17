@@ -1,10 +1,23 @@
-surv_logloss = function(truth, distribution, rm.cens = TRUE, eps = 1e-15, ...) {
+surv_logloss = function(truth, distribution, eps = 1e-15, IPCW = TRUE, train = NULL, ...) {
 
   # calculate pdf at true death time and set any '0' predictions to a small non-zero value
-  pred = distribution$pdf(data = matrix(truth[, 1], nrow = 1))
+  pred = as.numeric(distribution$pdf(data = matrix(truth[, 1], nrow = 1)))
 
-  if (rm.cens) {
+  if (IPCW) {
     pred = as.numeric(pred)[truth[, 2] == 1]
+
+    if (is.null(train)) {
+      cens = survival::survfit(Surv(truth[, "time"], 1 - truth[, "status"]) ~ 1)
+    } else {
+      cens = survival::survfit(Surv(train[, "time"], 1 - train[, "status"]) ~ 1)
+    }
+
+    truth = truth[truth[, 2] == 1, 1]
+
+    surv = matrix(rep(cens$surv, length(truth)), ncol = length(cens$time), nrow = length(truth),
+                    byrow = TRUE)
+    distr = .surv_return(times = cens$time, surv = surv)$distr
+    pred = as.numeric(distr$survival(data = matrix(truth, nrow = 1)))
   }
 
   pred[pred == 0] = eps

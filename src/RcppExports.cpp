@@ -46,8 +46,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // c_weight_survival_score
-NumericMatrix c_weight_survival_score(NumericMatrix score, NumericMatrix truth, NumericVector unique_times, NumericMatrix cens);
-RcppExport SEXP _mlr3proba_c_weight_survival_score(SEXP scoreSEXP, SEXP truthSEXP, SEXP unique_timesSEXP, SEXP censSEXP) {
+NumericMatrix c_weight_survival_score(NumericMatrix score, NumericMatrix truth, NumericVector unique_times, NumericMatrix cens, bool proper, double eps);
+RcppExport SEXP _mlr3proba_c_weight_survival_score(SEXP scoreSEXP, SEXP truthSEXP, SEXP unique_timesSEXP, SEXP censSEXP, SEXP properSEXP, SEXP epsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -55,7 +55,9 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericMatrix >::type truth(truthSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type unique_times(unique_timesSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type cens(censSEXP);
-    rcpp_result_gen = Rcpp::wrap(c_weight_survival_score(score, truth, unique_times, cens));
+    Rcpp::traits::input_parameter< bool >::type proper(properSEXP);
+    Rcpp::traits::input_parameter< double >::type eps(epsSEXP);
+    rcpp_result_gen = Rcpp::wrap(c_weight_survival_score(score, truth, unique_times, cens, proper, eps));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -94,7 +96,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_mlr3proba_c_get_unique_times", (DL_FUNC) &_mlr3proba_c_get_unique_times, 2},
     {"_mlr3proba_c_score_intslogloss", (DL_FUNC) &_mlr3proba_c_score_intslogloss, 4},
     {"_mlr3proba_c_score_graf_schmid", (DL_FUNC) &_mlr3proba_c_score_graf_schmid, 4},
-    {"_mlr3proba_c_weight_survival_score", (DL_FUNC) &_mlr3proba_c_weight_survival_score, 4},
+    {"_mlr3proba_c_weight_survival_score", (DL_FUNC) &_mlr3proba_c_weight_survival_score, 6},
     {"_mlr3proba_c_concordance", (DL_FUNC) &_mlr3proba_c_concordance, 8},
     {"_mlr3proba_c_gonen", (DL_FUNC) &_mlr3proba_c_gonen, 2},
     {NULL, NULL, 0}

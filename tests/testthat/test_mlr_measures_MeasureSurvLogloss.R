@@ -1,5 +1,3 @@
-context("Logloss")
-
 test_that("logloss", {
   expect_silent({
     l = MeasureSurvLogloss$new(eps = 0.001)
@@ -14,7 +12,7 @@ test_that("logloss", {
 })
 
 test_that("intlogloss", {
-  expect_silent({
+  expect_warning({
     l = MeasureSurvIntLogloss$new(eps = 0.001)
   })
   expect_error({
@@ -27,7 +25,7 @@ test_that("intlogloss", {
 })
 
 test_that("intloglossse", {
-  expect_silent({
+  expect_warning({
     l = msr("surv.intlogloss", se = TRUE)
   })
   expect_error({

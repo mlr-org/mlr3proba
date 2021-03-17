@@ -1,4 +1,5 @@
-weighted_survival_score = function(loss, truth, distribution, times, ...) {
+weighted_survival_score = function(loss, truth, distribution, times, proper, train = NULL,
+                                   eps, ...) {
   assert_surv(truth)
   assertDistribution(distribution)
 
@@ -9,21 +10,27 @@ weighted_survival_score = function(loss, truth, distribution, times, ...) {
   }
 
   if (loss == "graf") {
-    score = c_score_graf_schmid(truth[,"time"], unique_times,
+    score = c_score_graf_schmid(truth[, "time"], unique_times,
                                 as.matrix(distribution$cdf(unique_times)),
                                 power = 2)
   } else if (loss == "schmid") {
-      score = c_score_graf_schmid(truth[,"time"], unique_times,
+      score = c_score_graf_schmid(truth[, "time"], unique_times,
                                   as.matrix(distribution$cdf(unique_times)),
                                   power = 1)
   } else {
     score = c_score_intslogloss(as.matrix(truth), unique_times,
-                              as.matrix(distribution$cdf(unique_times)), ...)
+                              as.matrix(distribution$cdf(unique_times)), eps = eps)
   }
 
-  cens = survival::survfit(Surv(truth[,"time"], 1 - truth[,"status"]) ~ 1)
+  if (is.null(train)) {
+    cens = survival::survfit(Surv(truth[, "time"], 1 - truth[, "status"]) ~ 1)
+  } else {
+    cens = survival::survfit(Surv(train[, "time"], 1 - train[, "status"]) ~ 1)
+  }
+
   score = c_weight_survival_score(score, truth, unique_times,
-                                  matrix(c(cens$time, cens$surv), ncol = 2))
+                                  matrix(c(cens$time, cens$surv), ncol = 2),
+                                  proper, eps)
   colnames(score) = unique_times
 
   return(score)
