@@ -116,7 +116,7 @@ NumericMatrix c_weight_survival_score(NumericMatrix score, NumericMatrix truth,
     k = 0;
     for (int j = 0; j < nc; j++) {
       // if alive and not proper then IPC weights are current time
-      if(times[i] > unique_times[j] && proper) {
+      if(times[i] > unique_times[j] && !proper) {
         for (int l = 0; l < cens_times.length(); l++) {
           if(unique_times[j] >= cens_times[l] &&
              (unique_times[j] < cens_times[l+1]  || l == cens_times.length()-1)) {
@@ -128,10 +128,14 @@ NumericMatrix c_weight_survival_score(NumericMatrix score, NumericMatrix truth,
       } else {
         if (k == 0) {
           for (int l = 0; l < cens_times.length(); l++) {
-            if(times[i] >= cens_times[l] &&
+            // weight 1 if death occurs before first censoring time
+            if (times[i] < cens_times[l] && l == 0) {
+              k = 1;
+              break;
+            } else if(times[i] >= cens_times[l] &&
                (times[i] < cens_times[l+1] || l == cens_times.length()-1)) {
               k = cens_surv[l];
-              // k == 0 only if last obsv censored, therefore set to 0 anyway
+              // k == 0 only if last obsv censored, therefore mat is set to 0 anyway
               if(k == 0) {
                 k = 1;
               }
