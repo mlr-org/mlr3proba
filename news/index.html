@@ -82,7 +82,7 @@
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3proba <small>v0.3.2</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3proba <small>v0.4.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -156,6 +156,17 @@
       <small>Source: <a href='https://github.com/mlr-org/mlr3proba/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="mlr3proba-040" class="section level1">
+<h1 class="page-header" data-toc-text="0.4.0">
+<a href="#mlr3proba-040" class="anchor"></a>mlr3proba 0.4.0<small> Unreleased </small>
+</h1>
+<ul>
+<li>Deprecated measures from 0.2.0 have now been deleted.</li>
+<li>IPCW measures such as <code>surv.graf</code>, <code>surv.schmid</code>, and <code>surv.intlogloss</code> now allow training data to be passed to the score function with <code>task</code> and <code>train_set</code> to allow the censoring distribution to be estimated on the training data. This is automatically applied for resample and benchmark results.</li>
+<li>IPCW measures such as <code>surv.graf</code>, <code>surv.schmid</code>, and <code>surv.intlogloss</code> now include a parameter <code>proper</code> to determine what weighting scheme should be applied by the estimated censoring distribution, The current method (Graf, 1999) <code>proper = FALSE</code>, weights observations either by their event time or ‘current’ time depending if they’re dead or not, the new method <code>proper = TRUE</code> weights observations by event time. The <code>proper = TRUE</code> method is strictly proper when censoring and survival times are independent and G is estimated on large enough data. The <code>proper = FALSE</code> method is never proper. The default is currently <code>proper = FALSE</code> to enable backward compatibility, this will be changed to <code>proper = TRUE</code> in v0.6.0.</li>
+<li>The <code>rm_cens</code> parameter in <code>surv.logloss</code> has been deprecated in favour of <code>IPCW</code>. <code>rm_cens</code> will be removed in v0.6.0. If <code>rm_cens</code> or <code>IPCW</code> are <code>TRUE</code> then censored observations are removed and the score is weighted by an estimate of the censoring distribution at individual event times. Otherwise if <code>rm_cens</code> and <code>IPCW</code> are <code>FALSE</code> then no deletion or weighting takes place. The <code>IPCW = TRUE</code> method is strictly proper when censoring and survival times are independent and G is estimated on large enough data. The <code>ipcw = FALSE</code> method is never proper.</li>
+</ul>
+</div>
     <div id="mlr3proba-032" class="section level1">
 <h1 class="page-header" data-toc-text="0.3.2">
 <a href="#mlr3proba-032" class="anchor"></a>mlr3proba 0.3.2<small> 2021-03-15 </small>

@@ -48,11 +48,19 @@
 
 
 <meta property="og:title" content="Integrated Schmid Score Survival Measure — mlr_measures_surv.schmid" />
-<meta property="og:description" content="Calculates the Integrated Schmid Score, aka integrated absolute loss.
+<meta property="og:description" content="Calculates the Integrated Schmid Score (ISS), aka integrated absolute loss.
 For an individual who dies at time \(t\), with predicted Survival function, \(S\), the
 Schmid Score at time \(t^*\) is given by
 $$L(S,t|t^*) = [(S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*)))I(t &amp;gt; t^*)(1/G(t^*))]$$ # nolint
 where \(G\) is the Kaplan-Meier estimate of the censoring distribution.
+The re-weighted ISS, ISS* is given by
+$$L(S,t|t^*) = [(S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*)))I(t &amp;gt; t^*)(1/G(t))]$$ # nolint
+where \(G\) is the Kaplan-Meier estimate of the censoring distribution, i.e. always
+weighted by \(G(t)\). ISS* is strictly proper when the censoring distribution is independent
+of the survival distribution and when G is fit on a sufficiently large dataset. ISS is never
+proper. Use proper = FALSE for ISS and proper = TRUE for ISS*, in the future the default
+will be changed to proper = TRUE. Results may be very different if many observations are
+censored at the last observed time due to division by 1/eps in proper = TRUE.
 If integrated == FALSE then the sample mean is taken for the single specified times, \(t^*\), and the returned
 score is given by
 $$L(S,t|t^*) = \frac{1}{N} \sum_{i=1}^N L(S_i,t_i|t^*)$$
@@ -96,7 +104,7 @@ $$L(S) = \frac{1}{NT} \sum_{i=1}^N \sum_{j=1}^T L(S_i,t_i|t^*_j)$$" />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3proba <small>v0.3.2</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3proba <small>v0.4.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -172,11 +180,19 @@ $$L(S) = \frac{1}{NT} \sum_{i=1}^N \sum_{j=1}^T L(S_i,t_i|t^*_j)$$" />
     </div>
 
     <div class="ref-description">
-    <p>Calculates the Integrated Schmid Score, aka integrated absolute loss.</p>
+    <p>Calculates the Integrated Schmid Score (ISS), aka integrated absolute loss.</p>
 <p>For an individual who dies at time \(t\), with predicted Survival function, \(S\), the
 Schmid Score at time \(t^*\) is given by
 $$L(S,t|t^*) = [(S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*)))I(t &gt; t^*)(1/G(t^*))]$$ # nolint
 where \(G\) is the Kaplan-Meier estimate of the censoring distribution.</p>
+<p>The re-weighted ISS, ISS* is given by
+$$L(S,t|t^*) = [(S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*)))I(t &gt; t^*)(1/G(t))]$$ # nolint
+where \(G\) is the Kaplan-Meier estimate of the censoring distribution, i.e. always
+weighted by \(G(t)\). ISS* is strictly proper when the censoring distribution is independent
+of the survival distribution and when G is fit on a sufficiently large dataset. ISS is never
+proper. Use <code>proper = FALSE</code> for ISS and <code>proper = TRUE</code> for ISS*, in the future the default
+will be changed to <code>proper = TRUE</code>. Results may be very different if many observations are
+censored at the last observed time due to division by 1/<code>eps</code> in <code>proper = TRUE</code>.</p>
 <p>If <code>integrated == FALSE</code> then the sample mean is taken for the single specified <code>times</code>, \(t^*\), and the returned
 score is given by
 $$L(S,t|t^*) = \frac{1}{N} \sum_{i=1}^N L(S_i,t_i|t^*)$$
@@ -190,6 +206,12 @@ $$L(S) = \frac{1}{NT} \sum_{i=1}^N \sum_{j=1}^T L(S_i,t_i|t^*_j)$$</p>
 
 
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>If <code>task</code> and <code>train_set</code> are passed to <code>$score</code> then G is fit on training data,
+otherwise testing data. The first is likely to reduce any bias caused by calculating
+parts of the measure on the test data it is evaluating. The training data is automatically
+used in scoring resamplings.</p>
     <h2 class="hasAnchor" id="dictionary"><a class="anchor" href="#dictionary"></a>Dictionary</h2>
 
     
@@ -226,50 +248,34 @@ doi: <a href='https://doi.org/10.1111/j.1541-0420.2010.01459.x'>10.1111/j.1541-0
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other survival measures: 
-<code><a href='mlr_measures_surv.beggC.html'>mlr_measures_surv.beggC</a></code>,
 <code><a href='mlr_measures_surv.calib_alpha.html'>mlr_measures_surv.calib_alpha</a></code>,
 <code><a href='mlr_measures_surv.calib_beta.html'>mlr_measures_surv.calib_beta</a></code>,
 <code><a href='mlr_measures_surv.chambless_auc.html'>mlr_measures_surv.chambless_auc</a></code>,
 <code><a href='mlr_measures_surv.cindex.html'>mlr_measures_surv.cindex</a></code>,
-<code><a href='mlr_measures_surv.gonenC.html'>mlr_measures_surv.gonenC</a></code>,
-<code><a href='mlr_measures_surv.grafSE.html'>mlr_measures_surv.grafSE</a></code>,
 <code><a href='mlr_measures_surv.graf.html'>mlr_measures_surv.graf</a></code>,
-<code><a href='mlr_measures_surv.harrellC.html'>mlr_measures_surv.harrellC</a></code>,
 <code><a href='mlr_measures_surv.hung_auc.html'>mlr_measures_surv.hung_auc</a></code>,
-<code><a href='mlr_measures_surv.intloglossSE.html'>mlr_measures_surv.intloglossSE</a></code>,
 <code><a href='mlr_measures_surv.intlogloss.html'>mlr_measures_surv.intlogloss</a></code>,
-<code><a href='mlr_measures_surv.logloss_se.html'>mlr_measures_surv.logloss_se</a></code>,
 <code><a href='mlr_measures_surv.logloss.html'>mlr_measures_surv.logloss</a></code>,
-<code><a href='mlr_measures_surv.maeSE.html'>mlr_measures_surv.maeSE</a></code>,
 <code><a href='mlr_measures_surv.mae.html'>mlr_measures_surv.mae</a></code>,
-<code><a href='mlr_measures_surv.mseSE.html'>mlr_measures_surv.mseSE</a></code>,
 <code><a href='mlr_measures_surv.mse.html'>mlr_measures_surv.mse</a></code>,
 <code><a href='mlr_measures_surv.nagelk_r2.html'>mlr_measures_surv.nagelk_r2</a></code>,
 <code><a href='mlr_measures_surv.oquigley_r2.html'>mlr_measures_surv.oquigley_r2</a></code>,
-<code><a href='mlr_measures_surv.rmseSE.html'>mlr_measures_surv.rmseSE</a></code>,
 <code><a href='mlr_measures_surv.rmse.html'>mlr_measures_surv.rmse</a></code>,
 <code><a href='mlr_measures_surv.song_auc.html'>mlr_measures_surv.song_auc</a></code>,
 <code><a href='mlr_measures_surv.song_tnr.html'>mlr_measures_surv.song_tnr</a></code>,
 <code><a href='mlr_measures_surv.song_tpr.html'>mlr_measures_surv.song_tpr</a></code>,
-<code><a href='mlr_measures_surv.unoC.html'>mlr_measures_surv.unoC</a></code>,
 <code><a href='mlr_measures_surv.uno_auc.html'>mlr_measures_surv.uno_auc</a></code>,
 <code><a href='mlr_measures_surv.uno_tnr.html'>mlr_measures_surv.uno_tnr</a></code>,
 <code><a href='mlr_measures_surv.uno_tpr.html'>mlr_measures_surv.uno_tpr</a></code>,
 <code><a href='mlr_measures_surv.xu_r2.html'>mlr_measures_surv.xu_r2</a></code></p>
 <p>Other Probabilistic survival measures: 
-<code><a href='mlr_measures_surv.grafSE.html'>mlr_measures_surv.grafSE</a></code>,
 <code><a href='mlr_measures_surv.graf.html'>mlr_measures_surv.graf</a></code>,
-<code><a href='mlr_measures_surv.intloglossSE.html'>mlr_measures_surv.intloglossSE</a></code>,
 <code><a href='mlr_measures_surv.intlogloss.html'>mlr_measures_surv.intlogloss</a></code>,
-<code><a href='mlr_measures_surv.logloss_se.html'>mlr_measures_surv.logloss_se</a></code>,
 <code><a href='mlr_measures_surv.logloss.html'>mlr_measures_surv.logloss</a></code></p>
 <p>Other distr survival measures: 
 <code><a href='mlr_measures_surv.calib_alpha.html'>mlr_measures_surv.calib_alpha</a></code>,
-<code><a href='mlr_measures_surv.grafSE.html'>mlr_measures_surv.grafSE</a></code>,
 <code><a href='mlr_measures_surv.graf.html'>mlr_measures_surv.graf</a></code>,
-<code><a href='mlr_measures_surv.intloglossSE.html'>mlr_measures_surv.intloglossSE</a></code>,
 <code><a href='mlr_measures_surv.intlogloss.html'>mlr_measures_surv.intlogloss</a></code>,
-<code><a href='mlr_measures_surv.logloss_se.html'>mlr_measures_surv.logloss_se</a></code>,
 <code><a href='mlr_measures_surv.logloss.html'>mlr_measures_surv.logloss</a></code></p></div>
     <h2 class="hasAnchor" id="super-classes"><a class="anchor" href="#super-classes"></a>Super classes</h2>
 
@@ -303,7 +309,14 @@ If <code>TRUE</code> returns the standard error of the measure.</p></dd>
 <hr>
 <a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
 <p>Creates a new instance of this <a href='https://r6.r-lib.org/reference/R6Class.html'>R6</a> class.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>MeasureSurvSchmid</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>integrated <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>times</span>, method <span class='op'>=</span> <span class='fl'>2</span>, se <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>MeasureSurvSchmid</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>
+  integrated <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  <span class='va'>times</span>,
+  method <span class='op'>=</span> <span class='fl'>2</span>,
+  se <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  proper <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  eps <span class='op'>=</span> <span class='fl'>0.001</span>
+<span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -322,6 +335,17 @@ between time-points. <code>method == 2</code> is default to be in line with othe
 
 <dt><code>se</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
 If <code>TRUE</code> returns the standard error of the measure.</p></dd>
+
+<dt><code>proper</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+If <code>TRUE</code> then weights scores by the censoring distribution at the observed event time,
+which results in a strictly proper scoring rule if censoring and survival time distributions
+are independent and a sufficiently large dataset is used to weight the measure.
+If <code>FALSE</code> then weights scores by the Graf method which is the more common usage but the
+loss is not proper. In v0.5.0, the default will be changed to <code>TRUE</code>.</p></dd>
+
+<dt><code>eps</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>)<br />
+Very small number to set zero-valued predicted probabilities to in order to prevent errors
+in log(0) and 1/0 calculation.</p></dd>
 
 </dl><p></div></p>
 <p><hr>
