@@ -114,9 +114,15 @@ NumericMatrix c_weight_survival_score(NumericMatrix score, NumericMatrix truth,
 
   for (int i = 0; i < nr; i++) {
     k = 0;
+    // if censored and proper then zero-out and remove
+    if (proper && status[i] == 0) {
+      mat(i, _) = NumericVector(nc);
+      continue;
+    }
+
     for (int j = 0; j < nc; j++) {
       // if alive and not proper then IPC weights are current time
-      if((times[i] > unique_times[j]) && !proper) {
+      if ((times[i] > unique_times[j]) && !proper) {
         for (int l = 0; l < cens_times.length(); l++) {
           if(unique_times[j] >= cens_times[l] &&
              (unique_times[j] < cens_times[l+1]  || l == cens_times.length()-1)) {
@@ -124,8 +130,14 @@ NumericMatrix c_weight_survival_score(NumericMatrix score, NumericMatrix truth,
             break;
           }
         }
-        // if dead weight by death time
+        // if dead (or alive and proper) weight by event time
+        // if censored remove
       } else {
+        if (status[i] == 0) {
+          mat(i, j) = 0;
+          continue;
+        }
+
         if (k == 0) {
           for (int l = 0; l < cens_times.length(); l++) {
             // weight 1 if death occurs before first censoring time
@@ -146,11 +158,6 @@ NumericMatrix c_weight_survival_score(NumericMatrix score, NumericMatrix truth,
 
         // weight by IPCW
         mat(i, j) = score(i, j) / k;
-
-        // remove censored observations
-        if (times[i] <= unique_times[j]) {
-          mat(i, j) = mat(i, j) * status[i];
-        }
       }
     }
   }
