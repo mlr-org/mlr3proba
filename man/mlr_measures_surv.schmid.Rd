@@ -18,7 +18,8 @@ where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution, i.e. a
 weighted by \eqn{G(t)}. ISS* is strictly proper when the censoring distribution is independent
 of the survival distribution and when G is fit on a sufficiently large dataset. ISS is never
 proper. Use \code{proper = FALSE} for ISS and \code{proper = TRUE} for ISS*, in the future the default
-will be changed to \code{proper = TRUE}.
+will be changed to \code{proper = TRUE}. Results may be very different if many observations are
+censored at the last observed time due to division by 1/\code{eps} in \code{proper = TRUE}.
 
 If \code{integrated == FALSE} then the sample mean is taken for the single specified \code{times}, \eqn{t^*}{t*}, and the returned
 score is given by
@@ -144,7 +145,8 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   times,
   method = 2,
   se = FALSE,
-  proper = FALSE
+  proper = FALSE,
+  eps = 0.001
 )}\if{html}{\out{</div>}}
 }
 
@@ -173,6 +175,10 @@ which results in a strictly proper scoring rule if censoring and survival time d
 are independent and a sufficiently large dataset is used to weight the measure.
 If \code{FALSE} then weights scores by the Graf method which is the more common usage but the
 loss is not proper. In v0.5.0, the default will be changed to \code{TRUE}.}
+
+\item{\code{eps}}{(\code{numeric(1)})\cr
+Very small number to set zero-valued predicted probabilities to in order to prevent errors
+in log(0) and 1/0 calculation.}
 }
 \if{html}{\out{</div>}}
 }

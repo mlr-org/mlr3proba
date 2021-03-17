@@ -6,21 +6,34 @@
 \alias{pecs.PredictionSurv}
 \title{Prediction Error Curves for PredictionSurv and LearnerSurv}
 \usage{
-pecs(x, measure = c("graf", "logloss"), times, n, eps = 1e-15, ...)
+pecs(x, measure = c("graf", "logloss"), times, n, eps = NULL, ...)
 
 \method{pecs}{list}(
   x,
   measure = c("graf", "logloss"),
   times,
   n,
-  eps = 1e-15,
+  eps = NULL,
   task = NULL,
   row_ids = NULL,
-  newdata,
+  newdata = NULL,
+  train_task = NULL,
+  train_set = NULL,
+  proper = TRUE,
   ...
 )
 
-\method{pecs}{PredictionSurv}(x, measure = c("graf", "logloss"), times, n, eps = 1e-15, ...)
+\method{pecs}{PredictionSurv}(
+  x,
+  measure = c("graf", "logloss"),
+  times,
+  n,
+  eps = 1e-15,
+  train_task = NULL,
+  train_set = NULL,
+  proper = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{(\link{PredictionSurv} or \code{list} of \link{LearnerSurv}s)}
@@ -37,8 +50,8 @@ If \code{times} is missing or given as a range, then \code{n} provide number of 
 \code{measure} over.}
 
 \item{eps}{(\code{numeric()}) \cr
-Small error value to pass to \link{MeasureSurvIntLogloss} to prevent errors resulting from a log(0)
-calculation.}
+Small error value to prevent errors resulting from a log(0) or 1/0 calculation.
+Default is 1e-15 for log loss and 1e-3 for Graf.}
 
 \item{...}{Additional arguments.}
 
@@ -49,6 +62,17 @@ Passed to \code{Learner$predict}.}
 
 \item{newdata}{(\code{data.frame()}) \cr
 If not missing \code{Learner$predict_newdata} is called instead of \code{Learner$predict}.}
+
+\item{train_task}{(\link{TaskSurv}) \cr
+If not NULL then passed to measures for computing estimate of censoring distribution on
+training data.}
+
+\item{train_set}{(\code{numeric()}) \cr
+If not NULL then passed to measures for computing estimate of censoring distribution on
+training data.}
+
+\item{proper}{(\code{logical(1)}) \cr
+Passed to \link{MeasureSurvGraf} or \link{MeasureSurvIntLogloss}.}
 }
 \description{
 Methods to plot prediction error curves (pecs) for either a \link{PredictionSurv} object

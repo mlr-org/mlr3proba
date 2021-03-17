@@ -50,11 +50,12 @@ test_that('training data for weights', {
 
 test_that('proper option', {
   set.seed(1)
-  m1 = MeasureSurvGraf$new(proper = TRUE)
-  m2 = suppressWarnings(MeasureSurvGraf$new(proper = FALSE))
-  t = tgen('simsurv')$generate(20)
+  t = tsk('rats')$filter(sample(1:300, 100))
+  m1 = MeasureSurvGraf$new(proper = TRUE, method = 1)
+  m2 = suppressWarnings(MeasureSurvGraf$new(proper = FALSE, method = 1))
   l = lrn('surv.kaplan')
-  s1 = l$train(t)$predict(t)$score(m1)
-  s2 = l$train(t)$predict(t)$score(m2)
-  expect_false(identical(s1, s2))
+  p = l$train(t)$predict(t)
+  s1 = p$score(m1)
+  s2 = p$score(m2)
+  expect_lt(s2, s1)
 })

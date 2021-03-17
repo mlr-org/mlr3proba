@@ -99,7 +99,7 @@ NumericMatrix c_score_graf_schmid(NumericVector truth, NumericVector unique_time
 // [[Rcpp::export]]
 NumericMatrix c_weight_survival_score(NumericMatrix score, NumericMatrix truth,
                                       NumericVector unique_times, NumericMatrix cens,
-                                      bool proper = false){
+                                      bool proper, double eps){
   NumericVector times = truth(_,0);
   NumericVector status = truth(_,1);
 
@@ -116,7 +116,7 @@ NumericMatrix c_weight_survival_score(NumericMatrix score, NumericMatrix truth,
     k = 0;
     for (int j = 0; j < nc; j++) {
       // if alive and not proper then IPC weights are current time
-      if(times[i] > unique_times[j] && !proper) {
+      if((times[i] > unique_times[j]) && !proper) {
         for (int l = 0; l < cens_times.length(); l++) {
           if(unique_times[j] >= cens_times[l] &&
              (unique_times[j] < cens_times[l+1]  || l == cens_times.length()-1)) {
@@ -129,7 +129,7 @@ NumericMatrix c_weight_survival_score(NumericMatrix score, NumericMatrix truth,
         if (k == 0) {
           for (int l = 0; l < cens_times.length(); l++) {
             // weight 1 if death occurs before first censoring time
-            if (times[i] < cens_times[l] && l == 0) {
+            if ((times[i] < cens_times[l]) && l == 0) {
               k = 1;
               break;
             } else if(times[i] >= cens_times[l] &&
@@ -137,14 +137,20 @@ NumericMatrix c_weight_survival_score(NumericMatrix score, NumericMatrix truth,
               k = cens_surv[l];
               // k == 0 only if last obsv censored, therefore mat is set to 0 anyway
               if(k == 0) {
-                k = 1;
+                k = eps;
               }
               break;
             }
           }
         }
-        // set censored to 0 and weight by IPCW
-        mat(i, j) = (score(i, j) / k) * status[i];
+
+        // weight by IPCW
+        mat(i, j) = score(i, j) / k;
+
+        // remove censored observations
+        if (times[i] <= unique_times[j]) {
+          mat(i, j) = mat(i, j) * status[i];
+        }
       }
     }
   }

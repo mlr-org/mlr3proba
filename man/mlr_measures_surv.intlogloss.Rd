@@ -18,7 +18,8 @@ where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution, i.e. a
 weighted by \eqn{G(t)}. ISLL* is strictly proper when the censoring distribution is independent
 of the survival distribution and when G is fit on a sufficiently large dataset. ISLL is never
 proper. Use \code{proper = FALSE} for ISLL and \code{proper = TRUE} for ISLL*, in the future the default
-will be changed to \code{proper = TRUE}.
+will be changed to \code{proper = TRUE}. Results may be very different if many observations are
+censored at the last observed time due to division by 1/\code{eps} in \code{proper = TRUE}.
 
 If \code{integrated == FALSE} then the sample mean is taken for the single specified \code{times}, \eqn{t^*}{t*}, and the returned
 score is given by
@@ -105,9 +106,6 @@ Other distr survival measures:
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{eps}}{(\code{numeric(1)})\cr
-Very small number used to prevent log(0) error.}
-
 \item{\code{se}}{\code{(logical(1))} \cr
 If \code{TRUE} returns the standard error of the measure.}
 }
@@ -159,7 +157,7 @@ If \code{integrate == FALSE} then a single time point at which to return the sco
 
 \item{\code{eps}}{(\code{numeric(1)})\cr
 Very small number to set zero-valued predicted probabilities to in order to prevent errors
-in log(0) calculation.}
+in log(0) and 1/0 calculation.}
 
 \item{\code{method}}{(\code{integer(1)})\cr
 If \code{integrate == TRUE} selects the integration weighting method.

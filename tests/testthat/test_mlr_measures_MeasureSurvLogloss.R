@@ -1,5 +1,3 @@
-context("Logloss")
-
 test_that("logloss", {
   expect_silent({
     l = MeasureSurvLogloss$new(eps = 0.001)

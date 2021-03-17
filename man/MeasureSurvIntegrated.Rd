@@ -12,6 +12,9 @@ This is an abstract class that should not be constructed directly.
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{eps}}{(\code{numeric(1)})\cr
+Very small number used to prevent log(0) and 1/0 error.}
+
 \item{\code{integrated}}{\code{(logical(1))}
 Returns if the measure should be integrated or not.
 Settable.}
@@ -62,6 +65,7 @@ This is an abstract class that should not be constructed directly.
   times,
   method = 2,
   proper = FALSE,
+  eps = 1e-15,
   id,
   range,
   minimize,
@@ -95,6 +99,10 @@ which results in a strictly proper scoring rule if censoring and survival time d
 are independent and a sufficiently large dataset is used to weight the measure.
 If \code{FALSE} then weights scores by the Graf method which is the more common usage but the
 loss is not proper. In v0.5.0, the default will be changed to \code{TRUE}.}
+
+\item{\code{eps}}{(\code{numeric(1)})\cr
+Very small number to set zero-valued predicted probabilities to in order to prevent errors
+in log(0) and 1/0 calculation.}
 
 \item{\code{id}}{(\code{character(1)})\cr
 Identifier for the new instance.}

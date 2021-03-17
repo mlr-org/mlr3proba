@@ -90,7 +90,7 @@ Other distr survival measures:
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{eps}}{(\code{numeric(1)})\cr
-Very small number used to prevent log(0) error.}
+Very small number used to prevent log(0) and 1/0 error.}
 
 \item{\code{se}}{\code{(logical(1))} \cr
 If \code{TRUE} returns the standard error of the measure.}
@@ -136,7 +136,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \describe{
 \item{\code{eps}}{(\code{numeric(1)})\cr
 Very small number to set zero-valued predicted probabilities to in order to prevent errors
-in log(0) calculation.}
+in log(0) and 1/0 calculation.}
 
 \item{\code{se}}{(\code{logical(1)})\cr
 If \code{TRUE} returns the standard error of the measure.}

@@ -11,8 +11,8 @@
 #'   If `times` is missing or given as a range, then `n` provide number of time-points to evaluate
 #'    `measure` over.
 #' @param eps (`numeric()`) \cr
-#'   Small error value to pass to [MeasureSurvIntLogloss] to prevent errors resulting from a log(0)
-#'   calculation.
+#'   Small error value to prevent errors resulting from a log(0) or 1/0 calculation.
+#'   Default is 1e-15 for log loss and 1e-3 for Graf.
 #' @param task ([TaskSurv])
 #' @param row_ids (`integer()`) \cr
 #'   Passed to `Learner$predict`.
@@ -58,23 +58,28 @@
 #' }
 #'
 #' @export
-pecs = function(x, measure = c("graf", "logloss"), times, n, eps = 1e-15, ...) {
+pecs = function(x, measure = c("graf", "logloss"), times, n, eps = NULL, ...) {
   mlr3misc::require_namespaces("ggplot2")
 
   if (!missing(times)) assertNumeric(times, min.len = 1)
   if (!missing(n)) assertIntegerish(n, len = 1)
-  assertNumeric(eps, lower = -1, upper = 1)
 
   UseMethod("pecs", x)
 }
 
 #' @rdname pecs
 #' @export
-pecs.list = function(x, measure = c("graf", "logloss"), times, n, eps = 1e-15, task = NULL,  # nolint
+pecs.list = function(x, measure = c("graf", "logloss"), times, n, eps = NULL, task = NULL,  # nolint
                      row_ids = NULL, newdata = NULL, train_task = NULL, train_set = NULL,
                      proper = TRUE, ...) {
 
   measure = match.arg(measure)
+
+  if (is.null(eps)) {
+    eps = ifelse(measure == "graf", 1e-3, 1e-15)
+  } else {
+    assertNumeric(eps, lower = -1, upper = 1)
+  }
 
   assert(all(sapply(x, function(y) !is.null(y$model))),
          "x must be a list of trained survival learners")
@@ -119,7 +124,7 @@ pecs.list = function(x, measure = c("graf", "logloss"), times, n, eps = 1e-15, t
       integrated_score(score = weighted_survival_score("graf",
                                                        truth = task$truth(),
                                                        distribution = y$distr,
-                                                       times = times, train = train,
+                                                       times = times, train = train, eps = eps,
                                                        proper = proper),
                        integrated = FALSE)
     })
@@ -141,6 +146,11 @@ pecs.PredictionSurv = function(x, measure = c("graf", "logloss"), times, n, eps 
                                train_task = NULL, train_set = NULL, proper = TRUE, ...) {
 
   measure = match.arg(measure)
+  if (is.null(eps)) {
+    eps = ifelse(measure == "graf", 1e-3, 1e-15)
+  } else {
+    assertNumeric(eps, lower = -1, upper = 1)
+  }
 
   true_times = sort(unique(x$truth[, 1]))
   times = .pec_times(true_times = true_times, times = times, n = n)
@@ -167,7 +177,8 @@ pecs.PredictionSurv = function(x, measure = c("graf", "logloss"), times, n, eps 
       score = weighted_survival_score("graf",
                                       truth = x$truth,
                                       distribution = x$distr,
-                                      times = times, train = train, proper = proper),
+                                      times = times, train = train, eps = eps,
+                                      proper = proper),
       integrated = FALSE))
   }
 

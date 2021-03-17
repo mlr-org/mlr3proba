@@ -16,7 +16,8 @@
 #' weighted by \eqn{G(t)}. ISS* is strictly proper when the censoring distribution is independent
 #' of the survival distribution and when G is fit on a sufficiently large dataset. ISS is never
 #' proper. Use `proper = FALSE` for ISS and `proper = TRUE` for ISS*, in the future the default
-#' will be changed to `proper = TRUE`.
+#' will be changed to `proper = TRUE`. Results may be very different if many observations are
+#' censored at the last observed time due to division by 1/`eps` in `proper = TRUE`.
 #'
 #' @template measure_integrated
 #' @template param_integrated
@@ -24,6 +25,7 @@
 #' @template param_method
 #' @template param_proper
 #' @template param_se
+#' @template param_eps
 #' @template details_trainG
 #'
 #' @references
@@ -37,7 +39,8 @@ MeasureSurvSchmid = R6::R6Class("MeasureSurvSchmid",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(integrated = TRUE, times, method = 2, se = FALSE, proper = FALSE) {
+    initialize = function(integrated = TRUE, times, method = 2, se = FALSE, proper = FALSE,
+                          eps = 1e-3) {
       if (!proper) {
         warning("The default of 'proper' will be changed to 'TRUE' in v0.6.0.")
       }
@@ -47,6 +50,7 @@ MeasureSurvSchmid = R6::R6Class("MeasureSurvSchmid",
         times = times,
         method = method,
         proper = proper,
+        eps = eps,
         id = ifelse(se, "surv.schmid_se", "surv.schmid"),
         range = c(0, Inf),
         minimize = TRUE,
@@ -86,7 +90,7 @@ MeasureSurvSchmid = R6::R6Class("MeasureSurvSchmid",
 
       score = weighted_survival_score("schmid", truth = prediction$truth,
                                       distribution = prediction$distr, times = self$times,
-                                      proper = self$proper, train = train)
+                                      proper = self$proper, train = train, eps = self$eps)
 
       if (self$se) {
         integrated_se(score, self$integrated)

@@ -16,16 +16,16 @@
 #' weighted by \eqn{G(t)}. ISLL* is strictly proper when the censoring distribution is independent
 #' of the survival distribution and when G is fit on a sufficiently large dataset. ISLL is never
 #' proper. Use `proper = FALSE` for ISLL and `proper = TRUE` for ISLL*, in the future the default
-#' will be changed to `proper = TRUE`.
+#' will be changed to `proper = TRUE`. Results may be very different if many observations are
+#' censored at the last observed time due to division by 1/`eps` in `proper = TRUE`.
 #'
 #' @template measure_integrated
 #' @template param_integrated
 #' @template param_times
-#' @template param_eps
-#' @template field_eps
 #' @template param_method
 #' @template param_proper
 #' @template param_se
+#' @template param_eps
 #' @template details_trainG
 #'
 #' @references
@@ -51,6 +51,7 @@ MeasureSurvIntLogloss = R6::R6Class("MeasureSurvIntLogloss",
         times = times,
         method = method,
         proper = proper,
+        eps = eps,
         id = ifelse(se, "surv.intlogloss_se", "surv.intlogloss"),
         range = c(0, Inf),
         minimize = TRUE,
@@ -59,21 +60,11 @@ MeasureSurvIntLogloss = R6::R6Class("MeasureSurvIntLogloss",
         man = "mlr3proba::mlr_measures_surv.intlogloss",
       )
 
-      private$.eps = assertNumeric(eps)
       private$.se = assertFlag(se)
     }
   ),
 
   active = list(
-    eps = function(eps) {
-      if (missing(eps)) {
-        return(private$.eps)
-      } else {
-        assertNumeric(eps)
-        private$.eps = eps
-      }
-    },
-
     #' @field se `(logical(1))` \cr
     #' If `TRUE` returns the standard error of the measure.
     se = function(x) {
@@ -86,7 +77,6 @@ MeasureSurvIntLogloss = R6::R6Class("MeasureSurvIntLogloss",
   ),
 
   private = list(
-    .eps = numeric(0),
     .se = FALSE,
     .score = function(prediction, task, train_set, ...) {
 

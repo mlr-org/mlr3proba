@@ -65,7 +65,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \describe{
 \item{\code{eps}}{(\code{numeric(1)})\cr
 Very small number to set zero-valued predicted probabilities to in order to prevent errors
-in log(0) calculation.}
+in log(0) and 1/0 calculation.}
 }
 \if{html}{\out{</div>}}
 }

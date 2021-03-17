@@ -12,14 +12,17 @@
 #' @template param_measure_properties
 #' @template param_man
 #' @template param_se
+#' @template param_eps
+#' @template field_eps
 #' @export
 MeasureSurvIntegrated = R6Class("MeasureSurvIntegrated",
   inherit = MeasureSurv,
   public = list(
     #' @description This is an abstract class that should not be constructed directly.
-    initialize = function(integrated = TRUE, times, method = 2, proper = FALSE, id, range,
-                          minimize, packages, predict_type, properties = character(),
-                          man = NA_character_, se = FALSE) {
+    initialize = function(integrated = TRUE, times, method = 2, proper = FALSE,
+                          eps = 1e-15, id, range, minimize, packages, predict_type,
+                          properties = character(), man = NA_character_, se = FALSE) {
+
       if (class(self)[[1]] == "MeasureSurvIntegrated") {
         stop("This is an abstract class that should not be constructed directly.")
       }
@@ -36,6 +39,7 @@ MeasureSurvIntegrated = R6Class("MeasureSurvIntegrated",
       )
 
       private$.integrated = assertFlag(integrated)
+      private$.eps = assertNumeric(eps)
       private$.proper = assertFlag(proper)
 
       if (!integrated) {
@@ -62,6 +66,15 @@ MeasureSurvIntegrated = R6Class("MeasureSurvIntegrated",
   ),
 
   active = list(
+    eps = function(eps) {
+      if (missing(eps)) {
+        return(private$.eps)
+      } else {
+        assertNumeric(eps)
+        private$.eps = eps
+      }
+    },
+
     #' @field integrated `(logical(1))`
     #' Returns if the measure should be integrated or not.
     #' Settable.
@@ -124,6 +137,7 @@ MeasureSurvIntegrated = R6Class("MeasureSurvIntegrated",
   ),
 
   private = list(
+    .eps = numeric(0),
     .integrated = logical(),
     .times = numeric(),
     .method = integer(),
