@@ -1,4 +1,4 @@
-surv_logloss = function(truth, distribution, eps = 1e-15, IPCW = TRUE, train = NULL...) {
+surv_logloss = function(truth, distribution, eps = 1e-15, IPCW = TRUE, train = NULL, ...) {
 
   # calculate pdf at true death time and set any '0' predictions to a small non-zero value
   pred = as.numeric(distribution$pdf(data = matrix(truth[, 1], nrow = 1)))
