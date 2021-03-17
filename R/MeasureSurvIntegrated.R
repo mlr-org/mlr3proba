@@ -3,6 +3,7 @@
 #' @template param_integrated
 #' @template param_times
 #' @template param_method
+#' @template param_proper
 #' @template param_id
 #' @template param_range
 #' @template param_minimize
@@ -16,11 +17,15 @@ MeasureSurvIntegrated = R6Class("MeasureSurvIntegrated",
   inherit = MeasureSurv,
   public = list(
     #' @description This is an abstract class that should not be constructed directly.
-    initialize = function(integrated = TRUE, times, method = 2, id, range, minimize, packages,
-                          predict_type, properties = character(), man = NA_character_,
-                          se = FALSE) {
+    initialize = function(integrated = TRUE, times, method = 2, proper = FALSE, id, range,
+                          minimize, packages, predict_type, properties = character(),
+                          man = NA_character_, se = FALSE) {
       if (class(self)[[1]] == "MeasureSurvIntegrated") {
         stop("This is an abstract class that should not be constructed directly.")
+      }
+
+      if (!proper) {
+        warning("The default of 'proper' will be changed to 'TRUE' in v0.5.0.")
       }
 
       super$initialize(
@@ -34,8 +39,8 @@ MeasureSurvIntegrated = R6Class("MeasureSurvIntegrated",
         se = se
       )
 
-      assertFlag(integrated)
-      private$.integrated = integrated
+      private$.integrated = assertFlag(integrated)
+      private$.proper = assertFlag(proper)
 
       if (!integrated) {
         if (missing(times)) {
@@ -105,12 +110,27 @@ MeasureSurvIntegrated = R6Class("MeasureSurvIntegrated",
         assertNumeric(method, 1, 2, any.missing = FALSE, all.missing = FALSE)
         private$.method = as.integer(method)
       }
+    },
+
+    #' @field proper (`logical(1)`)\cr
+    #' If `TRUE` then weights scores by the censoring distribution at the observed event time,
+    #' which results in a strictly proper scoring rule if censoring and survival time
+    #' distributions are independent and a sufficiently large dataset is used to weight the
+    #' measure. If `FALSE` then weights scores by the Graf method which is the more common usage
+    #' but the loss is not proper.
+    proper = function(proper) {
+      if (missing(proper)) {
+        return(private$.proper)
+      } else {
+        private$.proper = assertFlag(proper)
+      }
     }
   ),
 
   private = list(
     .integrated = logical(),
     .times = numeric(),
-    .method = integer()
+    .method = integer(),
+    .proper = logical()
   )
 )

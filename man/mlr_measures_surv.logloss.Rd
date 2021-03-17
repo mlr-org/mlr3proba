@@ -16,7 +16,16 @@ The standard error of the Logloss, L, is approximated via,
 where \eqn{N} are the number of observations in the test set, and \eqn{sd} is the standard
 deviation.
 
-Censored observations in the test set are ignored.
+The IPCW log loss is defined by
+\deqn{L(f, t, \Delta) = -\Delta log(f(t))/G(t)}
+where \eqn{\Delta} is the censoring indicator and G is the Kaplan-Meier estimator of the
+censoring distribution.
+}
+\details{
+If \code{task} and \code{train_set} are passed to \verb{$score} then G is fit on training data,
+otherwise testing data. The first is likely to reduce any bias caused by calculating
+parts of the measure on the test data it is evaluating. The training data is automatically
+used in scoring resamplings.
 }
 \section{Dictionary}{
 
@@ -103,7 +112,11 @@ Very small number used to prevent log(0) error.}
 If \code{TRUE} returns the standard error of the measure.}
 
 \item{\code{rm_cens}}{\code{(logical(1))} \cr
-If \code{TRUE} removes censored observations from the calculation.}
+Deprecated, please use \code{IPCW} instead.}
+
+\item{\code{IPCW}}{\code{(logical(1))} \cr
+If \code{TRUE} (default) removes censored observations and weights score with IPC weighting
+calculated from the survival probability of the censoring distribution at the time of death.}
 }
 \if{html}{\out{</div>}}
 }
@@ -131,7 +144,7 @@ If \code{TRUE} removes censored observations from the calculation.}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvLogloss$new(eps = 1e-15, se = FALSE, rm_cens = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvLogloss$new(eps = 1e-15, se = FALSE, rm_cens = TRUE, IPCW = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -145,7 +158,11 @@ in log(0) calculation.}
 If \code{TRUE} returns the standard error of the measure.}
 
 \item{\code{rm_cens}}{\code{(logical(1))} \cr
-If \code{TRUE} removes censored observations from the calculation.}
+Deprecated, please use \code{IPCW} instead.}
+
+\item{\code{IPCW}}{\code{(logical(1))} \cr
+If \code{TRUE} (default) removes censored observations and weights score with IPC weighting
+calculated from the survival probability of the censoring distribution at the time of death.}
 }
 \if{html}{\out{</div>}}
 }

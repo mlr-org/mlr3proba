@@ -98,7 +98,8 @@ NumericMatrix c_score_graf_schmid(NumericVector truth, NumericVector unique_time
 
 // [[Rcpp::export]]
 NumericMatrix c_weight_survival_score(NumericMatrix score, NumericMatrix truth,
-                                    NumericVector unique_times, NumericMatrix cens){
+                                      NumericVector unique_times, NumericMatrix cens,
+                                      bool proper = false){
   NumericVector times = truth(_,0);
   NumericVector status = truth(_,1);
 
@@ -114,8 +115,8 @@ NumericMatrix c_weight_survival_score(NumericMatrix score, NumericMatrix truth,
   for (int i = 0; i < nr; i++) {
     k = 0;
     for (int j = 0; j < nc; j++) {
-      // if alive weight by true time
-      if(times[i] > unique_times[j]) {
+      // if alive and not proper then IPC weights are current time
+      if(times[i] > unique_times[j] && proper) {
         for (int l = 0; l < cens_times.length(); l++) {
           if(unique_times[j] >= cens_times[l] &&
              (unique_times[j] < cens_times[l+1]  || l == cens_times.length()-1)) {
@@ -138,7 +139,7 @@ NumericMatrix c_weight_survival_score(NumericMatrix score, NumericMatrix truth,
             }
           }
         }
-
+        // set censored to 0 and weight by IPCW
         mat(i, j) = (score(i, j) / k) * status[i];
       }
     }
@@ -249,6 +250,3 @@ float c_gonen(NumericVector crank, float tiex) {
 
   return (2 * ghci)/(n * (n - 1));
 }
-
-
-

@@ -14,6 +14,17 @@ Graf Score at time \eqn{t^*}{t*} is given by
 \deqn{L(S,t|t^*) = [(S(t^*)^2)I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*))^2)I(t > t^*)(1/G(t^*))]}{L(S,t|t*) = [(S(t*)^2)I(t \le t*, \delta = 1)(1/G(t))] + [((1 - S(t*))^2)I(t > t*)(1/G(t*))]} # nolint
 where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
 
+The re-weighted IGS, IGS* is given by
+\deqn{L(S,t|t^*) = [(S(t^*)^2)I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*))^2)I(t > t^*)(1/G(t))]}{L(S,t|t*) = [(S(t*)^2)I(t \le t*, \delta = 1)(1/G(t))] + [((1 - S(t*))^2)I(t > t*)(1/G(t))]} # nolint
+where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution, i.e. always
+weighted by \eqn{G(t)}. IGS* is strictly proper when the censoring distribution is independent
+of the survival distribution and when G is fit on a sufficiently large dataset. IGS is never
+proper. Use \code{proper = FALSE} for IGS and \code{proper = TRUE} for IGS*, in the future the default
+will be changed to \code{proper = TRUE}.
+
+To compute G on training data just pass \code{task} and \code{row_ids} to the \code{score} method. This is
+done automatically in \verb{$aggregate}.
+
 Note: If comparing the integrated graf score to other packages, e.g. \CRANpkg{pec}, then
 \code{method = 2} should be used. However the results may still be very slightly different as
 this package uses \code{survfit} to estimate the censoring distribution, in line with the Graf 1999
@@ -30,6 +41,12 @@ If \code{integrated == TRUE} then an approximation to integration is made by eit
 mean over all \eqn{T} unique time-points (\code{method == 1}), or by taking a mean weighted by the difference
 between time-points (\code{method == 2}). Then the sample mean is taken over all \eqn{N} observations.
 \deqn{L(S) = \frac{1}{NT} \sum_{i=1}^N \sum_{j=1}^T L(S_i,t_i|t^*_j)}{L(S) = 1/(NT) \sum_i^N \sum_j^T L(S_i,t_i|t*_j)}
+}
+\details{
+If \code{task} and \code{train_set} are passed to \verb{$score} then G is fit on training data,
+otherwise testing data. The first is likely to reduce any bias caused by calculating
+parts of the measure on the test data it is evaluating. The training data is automatically
+used in scoring resamplings.
 }
 \section{Dictionary}{
 
@@ -144,7 +161,13 @@ If \code{TRUE} returns the standard error of the measure.}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvGraf$new(integrated = TRUE, times, method = 2, se = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvGraf$new(
+  integrated = TRUE,
+  times,
+  method = 2,
+  se = FALSE,
+  proper = FALSE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -165,6 +188,13 @@ between time-points. \code{method == 2} is default to be in line with other pack
 
 \item{\code{se}}{(\code{logical(1)})\cr
 If \code{TRUE} returns the standard error of the measure.}
+
+\item{\code{proper}}{(\code{logical(1)})\cr
+If \code{TRUE} then weights scores by the censoring distribution at the observed event time,
+which results in a strictly proper scoring rule if censoring and survival time distributions
+are independent and a sufficiently large dataset is used to weight the measure.
+If \code{FALSE} then weights scores by the Graf method which is the more common usage but the
+loss is not proper. In v0.5.0, the default will be changed to \code{TRUE}.}
 }
 \if{html}{\out{</div>}}
 }

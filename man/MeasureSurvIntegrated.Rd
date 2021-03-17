@@ -23,6 +23,13 @@ Settable.}
 \item{\code{method}}{\code{(integer(1))}
 Returns which method is used for approximating integration.
 Settable.}
+
+\item{\code{proper}}{(\code{logical(1)})\cr
+If \code{TRUE} then weights scores by the censoring distribution at the observed event time,
+which results in a strictly proper scoring rule if censoring and survival time
+distributions are independent and a sufficiently large dataset is used to weight the
+measure. If \code{FALSE} then weights scores by the Graf method which is the more common usage
+but the loss is not proper.}
 }
 \if{html}{\out{</div>}}
 }
@@ -54,6 +61,7 @@ This is an abstract class that should not be constructed directly.
   integrated = TRUE,
   times,
   method = 2,
+  proper = FALSE,
   id,
   range,
   minimize,
@@ -80,6 +88,13 @@ If \code{integrate == TRUE} selects the integration weighting method.
 \code{method == 1} corresponds to weighting each time-point equally and taking the mean score over
 discrete time-points. \code{method == 2} corresponds to calculating a mean weighted by the difference
 between time-points. \code{method == 2} is default to be in line with other packages.}
+
+\item{\code{proper}}{(\code{logical(1)})\cr
+If \code{TRUE} then weights scores by the censoring distribution at the observed event time,
+which results in a strictly proper scoring rule if censoring and survival time distributions
+are independent and a sufficiently large dataset is used to weight the measure.
+If \code{FALSE} then weights scores by the Graf method which is the more common usage but the
+loss is not proper. In v0.5.0, the default will be changed to \code{TRUE}.}
 
 \item{\code{id}}{(\code{character(1)})\cr
 Identifier for the new instance.}
