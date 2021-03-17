@@ -22,9 +22,6 @@ of the survival distribution and when G is fit on a sufficiently large dataset. 
 proper. Use \code{proper = FALSE} for IGS and \code{proper = TRUE} for IGS*, in the future the default
 will be changed to \code{proper = TRUE}.
 
-To compute G on training data just pass \code{task} and \code{row_ids} to the \code{score} method. This is
-done automatically in \verb{$aggregate}.
-
 Note: If comparing the integrated graf score to other packages, e.g. \CRANpkg{pec}, then
 \code{method = 2} should be used. However the results may still be very slightly different as
 this package uses \code{survfit} to estimate the censoring distribution, in line with the Graf 1999
@@ -75,51 +72,35 @@ Graf E, Schmoor C, Sauerbrei W, Schumacher M (1999).
 }
 \seealso{
 Other survival measures: 
-\code{\link{mlr_measures_surv.beggC}},
 \code{\link{mlr_measures_surv.calib_alpha}},
 \code{\link{mlr_measures_surv.calib_beta}},
 \code{\link{mlr_measures_surv.chambless_auc}},
 \code{\link{mlr_measures_surv.cindex}},
-\code{\link{mlr_measures_surv.gonenC}},
-\code{\link{mlr_measures_surv.grafSE}},
-\code{\link{mlr_measures_surv.harrellC}},
 \code{\link{mlr_measures_surv.hung_auc}},
-\code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.logloss_se}},
 \code{\link{mlr_measures_surv.logloss}},
-\code{\link{mlr_measures_surv.maeSE}},
 \code{\link{mlr_measures_surv.mae}},
-\code{\link{mlr_measures_surv.mseSE}},
 \code{\link{mlr_measures_surv.mse}},
 \code{\link{mlr_measures_surv.nagelk_r2}},
 \code{\link{mlr_measures_surv.oquigley_r2}},
-\code{\link{mlr_measures_surv.rmseSE}},
 \code{\link{mlr_measures_surv.rmse}},
 \code{\link{mlr_measures_surv.schmid}},
 \code{\link{mlr_measures_surv.song_auc}},
 \code{\link{mlr_measures_surv.song_tnr}},
 \code{\link{mlr_measures_surv.song_tpr}},
-\code{\link{mlr_measures_surv.unoC}},
 \code{\link{mlr_measures_surv.uno_auc}},
 \code{\link{mlr_measures_surv.uno_tnr}},
 \code{\link{mlr_measures_surv.uno_tpr}},
 \code{\link{mlr_measures_surv.xu_r2}}
 
 Other Probabilistic survival measures: 
-\code{\link{mlr_measures_surv.grafSE}},
-\code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.logloss_se}},
 \code{\link{mlr_measures_surv.logloss}},
 \code{\link{mlr_measures_surv.schmid}}
 
 Other distr survival measures: 
 \code{\link{mlr_measures_surv.calib_alpha}},
-\code{\link{mlr_measures_surv.grafSE}},
-\code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.logloss_se}},
 \code{\link{mlr_measures_surv.logloss}},
 \code{\link{mlr_measures_surv.schmid}}
 }

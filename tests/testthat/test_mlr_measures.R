@@ -13,9 +13,8 @@ test_that("mlr_measures", {
     if (grepl("TNR|TPR", key)) {
       m = msr(key, times = 60)
     } else {
-      if (key %in% c("surv.beggC", "surv.gonenC", "surv.harrellC", "surv.unoC") |
-          grepl("SE$", key)) {
-        expect_warning({m = mlr_measures$get(key)}, "deprecated")
+      if (key %in% c("surv.graf", "surv.intlogloss", "surv.schmid", "surv.brier")) {
+        m = msr(key, proper = TRUE)
       } else {
         m = msr(key)
       }
@@ -37,8 +36,8 @@ test_that("mlr_measures", {
 
 test_that("print", {
   expect_output(msr("surv.cindex")$print(), "Score")
-  expect_output(msr("surv.graf")$print(), "Score")
-  expect_output(msr("surv.graf", se = TRUE)$print(), "Standard Error")
+  expect_output(msr("surv.graf", proper = TRUE)$print(), "Score")
+  expect_output(msr("surv.graf", se = TRUE, proper = TRUE)$print(), "Standard Error")
 })
 
 # task = tsk("rats")
@@ -52,12 +51,14 @@ test_that("unintegrated_prob_losses", {
 
 test_that("integrated_prob_losses", {
   probs = paste0("surv.", c("graf", "intlogloss", "schmid"))
-  expect_error(lapply(probs, msr, times = 34:37, integrated = FALSE), "non-integrated score")
-  expect_silent(prediction$score(lapply(probs, msr, integrated = TRUE)))
-  expect_error(prediction$score(lapply(probs, msr, integrated = TRUE, times = c(34:70))),
-               "Requested times")
-  expect_silent(prediction$score(lapply(probs, msr, integrated = TRUE, times = c(2:3))))
-  expect_silent(prediction$score(lapply(probs, msr, integrated = FALSE, times = 2)))
+  expect_error(lapply(probs, msr, times = 34:37, integrated = FALSE, proper = TRUE),
+                "non-integrated score")
+  expect_silent(prediction$score(lapply(probs, msr, integrated = TRUE, proper = TRUE)))
+  expect_error(prediction$score(lapply(probs, msr, integrated = TRUE, times = c(34:70),
+               proper = TRUE)), "Requested times")
+  expect_silent(prediction$score(lapply(probs, msr, integrated = TRUE, times = c(2:3),
+                proper = TRUE)))
+  expect_silent(prediction$score(lapply(probs, msr, integrated = FALSE, times = 2, proper = TRUE)))
 })
 
 

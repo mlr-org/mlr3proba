@@ -41,6 +41,11 @@ MeasureSurvIntLogloss = R6::R6Class("MeasureSurvIntLogloss",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(integrated = TRUE, times, eps = 1e-15, method = 2, se = FALSE,
                           proper = FALSE) {
+
+      if (!proper) {
+        warning("The default of 'proper' will be changed to 'TRUE' in v0.6.0.")
+      }
+
       super$initialize(
         integrated = integrated,
         times = times,
@@ -94,29 +99,14 @@ MeasureSurvIntLogloss = R6::R6Class("MeasureSurvIntLogloss",
         train = NULL
       }
 
+      score = weighted_survival_score("intslogloss", truth = prediction$truth,
+                                      distribution = prediction$distr, times = self$times,
+                                      proper = self$proper, train = train, eps = self$eps)
+
       if (self$se) {
-        return(
-          integrated_score(score = weighted_survival_score("intslogloss",
-                                                           truth = prediction$truth,
-                                                           distribution = prediction$distr,
-                                                           times = self$times,
-                                                           proper = self$proper,
-                                                           train = train,
-                                                           eps = self$eps),
-                           integrated = self$integrated,
-                           method = self$method)
-        )
+        integrated_se(score, self$integrated)
       } else {
-        return(
-          integrated_se(score = weighted_survival_score("intslogloss",
-                                                        truth = prediction$truth,
-                                                        distribution = prediction$distr,
-                                                        times = self$times,
-                                                        proper = self$proper,
-                                                        train = train,
-                                                        eps = self$eps),
-                        integrated = self$integrated)
-        )
+        integrated_score(score, self$integrated, self$method)
       }
     }
   )

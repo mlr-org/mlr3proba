@@ -44,32 +44,22 @@ Song, Xiao, Zhou, Xiao-Hua (2008).
 }
 \seealso{
 Other survival measures: 
-\code{\link{mlr_measures_surv.beggC}},
 \code{\link{mlr_measures_surv.calib_alpha}},
 \code{\link{mlr_measures_surv.calib_beta}},
 \code{\link{mlr_measures_surv.chambless_auc}},
 \code{\link{mlr_measures_surv.cindex}},
-\code{\link{mlr_measures_surv.gonenC}},
-\code{\link{mlr_measures_surv.grafSE}},
 \code{\link{mlr_measures_surv.graf}},
-\code{\link{mlr_measures_surv.harrellC}},
 \code{\link{mlr_measures_surv.hung_auc}},
-\code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.logloss_se}},
 \code{\link{mlr_measures_surv.logloss}},
-\code{\link{mlr_measures_surv.maeSE}},
 \code{\link{mlr_measures_surv.mae}},
-\code{\link{mlr_measures_surv.mseSE}},
 \code{\link{mlr_measures_surv.mse}},
 \code{\link{mlr_measures_surv.nagelk_r2}},
 \code{\link{mlr_measures_surv.oquigley_r2}},
-\code{\link{mlr_measures_surv.rmseSE}},
 \code{\link{mlr_measures_surv.rmse}},
 \code{\link{mlr_measures_surv.schmid}},
 \code{\link{mlr_measures_surv.song_auc}},
 \code{\link{mlr_measures_surv.song_tpr}},
-\code{\link{mlr_measures_surv.unoC}},
 \code{\link{mlr_measures_surv.uno_auc}},
 \code{\link{mlr_measures_surv.uno_tnr}},
 \code{\link{mlr_measures_surv.uno_tpr}},
@@ -85,10 +75,8 @@ Other AUC survival measures:
 \code{\link{mlr_measures_surv.uno_tpr}}
 
 Other lp survival measures: 
-\code{\link{mlr_measures_surv.beggC}},
 \code{\link{mlr_measures_surv.calib_beta}},
 \code{\link{mlr_measures_surv.chambless_auc}},
-\code{\link{mlr_measures_surv.gonenC}},
 \code{\link{mlr_measures_surv.hung_auc}},
 \code{\link{mlr_measures_surv.nagelk_r2}},
 \code{\link{mlr_measures_surv.oquigley_r2}},

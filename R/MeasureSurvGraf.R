@@ -20,9 +20,6 @@
 #' proper. Use `proper = FALSE` for IGS and `proper = TRUE` for IGS*, in the future the default
 #' will be changed to `proper = TRUE`.
 #'
-#' To compute G on training data just pass `task` and `row_ids` to the `score` method. This is
-#' done automatically in `$aggregate`.
-#'
 #' Note: If comparing the integrated graf score to other packages, e.g. \CRANpkg{pec}, then
 #' `method = 2` should be used. However the results may still be very slightly different as
 #' this package uses `survfit` to estimate the censoring distribution, in line with the Graf 1999
@@ -49,6 +46,10 @@ MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(integrated = TRUE, times, method = 2, se = FALSE, proper = FALSE) {
+      if (!proper) {
+        warning("The default of 'proper' will be changed to 'TRUE' in v0.6.0.")
+      }
+
       super$initialize(
         integrated = integrated,
         times = times,
@@ -91,27 +92,14 @@ MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
         train = NULL
       }
 
+      score = weighted_survival_score("graf", truth = prediction$truth,
+                                      distribution = prediction$distr, times = self$times,
+                                      proper = self$proper, train = train)
+
       if (self$se) {
-        return(
-          integrated_se(score = weighted_survival_score("graf",
-                                                        truth = prediction$truth,
-                                                        distribution = prediction$distr,
-                                                        times = self$times,
-                                                        proper = self$proper,
-                                                        train = train),
-                        integrated = self$integrated)
-        )
+        integrated_se(score, self$integrated)
       } else {
-        return(
-          integrated_score(score = weighted_survival_score("graf",
-                                                           truth = prediction$truth,
-                                                           distribution = prediction$distr,
-                                                           times = self$times,
-                                                           proper = self$proper,
-                                                           train = train),
-                           integrated = self$integrated,
-                           method = self$method)
-        )
+        integrated_score(score, self$integrated, self$method)
       }
     }
   )

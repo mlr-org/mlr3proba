@@ -24,10 +24,6 @@ MeasureSurvIntegrated = R6Class("MeasureSurvIntegrated",
         stop("This is an abstract class that should not be constructed directly.")
       }
 
-      if (!proper) {
-        warning("The default of 'proper' will be changed to 'TRUE' in v0.5.0.")
-      }
-
       super$initialize(
         id = id,
         range = range,
