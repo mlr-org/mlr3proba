@@ -27,7 +27,7 @@ test_that("mlr_measures", {
 
     if (key %in% paste0("surv.", c("schmid", "graf", "intlogloss", "logloss", "mae", "mse",
                                    "rmse", "calib_alpha", "calib_beta"))) {
-      m = msr(key, se = TRUE)
+      m = suppressWarnings(msr(key, se = TRUE))
       perf = pred$score(m, task = task, train_set = seq(task$nrow), learner = learner)
       expect_number(perf, na.ok = "na_score" %in% m$properties)
     }
