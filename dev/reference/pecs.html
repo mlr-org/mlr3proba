@@ -84,7 +84,7 @@ or a list of trained LearnerSurvs." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3proba <small>v0.3.1.9000</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3proba <small>v0.4.0.9000</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -164,7 +164,7 @@ or a list of trained LearnerSurvs." />
 or a list of trained <a href='LearnerSurv.html'>LearnerSurv</a>s.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pecs</span><span class='op'>(</span><span class='va'>x</span>, measure <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"graf"</span>, <span class='st'>"logloss"</span><span class='op'>)</span>, <span class='va'>times</span>, <span class='va'>n</span>, eps <span class='op'>=</span> <span class='fl'>1e-15</span>, <span class='va'>...</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>pecs</span><span class='op'>(</span><span class='va'>x</span>, measure <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"graf"</span>, <span class='st'>"logloss"</span><span class='op'>)</span>, <span class='va'>times</span>, <span class='va'>n</span>, eps <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for list</span>
 <span class='fu'>pecs</span><span class='op'>(</span>
@@ -172,15 +172,28 @@ or a list of trained <a href='LearnerSurv.html'>LearnerSurv</a>s.</p>
   measure <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"graf"</span>, <span class='st'>"logloss"</span><span class='op'>)</span>,
   <span class='va'>times</span>,
   <span class='va'>n</span>,
-  eps <span class='op'>=</span> <span class='fl'>1e-15</span>,
+  eps <span class='op'>=</span> <span class='cn'>NULL</span>,
   task <span class='op'>=</span> <span class='cn'>NULL</span>,
   row_ids <span class='op'>=</span> <span class='cn'>NULL</span>,
-  <span class='va'>newdata</span>,
+  newdata <span class='op'>=</span> <span class='cn'>NULL</span>,
+  train_task <span class='op'>=</span> <span class='cn'>NULL</span>,
+  train_set <span class='op'>=</span> <span class='cn'>NULL</span>,
+  proper <span class='op'>=</span> <span class='cn'>TRUE</span>,
   <span class='va'>...</span>
 <span class='op'>)</span>
 
 <span class='co'># S3 method for PredictionSurv</span>
-<span class='fu'>pecs</span><span class='op'>(</span><span class='va'>x</span>, measure <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"graf"</span>, <span class='st'>"logloss"</span><span class='op'>)</span>, <span class='va'>times</span>, <span class='va'>n</span>, eps <span class='op'>=</span> <span class='fl'>1e-15</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'>pecs</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  measure <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"graf"</span>, <span class='st'>"logloss"</span><span class='op'>)</span>,
+  <span class='va'>times</span>,
+  <span class='va'>n</span>,
+  eps <span class='op'>=</span> <span class='fl'>1e-15</span>,
+  train_task <span class='op'>=</span> <span class='cn'>NULL</span>,
+  train_set <span class='op'>=</span> <span class='cn'>NULL</span>,
+  proper <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -209,8 +222,8 @@ If <code>times</code> is missing or given as a range, then <code>n</code> provid
     <tr>
       <th>eps</th>
       <td><p>(<code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>) <br />
-Small error value to pass to <a href='mlr_measures_surv.intlogloss.html'>MeasureSurvIntLogloss</a> to prevent errors resulting from a log(0)
-calculation.</p></td>
+Small error value to prevent errors resulting from a log(0) or 1/0 calculation.
+Default is 1e-15 for log loss and 1e-3 for Graf.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -229,6 +242,23 @@ Passed to <code>Learner$predict</code>.</p></td>
       <th>newdata</th>
       <td><p>(<code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code>) <br />
 If not missing <code>Learner$predict_newdata</code> is called instead of <code>Learner$predict</code>.</p></td>
+    </tr>
+    <tr>
+      <th>train_task</th>
+      <td><p>(<a href='TaskSurv.html'>TaskSurv</a>) <br />
+If not NULL then passed to measures for computing estimate of censoring distribution on
+training data.</p></td>
+    </tr>
+    <tr>
+      <th>train_set</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>) <br />
+If not NULL then passed to measures for computing estimate of censoring distribution on
+training data.</p></td>
+    </tr>
+    <tr>
+      <th>proper</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>) <br />
+Passed to <a href='mlr_measures_surv.graf.html'>MeasureSurvGraf</a> or <a href='mlr_measures_surv.intlogloss.html'>MeasureSurvIntLogloss</a>.</p></td>
     </tr>
     </table>
 

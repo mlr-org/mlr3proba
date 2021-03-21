@@ -83,7 +83,7 @@
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3proba <small>v0.3.1.9000</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3proba <small>v0.4.0.9000</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -170,6 +170,9 @@
     <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
 
     <p><div class="r6-active-bindings"></p><dl>
+<dt><code>eps</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>)<br />
+Very small number used to prevent log(0) and 1/0 error.</p></dd>
+
 <dt><code>integrated</code></dt><dd><p><code>(logical(1))</code>
 Returns if the measure should be integrated or not.
 Settable.</p></dd>
@@ -181,6 +184,13 @@ Settable.</p></dd>
 <dt><code>method</code></dt><dd><p><code>(integer(1))</code>
 Returns which method is used for approximating integration.
 Settable.</p></dd>
+
+<dt><code>proper</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+If <code>TRUE</code> then weights scores by the censoring distribution at the observed event time,
+which results in a strictly proper scoring rule if censoring and survival time
+distributions are independent and a sufficiently large dataset is used to weight the
+measure. If <code>FALSE</code> then weights scores by the Graf method which is the more common usage
+but the loss is not proper.</p></dd>
 
 </dl><p></div></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
@@ -209,6 +219,8 @@ Settable.</p></dd>
   integrated <span class='op'>=</span> <span class='cn'>TRUE</span>,
   <span class='va'>times</span>,
   method <span class='op'>=</span> <span class='fl'>2</span>,
+  proper <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  eps <span class='op'>=</span> <span class='fl'>1e-15</span>,
   <span class='va'>id</span>,
   <span class='va'>range</span>,
   <span class='va'>minimize</span>,
@@ -233,6 +245,17 @@ If <code>integrate == TRUE</code> selects the integration weighting method.
 <code>method == 1</code> corresponds to weighting each time-point equally and taking the mean score over
 discrete time-points. <code>method == 2</code> corresponds to calculating a mean weighted by the difference
 between time-points. <code>method == 2</code> is default to be in line with other packages.</p></dd>
+
+<dt><code>proper</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+If <code>TRUE</code> then weights scores by the censoring distribution at the observed event time,
+which results in a strictly proper scoring rule if censoring and survival time distributions
+are independent and a sufficiently large dataset is used to weight the measure.
+If <code>FALSE</code> then weights scores by the Graf method which is the more common usage but the
+loss is not proper. In v0.5.0, the default will be changed to <code>TRUE</code>.</p></dd>
+
+<dt><code>eps</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>)<br />
+Very small number to set zero-valued predicted probabilities to in order to prevent errors
+in log(0) and 1/0 calculation.</p></dd>
 
 <dt><code>id</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 Identifier for the new instance.</p></dd>

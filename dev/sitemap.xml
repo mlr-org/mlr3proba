@@ -100,9 +100,6 @@
     <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_dens.logloss.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.beggC.html</loc>
-  </url>
-  <url>
     <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.calib_alpha.html</loc>
   </url>
   <url>
@@ -115,16 +112,7 @@
     <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.cindex.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.gonenC.html</loc>
-  </url>
-  <url>
     <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.graf.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.grafSE.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.harrellC.html</loc>
   </url>
   <url>
     <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.hung_auc.html</loc>
@@ -133,25 +121,13 @@
     <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.intlogloss.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.intloglossSE.html</loc>
-  </url>
-  <url>
     <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.logloss.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.logloss_se.html</loc>
   </url>
   <url>
     <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.mae.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.maeSE.html</loc>
-  </url>
-  <url>
     <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.mse.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.mseSE.html</loc>
   </url>
   <url>
     <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.nagelk_r2.html</loc>
@@ -161,9 +137,6 @@
   </url>
   <url>
     <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.rmse.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.rmseSE.html</loc>
   </url>
   <url>
     <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.schmid.html</loc>
@@ -176,9 +149,6 @@
   </url>
   <url>
     <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.song_tpr.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.unoC.html</loc>
   </url>
   <url>
     <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.uno_auc.html</loc>
