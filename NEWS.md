@@ -1,3 +1,8 @@
+# mlr3proba 0.4.0.9000
+
+- Internal changes only.
+
+
 # mlr3proba 0.4.0
 
 * Deprecated measures from 0.2.0 have now been deleted.
