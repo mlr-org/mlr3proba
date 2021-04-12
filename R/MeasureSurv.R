@@ -9,6 +9,7 @@
 #' Predefined measures can be found in the [dictionary][mlr3misc::Dictionary] [mlr3::mlr_measures].
 #'
 #' @template param_id
+#' @template param_param_set
 #' @template param_range
 #' @template param_minimize
 #' @template param_average
@@ -30,13 +31,13 @@ MeasureSurv = R6Class("MeasureSurv",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id, range, minimize = NA, aggregator = NULL, properties = character(),
-                          predict_type = "distr", task_properties = character(),
-                          packages = character(), man = NA_character_, se = FALSE) {
+    initialize = function(id, param_set = ps(), range, minimize = NA, aggregator = NULL,
+      properties = character(), predict_type = "distr", task_properties = character(),
+      packages = character(), man = NA_character_, se = FALSE) {
       super$initialize(id,
-        task_type = "surv", range = range, minimize = minimize, aggregator = aggregator,
-        properties = properties, predict_type = predict_type, task_properties = task_properties,
-        packages = packages, man = man)
+        task_type = "surv", param_set = param_set, range = range, minimize = minimize,
+        aggregator = aggregator, properties = properties, predict_type = predict_type,
+        task_properties = task_properties, packages = packages, man = man)
     },
 
     #' @description
