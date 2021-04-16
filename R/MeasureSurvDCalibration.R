@@ -84,7 +84,7 @@ MeasureSurvDCalibration = R6Class("MeasureSurvDCalibration",
       bj = numeric(self$B)
       # predict individual probability of death at observed event time
       si = as.numeric(prediction$distr$survival(data = matrix(prediction$truth[, 1L], nrow = 1L)))
-      # remove negative values
+      # remove zeros
       si = map_dbl(si, function(.x) max(.x, 1e-5))
       # index of associated bucket
       js = ceiling(self$B * si)
