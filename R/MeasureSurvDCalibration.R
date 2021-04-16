@@ -45,8 +45,8 @@ MeasureSurvDCalibration = R6Class("MeasureSurvDCalibration",
         man = "mlr3proba::mlr_measures_surv.dcalib",
       )
 
-      private$.B = assertIntegerish(B)
-      private$.chisq = assertFlag(chisq)
+      private$.B = assert_integerish(B)
+      private$.chisq = assert_flag(chisq)
     }
   ),
 
@@ -56,7 +56,7 @@ MeasureSurvDCalibration = R6Class("MeasureSurvDCalibration",
     #' Haider et al. (2020).
     B = function(x) {
       if (!missing(x)) {
-        private$.B = assertIntegerish(x)
+        private$.B = assert_integerish(x)
       } else {
         return(private$.B)
       }
@@ -68,7 +68,7 @@ MeasureSurvDCalibration = R6Class("MeasureSurvDCalibration",
     #' `p > 0.05` indicates well-calibrated.
     chisq = function(x) {
       if (!missing(x)) {
-        private$.chisq = assertFlag(x)
+        private$.chisq = assert_flag(x)
       } else {
         return(private$.chisq)
       }
@@ -85,7 +85,7 @@ MeasureSurvDCalibration = R6Class("MeasureSurvDCalibration",
       # predict individual probability of death at observed event time
       si = as.numeric(prediction$distr$survival(data = matrix(prediction$truth[, 1L], nrow = 1L)))
       # remove negative values
-      si = sapply(si, function(.x) max(.x, 1e-5))
+      si = map_dbl(si, function(.x) max(.x, 1e-5))
       # index of associated bucket
       js = ceiling(self$B * si)
 
