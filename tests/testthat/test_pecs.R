@@ -1,5 +1,3 @@
-context("pecs")
-
 set.seed(1)
 task = tgen("simsurv")$generate(5)
 

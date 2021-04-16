@@ -21,7 +21,12 @@ estimate of the training censoring distribution, G:
 \item \code{"S"} = Weights concordance by S (Peto and Peto)
 }
 
-The last three require training data.
+The last three require training data. \code{"GH"} is only applicable to \link{LearnerSurvCoxPH}.
+
+@details
+The implementation is slightly different from \link[survival:concordance]{survival::concordance}. Firstly this
+implementation is faster, and secondly the weights are computed on the training dataset whereas
+in \link[survival:concordance]{survival::concordance} the weights are computed on the same testing data.
 }
 \section{Dictionary}{
 
@@ -59,7 +64,7 @@ Gönen M, Heller G (2005).
 Schemper, Michael, Wakounig, Samo, Heinze, Georg (2009).
 \dQuote{The estimation of average hazard ratios by weighted Cox regression.}
 \emph{Statistics in Medicine}, \bold{28}(19), 2473--2489.
-\doi{10.1002/sim.3623}, \url{https://doi.org/10.1002/sim.3623}.
+\doi{10.1002/sim.3623}.
 
 Uno H, Cai T, Pencina MJ, D'Agostino RB, Wei LJ (2011).
 \dQuote{On the C-statistics for evaluating overall adequacy of risk prediction procedures with censored survival data.}
@@ -68,33 +73,23 @@ Uno H, Cai T, Pencina MJ, D'Agostino RB, Wei LJ (2011).
 }
 \seealso{
 Other survival measures: 
-\code{\link{mlr_measures_surv.beggC}},
 \code{\link{mlr_measures_surv.calib_alpha}},
 \code{\link{mlr_measures_surv.calib_beta}},
 \code{\link{mlr_measures_surv.chambless_auc}},
 \code{\link{mlr_measures_surv.dcalib}},
-\code{\link{mlr_measures_surv.gonenC}},
-\code{\link{mlr_measures_surv.grafSE}},
 \code{\link{mlr_measures_surv.graf}},
-\code{\link{mlr_measures_surv.harrellC}},
 \code{\link{mlr_measures_surv.hung_auc}},
-\code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.logloss_se}},
 \code{\link{mlr_measures_surv.logloss}},
-\code{\link{mlr_measures_surv.maeSE}},
 \code{\link{mlr_measures_surv.mae}},
-\code{\link{mlr_measures_surv.mseSE}},
 \code{\link{mlr_measures_surv.mse}},
 \code{\link{mlr_measures_surv.nagelk_r2}},
 \code{\link{mlr_measures_surv.oquigley_r2}},
-\code{\link{mlr_measures_surv.rmseSE}},
 \code{\link{mlr_measures_surv.rmse}},
 \code{\link{mlr_measures_surv.schmid}},
 \code{\link{mlr_measures_surv.song_auc}},
 \code{\link{mlr_measures_surv.song_tnr}},
 \code{\link{mlr_measures_surv.song_tpr}},
-\code{\link{mlr_measures_surv.unoC}},
 \code{\link{mlr_measures_surv.uno_auc}},
 \code{\link{mlr_measures_surv.uno_tnr}},
 \code{\link{mlr_measures_surv.uno_tpr}},

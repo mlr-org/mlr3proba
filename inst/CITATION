@@ -1,0 +1,12 @@
+bibentry(
+  bibtype = "Article",
+  title   = "mlr3proba: An R Package for Machine Learning in Survival Analysis",
+  author  = "Raphael Sonabend and Franz J Kir\u00e1ly and Andreas Bender and Bernd Bischl and Michel Lang",
+  journal = "Bioinformatics",
+  month   = "02",
+  year    = "2021",
+  doi     = "10.1093/bioinformatics/btab039",
+  issn    = "1367-4803"
+)
+
+# vim: ft=r

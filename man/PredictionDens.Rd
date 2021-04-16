@@ -31,6 +31,9 @@ Access the stored predicted probability density function.}
 
 \item{\code{cdf}}{(\code{numeric()})\cr
 Access the stored predicted cumulative distribution function.}
+
+\item{\code{distr}}{(\link[distr6:Distribution]{Distribution})\cr
+Access the stored estimated distribution.}
 }
 \if{html}{\out{</div>}}
 }
@@ -62,6 +65,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   row_ids = task$row_ids,
   pdf = NULL,
   cdf = NULL,
+  distr = NULL,
   check = TRUE
 )}\if{html}{\out{</div>}}
 }
@@ -82,6 +86,10 @@ One element for each observation in the test set.}
 \item{\code{cdf}}{(\code{numeric()})\cr
 Numeric vector of estimated cumulative distribution function, evaluated at values in test
 set. One element for each observation in the test set.}
+
+\item{\code{distr}}{(\link[distr6:Distribution]{Distribution})\cr
+\link[distr6:Distribution]{Distribution} from \CRANpkg{distr6}.
+The distribution from which \code{pdf} and \code{cdf} are derived.}
 
 \item{\code{check}}{(\code{logical(1)})\cr
 If \code{TRUE}, performs argument checks and predict type conversions.}

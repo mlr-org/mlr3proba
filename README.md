@@ -9,11 +9,11 @@ Probabilistic Supervised Learning for
 
 <!-- badges: start -->
 
-[![tic](https://github.com/mlr-org/mlr3proba/workflows/tic/badge.svg?branch=master)](https://github.com/mlr-org/mlr3proba/actions)
+[![tic](https://github.com/mlr-org/mlr3proba/workflows/tic/badge.svg?branch=main)](https://github.com/mlr-org/mlr3proba/actions)
 [![CodeFactor](https://www.codefactor.io/repository/github/mlr-org/mlr3proba/badge)](https://www.codefactor.io/repository/github/mlr-org/mlr3proba)
 [![cran
 checks](https://cranchecks.info/badges/worst/mlr3proba)](https://cran.r-project.org/web/checks/check_results_mlr3proba.html)
-[![arXiv](https://img.shields.io/badge/arXiv-2008.08080-brightgreen.svg)](https://arxiv.org/abs/2008.08080)
+[![Article](https://img.shields.io/badge/Article-10.1093%2Fbioinformatics%2Fbtab039-brightgreen)](https://doi.org/10.1093/bioinformatics/btab039)
 [![StackOverflow](https://img.shields.io/badge/stackoverflow-mlr3-orange.svg)](https://stackoverflow.com/questions/tagged/mlr3)
 [![Mattermost](https://img.shields.io/badge/chat-mattermost-orange.svg)](https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/)
 <!-- badges: end -->
@@ -179,3 +179,18 @@ mathematical contributions towards the scoring rules implemented in the
 package. Finally thanks to Bernd Bischl and the rest of the mlr core
 team for building `mlr3` and for many conversations about the design of
 `mlr3proba`.
+
+## Citing mlr3proba
+
+If you use mlr3proba, please cite our [Bioinformatics
+article](https://doi.org/10.1093/bioinformatics/btab039):
+
+    @Article{,
+      title = {mlr3proba: An R Package for Machine Learning in Survival Analysis},
+      author = {Raphael Sonabend and Franz J Király and Andreas Bender and Bernd Bischl and Michel Lang},
+      journal = {Bioinformatics},
+      month = {02},
+      year = {2021},
+      doi = {10.1093/bioinformatics/btab039},
+      issn = {1367-4803},
+    }

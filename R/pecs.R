@@ -11,13 +11,21 @@
 #'   If `times` is missing or given as a range, then `n` provide number of time-points to evaluate
 #'    `measure` over.
 #' @param eps (`numeric()`) \cr
-#'   Small error value to pass to [MeasureSurvIntLogloss] to prevent errors resulting from a log(0)
-#'   calculation.
+#'   Small error value to prevent errors resulting from a log(0) or 1/0 calculation.
+#'   Default is 1e-15 for log loss and 1e-3 for Graf.
 #' @param task ([TaskSurv])
 #' @param row_ids (`integer()`) \cr
 #'   Passed to `Learner$predict`.
 #' @param newdata (`data.frame()`) \cr
 #'   If not missing `Learner$predict_newdata` is called instead of `Learner$predict`.
+#' @param train_task ([TaskSurv]) \cr
+#'   If not NULL then passed to measures for computing estimate of censoring distribution on
+#'   training data.
+#' @param train_set (`numeric()`) \cr
+#'   If not NULL then passed to measures for computing estimate of censoring distribution on
+#'   training data.
+#' @param proper (`logical(1)`) \cr
+#'   Passed to [MeasureSurvGraf] or [MeasureSurvIntLogloss].
 #' @param ... Additional arguments.
 #'
 #' @details If `times` and `n` are missing then `measure` is evaluated over all observed time-points
@@ -50,28 +58,34 @@
 #' }
 #'
 #' @export
-pecs = function(x, measure = c("graf", "logloss"), times, n, eps = 1e-15, ...) {
+pecs = function(x, measure = c("graf", "logloss"), times, n, eps = NULL, ...) {
   mlr3misc::require_namespaces("ggplot2")
 
   if (!missing(times)) assertNumeric(times, min.len = 1)
   if (!missing(n)) assertIntegerish(n, len = 1)
-  assertNumeric(eps, lower = -1, upper = 1)
 
   UseMethod("pecs", x)
 }
 
 #' @rdname pecs
 #' @export
-pecs.list = function(x, measure = c("graf", "logloss"), times, n, eps = 1e-15, task = NULL,  # nolint
-                     row_ids = NULL, newdata, ...) {
+pecs.list = function(x, measure = c("graf", "logloss"), times, n, eps = NULL, task = NULL,  # nolint
+                     row_ids = NULL, newdata = NULL, train_task = NULL, train_set = NULL,
+                     proper = TRUE, ...) {
 
   measure = match.arg(measure)
+
+  if (is.null(eps)) {
+    eps = ifelse(measure == "graf", 1e-3, 1e-15)
+  } else {
+    assertNumeric(eps, lower = -1, upper = 1)
+  }
 
   assert(all(sapply(x, function(y) !is.null(y$model))),
          "x must be a list of trained survival learners")
   assertClass(task, "TaskSurv")
 
-  if (missing(newdata)) {
+  if (is.null(newdata)) {
     p = lapply(x, function(y) y$predict(task = task, row_ids = row_ids))
   } else {
     p = lapply(x, function(y) y$predict_newdata(newdata = newdata, task = task))
@@ -86,21 +100,32 @@ pecs.list = function(x, measure = c("graf", "logloss"), times, n, eps = 1e-15, t
       paste0("[", paste0(round(range(true_times), 3), collapse = ", "), "]")))
   }
 
+  n = as.integer(!is.null(train_task)) + as.integer(!is.null(train_set))
+  if (n == 1) {
+    stop("Either 'train_task' and 'train_set' should be passed to measure or neither.")
+  } else if (n) {
+    train = train_task$truth(train_set)
+  } else {
+    train = NULL
+  }
+
   if (measure == "logloss") {
-    scores = lapply(p, function(y){
+    scores = lapply(p, function(y) {
       integrated_score(score = weighted_survival_score("intslogloss",
                                                        truth = task$truth(),
                                                        distribution = y$distr,
                                                        times = times,
-                                                       eps = eps),
+                                                       eps = eps, train = train,
+                                                       proper = proper),
                        integrated = FALSE)
     })
   } else {
-    scores = lapply(p, function(y){
+    scores = lapply(p, function(y) {
       integrated_score(score = weighted_survival_score("graf",
                                                        truth = task$truth(),
                                                        distribution = y$distr,
-                                                       times = times),
+                                                       times = times, train = train, eps = eps,
+                                                       proper = proper),
                        integrated = FALSE)
     })
   }
@@ -117,13 +142,27 @@ pecs.list = function(x, measure = c("graf", "logloss"), times, n, eps = 1e-15, t
 
 #' @rdname pecs
 #' @export
-pecs.PredictionSurv = function(x, measure = c("graf", "logloss"), times, n, eps = 1e-15, ...) { # nolint
+pecs.PredictionSurv = function(x, measure = c("graf", "logloss"), times, n, eps = 1e-15, # nolint
+                               train_task = NULL, train_set = NULL, proper = TRUE, ...) {
 
   measure = match.arg(measure)
+  if (is.null(eps)) {
+    eps = ifelse(measure == "graf", 1e-3, 1e-15)
+  } else {
+    assertNumeric(eps, lower = -1, upper = 1)
+  }
 
   true_times = sort(unique(x$truth[, 1]))
   times = .pec_times(true_times = true_times, times = times, n = n)
 
+  n = as.integer(!is.null(train_task)) + as.integer(!is.null(train_set))
+  if (n == 1) {
+    stop("Either 'train_task' and 'train_set' should be passed to measure or neither.")
+  } else if (n) {
+    train = train_task$truth(train_set)
+  } else {
+    train = NULL
+  }
 
   if (measure == "logloss") {
     scores = data.frame(logloss = integrated_score(
@@ -131,14 +170,15 @@ pecs.PredictionSurv = function(x, measure = c("graf", "logloss"), times, n, eps 
                                       truth = x$truth,
                                       distribution = x$distr,
                                       times = times,
-                                      eps = eps),
+                                      eps = eps, train = train, proper = proper),
       integrated = FALSE))
   } else {
     scores = data.frame(graf = integrated_score(
       score = weighted_survival_score("graf",
                                       truth = x$truth,
                                       distribution = x$distr,
-                                      times = times),
+                                      times = times, train = train, eps = eps,
+                                      proper = proper),
       integrated = FALSE))
   }
 

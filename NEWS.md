@@ -1,3 +1,31 @@
+# mlr3proba 0.4.0.9000
+
+- Internal changes only.
+
+
+# mlr3proba 0.4.0
+
+* Deprecated measures from 0.2.0 have now been deleted.
+* IPCW measures such as `surv.graf`, `surv.schmid`, and `surv.intlogloss` now allow training data to be passed to the score function with `task` and `train_set` to allow the censoring distribution to be estimated on the training data. This is automatically applied for resample and benchmark results.
+* IPCW measures such as `surv.graf`, `surv.schmid`, and `surv.intlogloss` now include a parameter `proper` to determine what weighting scheme should be applied by the estimated censoring distribution, The current method (Graf, 1999) `proper = FALSE`, weights observations either by their event time or 'current' time depending if they're dead or not, the new method `proper = TRUE` weights observations by event time. The `proper = TRUE` method is strictly proper when censoring and survival times are independent and G is estimated on large enough data. The `proper = FALSE` method is never proper. The default is currently `proper = FALSE` to enable backward compatibility, this will be changed to `proper = TRUE` in v0.6.0.
+* The `rm_cens` parameter in `surv.logloss` has been deprecated in favour of `IPCW`. `rm_cens` will be removed in v0.6.0. If `rm_cens` or `IPCW` are `TRUE` then censored observations are removed and the score is weighted by an estimate of the censoring distribution at individual event times. Otherwise if `rm_cens` and `IPCW` are `FALSE` then no deletion or weighting takes place. The `IPCW = TRUE` method is strictly proper when censoring and survival times are independent and G is estimated on large enough data. The `ipcw = FALSE` method is never proper. 
+
+# mlr3proba 0.3.2
+
+* Patched bug causing ``"interval2"`` task type not to work
+* Fixed bug causing pipelines not to function correctly in `$aggregate`
+
+# mlr3proba 0.3.1
+
+* Reverted removal of `"interval2"`
+
+# mlr3proba 0.3.0
+
+* Commonly used survival quantities have been added as active bindings to `TaskSurv` including `times` (observed survival times), `status` (observed survival indicator), `unique_times` (set of sorted unique outcome times), `unique_event_times` (set of sorted unique failure times), `risk_set` (set of observations alive 'just before' a given time)
+* `"interval2"` censoring type has been removed from `TaskSurv` as this is covered by the other types
+* Default values have now been given to the `time` and `event` arguments in `TaskSurv`
+* `PredictionDens` can now include `distr` return type (equivalent to `learner$model`)
+
 # mlr3proba 0.2.6
 
 * Minor internal fixes
@@ -26,7 +54,7 @@
 # mlr3proba 0.2.2
 
 * Default kernel for `LearnerDensityKDE` is now `Epan` to reduce imports
-* Minor internal patches for mlr3 0.6.0 
+* Minor internal patches for mlr3 0.6.0
 * Bug fix in `MeasureSurvCalibrationBeta` now returns `NA` not error if `lp` predict type not available
 
 # mlr3proba 0.2.1
@@ -71,7 +99,7 @@
 
 - `LearnerSurvMboost`, `LearnerSurvGlmBoost`, `LearnerSurvGamboost`, `LearnerSurvBlackboost` have been moved to https://www.github.com/mlr3learners/mlr3learners.mboost
 
-  
+
 
 # mlr3proba 0.1.6
 
@@ -97,7 +125,7 @@
 * Added `mlr_tasks_faithful` and `mlr_tasks_precip` for density task examples
 * Added `mlr_task_generators_simdens` for generating density tasks
 * Added learners for density estimation, see `mlr3::mlr_learners$keys("^dens")` for the full list
-* In line with mlr3 0.1.7, public methods `train_internal`, `predict_internal`, `score_internal` are now private methods `.train`,`.predict`,`.score` 
+* In line with mlr3 0.1.7, public methods `train_internal`, `predict_internal`, `score_internal` are now private methods `.train`,`.predict`,`.score`
 * Converted to roxygen2 R6 documentation
 
 # mlr3proba 0.1.3

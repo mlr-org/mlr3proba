@@ -1,6 +1,6 @@
-## Comments
+## Reason for early submission
 
-This will fix the ERRORs in mlr3learners (https://cran.r-project.org/web/checks/check_results_mlr3learners.html).
+Patch critical bug not caught in tests.
 
 ## Downstream dependencies
 

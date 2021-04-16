@@ -1,8 +1,3 @@
-format_bib = function(...) {
-  str = vapply(list(...), function(entry) tools::toRd(bibentries[[entry]]), FUN.VALUE = "")
-  paste0(str, collapse = "\n\n")
-}
-
 bibentries = c( # nolint start
   aalen_1978 = bibentry("article",
     title             = "Nonparametric Inference for a Family of Counting Processes",
@@ -559,7 +554,6 @@ bibentries = c( # nolint start
     pages             = "2473--2489",
     publisher         = "John Wiley & Sons, Ltd",
     title             = "The estimation of average hazard ratios by weighted Cox regression",
-    url               = "https://doi.org/10.1002/sim.3623",
     volume            = "28",
     year              = "2009"
   ),

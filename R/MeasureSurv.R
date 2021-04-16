@@ -23,7 +23,7 @@
 #'
 #' @family Measure
 #' @seealso
-#' Default survival measures: [`surv.harrellC`][mlr_measures_surv.harrellC]
+#' Default survival measures: [`surv.cindex`][mlr_measures_surv.cindex]
 #' @export
 MeasureSurv = R6Class("MeasureSurv",
   inherit = Measure, cloneable = FALSE,

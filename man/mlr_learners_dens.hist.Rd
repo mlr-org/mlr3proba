@@ -20,7 +20,7 @@ lrn("dens.hist")
 
 \itemize{
 \item Type: "dens"
-\item Predict Types: \verb{pdf, cdf}
+\item Predict Types: \verb{pdf, cdf, distr}
 \item Feature Types: \verb{integer, numeric}
 \item Properties: \code{-}
 \item Packages: \CRANpkg{distr6}

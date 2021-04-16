@@ -31,7 +31,7 @@ LearnerDensKDE = R6::R6Class("LearnerDensKDE",
       super$initialize(
         id = "dens.kde",
         param_set = ps,
-        predict_types = "pdf",
+        predict_types = c("pdf", "distr"),
         feature_types = c("integer", "numeric"),
         properties = "missings",
         packages = "distr6",
@@ -85,7 +85,8 @@ LearnerDensKDE = R6::R6Class("LearnerDensKDE",
     },
 
     .predict = function(task) {
-      list(pdf = self$model$pdf(task$data()[[1]]))
+      list(pdf = self$model$pdf(task$data()[[1]]),
+           distr = self$model)
     }
   )
 )

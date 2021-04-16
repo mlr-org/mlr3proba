@@ -11,6 +11,10 @@ check_prediction_data.PredictionDataDens = function(pdata) { # nolint
   assert_numeric(pdata$pdf, len = n, any.missing = FALSE, null.ok = TRUE)
   assert_numeric(pdata$cdf, len = n, any.missing = FALSE, null.ok = TRUE)
 
+  if (!is.null(pdata$distr)) {
+    assert_class(pdata$distr, "Distribution")
+  }
+
   pdata
 }
 
@@ -32,6 +36,7 @@ is_missing_prediction_data.PredictionDataDens = function(pdata) { # nolint
 
 #' @export
 c.PredictionDataDens = function(..., keep_duplicates = TRUE) { # nolint
+
   dots = list(...)
   assert_list(dots, "PredictionDataDens")
   assert_flag(keep_duplicates)
@@ -45,12 +50,20 @@ c.PredictionDataDens = function(..., keep_duplicates = TRUE) { # nolint
     stopf("Cannot combine predictions: Different predict types")
   }
 
-  elems = c("row_ids", predict_types[[1L]])
-  tab = map_dtr(dots, function(x) x[elems], .fill = FALSE)
+  predict_types = predict_types[[1L]]
+  row_ids = do.call(c, map(dots, "row_ids"))
+  ii = if (keep_duplicates) seq_along(row_ids) else which(!duplicated(row_ids, fromLast = TRUE))
 
-  if (!keep_duplicates) {
-    tab = unique(tab, by = "row_id", fromLast = TRUE)
+  elems = c("truth", intersect(c("pdf", "cdf"), predict_types))
+  result = named_list(elems)
+  result$row_ids = row_ids[ii]
+  for (elem in elems) {
+    result[[elem]] = do.call(c, map(dots, elem))[ii]
   }
 
-  set_class(as.list(tab), "PredictionDataDens")
+  if ("distr" %in% predict_types) {
+    result$distr = do.call(c, map(dots, function(.x) rep(.x$distr, length(.x$row_ids))))
+  }
+
+  set_class(result, "PredictionDataDens")
 }

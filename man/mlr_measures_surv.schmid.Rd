@@ -5,12 +5,21 @@
 \alias{MeasureSurvSchmid}
 \title{Integrated Schmid Score Survival Measure}
 \description{
-Calculates the Integrated Schmid Score, aka integrated absolute loss.
+Calculates the Integrated Schmid Score (ISS), aka integrated absolute loss.
 
 For an individual who dies at time \eqn{t}, with predicted Survival function, \eqn{S}, the
 Schmid Score at time \eqn{t^*}{t*} is given by
 \deqn{L(S,t|t^*) = [(S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*)))I(t > t^*)(1/G(t^*))]}{L(S,t|t*) = [(S(t*))I(t \le t*, \delta = 1)(1/G(t))] + [((1 - S(t*)))I(t > t*)(1/G(t*))]} # nolint
 where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
+
+The re-weighted ISS, ISS* is given by
+\deqn{L(S,t|t^*) = [(S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*)))I(t > t^*)(1/G(t))]}{L(S,t|t*) = [(S(t*))I(t \le t*, \delta = 1)(1/G(t))] + [((1 - S(t*)))I(t > t*)(1/G(t))]} # nolint
+where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution, i.e. always
+weighted by \eqn{G(t)}. ISS* is strictly proper when the censoring distribution is independent
+of the survival distribution and when G is fit on a sufficiently large dataset. ISS is never
+proper. Use \code{proper = FALSE} for ISS and \code{proper = TRUE} for ISS*, in the future the default
+will be changed to \code{proper = TRUE}. Results may be very different if many observations are
+censored at the last observed time due to division by 1/\code{eps} in \code{proper = TRUE}.
 
 If \code{integrated == FALSE} then the sample mean is taken for the single specified \code{times}, \eqn{t^*}{t*}, and the returned
 score is given by
@@ -22,6 +31,12 @@ If \code{integrated == TRUE} then an approximation to integration is made by eit
 mean over all \eqn{T} unique time-points (\code{method == 1}), or by taking a mean weighted by the difference
 between time-points (\code{method == 2}). Then the sample mean is taken over all \eqn{N} observations.
 \deqn{L(S) = \frac{1}{NT} \sum_{i=1}^N \sum_{j=1}^T L(S_i,t_i|t^*_j)}{L(S) = 1/(NT) \sum_i^N \sum_j^T L(S_i,t_i|t*_j)}
+}
+\details{
+If \code{task} and \code{train_set} are passed to \verb{$score} then G is fit on training data,
+otherwise testing data. The first is likely to reduce any bias caused by calculating
+parts of the measure on the test data it is evaluating. The training data is automatically
+used in scoring resamplings.
 }
 \section{Dictionary}{
 
@@ -55,54 +70,38 @@ Schmid, Matthias, Hielscher, Thomas, Augustin, Thomas, Gefeller, Olaf (2011).
 }
 \seealso{
 Other survival measures: 
-\code{\link{mlr_measures_surv.beggC}},
 \code{\link{mlr_measures_surv.calib_alpha}},
 \code{\link{mlr_measures_surv.calib_beta}},
 \code{\link{mlr_measures_surv.chambless_auc}},
 \code{\link{mlr_measures_surv.cindex}},
 \code{\link{mlr_measures_surv.dcalib}},
-\code{\link{mlr_measures_surv.gonenC}},
-\code{\link{mlr_measures_surv.grafSE}},
 \code{\link{mlr_measures_surv.graf}},
-\code{\link{mlr_measures_surv.harrellC}},
 \code{\link{mlr_measures_surv.hung_auc}},
-\code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.logloss_se}},
 \code{\link{mlr_measures_surv.logloss}},
-\code{\link{mlr_measures_surv.maeSE}},
 \code{\link{mlr_measures_surv.mae}},
-\code{\link{mlr_measures_surv.mseSE}},
 \code{\link{mlr_measures_surv.mse}},
 \code{\link{mlr_measures_surv.nagelk_r2}},
 \code{\link{mlr_measures_surv.oquigley_r2}},
-\code{\link{mlr_measures_surv.rmseSE}},
 \code{\link{mlr_measures_surv.rmse}},
 \code{\link{mlr_measures_surv.song_auc}},
 \code{\link{mlr_measures_surv.song_tnr}},
 \code{\link{mlr_measures_surv.song_tpr}},
-\code{\link{mlr_measures_surv.unoC}},
 \code{\link{mlr_measures_surv.uno_auc}},
 \code{\link{mlr_measures_surv.uno_tnr}},
 \code{\link{mlr_measures_surv.uno_tpr}},
 \code{\link{mlr_measures_surv.xu_r2}}
 
 Other Probabilistic survival measures: 
-\code{\link{mlr_measures_surv.grafSE}},
 \code{\link{mlr_measures_surv.graf}},
-\code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.logloss_se}},
 \code{\link{mlr_measures_surv.logloss}}
 
 Other distr survival measures: 
 \code{\link{mlr_measures_surv.calib_alpha}},
 \code{\link{mlr_measures_surv.dcalib}},
-\code{\link{mlr_measures_surv.grafSE}},
 \code{\link{mlr_measures_surv.graf}},
-\code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.logloss_se}},
 \code{\link{mlr_measures_surv.logloss}}
 }
 \concept{Probabilistic survival measures}
@@ -143,7 +142,14 @@ If \code{TRUE} returns the standard error of the measure.}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvSchmid$new(integrated = TRUE, times, method = 2, se = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvSchmid$new(
+  integrated = TRUE,
+  times,
+  method = 2,
+  se = FALSE,
+  proper = FALSE,
+  eps = 0.001
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -164,6 +170,17 @@ between time-points. \code{method == 2} is default to be in line with other pack
 
 \item{\code{se}}{(\code{logical(1)})\cr
 If \code{TRUE} returns the standard error of the measure.}
+
+\item{\code{proper}}{(\code{logical(1)})\cr
+If \code{TRUE} then weights scores by the censoring distribution at the observed event time,
+which results in a strictly proper scoring rule if censoring and survival time distributions
+are independent and a sufficiently large dataset is used to weight the measure.
+If \code{FALSE} then weights scores by the Graf method which is the more common usage but the
+loss is not proper. In v0.5.0, the default will be changed to \code{TRUE}.}
+
+\item{\code{eps}}{(\code{numeric(1)})\cr
+Very small number to set zero-valued predicted probabilities to in order to prevent errors
+in log(0) and 1/0 calculation.}
 }
 \if{html}{\out{</div>}}
 }

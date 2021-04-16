@@ -16,7 +16,16 @@ The standard error of the Logloss, L, is approximated via,
 where \eqn{N} are the number of observations in the test set, and \eqn{sd} is the standard
 deviation.
 
-Censored observations in the test set are ignored.
+The IPCW log loss is defined by
+\deqn{L(f, t, \Delta) = -\Delta log(f(t))/G(t)}
+where \eqn{\Delta} is the censoring indicator and G is the Kaplan-Meier estimator of the
+censoring distribution.
+}
+\details{
+If \code{task} and \code{train_set} are passed to \verb{$score} then G is fit on training data,
+otherwise testing data. The first is likely to reduce any bias caused by calculating
+parts of the measure on the test data it is evaluating. The training data is automatically
+used in scoring resamplings.
 }
 \section{Dictionary}{
 
@@ -39,54 +48,38 @@ msr("surv.logloss")
 
 \seealso{
 Other survival measures: 
-\code{\link{mlr_measures_surv.beggC}},
 \code{\link{mlr_measures_surv.calib_alpha}},
 \code{\link{mlr_measures_surv.calib_beta}},
 \code{\link{mlr_measures_surv.chambless_auc}},
 \code{\link{mlr_measures_surv.cindex}},
 \code{\link{mlr_measures_surv.dcalib}},
-\code{\link{mlr_measures_surv.gonenC}},
-\code{\link{mlr_measures_surv.grafSE}},
 \code{\link{mlr_measures_surv.graf}},
-\code{\link{mlr_measures_surv.harrellC}},
 \code{\link{mlr_measures_surv.hung_auc}},
-\code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.logloss_se}},
-\code{\link{mlr_measures_surv.maeSE}},
 \code{\link{mlr_measures_surv.mae}},
-\code{\link{mlr_measures_surv.mseSE}},
 \code{\link{mlr_measures_surv.mse}},
 \code{\link{mlr_measures_surv.nagelk_r2}},
 \code{\link{mlr_measures_surv.oquigley_r2}},
-\code{\link{mlr_measures_surv.rmseSE}},
 \code{\link{mlr_measures_surv.rmse}},
 \code{\link{mlr_measures_surv.schmid}},
 \code{\link{mlr_measures_surv.song_auc}},
 \code{\link{mlr_measures_surv.song_tnr}},
 \code{\link{mlr_measures_surv.song_tpr}},
-\code{\link{mlr_measures_surv.unoC}},
 \code{\link{mlr_measures_surv.uno_auc}},
 \code{\link{mlr_measures_surv.uno_tnr}},
 \code{\link{mlr_measures_surv.uno_tpr}},
 \code{\link{mlr_measures_surv.xu_r2}}
 
 Other Probabilistic survival measures: 
-\code{\link{mlr_measures_surv.grafSE}},
 \code{\link{mlr_measures_surv.graf}},
-\code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.logloss_se}},
 \code{\link{mlr_measures_surv.schmid}}
 
 Other distr survival measures: 
 \code{\link{mlr_measures_surv.calib_alpha}},
 \code{\link{mlr_measures_surv.dcalib}},
-\code{\link{mlr_measures_surv.grafSE}},
 \code{\link{mlr_measures_surv.graf}},
-\code{\link{mlr_measures_surv.intloglossSE}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.logloss_se}},
 \code{\link{mlr_measures_surv.schmid}}
 }
 \concept{Probabilistic survival measures}
@@ -99,13 +92,17 @@ Other distr survival measures:
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{eps}}{(\code{numeric(1)})\cr
-Very small number used to prevent log(0) error.}
+Very small number used to prevent log(0) and 1/0 error.}
 
 \item{\code{se}}{\code{(logical(1))} \cr
 If \code{TRUE} returns the standard error of the measure.}
 
 \item{\code{rm_cens}}{\code{(logical(1))} \cr
-If \code{TRUE} removes censored observations from the calculation.}
+Deprecated, please use \code{IPCW} instead.}
+
+\item{\code{IPCW}}{\code{(logical(1))} \cr
+If \code{TRUE} (default) removes censored observations and weights score with IPC weighting
+calculated from the survival probability of the censoring distribution at the time of death.}
 }
 \if{html}{\out{</div>}}
 }
@@ -133,7 +130,7 @@ If \code{TRUE} removes censored observations from the calculation.}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvLogloss$new(eps = 1e-15, se = FALSE, rm_cens = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvLogloss$new(eps = 1e-15, se = FALSE, rm_cens = TRUE, IPCW = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -141,13 +138,17 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \describe{
 \item{\code{eps}}{(\code{numeric(1)})\cr
 Very small number to set zero-valued predicted probabilities to in order to prevent errors
-in log(0) calculation.}
+in log(0) and 1/0 calculation.}
 
 \item{\code{se}}{(\code{logical(1)})\cr
 If \code{TRUE} returns the standard error of the measure.}
 
 \item{\code{rm_cens}}{\code{(logical(1))} \cr
-If \code{TRUE} removes censored observations from the calculation.}
+Deprecated, please use \code{IPCW} instead.}
+
+\item{\code{IPCW}}{\code{(logical(1))} \cr
+If \code{TRUE} (default) removes censored observations and weights score with IPC weighting
+calculated from the survival probability of the censoring distribution at the time of death.}
 }
 \if{html}{\out{</div>}}
 }

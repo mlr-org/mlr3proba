@@ -3,18 +3,30 @@
 #' @templateVar fullname MeasureSurvSchmid
 #'
 #' @description
-#' Calculates the Integrated Schmid Score, aka integrated absolute loss.
+#' Calculates the Integrated Schmid Score (ISS), aka integrated absolute loss.
 #'
 #' For an individual who dies at time \eqn{t}, with predicted Survival function, \eqn{S}, the
 #' Schmid Score at time \eqn{t^*}{t*} is given by
 #' \deqn{L(S,t|t^*) = [(S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*)))I(t > t^*)(1/G(t^*))]}{L(S,t|t*) = [(S(t*))I(t \le t*, \delta = 1)(1/G(t))] + [((1 - S(t*)))I(t > t*)(1/G(t*))]} # nolint
 #' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
 #'
+#' The re-weighted ISS, ISS* is given by
+#' \deqn{L(S,t|t^*) = [(S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*)))I(t > t^*)(1/G(t))]}{L(S,t|t*) = [(S(t*))I(t \le t*, \delta = 1)(1/G(t))] + [((1 - S(t*)))I(t > t*)(1/G(t))]} # nolint
+#' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution, i.e. always
+#' weighted by \eqn{G(t)}. ISS* is strictly proper when the censoring distribution is independent
+#' of the survival distribution and when G is fit on a sufficiently large dataset. ISS is never
+#' proper. Use `proper = FALSE` for ISS and `proper = TRUE` for ISS*, in the future the default
+#' will be changed to `proper = TRUE`. Results may be very different if many observations are
+#' censored at the last observed time due to division by 1/`eps` in `proper = TRUE`.
+#'
 #' @template measure_integrated
 #' @template param_integrated
 #' @template param_times
 #' @template param_method
+#' @template param_proper
 #' @template param_se
+#' @template param_eps
+#' @template details_trainG
 #'
 #' @references
 #' `r format_bib("schemper_2000", "schmid_2011")`
@@ -27,11 +39,18 @@ MeasureSurvSchmid = R6::R6Class("MeasureSurvSchmid",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(integrated = TRUE, times, method = 2, se = FALSE) {
+    initialize = function(integrated = TRUE, times, method = 2, se = FALSE, proper = FALSE,
+                          eps = 1e-3) {
+      if (!proper) {
+        warning("The default of 'proper' will be changed to 'TRUE' in v0.6.0.")
+      }
+
       super$initialize(
         integrated = integrated,
         times = times,
         method = method,
+        proper = proper,
+        eps = eps,
         id = ifelse(se, "surv.schmid_se", "surv.schmid"),
         range = c(0, Inf),
         minimize = TRUE,
@@ -57,19 +76,27 @@ MeasureSurvSchmid = R6::R6Class("MeasureSurvSchmid",
   ),
 
   private = list(
-    .score = function(prediction, ...) {
-      score = weighted_survival_score("schmid",
-                                      truth = prediction$truth,
-                                      distribution = prediction$distr,
-                                      times = self$times)
+    .se = FALSE,
+    .score = function(prediction, task, train_set, ...) {
+
+      x = as.integer(!is.null(task)) + as.integer(!is.null(train_set))
+      if (x == 1) {
+        stop("Either 'task' and 'train_set' should be passed to measure or neither.")
+      } else if (x) {
+        train = task$truth(train_set)
+      } else {
+        train = NULL
+      }
+
+      score = weighted_survival_score("schmid", truth = prediction$truth,
+                                      distribution = prediction$distr, times = self$times,
+                                      proper = self$proper, train = train, eps = self$eps)
 
       if (self$se) {
-        return(integrated_se(score = score, integrated = self$integrated))
+        integrated_se(score, self$integrated)
       } else {
-        return(integrated_score(score = score, integrated = self$integrated, method = self$method))
+        integrated_score(score, self$integrated, self$method)
       }
-    },
-
-    .se = FALSE
+    }
   )
 )

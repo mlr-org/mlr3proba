@@ -9,7 +9,7 @@
 #' Column "sex" has been converted to a factor, all others have been converted to integer.
 NULL
 load_rats = function() {
-  data = load_dataset("rats", "survival")
+  data = survival::rats
   data = map_at(data, c("rx", "time", "status"), as.integer)
   data$sex = factor(data$sex, levels = c("f", "m"))
 
@@ -55,7 +55,7 @@ load_unemployment = function() {
 #' Column "sex" has been converted to a factor, all others have been converted to integer.
 NULL
 load_lung = function() {
-  data = load_dataset("lung", "survival")
+  data = survival::lung
   data = map_dtc(data, as.integer)
   data$status = (data$status == 2L)
   data$sex = factor(ifelse(data$sex == 1L, "m", "f"), levels = c("f", "m"))

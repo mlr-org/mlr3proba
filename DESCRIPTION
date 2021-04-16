@@ -1,11 +1,11 @@
 Package: mlr3proba
 Title: Probabilistic Supervised Learning for 'mlr3'
-Version: 0.2.6
+Version: 0.4.0.9000
 Authors@R:
     c(person(given = "Raphael",
              family = "Sonabend",
              role = c("aut", "cre"),
-             email = "raphael.sonabend.15@ucl.ac.uk",
+             email = "raphaelsonabend@gmail.com",
              comment = c(ORCID = "0000-0001-9225-4654")),
       person(given = "Franz",
              family = "Kiraly",
@@ -41,7 +41,7 @@ Imports:
     data.table,
     distr6 (>= 1.4.5),
     mlr3 (>= 0.6.0),
-    mlr3misc (>= 0.1.7),
+    mlr3misc (>= 0.7.0),
     paradox (>= 0.1.0),
     R6,
     Rcpp (>= 1.0.4),
@@ -53,7 +53,7 @@ Suggests:
     knitr,
     lgr,
     mlr3extralearners,
-    mlr3pipelines (>= 0.3.0),
+    mlr3pipelines (>= 0.3.4),
     pracma,
     rpart,
     set6 (>= 0.1.7),
@@ -83,35 +83,25 @@ Collate:
     'MeasureSurv.R'
     'MeasureSurvIntegrated.R'
     'MeasureSurvAUC.R'
-    'MeasureSurvBeggC.R'
     'MeasureSurvCalibrationAlpha.R'
     'MeasureSurvCalibrationBeta.R'
     'MeasureSurvChamblessAUC.R'
     'MeasureSurvCindex.R'
     'MeasureSurvDCalibration.R'
-    'MeasureSurvGonenHellersC.R'
     'MeasureSurvGraf.R'
-    'MeasureSurvGrafSE.R'
-    'MeasureSurvHarrellC.R'
     'MeasureSurvHungAUC.R'
     'MeasureSurvIntLogloss.R'
-    'MeasureSurvIntLoglossSE.R'
     'MeasureSurvLogloss.R'
-    'MeasureSurvLoglossSE.R'
     'MeasureSurvMAE.R'
-    'MeasureSurvMAESE.R'
     'MeasureSurvMSE.R'
-    'MeasureSurvMSESE.R'
     'MeasureSurvNagelkR2.R'
     'MeasureSurvOQuigleyR2.R'
     'MeasureSurvRMSE.R'
-    'MeasureSurvRMSESE.R'
     'MeasureSurvSchmid.R'
     'MeasureSurvSongAUC.R'
     'MeasureSurvSongTNR.R'
     'MeasureSurvSongTPR.R'
     'MeasureSurvUnoAUC.R'
-    'MeasureSurvUnoC.R'
     'MeasureSurvUnoTNR.R'
     'MeasureSurvUnoTPR.R'
     'MeasureSurvXuR2.R'
@@ -137,6 +127,8 @@ Collate:
     'TaskGeneratorSimsurv.R'
     'TaskSurv.R'
     'TaskSurv_X.R'
+    'as_prediction_surv.R'
+    'as_task_surv.R'
     'assertions.R'
     'bibentries.R'
     'cindex.R'

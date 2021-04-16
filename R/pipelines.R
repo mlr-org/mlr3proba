@@ -31,10 +31,11 @@ pipeline_survaverager = function(learners, param_vals = list(), graph_learner = 
   gr = mlr3pipelines::`%>>%`(learners, po)
 
   if (graph_learner) {
-    return(mlr3pipelines::GraphLearner$new(gr))
-  } else {
-    return(gr)
+    gr <- mlr3pipelines::GraphLearner$new(gr)
+    gr$predict_type <- "distr"
   }
+
+  gr
 }
 
 
@@ -97,10 +98,11 @@ pipeline_survbagging = function(learner, iterations = 10, frac = 0.7, avg = TRUE
     gr = mlr3pipelines::`%>>%`(subs_repls, po)
 
     if (graph_learner) {
-      return(mlr3pipelines::GraphLearner$new(gr))
-    } else {
-      return(gr)
+      gr <- mlr3pipelines::GraphLearner$new(gr)
+      gr$predict_type <- "distr"
     }
+
+    gr
   }
 }
 
@@ -157,10 +159,11 @@ pipeline_crankcompositor = function(learner, method = c("mean", "median", "mode"
   gr = mlr3pipelines::`%>>%`(pred, compositor)
 
   if (graph_learner) {
-    return(mlr3pipelines::GraphLearner$new(gr))
-  } else {
-    return(gr)
+    gr <- mlr3pipelines::GraphLearner$new(gr)
+    gr$predict_type <- "distr"
   }
+
+  gr
 }
 
 #' @rdname mlr_graphs_crankcompositor
@@ -233,10 +236,11 @@ pipeline_distrcompositor = function(learner, estimator = c("kaplan", "nelson"),
   gr = mlr3pipelines::`%>>%`(mlr3pipelines::gunion(list(base, pred)), compositor)
 
   if (graph_learner) {
-    return(mlr3pipelines::GraphLearner$new(gr))
-  } else {
-    return(gr)
+    gr <- mlr3pipelines::GraphLearner$new(gr)
+    gr$predict_type <- "distr"
   }
+
+  gr
 }
 
 #' @rdname mlr_graphs_distrcompositor
@@ -311,10 +315,10 @@ pipeline_probregrcompositor = function(learner, learner_se = NULL, dist = "Norma
   }
 
   if (graph_learner) {
-    return(mlr3pipelines::GraphLearner$new(gr))
-  } else {
-    return(gr)
+    gr <- mlr3pipelines::GraphLearner$new(gr)
   }
+
+  gr
 }
 
 #' @name mlr_graphs_survtoregr
@@ -536,8 +540,8 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
   }
 
   if (graph_learner) {
-    return(mlr3pipelines::GraphLearner$new(gr))
-  } else {
-    return(gr)
+    gr <- mlr3pipelines::GraphLearner$new(gr)
   }
+
+  gr
 }
