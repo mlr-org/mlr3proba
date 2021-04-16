@@ -21,7 +21,12 @@ estimate of the training censoring distribution, G:
 \item \code{"S"} = Weights concordance by S (Peto and Peto)
 }
 
-The last three require training data.
+The last three require training data. \code{"GH"} is only applicable to \link{LearnerSurvCoxPH}.
+
+@details
+The implementation is slightly different from \link[survival:concordance]{survival::concordance}. Firstly this
+implementation is faster, and secondly the weights are computed on the training dataset whereas
+in \link[survival:concordance]{survival::concordance} the weights are computed on the same testing data.
 }
 \section{Dictionary}{
 
@@ -71,6 +76,7 @@ Other survival measures:
 \code{\link{mlr_measures_surv.calib_alpha}},
 \code{\link{mlr_measures_surv.calib_beta}},
 \code{\link{mlr_measures_surv.chambless_auc}},
+\code{\link{mlr_measures_surv.dcalib}},
 \code{\link{mlr_measures_surv.graf}},
 \code{\link{mlr_measures_surv.hung_auc}},
 \code{\link{mlr_measures_surv.intlogloss}},
