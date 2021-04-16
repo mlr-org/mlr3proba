@@ -203,13 +203,13 @@ Additional arguments.</p></td>
 <span class='fu'>as_prediction_surv</span><span class='op'>(</span><span class='va'>tab</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;PredictionSurv&gt; for 300 observations:
 #&gt;     row_ids time status      crank         lp                     distr
-#&gt;           1  101  FALSE  1.6603932  1.6603932 &lt;VectorDistribution[300]&gt;
-#&gt;           2   49   TRUE  0.8550971  0.8550971 &lt;VectorDistribution[300]&gt;
-#&gt;           3  104  FALSE  0.8550971  0.8550971 &lt;VectorDistribution[300]&gt;
+#&gt;           1  101  FALSE  0.3862629  0.3862629 &lt;VectorDistribution[300]&gt;
+#&gt;           2   49   TRUE -0.4190332 -0.4190332 &lt;VectorDistribution[300]&gt;
+#&gt;           3  104  FALSE -0.4190332 -0.4190332 &lt;VectorDistribution[300]&gt;
 #&gt; ---                                                                    
-#&gt;         298   92  FALSE -0.5866651 -0.5866651 &lt;VectorDistribution[300]&gt;
-#&gt;         299  104  FALSE -1.3919612 -1.3919612 &lt;VectorDistribution[300]&gt;
-#&gt;         300  102  FALSE -1.3919612 -1.3919612 &lt;VectorDistribution[300]&gt;</div><div class='input'>
+#&gt;         298   92  FALSE -1.8607954 -1.8607954 &lt;VectorDistribution[300]&gt;
+#&gt;         299  104  FALSE -2.6660915 -2.6660915 &lt;VectorDistribution[300]&gt;
+#&gt;         300  102  FALSE -2.6660915 -2.6660915 &lt;VectorDistribution[300]&gt;</div><div class='input'>
 <span class='co'># split data.table into a list of data.tables based</span>
 <span class='co'># on their survival times (ignoring censoring)</span>
 <span class='va'>tabs</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span><span class='op'>(</span><span class='va'>tab</span>, <span class='fu'><a href='https://rdrr.io/r/base/cut.html'>cut</a></span><span class='op'>(</span><span class='va'>tab</span><span class='op'>$</span><span class='va'>time</span>, <span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span>

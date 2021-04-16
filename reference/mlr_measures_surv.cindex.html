@@ -61,7 +61,11 @@ weight_meth:
 &quot;S&quot; = Weights concordance by S (Peto and Peto)
 
 
-The last three require training data." />
+The last three require training data. &quot;GH&quot; is only applicable to LearnerSurvCoxPH.
+@details
+The implementation is slightly different from survival::concordance. Firstly this
+implementation is faster, and secondly the weights are computed on the training dataset whereas
+in survival::concordance the weights are computed on the same testing data." />
 <meta property="og:image" content="https://mlr3proba.mlr-org.com/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -185,7 +189,11 @@ estimate of the training censoring distribution, G:</p>
 <li><p><code>"S"</code> = Weights concordance by S (Peto and Peto)</p></li>
 </ul>
 
-<p>The last three require training data.</p>
+<p>The last three require training data. <code>"GH"</code> is only applicable to <a href='mlr_learners_surv.coxph.html'>LearnerSurvCoxPH</a>.</p>
+<p>@details
+The implementation is slightly different from <a href='https://rdrr.io/pkg/survival/man/concordance.html'>survival::concordance</a>. Firstly this
+implementation is faster, and secondly the weights are computed on the training dataset whereas
+in <a href='https://rdrr.io/pkg/survival/man/concordance.html'>survival::concordance</a> the weights are computed on the same testing data.</p>
     </div>
 
 
@@ -240,6 +248,7 @@ doi: <a href='https://doi.org/10.1002/sim.4154'>10.1002/sim.4154</a>
 <code><a href='mlr_measures_surv.calib_alpha.html'>mlr_measures_surv.calib_alpha</a></code>,
 <code><a href='mlr_measures_surv.calib_beta.html'>mlr_measures_surv.calib_beta</a></code>,
 <code><a href='mlr_measures_surv.chambless_auc.html'>mlr_measures_surv.chambless_auc</a></code>,
+<code><a href='mlr_measures_surv.dcalib.html'>mlr_measures_surv.dcalib</a></code>,
 <code><a href='mlr_measures_surv.graf.html'>mlr_measures_surv.graf</a></code>,
 <code><a href='mlr_measures_surv.hung_auc.html'>mlr_measures_surv.hung_auc</a></code>,
 <code><a href='mlr_measures_surv.intlogloss.html'>mlr_measures_surv.intlogloss</a></code>,
