@@ -19,6 +19,10 @@
 #' is well-calibration. If `chisq = FALSE` and `m` is the predicted value then you can manually
 #' compute the p.value with `pchisq(m, B - 1, lower.tail = FALSE)`.
 #'
+#' NOTE: This measure is still experimental both theoretically and in implementation. Results
+#' should therefore only be taken as an indicator of performance and not for
+#' conclusive judgements about model calibration.
+#'
 #' @references
 #' `r format_bib("haider_2020")`
 #'

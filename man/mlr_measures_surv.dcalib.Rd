@@ -20,6 +20,10 @@ This measure can either return the test statistic or the p-value from the \code{
 The former is useful for model comparison whereas the latter is useful for determining if a model
 is well-calibration. If \code{chisq = FALSE} and \code{m} is the predicted value then you can manually
 compute the p.value with \code{pchisq(m, B - 1, lower.tail = FALSE)}.
+
+NOTE: This measure is still experimental both theoretically and in implementation. Results
+should therefore only be taken as an indicator of performance and not for
+conclusive judgements about model calibration.
 }
 \section{Dictionary}{
 
