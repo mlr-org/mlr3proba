@@ -608,7 +608,7 @@ bibentries = c( # nolint start
     number            = "85",
     pages             = "1--63",
     title             = "Effective Ways to Build and Evaluate Individual Survival Distributions",
-    url               = "http://jmlr.org/papers/v21/18-772.html",
+    url               = "https://jmlr.org/papers/v21/18-772.html",
     year              = "2020"
   )
 ) # nolint end
