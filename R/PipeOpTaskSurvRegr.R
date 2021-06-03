@@ -44,7 +44,7 @@
 #' * `eps::numeric(1)`\cr
 #' Small value to replace `0` survival probabilities with in IPCW to prevent infinite weights.
 #' * `lambda::(numeric(1))`\cr
-#' Nearest neighbours parameter for `mlr3extralearners::akritas` estimator, default `0.5`.
+#' Nearest neighbours parameter for the `"akritas"` estimator in the [mlr3extralearners package](https://mlr3extralearners.mlr-org.com/), default `0.5`.
 #' * `features, target :: character())`\cr
 #' For `"reorder"` method, specify which columns become features and targets.
 #' * `learner cneter, mimpu, iter.bj, max.cycle, mstop, nu`\cr
@@ -222,9 +222,10 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
       task = TaskSurv$new("ipcw", new_backend, time, status)
 
       est = switch(estimator,
-                   kaplan = LearnerSurvKaplan,
-                   cox = LearnerSurvCoxPH,
-                   akritas = mlr3extralearners::LearnerSurvAkritas)$new()
+        kaplan = LearnerSurvKaplan,
+        cox = LearnerSurvCoxPH,
+        akritas = get_akritas_learner()
+      )$new()
       if (estimator == "akritas") {
         est$param_set$values$lambda = self$param_set$values$lambda
       }
@@ -265,7 +266,7 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
         if (estimator == "cox") {
           est = LearnerSurvCoxPH$new()$train(input)$predict(input)$distr
         } else {
-          est = mlr3extralearners::LearnerSurvAkritas$new()
+          est = get_akritas_learner()$new()
           est$param_set$values$lambda = self$param_set$values$lambda
           est = est$train(input)$predict(input)$distr
         }
