@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Concordance Statistics Survival Measure — mlr_measures_surv.cindex • mlr3proba</title>
+<title>D-Calibration Survival Measure — mlr_measures_surv.dcalib • mlr3proba</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,25 +47,15 @@
 
 
 
-<meta property="og:title" content="Concordance Statistics Survival Measure — mlr_measures_surv.cindex" />
-<meta property="og:description" content="Calculates weighted concordance statistics, which, depending on the chosen weighting method
-and tied times solution, are equivalent to several proposed methods.
-For the Kaplan-Meier estimate of the training survival distribution, S, and the Kaplan-Meier
-estimate of the training censoring distribution, G:
-weight_meth:
-&quot;I&quot; = No weighting. (Harrell)
-&quot;GH&quot; = Gonen and Heller's Concordance Index
-&quot;G&quot; = Weights concordance by G^-1.
-&quot;G2&quot; = Weights concordance by G^-2. (Uno et al.)
-&quot;SG&quot; = Weights concordance by S/G (Shemper et al.)
-&quot;S&quot; = Weights concordance by S (Peto and Peto)
-
-
-The last three require training data. &quot;GH&quot; is only applicable to LearnerSurvCoxPH.
-@details
-The implementation is slightly different from survival::concordance. Firstly this
-implementation is faster, and secondly the weights are computed on the training dataset whereas
-in survival::concordance the weights are computed on the same testing data." />
+<meta property="og:title" content="D-Calibration Survival Measure — mlr_measures_surv.dcalib" />
+<meta property="og:description" content="This calibration method is defined by calculating
+$$s = B/n \sum_i (P_i - n/B)^2$$
+where \(B\) is number of 'buckets', \(n\) is the number of predictions,
+and \(P_i\) is the predicted number of deaths in the \(i\)th interval
+[0, 100/B), [100/B, 50/B),....,[(B - 100)/B, 1).
+A model is well-calibrated if s ~ Unif(B), tested with chisq.test
+(p &amp;gt; 0.05 if well-calibrated).
+Model i is better calibrated than model j if s_i &amp;lt; s_j." />
 <meta property="og:image" content="https://mlr3proba.mlr-org.com/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -170,42 +160,41 @@ in survival::concordance the weights are computed on the same testing data." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Concordance Statistics Survival Measure</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3proba/blob/master/R/MeasureSurvCindex.R'><code>R/MeasureSurvCindex.R</code></a></small>
-    <div class="hidden name"><code>mlr_measures_surv.cindex.Rd</code></div>
+    <h1>D-Calibration Survival Measure</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3proba/blob/master/R/MeasureSurvDCalibration.R'><code>R/MeasureSurvDCalibration.R</code></a></small>
+    <div class="hidden name"><code>mlr_measures_surv.dcalib.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Calculates weighted concordance statistics, which, depending on the chosen weighting method
-and tied times solution, are equivalent to several proposed methods.</p>
-<p>For the Kaplan-Meier estimate of the training survival distribution, S, and the Kaplan-Meier
-estimate of the training censoring distribution, G:</p>
-<p><code>weight_meth</code>:</p><ul>
-<li><p><code>"I"</code> = No weighting. (Harrell)</p></li>
-<li><p><code>"GH"</code> = Gonen and Heller's Concordance Index</p></li>
-<li><p><code>"G"</code> = Weights concordance by G^-1.</p></li>
-<li><p><code>"G2"</code> = Weights concordance by G^-2. (Uno et al.)</p></li>
-<li><p><code>"SG"</code> = Weights concordance by S/G (Shemper et al.)</p></li>
-<li><p><code>"S"</code> = Weights concordance by S (Peto and Peto)</p></li>
-</ul>
-
-<p>The last three require training data. <code>"GH"</code> is only applicable to <a href='mlr_learners_surv.coxph.html'>LearnerSurvCoxPH</a>.</p>
-<p>@details
-The implementation is slightly different from <a href='https://rdrr.io/pkg/survival/man/concordance.html'>survival::concordance</a>. Firstly this
-implementation is faster, and secondly the weights are computed on the training dataset whereas
-in <a href='https://rdrr.io/pkg/survival/man/concordance.html'>survival::concordance</a> the weights are computed on the same testing data.</p>
+    <p>This calibration method is defined by calculating
+$$s = B/n \sum_i (P_i - n/B)^2$$
+where \(B\) is number of 'buckets', \(n\) is the number of predictions,
+and \(P_i\) is the predicted number of deaths in the \(i\)th interval
+[0, 100/B), [100/B, 50/B),....,[(B - 100)/B, 1).</p>
+<p>A model is well-calibrated if <code>s ~ Unif(B)</code>, tested with <code>chisq.test</code>
+(<code>p &gt; 0.05</code> if well-calibrated).
+Model <code>i</code> is better calibrated than model <code>j</code> if <code>s_i &lt; s_j</code>.</p>
     </div>
 
 
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This measure can either return the test statistic or the p-value from the <code>chisq.test</code>.
+The former is useful for model comparison whereas the latter is useful for determining if a model
+is well-calibration. If <code>chisq = FALSE</code> and <code>m</code> is the predicted value then you can manually
+compute the p.value with <code><a href='https://rdrr.io/r/stats/Chisquare.html'>pchisq(m, B - 1, lower.tail = FALSE)</a></code>.</p>
+<p>NOTE: This measure is still experimental both theoretically and in implementation. Results
+should therefore only be taken as an indicator of performance and not for
+conclusive judgements about model calibration.</p>
     <h2 class="hasAnchor" id="dictionary"><a class="anchor" href="#dictionary"></a>Dictionary</h2>
 
     
 
 <p>This <a href='https://mlr3.mlr-org.com/reference/Measure.html'>Measure</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a>
-<a href='https://mlr3.mlr-org.com/reference/mlr_measures.html'>mlr_measures</a> or with the associated sugar function <a href='https://mlr3.mlr-org.com/reference/mlr_sugar.html'>msr()</a>:</p><pre><span class='va'>MeasureSurvCindex</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span>
-<span class='va'>mlr_measures</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"surv.cindex"</span><span class='op'>)</span>
-<span class='fu'><a href='https://mlr3.mlr-org.com/reference/mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"surv.cindex"</span><span class='op'>)</span>
+<a href='https://mlr3.mlr-org.com/reference/mlr_measures.html'>mlr_measures</a> or with the associated sugar function <a href='https://mlr3.mlr-org.com/reference/mlr_sugar.html'>msr()</a>:</p><pre><span class='va'>MeasureSurvDCalibration</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>mlr_measures</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"surv.dcalib"</span><span class='op'>)</span>
+<span class='fu'><a href='https://mlr3.mlr-org.com/reference/mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"surv.dcalib"</span><span class='op'>)</span>
 </pre>
 
     <h2 class="hasAnchor" id="meta-information"><a class="anchor" href="#meta-information"></a>Meta Information</h2>
@@ -214,41 +203,24 @@ in <a href='https://rdrr.io/pkg/survival/man/concordance.html'>survival::concord
 
 <ul>
 <li><p>Type: <code>"surv"</code></p></li>
-<li><p>Range: \([0, 1]\)</p></li>
-<li><p>Minimize: <code>FALSE</code></p></li>
-<li><p>Required prediction: <code>crank</code></p></li>
+<li><p>Range: \([0, \infty)\)</p></li>
+<li><p>Minimize: <code>TRUE</code></p></li>
+<li><p>Required prediction: <code>distr</code></p></li>
 </ul>
 
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Peto, Richard, Peto, Julian (1972).
-&#8220;Asymptotically efficient rank invariant test procedures.&#8221;
-<em>Journal of the Royal Statistical Society: Series A (General)</em>, <b>135</b>(2), 185--198.</p>
-<p>Harrell, E F, Califf, M R, Pryor, B D, Lee, L K, Rosati, A R (1982).
-&#8220;Evaluating the yield of medical tests.&#8221;
-<em>Jama</em>, <b>247</b>(18), 2543--2546.</p>
-<p>Gönen M, Heller G (2005).
-&#8220;Concordance probability and discriminatory power in proportional hazards regression.&#8221;
-<em>Biometrika</em>, <b>92</b>(4), 965--970.
-doi: <a href='https://doi.org/10.1093/biomet/92.4.965'>10.1093/biomet/92.4.965</a>
-.</p>
-<p>Schemper, Michael, Wakounig, Samo, Heinze, Georg (2009).
-&#8220;The estimation of average hazard ratios by weighted Cox regression.&#8221;
-<em>Statistics in Medicine</em>, <b>28</b>(19), 2473--2489.
-doi: <a href='https://doi.org/10.1002/sim.3623'>10.1002/sim.3623</a>
-.</p>
-<p>Uno H, Cai T, Pencina MJ, D'Agostino RB, Wei LJ (2011).
-&#8220;On the C-statistics for evaluating overall adequacy of risk prediction procedures with censored survival data.&#8221;
-<em>Statistics in Medicine</em>, n/a--n/a.
-doi: <a href='https://doi.org/10.1002/sim.4154'>10.1002/sim.4154</a>
-.</p>
+    <p>Haider, Humza, Hoehn, Bret, Davis, Sarah, Greiner, Russell (2020).
+&#8220;Effective Ways to Build and Evaluate Individual Survival Distributions.&#8221;
+<em>Journal of Machine Learning Research</em>, <b>21</b>(85), 1--63.
+<a href='https://jmlr.org/papers/v21/18-772.html'>https://jmlr.org/papers/v21/18-772.html</a>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other survival measures: 
 <code><a href='mlr_measures_surv.calib_alpha.html'>mlr_measures_surv.calib_alpha</a></code>,
 <code><a href='mlr_measures_surv.calib_beta.html'>mlr_measures_surv.calib_beta</a></code>,
 <code><a href='mlr_measures_surv.chambless_auc.html'>mlr_measures_surv.chambless_auc</a></code>,
-<code><a href='mlr_measures_surv.dcalib.html'>mlr_measures_surv.dcalib</a></code>,
+<code><a href='mlr_measures_surv.cindex.html'>mlr_measures_surv.cindex</a></code>,
 <code><a href='mlr_measures_surv.graf.html'>mlr_measures_surv.graf</a></code>,
 <code><a href='mlr_measures_surv.hung_auc.html'>mlr_measures_surv.hung_auc</a></code>,
 <code><a href='mlr_measures_surv.intlogloss.html'>mlr_measures_surv.intlogloss</a></code>,
@@ -265,21 +237,30 @@ doi: <a href='https://doi.org/10.1002/sim.4154'>10.1002/sim.4154</a>
 <code><a href='mlr_measures_surv.uno_auc.html'>mlr_measures_surv.uno_auc</a></code>,
 <code><a href='mlr_measures_surv.uno_tnr.html'>mlr_measures_surv.uno_tnr</a></code>,
 <code><a href='mlr_measures_surv.uno_tpr.html'>mlr_measures_surv.uno_tpr</a></code>,
-<code><a href='mlr_measures_surv.xu_r2.html'>mlr_measures_surv.xu_r2</a></code></p></div>
+<code><a href='mlr_measures_surv.xu_r2.html'>mlr_measures_surv.xu_r2</a></code></p>
+<p>Other calibration survival measures: 
+<code><a href='mlr_measures_surv.calib_alpha.html'>mlr_measures_surv.calib_alpha</a></code>,
+<code><a href='mlr_measures_surv.calib_beta.html'>mlr_measures_surv.calib_beta</a></code></p>
+<p>Other distr survival measures: 
+<code><a href='mlr_measures_surv.calib_alpha.html'>mlr_measures_surv.calib_alpha</a></code>,
+<code><a href='mlr_measures_surv.graf.html'>mlr_measures_surv.graf</a></code>,
+<code><a href='mlr_measures_surv.intlogloss.html'>mlr_measures_surv.intlogloss</a></code>,
+<code><a href='mlr_measures_surv.logloss.html'>mlr_measures_surv.logloss</a></code>,
+<code><a href='mlr_measures_surv.schmid.html'>mlr_measures_surv.schmid</a></code></p></div>
     <h2 class="hasAnchor" id="super-classes"><a class="anchor" href="#super-classes"></a>Super classes</h2>
 
-    <p><code><a href='https://mlr3.mlr-org.com/reference/Measure.html'>mlr3::Measure</a></code> -&gt; <code><a href='MeasureSurv.html'>mlr3proba::MeasureSurv</a></code> -&gt; <code>MeasureSurvCindex</code></p>
+    <p><code><a href='https://mlr3.mlr-org.com/reference/Measure.html'>mlr3::Measure</a></code> -&gt; <code><a href='MeasureSurv.html'>mlr3proba::MeasureSurv</a></code> -&gt; <code>MeasureSurvDCalibration</code></p>
     <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
 
     <p><div class="r6-active-bindings"></p><dl>
-<dt><code>cutoff</code></dt><dd><p><code>(numeric(1))</code>
-Cut-off time to evaluate concordance up to.</p></dd>
+<dt><code>B</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>) <br />
+Number of buckets to test for uniform predictions over. Default of <code>10</code> is recommended by
+Haider et al. (2020).</p></dd>
 
-<dt><code>weight_meth</code></dt><dd><p><code>(numeric(1))</code>
-Method for weighting concordance.</p></dd>
-
-<dt><code>tiex</code></dt><dd><p><code>(numeric(1))</code>
-Cut-off time to evaluate concordance up to.</p></dd>
+<dt><code>chisq</code></dt><dd><p><code>(logical(1))</code> <br />
+If <code>TRUE</code> returns the p.value of the corresponding chisq.test instead of the measure.
+Otherwise this can be performed manually with <code><a href='https://rdrr.io/r/stats/Chisquare.html'>pchisq(m, B - 1, lower.tail = FALSE)</a></code>.
+<code>p &gt; 0.05</code> indicates well-calibrated.</p></dd>
 
 </dl><p></div></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
@@ -288,8 +269,8 @@ Cut-off time to evaluate concordance up to.</p></dd>
 <h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Public methods</h3>
 
 <ul>
-<li><p><a href='#method-new'><code>MeasureSurvCindex$new()</code></a></p></li>
-<li><p><a href='#method-clone'><code>MeasureSurvCindex$clone()</code></a></p></li>
+<li><p><a href='#method-new'><code>MeasureSurvDCalibration$new()</code></a></p></li>
+<li><p><a href='#method-clone'><code>MeasureSurvDCalibration$clone()</code></a></p></li>
 </ul>
 <p><details open ><summary>Inherited methods</summary>
 <ul>
@@ -303,29 +284,25 @@ Cut-off time to evaluate concordance up to.</p></dd>
 
 <hr>
 <a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
-<p>This is an abstract class that should not be constructed directly.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>MeasureSurvCindex</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>
-  cutoff <span class='op'>=</span> <span class='cn'>NULL</span>,
-  weight_meth <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"I"</span>, <span class='st'>"G"</span>, <span class='st'>"G2"</span>, <span class='st'>"SG"</span>, <span class='st'>"S"</span>, <span class='st'>"GH"</span><span class='op'>)</span>,
-  tiex <span class='op'>=</span> <span class='fl'>0.5</span>
-<span class='op'>)</span></pre><p></div></p>
+<p>Creates a new instance of this <a href='https://r6.r-lib.org/reference/R6Class.html'>R6</a> class.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>MeasureSurvDCalibration</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>B <span class='op'>=</span> <span class='fl'>10L</span>, chisq <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>cutoff</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>)<br />
-Cut-off time to evaluate concordance up to.</p></dd>
+<dt><code>B</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>) <br />
+Number of buckets to test for uniform predictions over. Default of <code>10</code> is recommended by
+Haider et al. (2020).</p></dd>
 
-<dt><code>weight_meth</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>) <br />
-Method for weighting concordance. Default <code>"I"</code> is Harrell's C. See details.</p></dd>
-
-<dt><code>tiex</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>) <br />
-Weighting applied to tied rankings, default is to give them half weighting.</p></dd>
+<dt><code>chisq</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>) <br />
+If <code>TRUE</code> returns the p.value of the corresponding chisq.test instead of the measure.
+Otherwise this can be performed manually with <code><a href='https://rdrr.io/r/stats/Chisquare.html'>pchisq(m, B - 1, lower.tail = FALSE)</a></code>.
+<code>p &gt; 0.05</code> indicates well-calibrated.</p></dd>
 
 </dl><p></div></p>
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>MeasureSurvCindex</span><span class='op'>$</span><span class='fu'>clone</span><span class='op'>(</span>deep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>MeasureSurvDCalibration</span><span class='op'>$</span><span class='fu'>clone</span><span class='op'>(</span>deep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
