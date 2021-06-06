@@ -1,3 +1,6 @@
+# mlr3proba 0.4.0.9000
+
+* Remove `mlr3extralearners` from Suggests
 
 # mlr3proba 0.4.0
 
