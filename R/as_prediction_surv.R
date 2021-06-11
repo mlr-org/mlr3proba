@@ -45,7 +45,7 @@ as_prediction_surv.PredictionSurv = function(x, ...) { # nolint
 #' @export
 as_prediction_surv.data.frame = function(x, ...) { # nolint
   mandatory = c("row_ids", "time", "status")
-  optional = c("crank", "lp", "distr")
+  optional = c("crank", "lp", "distr", "response")
   assert_names(names(x), must.include = mandatory)
   assert_names(names(x), subset.of = c(mandatory, optional))
 
@@ -53,6 +53,16 @@ as_prediction_surv.data.frame = function(x, ...) { # nolint
     distr = x$distr[[1]]
   } else {
     distr = NULL
+  }
+
+  if (!("crank" %in% names(x))) {
+    if ("lp"%in% names(x)) {
+      x$crank = x$lp
+    } else if ("response" %in% names(x)) {
+      x$crank = -x$response
+    } else {
+      x$crank = -distr$mean()
+    }
   }
 
   invoke(PredictionSurv$new,

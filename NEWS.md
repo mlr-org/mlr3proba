@@ -1,13 +1,14 @@
 # mlr3proba 0.4.0.9000
 
 * Remove `mlr3extralearners` from Suggests
+* Add `response` to `as_prediction_surv`
 
 # mlr3proba 0.4.0
 
 * Deprecated measures from 0.2.0 have now been deleted.
 * IPCW measures such as `surv.graf`, `surv.schmid`, and `surv.intlogloss` now allow training data to be passed to the score function with `task` and `train_set` to allow the censoring distribution to be estimated on the training data. This is automatically applied for resample and benchmark results.
 * IPCW measures such as `surv.graf`, `surv.schmid`, and `surv.intlogloss` now include a parameter `proper` to determine what weighting scheme should be applied by the estimated censoring distribution, The current method (Graf, 1999) `proper = FALSE`, weights observations either by their event time or 'current' time depending if they're dead or not, the new method `proper = TRUE` weights observations by event time. The `proper = TRUE` method is strictly proper when censoring and survival times are independent and G is estimated on large enough data. The `proper = FALSE` method is never proper. The default is currently `proper = FALSE` to enable backward compatibility, this will be changed to `proper = TRUE` in v0.6.0.
-* The `rm_cens` parameter in `surv.logloss` has been deprecated in favour of `IPCW`. `rm_cens` will be removed in v0.6.0. If `rm_cens` or `IPCW` are `TRUE` then censored observations are removed and the score is weighted by an estimate of the censoring distribution at individual event times. Otherwise if `rm_cens` and `IPCW` are `FALSE` then no deletion or weighting takes place. The `IPCW = TRUE` method is strictly proper when censoring and survival times are independent and G is estimated on large enough data. The `ipcw = FALSE` method is never proper. 
+* The `rm_cens` parameter in `surv.logloss` has been deprecated in favour of `IPCW`. `rm_cens` will be removed in v0.6.0. If `rm_cens` or `IPCW` are `TRUE` then censored observations are removed and the score is weighted by an estimate of the censoring distribution at individual event times. Otherwise if `rm_cens` and `IPCW` are `FALSE` then no deletion or weighting takes place. The `IPCW = TRUE` method is strictly proper when censoring and survival times are independent and G is estimated on large enough data. The `ipcw = FALSE` method is never proper.
 * Add `surv.dcalib` for the D-Calibration measure from Haider et al. (2020).
 
 # mlr3proba 0.3.2
