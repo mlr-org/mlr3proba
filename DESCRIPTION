@@ -34,12 +34,12 @@ URL: https://mlr3proba.mlr-org.com,
     https://github.com/mlr-org/mlr3proba
 BugReports: https://github.com/mlr-org/mlr3proba/issues
 Depends:
+    mlr3 (>= 0.11.0-9000),
     R (>= 3.5.0)
 Imports:
     checkmate,
     data.table,
     distr6 (>= 1.4.5),
-    mlr3 (>= 0.11.0-9000),
     mlr3misc (>= 0.7.0),
     paradox (>= 0.1.0),
     R6,
