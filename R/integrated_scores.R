@@ -6,7 +6,7 @@ weighted_survival_score = function(loss, truth, distribution, times, proper, tra
   if (is.null(times) || !length(times)) {
     unique_times = unique(sort(truth[, "time"]))
   } else {
-    unique_times = c_get_unique_times(truth[, "time"], times)
+    unique_times = .c_get_unique_times(truth[, "time"], times)
   }
 
   if (loss == "graf") {
@@ -28,7 +28,7 @@ weighted_survival_score = function(loss, truth, distribution, times, proper, tra
     cens = survival::survfit(Surv(train[, "time"], 1 - train[, "status"]) ~ 1)
   }
 
-  score = c_weight_survival_score(score, truth, unique_times,
+  score = .c_weight_survival_score(score, truth, unique_times,
                                   matrix(c(cens$time, cens$surv), ncol = 2),
                                   proper, eps)
   colnames(score) = unique_times

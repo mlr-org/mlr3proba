@@ -5,7 +5,7 @@
 using namespace Rcpp;
 using namespace std;
 
-// [[Rcpp::export]]
+// [[Rcpp::export(.c_get_unique_times)]]
 NumericVector c_get_unique_times(NumericVector true_times, NumericVector req_times) {
   std::sort(true_times.begin(), true_times.end());
 
@@ -96,7 +96,7 @@ NumericMatrix c_score_graf_schmid(NumericVector truth, NumericVector unique_time
   return igs;
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(.c_weight_survival_score)]]
 NumericMatrix c_weight_survival_score(NumericMatrix score, NumericMatrix truth,
                                       NumericVector unique_times, NumericMatrix cens,
                                       bool proper, double eps){

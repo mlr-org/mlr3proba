@@ -11,8 +11,7 @@
 Provides extensions for probabilistic supervised
     learning for 'mlr3'.  This includes extending the regression task to
     probabilistic and interval regression, adding a survival task, and
-    other specialized models, predictions, and measures. mlr3extralearners is available
-    from <https://github.com/mlr-org/mlr3extralearners>.
+    other specialized models, predictions, and measures.
 }
 \seealso{
 Useful links:
