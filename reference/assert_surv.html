@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>ACTG 320 Survival Task — mlr_tasks_actg • mlr3proba</title>
+<title>Assert survival object — assert_surv • mlr3proba</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,8 +47,8 @@
 
 
 
-<meta property="og:title" content="ACTG 320 Survival Task — mlr_tasks_actg" />
-<meta property="og:description" content="A survival task for the actg data set." />
+<meta property="og:title" content="Assert survival object — assert_surv" />
+<meta property="og:description" content="Asserts x is a survival::Surv object with added checks" />
 <meta property="og:image" content="https://mlr3proba.mlr-org.com/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -153,31 +153,47 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>ACTG 320 Survival Task</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3proba/blob/master/R/TaskSurv_X.R'><code>R/TaskSurv_X.R</code></a></small>
-    <div class="hidden name"><code>mlr_tasks_actg.Rd</code></div>
+    <h1>Assert survival object</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3proba/blob/master/R/assertions.R'><code>R/assertions.R</code></a></small>
+    <div class="hidden name"><code>assert_surv.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A survival task for the <a href='actg.html'>actg</a> data set.</p>
+    <p>Asserts <code>x</code> is a <a href='https://rdrr.io/pkg/survival/man/Surv.html'>survival::Surv</a> object with added checks</p>
     </div>
 
+    <pre class="usage"><span class='fu'>assert_surv</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  len <span class='op'>=</span> <span class='cn'>NULL</span>,
+  any.missing <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  null.ok <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  .var.name <span class='op'>=</span> <span class='fu'>vname</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
-
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p><a href='https://r6.r-lib.org/reference/R6Class.html'>R6::R6Class</a> inheriting from <a href='TaskSurv.html'>TaskSurv</a>.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Column "sex" has been renamed to "sexF" and "censor" has been renamed to "status".
-Columns "id", "time_d", and "censor_d" have been removed so target is time to AIDS diagnosis
-or death.</p>
-    <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
-
-    
-<pre><span class='fu'>mlr3</span><span class='fu'>::</span><span class='va'><a href='https://mlr3.mlr-org.com/reference/mlr_tasks.html'>mlr_tasks</a></span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"actg"</span><span class='op'>)</span>
-<span class='fu'>mlr3</span><span class='fu'>::</span><span class='fu'><a href='https://mlr3.mlr-org.com/reference/mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"actg"</span><span class='op'>)</span>
-</pre>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>Object to check</p></td>
+    </tr>
+    <tr>
+      <th>len</th>
+      <td><p>If non-NULL checks object is length <code>len</code></p></td>
+    </tr>
+    <tr>
+      <th>any.missing</th>
+      <td><p>If <code>FALSE</code> then errors if there are any NAs in <code>x</code></p></td>
+    </tr>
+    <tr>
+      <th>null.ok</th>
+      <td><p>If <code>FALSE</code> then errors if <code>x</code> is NULL, otherwise passes</p></td>
+    </tr>
+    <tr>
+      <th>.var.name</th>
+      <td><p>Optional variable name to return if assertion fails</p></td>
+    </tr>
+    </table>
 
 
   </div>
