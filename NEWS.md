@@ -1,7 +1,8 @@
-# mlr3proba 0.4.0.9000
+# mlr3proba 0.4.1
 
 * Remove `mlr3extralearners` from Suggests
 * Add `response` to `as_prediction_surv`
+* Now exported a couple cpp functions and `assert_surv`
 
 # mlr3proba 0.4.0
 
