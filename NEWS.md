@@ -3,6 +3,7 @@
 * Remove `mlr3extralearners` from Suggests
 * Add `response` to `as_prediction_surv`
 * Now exported a couple cpp functions and `assert_surv`
+* `mlr3` is now in `Depends` not `imports`
 
 # mlr3proba 0.4.0
 
