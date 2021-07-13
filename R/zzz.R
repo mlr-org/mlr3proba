@@ -2,6 +2,22 @@
 #' @useDynLib mlr3proba
 NULL
 
+#' @title Cpp functions
+#' @name cpp
+#' @description Exported internal cpp functions for developers
+#' @keywords internal
+NULL
+
+#' @name .c_weight_survival_score
+#' @rdname cpp
+#' @export
+NULL
+
+#' @name .c_get_unique_times
+#' @rdname cpp
+#' @export
+NULL
+
 # nolint start
 #' @import checkmate
 #' @import data.table
