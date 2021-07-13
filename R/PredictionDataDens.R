@@ -1,5 +1,5 @@
 #' @export
-as_prediction.PredictionDataDens = function(x, check = TRUE) { # nolint
+as_prediction.PredictionDataDens = function(x, check = TRUE, ...) { # nolint
   invoke(PredictionDens$new, check = check, .args = x)
 }
 
