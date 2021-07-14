@@ -57,7 +57,7 @@ PredictionSurv = R6Class("PredictionSurv",
 
       if (inherits(distr, "Distribution")) {
         # coerce to matrix if possible
-        distr <- simplify_distribution(distr)
+        distr <- private$.simplify_distr(distr)
       }
 
       pdata = list(row_ids = row_ids, truth = truth, crank = crank, distr = distr, lp = lp,
@@ -92,17 +92,7 @@ PredictionSurv = R6Class("PredictionSurv",
     #' @field distr ([VectorDistribution][distr6::VectorDistribution])\cr
     #' Convert the stored survival matrix to a survival distribution.
     distr = function() {
-      distr = self$data$distr %??% NA_real_
-
-      if (inherits(distr, "VectorDistribution")) {
-        return(distr)
-      }
-
-      distr6::as.Distribution(
-        1 - distr,
-        fun = "cdf",
-        decorators = c("CoreStatistics", "ExoticStatistics")
-      )
+      private$.distrify_survmatrix(self$data$distr %??% NA_real_)
     },
 
     #' @field lp (`numeric()`)\cr
@@ -120,7 +110,47 @@ PredictionSurv = R6Class("PredictionSurv",
 
   private = list(
     .censtype = NULL,
-    .distr = function() self$data$distr %??% NA_real_
+    .distr = function() self$data$distr %??% NA_real_,
+    .simplify_distr = function(x) {
+      if (!inherits(x, "VectorDistribution")) {
+        stop("'x' is not a 'VectorDistribution'")
+      }
+
+      ## check all distributions equal - return x if not
+      if (x$distlist) {
+        return(x)
+      }
+
+      ## check all distributions are WeightedDiscrete - return x if not
+      if (all(x$modelTable$Distribution != "WeightedDiscrete")) {
+        return(x)
+      }
+
+      times = x$getParameterValue("x")
+      time1 = times[[1]]
+
+      ## check all times equal - return x if not
+      if (!all(vapply(times, identical, logical(1), y = time1))) {
+        return(x)
+      }
+
+      surv <- 1 - do.call(rbind, x$getParameterValue("cdf"))
+      rownames(surv) <- NULL
+      surv
+    },
+    .distrify_survmatrix = function(x) {
+      if (inherits(x, "Distribution")) {
+        return(x)
+      }
+      assert(all(x[, 1] == 1))
+      assert(all(x[, ncol(x)] == 0))
+
+      distr6::as.Distribution(
+        1 - x,
+        fun = "cdf",
+        decorators = c("CoreStatistics", "ExoticStatistics")
+      )
+    }
   )
 )
 

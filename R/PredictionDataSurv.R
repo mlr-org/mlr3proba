@@ -6,8 +6,9 @@ as_prediction.PredictionDataSurv = function(x, check = TRUE, ...) { # nolint
 
 #' @export
 check_prediction_data.PredictionDataSurv = function(pdata) { # nolint
+
   n = length(assert_row_ids(pdata$row_id))
-  assert_surv(pdata$truth, "Surv", len = n, any.missing = FALSE, null.ok = TRUE)
+  assert_surv(pdata$truth, "Surv", len = n, any.missing = TRUE, null.ok = TRUE)
   assert_numeric(pdata$crank, len = n, any.missing = FALSE, null.ok = FALSE)
   assert_numeric(pdata$response, len = n, any.missing = FALSE, null.ok = TRUE)
   assert_numeric(pdata$lp, len = n, any.missing = FALSE, null.ok = TRUE)
@@ -70,7 +71,14 @@ c.PredictionDataSurv = function(..., keep_duplicates = TRUE) {
     if (inherits(dots$distr, "VectorDistribution")) {
       result$distr = do.call(c, map(dots, "distr"))
     } else {
-      result$distr = do.call(rbind, map(dots, "distr"))
+      result$distr = tryCatch(
+        do.call(rbind, map(dots, "distr")),
+        error = function(e) {
+          do.call(c, map(dots,
+                         function(x) as.Distribution(1 - x$distr, "cdf",
+                                                     decorators = c("CoreStatistics",
+                                                                    "ExoticStatistics"))))
+        })
     }
   }
 
