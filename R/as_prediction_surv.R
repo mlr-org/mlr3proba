@@ -10,7 +10,7 @@
 #' @examples
 #' library(mlr3)
 #' task = tsk("rats")
-#' learner = mlr_learners$get("surv.coxph")
+#' learner = lrn("surv.coxph")
 #' learner$train(task)
 #' p = learner$predict(task)
 #'
@@ -19,16 +19,6 @@
 #'
 #' # convert back to a Prediction
 #' as_prediction_surv(tab)
-#'
-#' # split data.table into a list of data.tables based
-#' # on their survival times (ignoring censoring)
-#' tabs = split(tab, cut(tab$time, 3))
-#'
-#' # convert back to list of predictions
-#' preds = lapply(tabs, as_prediction_surv)
-#'
-#' # calculate performance in each group
-#' sapply(preds, function(p) p$score())
 as_prediction_surv = function(x, ...) {
   UseMethod("as_prediction_surv")
 }
@@ -50,18 +40,18 @@ as_prediction_surv.data.frame = function(x, ...) { # nolint
   assert_names(names(x), subset.of = c(mandatory, optional))
 
   if ("distr" %in% names(x)) {
-    distr = x$distr[[1]]
+    distr = x$distr[[1]][[1]]
   } else {
     distr = NULL
   }
 
-  if (!("crank" %in% names(x))) {
-    if ("lp"%in% names(x)) {
+  if ("crank" %nin% names(x)) {
+    if ("lp" %in% names(x)) {
       x$crank = x$lp
     } else if ("response" %in% names(x)) {
       x$crank = -x$response
     } else {
-      x$crank = -distr$mean()
+      x$crank = -apply(1 - distr, 1, function(.x) sum(c(.x[1], diff(.x)) * times))
     }
   }
 

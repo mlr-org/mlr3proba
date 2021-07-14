@@ -35,7 +35,7 @@ True (observed) outcome.}
 Access the stored predicted continuous ranking.}
 
 \item{\code{distr}}{(\link[distr6:VectorDistribution]{VectorDistribution})\cr
-Access the stored predicted survival distribution.}
+Convert the stored survival matrix to a survival distribution.}
 
 \item{\code{lp}}{(\code{numeric()})\cr
 Access the stored predicted linear predictor.}
@@ -97,10 +97,11 @@ Numeric vector of predicted continuous rankings (or relative risks). One element
 observation in the test set. For a pair of continuous ranks, a higher rank indicates that
 the observation is more likely to experience the event.}
 
-\item{\code{distr}}{(\link[distr6:VectorDistribution]{VectorDistribution})\cr
-\link[distr6:VectorDistribution]{VectorDistribution} from \CRANpkg{distr6}.
-Each individual distribution in the vector represents the random variable 'survival time'
-for an individual observation.}
+\item{\code{distr}}{(\code{matrix()})\cr
+A matrix of predicted survival problems. Column names of matrix must be named and
+correspond to survival times. Rows of matrix correspond to individual predictions.
+It is advised that the first column should be time \code{0} with all entries \code{1} and the last
+with all entries \code{0}.}
 
 \item{\code{lp}}{(\code{numeric()})\cr
 Numeric vector of linear predictor scores. One element for each observation in the test
