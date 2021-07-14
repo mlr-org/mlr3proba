@@ -2,9 +2,8 @@ set.seed(1)
 task = TaskGeneratorSimsurv$new()$generate(20)
 learner = lrn("surv.coxph")$train(task)
 pred = learner$predict(task)
-pred = PredictionSurv$new(row_ids = pred$row_ids, task = task,
-                   crank = pred$crank, lp = pred$lp, distr = pred$distr,
-                   response = 1:20)
+pred$data$response = 1:20
+pred$predict_types = c(pred$predict_types, "response")
 
 test_that("mlr_measures", {
   keys = mlr_measures$keys("^surv")

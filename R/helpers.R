@@ -45,7 +45,32 @@ get_akritas_learner = function() {
   utils::getFromNamespace("LearnerSurvAkritas", "mlr3extralearners")
 }
 
-
+## access private environment of r6 class
 r6_private <- function(x) {
   x$.__enclos_env__$private
+}
+
+
+## if possible simplify vector of weigheddiscrete to survival matrix
+simplify_distribution <- function(x) {
+  if (!inherits(x, "VectorDistribution")) {
+    stop("'x' is not a 'VectorDistribution'")
+  }
+
+  ## check all distributions equal - return x if not
+  if (x$distlist) {
+    return(x)
+  }
+
+  times = x$getParameterValue("x")
+  time1 = times[[1]]
+
+  ## check all times equal - return x if not
+  if (!all(vapply(times, identical, logical(1), y = time1))) {
+    return(x)
+  }
+
+  surv <- 1 - do.call(rbind, x$getParameterValue("cdf"))
+  rownames(surv) <- NULL
+  surv
 }

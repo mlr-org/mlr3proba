@@ -16,7 +16,8 @@ surv_logloss = function(truth, distribution, eps = 1e-15, IPCW = TRUE, train = N
 
     surv = matrix(rep(cens$surv, length(truth)), ncol = length(cens$time), nrow = length(truth),
                     byrow = TRUE)
-    distr = .surv_return(times = cens$time, surv = surv)$distr
+    distr = as.Distribution(1 - .surv_return(times = cens$time, surv = surv)$distr,
+                            fun = "cdf", decorators = c("CoreStatistics", "ExoticStatistics"))
     pred = as.numeric(distr$survival(data = matrix(truth, nrow = 1)))
   }
 
