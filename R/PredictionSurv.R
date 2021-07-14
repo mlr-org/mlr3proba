@@ -35,10 +35,11 @@ PredictionSurv = R6Class("PredictionSurv",
     #'   observation in the test set. For a pair of continuous ranks, a higher rank indicates that
     #'   the observation is more likely to experience the event.
     #'
-    #' @param distr ([VectorDistribution][distr6::VectorDistribution])\cr
-    #'   [VectorDistribution][distr6::VectorDistribution] from \CRANpkg{distr6}.
-    #'   Each individual distribution in the vector represents the random variable 'survival time'
-    #'   for an individual observation.
+    #' @param distr (`matrix()`)\cr
+    #'   A matrix of predicted survival problems. Column names of matrix must be named and
+    #'   correspond to survival times. Rows of matrix correspond to individual predictions.
+    #'   It is advised that the first column should be time `0` with all entries `1` and the last
+    #'   with all entries `0`.
     #'
     #' @param lp (`numeric()`)\cr
     #'   Numeric vector of linear predictor scores. One element for each observation in the test
@@ -83,9 +84,9 @@ PredictionSurv = R6Class("PredictionSurv",
     },
 
     #' @field distr ([VectorDistribution][distr6::VectorDistribution])\cr
-    #' Access the stored predicted survival distribution.
+    #' Convert the stored survival matrix to a survival distribution.
     distr = function() {
-      self$data$distr %??% NA_real_
+      distr6::as.Distribution(1 - (self$data$distr %??% NA_real_), fun = "cdf")
     },
 
     #' @field lp (`numeric()`)\cr
@@ -102,18 +103,21 @@ PredictionSurv = R6Class("PredictionSurv",
   ),
 
   private = list(
-    .censtype = NULL
+    .censtype = NULL,
+    .distr_matrix = function() self$data$distr %??% NA_real_
   )
 )
 
 
 #' @export
 as.data.table.PredictionSurv = function(x, ...) { # nolint
+
   tab = as.data.table(x$data[c("row_ids", "crank", "lp", "response")])
   tab$time = x$data$truth[, 1L]
   tab$status = as.logical(x$data$truth[, 2L])
   if ("distr" %in% x$predict_types) {
-    tab$distr = list(list(x$distr))
+    # annoyingly need this many lists to get nice printing
+    tab$distr = list(list(list(r6_private(x)$.distr_matrix())))
   }
   setcolorder(tab, c("row_ids", "time", "status"))[]
 }

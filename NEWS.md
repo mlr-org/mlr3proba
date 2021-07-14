@@ -4,6 +4,7 @@
 * Add `response` to `as_prediction_surv`
 * Now exported a couple cpp functions and `assert_surv`
 * `mlr3` is now in `Depends` not `imports`
+* `distr` predictions are now internally stored as matrices to significantly reduce prediction object sizes
 
 # mlr3proba 0.4.0
 

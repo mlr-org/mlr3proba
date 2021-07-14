@@ -44,3 +44,8 @@ get_akritas_learner = function() {
   require_namespaces("mlr3extralearners")
   utils::getFromNamespace("LearnerSurvAkritas", "mlr3extralearners")
 }
+
+
+r6_private <- function(x) {
+  x$.__enclos_env__$private
+}
