@@ -192,7 +192,7 @@ Additional arguments.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://mlr3.mlr-org.com'>mlr3</a></span><span class='op'>)</span>
 <span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='https://mlr3.mlr-org.com/reference/mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"rats"</span><span class='op'>)</span>
-<span class='va'>learner</span> <span class='op'>=</span> <span class='va'>mlr_learners</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"surv.coxph"</span><span class='op'>)</span>
+<span class='va'>learner</span> <span class='op'>=</span> <span class='fu'><a href='https://mlr3.mlr-org.com/reference/mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"surv.coxph"</span><span class='op'>)</span>
 <span class='va'>learner</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>
 <span class='va'>p</span> <span class='op'>=</span> <span class='va'>learner</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>
 
@@ -202,25 +202,14 @@ Additional arguments.</p></td>
 <span class='co'># convert back to a Prediction</span>
 <span class='fu'>as_prediction_surv</span><span class='op'>(</span><span class='va'>tab</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;PredictionSurv&gt; for 300 observations:
-#&gt;     row_ids time status      crank         lp                     distr
-#&gt;           1  101  FALSE  0.3862629  0.3862629 &lt;VectorDistribution[300]&gt;
-#&gt;           2   49   TRUE -0.4190332 -0.4190332 &lt;VectorDistribution[300]&gt;
-#&gt;           3  104  FALSE -0.4190332 -0.4190332 &lt;VectorDistribution[300]&gt;
-#&gt; ---                                                                    
-#&gt;         298   92  FALSE -1.8607954 -1.8607954 &lt;VectorDistribution[300]&gt;
-#&gt;         299  104  FALSE -2.6660915 -2.6660915 &lt;VectorDistribution[300]&gt;
-#&gt;         300  102  FALSE -2.6660915 -2.6660915 &lt;VectorDistribution[300]&gt;</div><div class='input'>
-<span class='co'># split data.table into a list of data.tables based</span>
-<span class='co'># on their survival times (ignoring censoring)</span>
-<span class='va'>tabs</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span><span class='op'>(</span><span class='va'>tab</span>, <span class='fu'><a href='https://rdrr.io/r/base/cut.html'>cut</a></span><span class='op'>(</span><span class='va'>tab</span><span class='op'>$</span><span class='va'>time</span>, <span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'># convert back to list of predictions</span>
-<span class='va'>preds</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>tabs</span>, <span class='va'>as_prediction_surv</span><span class='op'>)</span>
-
-<span class='co'># calculate performance in each group</span>
-<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='va'>preds</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span> <span class='va'>p</span><span class='op'>$</span><span class='fu'>score</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; (22.9,50].surv.harrell_c   (50,77].surv.harrell_c  (77,104].surv.harrell_c 
-#&gt;                0.6521739                0.6666667                0.8623877 </div></pre>
+#&gt;     row_ids time status      crank         lp     distr
+#&gt;           1  101  FALSE  0.3862629  0.3862629 &lt;list[1]&gt;
+#&gt;           2   49   TRUE -0.4190332 -0.4190332 &lt;list[1]&gt;
+#&gt;           3  104  FALSE -0.4190332 -0.4190332 &lt;list[1]&gt;
+#&gt; ---                                                    
+#&gt;         298   92  FALSE -1.8607954 -1.8607954 &lt;list[1]&gt;
+#&gt;         299  104  FALSE -2.6660915 -2.6660915 &lt;list[1]&gt;
+#&gt;         300  102  FALSE -2.6660915 -2.6660915 &lt;list[1]&gt;</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

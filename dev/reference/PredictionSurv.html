@@ -183,7 +183,7 @@ True (observed) outcome.</p></dd>
 Access the stored predicted continuous ranking.</p></dd>
 
 <dt><code>distr</code></dt><dd><p>(<a href='https://alan-turing-institute.github.io/distr6/reference/VectorDistribution.html'>VectorDistribution</a>)<br />
-Access the stored predicted survival distribution.</p></dd>
+Convert the stored survival matrix to a survival distribution.</p></dd>
 
 <dt><code>lp</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>)<br />
 Access the stored predicted linear predictor.</p></dd>
@@ -240,10 +240,13 @@ Numeric vector of predicted continuous rankings (or relative risks). One element
 observation in the test set. For a pair of continuous ranks, a higher rank indicates that
 the observation is more likely to experience the event.</p></dd>
 
-<dt><code>distr</code></dt><dd><p>(<a href='https://alan-turing-institute.github.io/distr6/reference/VectorDistribution.html'>VectorDistribution</a>)<br />
-<a href='https://alan-turing-institute.github.io/distr6/reference/VectorDistribution.html'>VectorDistribution</a> from <a href='https://CRAN.R-project.org/package=distr6'><span class="pkg">distr6</span></a>.
-Each individual distribution in the vector represents the random variable 'survival time'
-for an individual observation.</p></dd>
+<dt><code>distr</code></dt><dd><p>(<code>matrix()|[distr6::VectorDistribution]</code>)<br />
+Either a matrix of predicted survival probabilities or a <a href='https://alan-turing-institute.github.io/distr6/reference/VectorDistribution.html'>distr6::VectorDistribution</a>.
+If a matrix then column names must be given and correspond to survival times.
+Rows of matrix correspond to individual predictions. It is advised that the
+first column should be time <code>0</code> with all entries <code>1</code> and the last
+with all entries <code>0</code>. If a <code>VectorDistribution</code> then each distribution in the vector
+should correspond to a predicted survival distribution.</p></dd>
 
 <dt><code>lp</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>)<br />
 Numeric vector of linear predictor scores. One element for each observation in the test
@@ -272,20 +275,18 @@ If <code>TRUE</code>, performs argument checks and predict type conversions.</p>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span><span class='op'>(</span><span class='st'>"rpart"</span>, quietly <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://mlr3.mlr-org.com'>mlr3</a></span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://mlr3.mlr-org.com'>mlr3</a></span><span class='op'>)</span>
 <span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='https://mlr3.mlr-org.com/reference/mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"rats"</span><span class='op'>)</span>
-<span class='va'>learner</span> <span class='op'>=</span> <span class='va'>mlr_learners</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"surv.rpart"</span><span class='op'>)</span>
+<span class='va'>learner</span> <span class='op'>=</span> <span class='fu'><a href='https://mlr3.mlr-org.com/reference/mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"surv.kaplan"</span><span class='op'>)</span>
 <span class='va'>p</span> <span class='op'>=</span> <span class='va'>learner</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span><span class='va'>task</span>, row_ids <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>20</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span><span class='va'>task</span>, row_ids <span class='op'>=</span> <span class='fl'>21</span><span class='op'>:</span><span class='fl'>30</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div><div class='output co'>#&gt;    row_ids time status     crank
-#&gt; 1:      21   79  FALSE 0.6483971
-#&gt; 2:      22   91  FALSE 0.6483971
-#&gt; 3:      23   98  FALSE 0.6483971
-#&gt; 4:      24   76  FALSE 0.6483971
-#&gt; 5:      25   89  FALSE 0.6483971
-#&gt; 6:      26  104  FALSE 0.6483971</div></pre>
+</div><div class='output co'>#&gt;    row_ids time status    crank     distr
+#&gt; 1:      21   79  FALSE -101.251 &lt;list[1]&gt;
+#&gt; 2:      22   91  FALSE -101.251 &lt;list[1]&gt;
+#&gt; 3:      23   98  FALSE -101.251 &lt;list[1]&gt;
+#&gt; 4:      24   76  FALSE -101.251 &lt;list[1]&gt;
+#&gt; 5:      25   89  FALSE -101.251 &lt;list[1]&gt;
+#&gt; 6:      26  104  FALSE -101.251 &lt;list[1]&gt;</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
