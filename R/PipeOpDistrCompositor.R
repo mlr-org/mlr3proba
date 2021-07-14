@@ -146,16 +146,7 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
           cdf = 1 - (survmat * ((exp(-lpmat) + ((1 - exp(-lpmat)) * survmat))^-1))
         }
 
-        x = rep(list(list(x = times,
-                          cdf = numeric(length(times)))), nr)
-
-        for (i in seq_len(nr)) {
-          x[[i]]$cdf = cdf[i, ]
-        }
-
-        distr = distr6::VectorDistribution$new(
-          distribution = "WeightedDiscrete", params = x,
-          decorators = c("CoreStatistics", "ExoticStatistics"))
+        distr = .surv_return(times, 1 - cdf)$distr
 
         if (anyMissing(inpred$lp)) {
           lp = NULL

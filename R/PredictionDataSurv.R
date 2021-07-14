@@ -6,21 +6,17 @@ as_prediction.PredictionDataSurv = function(x, check = TRUE, ...) { # nolint
 
 #' @export
 check_prediction_data.PredictionDataSurv = function(pdata) { # nolint
-  row_ids = assert_row_ids(pdata$row_id)
-  n = length(row_ids)
-  assert_class(pdata$truth, "Surv")
 
+  n = length(assert_row_ids(pdata$row_id))
+  assert_surv(pdata$truth, "Surv", len = n, any.missing = TRUE, null.ok = TRUE)
+  assert_numeric(pdata$crank, len = n, any.missing = FALSE, null.ok = FALSE)
   assert_numeric(pdata$response, len = n, any.missing = FALSE, null.ok = TRUE)
-  assert_numeric(pdata$crank, len = n, any.missing = FALSE, null.ok = TRUE)
   assert_numeric(pdata$lp, len = n, any.missing = FALSE, null.ok = TRUE)
-
-  if (!is.null(pdata$distr)) {
-    assert_class(pdata$distr, "VectorDistribution")
-    if (is.null(pdata$crank)) {
-      pdata$crank = unname(pdata$distr$mean())
-    }
+  if (inherits(pdata$distr, "VectorDistribution")) {
+    assert(nrow(pdata$distr$modelTable) == n)
+  } else {
+    assert_matrix(pdata$distr, nrows = n, any.missing = FALSE, null.ok = TRUE)
   }
-
   pdata
 }
 
@@ -72,7 +68,18 @@ c.PredictionDataSurv = function(..., keep_duplicates = TRUE) {
   }
 
   if ("distr" %in% predict_types) {
-    result$distr = do.call(c, map(dots, "distr"))
+    if (inherits(dots$distr, "VectorDistribution")) {
+      result$distr = do.call(c, map(dots, "distr"))
+    } else {
+      result$distr = tryCatch(
+        do.call(rbind, map(dots, "distr")),
+        error = function(e) {
+          do.call(c, map(dots,
+                         function(x) as.Distribution(1 - x$distr, "cdf",
+                                                     decorators = c("CoreStatistics",
+                                                                    "ExoticStatistics"))))
+        })
+    }
   }
 
   set_class(result, "PredictionDataSurv")

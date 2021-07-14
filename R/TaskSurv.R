@@ -52,7 +52,7 @@ TaskSurv = R6::R6Class("TaskSurv",
       backend = as_data_backend(backend)
 
       if (type != "interval2") {
-        c_ev = backend$.__enclos_env__$private$.data[, event, with = FALSE][[1]]
+        c_ev = r6_private(backend)$.data[, event, with = FALSE][[1]]
         if (type == "mstate") {
           assert_factor(c_ev)
         } else if (type == "interval") {

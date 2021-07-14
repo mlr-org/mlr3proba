@@ -103,4 +103,3 @@ PipeOpPredRegrSurv = R6Class("PipeOpPredRegrSurv",
     }
   )
 )
-

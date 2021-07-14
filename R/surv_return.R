@@ -40,24 +40,20 @@
       times = c(times, max(times) + 1e-3)
       surv = cbind(surv, 0)
     }
-
-    cdf <- apply(surv, 1, function(.x) list(cdf = 1 - .x))
-    out$distr <- distr6::VectorDistribution$new(
-      distribution = "WeightedDiscrete",
-      params = cdf,
-      shared_params = list(x = as.numeric(times)),
-      decorators = c("CoreStatistics", "ExoticStatistics")
-    )
+    colnames(surv) <- times
+    out$distr <- surv
   }
 
   if (is.null(crank)) {
-    if (!is.null(lp)) {
+    if (!is.null(response)) {
+      # low survival time = high risk
+      # high crank = high risk
+      crank = -response
+    } else if (!is.null(lp)) {
       # assumes PH-type lp where high value = high risk
       crank = lp
-    } else if (is.null(times) | is.null(surv)) {
-      stop("`times` and `surv` must be given if `crank` and `lp` are both NULL.")
-    } else {
-      # negative mean survival distribution
+    } else if (!is.null(surv)) {
+      # negative mean survival time
       crank = -apply(1 - surv, 1, function(.x) sum(c(.x[1], diff(.x)) * times))
     }
   }

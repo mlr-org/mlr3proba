@@ -39,7 +39,7 @@ Depends:
 Imports:
     checkmate,
     data.table,
-    distr6 (>= 1.4.5),
+    distr6 (>= 1.5.5),
     mlr3misc (>= 0.7.0),
     paradox (>= 0.1.0),
     R6,
@@ -61,7 +61,8 @@ Suggests:
 LinkingTo:
     Rcpp
 Remotes:
-    mlr-org/mlr3
+    mlr-org/mlr3,
+    alan-turing-institute/distr6,
 ByteCompile: true
 Encoding: UTF-8
 LazyData: true

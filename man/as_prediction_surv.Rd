@@ -28,7 +28,7 @@ Convert object to a \link{PredictionSurv}.
 \examples{
 library(mlr3)
 task = tsk("rats")
-learner = mlr_learners$get("surv.coxph")
+learner = lrn("surv.coxph")
 learner$train(task)
 p = learner$predict(task)
 
@@ -37,14 +37,4 @@ tab = as.data.table(p)
 
 # convert back to a Prediction
 as_prediction_surv(tab)
-
-# split data.table into a list of data.tables based
-# on their survival times (ignoring censoring)
-tabs = split(tab, cut(tab$time, 3))
-
-# convert back to list of predictions
-preds = lapply(tabs, as_prediction_surv)
-
-# calculate performance in each group
-sapply(preds, function(p) p$score())
 }

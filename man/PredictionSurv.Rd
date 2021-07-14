@@ -9,13 +9,11 @@ This object stores the predictions returned by a learner of class \link{LearnerS
 The \code{task_type} is set to \code{"surv"}.
 }
 \examples{
-if (requireNamespace("rpart", quietly = TRUE)) {
 library(mlr3)
 task = tsk("rats")
-learner = mlr_learners$get("surv.rpart")
+learner = lrn("surv.kaplan")
 p = learner$train(task, row_ids = 1:20)$predict(task, row_ids = 21:30)
 head(as.data.table(p))
-}
 }
 \seealso{
 Other Prediction: 
@@ -35,7 +33,7 @@ True (observed) outcome.}
 Access the stored predicted continuous ranking.}
 
 \item{\code{distr}}{(\link[distr6:VectorDistribution]{VectorDistribution})\cr
-Access the stored predicted survival distribution.}
+Convert the stored survival matrix to a survival distribution.}
 
 \item{\code{lp}}{(\code{numeric()})\cr
 Access the stored predicted linear predictor.}
@@ -97,10 +95,13 @@ Numeric vector of predicted continuous rankings (or relative risks). One element
 observation in the test set. For a pair of continuous ranks, a higher rank indicates that
 the observation is more likely to experience the event.}
 
-\item{\code{distr}}{(\link[distr6:VectorDistribution]{VectorDistribution})\cr
-\link[distr6:VectorDistribution]{VectorDistribution} from \CRANpkg{distr6}.
-Each individual distribution in the vector represents the random variable 'survival time'
-for an individual observation.}
+\item{\code{distr}}{(\verb{matrix()|[distr6::VectorDistribution]})\cr
+Either a matrix of predicted survival probabilities or a \link[distr6:VectorDistribution]{distr6::VectorDistribution}.
+If a matrix then column names must be given and correspond to survival times.
+Rows of matrix correspond to individual predictions. It is advised that the
+first column should be time \code{0} with all entries \code{1} and the last
+with all entries \code{0}. If a \code{VectorDistribution} then each distribution in the vector
+should correspond to a predicted survival distribution.}
 
 \item{\code{lp}}{(\code{numeric()})\cr
 Numeric vector of linear predictor scores. One element for each observation in the test

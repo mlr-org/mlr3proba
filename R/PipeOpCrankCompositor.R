@@ -123,11 +123,11 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
         if (length(method) == 0) method = "mean"
         if (method == "mean") {
           comp = try(inpred$distr$mean(), silent = TRUE)
-          if(class(comp)[1] == "try-error") {
+          if (class(comp)[1] == "try-error") {
             requireNamespace("cubature")
             comp = try(inpred$distr$mean(cubature = TRUE), silent = TRUE)
           }
-          if(class(comp)[1] == "try-error") {
+          if (class(comp)[1] == "try-error") {
             comp = numeric(length(inpred$crank))
           }
         } else {

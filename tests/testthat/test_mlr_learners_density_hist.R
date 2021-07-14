@@ -7,9 +7,7 @@ test_that("autotest", {
 })
 
 x = c(0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6)
-a = graphics::hist(x = x, include.lowest = TRUE, plot = TRUE, right = FALSE, probability = T)
-
-task = TaskDens$new(id = "a", x)
+task = TaskDens$new(id = "task", x)
 lrn = lrn("dens.hist", breaks = 5)
 p = lrn$train(task)
 dist = p$model$dist
