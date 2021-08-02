@@ -51,7 +51,7 @@ as_prediction_surv.data.frame = function(x, ...) { # nolint
     } else if ("response" %in% names(x)) {
       x$crank = -x$response
     } else {
-      x$crank = -apply(1 - distr, 1, function(.x) sum(c(.x[1], diff(.x)) * times))
+      x$crank = -apply(1 - distr, 1, function(.x) sum(c(.x[1], diff(.x)) * x$times))
     }
   }
 
