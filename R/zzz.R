@@ -37,14 +37,14 @@ register_mlr3 = function() {
 
   x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
 
-  if (!grepl("surv", x$task_types[, "type"])) {
+  if ("surv" %in% x$task_types$type) {
     x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
     x$task_types = setkeyv(rbind(x$task_types, rowwise_table(
       ~type, ~package, ~task, ~learner, ~prediction, ~measure,
       "surv", "mlr3proba", "TaskSurv", "LearnerSurv", "PredictionSurv", "MeasureSurv"
     )), "type")
     x$task_col_roles$surv = c("feature", "target", "label", "order", "group", "weight", "stratum")
-    x$task_properties$surv = c("weights", "groups")
+    x$task_properties$surv = x$task_properties$regr
     x$learner_properties$surv = x$learner_properties$regr
     x$measure_properties$surv = x$measure_properties$regr
     x$learner_predict_types$surv = list(crank = c("crank","lp","distr","response"),
@@ -54,14 +54,14 @@ register_mlr3 = function() {
     x$default_measures$surv = "surv.cindex"
   }
 
-  if (!grepl("dens", x$task_types[, "type"])) {
+  if ("dens" %in% x$task_types$type) {
     x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
     x$task_types = setkeyv(rbind(x$task_types, rowwise_table(
       ~type, ~package, ~task, ~learner, ~prediction, ~measure,
       "dens", "mlr3proba", "TaskDens", "LearnerDens", "PredictionDens", "MeasureDens"
     )), "type")
     x$task_col_roles$dens = c("feature", "target", "label", "order", "group", "weight", "stratum")
-    x$task_properties$dens = c("weights", "groups")
+    x$task_properties$dens = x$task_properties$regr
     x$learner_properties$dens = x$learner_properties$regr
     x$measure_properties$dens = x$measure_properties$regr
     x$learner_predict_types$dens = list(
