@@ -37,7 +37,7 @@ register_mlr3 = function() {
 
   x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
 
-  if ("surv" %in% x$task_types$type) {
+  if (!("surv" %in% x$task_types$type)) {
     x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
     x$task_types = setkeyv(rbind(x$task_types, rowwise_table(
       ~type, ~package, ~task, ~learner, ~prediction, ~measure,
@@ -54,7 +54,7 @@ register_mlr3 = function() {
     x$default_measures$surv = "surv.cindex"
   }
 
-  if ("dens" %in% x$task_types$type) {
+  if (! ("dens" %in% x$task_types$type)) {
     x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
     x$task_types = setkeyv(rbind(x$task_types, rowwise_table(
       ~type, ~package, ~task, ~learner, ~prediction, ~measure,
