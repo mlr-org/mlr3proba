@@ -5,6 +5,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // c_get_unique_times
 NumericVector c_get_unique_times(NumericVector true_times, NumericVector req_times);
 RcppExport SEXP _mlr3proba_c_get_unique_times(SEXP true_timesSEXP, SEXP req_timesSEXP) {

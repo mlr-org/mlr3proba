@@ -34,5 +34,5 @@ expect_prediction_surv = function(p) {
   if ("distr" %in% p$predict_types) {
     checkmate::expect_class(p$distr, "VectorDistribution")
   }
-  expect_is(p, "PredictionSurv")
+  expect_true(inherits(p, "PredictionSurv"))
 }

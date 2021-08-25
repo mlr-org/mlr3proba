@@ -1,7 +1,7 @@
 
 # mlr3proba
 
-Package website: [release](https://mlr3proba.mlr-org.com/) |
+Package website: [release](https://mlr3proba.mlr-org.com/) \|
 [dev](https://mlr3proba.mlr-org.com/dev/)
 
 Probabilistic Supervised Learning for
@@ -24,22 +24,22 @@ checks](https://cranchecks.info/badges/worst/mlr3proba)](https://cran.r-project.
 predictions within the **[mlr3](https://github.com/mlr-org/mlr3)**
 ecosystem. It currently supports the following tasks:
 
-  - Probabilistic supervised regression - Supervised regression with a
+-   Probabilistic supervised regression - Supervised regression with a
     predictive distribution as the return type.
-  - Predictive survival analysis - Survival analysis where individual
+-   Predictive survival analysis - Survival analysis where individual
     predictive hazards can be queried. This is equivalent to
     probabilistic supervised regression with censored observations.
-  - Unconditional distribution estimation, where the distribution is
+-   Unconditional distribution estimation, where the distribution is
     returned. Sub-cases are density estimation and unconditional
     survival estimation.
 
 Key features of **mlr3proba** are
 
-  - A unified fit/predict model interface to any probabilistic
+-   A unified fit/predict model interface to any probabilistic
     predictive model (frequentist, Bayesian, or other)
-  - Pipeline/model composition
-  - Task reduction strategies
-  - Domain-agnostic evaluation workflows using task specific algorithmic
+-   Pipeline/model composition
+-   Task reduction strategies
+-   Domain-agnostic evaluation workflows using task specific algorithmic
     performance measures.
 
 **mlr3proba** makes use of the
@@ -52,12 +52,12 @@ return type.
 The current **mlr3proba** release focuses on survival analysis, and
 contains:
 
-  - Task frameworks for survival analysis (`TaskSurv`)
-  - A comprehensive selection of 17 predictive survival learners
-  - A comprehensive selection of 21 performance measures for predictive
+-   Task frameworks for survival analysis (`TaskSurv`)
+-   A comprehensive selection of 17 predictive survival learners
+-   A comprehensive selection of 21 performance measures for predictive
     survival learners, with respect to prognostic index (continuous
     rank) prediction, and probabilistic (distribution) prediction
-  - PipeOps integrated with
+-   PipeOps integrated with
     **[mlr3pipelines](https://github.com/mlr-org/mlr3pipelines)**, for
     basic pipeline building, and reduction/composition strategies using
     linear predictors and baseline hazards.
@@ -111,7 +111,7 @@ For density estimation only the log-loss is currently implemented, for
 survival analysis, the following measures are implemented:
 
 | ID                                                                                                  | Measure                             | Package                                                   |
-| :-------------------------------------------------------------------------------------------------- | :---------------------------------- | :-------------------------------------------------------- |
+|:----------------------------------------------------------------------------------------------------|:------------------------------------|:----------------------------------------------------------|
 | [surv.calib\_alpha](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.calib_alpha.html)     | van Houwelingen’s Alpha Calibration | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
 | [surv.calib\_beta](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.calib_beta.html)       | van Houwelingen’s Beta Calibration  | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
 | [surv.chambless\_auc](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.chambless_auc.html) | Chambless and Diao’s AUC            | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
@@ -131,22 +131,22 @@ survival analysis, the following measures are implemented:
 
 ## Near-Future Plans
 
-  - Add `prob` predict type to `TaskRegr`, and associated
+-   Add `prob` predict type to `TaskRegr`, and associated
     learners/measures
-  - Allow `MeasureSurv` to return measures at multiple time-points
+-   Allow `MeasureSurv` to return measures at multiple time-points
     simultaneously
-  - Continue to add survival measures and learners
+-   Continue to add survival measures and learners
 
 ## Bugs, Questions, Feedback
 
 **mlr3proba** is a free and open source software project that encourages
 participation and feedback. If you have any issues, questions,
 suggestions or feedback, please do not hesitate to open an “issue” about
-it on the [GitHub page](https://github.com/mlr-org/mlr3proba/issues)\!
+it on the [GitHub page](https://github.com/mlr-org/mlr3proba/issues)!
 
 In case of problems / bugs, it is often helpful if you provide a
-“minimum working example” that showcases the behaviour (but don’t
-worry about this if the bug is obvious).
+“minimum working example” that showcases the behaviour (but don’t worry
+about this if the bug is obvious).
 
 ## Similar Projects
 

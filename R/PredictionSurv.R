@@ -139,9 +139,11 @@ PredictionSurv = R6Class("PredictionSurv",
       surv
     },
     .distrify_survmatrix = function(x) {
+
       if (inherits(x, "Distribution")) {
         return(x)
       }
+
       assert(all(x[, 1] == 1))
       assert(all(x[, ncol(x)] == 0))
 
