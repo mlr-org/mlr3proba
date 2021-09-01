@@ -1,6 +1,6 @@
 Package: mlr3proba
 Title: Probabilistic Supervised Learning for 'mlr3'
-Version: 0.4.0.9000
+Version: 0.4.1
 Authors@R:
     c(person(given = "Raphael",
              family = "Sonabend",
@@ -60,8 +60,6 @@ Suggests:
     testthat
 LinkingTo:
     Rcpp
-Remotes:
-    mlr-org/mlr3
 ByteCompile: true
 Encoding: UTF-8
 LazyData: true
