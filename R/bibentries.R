@@ -10,7 +10,7 @@ bibentries = c( # nolint start
     pages             = "701--726",
     url               = "https://www.jstor.org/stable/2958850"
   ),
-  begg_2000           = bibentry("article",
+  begg_2000 = bibentry("article",
     title             = "Comparing tumour staging and grading systems: a case study and a review of the issues,  using thymoma as a model",
     author            = "Colin B. Begg and Laura D. Cramer and E. S. Venkatraman and Juan Rosai",
     year              = 2000,
@@ -21,14 +21,14 @@ bibentries = c( # nolint start
     pages             = "1997--2014",
     doi               = "10.1002/1097-0258(20000815)19:15<1997::aid-sim511>3.0.co;2-c"
   ),
-  breiman_1984        = bibentry("book",
+  breiman_1984 = bibentry("book",
     title             = "Classification And Regression Trees",
     author            = "Leo Breiman and Jerome H. Friedman and Richard A. Olshen and Charles J. Stone",
     year              = 1984,
     publisher         = "Routledge",
     doi               = "10.1201/9781315139470"
   ),
-  breiman_2001        = bibentry("article",
+  breiman_2001 = bibentry("article",
     title             = "Random Forests",
     author            = "Breiman, Leo",
     year              = 2001,
@@ -38,7 +38,7 @@ bibentries = c( # nolint start
     pages             = "5--32",
     doi               = "10.1023/A:1010933404324",
   ),
-  buehlmann_2003      = bibentry("article",
+  buehlmann_2003 = bibentry("article",
     title             = "Boosting With the L2 Loss",
     author            = "Peter B\u00fchlmann and Bin Yu",
     year              = 2003,
@@ -50,7 +50,7 @@ bibentries = c( # nolint start
     pages             = "324--339",
     doi               = "10.1198/016214503000125"
   ),
-  buehlmann_2006      = bibentry("article",
+  buehlmann_2006 = bibentry("article",
     title             = "Boosting for High-Dimensional Linear Models",
     author            = "Peter B\u00fchlmann",
     year              = 2006,
@@ -61,7 +61,7 @@ bibentries = c( # nolint start
     pages             = "559--583",
     url               = "https://www.jstor.org/stable/25463430"
   ),
-  buehlmann_2007      = bibentry("article",
+  buehlmann_2007 = bibentry("article",
     title             = "Boosting Algorithms: Regularization,  Prediction and Model Fitting",
     author            = "Peter B\u00fchlmann and Torsten Hothorn",
     year              = 2007,
@@ -73,7 +73,7 @@ bibentries = c( # nolint start
     pages             = "477--505",
     doi               = "10.1214/07-sts242"
   ),
-  burges_2010         = bibentry("techreport",
+  burges_2010 = bibentry("techreport",
     title             = "From RankNet to LambdaRank to LambdaMART: An Overview",
     author            = "Burges, Chris J.C.",
     year              = 2010,
@@ -82,7 +82,7 @@ bibentries = c( # nolint start
     url               = "https://www.microsoft.com/en-us/research/publication/from-ranknet-to-lambdarank-to-lambdamart-an-overview/",
     institution       = "Microsoft Research"
   ),
-  chambless_2006      = bibentry("article",
+  chambless_2006 = bibentry("article",
     title             = "Estimation of time-dependent area under the {ROC} curve for long-term risk prediction",
     author            = "Lloyd E. Chambless and Guoqing Diao",
     year              = 2006,
@@ -93,7 +93,7 @@ bibentries = c( # nolint start
     pages             = "3474--3486",
     doi               = "10.1002/sim.2299"
   ),
-  cox_1972            = bibentry("article",
+  cox_1972 = bibentry("article",
     title             = "Regression Models and Life-Tables",
     author            = "D. R. Cox",
     year              = 1972,
@@ -105,7 +105,7 @@ bibentries = c( # nolint start
     pages             = "187--202",
     doi               = "10.1111/j.2517-6161.1972.tb00899.x"
   ),
-  freund_1996         = bibentry("inproceedings",
+  freund_1996 = bibentry("inproceedings",
     title             = "Experiments with a new boosting algorithm",
     author            = "Freund, Yoav and Schapire, Robert E and others",
     year              = 1996,
@@ -114,7 +114,7 @@ bibentries = c( # nolint start
     pages             = "148--156",
     organization      = "Citeseer"
   ),
-  freund_1997         = bibentry("article",
+  freund_1997 = bibentry("article",
     title             = "A Decision-Theoretic Generalization of On-Line Learning and an Application to Boosting",
     author            = "Yoav Freund and Robert E Schapire",
     year              = 1997,
@@ -126,7 +126,7 @@ bibentries = c( # nolint start
     pages             = "119--139",
     doi               = "10.1006/jcss.1997.1504"
   ),
-  friedman_2000       = bibentry("article",
+  friedman_2000 = bibentry("article",
     title             = "Additive logistic regression: a statistical view of boosting (With discussion and a rejoinder by the authors)",
     author            = "Jerome Friedman and Trevor Hastie and Robert Tibshirani",
     year              = 2000,
@@ -138,7 +138,7 @@ bibentries = c( # nolint start
     pages             = "337--407",
     doi               = "10.1214/aos/1016218223"
   ),
-  friedman_2001       = bibentry("article",
+  friedman_2001 = bibentry("article",
     title             = "Greedy Function Approximation: A Gradient Boosting Machine",
     author            = "Jerome H. Friedman",
     year              = 2001,
@@ -149,7 +149,7 @@ bibentries = c( # nolint start
     pages             = "1189--1232",
     url               = "https://www.jstor.org/stable/2699986"
   ),
-  friedman_2002       = bibentry("article",
+  friedman_2002 = bibentry("article",
     title             = "Stochastic gradient boosting",
     author            = "Jerome H. Friedman",
     year              = 2002,
@@ -161,7 +161,7 @@ bibentries = c( # nolint start
     pages             = "367--378",
     doi               = "10.1016/s0167-9473(01)00065-2"
   ),
-  friedman_2010       = bibentry("article",
+  friedman_2010 = bibentry("article",
     title             = "Regularization Paths for Generalized Linear Models via Coordinate Descent",
     author            = "Jerome Friedman and Trevor Hastie and Robert Tibshirani",
     year              = 2010,
@@ -171,7 +171,7 @@ bibentries = c( # nolint start
     number            = 1,
     doi               = "10.18637/jss.v033.i01"
   ),
-  goeman_2009         = bibentry("article",
+  goeman_2009 = bibentry("article",
     title             = "L1Penalized Estimation in the Cox Proportional Hazards Model",
     author            = "Jelle J. Goeman",
     year              = 2009,
@@ -181,7 +181,7 @@ bibentries = c( # nolint start
     pages             = "NA--NA",
     doi               = "10.1002/bimj.200900028"
   ),
-  goenen_2005         = bibentry("article",
+  goenen_2005 = bibentry("article",
     title             = "Concordance probability and discriminatory power in proportional hazards regression",
     author            = "Mithat G\u00f6nen and Glenn Heller",
     year              = 2005,
@@ -193,7 +193,7 @@ bibentries = c( # nolint start
     pages             = "965--970",
     doi               = "10.1093/biomet/92.4.965"
   ),
-  graf_1999           = bibentry("article",
+  graf_1999 = bibentry("article",
     title             = "Assessment and comparison of prognostic classification schemes for survival data",
     author            = "Erika Graf and Claudia Schmoor and Willi Sauerbrei and Martin Schumacher",
     year              = 1999,
@@ -205,7 +205,7 @@ bibentries = c( # nolint start
     pages             = "2529--2545",
     doi               = "10.1002/(sici)1097-0258(19990915/30)18:17/18<2529::aid-sim274>3.0.co;2-5"
   ),
-  harrell_1982        = bibentry("article",
+  harrell_1982 = bibentry("article",
     title             = "Evaluating the yield of medical tests",
     author            = "Harrell, Frank E and Califf, Robert M and Pryor, David B and Lee, Kerry L and Rosati, Robert A",
     year              = 1982,
@@ -215,7 +215,7 @@ bibentries = c( # nolint start
     number            = 18,
     pages             = "2543--2546"
   ),
-  hofner_2012         = bibentry("article",
+  hofner_2012 = bibentry("article",
     title             = "Model-based boosting in R: a hands-on tutorial using the R package mboost",
     author            = "Benjamin Hofner and Andreas Mayr and Nikolay Robinzonov and Matthias Schmid",
     year              = 2012,
@@ -227,7 +227,7 @@ bibentries = c( # nolint start
     pages             = "3--35",
     doi               = "10.1007/s00180-012-0382-5"
   ),
-  hothorn_2006        = bibentry("article",
+  hothorn_2006 = bibentry("article",
     title             = "Unbiased Recursive Partitioning: A Conditional Inference Framework",
     author            = "Torsten Hothorn and Kurt Hornik and Achim Zeileis",
     year              = 2006,
@@ -239,7 +239,7 @@ bibentries = c( # nolint start
     pages             = "651--674",
     doi               = "10.1198/106186006x133933"
   ),
-  hothorn_2010        = bibentry("article",
+  hothorn_2010 = bibentry("article",
     title             = "Model-based boosting 2.0",
     author            = "Hothorn, Torsten and B\u00fchlmann, Peter and Kneib, Thomas and Schmid, Matthias and Hofner, Benjamin",
     year              = 2010,
@@ -249,7 +249,7 @@ bibentries = c( # nolint start
     pages             = "2109--2113",
     url               = "https://www.jmlr.org/papers/v11/hothorn10a.html"
   ),
-  hung_2010           = bibentry("article",
+  hung_2010 = bibentry("article",
     title             = "Estimation methods for time-dependent AUC models with survival data",
     author            = "Hung Hung and Chin-Tsang Chiang",
     year              = 2010,
@@ -260,7 +260,7 @@ bibentries = c( # nolint start
     pages             = "8--26",
     url               = "https://www.jstor.org/stable/27805213"
   ),
-  ishwaran_2008       = bibentry("article",
+  ishwaran_2008 = bibentry("article",
     title             = "Random survival forests",
     author            = "Ishwaran, Hemant and Kogalur, Udaya B and Blackstone, Eugene H and Lauer, Michael S and others",
     year              = 2008,
@@ -270,7 +270,7 @@ bibentries = c( # nolint start
     number            = 3,
     pages             = "841--860"
   ),
-  kalbfleisch_2002    = bibentry("book",
+  kalbfleisch_2002 = bibentry("book",
     title             = "The Statistical Analysis of Failure Time Data",
     author            = "John D. Kalbfleisch and Ross L. Prentice",
     year              = 2002,
@@ -278,7 +278,7 @@ bibentries = c( # nolint start
     publisher         = "John Wiley & Sons,  Inc.",
     doi               = "10.1002/9781118032985"
   ),
-  kaplan_1958         = bibentry("article",
+  kaplan_1958 = bibentry("article",
     title             = "Nonparametric Estimation from Incomplete Observations",
     author            = "E. L. Kaplan and Paul Meier",
     year              = 1958,
@@ -290,7 +290,7 @@ bibentries = c( # nolint start
     pages             = "457--481",
     doi               = "10.1080/01621459.1958.10501452"
   ),
-  kneib_2008          = bibentry("article",
+  kneib_2008 = bibentry("article",
     title             = "Variable Selection and Model Choice in Geoadditive Regression Models",
     author            = "Thomas Kneib and Torsten Hothorn and Gerhard Tutz",
     year              = 2008,
@@ -302,14 +302,14 @@ bibentries = c( # nolint start
     pages             = "626--634",
     doi               = "10.1111/j.1541-0420.2008.01112.x"
   ),
-  kriegler_2007       = bibentry("phdthesis",
+  kriegler_2007 = bibentry("phdthesis",
     title             = "Cost-Sensitive Stochastic Gradient Boosting Within a Quantitative Regression Framework",
     author            = "Kriegler, Brian",
     year              = 2007,
     url               = "https://dl.acm.org/citation.cfm?id=1354603",
     school            = "University of California at Los Angeles"
   ),
-  nagelkerke_1991     = bibentry("article",
+  nagelkerke_1991 = bibentry("article",
     title             = "A note on a general definition of the coefficient of determination",
     author            = "Nagelkerke, Nico JD and others",
     year              = 1991,
@@ -319,7 +319,7 @@ bibentries = c( # nolint start
     number            = 3,
     pages             = "691--692"
   ),
-  nelson_1969         = bibentry("article",
+  nelson_1969 = bibentry("article",
     title             = "Hazard Plotting for Incomplete Failure Data",
     author            = "Wayne Nelson",
     year              = 1969,
@@ -331,7 +331,7 @@ bibentries = c( # nolint start
     pages             = "27--52",
     doi               = "10.1080/00224065.1969.11980344"
   ),
-  nelson_1972         = bibentry("article",
+  nelson_1972 = bibentry("article",
     title             = "Theory and Applications of Hazard Plotting for Censored Failure Data",
     author            = "Wayne Nelson",
     year              = 1972,
@@ -343,7 +343,7 @@ bibentries = c( # nolint start
     pages             = "945--966",
     doi               = "10.1080/00401706.1972.10488991"
   ),
-  oquigley_2005       = bibentry("article",
+  oquigley_2005 = bibentry("article",
     title             = "Explained randomness in proportional hazards models",
     author            = "John O'Quigley and Ronghui Xu and Janez Stare",
     year              = 2005,
@@ -354,7 +354,7 @@ bibentries = c( # nolint start
     pages             = "479--489",
     doi               = "10.1002/sim.1946"
   ),
-  ridgeway_1999       = bibentry("article",
+  ridgeway_1999 = bibentry("article",
     title             = "The state of boosting",
     author            = "Ridgeway, Greg",
     year              = 1999,
@@ -362,7 +362,7 @@ bibentries = c( # nolint start
     number            = 31,
     pages             = "172--181"
   ),
-  royston_2002        = bibentry("article",
+  royston_2002 = bibentry("article",
     title             = "Flexible parametric proportional-hazards and proportional-odds models for censored survival data,  with application to prognostic modelling and estimation of treatment effects",
     author            = "Patrick Royston and Mahesh K. B. Parmar",
     year              = 2002,
@@ -373,7 +373,7 @@ bibentries = c( # nolint start
     pages             = "2175--2197",
     doi               = "10.1002/sim.1203"
   ),
-  schmid_2008         = bibentry("article",
+  schmid_2008 = bibentry("article",
     title             = "Boosting additive models using component-wise P-Splines",
     author            = "Matthias Schmid and Torsten Hothorn",
     year              = 2008,
@@ -385,7 +385,7 @@ bibentries = c( # nolint start
     pages             = "298--311",
     doi               = "10.1016/j.csda.2008.09.009"
   ),
-  song_2008           = bibentry("article",
+  song_2008 = bibentry("article",
     title             = "A semiparametric approach for the covariate specific ROC curve with survival outcome",
     author            = "Song, Xiao and Zhou, Xiao-Hua",
     year              = 2008,
@@ -395,7 +395,7 @@ bibentries = c( # nolint start
     pages             = "947--65",
     url               = "https://www.jstor.org/stable/24308524"
   ),
-  uno_2007            = bibentry("article",
+  uno_2007 = bibentry("article",
     title             = "Evaluating Prediction Rules fort-Year Survivors With Censored Regression Models",
     author            = "Hajime Uno and Tianxi Cai and Lu Tian and L. J Wei",
     year              = 2007,
@@ -407,7 +407,7 @@ bibentries = c( # nolint start
     pages             = "527--537",
     doi               = "10.1198/016214507000000149"
   ),
-  uno_2011            = bibentry("article",
+  uno_2011 = bibentry("article",
     title             = "On the C-statistics for evaluating overall adequacy of risk prediction procedures with censored survival data",
     author            = "Hajime Uno and Tianxi Cai and Michael J. Pencina and Ralph B. D'Agostino and L. J. Wei",
     year              = 2011,
@@ -416,7 +416,7 @@ bibentries = c( # nolint start
     pages             = "n/a--n/a",
     doi               = "10.1002/sim.4154"
   ),
-  vanbelle_2010       = bibentry("article",
+  vanbelle_2010 = bibentry("article",
     title             = "Improved performance on high-dimensional survival data by application of Survival-{SVM}",
     author            = "V. Van Belle and K. Pelckmans and S. Van Huffel and J. A. K. Suykens",
     year              = 2010,
@@ -428,7 +428,7 @@ bibentries = c( # nolint start
     pages             = "87--94",
     doi               = "10.1093/bioinformatics/btq617"
   ),
-  vanbelle_2011       = bibentry("article",
+  vanbelle_2011 = bibentry("article",
     title             = "Support vector methods for survival analysis: a comparison between ranking and regression approaches",
     author            = "Vanya Van Belle and Kristiaan Pelckmans and Sabine Van Huffel and Johan A.K. Suykens",
     year              = 2011,
@@ -440,7 +440,7 @@ bibentries = c( # nolint start
     pages             = "107--118",
     doi               = "10.1016/j.artmed.2011.06.006"
   ),
-  wright_2017         = bibentry("article",
+  wright_2017 = bibentry("article",
     title             = "ranger: A Fast Implementation of Random Forests for High Dimensional Data in {C++} and {R}",
     author            = "Wright, Marvin N. and Ziegler, Andreas",
     year              = 2017,
@@ -450,7 +450,7 @@ bibentries = c( # nolint start
     pages             = "1--17",
     doi               = "10.18637/jss.v077.i01"
   ),
-  xu_1999             = bibentry("article",
+  xu_1999 = bibentry("article",
     title             = "A R2 type measure of dependence for proportional hazards models",
     author            = "Ronghui Xu and John O'Quigley",
     year              = 1999,
@@ -462,7 +462,7 @@ bibentries = c( # nolint start
     pages             = "83--107",
     doi               = "10.1080/10485259908832799"
   ),
-  jaeger_2019         = bibentry("article",
+  jaeger_2019 = bibentry("article",
     title             = "Oblique random survival forests",
     volume            = "13",
     url               = "https://projecteuclid.org/euclid.aoas/1571277776",
@@ -476,7 +476,7 @@ bibentries = c( # nolint start
     year              = "2019",
     pages             = "1847--1883"
   ),
-  silverman_1986      = bibentry("book",
+  silverman_1986 = bibentry("book",
     address           = "London",
     author            = "Silverman, B. W.",
     biburl            = "https://www.bibsonomy.org/bibtex/25c3b630fb0a76da55942a77551fde8a2/pierpaolo.pk81",
@@ -486,7 +486,7 @@ bibentries = c( # nolint start
     title             = "Density Estimation for Statistics and Data Analysis",
     year              = 1986
   ),
-  chen_2016           = bibentry("article",
+  chen_2016 = bibentry("article",
     title             = "{XGBoost}: {A} {Scalable} {Tree} {Boosting} {System}",
     url               = "https://arxiv.org/abs/1603.02754",
     journal           = "Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining - KDD '16",
@@ -495,7 +495,7 @@ bibentries = c( # nolint start
     note              = "arXiv: 1603.02754",
     pages             = "785--794"
   ),
-  binder_2009         = bibentry("article",
+  binder_2009 = bibentry("article",
     author            = "Binder, H. and Allignol, A. and Schumacher, M. and Beyersmann, J.",
     year              = "2009",
     title             = "Boosting for high-dimensional time-to-event data with competing risks",
@@ -503,7 +503,7 @@ bibentries = c( # nolint start
     pages             = "890--896",
     volume            = "25"
   ),
-  schemper_2000       = bibentry("article",
+  schemper_2000 = bibentry("article",
     author            = "Schemper, Michael and Henderson, Robin",
     doi               = "10.1002/sim.1486",
     journal           = "Biometrics",
@@ -513,7 +513,7 @@ bibentries = c( # nolint start
     volume            = "56",
     year              = "2000"
   ),
-  schmid_2011         = bibentry("article",
+  schmid_2011 = bibentry("article",
     author            = "Schmid, Matthias and Hielscher, Thomas and Augustin, Thomas and Gefeller, Olaf",
     doi               = "10.1111/j.1541-0420.2010.01459.x",
     journal           = "Biometrics",
@@ -535,7 +535,7 @@ bibentries = c( # nolint start
     volume            = "19",
     year              = "2000"
   ),
-  peto_1972           = bibentry("article",
+  peto_1972 = bibentry("article",
     author            = "Peto, Richard and Peto, Julian",
     journal           = "Journal of the Royal Statistical Society: Series A (General)",
     number            = "2",
@@ -545,7 +545,7 @@ bibentries = c( # nolint start
     volume            = "135",
     year              = "1972"
   ),
-  schemper_2009       = bibentry("article",
+  schemper_2009 = bibentry("article",
     author            = "Schemper, Michael and Wakounig, Samo and Heinze, Georg",
     doi               = "10.1002/sim.3623",
     journal           = "Statistics in Medicine",
@@ -557,7 +557,7 @@ bibentries = c( # nolint start
     volume            = "28",
     year              = "2009"
   ),
-  vock_2016           = bibentry("article",
+  vock_2016 = bibentry("article",
     author            = "Vock, David M and Wolfson, Julian and Bandyopadhyay, Sunayan and Adomavicius, Gediminas and Johnson, Paul E and Vazquez-Benitez, Gabriela and O'Connor, Patrick J",
     doi               = "https://doi.org/10.1016/j.jbi.2016.03.009",
     journal           = "Journal of Biomedical Informatics",
@@ -567,7 +567,7 @@ bibentries = c( # nolint start
     volume            = "61",
     year              = "2016"
   ),
-  jackson_2014        = bibentry("article",
+  jackson_2014 = bibentry("article",
     author            = "Jackson, Dan and White, Ian R. and Seaman, Shaun and Evans, Hannah and Baisley, Kathy and Carpenter, James",
     doi               = "10.1002/sim.6274",
     journal           = "Statistics in Medicine",
@@ -579,7 +579,7 @@ bibentries = c( # nolint start
     volume            = "33",
     year              = "2014"
   ),
-  klein_2003          = bibentry("book",
+  klein_2003 = bibentry("book",
     author            = "Klein, John P and Moeschberger, Melvin L",
     edition           = "2",
     isbn              = "0387216456",
@@ -587,7 +587,7 @@ bibentries = c( # nolint start
     title             = "Survival analysis: techniques for censored and truncated data",
     year              = "2003"
   ),
-  buckley_1979        = bibentry("article",
+  buckley_1979 = bibentry("article",
     author            = "Buckley, Jonathan and James, Ian",
     doi               = "10.2307/2335161",
     journal           = "Biometrika",
@@ -601,7 +601,7 @@ bibentries = c( # nolint start
     year              = "1979"
   ),
 
-  haider_2020         = bibentry("article",
+  haider_2020 = bibentry("article",
     author            = "Haider, Humza and Hoehn, Bret and Davis, Sarah and Greiner, Russell",
     journal           = "Journal of Machine Learning Research",
     volume            = "21",

@@ -27,18 +27,18 @@ Wrapper around \link{PipeOpSurvAvg} to simplify \link[mlr3pipelines:Graph]{Graph
 \examples{
 \dontrun{
 if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
-library("mlr3")
-library("mlr3pipelines")
+  library("mlr3")
+  library("mlr3pipelines")
 
-task = tsk("rats")
-pipe = ppl(
-  "survaverager",
-  learners = lrns(c("surv.kaplan", "surv.coxph")),
-  param_vals = list(weights = c(0.1, 0.9)),
-  graph_learner = FALSE
- )
-pipe$train(task)
-pipe$predict(task)
+  task = tsk("rats")
+  pipe = ppl(
+    "survaverager",
+    learners = lrns(c("surv.kaplan", "surv.coxph")),
+    param_vals = list(weights = c(0.1, 0.9)),
+    graph_learner = FALSE
+  )
+  pipe$train(task)
+  pipe$predict(task)
 }
 }
 }

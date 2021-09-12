@@ -40,7 +40,7 @@ PredictionDens = R6Class("PredictionDens",
     #' @param check (`logical(1)`)\cr
     #'   If `TRUE`, performs argument checks and predict type conversions.
     initialize = function(task = NULL, row_ids = task$row_ids, pdf = NULL,
-                          cdf = NULL, distr = NULL, check = TRUE) {
+      cdf = NULL, distr = NULL, check = TRUE) {
       pdata = list(row_ids = row_ids, pdf = pdf, cdf = cdf, distr = distr)
       pdata = discard(pdata, is.null)
       class(pdata) = c("PredictionDataDens", "PredictionData")

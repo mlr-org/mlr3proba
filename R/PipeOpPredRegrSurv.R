@@ -24,26 +24,26 @@
 #' @examples
 #' \dontrun{
 #' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
-#' library(mlr3)
-#' library(mlr3pipelines)
+#'   library(mlr3)
+#'   library(mlr3pipelines)
 #'
-#' # simple example
-#' pred = PredictionRegr$new(row_ids = 1:10, truth = 1:10, response = 1:10)
-#' po = po("trafopred_regrsurv")
+#'   # simple example
+#'   pred = PredictionRegr$new(row_ids = 1:10, truth = 1:10, response = 1:10)
+#'   po = po("trafopred_regrsurv")
 #'
-#' # assume no censoring
-#' new_pred = po$predict(list(pred = pred, task = NULL))[[1]]
-#' po$train(list(NULL, NULL))
-#' print(new_pred)
+#'   # assume no censoring
+#'   new_pred = po$predict(list(pred = pred, task = NULL))[[1]]
+#'   po$train(list(NULL, NULL))
+#'   print(new_pred)
 #'
-#' # add censoring
-#' task_surv = tsk("rats")
-#' task_regr = po("trafotask_survregr", method = "omit")$train(list(task_surv, NULL))[[1]]
-#' learn = lrn("regr.featureless")
-#' pred = learn$train(task_regr)$predict(task_regr)
-#' po = po("trafopred_regrsurv")
-#' new_pred = po$predict(list(pred = pred, task = task_surv))[[1]]
-#' all.equal(new_pred$truth, task_surv$truth())
+#'   # add censoring
+#'   task_surv = tsk("rats")
+#'   task_regr = po("trafotask_survregr", method = "omit")$train(list(task_surv, NULL))[[1]]
+#'   learn = lrn("regr.featureless")
+#'   pred = learn$train(task_regr)$predict(task_regr)
+#'   po = po("trafopred_regrsurv")
+#'   new_pred = po$predict(list(pred = pred, task = task_surv))[[1]]
+#'   all.equal(new_pred$truth, task_surv$truth())
 #' }
 #' }
 #' @family PipeOps
@@ -62,11 +62,11 @@ PipeOpPredRegrSurv = R6Class("PipeOpPredRegrSurv",
       ))
 
       super$initialize(id = id,
-                       param_set = ps,
-                       param_vals = param_vals,
-                       input = data.table(name = c("pred", "task"), train = "NULL",
-                                          predict = c("PredictionRegr", "*")),
-                       output = data.table(name = "output", train = "NULL", predict = "PredictionSurv")
+        param_set = ps,
+        param_vals = param_vals,
+        input = data.table(name = c("pred", "task"), train = "NULL",
+          predict = c("PredictionRegr", "*")),
+        output = data.table(name = "output", train = "NULL", predict = "PredictionSurv")
       )
     }
   ),
@@ -93,13 +93,13 @@ PipeOpPredRegrSurv = R6Class("PipeOpPredRegrSurv",
       target_type = self$param_set$values$target_type
       if (is.null(target_type) || target_type == "response") {
         response = input$response
-      } else  if (target_type == "lp") {
+      } else if (target_type == "lp") {
         lp = input$response
       }
 
       PredictionSurv$new(row_ids = input$row_ids, truth = truth,
-                         distr = distr, crank = input$response, response = response,
-                         lp = lp)
+        distr = distr, crank = input$response, response = response,
+        lp = lp)
     }
   )
 )

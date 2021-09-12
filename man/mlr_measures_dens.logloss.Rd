@@ -57,7 +57,7 @@ probability density function, \eqn{f}, evaluated at the observed value, \eqn{y},
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureDensLogloss$new(eps = 1e-15)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MeasureDensLogloss$new(eps = 0.000000000000001)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

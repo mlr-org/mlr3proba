@@ -56,9 +56,9 @@ MeasureSurvCalibrationAlpha = R6Class("MeasureSurvCalibrationAlpha",
       deaths = sum(prediction$truth[, 2])
 
       if (self$se) {
-        return(exp(1/sqrt(deaths)))
+        return(exp(1 / sqrt(deaths)))
       } else {
-        haz = prediction$distr$cumHazard(data = matrix(prediction$truth[,1], nrow = 1))
+        haz = prediction$distr$cumHazard(data = matrix(prediction$truth[, 1], nrow = 1))
         # cumulative hazard should only be infinite if only censoring occurs at the final time-point
         haz[haz == Inf] = 0
         return(deaths / sum(haz))

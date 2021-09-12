@@ -25,11 +25,11 @@ test_that("distrcompositor", {
 
 test_that("survaverager", {
   pipe = mlr3pipelines::ppl("survaverager", learners = list(lrn("surv.coxph"), lrn("surv.kaplan"),
-                                             lrn("surv.kaplan", id = "k2")))
+    lrn("surv.kaplan", id = "k2")))
   expect_class(pipe, "Graph")
   pipe = mlr3pipelines::ppl("survaverager", learners = list(lrn("surv.coxph"), lrn("surv.kaplan"),
-                                             lrn("surv.kaplan", id = "k2")),
-             graph_learner = TRUE)
+    lrn("surv.kaplan", id = "k2")),
+  graph_learner = TRUE)
   expect_class(pipe, "GraphLearner")
   pipe$train(task)
   p = pipe$predict(task)
@@ -80,7 +80,7 @@ test_that("survtoregr 2", {
   expect_true("distr" %in% p$predict_types)
 
   pipe = mlr3pipelines::ppl("survtoregr", method = 2, regr_se_learner = lrn("regr.featureless"),
-             graph_learner = TRUE)
+    graph_learner = TRUE)
   expect_class(pipe, "GraphLearner")
   pipe$train(task)
   p = pipe$predict(task)

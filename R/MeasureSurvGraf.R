@@ -48,7 +48,7 @@ MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(integrated = TRUE, times, method = 2, se = FALSE, proper = FALSE,
-                          eps = 1e-3) {
+      eps = 1e-3) {
       if (!proper) {
         warning("The default of 'proper' will be changed to 'TRUE' in v0.6.0.")
       }
@@ -97,8 +97,8 @@ MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
       }
 
       score = weighted_survival_score("graf", truth = prediction$truth,
-                                      distribution = prediction$distr, times = self$times,
-                                      proper = self$proper, train = train, eps = self$eps)
+        distribution = prediction$distr, times = self$times,
+        proper = self$proper, train = train, eps = self$eps)
 
       if (self$se) {
         integrated_se(score, self$integrated)

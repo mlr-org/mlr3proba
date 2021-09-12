@@ -65,14 +65,14 @@
 #' @examples
 #' \dontrun{
 #' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
-#' library(mlr3)
-#' library(mlr3pipelines)
-#' task = tsk("rats")
+#'   library(mlr3)
+#'   library(mlr3pipelines)
+#'   task = tsk("rats")
 #'
-#' base = lrn("surv.kaplan")$train(task)$predict(task)
-#' pred = lrn("surv.coxph")$train(task)$predict(task)
-#' pod = po("distrcompose", param_vals = list(form = "aft", overwrite = TRUE))
-#' pod$predict(list(base = base, pred = pred))[[1]]
+#'   base = lrn("surv.kaplan")$train(task)$predict(task)
+#'   pred = lrn("surv.coxph")$train(task)$predict(task)
+#'   pod = po("distrcompose", param_vals = list(form = "aft", overwrite = TRUE))
+#'   pod$predict(list(base = base, pred = pred))[[1]]
 #' }
 #' }
 PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
@@ -91,7 +91,7 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
         input = data.table(name = c("base", "pred"), train = "NULL", predict = "PredictionSurv"),
         output = data.table(name = "output", train = "NULL", predict = "PredictionSurv"),
         packages = "distr6"
-        )
+      )
     }
   ),
 

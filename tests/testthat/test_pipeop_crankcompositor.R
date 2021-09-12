@@ -28,24 +28,24 @@ test_that("response", {
   expect_equal(p$response, unlist(as.numeric(p$distr$mean())))
 
   p = pipeline_crankcompositor(lrn("surv.coxph"), response = TRUE,
-                               graph_learner = TRUE)$train(task)$predict(task)
+    graph_learner = TRUE)$train(task)$predict(task)
   expect_equal(p$response, unlist(as.numeric(p$distr$mean())))
 })
 
 test_that("overwrite crank", {
   pl = mlr3pipelines::ppl("crankcompositor",
-                          lrn("surv.kaplan"),
-                          method = "median",
-                          graph_learner = TRUE)
+    lrn("surv.kaplan"),
+    method = "median",
+    graph_learner = TRUE)
   p1 = pl$train(task)$predict(task)
   p2 = lrn("surv.kaplan")$train(task)$predict(task)
   expect_true(all(p1$crank == p2$crank))
 
   pl = mlr3pipelines::ppl("crankcompositor",
-                          lrn("surv.kaplan"),
-                          method = "median",
-                          graph_learner = TRUE,
-                          overwrite = TRUE)
+    lrn("surv.kaplan"),
+    method = "median",
+    graph_learner = TRUE,
+    overwrite = TRUE)
   p1 = pl$train(task)$predict(task)
   p2 = lrn("surv.kaplan")$train(task)$predict(task)
   expect_false(all(p1$crank == p2$crank))
@@ -61,7 +61,7 @@ test_that("overwrite response", {
 
   p1 = PredictionSurv$new(task = task, crank = p$crank, distr = p$distr, response = rexp(20, 0.5))
   po = PipeOpCrankCompositor$new(param_vals = list(response = TRUE, overwrite = TRUE,
-                                                   method = "median"))
+    method = "median"))
   p2 = po$predict(list(p1))[[1]]
   expect_false(all(p1$response == p2$response))
   expect_equal(p2$response, as.numeric(unlist(p1$distr$median())))
@@ -69,10 +69,10 @@ test_that("overwrite response", {
 
 test_that("neg crank", {
   pl = mlr3pipelines::ppl("crankcompositor",
-                          lrn("surv.kaplan"),
-                          method = "median",
-                          graph_learner = TRUE,
-                          overwrite = TRUE)
+    lrn("surv.kaplan"),
+    method = "median",
+    graph_learner = TRUE,
+    overwrite = TRUE)
   p = pl$train(task)$predict(task)
   expect_true(all(p$crank < 0))
   expect_true(p$score() >= 0.5)

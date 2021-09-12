@@ -75,10 +75,13 @@ c.PredictionDataSurv = function(..., keep_duplicates = TRUE) {
         do.call(rbind, map(dots, "distr")),
         error = function(e) {
           do.call(c, map(dots,
-                         function(x) as.Distribution(1 - x$distr, "cdf",
-                                                     decorators = c("CoreStatistics",
-                                                                    "ExoticStatistics"))))
-        })
+            function(x) {
+              as.Distribution(1 - x$distr, "cdf",
+                decorators = c("CoreStatistics",
+                  "ExoticStatistics"))
+            }))
+        }
+      )
     }
   }
 

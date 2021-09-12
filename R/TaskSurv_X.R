@@ -79,7 +79,7 @@ load_lung = function() {
 NULL
 load_actg = function() {
   data = load_dataset("actg", "mlr3proba")
-  data[,c("id", "time_d", "censor_d")] = NULL
+  data[, c("id", "time_d", "censor_d")] = NULL
   colnames(data)[6] = "sexF"
   colnames(data)[2] = "status"
   b = as_data_backend(data)
@@ -100,7 +100,7 @@ load_actg = function() {
 NULL
 load_gbcs = function() {
   data = load_dataset("gbcs", "mlr3proba")
-  data[,c("id", "diagdate", "recdate", "deathdate", "rectime", "censrec")] = NULL
+  data[, c("id", "diagdate", "recdate", "deathdate", "rectime", "censrec")] = NULL
   colnames(data)[9:10] = c("time", "status")
   b = as_data_backend(data)
   b$hash = "_mlr3_survival_gbcs_"
@@ -119,7 +119,7 @@ load_gbcs = function() {
 NULL
 load_grace = function() {
   data = load_dataset("grace", "mlr3proba")
-  data[,c("id")] = NULL
+  data[, c("id")] = NULL
   colnames(data)[1:2] = c("time", "status")
   b = as_data_backend(data)
   b$hash = "_mlr3_survival_grace_"
@@ -139,7 +139,7 @@ load_grace = function() {
 NULL
 load_whas = function() {
   data = load_dataset("whas", "mlr3proba")
-  data[,c("id", "yrgrp", "dstat")] = NULL
+  data[, c("id", "yrgrp", "dstat")] = NULL
   colnames(data)[2] = "sexF"
   colnames(data)[10:11] = c("time", "status")
   b = as_data_backend(data)

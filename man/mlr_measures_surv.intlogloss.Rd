@@ -140,7 +140,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \if{html}{\out{<div class="r">}}\preformatted{MeasureSurvIntLogloss$new(
   integrated = TRUE,
   times,
-  eps = 1e-15,
+  eps = 0.000000000000001,
   method = 2,
   se = FALSE,
   proper = FALSE

@@ -30,7 +30,6 @@ task$status()
 task$unique_times()
 task$unique_event_times()
 task$risk_set(time = 700)
-
 }
 \seealso{
 Other Task: 

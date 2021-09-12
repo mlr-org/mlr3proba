@@ -75,10 +75,10 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id = "compose_crank", param_vals = list(method = "mean", response = FALSE,
-                                                                  overwrite = FALSE)) {
+      overwrite = FALSE)) {
       ps = ParamSet$new(params = list(
         ParamFct$new("method", default = "mean", levels = c("mean", "median", "mode"),
-                     tags = "predict"),
+          tags = "predict"),
         ParamInt$new("which", default = 1, lower = 1, tags = "predict"),
         ParamLgl$new("response", default = FALSE, tags = "predict"),
         ParamLgl$new("overwrite", default = FALSE, tags = "predict")
@@ -92,7 +92,7 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
         input = data.table(name = "input", train = "NULL", predict = "PredictionSurv"),
         output = data.table(name = "output", train = "NULL", predict = "PredictionSurv"),
         packages = "distr6"
-        )
+      )
     }
   ),
 
@@ -131,8 +131,8 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
           }
         } else {
           comp = switch(method,
-                        median = inpred$distr$median(),
-                        mode = inpred$distr$mode(self$param_set$values$which))
+            median = inpred$distr$median(),
+            mode = inpred$distr$mode(self$param_set$values$which))
         }
 
         comp = as.numeric(comp)

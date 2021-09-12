@@ -10,35 +10,35 @@ repos:
     # codemeta must be above use-tidy-description when both are used
     # -   id: codemeta-description-updated
     -   id: use-tidy-description
-    -   id: spell-check
-        exclude: >
-          (?x)^(
-          .*\.[rR]|
-          .*\.feather|
-          .*\.jpeg|
-          .*\.pdf|
-          .*\.png|
-          .*\.py|
-          .*\.RData|
-          .*\.rds|
-          .*\.Rds|
-          .*\.Rproj|
-          .*\.sh|
-          (.*/|)\.gitignore|
-          (.*/|)\.pre-commit-.*|
-          (.*/|)\.Rbuildignore|
-          (.*/|)\.Renviron|
-          (.*/|)\.Rprofile|
-          (.*/|)\.travis\.yml|
-          (.*/|)appveyor\.yml|
-          (.*/|)NAMESPACE|
-          (.*/|)renv/settings\.dcf|
-          (.*/|)renv\.lock|
-          (.*/|)WORDLIST|
-          \.github/workflows/.*|
-          data/.*|
-          )$
-    -   id: lintr
+    # -   id: spell-check
+    #     exclude: >
+    #       (?x)^(
+    #       .*\.[rR]|
+    #       .*\.feather|
+    #       .*\.jpeg|
+    #       .*\.pdf|
+    #       .*\.png|
+    #       .*\.py|
+    #       .*\.RData|
+    #       .*\.rds|
+    #       .*\.Rds|
+    #       .*\.Rproj|
+    #       .*\.sh|
+    #       (.*/|)\.gitignore|
+    #       (.*/|)\.pre-commit-.*|
+    #       (.*/|)\.Rbuildignore|
+    #       (.*/|)\.Renviron|
+    #       (.*/|)\.Rprofile|
+    #       (.*/|)\.travis\.yml|
+    #       (.*/|)appveyor\.yml|
+    #       (.*/|)NAMESPACE|
+    #       (.*/|)renv/settings\.dcf|
+    #       (.*/|)renv\.lock|
+    #       (.*/|)WORDLIST|
+    #       \.github/workflows/.*|
+    #       data/.*|
+    #       )$
+    # -   id: lintr
     -   id: readme-rmd-rendered
     -   id: parsable-R
     -   id: no-browser-statement

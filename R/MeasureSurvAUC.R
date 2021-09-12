@@ -14,7 +14,7 @@ MeasureSurvAUC = R6Class("MeasureSurvAUC",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(integrated = TRUE, times, id, properties = character(),
-                          man = NA_character_) {
+      man = NA_character_) {
       if (class(self)[[1]] == "MeasureSurvAUC") {
         stop("This is an abstract class that should not be constructed directly.")
       }

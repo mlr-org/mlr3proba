@@ -103,16 +103,16 @@ MeasureSurvDCalibration = R6Class("MeasureSurvDCalibration",
         } else {
           # uncensored observations spread across buckets with most weighting on penultimate
           for (k in seq.int(ji - 1)) {
-            bj[k] = bj[k] + 1/(self$B * si[[i]])
+            bj[k] = bj[k] + 1 / (self$B * si[[i]])
           }
-          bj[ji] = bj[ji] + (1 - (ji - 1)/(self$B * si[[i]]))
+          bj[ji] = bj[ji] + (1 - (ji - 1) / (self$B * si[[i]]))
         }
       }
 
       if (self$chisq) {
         return(stats::chisq.test(bj)$p.value)
       } else {
-        return((self$B/length(si)) * sum((bj - length(si)/self$B)^2))
+        return((self$B / length(si)) * sum((bj - length(si) / self$B)^2))
       }
     }
   )

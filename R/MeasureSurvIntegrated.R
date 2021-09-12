@@ -20,8 +20,8 @@ MeasureSurvIntegrated = R6Class("MeasureSurvIntegrated",
   public = list(
     #' @description This is an abstract class that should not be constructed directly.
     initialize = function(integrated = TRUE, times, method = 2, proper = FALSE,
-                          eps = 1e-15, id, range, minimize, packages, predict_type,
-                          properties = character(), man = NA_character_, se = FALSE) {
+      eps = 1e-15, id, range, minimize, packages, predict_type,
+      properties = character(), man = NA_character_, se = FALSE) {
 
       if (class(self)[[1]] == "MeasureSurvIntegrated") {
         stop("This is an abstract class that should not be constructed directly.")

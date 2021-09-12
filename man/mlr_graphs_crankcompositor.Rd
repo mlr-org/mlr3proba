@@ -53,17 +53,17 @@ Wrapper around \link{PipeOpCrankCompositor} to simplify \link[mlr3pipelines:Grap
 \examples{
 \dontrun{
 if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
-library("mlr3")
-library("mlr3pipelines")
+  library("mlr3")
+  library("mlr3pipelines")
 
-task = tsk("rats")
-pipe = ppl(
-  "crankcompositor",
-  learner = lrn("surv.coxph"),
-  method = "median"
-)
-pipe$train(task)
-pipe$predict(task)
+  task = tsk("rats")
+  pipe = ppl(
+    "crankcompositor",
+    learner = lrn("surv.coxph"),
+    method = "median"
+  )
+  pipe$train(task)
+  pipe$predict(task)
 }
 }
 }

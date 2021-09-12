@@ -10,7 +10,7 @@
 #' survival expectation, computed by `colSums(surv)`.
 #' @param lp (`numeric()`)\cr Predicted linear predictor, used to impute `crank` if `NULL`.
 #' @param response (`numeric()`)\cr Predicted survival time, passed through function without
-#'modification.
+#' modification.
 #' @details
 #' To avoid complications caused by degenerative distributions, if `0` is not in `times`, then
 #' this is added as the first time-point and a column of `1`s is bound to the left of `surv`.
@@ -40,8 +40,8 @@
       times = c(times, max(times) + 1e-3)
       surv = cbind(surv, 0)
     }
-    colnames(surv) <- times
-    out$distr <- surv
+    colnames(surv) = times
+    out$distr = surv
   }
 
   if (is.null(crank)) {
