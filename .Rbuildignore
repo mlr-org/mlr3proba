@@ -23,3 +23,4 @@ cran\-comments\.md
 README.html
 ^\.vscode$
 ^\.lintr$
+^\.pre-commit-config\.yaml$
