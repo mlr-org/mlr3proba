@@ -25,13 +25,12 @@ Authors@R:
              role = "ctb",
              email = "bender.at.R@gmail.com",
              comment = c(ORCID = "0000-0001-5628-8611")))
-Description: Provides extensions for probabilistic supervised
-    learning for 'mlr3'.  This includes extending the regression task to
-    probabilistic and interval regression, adding a survival task, and
-    other specialized models, predictions, and measures.
+Description: Provides extensions for probabilistic supervised learning for
+    'mlr3'.  This includes extending the regression task to probabilistic
+    and interval regression, adding a survival task, and other specialized
+    models, predictions, and measures.
 License: LGPL-3
-URL: https://mlr3proba.mlr-org.com,
-    https://github.com/mlr-org/mlr3proba
+URL: https://mlr3proba.mlr-org.com, https://github.com/mlr-org/mlr3proba
 BugReports: https://github.com/mlr-org/mlr3proba/issues
 Depends:
     mlr3 (>= 0.12.0),
@@ -65,7 +64,7 @@ Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
 Roxygen: list(markdown = TRUE, r6 = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Collate:
     'LearnerDens.R'
     'LearnerDensHistogram.R'
@@ -104,6 +103,7 @@ Collate:
     'MeasureSurvUnoTPR.R'
     'MeasureSurvXuR2.R'
     'PipeOpCrankCompositor.R'
+    'PipeOpDensAvg.R'
     'PipeOpDistrCompositor.R'
     'PipeOpTransformer.R'
     'PipeOpPredTransformer.R'

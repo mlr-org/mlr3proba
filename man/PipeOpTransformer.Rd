@@ -28,6 +28,7 @@ another type.
 Other PipeOps: 
 \code{\link{PipeOpPredTransformer}},
 \code{\link{PipeOpTaskTransformer}},
+\code{\link{mlr_pipeops_densavg}},
 \code{\link{mlr_pipeops_survavg}},
 \code{\link{mlr_pipeops_trafopred_regrsurv}},
 \code{\link{mlr_pipeops_trafopred_survregr}},

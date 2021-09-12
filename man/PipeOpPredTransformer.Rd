@@ -34,6 +34,7 @@ objects from one class (e.g. regr, classif) to another.
 Other PipeOps: 
 \code{\link{PipeOpTaskTransformer}},
 \code{\link{PipeOpTransformer}},
+\code{\link{mlr_pipeops_densavg}},
 \code{\link{mlr_pipeops_survavg}},
 \code{\link{mlr_pipeops_trafopred_regrsurv}},
 \code{\link{mlr_pipeops_trafopred_survregr}},
