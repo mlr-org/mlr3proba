@@ -30,15 +30,15 @@ PipeOpTaskTransformer = R6Class("PipeOpTaskTransformer",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id, param_set = ParamSet$new(), param_vals = list(),
-                          packages = character(0), input, output) {
+      packages = character(0), input, output) {
 
       super$initialize(id = id,
-                       param_set = param_set,
-                       param_vals = param_vals,
-                       packages = packages,
-                       input = input,
-                       output = output
-                       )
+        param_set = param_set,
+        param_vals = param_vals,
+        packages = packages,
+        input = input,
+        output = output
+      )
     }
   ),
 
@@ -48,4 +48,3 @@ PipeOpTaskTransformer = R6Class("PipeOpTaskTransformer",
     }
   )
 )
-

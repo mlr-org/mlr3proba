@@ -8,7 +8,7 @@
 .histogram = function(dat, breaks = "Sturges") {
   fit = graphics::hist(x = dat, breaks = breaks, include.lowest = TRUE, plot = FALSE, right = FALSE)
 
-  pdf = function(x) {} #nolint
+  pdf = function(x) {} # nolint
   body(pdf) = substitute({
     pdf = numeric(length(x))
     ind = x >= min(Intervals) & x <= max(Intervals)
@@ -16,7 +16,7 @@
     return(pdf)
   }, list(f = fit$density, Intervals = fit$breaks))
 
-  cdf = function(x) {} #nolint
+  cdf = function(x) {} # nolint
   body(cdf) = substitute({
     sapply(x, function(x) .histogram_cdf(val = x, Intervals = Intervals, pdf = pdf, counts = counts))
   }, list(counts = fit$counts, pdf = fit$density, Intervals = fit$breaks))

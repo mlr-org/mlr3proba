@@ -47,14 +47,14 @@ register_mlr3 = function() {
     x$task_properties$surv = x$task_properties$regr
     x$learner_properties$surv = x$learner_properties$regr
     x$measure_properties$surv = x$measure_properties$regr
-    x$learner_predict_types$surv = list(crank = c("crank","lp","distr","response"),
-                                        distr = c("crank","lp","distr","response"),
-                                        lp = c("crank","lp","distr","response"),
-                                        response = c("crank","lp","distr","response"))
+    x$learner_predict_types$surv = list(crank = c("crank", "lp", "distr", "response"),
+      distr = c("crank", "lp", "distr", "response"),
+      lp = c("crank", "lp", "distr", "response"),
+      response = c("crank", "lp", "distr", "response"))
     x$default_measures$surv = "surv.cindex"
   }
 
-  if (! ("dens" %in% x$task_types$type)) {
+  if (!("dens" %in% x$task_types$type)) {
     x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
     x$task_types = setkeyv(rbind(x$task_types, rowwise_table(
       ~type, ~package, ~task, ~learner, ~prediction, ~measure,
@@ -111,7 +111,7 @@ register_mlr3 = function() {
   x$add("surv.logloss", MeasureSurvLogloss)
   x$add("surv.intlogloss", MeasureSurvIntLogloss)
 
-   x$add("surv.cindex", MeasureSurvCindex)
+  x$add("surv.cindex", MeasureSurvCindex)
 
   x$add("surv.dcalib", MeasureSurvDCalibration)
   x$add("surv.calib_beta", MeasureSurvCalibrationBeta)
@@ -174,7 +174,7 @@ register_mlr3pipelines = function() {
 
   setHook(packageEvent("mlr3", "onLoad"), function(...) register_mlr3(), action = "append")
   setHook(packageEvent("mlr3pipelines", "onLoad"), function(...) register_mlr3pipelines(),
-          action = "append")
+    action = "append")
 }
 
 .onUnload = function(libpath) { # nolint

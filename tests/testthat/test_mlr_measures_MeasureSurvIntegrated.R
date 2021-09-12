@@ -39,7 +39,7 @@ test_that("fields", {
   })
 })
 
-test_that('training data for weights', {
+test_that("training data for weights", {
   m = MeasureSurvGraf$new(proper = TRUE)
   t = tsk("rats")
   l = lrn("surv.kaplan")
@@ -48,11 +48,11 @@ test_that('training data for weights', {
   expect_false(identical(s1, s2))
 })
 
-test_that('proper option', {
+test_that("proper option", {
   set.seed(1)
   m1 = MeasureSurvGraf$new(proper = TRUE, method = 1)
   m2 = suppressWarnings(MeasureSurvGraf$new(proper = FALSE, method = 1))
-  l = lrn('surv.kaplan')
+  l = lrn("surv.kaplan")
   p = l$train(tgen("simsurv")$generate(100))$predict(tgen("simsurv")$generate(50))
   s1 = p$score(m1)
   s2 = p$score(m2)

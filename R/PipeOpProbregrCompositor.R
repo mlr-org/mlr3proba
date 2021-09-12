@@ -40,25 +40,25 @@
 #' @examples
 #' \dontrun{
 #' if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
-#' requireNamespace("rpart", quietly = TRUE)) {
-#' library(mlr3)
-#' library(mlr3pipelines)
-#' set.seed(1)
-#' task = tsk("boston_housing")
+#'   requireNamespace("rpart", quietly = TRUE)) {
+#'   library(mlr3)
+#'   library(mlr3pipelines)
+#'   set.seed(1)
+#'   task = tsk("boston_housing")
 #'
-#' # Option 1: Use a learner that can predict se
-#' learn = lrn("regr.featureless", predict_type = "se")
-#' pred = learn$train(task)$predict(task)
-#' poc = po("compose_probregr")
-#' poc$predict(list(pred, pred))[[1]]
+#'   # Option 1: Use a learner that can predict se
+#'   learn = lrn("regr.featureless", predict_type = "se")
+#'   pred = learn$train(task)$predict(task)
+#'   poc = po("compose_probregr")
+#'   poc$predict(list(pred, pred))[[1]]
 #'
-#' # Option 2: Use two learners, one for response and the other for se
-#' learn_response = lrn("regr.rpart")
-#' learn_se = lrn("regr.featureless", predict_type = "se")
-#' pred_response = learn_response$train(task)$predict(task)
-#' pred_se = learn_se$train(task)$predict(task)
-#' poc = po("compose_probregr")
-#' poc$predict(list(pred_response, pred_se))[[1]]
+#'   # Option 2: Use two learners, one for response and the other for se
+#'   learn_response = lrn("regr.rpart")
+#'   learn_se = lrn("regr.featureless", predict_type = "se")
+#'   pred_response = learn_response$train(task)$predict(task)
+#'   pred_se = learn_se$train(task)$predict(task)
+#'   poc = po("compose_probregr")
+#'   poc$predict(list(pred_response, pred_se))[[1]]
 #' }
 #' }
 PipeOpProbregrCompositor = R6Class("PipeOpProbregrCompositor",
@@ -69,9 +69,9 @@ PipeOpProbregrCompositor = R6Class("PipeOpProbregrCompositor",
     initialize = function(id = "compose_probregr", param_vals = list(dist = "Normal")) {
       ps = ParamSet$new(params = list(
         ParamFct$new("dist", default = "Normal",
-                     levels = distr6::listDistributions(filter = list(Tags = "locscale"),
-                                                        simplify = TRUE),
-                     tags = "predict")
+          levels = distr6::listDistributions(filter = list(Tags = "locscale"),
+            simplify = TRUE),
+          tags = "predict")
       ))
 
       super$initialize(
@@ -79,14 +79,14 @@ PipeOpProbregrCompositor = R6Class("PipeOpProbregrCompositor",
         param_set = ps,
         param_vals = param_vals,
         input = data.table(name = c("input_response", "input_se"), train = "NULL",
-                           predict = c("PredictionRegr", "PredictionRegr")),
+          predict = c("PredictionRegr", "PredictionRegr")),
         output = data.table(name = "output", train = "NULL", predict = "PredictionRegr"),
         packages = "distr6"
       )
     }
   ),
 
-  private =  list(
+  private = list(
     .train = function(inputs) {
       self$state = list()
       list(NULL)
@@ -119,11 +119,11 @@ PipeOpProbregrCompositor = R6Class("PipeOpProbregrCompositor",
 
 
       list(PredictionRegr$new(row_ids = pred_response$row_ids,
-                              truth = pred_response$truth,
-                              response = response,
-                              se = se,
-                              distr = distr6::VectorDistribution$new(distribution = dist,
-                                                                     params = params)))
+        truth = pred_response$truth,
+        response = response,
+        se = se,
+        distr = distr6::VectorDistribution$new(distribution = dist,
+          params = params)))
     }
   )
 )

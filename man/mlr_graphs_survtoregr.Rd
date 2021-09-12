@@ -124,43 +124,43 @@ predictors of the new data, which can ultimately be composed to a distribution.
 \examples{
 \dontrun{
 if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
-library("mlr3")
-library("mlr3pipelines")
+  library("mlr3")
+  library("mlr3pipelines")
 
-task = tsk("rats")
+  task = tsk("rats")
 
-# method 1 with censoring deletion, compose to distribution
-pipe = ppl(
-  "survtoregr",
-  method = 1,
-  regr_learner = lrn("regr.featureless"),
-  distrcompose = TRUE,
-  survregr_params = list(method = "delete")
-)
-pipe$train(task)
-pipe$predict(task)
+  # method 1 with censoring deletion, compose to distribution
+  pipe = ppl(
+    "survtoregr",
+    method = 1,
+    regr_learner = lrn("regr.featureless"),
+    distrcompose = TRUE,
+    survregr_params = list(method = "delete")
+  )
+  pipe$train(task)
+  pipe$predict(task)
 
-# method 2 with censoring imputation (mrl), one regr learner
-pipe = ppl(
-  "survtoregr",
-  method = 2,
-  regr_learner = lrn("regr.featureless", predict_type = "se"),
-  survregr_params = list(method = "mrl")
-)
-pipe$train(task)
-pipe$predict(task)
+  # method 2 with censoring imputation (mrl), one regr learner
+  pipe = ppl(
+    "survtoregr",
+    method = 2,
+    regr_learner = lrn("regr.featureless", predict_type = "se"),
+    survregr_params = list(method = "mrl")
+  )
+  pipe$train(task)
+  pipe$predict(task)
 
-# method 3 with censoring omission and no composition, insample resampling
-pipe = ppl(
-  "survtoregr",
-  method = 3,
-  regr_learner = lrn("regr.featureless"),
-  distrcompose = FALSE,
-  surv_learner = lrn("surv.coxph"),
-  survregr_params = list(method = "omission")
-)
-pipe$train(task)
-pipe$predict(task)
+  # method 3 with censoring omission and no composition, insample resampling
+  pipe = ppl(
+    "survtoregr",
+    method = 3,
+    regr_learner = lrn("regr.featureless"),
+    distrcompose = FALSE,
+    surv_learner = lrn("surv.coxph"),
+    survregr_params = list(method = "omission")
+  )
+  pipe$train(task)
+  pipe$predict(task)
 }
 }
 }

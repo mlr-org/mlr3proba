@@ -45,7 +45,7 @@ MeasureSurv = R6Class("MeasureSurv",
     print = function() {
       super$print()
       catf(str_indent("* Return type:", ifelse(is.null(private$.se), "Score",
-                                               ifelse(private$.se, "Standard Error", "Score"))))
+        ifelse(private$.se, "Standard Error", "Score"))))
     }
   )
 )

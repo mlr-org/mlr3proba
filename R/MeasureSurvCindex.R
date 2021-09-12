@@ -50,12 +50,12 @@ MeasureSurvCindex = R6Class("MeasureSurvCindex",
       weight_meth = match.arg(weight_meth)
 
       id = switch(weight_meth,
-                  "I" = "surv.harrell_c",
-                  "G" = "surv.Gweight_c",
-                  "G2" = "surv.uno_c",
-                  "SG" = "surv.schemper_c",
-                  "S" = "surv.peto_c",
-                  "GH" = "surv.gonen_c")
+        "I" = "surv.harrell_c",
+        "G" = "surv.Gweight_c",
+        "G2" = "surv.uno_c",
+        "SG" = "surv.schemper_c",
+        "S" = "surv.peto_c",
+        "GH" = "surv.gonen_c")
 
       super$initialize(
         id = id,
@@ -79,7 +79,7 @@ MeasureSurvCindex = R6Class("MeasureSurvCindex",
   active = list(
     #' @field cutoff `(numeric(1))`
     #' Cut-off time to evaluate concordance up to.
-    cutoff = function(cutoff){
+    cutoff = function(cutoff) {
       if (missing(cutoff)) {
         return(private$.cutoff)
       } else {
@@ -89,7 +89,7 @@ MeasureSurvCindex = R6Class("MeasureSurvCindex",
 
     #' @field weight_meth `(numeric(1))`
     #' Method for weighting concordance.
-    weight_meth = function(weight_meth){
+    weight_meth = function(weight_meth) {
       if (missing(weight_meth)) {
         return(private$.weight_meth)
       } else {
@@ -99,7 +99,7 @@ MeasureSurvCindex = R6Class("MeasureSurvCindex",
 
     #' @field tiex `(numeric(1))`
     #' Cut-off time to evaluate concordance up to.
-    tiex = function(tiex){
+    tiex = function(tiex) {
       if (missing(tiex)) {
         return(private$.tiex)
       } else {
@@ -109,18 +109,18 @@ MeasureSurvCindex = R6Class("MeasureSurvCindex",
   ),
 
   private = list(
-    .score = function(prediction, task, train_set, ...){
+    .score = function(prediction, task, train_set, ...) {
       if (self$weight_meth == "GH") {
         return(c_gonen(prediction$crank, self$tiex))
       } else if (self$weight_meth == "I") {
-       return(cindex(prediction$truth, prediction$crank, self$cutoff, self$weight_meth,
-                     self$tiex))
+        return(cindex(prediction$truth, prediction$crank, self$cutoff, self$weight_meth,
+          self$tiex))
       } else {
         if (is.null(task) | is.null(train_set)) {
           stop("'task' and 'train_set' required for all weighted c-index (except GH).")
         }
         return(cindex(prediction$truth, prediction$crank, self$cutoff, self$weight_meth,
-                      self$tiex, task$truth(train_set)))
+          self$tiex, task$truth(train_set)))
       }
     },
     .cutoff = numeric(),

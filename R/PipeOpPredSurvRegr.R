@@ -18,16 +18,16 @@
 #' @examples
 #' \dontrun{
 #' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
-#' library(mlr3)
-#' library(mlr3pipelines)
-#' library(survival)
+#'   library(mlr3)
+#'   library(mlr3pipelines)
+#'   library(survival)
 #'
-#' # simple example
-#' pred = PredictionSurv$new(row_ids = 1:10, truth = Surv(1:10, rbinom(10, 1, 0.5)),
-#'    response = 1:10)
-#' po = po("trafopred_survregr")
-#' new_pred = po$predict(list(pred = pred))[[1]]
-#' print(new_pred)
+#'   # simple example
+#'   pred = PredictionSurv$new(row_ids = 1:10, truth = Surv(1:10, rbinom(10, 1, 0.5)),
+#'     response = 1:10)
+#'   po = po("trafopred_survregr")
+#'   new_pred = po$predict(list(pred = pred))[[1]]
+#'   print(new_pred)
 #' }
 #' }
 #' @family PipeOps
@@ -41,8 +41,8 @@ PipeOpPredSurvRegr = R6Class("PipeOpPredSurvRegr",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id = "trafopred_survregr") {
       super$initialize(id = id,
-                       input = data.table(name = "input", train = "NULL", predict = "PredictionSurv"),
-                       output = data.table(name = "output", train = "NULL", predict = "PredictionRegr")
+        input = data.table(name = "input", train = "NULL", predict = "PredictionSurv"),
+        output = data.table(name = "output", train = "NULL", predict = "PredictionRegr")
       )
     }
   ),
@@ -51,8 +51,7 @@ PipeOpPredSurvRegr = R6Class("PipeOpPredSurvRegr",
     .transform = function(input) {
       input = input[[1]]
       PredictionRegr$new(row_ids = input$row_ids, truth = input$truth[, 1L],
-                         distr = input$distr, response = input$response)
+        distr = input$distr, response = input$response)
     }
   )
 )
-

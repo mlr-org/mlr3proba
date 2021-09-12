@@ -21,9 +21,9 @@
 #' @export
 #' @examples
 #' if (requireNamespace("simsurv", quietly = TRUE)) {
-#' generator = mlr3::mlr_task_generators$get("simsurv")
-#' task = generator$generate(20)
-#' task$head()
+#'   generator = mlr3::mlr_task_generators$get("simsurv")
+#'   task = generator$generate(20)
+#'   task$head()
 #' }
 TaskGeneratorSimsurv = R6Class("TaskGeneratorSimsurv",
   inherit = TaskGenerator,
@@ -39,7 +39,7 @@ TaskGeneratorSimsurv = R6Class("TaskGeneratorSimsurv",
       ps$values = list(lambdas = 0.1, gammas = 1.5, maxt = 5)
 
       super$initialize(id = "simsurv", task_type = "classif", packages = "mlbench", param_set = ps,
-                       man = "mlr3::mlr_task_generators_simsurv")
+        man = "mlr3::mlr_task_generators_simsurv")
     }
   ),
 

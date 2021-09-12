@@ -51,25 +51,25 @@ distribution location and scale parameters respectively.
 \examples{
 \dontrun{
 if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
-requireNamespace("rpart", quietly = TRUE)) {
-library(mlr3)
-library(mlr3pipelines)
-set.seed(1)
-task = tsk("boston_housing")
+  requireNamespace("rpart", quietly = TRUE)) {
+  library(mlr3)
+  library(mlr3pipelines)
+  set.seed(1)
+  task = tsk("boston_housing")
 
-# Option 1: Use a learner that can predict se
-learn = lrn("regr.featureless", predict_type = "se")
-pred = learn$train(task)$predict(task)
-poc = po("compose_probregr")
-poc$predict(list(pred, pred))[[1]]
+  # Option 1: Use a learner that can predict se
+  learn = lrn("regr.featureless", predict_type = "se")
+  pred = learn$train(task)$predict(task)
+  poc = po("compose_probregr")
+  poc$predict(list(pred, pred))[[1]]
 
-# Option 2: Use two learners, one for response and the other for se
-learn_response = lrn("regr.rpart")
-learn_se = lrn("regr.featureless", predict_type = "se")
-pred_response = learn_response$train(task)$predict(task)
-pred_se = learn_se$train(task)$predict(task)
-poc = po("compose_probregr")
-poc$predict(list(pred_response, pred_se))[[1]]
+  # Option 2: Use two learners, one for response and the other for se
+  learn_response = lrn("regr.rpart")
+  learn_se = lrn("regr.featureless", predict_type = "se")
+  pred_response = learn_response$train(task)$predict(task)
+  pred_se = learn_se$train(task)$predict(task)
+  poc = po("compose_probregr")
+  poc$predict(list(pred_response, pred_se))[[1]]
 }
 }
 }

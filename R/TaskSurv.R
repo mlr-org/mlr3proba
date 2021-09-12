@@ -33,7 +33,6 @@
 #' task$unique_times()
 #' task$unique_event_times()
 #' task$risk_set(time = 700)
-#'
 TaskSurv = R6::R6Class("TaskSurv",
   inherit = TaskSupervised,
   public = list(

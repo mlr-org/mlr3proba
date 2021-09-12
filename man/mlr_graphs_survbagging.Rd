@@ -58,18 +58,18 @@ further enhanced by using a weighted average by supplying \code{weights}.
 \examples{
 \dontrun{
 if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
-library("mlr3")
-library("mlr3pipelines")
+  library("mlr3")
+  library("mlr3pipelines")
 
-task = tsk("rats")
-pipe = ppl(
-  "survbagging",
-  learner = lrn("surv.coxph"),
-  iterations = 5,
-  graph_learner = FALSE
- )
-pipe$train(task)
-pipe$predict(task)
+  task = tsk("rats")
+  pipe = ppl(
+    "survbagging",
+    learner = lrn("surv.coxph"),
+    iterations = 5,
+    graph_learner = FALSE
+  )
+  pipe$train(task)
+  pipe$predict(task)
 }
 }
 }

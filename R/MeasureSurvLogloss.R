@@ -122,7 +122,7 @@ MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
         ll = surv_logloss(prediction$truth, prediction$distr, self$eps, self$IPCW, train)
         return(sd(ll) / sqrt(length(ll)))
       } else {
-       return(mean(surv_logloss(prediction$truth, prediction$distr, self$eps, self$IPCW, train)))
+        return(mean(surv_logloss(prediction$truth, prediction$distr, self$eps, self$IPCW, train)))
       }
     }
   )

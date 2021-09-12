@@ -40,29 +40,29 @@ Wrapper around \link{PipeOpProbregrCompositor} to simplify \link[mlr3pipelines:G
 \dontrun{
 if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
   requireNamespace("rpart", quietly = TRUE)) {
-library("mlr3")
-library("mlr3pipelines")
+  library("mlr3")
+  library("mlr3pipelines")
 
-task = tsk("boston_housing")
+  task = tsk("boston_housing")
 
-# method 1 - one learner for response and se
-pipe = ppl(
-  "probregrcompositor",
-  learner = lrn("regr.featureless", predict_type = "se"),
-  dist = "Normal"
-)
-pipe$train(task)
-pipe$predict(task)
+  # method 1 - one learner for response and se
+  pipe = ppl(
+    "probregrcompositor",
+    learner = lrn("regr.featureless", predict_type = "se"),
+    dist = "Normal"
+  )
+  pipe$train(task)
+  pipe$predict(task)
 
-# method 2 - one learner for response and one for se
-pipe = ppl(
-  "probregrcompositor",
-  learner = lrn("regr.rpart"),
-  learner_se = lrn("regr.featureless", predict_type = "se"),
-  dist = "Logistic"
-)
-pipe$train(task)
-pipe$predict(task)
+  # method 2 - one learner for response and one for se
+  pipe = ppl(
+    "probregrcompositor",
+    learner = lrn("regr.rpart"),
+    learner_se = lrn("regr.featureless", predict_type = "se"),
+    dist = "Logistic"
+  )
+  pipe$train(task)
+  pipe$predict(task)
 }
 }
 }

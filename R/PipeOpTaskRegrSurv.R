@@ -23,23 +23,23 @@
 #' @examples
 #' \dontrun{
 #' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
-#' library(mlr3)
-#' library(mlr3pipelines)
+#'   library(mlr3)
+#'   library(mlr3pipelines)
 #'
-#' task = tsk("boston_housing")
-#' po = po("trafotask_regrsurv")
+#'   task = tsk("boston_housing")
+#'   po = po("trafotask_regrsurv")
 #'
-#' # assume no censoring
-#' new_task = po$train(list(task_regr = task, task_surv = NULL))[[1]]
-#' print(new_task)
+#'   # assume no censoring
+#'   new_task = po$train(list(task_regr = task, task_surv = NULL))[[1]]
+#'   print(new_task)
 #'
-#' # add censoring
-#' task_surv = tsk("rats")
-#' task_regr = po("trafotask_survregr", method = "omit")$train(list(task_surv, NULL))[[1]]
-#' print(task_regr)
-#' new_task = po$train(list(task_regr = task_regr, task_surv = task_surv))[[1]]
-#' new_task$truth()
-#' task_surv$truth()
+#'   # add censoring
+#'   task_surv = tsk("rats")
+#'   task_regr = po("trafotask_survregr", method = "omit")$train(list(task_surv, NULL))[[1]]
+#'   print(task_regr)
+#'   new_task = po$train(list(task_regr = task_regr, task_surv = task_surv))[[1]]
+#'   new_task$truth()
+#'   task_surv$truth()
 #' }
 #' }
 #' @family PipeOps
@@ -53,10 +53,10 @@ PipeOpTaskRegrSurv = R6Class("PipeOpTaskRegrSurv",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id = "trafotask_regrsurv") {
       super$initialize(id = id,
-                       input = data.table(name = c("task_regr", "task_surv"),
-                                          train = c("TaskRegr", "*"),
-                                          predict = c("TaskRegr", "*")),
-                       output = data.table(name = "output", train = "TaskSurv", predict = "TaskSurv")
+        input = data.table(name = c("task_regr", "task_surv"),
+          train = c("TaskRegr", "*"),
+          predict = c("TaskRegr", "*")),
+        output = data.table(name = "output", train = "TaskSurv", predict = "TaskSurv")
       )
     }
   ),
@@ -85,4 +85,3 @@ PipeOpTaskRegrSurv = R6Class("PipeOpTaskRegrSurv",
     }
   )
 )
-

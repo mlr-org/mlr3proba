@@ -1,5 +1,5 @@
 weighted_survival_score = function(loss, truth, distribution, times, proper, train = NULL,
-                                   eps, ...) {
+  eps, ...) {
   assert_surv(truth)
   assertDistribution(distribution)
 
@@ -11,15 +11,15 @@ weighted_survival_score = function(loss, truth, distribution, times, proper, tra
 
   if (loss == "graf") {
     score = c_score_graf_schmid(truth[, "time"], unique_times,
-                                as.matrix(distribution$cdf(unique_times)),
-                                power = 2)
+      as.matrix(distribution$cdf(unique_times)),
+      power = 2)
   } else if (loss == "schmid") {
-      score = c_score_graf_schmid(truth[, "time"], unique_times,
-                                  as.matrix(distribution$cdf(unique_times)),
-                                  power = 1)
+    score = c_score_graf_schmid(truth[, "time"], unique_times,
+      as.matrix(distribution$cdf(unique_times)),
+      power = 1)
   } else {
     score = c_score_intslogloss(as.matrix(truth), unique_times,
-                              as.matrix(distribution$cdf(unique_times)), eps = eps)
+      as.matrix(distribution$cdf(unique_times)), eps = eps)
   }
 
   if (is.null(train)) {
@@ -29,8 +29,8 @@ weighted_survival_score = function(loss, truth, distribution, times, proper, tra
   }
 
   score = .c_weight_survival_score(score, truth, unique_times,
-                                  matrix(c(cens$time, cens$surv), ncol = 2),
-                                  proper, eps)
+    matrix(c(cens$time, cens$surv), ncol = 2),
+    proper, eps)
   colnames(score) = unique_times
 
   return(score)

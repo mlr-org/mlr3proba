@@ -28,7 +28,7 @@ pecs(x, measure = c("graf", "logloss"), times, n, eps = NULL, ...)
   measure = c("graf", "logloss"),
   times,
   n,
-  eps = 1e-15,
+  eps = 0.000000000000001,
   train_task = NULL,
   train_set = NULL,
   proper = TRUE,
@@ -86,25 +86,25 @@ then all time-points between the range are returned.
 \examples{
 \dontrun{
 if (requireNamespace("ggplot2", quietly = TRUE)) {
-#' library(mlr3)
-task = tsk("rats")
+  #' library(mlr3)
+  task = tsk("rats")
 
-# Prediction Error Curves for prediction object
-learn = lrn("surv.coxph")
-p = learn$train(task)$predict(task)
-pecs(p)
-pecs(p, measure = "logloss", times = c(20, 40, 60, 80)) +
-  ggplot2::geom_point() +
-  ggplot2::ggtitle("Logloss Prediction Error Curve for Cox PH")
+  # Prediction Error Curves for prediction object
+  learn = lrn("surv.coxph")
+  p = learn$train(task)$predict(task)
+  pecs(p)
+  pecs(p, measure = "logloss", times = c(20, 40, 60, 80)) +
+    ggplot2::geom_point() +
+    ggplot2::ggtitle("Logloss Prediction Error Curve for Cox PH")
 
-# Access underlying data
-x = pecs(p)
-x$data
+  # Access underlying data
+  x = pecs(p)
+  x$data
 
-# Prediction Error Curves for fitted learners
-learns = lrns(c("surv.kaplan", "surv.coxph"))
-lapply(learns, function(x) x$train(task))
-pecs(learns, task = task, measure = "logloss", times = c(20, 90), n = 10)
+  # Prediction Error Curves for fitted learners
+  learns = lrns(c("surv.kaplan", "surv.coxph"))
+  lapply(learns, function(x) x$train(task))
+  pecs(learns, task = task, measure = "logloss", times = c(20, 90), n = 10)
 }
 }
 

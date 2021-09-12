@@ -46,6 +46,6 @@ get_akritas_learner = function() {
 }
 
 ## access private environment of r6 class
-r6_private <- function(x) {
+r6_private = function(x) {
   x$.__enclos_env__$private
 }

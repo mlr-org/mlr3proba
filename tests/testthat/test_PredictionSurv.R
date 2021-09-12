@@ -51,7 +51,7 @@ test_that("data.frame roundtrip", {
   expect_prediction_surv(p2)
 
   expect_equal(as.data.table(p1$distr$parameters())$value,
-               as.data.table(p2$distr$parameters())$value)
+    as.data.table(p2$distr$parameters())$value)
 
   expect_equal(as.data.table(p1)[, -6L], as.data.table(p2)[, -6L])
 })

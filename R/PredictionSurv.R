@@ -57,11 +57,11 @@ PredictionSurv = R6Class("PredictionSurv",
 
       if (inherits(distr, "Distribution")) {
         # coerce to matrix if possible
-        distr <- private$.simplify_distr(distr)
+        distr = private$.simplify_distr(distr)
       }
 
       pdata = list(row_ids = row_ids, truth = truth, crank = crank, distr = distr, lp = lp,
-                   response = response)
+        response = response)
       pdata = discard(pdata, is.null)
       class(pdata) = c("PredictionDataSurv", "PredictionData")
 
@@ -134,8 +134,8 @@ PredictionSurv = R6Class("PredictionSurv",
         return(x)
       }
 
-      surv <- 1 - do.call(rbind, x$getParameterValue("cdf"))
-      rownames(surv) <- NULL
+      surv = 1 - do.call(rbind, x$getParameterValue("cdf"))
+      rownames(surv) = NULL
       surv
     },
     .distrify_survmatrix = function(x) {

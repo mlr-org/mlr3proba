@@ -36,16 +36,16 @@
 #' @examples
 #' \dontrun{
 #' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
-#' library(mlr3)
-#' library(mlr3pipelines)
+#'   library(mlr3)
+#'   library(mlr3pipelines)
 #'
-#' task = tsk("faithful")
-#' p1 = lrn("dens.kde")$train(task)$predict(task)
-#' p2 = lrn("dens.hist")$train(task)$predict(task)
-#' poc = po("densavg", param_vals = list(weights = c(0.2, 0.8)))
-#' poc$predict(list(p1, p2))
+#'   task = tsk("faithful")
+#'   p1 = lrn("dens.kde")$train(task)$predict(task)
+#'   p2 = lrn("dens.hist")$train(task)$predict(task)
+#'   poc = po("densavg", param_vals = list(weights = c(0.2, 0.8)))
+#'   poc$predict(list(p1, p2))
 #' }
-#'}
+#' }
 PipeOpDensAvg = R6Class("PipeOpDensAvg",
   inherit = mlr3pipelines::PipeOpEnsemble,
 
@@ -60,12 +60,12 @@ PipeOpDensAvg = R6Class("PipeOpDensAvg",
     #' @param ... `ANY`\cr
     #' Additional arguments passed to [mlr3pipelines::PipeOpEnsemble].
     initialize = function(innum = 0, id = "densavg",
-                          param_vals = list(), ...) {
+      param_vals = list(), ...) {
       super$initialize(innum = innum,
-                       id = id,
-                       param_vals = param_vals,
-                       prediction_type = "PredictionDens",
-                       ...)
+        id = id,
+        param_vals = param_vals,
+        prediction_type = "PredictionDens",
+        ...)
     }
   ),
   private = list(
@@ -82,15 +82,16 @@ PipeOpDensAvg = R6Class("PipeOpDensAvg",
       }
 
       distr = map(inputs, "distr")
-      if (all(mlr3misc::map_lgl(distr, function(.x)
-        checkmate::test_class(.x, "VectorDistribution")))) {
+      if (all(mlr3misc::map_lgl(distr, function(.x) {
+        checkmate::test_class(.x, "VectorDistribution")
+      }))) {
         distr = distr6::mixturiseVector(distr, weights)
       } else {
         distr = NULL
       }
 
-      PredictionDens$new(row_ids = row_ids, pdf = pdf, 
-                         cdf = cdf, distr = distr)
+      PredictionDens$new(row_ids = row_ids, pdf = pdf,
+        cdf = cdf, distr = distr)
     }
   )
 )

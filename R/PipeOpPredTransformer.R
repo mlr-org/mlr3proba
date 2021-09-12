@@ -35,13 +35,13 @@ PipeOpPredTransformer = R6Class("PipeOpPredTransformer",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id, param_set = ParamSet$new(), param_vals = list(),
-                          packages = character(0), input = data.table(), output = data.table()) {
+      packages = character(0), input = data.table(), output = data.table()) {
       super$initialize(id = id,
-                       param_set = param_set,
-                       param_vals = param_vals,
-                       packages = packages,
-                       input = input,
-                       output = output
+        param_set = param_set,
+        param_vals = param_vals,
+        packages = packages,
+        input = input,
+        output = output
       )
     }
   ),
@@ -52,4 +52,3 @@ PipeOpPredTransformer = R6Class("PipeOpPredTransformer",
     }
   )
 )
-

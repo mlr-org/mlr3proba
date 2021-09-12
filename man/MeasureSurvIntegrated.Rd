@@ -65,7 +65,7 @@ This is an abstract class that should not be constructed directly.
   times,
   method = 2,
   proper = FALSE,
-  eps = 1e-15,
+  eps = 0.000000000000001,
   id,
   range,
   minimize,

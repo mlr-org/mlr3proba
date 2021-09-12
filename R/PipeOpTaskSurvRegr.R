@@ -56,54 +56,54 @@
 #' @examples
 #' \dontrun{
 #' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
-#' library(mlr3)
-#' library(mlr3pipelines)
+#'   library(mlr3)
+#'   library(mlr3pipelines)
 #'
-#' # these methods are generally only successful if censoring is not too high
-#' # create survival task by undersampling
-#' task = tsk("rats")$filter(
-#'    c(which(tsk("rats")$truth()[,2]==1),
-#'    sample(which(tsk("rats")$truth()[,2]==0), 42))
-#'    )
+#'   # these methods are generally only successful if censoring is not too high
+#'   # create survival task by undersampling
+#'   task = tsk("rats")$filter(
+#'     c(which(tsk("rats")$truth()[, 2] == 1),
+#'       sample(which(tsk("rats")$truth()[, 2] == 0), 42))
+#'   )
 #'
-#' # deletion
-#' po = po("trafotask_survregr", method = "delete")
-#' po$train(list(task, NULL))[[1]] # 42 deleted
+#'   # deletion
+#'   po = po("trafotask_survregr", method = "delete")
+#'   po$train(list(task, NULL))[[1]] # 42 deleted
 #'
-#' # omission
-#' po = po("trafotask_survregr", method = "omit")
-#' po$train(list(task, NULL))[[1]]
+#'   # omission
+#'   po = po("trafotask_survregr", method = "omit")
+#'   po$train(list(task, NULL))[[1]]
 #'
-#' if (requireNamespace("mlr3extralearners", quietly = TRUE)) {
-#' # ipcw with Akritas
-#' po = po("trafotask_survregr", method = "ipcw", estimator = "akritas", lambda = 0.4, alpha = 0)
-#' new_task = po$train(list(task, NULL))[[1]]
-#' print(new_task)
-#' new_task$weights
-#' }
+#'   if (requireNamespace("mlr3extralearners", quietly = TRUE)) {
+#'     # ipcw with Akritas
+#'     po = po("trafotask_survregr", method = "ipcw", estimator = "akritas", lambda = 0.4, alpha = 0)
+#'     new_task = po$train(list(task, NULL))[[1]]
+#'     print(new_task)
+#'     new_task$weights
+#'   }
 #'
-#' # mrl with Kaplan-Meier
-#' po = po("trafotask_survregr", method = "mrl")
-#' new_task = po$train(list(task, NULL))[[1]]
-#' data.frame(new = new_task$truth(), old = task$truth())
+#'   # mrl with Kaplan-Meier
+#'   po = po("trafotask_survregr", method = "mrl")
+#'   new_task = po$train(list(task, NULL))[[1]]
+#'   data.frame(new = new_task$truth(), old = task$truth())
 #'
-#' # Buckley-James imputation
-#' if (requireNamespace("bujar", quietly = TRUE)) {
-#' po = po("trafotask_survregr", method = "bj")
-#' new_task = po$train(list(task, NULL))[[1]]
-#' data.frame(new = new_task$truth(), old = task$truth())
-#' }
+#'   # Buckley-James imputation
+#'   if (requireNamespace("bujar", quietly = TRUE)) {
+#'     po = po("trafotask_survregr", method = "bj")
+#'     new_task = po$train(list(task, NULL))[[1]]
+#'     data.frame(new = new_task$truth(), old = task$truth())
+#'   }
 #'
-#' # reorder - in practice this will be only be used in a few graphs
-#' po = po("trafotask_survregr", method = "reorder", features = c("sex", "rx", "time", "status"),
-#'        target = "litter")
-#' new_task = po$train(list(task, NULL))[[1]]
-#' print(new_task)
+#'   # reorder - in practice this will be only be used in a few graphs
+#'   po = po("trafotask_survregr", method = "reorder", features = c("sex", "rx", "time", "status"),
+#'     target = "litter")
+#'   new_task = po$train(list(task, NULL))[[1]]
+#'   print(new_task)
 #'
-#' # reorder using another task for feature names
-#' po = po("trafotask_survregr", method = "reorder", target = "litter")
-#' new_task = po$train(list(task, task))[[1]]
-#' print(new_task)
+#'   # reorder using another task for feature names
+#'   po = po("trafotask_survregr", method = "reorder", target = "litter")
+#'   new_task = po$train(list(task, task))[[1]]
+#'   print(new_task)
 #' }
 #' }
 #' @family PipeOps
@@ -118,18 +118,18 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
     initialize = function(id = "trafotask_survregr", param_vals = list()) {
       ps = ParamSet$new(list(
         ParamFct$new("method", default = "ipcw",
-                     levels = c("ipcw", "mrl", "bj", "delete", "omit", "reorder"),
-                     tags = "train"),
+          levels = c("ipcw", "mrl", "bj", "delete", "omit", "reorder"),
+          tags = "train"),
         ParamFct$new("estimator", default = "kaplan", levels = c("kaplan", "akritas", "cox"),
-                     tags = "train"),
+          tags = "train"),
         ParamDbl$new("alpha", default = 1, lower = 0, upper = 1, tags = "train"),
         ParamDbl$new("lambda", default = 0.5, lower = 0, upper = 1, tags = "train"),
         ParamDbl$new("eps", default = 1e-15, lower = 0, upper = 1, tags = "train"),
         ParamUty$new("features", tags = "train"),
         ParamUty$new("target", tags = "train"),
         ParamFct$new("learner", default = "linear.regression",
-                     levels = c("linear.regression", "mars", "pspline", "tree", "acosso",
-                                "enet", "enet2", "mnet", "snet"), tags = c("train", "bj")),
+          levels = c("linear.regression", "mars", "pspline", "tree", "acosso",
+            "enet", "enet2", "mnet", "snet"), tags = c("train", "bj")),
         ParamLgl$new("center", default = TRUE, tags = c("train", "bj")),
         ParamLgl$new("mimpu", default = NULL, special_vals = list(NULL), tags = c("train", "bj")),
         ParamInt$new("iter.bj", default = 20, lower = 2, tags = c("train", "bj")),
@@ -152,12 +152,12 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
       ps$add_dep("learner", "method", CondEqual$new("bj"))
 
       super$initialize(id = id,
-                       param_set = ps,
-                       param_vals = param_vals,
-                       input = data.table(name = c("input", "input_features"),
-                                          train = c("TaskSurv", "*"),
-                                          predict = c("TaskSurv", "*")),
-                       output = data.table(name = "output", train = "TaskRegr", predict = "TaskRegr")
+        param_set = ps,
+        param_vals = param_vals,
+        input = data.table(name = c("input", "input_features"),
+          train = c("TaskSurv", "*"),
+          predict = c("TaskSurv", "*")),
+        output = data.table(name = "output", train = "TaskRegr", predict = "TaskRegr")
       )
     }
   ),
@@ -196,13 +196,13 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
       }
 
       backend = switch(method,
-                       ipcw = private$.ipcw(backend, status, time, estimator, eps),
-                       mrl = private$.mrl(backend, status, time, input, estimator),
-                       bj = private$.bj(backend, status, time),
-                       delete = private$.delete(backend, status),
-                       omit = private$.omit(backend, status),
-                       reorder = private$.reorder(backend, pv$features, pv$target, inputs[[2]])
-                       )
+        ipcw = private$.ipcw(backend, status, time, estimator, eps),
+        mrl = private$.mrl(backend, status, time, input, estimator),
+        bj = private$.bj(backend, status, time),
+        delete = private$.delete(backend, status),
+        omit = private$.omit(backend, status),
+        reorder = private$.reorder(backend, pv$features, pv$target, inputs[[2]])
+      )
 
       target = ifelse(method == "reorder", pv$target, time)
 
@@ -231,9 +231,9 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
       }
 
       est = est$train(task)$predict(task)$distr
-      weights = as.numeric(est$survival(data = matrix(task$truth()[,1], nrow = 1)))
+      weights = as.numeric(est$survival(data = matrix(task$truth()[, 1], nrow = 1)))
       weights[weights == 0] = eps
-      weights = 1/weights
+      weights = 1 / weights
 
       alpha = self$param_set$values$alpha
       if (!is.null(alpha)) {
@@ -261,7 +261,7 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
         num = sapply(backend[[time]][cens], function(x) {
           est$survivalAntiDeriv(x)
         })
-        mrl = num/den
+        mrl = num / den
       } else {
         if (estimator == "cox") {
           est = LearnerSurvCoxPH$new()$train(input)$predict(input)$distr
@@ -275,12 +275,12 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
         for (i in seq_along(mrl)) {
           x = backend[cens, ][[time]][i]
           int_range = unique_times[x <= unique_times & upper >= unique_times]
-          num = (sum(est[i]$survival(int_range)) * (diff(range(int_range))/length(int_range)))
-          mrl[i] = num/den[i]
+          num = (sum(est[i]$survival(int_range)) * (diff(range(int_range)) / length(int_range)))
+          mrl[i] = num / den[i]
         }
       }
 
-      backend[[time]][cens] =  backend[[time]][cens] + mrl
+      backend[[time]][cens] = backend[[time]][cens] + mrl
       return(subset(backend, select = -status))
     },
 
@@ -288,14 +288,14 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
       mlr3misc::require_namespaces("bujar")
 
       x = data.frame(backend)[, colnames(backend) %nin% c(time, status), drop = FALSE]
-      x = model.matrix(~., x)[,-1]
+      x = model.matrix(~., x)[, -1]
       bj = mlr3misc::invoke(bujar::bujar,
-                       y = backend[[time]],
-                       cens = backend[[status]],
-                       x = x,
-                       tuning = FALSE,
-                       vimpint = FALSE,
-                       .args = self$param_set$get_values(tags = "bj")
+        y = backend[[time]],
+        cens = backend[[status]],
+        x = x,
+        tuning = FALSE,
+        vimpint = FALSE,
+        .args = self$param_set$get_values(tags = "bj")
       )
       backend[[time]] = bj$ynew
       return(backend)

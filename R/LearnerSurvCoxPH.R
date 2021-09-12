@@ -22,10 +22,10 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH",
         param_set = ParamSet$new(
           params = list(
             ParamFct$new(id = "ties", default = "efron", levels = c("efron", "breslow", "exact"),
-                         tags = "train"),
+              tags = "train"),
             ParamLgl$new(id = "singular.ok", default = TRUE, tags = "train"),
             ParamFct$new(id = "type", default = "efron",
-                         levels = c("efron", "aalen", "kalbfleisch-prentice"), tags = "predict"),
+              levels = c("efron", "aalen", "kalbfleisch-prentice"), tags = "predict"),
             ParamInt$new(id = "stype", default = 2L, lower = 1L, upper = 2L, tags = "predict")
           )
         ),
@@ -66,7 +66,7 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH",
 
       # Get predicted values
       fit = mlr3misc::invoke(survival::survfit, formula = self$model, newdata = newdata,
-                             se.fit = FALSE, .args = pv)
+        se.fit = FALSE, .args = pv)
 
       lp = predict(self$model, type = "lp", newdata = newdata)
 

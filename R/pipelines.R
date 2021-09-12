@@ -9,18 +9,18 @@
 #' @examples
 #' \dontrun{
 #' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
-#' library("mlr3")
-#' library("mlr3pipelines")
+#'   library("mlr3")
+#'   library("mlr3pipelines")
 #'
-#' task = tsk("rats")
-#' pipe = ppl(
-#'   "survaverager",
-#'   learners = lrns(c("surv.kaplan", "surv.coxph")),
-#'   param_vals = list(weights = c(0.1, 0.9)),
-#'   graph_learner = FALSE
-#'  )
-#' pipe$train(task)
-#' pipe$predict(task)
+#'   task = tsk("rats")
+#'   pipe = ppl(
+#'     "survaverager",
+#'     learners = lrns(c("surv.kaplan", "surv.coxph")),
+#'     param_vals = list(weights = c(0.1, 0.9)),
+#'     graph_learner = FALSE
+#'   )
+#'   pipe$train(task)
+#'   pipe$predict(task)
 #' }
 #' }
 pipeline_survaverager = function(learners, param_vals = list(), graph_learner = FALSE) {
@@ -31,8 +31,8 @@ pipeline_survaverager = function(learners, param_vals = list(), graph_learner = 
   gr = mlr3pipelines::`%>>%`(learners, po)
 
   if (graph_learner) {
-    gr <- mlr3pipelines::GraphLearner$new(gr)
-    gr$predict_type <- "distr"
+    gr = mlr3pipelines::GraphLearner$new(gr)
+    gr$predict_type = "distr"
   }
 
   gr
@@ -65,29 +65,29 @@ pipeline_survaverager = function(learners, param_vals = list(), graph_learner = 
 #' @examples
 #' \dontrun{
 #' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
-#' library("mlr3")
-#' library("mlr3pipelines")
+#'   library("mlr3")
+#'   library("mlr3pipelines")
 #'
-#' task = tsk("rats")
-#' pipe = ppl(
-#'   "survbagging",
-#'   learner = lrn("surv.coxph"),
-#'   iterations = 5,
-#'   graph_learner = FALSE
-#'  )
-#' pipe$train(task)
-#' pipe$predict(task)
+#'   task = tsk("rats")
+#'   pipe = ppl(
+#'     "survbagging",
+#'     learner = lrn("surv.coxph"),
+#'     iterations = 5,
+#'     graph_learner = FALSE
+#'   )
+#'   pipe$train(task)
+#'   pipe$predict(task)
 #' }
 #' }
 pipeline_survbagging = function(learner, iterations = 10, frac = 0.7, avg = TRUE, weights = 1,
-                                graph_learner = FALSE) {
+  graph_learner = FALSE) {
 
   assertCount(iterations)
   assert_number(frac, lower = 0, upper = 1)
 
   graph = mlr3pipelines::as_graph(learner)
   subs = mlr3pipelines::`%>>%`(mlr3pipelines::po("subsample", param_vals = list(frac = frac)),
-                               graph)
+    graph)
   subs_repls = mlr3pipelines::pipeline_greplicate(subs, iterations)
 
   if (!avg) {
@@ -98,8 +98,8 @@ pipeline_survbagging = function(learner, iterations = 10, frac = 0.7, avg = TRUE
     gr = mlr3pipelines::`%>>%`(subs_repls, po)
 
     if (graph_learner) {
-      gr <- mlr3pipelines::GraphLearner$new(gr)
-      gr$predict_type <- "distr"
+      gr = mlr3pipelines::GraphLearner$new(gr)
+      gr$predict_type = "distr"
     }
 
     gr
@@ -126,21 +126,21 @@ pipeline_survbagging = function(learner, iterations = 10, frac = 0.7, avg = TRUE
 #' @examples
 #' \dontrun{
 #' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
-#' library("mlr3")
-#' library("mlr3pipelines")
+#'   library("mlr3")
+#'   library("mlr3pipelines")
 #'
-#' task = tsk("rats")
-#' pipe = ppl(
-#'   "crankcompositor",
-#'   learner = lrn("surv.coxph"),
-#'   method = "median"
-#' )
-#' pipe$train(task)
-#' pipe$predict(task)
+#'   task = tsk("rats")
+#'   pipe = ppl(
+#'     "crankcompositor",
+#'     learner = lrn("surv.coxph"),
+#'     method = "median"
+#'   )
+#'   pipe$train(task)
+#'   pipe$predict(task)
 #' }
 #' }
 pipeline_crankcompositor = function(learner, method = c("mean", "median", "mode"), which = NULL,
-                                    response = FALSE, overwrite = FALSE, graph_learner = FALSE) {
+  response = FALSE, overwrite = FALSE, graph_learner = FALSE) {
 
   if (testCharacter(learner)) {
     warning("Passing a learner id is now deprecated. In the future please pass a constructed
@@ -159,8 +159,8 @@ pipeline_crankcompositor = function(learner, method = c("mean", "median", "mode"
   gr = mlr3pipelines::`%>>%`(pred, compositor)
 
   if (graph_learner) {
-    gr <- mlr3pipelines::GraphLearner$new(gr)
-    gr$predict_type <- "distr"
+    gr = mlr3pipelines::GraphLearner$new(gr)
+    gr$predict_type = "distr"
   }
 
   gr
@@ -201,24 +201,24 @@ crankcompositor = function(...) {
 #' @examples
 #' \dontrun{
 #' if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
-#'  requireNamespace("rpart", quietly = TRUE)) {
-#' library("mlr3")
-#' library("mlr3pipelines")
+#'   requireNamespace("rpart", quietly = TRUE)) {
+#'   library("mlr3")
+#'   library("mlr3pipelines")
 #'
-#' task = tsk("rats")
-#' pipe = ppl(
-#'   "distrcompositor",
-#'   learner = lrn("surv.rpart"),
-#'   estimator = "kaplan",
-#'   form = "ph"
-#' )
-#' pipe$train(task)
-#' pipe$predict(task)
+#'   task = tsk("rats")
+#'   pipe = ppl(
+#'     "distrcompositor",
+#'     learner = lrn("surv.rpart"),
+#'     estimator = "kaplan",
+#'     form = "ph"
+#'   )
+#'   pipe$train(task)
+#'   pipe$predict(task)
 #' }
 #' }
 pipeline_distrcompositor = function(learner, estimator = c("kaplan", "nelson"),
-                                    form = c("aft", "ph", "po"),
-                                    overwrite = FALSE, graph_learner = FALSE) {
+  form = c("aft", "ph", "po"),
+  overwrite = FALSE, graph_learner = FALSE) {
 
   if (testCharacter(learner)) {
     warning("Passing a learner id is now deprecated. In the future please pass a constructed
@@ -236,8 +236,8 @@ pipeline_distrcompositor = function(learner, estimator = c("kaplan", "nelson"),
   gr = mlr3pipelines::`%>>%`(mlr3pipelines::gunion(list(base, pred)), compositor)
 
   if (graph_learner) {
-    gr <- mlr3pipelines::GraphLearner$new(gr)
-    gr$predict_type <- "distr"
+    gr = mlr3pipelines::GraphLearner$new(gr)
+    gr$predict_type = "distr"
   }
 
   gr
@@ -271,33 +271,33 @@ distrcompositor = function(...) {
 #' \dontrun{
 #' if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
 #'   requireNamespace("rpart", quietly = TRUE)) {
-#' library("mlr3")
-#' library("mlr3pipelines")
+#'   library("mlr3")
+#'   library("mlr3pipelines")
 #'
-#' task = tsk("boston_housing")
+#'   task = tsk("boston_housing")
 #'
-#' # method 1 - one learner for response and se
-#' pipe = ppl(
-#'   "probregrcompositor",
-#'   learner = lrn("regr.featureless", predict_type = "se"),
-#'   dist = "Normal"
-#' )
-#' pipe$train(task)
-#' pipe$predict(task)
+#'   # method 1 - one learner for response and se
+#'   pipe = ppl(
+#'     "probregrcompositor",
+#'     learner = lrn("regr.featureless", predict_type = "se"),
+#'     dist = "Normal"
+#'   )
+#'   pipe$train(task)
+#'   pipe$predict(task)
 #'
-#' # method 2 - one learner for response and one for se
-#' pipe = ppl(
-#'   "probregrcompositor",
-#'   learner = lrn("regr.rpart"),
-#'   learner_se = lrn("regr.featureless", predict_type = "se"),
-#'   dist = "Logistic"
-#' )
-#' pipe$train(task)
-#' pipe$predict(task)
+#'   # method 2 - one learner for response and one for se
+#'   pipe = ppl(
+#'     "probregrcompositor",
+#'     learner = lrn("regr.rpart"),
+#'     learner_se = lrn("regr.featureless", predict_type = "se"),
+#'     dist = "Logistic"
+#'   )
+#'   pipe$train(task)
+#'   pipe$predict(task)
 #' }
 #' }
 pipeline_probregrcompositor = function(learner, learner_se = NULL, dist = "Normal",
-                                       graph_learner = FALSE) {
+  graph_learner = FALSE) {
 
   gr = mlr3pipelines::Graph$new()$add_pipeop(mlr3pipelines::po("compose_probregr", param_vals = list(dist = dist)))
 
@@ -315,7 +315,7 @@ pipeline_probregrcompositor = function(learner, learner_se = NULL, dist = "Norma
   }
 
   if (graph_learner) {
-    gr <- mlr3pipelines::GraphLearner$new(gr)
+    gr = mlr3pipelines::GraphLearner$new(gr)
   }
 
   gr
@@ -414,56 +414,55 @@ pipeline_probregrcompositor = function(learner, learner_se = NULL, dist = "Norma
 #' @examples
 #' \dontrun{
 #' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
-#' library("mlr3")
-#' library("mlr3pipelines")
+#'   library("mlr3")
+#'   library("mlr3pipelines")
 #'
-#' task = tsk("rats")
+#'   task = tsk("rats")
 #'
-#' # method 1 with censoring deletion, compose to distribution
-#' pipe = ppl(
-#'   "survtoregr",
-#'   method = 1,
-#'   regr_learner = lrn("regr.featureless"),
-#'   distrcompose = TRUE,
-#'   survregr_params = list(method = "delete")
-#' )
-#' pipe$train(task)
-#' pipe$predict(task)
+#'   # method 1 with censoring deletion, compose to distribution
+#'   pipe = ppl(
+#'     "survtoregr",
+#'     method = 1,
+#'     regr_learner = lrn("regr.featureless"),
+#'     distrcompose = TRUE,
+#'     survregr_params = list(method = "delete")
+#'   )
+#'   pipe$train(task)
+#'   pipe$predict(task)
 #'
-#' # method 2 with censoring imputation (mrl), one regr learner
-#' pipe = ppl(
-#'   "survtoregr",
-#'   method = 2,
-#'   regr_learner = lrn("regr.featureless", predict_type = "se"),
-#'   survregr_params = list(method = "mrl")
-#' )
-#' pipe$train(task)
-#' pipe$predict(task)
+#'   # method 2 with censoring imputation (mrl), one regr learner
+#'   pipe = ppl(
+#'     "survtoregr",
+#'     method = 2,
+#'     regr_learner = lrn("regr.featureless", predict_type = "se"),
+#'     survregr_params = list(method = "mrl")
+#'   )
+#'   pipe$train(task)
+#'   pipe$predict(task)
 #'
-#' # method 3 with censoring omission and no composition, insample resampling
-#' pipe = ppl(
-#'   "survtoregr",
-#'   method = 3,
-#'   regr_learner = lrn("regr.featureless"),
-#'   distrcompose = FALSE,
-#'   surv_learner = lrn("surv.coxph"),
-#'   survregr_params = list(method = "omission")
-#' )
-#' pipe$train(task)
-#' pipe$predict(task)
+#'   # method 3 with censoring omission and no composition, insample resampling
+#'   pipe = ppl(
+#'     "survtoregr",
+#'     method = 3,
+#'     regr_learner = lrn("regr.featureless"),
+#'     distrcompose = FALSE,
+#'     surv_learner = lrn("surv.coxph"),
+#'     survregr_params = list(method = "omission")
+#'   )
+#'   pipe$train(task)
+#'   pipe$predict(task)
 #' }
-#'}
+#' }
 #' @export
 pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"),
-                          distrcompose = TRUE, distr_estimator = lrn("surv.kaplan"),
-                          regr_se_learner = NULL,
-                          surv_learner = lrn("surv.coxph"),
-                          survregr_params = list(method = "ipcw", estimator = "kaplan", alpha = 1),
-                          distrcompose_params = list(form = "aft"),
-                          probregr_params = list(dist = "Normal"),
-                          learnercv_params = list(resampling.method = "insample"),
-                          graph_learner = FALSE) {
-
+  distrcompose = TRUE, distr_estimator = lrn("surv.kaplan"),
+  regr_se_learner = NULL,
+  surv_learner = lrn("surv.coxph"),
+  survregr_params = list(method = "ipcw", estimator = "kaplan", alpha = 1),
+  distrcompose_params = list(form = "aft"),
+  probregr_params = list(dist = "Normal"),
+  learnercv_params = list(resampling.method = "insample"),
+  graph_learner = FALSE) {
 
   if (method == 1) {
     gr = mlr3pipelines::Graph$new()$
@@ -519,7 +518,7 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
       add_pipeop(mlr3pipelines::po("nop", id = "task_surv_train"))$
       add_pipeop(mlr3pipelines::po("nop", id = "task_surv_predict"))$
       add_pipeop(mlr3pipelines::po("learner_cv", surv_learner, id = "surv_learner",
-                    param_vals = learnercv_params))$
+      param_vals = learnercv_params))$
       add_pipeop(mlr3pipelines::po("trafotask_survregr", method = "reorder", target = "surv_learner.lp"))$
       add_pipeop(mlr3pipelines::po("learner", regr_learner, id = "regr_learner"))$
       add_pipeop(mlr3pipelines::po("trafopred_regrsurv", target_type = "lp"))$
@@ -540,7 +539,7 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
   }
 
   if (graph_learner) {
-    gr <- mlr3pipelines::GraphLearner$new(gr)
+    gr = mlr3pipelines::GraphLearner$new(gr)
   }
 
   gr

@@ -30,7 +30,7 @@ TaskGeneratorSimdens = R6::R6Class("TaskGeneratorSimdens",
         packages = "distr6",
         param_set = param_set,
         man = "mlr3::mlr_task_generators_simdens"
-        )
+      )
     }
   ),
 
