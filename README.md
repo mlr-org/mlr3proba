@@ -115,6 +115,7 @@ survival analysis, the following measures are implemented:
 | [surv.calib\_alpha](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.calib_alpha.html)     | van Houwelingen’s Alpha Calibration | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
 | [surv.calib\_beta](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.calib_beta.html)       | van Houwelingen’s Beta Calibration  | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
 | [surv.chambless\_auc](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.chambless_auc.html) | Chambless and Diao’s AUC            | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
+| [surv.cindex](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.cindex.html) | Concordance Index | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
 | [surv.graf](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.graf.html)                    | Integrated Graf Score               | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
 | [surv.hungAUC](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.hung_auc.html)             | Hung and Chiang’s AUC               | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
 | [surv.intlogloss](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.intlogloss.html)        | Integrated Log Loss                 | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
