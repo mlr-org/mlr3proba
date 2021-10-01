@@ -103,7 +103,6 @@ Collate:
     'MeasureSurvUnoTPR.R'
     'MeasureSurvXuR2.R'
     'PipeOpCrankCompositor.R'
-    'PipeOpDensAvg.R'
     'PipeOpDistrCompositor.R'
     'PipeOpTransformer.R'
     'PipeOpPredTransformer.R'

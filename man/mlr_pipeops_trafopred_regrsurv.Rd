@@ -61,7 +61,6 @@ Other PipeOps:
 \code{\link{PipeOpPredTransformer}},
 \code{\link{PipeOpTaskTransformer}},
 \code{\link{PipeOpTransformer}},
-\code{\link{mlr_pipeops_densavg}},
 \code{\link{mlr_pipeops_survavg}},
 \code{\link{mlr_pipeops_trafopred_survregr}},
 \code{\link{mlr_pipeops_trafotask_regrsurv}},
