@@ -155,6 +155,7 @@ register_mlr3pipelines = function() {
   x$add("compose_probregr", PipeOpProbregrCompositor)
 
   x$add("survavg", PipeOpSurvAvg)
+  x$add("densavg", PipeOpDensAvg)
 
   x = utils::getFromNamespace("mlr_graphs", ns = "mlr3pipelines")
   x$add("distrcompositor", pipeline_distrcompositor)
