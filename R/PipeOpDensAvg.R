@@ -70,11 +70,18 @@ PipeOpDensAvg = R6Class("PipeOpDensAvg",
   ),
   private = list(
     weighted_avg_predictions = function(inputs, weights, row_ids, truth) {
-      response_matrix = map(inputs, "response")
-      if (some(response_matrix, anyMissing)) {
-        response = NULL
+      pdf_matrix = map(inputs, "pdf")
+      if (some(pdf_matrix, anyMissing)) {
+        pdf = NULL
       } else {
-        response = c(simplify2array(response_matrix) %*% weights)
+        pdf = c(simplify2array(pdf_matrix) %*% weights)
+      }
+
+      cdf_matrix = map(inputs, "cdf")
+      if (some(cdf_matrix, anyMissing)) {
+        cdf = NULL
+      } else {
+        cdf = c(simplify2array(cdf_matrix) %*% weights)
       }
 
       if (length(unique(weights)) == 1) {
@@ -91,7 +98,7 @@ PipeOpDensAvg = R6Class("PipeOpDensAvg",
       }
 
       PredictionDens$new(row_ids = row_ids, pdf = pdf,
-        cdf = cdf, distr = distr)
+                         cdf = cdf, distr = distr)
     }
   )
 )
