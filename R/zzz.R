@@ -43,7 +43,7 @@ register_mlr3 = function() {
       ~type, ~package, ~task, ~learner, ~prediction, ~measure,
       "surv", "mlr3proba", "TaskSurv", "LearnerSurv", "PredictionSurv", "MeasureSurv"
     )), "type")
-    x$task_col_roles$surv = c("feature", "target", "label", "order", "group", "weight", "stratum")
+    x$task_col_roles$surv = x$task_col_roles$regr
     x$task_properties$surv = x$task_properties$regr
     x$learner_properties$surv = x$learner_properties$regr
     x$measure_properties$surv = x$measure_properties$regr
