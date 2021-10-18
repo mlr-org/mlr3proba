@@ -38,7 +38,7 @@ Depends:
 Imports:
     checkmate,
     data.table,
-    distr6 (>= 1.6.0),
+    distr6 (>= 1.6.2),
     mlr3misc (>= 0.7.0),
     paradox (>= 0.1.0),
     R6,
@@ -53,7 +53,7 @@ Suggests:
     mlr3pipelines (>= 0.3.4),
     pracma,
     rpart,
-    set6 (>= 0.1.7),
+    set6 (>= 0.2.4),
     simsurv,
     survAUC,
     testthat
