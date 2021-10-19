@@ -1,3 +1,7 @@
+# mlr3proba 0.4.2
+
+* Patch for linux
+
 # mlr3proba 0.4.1
 
 * Remove `mlr3extralearners` from Suggests
