@@ -28,7 +28,7 @@ pecs(x, measure = c("graf", "logloss"), times, n, eps = NULL, ...)
   measure = c("graf", "logloss"),
   times,
   n,
-  eps = 0.000000000000001,
+  eps = 1e-15,
   train_task = NULL,
   train_set = NULL,
   proper = TRUE,
