@@ -97,7 +97,7 @@ MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
       }
 
       score = weighted_survival_score("graf", truth = prediction$truth,
-        distribution = prediction$distr, times = self$times,
+        distribution = prediction$data$distr, times = self$times,
         proper = self$proper, train = train, eps = self$eps)
 
       if (self$se) {

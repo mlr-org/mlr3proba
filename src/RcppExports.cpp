@@ -23,12 +23,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // c_score_intslogloss
-NumericMatrix c_score_intslogloss(NumericMatrix truth, NumericVector unique_times, NumericMatrix cdf, double eps);
+NumericMatrix c_score_intslogloss(NumericVector truth, NumericVector unique_times, NumericMatrix cdf, double eps);
 RcppExport SEXP _mlr3proba_c_score_intslogloss(SEXP truthSEXP, SEXP unique_timesSEXP, SEXP cdfSEXP, SEXP epsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type truth(truthSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type truth(truthSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type unique_times(unique_timesSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type cdf(cdfSEXP);
     Rcpp::traits::input_parameter< double >::type eps(epsSEXP);

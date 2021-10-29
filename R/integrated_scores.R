@@ -1,25 +1,31 @@
 weighted_survival_score = function(loss, truth, distribution, times, proper, train = NULL,
   eps, ...) {
   assert_surv(truth)
-  assertDistribution(distribution)
-
+  # assertDistribution(distribution)
   if (is.null(times) || !length(times)) {
     unique_times = unique(sort(truth[, "time"]))
   } else {
     unique_times = .c_get_unique_times(truth[, "time"], times)
   }
 
-  if (loss == "graf") {
-    score = c_score_graf_schmid(truth[, "time"], unique_times,
-      as.matrix(distribution$cdf(unique_times)),
-      power = 2)
-  } else if (loss == "schmid") {
-    score = c_score_graf_schmid(truth[, "time"], unique_times,
-      as.matrix(distribution$cdf(unique_times)),
-      power = 1)
+  if (inherits(distribution, "Distribution")) {
+    cdf = as.matrix(distribution$cdf(unique_times))
   } else {
-    score = c_score_intslogloss(as.matrix(truth), unique_times,
-      as.matrix(distribution$cdf(unique_times)), eps = eps)
+    cdf = 1 - t(distribution[, findInterval(unique_times,
+                                            as.numeric(colnames(distribution)))])
+    rownames(cdf) = unique_times
+  }
+
+  true_times <- truth[, "time"]
+
+  ## Note that whilst we calculate the score for censored here, they are then
+  ##  corrected in the weighting function
+  if (loss == "graf") {
+    score = c_score_graf_schmid(true_times, unique_times, cdf, power = 2)
+  } else if (loss == "schmid") {
+    score = c_score_graf_schmid(true_times, unique_times, cdf, power = 1)
+  } else {
+    score = c_score_intslogloss(true_times, unique_times, cdf, eps = eps)
   }
 
   if (is.null(train)) {

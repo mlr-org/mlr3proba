@@ -1,3 +1,9 @@
+# mlr3proba 0.4.2.9000
+
+* Massive speed-up in distrcompositor PipeOp/pipeline
+* More informative error given if `$distr` called for a learner that does not support this return type
+* Fix massive bottleneck in scoring rule measures
+
 # mlr3proba 0.4.2
 
 * Patch for linux
