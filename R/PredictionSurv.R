@@ -140,7 +140,7 @@ PredictionSurv = R6Class("PredictionSurv",
     },
     .distrify_survmatrix = function(x) {
 
-      if (is.na(x) || inherits(x, "Distribution")) {
+      if (inherits(x, "Distribution") || is.na(x)) {
         return(x)
       }
 

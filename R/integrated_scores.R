@@ -2,7 +2,7 @@ weighted_survival_score = function(loss, truth, distribution, times, proper, tra
   eps, ...) {
   assert_surv(truth)
   # assertDistribution(distribution)
-
+  browser()
   if (is.null(times) || !length(times)) {
     unique_times = unique(sort(truth[, "time"]))
   } else {
@@ -12,7 +12,9 @@ weighted_survival_score = function(loss, truth, distribution, times, proper, tra
   if (inherits(distribution, "Distribution")) {
     cdf = as.matrix(distribution$cdf(unique_times))
   } else {
-    cdf = t(as.matrix(1 - distribution[, as.character(unique_times)]))
+    cdf = 1 - t(distribution[, findInterval(unique_times,
+                                            as.numeric(colnames(distribution)))])
+    rownames(cdf) = unique_times
   }
 
   true_times <- truth[, "time"]
