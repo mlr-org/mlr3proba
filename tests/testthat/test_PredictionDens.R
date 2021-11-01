@@ -23,3 +23,8 @@ test_that("c", {
   dt = as.data.table(pred)
   expect_data_table(dt, nrows = task$nrow, ncols = 4L, any.missing = FALSE)
 })
+
+test_that("as_prediction_dens", {
+  p = lrn$train(task)$predict(task)
+  expect_prediction_dens(as_prediction_dens(as.data.table(p)))
+})

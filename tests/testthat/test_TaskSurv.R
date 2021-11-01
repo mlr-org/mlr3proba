@@ -61,3 +61,24 @@ test_that("surv methods", {
   expect_equal(task$unique_event_times(), c(1, 2))
   expect_equal(task$risk_set(2), c(3L, 4L, 5L))
 })
+
+
+test_that("as_task_surv", {
+  expect_task_surv(as_task_surv(data.frame(time = 1, event = 1)))
+  expect_task_surv(as_task_surv(data.frame(time = 1, status = 1),
+    event = "status"
+  ))
+  t1 = tsk("rats")
+  t2 = as_task_surv(t1, clone = TRUE)
+  expect_task_surv(t2)
+  t1$select("sex")
+  expect_false("litter" %in% names(t1$data()))
+  expect_true("litter" %in% names(t2$data()))
+
+  t1 = tsk("rats")
+  t2 = as_task_surv(t1, clone = FALSE)
+  expect_task_surv(t2)
+  t1$select("sex")
+  expect_false("litter" %in% names(t1$data()))
+  expect_false("litter" %in% names(t2$data()))
+})

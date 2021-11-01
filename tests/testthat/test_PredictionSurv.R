@@ -55,3 +55,8 @@ test_that("data.frame roundtrip", {
 
   expect_equal(as.data.table(p1)[, -6L], as.data.table(p2)[, -6L])
 })
+
+test_that("as_prediction_surv", {
+  p = lrn("surv.coxph")$train(task)$predict(task)
+  expect_prediction_surv(as_prediction_surv(as.data.table(p)))
+})
