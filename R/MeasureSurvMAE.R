@@ -33,12 +33,6 @@ MeasureSurvMAE = R6::R6Class("MeasureSurvMAE",
         man = "mlr3proba::mlr_measures_surv.mae",
         param_set = ps
       )
-
-      if (ps$values$se) {
-        self$id = "surv.mae_se"
-      }
-
-      invisible(self)
     }
   ),
 
