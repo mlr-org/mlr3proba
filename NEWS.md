@@ -3,6 +3,7 @@
 * Massive speed-up in distrcompositor PipeOp/pipeline
 * More informative error given if `$distr` called for a learner that does not support this return type
 * Fix massive bottleneck in scoring rule measures
+* Add Density coercions `as_task_dens` and `as_prediction_dens`
 
 # mlr3proba 0.4.2
 
