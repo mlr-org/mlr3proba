@@ -86,3 +86,24 @@ test_that("graf proper option", {
   s2 = p$score(m2)
   expect_gt(s2, s1)
 })
+
+test_that("t_max, p_max", {
+  t = tsk("rats")$filter(sample(1:300, 50))
+  p = lrn("surv.kaplan")$train(t)$predict(t)
+
+  expect_error(p$score(msr("surv.graf", integrated = FALSE, times = 1:2)))
+  expect_error(p$score(msr("surv.graf", integrated = FALSE)))
+  expect_error(p$score(msr("surv.graf", times = 1:2, t_max = 3)))
+
+  m1 = p$score(msr("surv.graf", times = seq(40)))
+  m2 = p$score(msr("surv.graf", t_max = 40))
+  expect_equal(m1, m2)
+
+  s = survival::survfit(t$formula(1), data = t$data())
+
+  t_max = s$time[which(1 - s$n.risk / s$n > 0.4)[1]]
+
+  m1 = p$score(msr("surv.graf", t_max = t_max))
+  m2 = p$score(msr("surv.graf", p_max = 0.4))
+  expect_equal(m1, m2)
+})
