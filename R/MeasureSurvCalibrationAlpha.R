@@ -39,12 +39,6 @@ MeasureSurvCalibrationAlpha = R6Class("MeasureSurvCalibrationAlpha",
         man = "mlr3proba::mlr_measures_surv.calib_alpha",
         param_set = ps
       )
-
-      if (ps$values$se) {
-        self$id <- "surv.calib_alpha_se"
-      }
-
-      invisible(self)
     }
   ),
 
