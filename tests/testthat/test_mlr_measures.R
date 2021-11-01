@@ -50,7 +50,7 @@ test_that("integrated_prob_losses", {
     probs,
     function(x) expect_error(p$score(msr(x, times = 34:37, integrated = FALSE,
                                          proper = TRUE)),
-                            "non-integrated score")
+                            "scalar numeric")
   )
   expect_silent(prediction$score(lapply(probs, msr, integrated = TRUE, proper = TRUE)))
   expect_error(prediction$score(lapply(probs, msr, integrated = TRUE, times = c(34:70),
@@ -88,6 +88,7 @@ test_that("graf proper option", {
 })
 
 test_that("t_max, p_max", {
+  set.seed(1)
   t = tsk("rats")$filter(sample(1:300, 50))
   p = lrn("surv.kaplan")$train(t)$predict(t)
 
@@ -95,15 +96,15 @@ test_that("t_max, p_max", {
   expect_error(p$score(msr("surv.graf", integrated = FALSE)))
   expect_error(p$score(msr("surv.graf", times = 1:2, t_max = 3)))
 
-  m1 = p$score(msr("surv.graf", times = seq(40)))
-  m2 = p$score(msr("surv.graf", t_max = 40))
+  m1 = p$score(msr("surv.graf", times = seq(100)))
+  m2 = p$score(msr("surv.graf", t_max = 100))
   expect_equal(m1, m2)
 
   s = survival::survfit(t$formula(1), data = t$data())
 
-  t_max = s$time[which(1 - s$n.risk / s$n > 0.4)[1]]
+  t_max = s$time[which(1 - s$n.risk / s$n > 0.3)[1]]
 
   m1 = p$score(msr("surv.graf", t_max = t_max))
-  m2 = p$score(msr("surv.graf", p_max = 0.4))
+  m2 = p$score(msr("surv.graf", p_max = 0.3))
   expect_equal(m1, m2)
 })
