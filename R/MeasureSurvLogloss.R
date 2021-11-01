@@ -21,7 +21,6 @@
 #'
 #' @template param_id
 #' @template param_eps
-#' @template field_eps
 #' @template param_se
 #' @template details_trainG
 #'
@@ -33,81 +32,30 @@ MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    #' @param rm_cens `(logical(1))` \cr
-    #' Deprecated, please use `IPCW` instead.
-    #' @param IPCW `(logical(1))` \cr
-    #' If `TRUE` (default) removes censored observations and weights score with IPC weighting
-    #' calculated from the survival probability of the censoring distribution at the time of death.
-    initialize = function(eps = 1e-15, se = FALSE, rm_cens = TRUE, IPCW = TRUE) {
+    initialize = function() {
+      ps = ps(
+        eps = p_dbl(0, 1, default = 1e-15),
+        se = p_lgl(default = FALSE),
+        IPCW = p_lgl(default = TRUE)
+      )
+      ps$values = list(eps = 1e-15, se = FALSE, IPCW = TRUE)
+
       super$initialize(
-        id = ifelse(se, "surv.logloss_se", "surv.logloss"),
+        id = "surv.logloss",
         range = c(0, Inf),
         minimize = TRUE,
         predict_type = "distr",
         packages = "distr6",
         man = "mlr3proba::mlr_measures_surv.logloss",
+        param_set = ps
       )
 
-      private$.eps = assertNumeric(eps)
-      private$.se = assertFlag(se)
-      private$.rm_cens = assertFlag(rm_cens)
-      private$.IPCW = assertFlag(IPCW)
-    }
-  ),
-
-  active = list(
-    eps = function(eps) {
-      if (missing(eps)) {
-        return(private$.eps)
-      } else {
-        assertNumeric(eps)
-        private$.eps = eps
-      }
-    },
-
-    #' @field se `(logical(1))` \cr
-    #' If `TRUE` returns the standard error of the measure.
-    se = function(x) {
-      if (!missing(x)) {
-        private$.se = assertFlag(x)
-      } else {
-        return(private$.se)
-      }
-    },
-
-    #' @field rm_cens `(logical(1))` \cr
-    #' Deprecated, please use `IPCW` instead.
-    rm_cens = function(x) {
-      if (!missing(x)) {
-        private$.rm_cens = assertFlag(x)
-      } else {
-        return(private$.rm_cens)
-      }
-    },
-
-    #' @field IPCW `(logical(1))` \cr
-    #' If `TRUE` (default) removes censored observations and weights score with IPC weighting
-    #' calculated from the survival probability of the censoring distribution at the time of death.
-    IPCW = function(x) {
-      if (!missing(x)) {
-        private$.IPCW = assertFlag(x)
-      } else {
-        return(private$.IPCW)
-      }
+      invisible(self)
     }
   ),
 
   private = list(
-    .eps = numeric(0),
-    .se = FALSE,
-    .rm_cens = TRUE,
-    .IPCW = TRUE,
     .score = function(prediction, task, train_set, ...) {
-
-      if (self$IPCW || self$rm_cens) {
-        self$IPCW = TRUE
-        self$rm_cens = FALSE
-      }
 
       x = as.integer(!is.null(task)) + as.integer(!is.null(train_set))
       if (x == 1) {
@@ -118,11 +66,13 @@ MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
         train = NULL
       }
 
-      if (self$se) {
-        ll = surv_logloss(prediction$truth, prediction$distr, self$eps, self$IPCW, train)
-        return(sd(ll) / sqrt(length(ll)))
+      ps = self$param_set$values
+
+      if (ps$se) {
+        ll = surv_logloss(prediction$truth, prediction$distr, ps$eps, ps$IPCW, train)
+        sd(ll) / sqrt(length(ll))
       } else {
-        return(mean(surv_logloss(prediction$truth, prediction$distr, self$eps, self$IPCW, train)))
+        mean(surv_logloss(prediction$truth, prediction$distr, ps$eps, ps$IPCW, train))
       }
     }
   )

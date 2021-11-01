@@ -7,7 +7,7 @@
 This is an abstract class that should not be constructed directly.
 }
 \section{Super classes}{
-\code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3proba:MeasureSurv]{mlr3proba::MeasureSurv}} -> \code{\link[mlr3proba:MeasureSurvIntegrated]{mlr3proba::MeasureSurvIntegrated}} -> \code{MeasureSurvAUC}
+\code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3proba:MeasureSurv]{mlr3proba::MeasureSurv}} -> \code{MeasureSurvAUC}
 }
 \section{Methods}{
 \subsection{Public methods}{
@@ -34,24 +34,16 @@ This is an abstract class that should not be constructed directly.
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MeasureSurvAUC$new(
-  integrated = TRUE,
-  times,
   id,
   properties = character(),
-  man = NA_character_
+  man = NA_character_,
+  param_set = ps()
 )}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{integrated}}{(\code{logical(1)})\cr
-If \code{TRUE} (default), returns the integrated score; otherwise, not integrated.}
-
-\item{\code{times}}{(\code{numeric()})\cr
-If \code{integrate == TRUE} then a vector of time-points over which to integrate the score.
-If \code{integrate == FALSE} then a single time point at which to return the score.}
-
 \item{\code{id}}{(\code{character(1)})\cr
 Identifier for the new instance.}
 
@@ -69,6 +61,9 @@ Supported by \code{mlr3}:
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 The referenced help package can be opened via method \verb{$help()}.}
+
+\item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
+Set of hyperparameters.}
 }
 \if{html}{\out{</div>}}
 }

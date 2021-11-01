@@ -89,7 +89,7 @@ Other lp survival measures:
 \concept{lp survival measures}
 \concept{survival measures}
 \section{Super classes}{
-\code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3proba:MeasureSurv]{mlr3proba::MeasureSurv}} -> \code{\link[mlr3proba:MeasureSurvIntegrated]{mlr3proba::MeasureSurvIntegrated}} -> \code{\link[mlr3proba:MeasureSurvAUC]{mlr3proba::MeasureSurvAUC}} -> \code{MeasureSurvUnoAUC}
+\code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3proba:MeasureSurv]{mlr3proba::MeasureSurv}} -> \code{\link[mlr3proba:MeasureSurvAUC]{mlr3proba::MeasureSurvAUC}} -> \code{MeasureSurvUnoAUC}
 }
 \section{Methods}{
 \subsection{Public methods}{

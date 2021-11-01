@@ -92,15 +92,7 @@ Other AUC survival measures:
 \concept{lp survival measures}
 \concept{survival measures}
 \section{Super classes}{
-\code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3proba:MeasureSurv]{mlr3proba::MeasureSurv}} -> \code{\link[mlr3proba:MeasureSurvIntegrated]{mlr3proba::MeasureSurvIntegrated}} -> \code{\link[mlr3proba:MeasureSurvAUC]{mlr3proba::MeasureSurvAUC}} -> \code{MeasureSurvUnoTNR}
-}
-\section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{lp_thresh}}{\code{numeric(1)}\cr
-Threshold for linear predictor when calculating TPR/TNR.}
-}
-\if{html}{\out{</div>}}
+\code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3proba:MeasureSurv]{mlr3proba::MeasureSurv}} -> \code{\link[mlr3proba:MeasureSurvAUC]{mlr3proba::MeasureSurvAUC}} -> \code{MeasureSurvUnoTNR}
 }
 \section{Methods}{
 \subsection{Public methods}{

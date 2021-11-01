@@ -4,6 +4,7 @@
 * More informative error given if `$distr` called for a learner that does not support this return type
 * Fix massive bottleneck in scoring rule measures
 * Add Density coercions `as_task_dens` and `as_prediction_dens`
+* Measures now use parameter sets like learners. This streamlines the interface but unfortunately means ids can no longer be set dynamically.
 
 # mlr3proba 0.4.2
 

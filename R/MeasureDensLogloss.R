@@ -21,39 +21,28 @@ MeasureDensLogloss = R6::R6Class("MeasureDensLogloss",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(eps = 1e-15) {
+    initialize = function() {
+      ps = ps(
+        eps = p_dbl(0, 1, default = 1e-15)
+      )
+      ps$values$eps = 1e-15
+
       super$initialize(
         id = "dens.logloss",
         range = c(0, Inf),
         minimize = TRUE,
         predict_type = "pdf",
-        man = "mlr3proba::mlr_measures_dens.logloss"
+        man = "mlr3proba::mlr_measures_dens.logloss",
+        param_set = ps
       )
-
-      assertNumeric(eps)
-      private$.eps = eps
-    }
-  ),
-
-  active = list(
-    #' @field eps
-    #' Returns `eps` parameter, see `initialize`.
-    eps = function(eps) {
-      if (missing(eps)) {
-        return(private$.eps)
-      } else {
-        assertNumeric(eps)
-        private$.eps = eps
-      }
     }
   ),
 
   private = list(
-    .eps = numeric(0),
     .score = function(prediction, ...) {
       pdf = prediction$pdf
-      pdf[pdf == 0] = self$eps
-      return(mean(-log(pdf)))
+      pdf[pdf == 0] = self$param_set$values$eps
+      mean(-log(pdf))
     }
   )
 )

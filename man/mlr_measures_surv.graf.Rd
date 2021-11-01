@@ -111,15 +111,7 @@ Other distr survival measures:
 \concept{distr survival measures}
 \concept{survival measures}
 \section{Super classes}{
-\code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3proba:MeasureSurv]{mlr3proba::MeasureSurv}} -> \code{\link[mlr3proba:MeasureSurvIntegrated]{mlr3proba::MeasureSurvIntegrated}} -> \code{MeasureSurvGraf}
-}
-\section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{se}}{\code{(logical(1))} \cr
-If \code{TRUE} returns the standard error of the measure.}
-}
-\if{html}{\out{</div>}}
+\code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3proba:MeasureSurv]{mlr3proba::MeasureSurv}} -> \code{MeasureSurvGraf}
 }
 \section{Methods}{
 \subsection{Public methods}{
@@ -145,48 +137,9 @@ If \code{TRUE} returns the standard error of the measure.}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvGraf$new(
-  integrated = TRUE,
-  times,
-  method = 2,
-  se = FALSE,
-  proper = FALSE,
-  eps = 0.001
-)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvGraf$new()}\if{html}{\out{</div>}}
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{integrated}}{(\code{logical(1)})\cr
-If \code{TRUE} (default), returns the integrated score; otherwise, not integrated.}
-
-\item{\code{times}}{(\code{numeric()})\cr
-If \code{integrate == TRUE} then a vector of time-points over which to integrate the score.
-If \code{integrate == FALSE} then a single time point at which to return the score.}
-
-\item{\code{method}}{(\code{integer(1)})\cr
-If \code{integrate == TRUE} selects the integration weighting method.
-\code{method == 1} corresponds to weighting each time-point equally and taking the mean score over
-discrete time-points. \code{method == 2} corresponds to calculating a mean weighted by the difference
-between time-points. \code{method == 2} is default to be in line with other packages.}
-
-\item{\code{se}}{(\code{logical(1)})\cr
-If \code{TRUE} returns the standard error of the measure.}
-
-\item{\code{proper}}{(\code{logical(1)})\cr
-If \code{TRUE} then weights scores by the censoring distribution at the observed event time,
-which results in a strictly proper scoring rule if censoring and survival time distributions
-are independent and a sufficiently large dataset is used to weight the measure.
-If \code{FALSE} then weights scores by the Graf method which is the more common usage but the
-loss is not proper. In v0.5.0, the default will be changed to \code{TRUE}.}
-
-\item{\code{eps}}{(\code{numeric(1)})\cr
-Very small number to set zero-valued predicted probabilities to in order to prevent errors
-in log(0) and 1/0 calculation.}
-}
-\if{html}{\out{</div>}}
-}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
