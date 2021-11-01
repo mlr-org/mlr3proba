@@ -38,12 +38,6 @@ MeasureSurvCalibrationBeta = R6Class("MeasureSurvCalibrationBeta",
         man = "mlr3proba::mlr_measures_surv.calib_beta",
         param_set = ps
       )
-
-      if (ps$values$se) {
-        self$id = "surv.calib_beta_se"
-      }
-
-      invisible(self)
     }
   ),
 
