@@ -13,7 +13,6 @@
 #' @template measure_survAUC
 #' @template param_times
 #' @template param_thresh
-#' @template field_thresh
 #'
 #' @references
 #' `r format_bib("song_2008")`
@@ -25,36 +24,28 @@ MeasureSurvSongTNR = R6Class("MeasureSurvSongTNR",
   inherit = MeasureSurvAUC,
   public = list(
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(times = 0, lp_thresh = 0) {
-      assertNumeric(times, len = 1)
+    initialize = function() {
+      ps = ps(
+        times = p_dbl(0),
+        lp_thresh = p_dbl(default = 0)
+      )
+      ps$values = list(lp_thresh = 0)
 
       super$initialize(
-        integrated = FALSE,
-        times = times,
         id = "surv.song_tnr",
         properties = c("requires_task", "requires_train_set", "requires_learner"),
-        man = "mlr3proba::mlr_measures_surv.song_tnr"
+        man = "mlr3proba::mlr_measures_surv.song_tnr",
+        param_set = ps
       )
-
-      assertNumeric(lp_thresh, len = 1)
-      private$.lp_thresh = lp_thresh
-    }
-  ),
-
-  active = list(
-    lp_thresh = function(lp_thresh) {
-      if (missing(lp_thresh)) {
-        return(private$.lp_thresh)
-      } else {
-        assertNumeric(lp_thresh, len = 1)
-        private$.lp_thresh = lp_thresh
-      }
     }
   ),
 
   private = list(
-    .lp_thresh = numeric(0),
     .score = function(prediction, learner, task, train_set, ...) {
+      if (is.null(self$param_set$values$times)) {
+        stop("`times` must be non-NULL")
+      }
+
       tnr = super$.score(
         prediction = prediction,
         learner = learner,
@@ -64,7 +55,7 @@ MeasureSurvSongTNR = R6Class("MeasureSurvSongTNR",
         ...
       )
 
-      tnr[, findInterval(self$lp_thresh, sort(unique(prediction$lp)))]
+      tnr[, findInterval(self$param_set$values$lp_thresh, sort(unique(prediction$lp)))]
     }
   )
 )

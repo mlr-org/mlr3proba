@@ -80,7 +80,6 @@ Collate:
     'MeasureDensLogloss.R'
     'MeasureRegrLogloss.R'
     'MeasureSurv.R'
-    'MeasureSurvIntegrated.R'
     'MeasureSurvAUC.R'
     'MeasureSurvCalibrationAlpha.R'
     'MeasureSurvCalibrationBeta.R'

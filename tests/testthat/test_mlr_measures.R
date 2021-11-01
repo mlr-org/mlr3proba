@@ -9,7 +9,7 @@ test_that("mlr_measures", {
   keys = mlr_measures$keys("^surv")
 
   for (key in keys) {
-    if (grepl("TNR|TPR", key)) {
+    if (grepl("TNR|TPR|tpr|tnr", key)) {
       m = msr(key, times = 60)
     } else {
       if (key %in% c("surv.graf", "surv.intlogloss", "surv.schmid", "surv.brier")) {
@@ -33,12 +33,6 @@ test_that("mlr_measures", {
   }
 })
 
-test_that("print", {
-  expect_output(msr("surv.cindex")$print(), "Score")
-  expect_output(msr("surv.graf", proper = TRUE)$print(), "Score")
-  expect_output(msr("surv.graf", se = TRUE, proper = TRUE)$print(), "Standard Error")
-})
-
 # task = tsk("rats")
 learner = lrn("surv.coxph")$train(task)
 prediction = learner$predict(task)
@@ -49,9 +43,15 @@ test_that("unintegrated_prob_losses", {
 })
 
 test_that("integrated_prob_losses", {
+  t = tgen("simsurv")$generate(20)
+  p = lrn("surv.kaplan")$train(t)$predict(t)
   probs = paste0("surv.", c("graf", "intlogloss", "schmid"))
-  expect_error(lapply(probs, msr, times = 34:37, integrated = FALSE, proper = TRUE),
-    "non-integrated score")
+  lapply(
+    probs,
+    function(x) expect_error(p$score(msr(x, times = 34:37, integrated = FALSE,
+                                         proper = TRUE)),
+                            "non-integrated score")
+  )
   expect_silent(prediction$score(lapply(probs, msr, integrated = TRUE, proper = TRUE)))
   expect_error(prediction$score(lapply(probs, msr, integrated = TRUE, times = c(34:70),
     proper = TRUE)), "Requested times")
@@ -60,30 +60,29 @@ test_that("integrated_prob_losses", {
   expect_silent(prediction$score(lapply(probs, msr, integrated = FALSE, times = 2, proper = TRUE)))
 })
 
-
-times = 60
-train_set = 1:20
-
-test_that("AUCs", {
-  aucs = mlr_measures$keys("^surv.[a-zA-Z]*_auc")
-  expect_error(lapply(aucs, msr, times = 34:37, integrated = FALSE), "non-integrated score")
-  expect_silent(prediction$score(lapply(aucs, msr, integrated = TRUE), task = task,
-    learner = learner, train_set = train_set))
-  expect_silent(prediction$score(lapply(aucs, msr, integrated = TRUE), task = task,
-    learner = learner, train_set = train_set))
-})
-
-test_that("sensspecs", {
-  sensspecs = mlr_measures$keys("^surv.[a-zA-Z]*_tpr|^surv.[a-zA-Z]*_tnr")
-  expect_silent(prediction$score(lapply(sensspecs, msr, integrated = TRUE, times = times),
-    task = task, learner = learner, train_set = train_set))
-  expect_silent(prediction$score(lapply(sensspecs, msr, integrated = TRUE, times = times),
-    task = task, learner = learner, train_set = train_set))
-})
-
 test_that("dcalib", {
   expect_equal(
     pchisq(prediction$score(msr("surv.dcalib", B = 14)), df = 13, lower.tail = FALSE),
     suppressWarnings(prediction$score(msr("surv.dcalib", B = 14, chisq = TRUE)))
   )
+})
+
+test_that("graf training data for weights", {
+  m = msr("surv.graf", proper = TRUE)
+  t = tsk("rats")
+  l = lrn("surv.kaplan")
+  s1 = l$train(t, 1:50)$predict(t, 51:100)$score(m)
+  s2 = l$train(t, 1:50)$predict(t, 51:100)$score(m, task = t, train_set = 1:50)
+  expect_false(identical(s1, s2))
+})
+
+test_that("graf proper option", {
+  set.seed(1)
+  m1 = msr("surv.graf", proper = TRUE, method = 1)
+  m2 = suppressWarnings(msr("surv.graf", proper = FALSE, method = 1))
+  l = lrn("surv.kaplan")
+  p = l$train(tgen("simsurv")$generate(100))$predict(tgen("simsurv")$generate(50))
+  s1 = p$score(m1)
+  s2 = p$score(m2)
+  expect_gt(s2, s1)
 })

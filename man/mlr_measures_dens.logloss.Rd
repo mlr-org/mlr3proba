@@ -26,13 +26,6 @@ probability density function, \eqn{f}, evaluated at the observed value, \eqn{y},
 \section{Super classes}{
 \code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3proba:MeasureDens]{mlr3proba::MeasureDens}} -> \code{MeasureDensLogloss}
 }
-\section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{eps}}{Returns \code{eps} parameter, see \code{initialize}.}
-}
-\if{html}{\out{</div>}}
-}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
@@ -57,18 +50,9 @@ probability density function, \eqn{f}, evaluated at the observed value, \eqn{y},
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureDensLogloss$new(eps = 1e-15)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MeasureDensLogloss$new()}\if{html}{\out{</div>}}
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{eps}}{(\code{numeric(1)})\cr
-Very small number to set zero-valued predicted probabilities to in order to prevent errors
-in log(0) and 1/0 calculation.}
-}
-\if{html}{\out{</div>}}
-}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

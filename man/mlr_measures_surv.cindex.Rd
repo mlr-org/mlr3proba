@@ -99,20 +99,6 @@ Other survival measures:
 \section{Super classes}{
 \code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3proba:MeasureSurv]{mlr3proba::MeasureSurv}} -> \code{MeasureSurvCindex}
 }
-\section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{cutoff}}{\code{(numeric(1))}
-Cut-off time to evaluate concordance up to.}
-
-\item{\code{weight_meth}}{\code{(numeric(1))}
-Method for weighting concordance.}
-
-\item{\code{tiex}}{\code{(numeric(1))}
-Cut-off time to evaluate concordance up to.}
-}
-\if{html}{\out{</div>}}
-}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
@@ -137,11 +123,7 @@ Cut-off time to evaluate concordance up to.}
 \subsection{Method \code{new()}}{
 This is an abstract class that should not be constructed directly.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvCindex$new(
-  cutoff = NULL,
-  weight_meth = c("I", "G", "G2", "SG", "S", "GH"),
-  tiex = 0.5
-)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvCindex$new()}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

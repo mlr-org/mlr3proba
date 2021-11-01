@@ -21,19 +21,37 @@ MeasureSurvHungAUC = R6Class("MeasureSurvHungAUC",
   inherit = MeasureSurvAUC,
   public = list(
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(integrated = TRUE, times) {
+    initialize = function() {
+      ps = ps(
+        integrated = p_lgl(default = TRUE),
+        times = p_uty()
+      )
+      ps$values$integrated = TRUE
+
       super$initialize(
-        integrated = integrated,
-        times = times,
         id = "surv.hung_auc",
         properties = c("requires_task", "requires_train_set"),
-        man = "mlr3proba::mlr_measures_surv.hung_auc"
+        man = "mlr3proba::mlr_measures_surv.hung_auc",
+        param_set = ps
       )
     }
   ),
 
   private = list(
     .score = function(prediction, task, train_set, ...) {
+      ps = self$param_set$values
+      if (!ps$integrated) {
+        msg = "For the non-integrated score, only a single time-point can be returned."
+        if (is.null(ps$times)) {
+          stop(msg)
+        }
+        assertNumeric(ps$times, len = 1, .var.name = msg)
+      } else {
+        if (!is.null(ps$times) && length(ps$times) == 1) {
+          ps$integrated = FALSE
+        }
+      }
+
       super$.score(
         prediction = prediction,
         task = task,

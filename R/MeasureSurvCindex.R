@@ -45,86 +45,44 @@ MeasureSurvCindex = R6Class("MeasureSurvCindex",
     #'   Method for weighting concordance. Default `"I"` is Harrell's C. See details.
     #' @param tiex (`numeric(1)`) \cr
     #'   Weighting applied to tied rankings, default is to give them half weighting.
-    initialize = function(cutoff = NULL, weight_meth = c("I", "G", "G2", "SG", "S", "GH"), tiex = 0.5) {
-
-      weight_meth = match.arg(weight_meth)
-
-      id = switch(weight_meth,
-        "I" = "surv.harrell_c",
-        "G" = "surv.Gweight_c",
-        "G2" = "surv.uno_c",
-        "SG" = "surv.schemper_c",
-        "S" = "surv.peto_c",
-        "GH" = "surv.gonen_c")
+    initialize = function() {
+      ps = ps(
+        cutoff = p_dbl(),
+        weight_meth = p_fct(levels = c("I", "G", "G2", "SG", "S", "GH"), default = "I"),
+        tiex = p_dbl(0, 1, default = 0.5)
+      )
+      ps$values = list(weight_meth = "I", tiex = 0.5)
 
       super$initialize(
-        id = id,
+        id = "surv.cindex",
         range = 0:1,
         minimize = FALSE,
         packages = character(),
         predict_type = "crank",
         properties = character(),
         man = "mlr3proba::mlr_measures_surv.cindex",
+        param_set = ps
       )
 
-      assertNumeric(cutoff, null.ok = TRUE)
-      assertNumeric(tiex)
-
-      private$.cutoff = cutoff
-      private$.tiex = tiex
-      private$.weight_meth = match.arg(weight_meth)
-    }
-  ),
-
-  active = list(
-    #' @field cutoff `(numeric(1))`
-    #' Cut-off time to evaluate concordance up to.
-    cutoff = function(cutoff) {
-      if (missing(cutoff)) {
-        return(private$.cutoff)
-      } else {
-        private$.cutoff = assertNumeric(cutoff, null.ok = TRUE)
-      }
-    },
-
-    #' @field weight_meth `(numeric(1))`
-    #' Method for weighting concordance.
-    weight_meth = function(weight_meth) {
-      if (missing(weight_meth)) {
-        return(private$.weight_meth)
-      } else {
-        private$.weight_meth = assertChoice(weight_meth, c("I", "G", "G2", "SG", "S", "GH"))
-      }
-    },
-
-    #' @field tiex `(numeric(1))`
-    #' Cut-off time to evaluate concordance up to.
-    tiex = function(tiex) {
-      if (missing(tiex)) {
-        return(private$.tiex)
-      } else {
-        private$.tiex = assertNumeric(tiex)
-      }
+      invisible(self)
     }
   ),
 
   private = list(
     .score = function(prediction, task, train_set, ...) {
-      if (self$weight_meth == "GH") {
-        return(c_gonen(prediction$crank, self$tiex))
-      } else if (self$weight_meth == "I") {
-        return(cindex(prediction$truth, prediction$crank, self$cutoff, self$weight_meth,
-          self$tiex))
+      ps = self$param_set$values
+      if (ps$weight_meth == "GH") {
+        return(c_gonen(prediction$crank, ps$tiex))
+      } else if (ps$weight_meth == "I") {
+        return(cindex(prediction$truth, prediction$crank, ps$cutoff, ps$weight_meth,
+          ps$tiex))
       } else {
         if (is.null(task) | is.null(train_set)) {
           stop("'task' and 'train_set' required for all weighted c-index (except GH).")
         }
-        return(cindex(prediction$truth, prediction$crank, self$cutoff, self$weight_meth,
-          self$tiex, task$truth(train_set)))
+        return(cindex(prediction$truth, prediction$crank, ps$cutoff, ps$weight_meth,
+          ps$tiex, task$truth(train_set)))
       }
-    },
-    .cutoff = numeric(),
-    .weight_meth = numeric(),
-    .tiex = numeric()
+    }
   )
 )

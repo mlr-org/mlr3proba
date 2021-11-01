@@ -88,24 +88,6 @@ Other distr survival measures:
 \section{Super classes}{
 \code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3proba:MeasureSurv]{mlr3proba::MeasureSurv}} -> \code{MeasureSurvLogloss}
 }
-\section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{eps}}{(\code{numeric(1)})\cr
-Very small number used to prevent log(0) and 1/0 error.}
-
-\item{\code{se}}{\code{(logical(1))} \cr
-If \code{TRUE} returns the standard error of the measure.}
-
-\item{\code{rm_cens}}{\code{(logical(1))} \cr
-Deprecated, please use \code{IPCW} instead.}
-
-\item{\code{IPCW}}{\code{(logical(1))} \cr
-If \code{TRUE} (default) removes censored observations and weights score with IPC weighting
-calculated from the survival probability of the censoring distribution at the time of death.}
-}
-\if{html}{\out{</div>}}
-}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
@@ -130,28 +112,9 @@ calculated from the survival probability of the censoring distribution at the ti
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvLogloss$new(eps = 1e-15, se = FALSE, rm_cens = TRUE, IPCW = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvLogloss$new()}\if{html}{\out{</div>}}
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{eps}}{(\code{numeric(1)})\cr
-Very small number to set zero-valued predicted probabilities to in order to prevent errors
-in log(0) and 1/0 calculation.}
-
-\item{\code{se}}{(\code{logical(1)})\cr
-If \code{TRUE} returns the standard error of the measure.}
-
-\item{\code{rm_cens}}{\code{(logical(1))} \cr
-Deprecated, please use \code{IPCW} instead.}
-
-\item{\code{IPCW}}{\code{(logical(1))} \cr
-If \code{TRUE} (default) removes censored observations and weights score with IPC weighting
-calculated from the survival probability of the censoring distribution at the time of death.}
-}
-\if{html}{\out{</div>}}
-}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
