@@ -41,11 +41,8 @@ MeasureSurvHungAUC = R6Class("MeasureSurvHungAUC",
     .score = function(prediction, task, train_set, ...) {
       ps = self$param_set$values
       if (!ps$integrated) {
-        msg = "For the non-integrated score, only a single time-point can be returned."
-        if (is.null(ps$times)) {
-          stop(msg)
-        }
-        assertNumeric(ps$times, len = 1, .var.name = msg)
+        msg = "If `integrated=FALSE` then `times` should be a scalar numeric."
+        assert_numeric(ps$times, len = 1, .var.name = msg)
       } else {
         if (!is.null(ps$times) && length(ps$times) == 1) {
           ps$integrated = FALSE

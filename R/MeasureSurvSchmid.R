@@ -44,6 +44,8 @@ MeasureSurvSchmid = R6::R6Class("MeasureSurvSchmid",
       ps = ps(
         integrated = p_lgl(default = TRUE),
         times = p_uty(),
+        t_max = p_dbl(0),
+        p_max = p_dbl(0, 1),
         method = p_int(1L, 2L, default = 2L),
         se = p_lgl(default = FALSE),
         proper = p_lgl(default = FALSE),
@@ -69,12 +71,13 @@ MeasureSurvSchmid = R6::R6Class("MeasureSurvSchmid",
   private = list(
     .score = function(prediction, task, train_set, ...) {
       ps = self$param_set$values
+      nok = sum(!is.null(ps$times), !is.null(ps$t_max), !is.null(ps$p_max)) > 1
+      if (nok) {
+        stop("Only one of `times`, `t_max`, and `p_max` should be provided")
+      }
       if (!ps$integrated) {
-        msg = "For the non-integrated score, only a single time-point can be returned."
-        if (is.null(ps$times)) {
-          stop(msg)
-        }
-        assertNumeric(ps$times, len = 1, .var.name = msg)
+        msg = "If `integrated=FALSE` then `times` should be a scalar numeric."
+        assert_numeric(ps$times, len = 1, .var.name = msg)
       } else {
         if (!is.null(ps$times) && length(ps$times) == 1) {
           ps$integrated = FALSE
@@ -91,8 +94,8 @@ MeasureSurvSchmid = R6::R6Class("MeasureSurvSchmid",
       }
 
       score = weighted_survival_score("schmid", truth = prediction$truth,
-        distribution = prediction$distr, times = ps$times,
-        proper = ps$proper, train = train, eps = ps$eps)
+        distribution = prediction$distr, times = ps$times, t_max = ps$t_max,
+        p_max = ps$p_max, proper = ps$proper, train = train, eps = ps$eps)
 
       if (ps$se) {
         integrated_se(score, ps$integrated)

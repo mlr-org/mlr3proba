@@ -1,9 +1,16 @@
-weighted_survival_score = function(loss, truth, distribution, times, proper, train = NULL,
-  eps, ...) {
+weighted_survival_score = function(loss, truth, distribution, times, t_max,
+                                    p_max, proper, train = NULL, eps, ...) {
   assert_surv(truth)
-  # assertDistribution(distribution)
+
   if (is.null(times) || !length(times)) {
     unique_times = unique(sort(truth[, "time"]))
+    if (!is.null(t_max)) {
+      unique_times  = unique_times[unique_times <= t_max]
+    } else if (!is.null(p_max)) {
+      s = survival::survfit(truth ~ 1)
+      t_max = s$time[which(1 - s$n.risk / s$n > p_max)[1]]
+      unique_times  = unique_times[unique_times <= t_max]
+    }
   } else {
     unique_times = .c_get_unique_times(truth[, "time"], times)
   }
