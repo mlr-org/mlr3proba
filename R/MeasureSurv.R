@@ -37,7 +37,7 @@ MeasureSurv = R6Class("MeasureSurv",
       super$initialize(id,
         task_type = "surv", param_set = param_set, range = range, minimize = minimize,
         aggregator = aggregator, properties = properties, predict_type = predict_type,
-        task_properties = task_properties, packages = packages, man = man)
+        task_properties = task_properties, packages = c("mlr3proba", packages), man = man)
     },
 
     #' @description

@@ -90,7 +90,7 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
         param_vals = param_vals,
         input = data.table(name = c("base", "pred"), train = "NULL", predict = "PredictionSurv"),
         output = data.table(name = "output", train = "NULL", predict = "PredictionSurv"),
-        packages = "distr6"
+        packages = c("mlr3proba", "distr6")
       )
     }
   ),

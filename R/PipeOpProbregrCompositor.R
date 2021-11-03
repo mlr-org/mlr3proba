@@ -81,7 +81,7 @@ PipeOpProbregrCompositor = R6Class("PipeOpProbregrCompositor",
         input = data.table(name = c("input_response", "input_se"), train = "NULL",
           predict = c("PredictionRegr", "PredictionRegr")),
         output = data.table(name = "output", train = "NULL", predict = "PredictionRegr"),
-        packages = "distr6"
+        packages = c("mlr3proba", "distr6")
       )
     }
   ),
