@@ -136,6 +136,7 @@ Collate:
     'helpers.R'
     'histogram.R'
     'integrated_scores.R'
+    'partition.R'
     'pecs.R'
     'pipelines.R'
     'plot.R'
