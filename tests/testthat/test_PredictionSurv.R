@@ -60,3 +60,14 @@ test_that("as_prediction_surv", {
   p = lrn("surv.coxph")$train(task)$predict(task)
   expect_prediction_surv(as_prediction_surv(as.data.table(p)))
 })
+
+test_that("filtering", {
+  p = lrn("surv.coxph")$train(task)$predict(task)
+  p$filter(1:10)
+  expect_prediction_surv(p)
+
+  expect_set_equal(p$data$row_ids, 1:10)
+  expect_numeric(p$data$crank, any.missing = FALSE, len = 10)
+  expect_numeric(p$data$lp, any.missing = FALSE, len = 10)
+  expect_matrix(p$data$distr, nrows = 10)
+})
