@@ -41,7 +41,7 @@ LearnerDens = R6::R6Class("LearnerDens",
       super$initialize(
         id = id, task_type = "dens", param_set = param_set,
         predict_types = predict_types, feature_types = feature_types, properties = properties,
-        data_formats = data_formats, packages = packages, man = man)
+        data_formats = data_formats, packages = c("mlr3proba", packages), man = man)
     }
   )
 )

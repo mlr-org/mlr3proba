@@ -39,7 +39,7 @@ PipeOpPredTransformer = R6Class("PipeOpPredTransformer",
       super$initialize(id = id,
         param_set = param_set,
         param_vals = param_vals,
-        packages = packages,
+        packages = c("mlr3proba", packages),
         input = input,
         output = output
       )
