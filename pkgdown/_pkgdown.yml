@@ -61,13 +61,12 @@ reference:
       - starts_with("mlr_measures_surv")
   - title: Survival Tasks
     contents:
-      - mlr_tasks_lung
-      - mlr_tasks_rats
-      - mlr_tasks_unemployment
-      - mlr_task_generators_simsurv
+      - starts_with("mlr_tasks")
   - title: Survival PipeOps
     contents:
       - starts_with("mlr_pipeops")
+      - starts_with("mlr_graphs")
+      - starts_with("PipeOp")
       - crankcompositor
       - distrcompositor
   - title: Density Learners
@@ -81,7 +80,22 @@ reference:
       - mlr_tasks_faithful
       - mlr_tasks_precip
       - mlr_task_generators_simdens
+  - title: S3 Methods
+    contents:
+      - starts_with("as_prediction")
+      - starts_with("as_task")
   - title: Visualisation
     contents:
       - pecs
       - plot.LearnerSurv
+  - title: Datasets
+    contents:
+      - actg
+      - gbcs
+      - grace
+      - whas
+  - title: Internal
+    contents:
+      - .surv_return
+      - assert_surv
+      - MeasureSurvAUC
