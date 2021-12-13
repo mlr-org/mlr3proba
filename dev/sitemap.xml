@@ -1,243 +1,255 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://mlr3proba.mlr-org.com/index.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/LearnerDens.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/authors.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/LearnerSurv.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/index.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/MeasureDens.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/news/index.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/MeasureSurv.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/LearnerDens.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/MeasureSurvAUC.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/LearnerSurv.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/PipeOpPredTransformer.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/MeasureDens.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/PipeOpTaskTransformer.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/MeasureSurv.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/PipeOpTransformer.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/MeasureSurvAUC.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/PredictionDens.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/PipeOpPredTransformer.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/PredictionSurv.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/PipeOpTaskTransformer.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/TaskDens.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/PipeOpTransformer.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/TaskSurv.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/PredictionDens.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/actg.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/PredictionSurv.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/as_prediction_dens.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/TaskDens.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/as_prediction_surv.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/TaskSurv.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/as_task_dens.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/actg.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/as_task_surv.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/as_prediction_dens.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/assert_surv.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/as_prediction_surv.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/cpp.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/as_task_dens.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/dot-surv_return.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/as_task_surv.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/gbcs.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/assert_surv.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/grace.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/cpp.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr3proba-package.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/dot-surv_return.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_graphs_crankcompositor.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/gbcs.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_graphs_distrcompositor.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/grace.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_graphs_probregrcompositor.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_graphs_survaverager.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr3proba-package.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_graphs_survbagging.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_graphs_crankcompositor.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_graphs_survtoregr.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_graphs_distrcompositor.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_learners_dens.hist.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_graphs_probregrcompositor.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_learners_dens.kde.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_graphs_survaverager.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_learners_surv.coxph.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_graphs_survbagging.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_learners_surv.kaplan.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_graphs_survtoregr.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_learners_surv.rpart.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_learners_dens.hist.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_dens.logloss.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_learners_dens.kde.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.calib_alpha.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_learners_surv.coxph.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.calib_beta.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_learners_surv.kaplan.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.chambless_auc.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_learners_surv.rpart.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.cindex.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_measures_dens.logloss.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.dcalib.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_measures_surv.calib_alpha.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.graf.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_measures_surv.calib_beta.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.hung_auc.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_measures_surv.chambless_auc.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.intlogloss.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_measures_surv.cindex.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.logloss.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_measures_surv.dcalib.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.mae.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_measures_surv.graf.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.mse.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_measures_surv.hung_auc.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.nagelk_r2.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_measures_surv.intlogloss.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.oquigley_r2.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_measures_surv.logloss.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.rmse.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_measures_surv.mae.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.schmid.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_measures_surv.mse.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.song_auc.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_measures_surv.nagelk_r2.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.song_tnr.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_measures_surv.oquigley_r2.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.song_tpr.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_measures_surv.rmse.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.uno_auc.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_measures_surv.schmid.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.uno_tnr.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_measures_surv.song_auc.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.uno_tpr.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_measures_surv.song_tnr.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.xu_r2.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_measures_surv.song_tpr.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_pipeops_compose_crank.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_measures_surv.uno_auc.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_pipeops_compose_distr.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_measures_surv.uno_tnr.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_pipeops_compose_probregr.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_measures_surv.uno_tpr.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_pipeops_survavg.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_measures_surv.xu_r2.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_pipeops_trafopred_regrsurv.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_pipeops_compose_crank.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_pipeops_trafopred_survregr.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_pipeops_compose_distr.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_pipeops_trafotask_regrsurv.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_pipeops_compose_probregr.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_pipeops_trafotask_survregr.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_pipeops_survavg.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_task_generators_simdens.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_pipeops_trafopred_regrsurv.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_task_generators_simsurv.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_pipeops_trafopred_survregr.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_tasks_actg.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_pipeops_trafotask_regrsurv.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_tasks_faithful.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_pipeops_trafotask_survregr.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_tasks_gbcs.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_task_generators_simdens.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_tasks_grace.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_task_generators_simsurv.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_tasks_lung.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_tasks_actg.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_tasks_precip.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_tasks_faithful.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_tasks_rats.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_tasks_gbcs.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_tasks_unemployment.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_tasks_grace.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_tasks_whas.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_tasks_lung.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/pecs.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_tasks_precip.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/plot.LearnerSurv.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_tasks_rats.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/whas.html</loc>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_tasks_unemployment.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/mlr_tasks_whas.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/pecs.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/plot.LearnerSurv.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3proba.mlr-org.com/dev/reference/whas.html</loc>
   </url>
 </urlset>
