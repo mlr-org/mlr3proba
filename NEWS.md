@@ -6,6 +6,7 @@
 * Add Density coercions `as_task_dens` and `as_prediction_dens`
 * Measures now use parameter sets like learners. This streamlines the interface but unfortunately means ids can no longer be set dynamically.
 * Add parameters `t_max` and `p_max` to Graf, Schmid and Integrated Log-loss as an alternative to `times`. `t_max` is equivalent to `times = seq(t_max)` and `p_max` is the proportion of censoring to integrate up to in the dataset.
+* Fix bug in Rcpp code that was causing erroneous values for calculating the cindex in datasets greater than 20,000 observations.
 
 # mlr3proba 0.4.2
 
