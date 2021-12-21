@@ -85,6 +85,7 @@
 </li>
 <li>Measures now use parameter sets like learners. This streamlines the interface but unfortunately means ids can no longer be set dynamically.</li>
 <li>Add parameters <code>t_max</code> and <code>p_max</code> to Graf, Schmid and Integrated Log-loss as an alternative to <code>times</code>. <code>t_max</code> is equivalent to <code>times = seq(t_max)</code> and <code>p_max</code> is the proportion of censoring to integrate up to in the dataset.</li>
+<li>Fix bug in Rcpp code that was causing erroneous values for calculating the cindex in datasets greater than 20,000 observations.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.2" id="mlr3proba-042">mlr3proba 0.4.2<a class="anchor" aria-label="anchor" href="#mlr3proba-042"></a></h2><p class="text-muted">CRAN release: 2021-10-22</p>
