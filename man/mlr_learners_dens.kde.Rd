@@ -29,7 +29,7 @@ lrn("dens.kde")
 \item Predict Types: \verb{pdf, distr}
 \item Feature Types: \verb{integer, numeric}
 \item Properties: \code{missings}
-\item Packages: \CRANpkg{distr6}
+\item Packages: \CRANpkg{mlr3} \CRANpkg{mlr3proba} \CRANpkg{distr6}
 }
 }
 
