@@ -1,5 +1,6 @@
-library(testthat)
-library(checkmate) # for more expect_*() functions
-library(mlr3proba)
-
-test_check("mlr3proba")
+if (requireNamespace("testthat", quietly = TRUE)) {
+  library("testthat")
+  library("checkmate") # for more expect_*() functions
+  library("mlr3proba")
+  test_check("mlr3proba")
+}
