@@ -57,9 +57,6 @@ Suggests:
     simsurv,
     survAUC,
     testthat
-Remotes:
-    alan-turing-institute/distr6,
-    mlr-org/mlr3
 LinkingTo:
     Rcpp
 ByteCompile: true
