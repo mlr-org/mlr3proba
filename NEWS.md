@@ -1,3 +1,7 @@
+# mlr3proba 0.4.3.9000
+
+* Fixed bug in `simsurv` task that made it impossible to predict the target
+
 # mlr3proba 0.4.3
 
 * Massive speed-up in distrcompositor PipeOp/pipeline
