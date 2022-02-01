@@ -5,6 +5,7 @@
 \alias{as_task_surv.TaskSurv}
 \alias{as_task_surv.data.frame}
 \alias{as_task_surv.DataBackend}
+\alias{as_task_surv.formula}
 \title{Convert to a Survival Task}
 \usage{
 as_task_surv(x, ...)
@@ -30,6 +31,8 @@ as_task_surv(x, ...)
   id = deparse(substitute(x)),
   ...
 )
+
+\method{as_task_surv}{formula}(x, data, id = deparse(substitute(data)), ...)
 }
 \arguments{
 \item{x}{(\code{any})\cr
