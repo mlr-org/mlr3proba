@@ -206,9 +206,7 @@ TaskSurv = R6::R6Class("TaskSurv",
     survfit = function(strata = NULL, rows = NULL, ...) {
       assert_character(strata, null.ok = TRUE)
       f = self$formula(strata %??% 1)
-      tn = self$target_names
-
-      cols = c(tn, intersect(self$backend$colnames, strata))
+      cols = c(self$target_names, intersect(self$backend$colnames, strata))
       data = self$data(cols = cols, rows = rows)
       survival::survfit(f, data = data, ...)
     }
