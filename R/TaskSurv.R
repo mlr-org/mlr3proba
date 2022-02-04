@@ -33,6 +33,7 @@
 #' task$unique_times()
 #' task$unique_event_times()
 #' task$risk_set(time = 700)
+#' task$survfit("sex")
 TaskSurv = R6::R6Class("TaskSurv",
   inherit = TaskSupervised,
   public = list(
@@ -190,6 +191,26 @@ TaskSurv = R6::R6Class("TaskSurv",
       } else {
         self$row_ids[self$times() >= time]
       }
+    },
+
+    #' @description
+    #' Creates a [survival::survfit()] object.
+    #'
+    #' @param strata (`character()`)\cr
+    #'   Stratification variables to use.
+    #' @param rows (`integer()`)\cr
+    #'   Subset of row indices.
+    #' @param ... (any)\cr
+    #'   Additional arguments passed down to [survival::survfit.formula()].
+    #' @return `survival::survfit()` object.
+    survfit = function(strata = NULL, rows = NULL, ...) {
+      assert_character(strata, null.ok = TRUE)
+      f = self$formula(strata %??% 1)
+      tn = self$target_names
+
+      cols = c(tn, intersect(self$backend$colnames, strata))
+      data = self$data(cols = cols, rows = rows)
+      survival::survfit(f, data = data, ...)
     }
   ),
 

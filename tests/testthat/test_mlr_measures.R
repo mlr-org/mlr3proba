@@ -100,7 +100,7 @@ test_that("t_max, p_max", {
   m2 = p$score(msr("surv.graf", t_max = 100))
   expect_equal(m1, m2)
 
-  s = survival::survfit(t$formula(1), data = t$data())
+  s = t$survfit()
 
   t_max = s$time[which(1 - s$n.risk / s$n > 0.3)[1]]
 

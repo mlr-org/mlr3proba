@@ -30,6 +30,7 @@ task$status()
 task$unique_times()
 task$unique_event_times()
 task$risk_set(time = 700)
+task$survfit("sex")
 }
 \seealso{
 Other Task: 
@@ -58,6 +59,7 @@ Returns the type of censoring, one of "right", "left", "counting", "interval", o
 \item \href{#method-unique_times}{\code{TaskSurv$unique_times()}}
 \item \href{#method-unique_event_times}{\code{TaskSurv$unique_event_times()}}
 \item \href{#method-risk_set}{\code{TaskSurv$risk_set()}}
+\item \href{#method-survfit}{\code{TaskSurv$survfit()}}
 \item \href{#method-clone}{\code{TaskSurv$clone()}}
 }
 }
@@ -279,6 +281,33 @@ Returns the \code{row_ids} of the observations 'at risk' (not dead or censored) 
 }
 \subsection{Returns}{
 \code{integer()}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-survfit"></a>}}
+\if{latex}{\out{\hypertarget{method-survfit}{}}}
+\subsection{Method \code{survfit()}}{
+Creates a \code{\link[survival:survfit]{survival::survfit()}} object.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TaskSurv$survfit(strata = NULL, rows = NULL, ...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{strata}}{(\code{character()})\cr
+Stratification variables to use.}
+
+\item{\code{rows}}{(\code{integer()})\cr
+Subset of row indices.}
+
+\item{\code{...}}{(any)\cr
+Additional arguments passed down to \code{\link[survival:survfit.formula]{survival::survfit.formula()}}.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{survival::survfit()} object.
 }
 }
 \if{html}{\out{<hr>}}
