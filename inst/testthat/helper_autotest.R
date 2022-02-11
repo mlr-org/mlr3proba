@@ -2,10 +2,14 @@ generate_tasks.LearnerDens = function(learner, N = 30L, ...) { # nolint
   task = mlr3proba::TaskDens$new("proto", rnorm(N))
 
   tasks = list()
-  tasks$feat_single_integer = mlr3proba::TaskDens$new("feat_single_integer",
-                                           data.frame(integer = rbinom(N, 10, 0.5)))
-  tasks$feat_single_numeric = mlr3proba::TaskDens$new("feat_single_numeric", data.frame(numeric = rnorm(N)))
-  tasks$weights = mlr3proba::TaskDens$new("feat_single_numeric", data.frame(x = rnorm(N), weights = runif(N)))
+  if ("integer" %in% learner$feature_types) {
+    tasks$feat_single_integer = mlr3proba::TaskDens$new("feat_single_integer",
+                                             data.frame(integer = rbinom(N, 10, 0.5)))
+  }
+  if("numeric" %in% learner$feature_types) {
+    tasks$feat_single_numeric = mlr3proba::TaskDens$new("feat_single_numeric", data.frame(numeric = rnorm(N)))
+    tasks$weights = mlr3proba::TaskDens$new("feat_single_numeric", data.frame(x = rnorm(N), weights = runif(N)))
+  }
 
   # generate sanity task
   data = with_seed(100, rnorm(1000, 10, 1))
