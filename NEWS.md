@@ -1,3 +1,7 @@
+# mlr3proba 0.4.3
+
+* Minor change to how distributions are created to better support improper distributions
+
 # mlr3proba 0.4.2
 
 * Patch for linux
