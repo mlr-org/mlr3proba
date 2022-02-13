@@ -59,7 +59,7 @@ Suggests:
     testthat
 Remotes:
     alan-turing-institute/distr6#268,
-    xoopR/param6#18
+    xoopR/param6
 LinkingTo:
     Rcpp
 ByteCompile: true
