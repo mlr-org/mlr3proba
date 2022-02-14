@@ -91,20 +91,6 @@ Other distr survival measures:
 \section{Super classes}{
 \code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3proba:MeasureSurv]{mlr3proba::MeasureSurv}} -> \code{MeasureSurvDCalibration}
 }
-\section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{B}}{(\code{integer(1)}) \cr
-Number of buckets to test for uniform predictions over. Default of \code{10} is recommended by
-Haider et al. (2020).}
-
-\item{\code{chisq}}{\code{(logical(1))} \cr
-If \code{TRUE} returns the p.value of the corresponding chisq.test instead of the measure.
-Otherwise this can be performed manually with \code{pchisq(m, B - 1, lower.tail = FALSE)}.
-\code{p > 0.05} indicates well-calibrated.}
-}
-\if{html}{\out{</div>}}
-}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
@@ -129,7 +115,7 @@ Otherwise this can be performed manually with \code{pchisq(m, B - 1, lower.tail 
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvDCalibration$new(B = 10L, chisq = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvDCalibration$new()}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

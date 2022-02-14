@@ -19,35 +19,26 @@ MeasureSurvMAE = R6::R6Class("MeasureSurvMAE",
   inherit = MeasureSurv,
   public = list(
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(se = FALSE) {
+    initialize = function() {
+      ps = ps(
+        se = p_lgl(default = FALSE)
+      )
+      ps$values$se = FALSE
+
       super$initialize(
-        id = ifelse(se, "surv.mae_se", "surv.mae"),
+        id = "surv.mae",
         range = c(0, Inf),
         minimize = TRUE,
         predict_type = "response",
         man = "mlr3proba::mlr_measures_surv.mae",
+        param_set = ps
       )
-
-      private$.se = assertFlag(se)
-    }
-  ),
-
-  active = list(
-    #' @field se `(logical(1))` \cr
-    #' If `TRUE` returns the standard error of the measure.
-    se = function(x) {
-      if (!missing(x)) {
-        private$.se = assertFlag(x)
-      } else {
-        return(private$.se)
-      }
     }
   ),
 
   private = list(
-    .se = FALSE,
     .score = function(prediction, ...) {
-      if (self$se) {
+      if (self$param_set$values$se) {
         return(surv_mae(prediction$truth, prediction$response)$se)
       } else {
         return(mean(surv_mae(prediction$truth, prediction$response)$mae))

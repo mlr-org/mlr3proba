@@ -90,7 +90,7 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
         param_vals = param_vals,
         input = data.table(name = c("base", "pred"), train = "NULL", predict = "PredictionSurv"),
         output = data.table(name = "output", train = "NULL", predict = "PredictionSurv"),
-        packages = "distr6"
+        packages = c("mlr3proba", "distr6")
       )
     }
   ),
@@ -120,12 +120,7 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
 
         form = self$param_set$values$form
         if (length(form) == 0) form = "aft"
-
-        base = distr6::as.MixtureDistribution(base$distr)
-        times = unlist(base[1]$properties$support$elements)
-
         nr = length(inpred$data$row_ids)
-        nc = length(times)
 
         # assumes PH-style lp where high value = high risk
         if (anyMissing(inpred$lp)) {
@@ -134,14 +129,26 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
           lp = inpred$lp
         }
 
+        if (inherits(base$data$distr, "Distribution")) {
+          base = distr6::as.MixtureDistribution(base$distr)
+          times = unlist(base[1]$properties$support$elements)
+          nc = length(times)
+          survmat = matrix(1 - base$cdf(times), nrow = nr, ncol = nc, byrow = TRUE)
+        } else {
+          base = colMeans(base$data$distr)
+          times = as.numeric(names(base))
+          nc = length(times)
+          survmat = matrix(base, nrow = nr, ncol = nc, byrow = TRUE)
+        }
+
         timesmat = matrix(times, nrow = nr, ncol = nc, byrow = TRUE)
-        survmat = matrix(1 - base$cdf(times), nrow = nr, ncol = nc, byrow = TRUE)
         lpmat = matrix(lp, nrow = nr, ncol = nc)
 
         if (form == "ph") {
           cdf = 1 - (survmat^exp(lpmat))
         } else if (form == "aft") {
-          cdf = t(apply(timesmat / exp(lpmat), 1, function(x) base$cdf(x)))
+          cdf = 1 - matrix(survmat[1, findInterval(timesmat / exp(lpmat), times)],
+                           nr, nc, FALSE)
         } else if (form == "po") {
           cdf = 1 - (survmat * ((exp(-lpmat) + ((1 - exp(-lpmat)) * survmat))^-1))
         }

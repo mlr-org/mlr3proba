@@ -1,7 +1,3 @@
-## Reason for early submission
-
-Patch critical bug not caught in tests.
-
 ## Downstream dependencies
 
 No new NOTEs, ERRORs or WARNINGs.

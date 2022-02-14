@@ -25,37 +25,28 @@ MeasureSurvCalibrationAlpha = R6Class("MeasureSurvCalibrationAlpha",
   inherit = MeasureSurv,
   public = list(
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(se = FALSE) {
+    initialize = function() {
+      ps = ps(
+        se = p_lgl(default = FALSE)
+      )
+      ps$values$se = FALSE
+
       super$initialize(
-        id = ifelse(se, "surv.calib_alpha_se", "surv.calib_alpha"),
+        id = "surv.calib_alpha",
         range = c(-Inf, Inf),
         minimize = FALSE,
         predict_type = "distr",
         man = "mlr3proba::mlr_measures_surv.calib_alpha",
+        param_set = ps
       )
-
-      private$.se = assertFlag(se)
-    }
-  ),
-
-  active = list(
-    #' @field se `(logical(1))` \cr
-    #' If `TRUE` returns the standard error of the measure.
-    se = function(x) {
-      if (!missing(x)) {
-        private$.se = assertFlag(x)
-      } else {
-        return(private$.se)
-      }
     }
   ),
 
   private = list(
-    .se = FALSE,
     .score = function(prediction, ...) {
       deaths = sum(prediction$truth[, 2])
 
-      if (self$se) {
+      if (self$param_set$values$se) {
         return(exp(1 / sqrt(deaths)))
       } else {
         haz = prediction$distr$cumHazard(data = matrix(prediction$truth[, 1], nrow = 1))

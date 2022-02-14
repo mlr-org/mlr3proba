@@ -68,10 +68,13 @@ c.PredictionDataSurv = function(..., keep_duplicates = TRUE) {
   }
 
   if ("distr" %in% predict_types) {
-    if (inherits(dots$distr, "VectorDistribution")) {
+    if (inherits(dots[[1]]$distr, "VectorDistribution")) {
       result$distr = do.call(c, map(dots, "distr"))
     } else {
       result$distr = tryCatch(
+        # Ideally we keep returned object as a matrix but this may
+        #  not be possible if the number of columns doesn't match up.
+        #  In this case we convert internally within distr6
         do.call(rbind, map(dots, "distr")),
         error = function(e) {
           do.call(c, map(dots,
@@ -86,4 +89,25 @@ c.PredictionDataSurv = function(..., keep_duplicates = TRUE) {
   }
 
   set_class(result, "PredictionDataSurv")
+}
+
+#' @export
+filter_prediction_data.PredictionDataSurv = function(pdata, row_ids) {
+  keep = pdata$row_ids %in% row_ids
+  pdata$row_ids = pdata$row_ids[keep]
+  pdata$truth = pdata$truth[keep]
+
+  if (!is.null(pdata$crank)) {
+    pdata$crank = pdata$crank[keep]
+  }
+
+  if (!is.null(pdata$lp)) {
+    pdata$lp = pdata$lp[keep]
+  }
+
+  if (!is.null(pdata$distr)) {
+    pdata$distr = pdata$distr[keep,, drop = FALSE]
+  }
+
+  pdata
 }

@@ -229,7 +229,8 @@ pipeline_distrcompositor = function(learner, estimator = c("kaplan", "nelson"),
   pred = mlr3pipelines::as_graph(learner)
 
   base = match.arg(estimator)
-  base = mlr3pipelines::po("learner", lrn(paste("surv", base, sep = ".")))
+  base = mlr3pipelines::po("learner",
+    lrn(paste0("surv.", base), id = paste0("distrcompositor.", base)))
 
   compositor = mlr3pipelines::po("distrcompose", param_vals = list(form = match.arg(form), overwrite = overwrite))
 

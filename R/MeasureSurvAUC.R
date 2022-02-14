@@ -1,34 +1,33 @@
 #' @title Abstract Class for survAUC Measures
 #' @description This is an abstract class that should not be constructed directly.
-#' @include MeasureSurvIntegrated.R
 #'
 #' @template param_integrated
 #' @template param_times
 #' @template param_id
 #' @template param_measure_properties
 #' @template param_man
+#' @template param_param_set
 #' @export
 MeasureSurvAUC = R6Class("MeasureSurvAUC",
-  inherit = MeasureSurvIntegrated,
+  inherit = MeasureSurv,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(integrated = TRUE, times, id, properties = character(),
-      man = NA_character_) {
+    initialize = function(id, properties = character(), man = NA_character_,
+                          param_set = ps()) {
       if (class(self)[[1]] == "MeasureSurvAUC") {
         stop("This is an abstract class that should not be constructed directly.")
       }
 
       super$initialize(
-        integrated = integrated,
-        times = times,
         id = id,
         range = 0:1,
         minimize = FALSE,
         packages = "survAUC",
         predict_type = "lp",
         properties = properties,
-        man = man
+        man = man,
+        param_set = param_set
       )
     }
   ),
@@ -37,6 +36,8 @@ MeasureSurvAUC = R6Class("MeasureSurvAUC",
     .score = function(prediction, learner, task, train_set, FUN, ...) {
 
       args = list()
+      ps = self$param_set$values
+
       if ("requires_train_set" %in% self$properties) {
         args$Surv.rsp = task$truth(train_set) # nolint
       }
@@ -44,7 +45,7 @@ MeasureSurvAUC = R6Class("MeasureSurvAUC",
         args$lp = learner$model$linear.predictors
       }
 
-      args$times = self$times
+      args$times = ps$times
       if (length(args$times) == 0) {
         args$times = sort(unique(prediction$truth[, 1]))
       }
@@ -55,10 +56,10 @@ MeasureSurvAUC = R6Class("MeasureSurvAUC",
 
       auc = mlr3misc::invoke(FUN, lpnew = prediction$lp, .args = args)
 
-      if (self$integrated && !grepl("tnr|tpr", self$id)) {
-        return(auc$iauc)
+      if (is.null(ps$integrated) || !ps$integrated || grepl("tnr|tpr", self$id)) {
+        auc
       } else {
-        return(auc)
+        auc$iauc
       }
     }
   )

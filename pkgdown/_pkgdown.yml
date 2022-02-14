@@ -1,10 +1,8 @@
 url: https://mlr3proba.mlr-org.com
 
 template:
+  bootstrap: 5
   package: mlr3pkgdowntemplate
-  params:
-    bootswatch: journal
-  default_assets: false
 
 development:
   mode: auto
@@ -24,9 +22,9 @@ navbar:
       text: Vignettes
       menu:
         - text: Survival Analysis
-          href: https://mlr3book.mlr-org.com/survival.html
+          href: https://mlr3book.mlr-org.com/special-tasks.html#survival
         - text: Density Estimation
-          href: https://mlr3book.mlr-org.com/density.html
+          href: https://mlr3book.mlr-org.com/special-tasks.html#density
     mattermost:
       icon: fa fa-comments
       href: https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/
@@ -63,13 +61,19 @@ reference:
       - starts_with("mlr_measures_surv")
   - title: Survival Tasks
     contents:
+      - mlr_task_generators_simsurv
+      -  mlr_tasks_actg
+      - mlr_tasks_gbcs
+      - mlr_tasks_grace
       - mlr_tasks_lung
       - mlr_tasks_rats
       - mlr_tasks_unemployment
-      - mlr_task_generators_simsurv
+      - mlr_tasks_whas
   - title: Survival PipeOps
     contents:
       - starts_with("mlr_pipeops")
+      - starts_with("mlr_graphs")
+      - starts_with("PipeOp")
       - crankcompositor
       - distrcompositor
   - title: Density Learners
@@ -83,7 +87,23 @@ reference:
       - mlr_tasks_faithful
       - mlr_tasks_precip
       - mlr_task_generators_simdens
+
+  - title: S3 Methods
+    contents:
+      - starts_with("as_prediction")
+      - starts_with("as_task")
   - title: Visualisation
     contents:
       - pecs
       - plot.LearnerSurv
+  - title: Datasets
+    contents:
+      - actg
+      - gbcs
+      - grace
+      - whas
+  - title: Internal
+    contents:
+      - .surv_return
+      - assert_surv
+      - MeasureSurvAUC

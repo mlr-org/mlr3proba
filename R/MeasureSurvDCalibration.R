@@ -40,58 +40,35 @@ MeasureSurvDCalibration = R6Class("MeasureSurvDCalibration",
     #' If `TRUE` returns the p.value of the corresponding chisq.test instead of the measure.
     #' Otherwise this can be performed manually with `pchisq(m, B - 1, lower.tail = FALSE)`.
     #' `p > 0.05` indicates well-calibrated.
-    initialize = function(B = 10L, chisq = FALSE) {
+    initialize = function() {
+      ps = ps(
+        B = p_int(1, default = 10),
+        chisq = p_lgl(default = FALSE)
+      )
+      ps$values = list(B = 10L, chisq = FALSE)
+
       super$initialize(
         id = "surv.dcalib",
         range = c(0, Inf),
         minimize = TRUE,
         predict_type = "distr",
         man = "mlr3proba::mlr_measures_surv.dcalib",
+        param_set = ps
       )
-
-      private$.B = assert_integerish(B)
-      private$.chisq = assert_flag(chisq)
-    }
-  ),
-
-  active = list(
-    #' @field B (`integer(1)`) \cr
-    #' Number of buckets to test for uniform predictions over. Default of `10` is recommended by
-    #' Haider et al. (2020).
-    B = function(x) {
-      if (!missing(x)) {
-        private$.B = assert_integerish(x)
-      } else {
-        return(private$.B)
-      }
-    },
-
-    #' @field chisq `(logical(1))` \cr
-    #' If `TRUE` returns the p.value of the corresponding chisq.test instead of the measure.
-    #' Otherwise this can be performed manually with `pchisq(m, B - 1, lower.tail = FALSE)`.
-    #' `p > 0.05` indicates well-calibrated.
-    chisq = function(x) {
-      if (!missing(x)) {
-        private$.chisq = assert_flag(x)
-      } else {
-        return(private$.chisq)
-      }
     }
   ),
 
   private = list(
-    .B = 10L,
-    .chisq = FALSE,
     .score = function(prediction, ...) {
-
+      ps = self$param_set$values
       # initialize buckets
-      bj = numeric(self$B)
+      bj = numeric(ps$B)
       # predict individual probability of death at observed event time
       si = as.numeric(prediction$distr$survival(data = matrix(prediction$truth[, 1L], nrow = 1L)))
       # remove zeros
       si = map_dbl(si, function(.x) max(.x, 1e-5))
       # index of associated bucket
-      js = ceiling(self$B * si)
+      js = ceiling(ps$B * si)
 
       # could remove loop for dead observations but needed for censored ones and minimal overhead
       # in combining both
@@ -103,16 +80,16 @@ MeasureSurvDCalibration = R6Class("MeasureSurvDCalibration",
         } else {
           # uncensored observations spread across buckets with most weighting on penultimate
           for (k in seq.int(ji - 1)) {
-            bj[k] = bj[k] + 1 / (self$B * si[[i]])
+            bj[k] = bj[k] + 1 / (ps$B * si[[i]])
           }
-          bj[ji] = bj[ji] + (1 - (ji - 1) / (self$B * si[[i]]))
+          bj[ji] = bj[ji] + (1 - (ji - 1) / (ps$B * si[[i]]))
         }
       }
 
-      if (self$chisq) {
+      if (ps$chisq) {
         return(stats::chisq.test(bj)$p.value)
       } else {
-        return((self$B / length(si)) * sum((bj - length(si) / self$B)^2))
+        return((ps$B / length(si)) * sum((bj - length(si) / ps$B)^2))
       }
     }
   )

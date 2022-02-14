@@ -65,6 +65,7 @@ PipeOpSurvAvg = R6Class("PipeOpSurvAvg",
         id = id,
         param_vals = param_vals,
         prediction_type = "PredictionSurv",
+        packages = "mlr3proba",
         ...)
     }
   ),

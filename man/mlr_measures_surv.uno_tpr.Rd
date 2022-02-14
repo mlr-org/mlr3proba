@@ -92,15 +92,7 @@ Other lp survival measures:
 \concept{lp survival measures}
 \concept{survival measures}
 \section{Super classes}{
-\code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3proba:MeasureSurv]{mlr3proba::MeasureSurv}} -> \code{\link[mlr3proba:MeasureSurvIntegrated]{mlr3proba::MeasureSurvIntegrated}} -> \code{\link[mlr3proba:MeasureSurvAUC]{mlr3proba::MeasureSurvAUC}} -> \code{MeasureSurvUnoTPR}
-}
-\section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{lp_thresh}}{\code{numeric(1)}\cr
-Threshold for linear predictor when calculating TPR/TNR.}
-}
-\if{html}{\out{</div>}}
+\code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3proba:MeasureSurv]{mlr3proba::MeasureSurv}} -> \code{\link[mlr3proba:MeasureSurvAUC]{mlr3proba::MeasureSurvAUC}} -> \code{MeasureSurvUnoTPR}
 }
 \section{Methods}{
 \subsection{Public methods}{
@@ -126,21 +118,9 @@ Threshold for linear predictor when calculating TPR/TNR.}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvUnoTPR$new(times = 0, lp_thresh = 0)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvUnoTPR$new()}\if{html}{\out{</div>}}
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{times}}{(\code{numeric()})\cr
-If \code{integrate == TRUE} then a vector of time-points over which to integrate the score.
-If \code{integrate == FALSE} then a single time point at which to return the score.}
-
-\item{\code{lp_thresh}}{\code{numeric(1)} \cr
-Determines where to threshold the linear predictor for calculating the TPR/TNR.}
-}
-\if{html}{\out{</div>}}
-}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

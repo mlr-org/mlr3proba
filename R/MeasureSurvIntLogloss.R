@@ -35,50 +35,54 @@
 #' @family distr survival measures
 #' @export
 MeasureSurvIntLogloss = R6::R6Class("MeasureSurvIntLogloss",
-  inherit = MeasureSurvIntegrated,
+  inherit = MeasureSurv,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(integrated = TRUE, times, eps = 1e-15, method = 2, se = FALSE,
-      proper = FALSE) {
+    initialize = function() {
 
-      if (!proper) {
-        warning("The default of 'proper' will be changed to 'TRUE' in v0.6.0.")
-      }
+      ps = ps(
+        integrated = p_lgl(default = TRUE),
+        times = p_uty(),
+        t_max = p_dbl(0),
+        p_max = p_dbl(0, 1),
+        method = p_int(1L, 2L, default = 2L),
+        se = p_lgl(default = FALSE),
+        proper = p_lgl(default = FALSE),
+        eps = p_dbl(0, 1, default = 1e-3)
+      )
+      ps$values = list(
+        integrated = TRUE, method = 2L, se = FALSE,
+        proper = FALSE, eps = 1e-3
+      )
 
       super$initialize(
-        integrated = integrated,
-        times = times,
-        method = method,
-        proper = proper,
-        eps = eps,
-        id = ifelse(se, "surv.intlogloss_se", "surv.intlogloss"),
+        param_set = ps,
+        id = "surv.intlogloss",
         range = c(0, Inf),
         minimize = TRUE,
         packages = "distr6",
         predict_type = "distr",
-        man = "mlr3proba::mlr_measures_surv.intlogloss",
+        man = "mlr3proba::mlr_measures_surv.intlogloss"
       )
-
-      private$.se = assertFlag(se)
-    }
-  ),
-
-  active = list(
-    #' @field se `(logical(1))` \cr
-    #' If `TRUE` returns the standard error of the measure.
-    se = function(x) {
-      if (!missing(x)) {
-        private$.se = assertFlag(x)
-      } else {
-        return(private$.se)
-      }
     }
   ),
 
   private = list(
-    .se = FALSE,
     .score = function(prediction, task, train_set, ...) {
+      ps = self$param_set$values
+      nok = sum(!is.null(ps$times), !is.null(ps$t_max), !is.null(ps$p_max)) > 1
+      if (nok) {
+        stop("Only one of `times`, `t_max`, and `p_max` should be provided")
+      }
+      if (!ps$integrated) {
+        msg = "If `integrated=FALSE` then `times` should be a scalar numeric."
+        assert_numeric(ps$times, len = 1, .var.name = msg)
+      } else {
+        if (!is.null(ps$times) && length(ps$times) == 1) {
+          ps$integrated = FALSE
+        }
+      }
 
       x = as.integer(!is.null(task)) + as.integer(!is.null(train_set))
       if (x == 1) {
@@ -90,13 +94,13 @@ MeasureSurvIntLogloss = R6::R6Class("MeasureSurvIntLogloss",
       }
 
       score = weighted_survival_score("intslogloss", truth = prediction$truth,
-        distribution = prediction$distr, times = self$times,
-        proper = self$proper, train = train, eps = self$eps)
+        distribution = prediction$distr, times = ps$times, t_max = ps$t_max,
+        p_max = ps$p_max, proper = ps$proper, train = train, eps = ps$eps)
 
-      if (self$se) {
-        integrated_se(score, self$integrated)
+      if (ps$se) {
+        integrated_se(score, ps$integrated)
       } else {
-        integrated_score(score, self$integrated, self$method)
+        integrated_score(score, ps$integrated, ps$method)
       }
     }
   )

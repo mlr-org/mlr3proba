@@ -1,6 +1,6 @@
 Package: mlr3proba
 Title: Probabilistic Supervised Learning for 'mlr3'
-Version: 0.4.3
+Version: 0.4.3.9000
 Authors@R:
     c(person(given = "Raphael",
              family = "Sonabend",
@@ -33,7 +33,7 @@ License: LGPL-3
 URL: https://mlr3proba.mlr-org.com, https://github.com/mlr-org/mlr3proba
 BugReports: https://github.com/mlr-org/mlr3proba/issues
 Depends:
-    mlr3 (>= 0.12.0),
+    mlr3 (>= 0.13.0),
     R (>= 3.5.0)
 Imports:
     checkmate,
@@ -58,7 +58,7 @@ Suggests:
     survAUC,
     testthat
 Remotes:
-    alan-turing-institute/distr6#268,
+    alan-turing-institute/distr6,
     xoopR/param6
 LinkingTo:
     Rcpp
@@ -81,7 +81,6 @@ Collate:
     'MeasureDensLogloss.R'
     'MeasureRegrLogloss.R'
     'MeasureSurv.R'
-    'MeasureSurvIntegrated.R'
     'MeasureSurvAUC.R'
     'MeasureSurvCalibrationAlpha.R'
     'MeasureSurvCalibrationBeta.R'
@@ -127,7 +126,9 @@ Collate:
     'TaskGeneratorSimsurv.R'
     'TaskSurv.R'
     'TaskSurv_X.R'
+    'as_prediction_dens.R'
     'as_prediction_surv.R'
+    'as_task_dens.R'
     'as_task_surv.R'
     'assertions.R'
     'bibentries.R'
@@ -136,6 +137,7 @@ Collate:
     'helpers.R'
     'histogram.R'
     'integrated_scores.R'
+    'partition.R'
     'pecs.R'
     'pipelines.R'
     'plot.R'

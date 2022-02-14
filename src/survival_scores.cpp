@@ -50,17 +50,17 @@ NumericVector c_get_unique_times(NumericVector true_times, NumericVector req_tim
 }
 
 // [[Rcpp::export]]
-NumericMatrix c_score_intslogloss(NumericMatrix truth, NumericVector unique_times,
+NumericMatrix c_score_intslogloss(NumericVector truth, NumericVector unique_times,
                                   NumericMatrix cdf, double eps){
-  NumericVector obs_times = truth(_,0);
+  // NumericVector obs_times = truth(_,0);
 
-  int nr_obs = obs_times.length();
+  int nr_obs = truth.length();
   int nc_times = unique_times.length();
   NumericMatrix ll(nr_obs, nc_times);
 
   for (int i = 0; i < nr_obs; i++) {
     for (int j = 0; j < nc_times; j++) {
-      if(obs_times[i] > unique_times[j]) {
+      if(truth[i] > unique_times[j]) {
         ll(i, j) = 1 - cdf(j, i);
       } else {
         ll(i, j) = cdf(j, i);
@@ -108,7 +108,7 @@ NumericMatrix c_weight_survival_score(NumericMatrix score, NumericMatrix truth,
 
   int nr = score.nrow();
   int nc = score.ncol();
-  float k = 0;
+  double k = 0;
 
   NumericMatrix mat(nr, nc);
 
@@ -169,9 +169,9 @@ NumericMatrix c_weight_survival_score(NumericMatrix score, NumericMatrix truth,
 float c_concordance(NumericVector time, NumericVector status, NumericVector crank,
                     double cutoff, std::string weight_meth, NumericMatrix cens,
                     NumericMatrix surv, float tiex) {
-  float num = 0;
-  float den = 0;
-  float weight = -1;
+  double num = 0;
+  double den = 0;
+  double weight = -1;
 
   NumericVector cens_times;
   NumericVector cens_surv;
@@ -203,7 +203,7 @@ float c_concordance(NumericVector time, NumericVector status, NumericVector cran
             } else if (weight_meth == "G2" || weight_meth == "G" || weight_meth == "SG") {
               for (int l = 0; l < cl; l++) {
                 if(time[i] >= cens_times[l] &&
-                   (time[i] < cens_times[l + 1]  || l == cl - 1)) {
+                  (time[i] < cens_times[l + 1]  || l == cl - 1)) {
                   if (weight_meth == "G") {
                     weight = pow(cens_surv[l], -1);
                   } else {
@@ -253,7 +253,7 @@ float c_gonen(NumericVector crank, float tiex) {
   std::sort(crank.begin(), crank.end());
 
   int n = crank.length();
-  float ghci = 0.0;
+  double ghci = 0.0;
 
   for (int i = 0; i < n - 1; i++) {
     for (int j = i + 1; j < n; j++) {

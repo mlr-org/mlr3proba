@@ -13,7 +13,6 @@
 #' @template measure_survAUC
 #' @template param_times
 #' @template param_thresh
-#' @template field_thresh
 #'
 #' @family lp survival measures
 #'
@@ -26,42 +25,34 @@ MeasureSurvUnoTNR = R6Class("MeasureSurvUnoTNR",
   inherit = MeasureSurvAUC,
   public = list(
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(times = 0, lp_thresh = 0) {
-      assertNumeric(times, len = 1)
+    initialize = function() {
+      ps = ps(
+        times = p_dbl(0),
+        lp_thresh = p_dbl(default = 0)
+      )
+      ps$values = list(lp_thresh = 0)
 
       super$initialize(
-        integrated = FALSE,
-        times = times,
+        param_set = ps,
         id = "surv.uno_tnr",
         man = "mlr3proba::mlr_measures_surv.uno_tnr"
       )
-
-      assertNumeric(lp_thresh, len = 1)
-      private$.lp_thresh = lp_thresh
-    }
-  ),
-
-  active = list(
-    lp_thresh = function(lp_thresh) {
-      if (missing(lp_thresh)) {
-        return(private$.lp_thresh)
-      } else {
-        assertNumeric(lp_thresh, len = 1)
-        private$.lp_thresh = lp_thresh
-      }
     }
   ),
 
   private = list(
-    .lp_thresh = numeric(0),
     .score = function(prediction, ...) {
+      if (is.null(self$param_set$values$times)) {
+        stop("`times` must be non-NULL")
+      }
+
       tnr = super$.score(
         prediction = prediction,
         FUN = survAUC::spec.uno,
         task = task
       )
 
-      tnr[, findInterval(self$lp_thresh, sort(unique(prediction$lp)))]
+      tnr[, findInterval(self$param_set$values$lp_thresh, sort(unique(prediction$lp)))]
     }
   )
 )

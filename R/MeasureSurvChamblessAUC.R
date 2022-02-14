@@ -22,19 +22,34 @@ MeasureSurvChamblessAUC = R6Class("MeasureSurvChamblessAUC",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(integrated = TRUE, times) {
+    initialize = function() {
+      ps = ps(
+        times = p_uty(),
+        integrated = p_lgl(default = TRUE)
+      )
+      ps$values$integrated = TRUE
+
       super$initialize(
-        integrated = integrated,
-        times = times,
         id = "surv.chambless_auc",
         properties = c("requires_learner", "requires_task", "requires_train_set"),
-        man = "mlr3proba::mlr_measures_surv.chambless_auc"
+        man = "mlr3proba::mlr_measures_surv.chambless_auc",
+        param_set = ps
       )
     }
   ),
 
   private = list(
     .score = function(prediction, learner, task, train_set, ...) {
+      ps = self$param_set$values
+      if (!ps$integrated) {
+        msg = "If `integrated=FALSE` then `times` should be a scalar numeric."
+        assert_numeric(ps$times, len = 1, .var.name = msg)
+      } else {
+        if (!is.null(ps$times) && length(ps$times) == 1) {
+          ps$integrated = FALSE
+        }
+      }
+
       super$.score(
         prediction = prediction,
         learner = learner,

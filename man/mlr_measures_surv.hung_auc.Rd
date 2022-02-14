@@ -89,7 +89,7 @@ Other lp survival measures:
 \concept{lp survival measures}
 \concept{survival measures}
 \section{Super classes}{
-\code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3proba:MeasureSurv]{mlr3proba::MeasureSurv}} -> \code{\link[mlr3proba:MeasureSurvIntegrated]{mlr3proba::MeasureSurvIntegrated}} -> \code{\link[mlr3proba:MeasureSurvAUC]{mlr3proba::MeasureSurvAUC}} -> \code{MeasureSurvHungAUC}
+\code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3proba:MeasureSurv]{mlr3proba::MeasureSurv}} -> \code{\link[mlr3proba:MeasureSurvAUC]{mlr3proba::MeasureSurvAUC}} -> \code{MeasureSurvHungAUC}
 }
 \section{Methods}{
 \subsection{Public methods}{
@@ -115,21 +115,9 @@ Other lp survival measures:
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvHungAUC$new(integrated = TRUE, times)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvHungAUC$new()}\if{html}{\out{</div>}}
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{integrated}}{(\code{logical(1)})\cr
-If \code{TRUE} (default), returns the integrated score; otherwise, not integrated.}
-
-\item{\code{times}}{(\code{numeric()})\cr
-If \code{integrate == TRUE} then a vector of time-points over which to integrate the score.
-If \code{integrate == FALSE} then a single time point at which to return the score.}
-}
-\if{html}{\out{</div>}}
-}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
