@@ -58,8 +58,8 @@ Suggests:
     survAUC,
     testthat
 Remotes:
-    alan-turing-institute/distr6,
-    xoopR/param6
+    xoopR/param6,
+    alan-turing-institute/distr6
 LinkingTo:
     Rcpp
 ByteCompile: true
