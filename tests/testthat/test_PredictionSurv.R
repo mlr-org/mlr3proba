@@ -1,4 +1,4 @@
-task = tgen("simsurv")$generate(20)
+task = tsk("rats")$filter(sample(300, 20))
 
 test_that("Construction", {
   p = PredictionSurv$new(row_ids = task$row_ids, truth = task$truth(), crank = runif(task$nrow))

@@ -2,7 +2,7 @@ test_that("PipeOpDistrCompositor - basic properties", {
   expect_pipeop(PipeOpDistrCompositor$new())
 })
 
-task = tgen("simsurv")$generate(10)
+task = tsk("rats")$filter(sample(300, 10))
 
 test_that("PipeOpDistrCompositor - overwrite = FALSE", {
   gr = mlr3pipelines::ppl("distrcompositor", lrn("surv.kaplan", id = "k2"), overwrite = FALSE)
