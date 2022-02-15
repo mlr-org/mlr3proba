@@ -1,6 +1,6 @@
 set.seed(1)
 task = tsk("rats")$filter(sample(300, 20))
-learner = lrn("surv.coxph")$train(task)
+learner = suppressWarnings(lrn("surv.coxph")$train(task))
 pred = learner$predict(task)
 pred$data$response = 1:20
 pred$predict_types = c(pred$predict_types, "response")
@@ -35,8 +35,7 @@ test_that("mlr_measures", {
   }
 })
 
-# task = tsk("rats")
-learner = lrn("surv.coxph")$train(task)
+learner = suppressWarnings(lrn("surv.coxph")$train(task))
 prediction = learner$predict(task)
 
 test_that("unintegrated_prob_losses", {
@@ -45,21 +44,22 @@ test_that("unintegrated_prob_losses", {
 })
 
 test_that("integrated_prob_losses", {
+  set.seed(1)
   t = tsk("rats")$filter(sample(300, 50))
   p = lrn("surv.kaplan")$train(t)$predict(t)
   probs = paste0("surv.", c("graf", "intlogloss", "schmid"))
   lapply(
     probs,
-    function(x) expect_error(p$score(msr(x, times = 34:37, integrated = FALSE,
+    function(x) expect_error(p$score(msr(x, times = 39:80, integrated = FALSE,
                                          proper = TRUE)),
                             "scalar numeric")
   )
   expect_silent(prediction$score(lapply(probs, msr, integrated = TRUE, proper = TRUE)))
-  expect_error(prediction$score(lapply(probs, msr, integrated = TRUE, times = c(34:70),
+  expect_error(prediction$score(lapply(probs, msr, integrated = TRUE, times = c(34:38),
     proper = TRUE)), "Requested times")
-  expect_silent(prediction$score(lapply(probs, msr, integrated = TRUE, times = c(2:3),
+  expect_silent(prediction$score(lapply(probs, msr, integrated = TRUE, times = c(100:110),
     proper = TRUE)))
-  expect_silent(prediction$score(lapply(probs, msr, integrated = FALSE, times = 2, proper = TRUE)))
+  expect_silent(prediction$score(lapply(probs, msr, integrated = FALSE, times = 80, proper = TRUE)))
 })
 
 test_that("dcalib", {
