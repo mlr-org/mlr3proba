@@ -50,10 +50,10 @@ TaskGeneratorSimsurv = R6Class("TaskGeneratorSimsurv",
       pv = self$param_set$values
       covs = data.table(
         treatment = stats::rbinom(n, 1L, 0.5),
-        height = stats::rnorm(n, 180, 15),
+        height = stats::rnorm(n, 170, 10),
         weight = stats::rnorm(n, 80, 10)
       )
-      betas = c(treatment = -0.5, height = 1, weight = 0)
+      betas = c(treatment = -0.5, height = -0.00004, weight = -0.00005)
 
       data = setDT(invoke(simsurv::simsurv, x = covs, betas = betas, .args = pv)) # nolint
       data = rcbind(data, covs)

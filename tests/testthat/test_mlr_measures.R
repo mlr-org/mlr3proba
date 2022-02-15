@@ -1,11 +1,13 @@
 set.seed(1)
-task = TaskGeneratorSimsurv$new()$generate(20)
-learner = lrn("surv.coxph")$train(task)
+task = tsk("rats")$filter(sample(300, 20))
+learner = suppressWarnings(lrn("surv.coxph")$train(task))
 pred = learner$predict(task)
 pred$data$response = 1:20
 pred$predict_types = c(pred$predict_types, "response")
 
 test_that("mlr_measures", {
+  skip_if_not_installed("survAUC")
+
   keys = mlr_measures$keys("^surv")
 
   for (key in keys) {
@@ -33,8 +35,7 @@ test_that("mlr_measures", {
   }
 })
 
-# task = tsk("rats")
-learner = lrn("surv.coxph")$train(task)
+learner = suppressWarnings(lrn("surv.coxph")$train(task))
 prediction = learner$predict(task)
 
 test_that("unintegrated_prob_losses", {
@@ -43,21 +44,22 @@ test_that("unintegrated_prob_losses", {
 })
 
 test_that("integrated_prob_losses", {
-  t = tgen("simsurv")$generate(20)
+  set.seed(1)
+  t = tsk("rats")$filter(sample(300, 50))
   p = lrn("surv.kaplan")$train(t)$predict(t)
   probs = paste0("surv.", c("graf", "intlogloss", "schmid"))
   lapply(
     probs,
-    function(x) expect_error(p$score(msr(x, times = 34:37, integrated = FALSE,
+    function(x) expect_error(p$score(msr(x, times = 39:80, integrated = FALSE,
                                          proper = TRUE)),
                             "scalar numeric")
   )
   expect_silent(prediction$score(lapply(probs, msr, integrated = TRUE, proper = TRUE)))
-  expect_error(prediction$score(lapply(probs, msr, integrated = TRUE, times = c(34:70),
+  expect_error(prediction$score(lapply(probs, msr, integrated = TRUE, times = c(34:38),
     proper = TRUE)), "Requested times")
-  expect_silent(prediction$score(lapply(probs, msr, integrated = TRUE, times = c(2:3),
+  expect_silent(prediction$score(lapply(probs, msr, integrated = TRUE, times = c(100:110),
     proper = TRUE)))
-  expect_silent(prediction$score(lapply(probs, msr, integrated = FALSE, times = 2, proper = TRUE)))
+  expect_silent(prediction$score(lapply(probs, msr, integrated = FALSE, times = 80, proper = TRUE)))
 })
 
 test_that("dcalib", {
@@ -81,7 +83,8 @@ test_that("graf proper option", {
   m1 = msr("surv.graf", proper = TRUE, method = 1)
   m2 = suppressWarnings(msr("surv.graf", proper = FALSE, method = 1))
   l = lrn("surv.kaplan")
-  p = l$train(tgen("simsurv")$generate(100))$predict(tgen("simsurv")$generate(50))
+  p = l$train(tsk("rats"), row_ids = sample(300, 50))$
+    predict(tsk("rats"), row_ids = sample(300, 50))
   s1 = p$score(m1)
   s2 = p$score(m2)
   expect_gt(s2, s1)

@@ -144,9 +144,6 @@ PredictionSurv = R6Class("PredictionSurv",
         return(x)
       }
 
-      assert(all(x[, 1] == 1))
-      assert(all(x[, ncol(x)] == 0))
-
       distr6::as.Distribution(
         1 - x,
         fun = "cdf",

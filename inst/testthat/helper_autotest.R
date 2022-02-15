@@ -65,6 +65,7 @@ sanity_check.PredictionSurv = function(prediction, ...) { # nolint
     # try faster method first
     mean = suppressMessages(as.numeric(prediction$distr$mean(cubature = FALSE)))
     if (any(is.nan(mean))) {
+      skip_if_not_installed("cubature")
       mean = suppressMessages(as.numeric(prediction$distr$mean(cubature = TRUE)))
     }
     if(!any(is.nan(mean))) {
