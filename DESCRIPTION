@@ -1,6 +1,6 @@
 Package: mlr3proba
 Title: Probabilistic Supervised Learning for 'mlr3'
-Version: 0.4.3.9000
+Version: 0.4.4
 Authors@R:
     c(person(given = "Raphael",
              family = "Sonabend",
@@ -58,9 +58,6 @@ Suggests:
     simsurv,
     survAUC,
     testthat
-Remotes:
-    xoopR/param6,
-    alan-turing-institute/distr6
 LinkingTo:
     Rcpp
 ByteCompile: true
