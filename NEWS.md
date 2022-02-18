@@ -1,4 +1,4 @@
-# mlr3proba 0.4.3.9000
+# mlr3proba 0.4.4
 
 * Minor change to how distributions are created to better support improper distributions
 * Fixed bug in `simsurv` task that made it impossible to predict the target
