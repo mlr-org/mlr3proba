@@ -60,7 +60,7 @@ Suggests:
     survivalmodels (>= 0.1.11.9000),
     testthat
 Remotes:
-    RaphaelS1/survivalmodels
+    RaphaelS1/survivalmodels@27
 LinkingTo:
     Rcpp
 ByteCompile: true
