@@ -51,29 +51,6 @@ registerS3method("generate_tasks", "LearnerSurv", generate_tasks.LearnerSurv)
 
 sanity_check.PredictionSurv = function(prediction, ...) { # nolint
   # sanity check discrimination
-  x = prediction$score() >= 0.6
-
-  if ("lp" %in% prediction$predict_types) {
-    # crank should equal lp if available
-    x = x & all(all.equal(as.numeric(prediction$lp),
-                          as.numeric(prediction$crank)) == TRUE)
-  } else if ("response" %in% prediction$predict_types) {
-    # otherwise crank should equal -response if available
-    x = x & all(all.equal(-as.numeric(prediction$response),
-                          as.numeric(prediction$crank)) == TRUE)
-  } else if ("distr" %in% prediction$predict_types) {
-    # try faster method first
-    mean = suppressMessages(as.numeric(prediction$distr$mean(cubature = FALSE)))
-    if (any(is.nan(mean))) {
-      skip_if_not_installed("cubature")
-      mean = suppressMessages(as.numeric(prediction$distr$mean(cubature = TRUE)))
-    }
-    if(!any(is.nan(mean))) {
-      # otherwise crank should equal -distr$mean if available
-      x = x & all(all.equal(-mean, as.numeric(prediction$crank)) == TRUE)
-    }
-  }
-
-  x
+  prediction$score() >= 0.6
 }
 registerS3method("sanity_check", "PredictionSurv", sanity_check.PredictionSurv)
