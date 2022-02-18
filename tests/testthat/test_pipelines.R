@@ -1,4 +1,4 @@
-task = tgen("simsurv")$generate(20)
+task = tsk("rats")$filter(sample(300, 20))
 task_regr = tgen("friedman1")$generate(20)
 
 test_that("crankcompositor", {

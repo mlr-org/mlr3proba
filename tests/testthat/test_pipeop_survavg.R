@@ -3,7 +3,7 @@ test_that("basic properties", {
   expect_pipeop(PipeOpSurvAvg$new(param_vals = list()))
 })
 
-task = tgen("simsurv")$generate(5)
+task = tsk("rats")$filter(sample(300, 5))
 p1 = lrn("surv.kaplan")$train(task)$predict(task)
 p2 = lrn("surv.kaplan")$train(task)$predict(task)
 

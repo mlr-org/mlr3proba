@@ -1,4 +1,5 @@
 test_that("autotest", {
+  set.seed(1)
   learner = mlr_learners$get("surv.kaplan")
   expect_learner(learner)
   # sanity requires c > 0.5, kaplan always = 0.5

@@ -115,7 +115,7 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
 
         row_ids = inpred$row_ids
         truth = inpred$truth
-        mlr3misc::map(inputs, function(x) checkmate::assert_true(identical(row_ids, x$row_ids)))
+
         mlr3misc::map(inputs, function(x) checkmate::assert_true(identical(truth, x$truth)))
 
         form = self$param_set$values$form
@@ -151,6 +151,7 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
                            nr, nc, FALSE)
         } else if (form == "po") {
           cdf = 1 - (survmat * ((exp(-lpmat) + ((1 - exp(-lpmat)) * survmat))^-1))
+          cdf[survmat == 1] = 0
         }
 
         distr = .surv_return(times, 1 - cdf)$distr
