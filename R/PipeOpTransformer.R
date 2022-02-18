@@ -31,8 +31,11 @@ PipeOpTransformer = R6Class("PipeOpTransformer",
       packages = character(), input = data.table(),
       output = data.table()) {
 
-      super$initialize(id = id, param_set = param_set, param_vals = param_vals,
-        packages = c("mlr3proba", packages), input = input, output = output)
+      super$initialize(
+        id = id, param_set = param_set, param_vals = param_vals,
+        packages = unique(c("mlr3proba", packages)), input = input,
+        output = output
+      )
     }
   ),
 

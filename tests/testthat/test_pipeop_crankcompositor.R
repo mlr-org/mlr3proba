@@ -1,9 +1,10 @@
 test_that("PipeOpCrankCompositor - basic properties", {
   expect_pipeop(PipeOpCrankCompositor$new())
-  expect_equal(PipeOpCrankCompositor$new()$param_set$values$method, "mean")
+  expect_equal(PipeOpCrankCompositor$new()$param_set$values$method, "sum_haz")
 })
 
-task = tsk("rats")$filter(sample(300, 20))
+set.seed(2218L)
+task = tgen("simsurv")$generate(20L)
 
 test_that("PipeOpCrankCompositor - estimate", {
   gr = mlr3pipelines::ppl("crankcompositor", lrn("surv.coxph"), method = "mode", which = 1)
@@ -22,14 +23,21 @@ test_that("no params", {
 })
 
 test_that("response", {
-  po = PipeOpCrankCompositor$new(param_vals = list(response = TRUE))
+  po = PipeOpCrankCompositor$new(
+    param_vals = list(response = TRUE, method = "median")
+  )
   p = po$predict(
-    list(lrn("surv.kaplan")$train(task)$predict(task)))$output
-  expect_equal(p$response, unlist(as.numeric(p$distr$mean())))
+    list(lrn("surv.coxph")$train(task)$predict(task))
+  )$output
+  ignore = is.na(unlist(as.numeric(p$distr$median())))
+  expect_equal(p$response[ignore], numeric(sum(ignore)))
+  expect_equal(p$response[!ignore], unlist(as.numeric(p$distr$median()))[!ignore])
 
   p = pipeline_crankcompositor(lrn("surv.coxph"), response = TRUE,
-    graph_learner = TRUE)$train(task)$predict(task)
-  expect_equal(p$response, unlist(as.numeric(p$distr$mean())))
+    graph_learner = TRUE, method = "median")$train(task)$predict(task)
+  ignore = is.na(unlist(as.numeric(p$distr$median())))
+  expect_equal(p$response[ignore], numeric(sum(ignore)))
+  expect_equal(p$response[!ignore], unlist(as.numeric(p$distr$median()))[!ignore])
 })
 
 test_that("overwrite crank", {
@@ -43,13 +51,11 @@ test_that("overwrite crank", {
 
   pl = mlr3pipelines::ppl("crankcompositor",
     lrn("surv.kaplan"),
-    method = "median",
     graph_learner = TRUE,
     overwrite = TRUE)
   p1 = pl$train(task)$predict(task)
   p2 = lrn("surv.kaplan")$train(task)$predict(task)
   expect_false(all(p1$crank == p2$crank))
-  expect_equal(p1$crank, -as.numeric(unlist(p2$distr$median())))
 })
 
 test_that("overwrite response", {
@@ -60,17 +66,15 @@ test_that("overwrite response", {
   expect_true(all(p1$response == p2$response))
 
   p1 = PredictionSurv$new(task = task, crank = p$crank, distr = p$distr, response = rexp(20, 0.5))
-  po = PipeOpCrankCompositor$new(param_vals = list(response = TRUE, overwrite = TRUE,
-    method = "median"))
+  po = PipeOpCrankCompositor$new(param_vals = list(response = TRUE, overwrite = TRUE))
   p2 = po$predict(list(p1))[[1]]
   expect_false(all(p1$response == p2$response))
-  expect_equal(p2$response, as.numeric(unlist(p1$distr$median())))
 })
 
 test_that("neg crank", {
   pl = mlr3pipelines::ppl("crankcompositor",
     lrn("surv.kaplan"),
-    method = "median",
+    method = "sum_haz",
     graph_learner = TRUE,
     overwrite = TRUE)
   p = pl$train(task)$predict(task)

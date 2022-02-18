@@ -31,10 +31,11 @@
 #' @section Parameters:
 #' * `method` :: `character(1)` \cr
 #'    Determines what method should be used to produce a continuous ranking from the distribution.
-#'    One of `median`, `mode`, or `mean` corresponding to the respective functions in the predicted
-#'    survival distribution. Note that for models with a proportional hazards form, the ranking
-#'    implied by `mean` and `median` will be identical (but not the value of `crank` itself).
-#'    Default is `mean`.
+#'    One of `sum_haz`, `median`, `mode`, or `mean` corresponding to the
+#'    respective functions in the predicted survival distribution. Note that
+#'    for models with a proportional hazards form, the ranking implied by
+#'    `mean` and `median` will be identical (but not the value of `crank`
+#'    itself). `sum_haz` (default) uses [survivalmodels::surv_to_risk()].
 #' * `which` :: `numeric(1)`\cr
 #'    If `method = "mode"` then specifies which mode to use if multi-modal, default is the first.
 #' * `response` :: `logical(1)`\cr
@@ -58,12 +59,12 @@
 #'   task = tsk("rats")
 #'
 #'   learn = lrn("surv.coxph")$train(task)$predict(task)
-#'   poc = po("crankcompose", param_vals = list(method = "median"))
+#'   poc = po("crankcompose", param_vals = list(method = "sum_haz"))
 #'   poc$predict(list(learn))[[1]]
 #'
 #'   if (requireNamespace("cubature", quietly = TRUE)) {
 #'     learn = lrn("surv.coxph")$train(task)$predict(task)
-#'     poc = po("crankcompose", param_vals = list(method = "mean"))
+#'     poc = po("crankcompose", param_vals = list(method = "sum_haz"))
 #'     poc$predict(list(learn))[[1]]
 #'   }
 #' }
@@ -74,10 +75,11 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id = "compose_crank", param_vals = list(method = "mean", response = FALSE,
-      overwrite = FALSE)) {
+    initialize = function(id = "compose_crank", param_vals = list(
+      method = "sum_haz", response = FALSE, overwrite = FALSE)) {
       ps = ParamSet$new(params = list(
-        ParamFct$new("method", default = "mean", levels = c("mean", "median", "mode"),
+        ParamFct$new("method", default = "sum_haz",
+          levels = c("sum_haz", "mean", "median", "mode"),
           tags = "predict"),
         ParamInt$new("which", default = 1, lower = 1, tags = "predict"),
         ParamLgl$new("response", default = FALSE, tags = "predict"),
@@ -119,8 +121,17 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
       } else {
         assert("distr" %in% inpred$predict_types)
         method = self$param_set$values$method
-        if (length(method) == 0) method = "mean"
-        if (method == "mean") {
+        if (length(method) == 0) method = "sum_haz"
+        if (method == "sum_haz") {
+          if (inherits(inpred$data$distr, "matrix") ||
+              !requireNamespace("survivalmodels", quietly = TRUE)) {
+            comp = survivalmodels::surv_to_risk(inpred$data$distr)
+          } else {
+            comp = as.numeric(
+              colSums(inpred$distr$cumHazard(sort(unique(inpred$truth[, 1]))))
+            )
+          }
+        } else if (method == "mean") {
           comp = try(inpred$distr$mean(), silent = TRUE)
           if (class(comp)[1] == "try-error") {
             requireNamespace("cubature")

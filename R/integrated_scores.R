@@ -1,5 +1,6 @@
 weighted_survival_score = function(loss, truth, distribution, times, t_max,
                                     p_max, proper, train = NULL, eps, ...) {
+
   assert_surv(truth)
 
   if (is.null(times) || !length(times)) {
@@ -18,8 +19,11 @@ weighted_survival_score = function(loss, truth, distribution, times, t_max,
   if (inherits(distribution, "Distribution")) {
     cdf = as.matrix(distribution$cdf(unique_times))
   } else {
-    cdf = 1 - t(distribution[, findInterval(unique_times,
-                                            as.numeric(colnames(distribution)))])
+    mtc = findInterval(unique_times, as.numeric(colnames(distribution)))
+    cdf = 1 - t(distribution[, mtc])
+    if (any(mtc == 0)) {
+      cdf = rbind(matrix(0, sum(mtc == 0), ncol(cdf)), cdf)
+    }
     rownames(cdf) = unique_times
   }
 
