@@ -1,6 +1,6 @@
 Package: mlr3proba
 Title: Probabilistic Supervised Learning for 'mlr3'
-Version: 0.4.4
+Version: 0.4.4.9000
 Authors@R:
     c(person(given = "Raphael",
              family = "Sonabend",
@@ -57,7 +57,10 @@ Suggests:
     set6 (>= 0.1.7),
     simsurv,
     survAUC,
+    survivalmodels (>= 0.1.11.9000),
     testthat
+Remotes:
+    RaphaelS1/survivalmodels
 LinkingTo:
     Rcpp
 ByteCompile: true

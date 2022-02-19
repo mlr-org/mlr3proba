@@ -1,3 +1,7 @@
+# mlr3proba 0.4.4.9000
+
+* Improved reduction from survival matrix predictions to ranking predictions
+
 # mlr3proba 0.4.4
 
 * Minor change to how distributions are created to better support improper distributions
