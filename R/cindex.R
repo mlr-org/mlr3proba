@@ -2,6 +2,10 @@ cindex = function(truth, crank, cutoff = NULL,
   weight_meth = c("I", "G", "G2", "SG", "S"),
   tiex = 0.5, train = NULL) {
 
+  if (length(unique(crank)) == 1) {
+    return(0.5)
+  }
+
   assert_surv(truth)
   assert_numeric(crank)
   if (anyMissing(truth)) {

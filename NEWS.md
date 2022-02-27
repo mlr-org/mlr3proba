@@ -1,6 +1,7 @@
 # mlr3proba 0.4.4.9000
 
 * Improved reduction from survival matrix predictions to ranking predictions
+* Fixed cindex bug when all predictions equal
 
 # mlr3proba 0.4.4
 
