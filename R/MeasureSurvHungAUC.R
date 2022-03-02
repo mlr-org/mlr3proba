@@ -31,6 +31,7 @@ MeasureSurvHungAUC = R6Class("MeasureSurvHungAUC",
       super$initialize(
         id = "surv.hung_auc",
         properties = c("requires_task", "requires_train_set"),
+        label = "Hung and Chiang's AUC",
         man = "mlr3proba::mlr_measures_surv.hung_auc",
         param_set = ps
       )

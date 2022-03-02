@@ -60,6 +60,7 @@ MeasureSurvCindex = R6Class("MeasureSurvCindex",
         packages = character(),
         predict_type = "crank",
         properties = character(),
+        label = "Concordance Index",
         man = "mlr3proba::mlr_measures_surv.cindex",
         param_set = ps
       )

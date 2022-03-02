@@ -26,6 +26,7 @@ MeasureSurvNagelkR2 = R6Class("MeasureSurvNagelkR2",
         packages = "survAUC",
         predict_type = "lp",
         properties = c("requires_task", "requires_train_set"),
+        label = "Nagelkerke's R2",
         man = "mlr3proba::mlr_measures_surv.nagelk_r2"
       )
     }

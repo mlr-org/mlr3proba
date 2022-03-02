@@ -36,6 +36,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \if{html}{\out{<div class="r">}}\preformatted{MeasureSurvAUC$new(
   id,
   properties = character(),
+  label = NA_character_,
   man = NA_character_,
   param_set = ps()
 )}\if{html}{\out{</div>}}
@@ -57,6 +58,9 @@ Supported by \code{mlr3}:
 \item \code{"requires_train_set"} (requires the training indices from the \link{Resampling}), and
 \item \code{"na_score"} (the measure is expected to occasionally return \code{NA} or \code{NaN}).
 }}
+
+\item{\code{label}}{(\code{character(1)})\cr
+Label for the new instance.}
 
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.

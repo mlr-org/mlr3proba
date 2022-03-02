@@ -30,6 +30,7 @@ MeasureSurvRMSE = R6::R6Class("MeasureSurvRMSE",
         range = c(0, Inf),
         minimize = TRUE,
         predict_type = "response",
+        label = "Root Mean Squared Error",
         man = "mlr3proba::mlr_measures_surv.rmse",
         param_set = ps
       )
