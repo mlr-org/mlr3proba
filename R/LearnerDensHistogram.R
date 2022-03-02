@@ -26,7 +26,7 @@ LearnerDensHistogram = R6::R6Class("LearnerDensHistogram",
 
   private = list(
     .train = function(task) {
-      pars = self$param_set$get_values(tag = "train")
+      pars = self$param_set$get_values(tags = "train")
       fit = invoke(.histogram, dat = task$data()[[1]], .args = pars)
       set_class(list(distr = fit$distr, hist = fit$hist), "dens.hist")
     },

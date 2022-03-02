@@ -7,7 +7,7 @@ as_prediction.PredictionDataSurv = function(x, check = TRUE, ...) { # nolint
 #' @export
 check_prediction_data.PredictionDataSurv = function(pdata) { # nolint
 
-  n = length(assert_row_ids(pdata$row_id))
+  n = length(assert_row_ids(pdata$row_ids))
   assert_surv(pdata$truth, "Surv", len = n, any.missing = TRUE, null.ok = TRUE)
   assert_numeric(pdata$crank, len = n, any.missing = FALSE, null.ok = FALSE)
   assert_numeric(pdata$response, len = n, any.missing = FALSE, null.ok = TRUE)
@@ -23,7 +23,7 @@ check_prediction_data.PredictionDataSurv = function(pdata) { # nolint
 
 #' @export
 is_missing_prediction_data.PredictionDataSurv = function(pdata) { # nolint
-  miss = logical(length(pdata$row_id))
+  miss = logical(length(pdata$row_ids))
 
   if (!is.null(pdata$crank)) {
     miss = is.na(pdata$crank)
