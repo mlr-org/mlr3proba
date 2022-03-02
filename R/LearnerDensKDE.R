@@ -35,6 +35,7 @@ LearnerDensKDE = R6::R6Class("LearnerDensKDE",
         feature_types = c("integer", "numeric"),
         properties = "missings",
         packages = "distr6",
+        label = "Kernel Density Estimator",
         man = "mlr3proba::mlr_learners_dens.kde"
       )
     }

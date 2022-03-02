@@ -10,6 +10,7 @@
 #' @template param_rows
 #' @template param_id
 #' @template param_backend
+#' @template param_label
 #'
 #' @family Task
 #' @export
@@ -25,8 +26,6 @@ TaskDens = R6::R6Class("TaskDens",
     #' Either a [DataBackend], a matrix-like object, or a numeric vector.
     #' If weights are used then two columns expected, otherwise one column. The weight column
     #' must be clearly specified (via `[Task]$col_roles`) or the learners will break.
-    #' @param label (`character(1)`)\cr
-    #'   Label for the new instance.
     initialize = function(id, backend, label = NA_character_) {
 
       if (test_numeric(backend)) {

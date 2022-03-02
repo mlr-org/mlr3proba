@@ -16,6 +16,7 @@
 #' @template param_learner_properties
 #' @template param_data_formats
 #' @template param_packages
+#' @template param_label
 #' @template param_man
 #'
 #' @family Learner
@@ -37,11 +38,12 @@ LearnerDens = R6::R6Class("LearnerDens",
       predict_types = "cdf", feature_types = character(),
       properties = character(), data_formats = "data.table",
       packages = character(),
+      label = NA_character_,
       man = NA_character_) {
       super$initialize(
         id = id, task_type = "dens", param_set = param_set,
         predict_types = predict_types, feature_types = feature_types, properties = properties,
-        data_formats = data_formats, packages = c("mlr3proba", packages), man = man)
+        data_formats = data_formats, packages = c("mlr3proba", packages), label = label, man = man)
     }
   )
 )
