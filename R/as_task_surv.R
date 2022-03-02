@@ -50,19 +50,22 @@ as_task_surv.DataBackend = function(x, time = "time", event = "event", time2, ty
 #' @rdname as_task_surv
 #' @export
 as_task_surv.formula = function(x, data, id = deparse(substitute(data)), ...) { # nolint
-  all_vars = all.vars(x)
-  assert_subset(all_vars, c(names(data), "."), .var.name = "formula")
-  if (!attributes(terms(x, data = data))$response) {
-    stopf("Formula %s is missing a response", format(x))
-  }
-
   tab = model.frame(x, data)
   surv = stats::model.response(tab)
-  tab = cbind(
-    data.table(.__time__ = surv[, 1L], .__status__ = surv[, 2L]),
-    tab[, -1L, drop = FALSE]
-  )
-  setnames(tab, c(".__time__", ".__status__"), all_vars[1:2])
+  dt = cbind(as.matrix(surv), tab[, -1L, drop = FALSE])
+  attrs = attributes(surv)
+  time = if (length(attrs$dimnames[[2L]]) == 3L) "start" else "time"
+  type = attrs$type
+  if (type == "mcounting") {
+    stop("Type 'mcounting' is not (yet) supported")
+  }
 
-  as_task_surv(tab, time = all_vars[1L], event = all_vars[2L], id = id)
+  if (type == "interval") {
+    time = "time1"
+    time2 = "time2"
+  } else {
+    time2 = "stop"
+  }
+
+  as_task_surv(dt, type = type, event = "status", time = time, time2 = time2)
 }
