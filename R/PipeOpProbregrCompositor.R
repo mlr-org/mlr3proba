@@ -67,12 +67,11 @@ PipeOpProbregrCompositor = R6Class("PipeOpProbregrCompositor",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id = "compose_probregr", param_vals = list(dist = "Normal")) {
-      ps = ParamSet$new(params = list(
-        ParamFct$new("dist", default = "Normal",
-          levels = distr6::listDistributions(filter = list(Tags = "locscale"),
-            simplify = TRUE),
+      ps = ps(
+        dist = p_fct(default = "Normal",
+          levels = distr6::listDistributions(filter = list(Tags = "locscale"), simplify = TRUE),
           tags = "predict")
-      ))
+      )
 
       super$initialize(
         id = id,

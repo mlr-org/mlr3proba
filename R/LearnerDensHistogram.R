@@ -12,10 +12,9 @@ LearnerDensHistogram = R6::R6Class("LearnerDensHistogram",
     initialize = function() {
       super$initialize(
         id = "dens.hist",
-        param_set = ParamSet$new(
-          params = list(
-            ParamUty$new(id = "breaks", default = "Sturges", tags = "train")
-        )),
+        param_set = ps(
+          breaks = p_uty(default = "Sturges", tags = "train")
+        ),
         feature_types = c("integer", "numeric"),
         predict_types = c("pdf", "cdf", "distr"),
         packages = "distr6",
