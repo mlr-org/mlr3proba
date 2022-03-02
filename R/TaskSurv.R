@@ -33,7 +33,7 @@
 #' task$unique_times()
 #' task$unique_event_times()
 #' task$risk_set(time = 700)
-#' task$survfit("sex")
+#' task$kaplan("sex")
 TaskSurv = R6::R6Class("TaskSurv",
   inherit = TaskSupervised,
   public = list(
@@ -194,7 +194,7 @@ TaskSurv = R6::R6Class("TaskSurv",
     },
 
     #' @description
-    #' Creates a [survival::survfit()] object.
+    #' Calls [survival::survfit()] to calculate the Kaplan-Meier estimator.
     #'
     #' @param strata (`character()`)\cr
     #'   Stratification variables to use.
@@ -202,8 +202,8 @@ TaskSurv = R6::R6Class("TaskSurv",
     #'   Subset of row indices.
     #' @param ... (any)\cr
     #'   Additional arguments passed down to [survival::survfit.formula()].
-    #' @return `survival::survfit()` object.
-    survfit = function(strata = NULL, rows = NULL, ...) {
+    #' @return [survival::survfit.object].
+    kaplan = function(strata = NULL, rows = NULL, ...) {
       assert_character(strata, null.ok = TRUE)
       f = self$formula(strata %??% 1)
       cols = c(self$target_names, intersect(self$backend$colnames, strata))

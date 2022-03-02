@@ -30,7 +30,7 @@ task$status()
 task$unique_times()
 task$unique_event_times()
 task$risk_set(time = 700)
-task$survfit("sex")
+task$kaplan("sex")
 }
 \seealso{
 Other Task: 
@@ -59,7 +59,7 @@ Returns the type of censoring, one of "right", "left", "counting", "interval", o
 \item \href{#method-unique_times}{\code{TaskSurv$unique_times()}}
 \item \href{#method-unique_event_times}{\code{TaskSurv$unique_event_times()}}
 \item \href{#method-risk_set}{\code{TaskSurv$risk_set()}}
-\item \href{#method-survfit}{\code{TaskSurv$survfit()}}
+\item \href{#method-kaplan}{\code{TaskSurv$kaplan()}}
 \item \href{#method-clone}{\code{TaskSurv$clone()}}
 }
 }
@@ -284,12 +284,12 @@ Returns the \code{row_ids} of the observations 'at risk' (not dead or censored) 
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-survfit"></a>}}
-\if{latex}{\out{\hypertarget{method-survfit}{}}}
-\subsection{Method \code{survfit()}}{
-Creates a \code{\link[survival:survfit]{survival::survfit()}} object.
+\if{html}{\out{<a id="method-kaplan"></a>}}
+\if{latex}{\out{\hypertarget{method-kaplan}{}}}
+\subsection{Method \code{kaplan()}}{
+Calls \code{\link[survival:survfit]{survival::survfit()}} to calculate the Kaplan-Meier estimator.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskSurv$survfit(strata = NULL, rows = NULL, ...)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TaskSurv$kaplan(strata = NULL, rows = NULL, ...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -307,7 +307,7 @@ Additional arguments passed down to \code{\link[survival:survfit.formula]{surviv
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-\code{survival::survfit()} object.
+\link[survival:survfit.object]{survival::survfit.object}.
 }
 }
 \if{html}{\out{<hr>}}
