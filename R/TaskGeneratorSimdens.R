@@ -29,6 +29,7 @@ TaskGeneratorSimdens = R6::R6Class("TaskGeneratorSimdens",
         task_type = "dens",
         packages = "distr6",
         param_set = param_set,
+        label = "Density Generator for package 'distr'",
         man = "mlr3::mlr_task_generators_simdens"
       )
     }

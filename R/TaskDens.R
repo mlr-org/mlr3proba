@@ -25,7 +25,9 @@ TaskDens = R6::R6Class("TaskDens",
     #' Either a [DataBackend], a matrix-like object, or a numeric vector.
     #' If weights are used then two columns expected, otherwise one column. The weight column
     #' must be clearly specified (via `[Task]$col_roles`) or the learners will break.
-    initialize = function(id, backend) {
+    #' @param label (`character(1)`)\cr
+    #'   Label for the new instance.
+    initialize = function(id, backend, label = NA_character_) {
 
       if (test_numeric(backend)) {
         backend = data.frame(x = backend)
@@ -35,7 +37,7 @@ TaskDens = R6::R6Class("TaskDens",
         assert_numeric(ncol(backend), lower = 1, upper = 2)
       }
 
-      super$initialize(id = id, task_type = "dens", backend = backend)
+      super$initialize(id = id, task_type = "dens", backend = backend, label = label)
     }
   )
 )

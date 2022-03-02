@@ -33,7 +33,7 @@ License: LGPL-3
 URL: https://mlr3proba.mlr-org.com, https://github.com/mlr-org/mlr3proba
 BugReports: https://github.com/mlr-org/mlr3proba/issues
 Depends:
-    mlr3 (>= 0.13.0),
+    mlr3 (>= 0.13.3),
     R (>= 3.5.0)
 Imports:
     checkmate,
