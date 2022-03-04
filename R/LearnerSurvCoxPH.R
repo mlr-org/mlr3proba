@@ -29,6 +29,7 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH",
         feature_types = c("logical", "integer", "numeric", "factor"),
         properties = "weights",
         packages = c("survival", "distr6"),
+        label = "Cox Proportional Hazards",
         man = "mlr3proba::mlr_learners_surv.coxph"
       )
     }

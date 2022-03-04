@@ -23,6 +23,7 @@ LearnerSurvKaplan = R6Class("LearnerSurvKaplan",
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         properties = "missings",
         packages = c("survival", "distr6"),
+        label = "Kaplan-Meier Estimator",
         man = "mlr3proba::mlr_learners_surv.kaplan"
       )
     }

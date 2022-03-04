@@ -36,6 +36,7 @@ MeasureSurvCalibrationAlpha = R6Class("MeasureSurvCalibrationAlpha",
         range = c(-Inf, Inf),
         minimize = FALSE,
         predict_type = "distr",
+        label = "Van Houwelingen's Alpha",
         man = "mlr3proba::mlr_measures_surv.calib_alpha",
         param_set = ps
       )

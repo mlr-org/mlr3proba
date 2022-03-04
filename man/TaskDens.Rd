@@ -59,7 +59,7 @@ Other Task:
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskDens$new(id, backend)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TaskDens$new(id, backend, label = NA_character_)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -72,6 +72,9 @@ Identifier for the new instance.}
 Either a \link{DataBackend}, a matrix-like object, or a numeric vector.
 If weights are used then two columns expected, otherwise one column. The weight column
 must be clearly specified (via \verb{[Task]$col_roles}) or the learners will break.}
+
+\item{\code{label}}{(\code{character(1)})\cr
+Label for the new instance.}
 }
 \if{html}{\out{</div>}}
 }

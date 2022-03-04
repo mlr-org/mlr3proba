@@ -39,6 +39,7 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart",
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         properties = c("weights", "missings", "importance", "selected_features"),
         packages = c("rpart", "distr6", "survival"),
+        label = "Survival Tree",
         man = "mlr3proba::mlr_learners_surv.rpart"
       )
     },

@@ -52,6 +52,7 @@ MeasureSurvDCalibration = R6Class("MeasureSurvDCalibration",
         range = c(0, Inf),
         minimize = TRUE,
         predict_type = "distr",
+        label = "D-Calibration",
         man = "mlr3proba::mlr_measures_surv.dcalib",
         param_set = ps
       )

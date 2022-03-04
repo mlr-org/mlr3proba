@@ -19,6 +19,7 @@
 #' @template param_predict_sets
 #' @template param_task_properties
 #' @template param_packages
+#' @template param_label
 #' @template param_man
 #'
 #' @family Measure
@@ -32,11 +33,12 @@ MeasureDens = R6Class("MeasureDens",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id, param_set = ps(), range, minimize = NA, aggregator = NULL,
       properties = character(), predict_type = "pdf", task_properties = character(),
-      packages = character(), man = NA_character_) {
+      packages = character(), label = NA_character_, man = NA_character_) {
       super$initialize(id,
         task_type = "dens", param_set = param_set, range = range, minimize = minimize,
         aggregator = aggregator, properties = properties, predict_type = predict_type,
-        task_properties = task_properties, packages = c("mlr3proba", packages), man = man)
+        task_properties = task_properties, packages = c("mlr3proba", packages),
+        label = label, man = man)
     }
   )
 )

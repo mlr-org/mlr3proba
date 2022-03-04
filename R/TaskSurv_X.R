@@ -15,7 +15,7 @@ load_rats = function() {
 
   b = as_data_backend(data)
   b$hash = "_mlr3_survival_rats_"
-  TaskSurv$new("rats", b, time = "time", event = "status")
+  TaskSurv$new("rats", b, time = "time", event = "status", label = "Rats")
 }
 
 #' @title Unemployment Duration Survival Task
@@ -41,7 +41,7 @@ load_unemployment = function() {
   path = file.path(system.file("extdata", package = "mlr3proba"), "unemployment.rds")
   b = as_data_backend(readRDS(path))
   b$hash = "_mlr3_survival_unemployment_"
-  TaskSurv$new("unemployment", b, time = "spell", event = "censor1")
+  TaskSurv$new("unemployment", b, time = "spell", event = "censor1", label = "Unemployment Duration")
 }
 
 #' @title Lung Cancer Survival Task
@@ -62,7 +62,7 @@ load_lung = function() {
 
   b = as_data_backend(data)
   b$hash = "_mlr3_survival_lung_"
-  TaskSurv$new("lung", b, time = "time", event = "status")
+  TaskSurv$new("lung", b, time = "time", event = "status", label = "Lung Cancer")
 }
 
 #' @title ACTG 320 Survival Task
@@ -84,7 +84,7 @@ load_actg = function() {
   colnames(data)[2] = "status"
   b = as_data_backend(data)
   b$hash = "_mlr3_survival_actg_"
-  TaskSurv$new("actg", b, time = "time", event = "status")
+  TaskSurv$new("actg", b, time = "time", event = "status", label = "ACTG 320")
 }
 
 #' @title German Breast Cancer Study Survival Task
@@ -104,7 +104,7 @@ load_gbcs = function() {
   colnames(data)[9:10] = c("time", "status")
   b = as_data_backend(data)
   b$hash = "_mlr3_survival_gbcs_"
-  TaskSurv$new("gbcs", b, time = "time", event = "status")
+  TaskSurv$new("gbcs", b, time = "time", event = "status", label = "German Breast Cancer")
 }
 
 #' @title GRACE 1000 Survival Task
@@ -123,7 +123,7 @@ load_grace = function() {
   colnames(data)[1:2] = c("time", "status")
   b = as_data_backend(data)
   b$hash = "_mlr3_survival_grace_"
-  TaskSurv$new("grace", b, time = "time", event = "status")
+  TaskSurv$new("grace", b, time = "time", event = "status", label = "GRACE 1000")
 }
 
 #' @title Worcester Heart Attack Study (WHAS) Survival Task
@@ -144,5 +144,5 @@ load_whas = function() {
   colnames(data)[10:11] = c("time", "status")
   b = as_data_backend(data)
   b$hash = "_mlr3_survival_whas_"
-  TaskSurv$new("whas", b, time = "time", event = "status")
+  TaskSurv$new("whas", b, time = "time", event = "status", label = "Worcester Heart Attack")
 }
