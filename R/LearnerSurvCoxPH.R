@@ -19,15 +19,11 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH",
     initialize = function() {
       super$initialize(
         id = "surv.coxph",
-        param_set = ParamSet$new(
-          params = list(
-            ParamFct$new(id = "ties", default = "efron", levels = c("efron", "breslow", "exact"),
-              tags = "train"),
-            ParamLgl$new(id = "singular.ok", default = TRUE, tags = "train"),
-            ParamFct$new(id = "type", default = "efron",
-              levels = c("efron", "aalen", "kalbfleisch-prentice"), tags = "predict"),
-            ParamInt$new(id = "stype", default = 2L, lower = 1L, upper = 2L, tags = "predict")
-          )
+        param_set = ps(
+          ties        = p_fct(default = "efron", levels = c("efron", "breslow", "exact"), tags = "train"),
+          singular.ok = p_lgl(default = TRUE, tags = "train"),
+          type        = p_fct(default = "efron", levels = c("efron", "aalen", "kalbfleisch-prentice"), tags = "predict"),
+          stype       = p_int(default = 2L, lower = 1L, upper = 2L, tags = "predict")
         ),
         predict_types = c("distr", "crank", "lp"),
         feature_types = c("logical", "integer", "numeric", "factor"),
