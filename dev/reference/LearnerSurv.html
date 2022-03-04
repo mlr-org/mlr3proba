@@ -147,6 +147,7 @@ uses <a href="https://CRAN.R-project.org/package=distr6" class="external-link"><
   feature_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,
   properties <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,
   packages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,
+  label <span class="op">=</span> <span class="cn">NA_character_</span>,
   man <span class="op">=</span> <span class="cn">NA_character_</span>
 <span class="op">)</span></code></pre></div><p></p></div>
 </div>
@@ -192,6 +193,11 @@ A warning is signaled by the constructor if at least one of the packages is not 
 but loaded (not attached) later on-demand via <code><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace()</a></code>.</p></dd>
 
 
+<dt><code>label</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Label for the new instance.</p></dd>
+
+
 <dt><code>man</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
@@ -231,7 +237,7 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># get a specific learner from mlr_learners:</span></span>
 <span class="r-in"><span class="va">mlr_learners</span><span class="op">$</span><span class="fu">get</span><span class="op">(</span><span class="st">"surv.coxph"</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;LearnerSurvCoxPH:surv.coxph&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;LearnerSurvCoxPH:surv.coxph&gt;: Cox Proportional Hazards</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Model: -</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Parameters: list()</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Packages: mlr3, mlr3proba, survival, distr6</span>
@@ -239,7 +245,7 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Feature types: logical, integer, numeric, factor</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Properties: weights</span>
 <span class="r-in"><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"surv.coxph"</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;LearnerSurvCoxPH:surv.coxph&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;LearnerSurvCoxPH:surv.coxph&gt;: Cox Proportional Hazards</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Model: -</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Parameters: list()</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Packages: mlr3, mlr3proba, survival, distr6</span>

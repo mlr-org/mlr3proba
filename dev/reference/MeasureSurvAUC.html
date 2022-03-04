@@ -106,6 +106,7 @@
 <p></p><div class="r"><div class="sourceCode"><pre><code><span class="va"><a href="../reference/MeasureSurvAUC.html">MeasureSurvAUC</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>
   <span class="va">id</span>,
   properties <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,
+  label <span class="op">=</span> <span class="cn">NA_character_</span>,
   man <span class="op">=</span> <span class="cn">NA_character_</span>,
   param_set <span class="op">=</span> <span class="fu">ps</span><span class="op">(</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div><p></p></div>
@@ -127,6 +128,11 @@ Supported by <code>mlr3</code>:</p><ul><li><p><code>"requires_task"</code> (requ
 <li><p><code>"requires_train_set"</code> (requires the training indices from the <a href="https://mlr3.mlr-org.com/reference/Resampling.html" class="external-link">Resampling</a>), and</p></li>
 <li><p><code>"na_score"</code> (the measure is expected to occasionally return <code>NA</code> or <code>NaN</code>).</p></li>
 </ul></dd>
+
+
+<dt><code>label</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Label for the new instance.</p></dd>
 
 
 <dt><code>man</code></dt>
