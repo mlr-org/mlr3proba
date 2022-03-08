@@ -50,7 +50,7 @@ as_task_surv.DataBackend = function(x, time = "time", event = "event", time2, ty
 #' @rdname as_task_surv
 #' @export
 as_task_surv.formula = function(x, data, id = deparse(substitute(data)), ...) { # nolint
-  tab = model.frame(x, data)
+  tab = model.frame(x, data, na.action = "na.pass")
   surv = stats::model.response(tab)
   dt = cbind(as.matrix(surv), tab[, -1L, drop = FALSE])
   attrs = attributes(surv)
