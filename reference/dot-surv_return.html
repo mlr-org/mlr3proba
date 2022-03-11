@@ -14,7 +14,7 @@ distr6::VectorDistribution of distr6::WeightedDiscrete distributions."><meta pro
     
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.4</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -117,10 +117,14 @@ modification.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>To avoid complications caused by degenerative distributions, if <code>0</code> is not in <code>times</code>, then
-this is added as the first time-point and a column of <code>1</code>s is bound to the left of <code>surv</code>.
-Additionally if the final column of <code>surv</code> is not all <code>1</code>s, then an additional time is added
-as <code>max(times) + 1e-3</code> and a column of <code>1</code>s is bound to the right of <code>surv</code>.</p>
+    <p>Uses <a href="https://rdrr.io/pkg/survivalmodels/man/surv_to_risk.html" class="external-link">survivalmodels::surv_to_risk</a> to reduce survival matrices to relative
+risks / rankings if <code>crank</code> is NULL.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
+    <p>Sonabend, R., Bender, A., &amp; Vollmer, S. (2021).
+Evaluation of survival distribution predictions with discrimination
+measures. http://arxiv.org/abs/2112.04828.</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

@@ -16,7 +16,7 @@ The task_type is set to "surv".'><meta property="og:image" content="https://mlr3
     
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.4</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -151,7 +151,8 @@ Returns the type of censoring, one of "right", "left", "counting", "interval", o
   time <span class="op">=</span> <span class="st">"time"</span>,
   event <span class="op">=</span> <span class="st">"event"</span>,
   <span class="va">time2</span>,
-  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"left"</span>, <span class="st">"interval"</span>, <span class="st">"counting"</span>, <span class="st">"interval2"</span>, <span class="st">"mstate"</span><span class="op">)</span>
+  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"left"</span>, <span class="st">"interval"</span>, <span class="st">"counting"</span>, <span class="st">"interval2"</span>, <span class="st">"mstate"</span><span class="op">)</span>,
+  label <span class="op">=</span> <span class="cn">NA_character_</span>
 <span class="op">)</span></code></pre></div><p></p></div>
 </div>
 
@@ -191,6 +192,11 @@ Name of the column for ending time for interval censored data, otherwise ignored
 <dt><code>type</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Name of the column giving the type of censoring. Default is 'right' censoring.</p></dd>
+
+
+<dt><code>label</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Label for the new instance.</p></dd>
 
 
 </dl><p></p></div>

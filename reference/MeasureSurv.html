@@ -20,7 +20,7 @@ Predefined measures can be found in the dictionary mlr3::mlr_measures.'><meta pr
     
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.4</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -130,6 +130,7 @@ Predefined measures can be found in the dictionary mlr3::mlr_measures.'><meta pr
   predict_type <span class="op">=</span> <span class="st">"distr"</span>,
   task_properties <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,
   packages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,
+  label <span class="op">=</span> <span class="cn">NA_character_</span>,
   man <span class="op">=</span> <span class="cn">NA_character_</span>,
   se <span class="op">=</span> <span class="cn">FALSE</span>
 <span class="op">)</span></code></pre></div><p></p></div>
@@ -193,6 +194,11 @@ Required task properties, see <a href="https://mlr3.mlr-org.com/reference/Task.h
 Set of required packages.
 A warning is signaled by the constructor if at least one of the packages is not installed,
 but loaded (not attached) later on-demand via <code><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace()</a></code>.</p></dd>
+
+
+<dt><code>label</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Label for the new instance.</p></dd>
 
 
 <dt><code>man</code></dt>

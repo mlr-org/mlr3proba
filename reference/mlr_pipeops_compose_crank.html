@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.4</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -116,10 +116,11 @@ predict type overwritten by the given estimation method.</p>
 
 <ul><li><p><code>method</code> :: <code>character(1)</code> <br>
 Determines what method should be used to produce a continuous ranking from the distribution.
-One of <code>median</code>, <code>mode</code>, or <code>mean</code> corresponding to the respective functions in the predicted
-survival distribution. Note that for models with a proportional hazards form, the ranking
-implied by <code>mean</code> and <code>median</code> will be identical (but not the value of <code>crank</code> itself).
-Default is <code>mean</code>.</p></li>
+One of <code>sum_haz</code>, <code>median</code>, <code>mode</code>, or <code>mean</code> corresponding to the
+respective functions in the predicted survival distribution. Note that
+for models with a proportional hazards form, the ranking implied by
+<code>mean</code> and <code>median</code> will be identical (but not the value of <code>crank</code>
+itself). <code>sum_haz</code> (default) uses <code><a href="https://rdrr.io/pkg/survivalmodels/man/surv_to_risk.html" class="external-link">survivalmodels::surv_to_risk()</a></code>.</p></li>
 <li><p><code>which</code> :: <code>numeric(1)</code><br>
 If <code>method = "mode"</code> then specifies which mode to use if multi-modal, default is the first.</p></li>
 <li><p><code>response</code> :: <code>logical(1)</code><br>
@@ -163,7 +164,7 @@ calculated using methods from <a href="https://CRAN.R-project.org/package=distr6
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span class="va"><a href="../reference/mlr_pipeops_compose_crank.html">PipeOpCrankCompositor</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>
   id <span class="op">=</span> <span class="st">"compose_crank"</span>,
-  param_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"mean"</span>, response <span class="op">=</span> <span class="cn">FALSE</span>, overwrite <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+  param_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"sum_haz"</span>, response <span class="op">=</span> <span class="cn">FALSE</span>, overwrite <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div><p></p></div>
 </div>
 
@@ -212,12 +213,12 @@ otherwise be set during construction.</p></dd>
 <span class="r-in">  <span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">tsk</a></span><span class="op">(</span><span class="st">"rats"</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in">  <span class="va">learn</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"surv.coxph"</span><span class="op">)</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">poc</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3pipelines.mlr-org.com//reference/po.html" class="external-link">po</a></span><span class="op">(</span><span class="st">"crankcompose"</span>, param_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"median"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in">  <span class="va">poc</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3pipelines.mlr-org.com//reference/po.html" class="external-link">po</a></span><span class="op">(</span><span class="st">"crankcompose"</span>, param_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"sum_haz"</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in">  <span class="va">poc</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">learn</span><span class="op">)</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
 <span class="r-in"></span>
 <span class="r-in">  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"cubature"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in">    <span class="va">learn</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"surv.coxph"</span><span class="op">)</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
-<span class="r-in">    <span class="va">poc</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3pipelines.mlr-org.com//reference/po.html" class="external-link">po</a></span><span class="op">(</span><span class="st">"crankcompose"</span>, param_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"mean"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in">    <span class="va">poc</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3pipelines.mlr-org.com//reference/po.html" class="external-link">po</a></span><span class="op">(</span><span class="st">"crankcompose"</span>, param_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"sum_haz"</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in">    <span class="va">poc</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">learn</span><span class="op">)</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
 <span class="r-in">  <span class="op">}</span></span>
 <span class="r-in"><span class="op">}</span></span>
