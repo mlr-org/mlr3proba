@@ -57,10 +57,8 @@ Suggests:
     set6 (>= 0.1.7),
     simsurv,
     survAUC,
-    survivalmodels (>= 0.1.11.9000),
+    survivalmodels (>= 0.1.12),
     testthat
-Remotes:
-    RaphaelS1/survivalmodels
 LinkingTo:
     Rcpp
 ByteCompile: true
