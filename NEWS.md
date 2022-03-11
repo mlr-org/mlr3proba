@@ -2,7 +2,7 @@
 
 * Improved reduction from survival matrix predictions to ranking predictions
 * Fixed cindex bug when all predictions equal
-* Fix for valgridn
+* Fix for valgrind
 
 # mlr3proba 0.4.4
 
