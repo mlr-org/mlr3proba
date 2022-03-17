@@ -1,7 +1,11 @@
 surv_logloss = function(truth, distribution, eps = 1e-15, IPCW = TRUE, train = NULL, ...) {
 
   # calculate pdf at true death time and set any '0' predictions to a small non-zero value
-  pred = as.numeric(distribution$pdf(data = matrix(truth[, 1], nrow = 1)))
+  if (class(distribution)[[1]] == "Matdist") {
+    pred = diag(distribution$pdf(truth[, 1]))
+  } else {
+    pred = as.numeric(distribution$pdf(data = matrix(truth[, 1], nrow = 1)))
+  }
 
   if (IPCW) {
     pred = as.numeric(pred)[truth[, 2] == 1]
@@ -18,7 +22,12 @@ surv_logloss = function(truth, distribution, eps = 1e-15, IPCW = TRUE, train = N
       byrow = TRUE)
     distr = as.Distribution(1 - .surv_return(times = cens$time, surv = surv)$distr,
       fun = "cdf", decorators = c("CoreStatistics", "ExoticStatistics"))
-    pred = as.numeric(distr$survival(data = matrix(truth, nrow = 1)))
+
+    if (class(distribution)[[1]] == "Matdist") {
+      pred = diag(distribution$survival(truth))
+    } else {
+      pred = as.numeric(distribution$survival(data = matrix(truth, nrow = 1)))
+    }
   }
 
   pred[pred == 0] = eps

@@ -1,6 +1,6 @@
 Package: mlr3proba
 Title: Probabilistic Supervised Learning for 'mlr3'
-Version: 0.4.5
+Version: 0.4.6
 Authors@R:
     c(person(given = "Raphael",
              family = "Sonabend",
@@ -59,6 +59,8 @@ Suggests:
     survAUC,
     survivalmodels (>= 0.1.12),
     testthat
+Remotes:
+    alan-turing-institute/distr6
 LinkingTo:
     Rcpp
 ByteCompile: true

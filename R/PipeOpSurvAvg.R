@@ -97,9 +97,21 @@ PipeOpSurvAvg = R6Class("PipeOpSurvAvg",
       }
 
       distr = map(inputs, "distr")
-      if (all(mlr3misc::map_lgl(distr, function(.x) {
+      ok = mlr3misc::map_lgl(distr, function(.x) {
+        checkmate::test_class(.x, "Matdist")
+      })
+
+      if (all(ok)) {
+        # convert to vector distribution for mixing
+        # TODO - Far from ideal but works for now
+        #  Could probably do this manually.
+        distr = as.VectorDistribution(distr)
+      }
+
+      ok = mlr3misc::map_lgl(distr, function(.x) {
         checkmate::test_class(.x, "VectorDistribution")
-      }))) {
+      })
+      if (all(ok)) {
         distr = distr6::mixturiseVector(distr, weights)
       } else {
         distr = NULL

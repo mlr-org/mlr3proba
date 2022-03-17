@@ -14,6 +14,8 @@ check_prediction_data.PredictionDataSurv = function(pdata) { # nolint
   assert_numeric(pdata$lp, len = n, any.missing = FALSE, null.ok = TRUE)
   if (inherits(pdata$distr, "VectorDistribution")) {
     assert(nrow(pdata$distr$modelTable) == n)
+  } else if (inherits(pdata$distr, "Matdist")) {
+    assert(nrow(gprm(pdata$distr, "pdf")) == n)
   } else {
     assert_matrix(pdata$distr, nrows = n, any.missing = FALSE, null.ok = TRUE)
   }
@@ -68,7 +70,7 @@ c.PredictionDataSurv = function(..., keep_duplicates = TRUE) {
   }
 
   if ("distr" %in% predict_types) {
-    if (inherits(dots[[1]]$distr, "VectorDistribution")) {
+    if (inherits(dots[[1]], c("Matdist", "VectorDistribution"))) {
       result$distr = do.call(c, map(dots, "distr"))
     } else {
       result$distr = tryCatch(
@@ -77,11 +79,10 @@ c.PredictionDataSurv = function(..., keep_duplicates = TRUE) {
         #  In this case we convert internally within distr6
         do.call(rbind, map(dots, "distr")),
         error = function(e) {
-          do.call(c, map(dots,
+          do.call(c, map(map(dots, "distr"),
             function(x) {
-              as.Distribution(1 - x$distr, "cdf",
-                decorators = c("CoreStatistics",
-                  "ExoticStatistics"))
+              as.Distribution(1 - x, "cdf", decorators = c("CoreStatistics",
+                            "ExoticStatistics"), vector = TRUE)
             }))
         }
       )
@@ -106,7 +107,7 @@ filter_prediction_data.PredictionDataSurv = function(pdata, row_ids) {
   }
 
   if (!is.null(pdata$distr)) {
-    pdata$distr = pdata$distr[keep,, drop = FALSE]
+    pdata$distr = pdata$distr[keep, , drop = FALSE]
   }
 
   pdata
