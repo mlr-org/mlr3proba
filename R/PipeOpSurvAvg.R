@@ -105,7 +105,7 @@ PipeOpSurvAvg = R6Class("PipeOpSurvAvg",
         # convert to vector distribution for mixing
         # TODO - Far from ideal but works for now
         #  Could probably do this manually.
-        distr = as.VectorDistribution(distr)
+        distr = lapply(distr, as.VectorDistribution)
       }
 
       ok = mlr3misc::map_lgl(distr, function(.x) {
