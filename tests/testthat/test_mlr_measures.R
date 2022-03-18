@@ -23,7 +23,9 @@ test_that("mlr_measures", {
 
     expect_measure(m)
 
-    perf = pred$score(m, task = task, train_set = seq(task$nrow), learner = learner)
+    expect_silent({
+      perf = pred$score(m, task = task, train_set = seq(task$nrow), learner = learner)
+    })
     expect_number(perf, na.ok = "na_score" %in% m$properties)
 
     if (key %in% paste0("surv.", c("schmid", "graf", "intlogloss", "logloss", "mae", "mse",

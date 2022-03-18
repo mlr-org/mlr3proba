@@ -228,10 +228,10 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
       }
 
       est = est$train(task)$predict(task)$distr
-      if (class(est)[[1]] == "Matdist") {
+      if (inherits(est, "Matdist")) {
         weights = diag(est$survival(task$truth()[, 1]))
       } else {
-        weights2 = as.numeric(est$survival(data = matrix(task$truth()[, 1], nrow = 1)))
+        weights = as.numeric(est$survival(data = matrix(task$truth()[, 1], nrow = 1)))
       }
       weights[weights == 0] = eps
       weights = 1 / weights
