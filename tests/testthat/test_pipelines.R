@@ -1,4 +1,4 @@
-task = tsk("rats")$filter(sample(300, 20))
+task = tsk("rats")$filter(sample(300, 50))
 task_regr = tgen("friedman1")$generate(20)
 
 test_that("crankcompositor", {
@@ -13,27 +13,28 @@ test_that("crankcompositor", {
 })
 
 test_that("distrcompositor", {
-  pipe = mlr3pipelines::ppl("distrcompositor", learner = lrn("surv.coxph"))
+  pipe = mlr3pipelines::ppl("distrcompositor", learner = lrn("surv.rpart"))
   expect_class(pipe, "Graph")
-  pipe = mlr3pipelines::ppl("distrcompositor", learner = lrn("surv.coxph"), graph_learner = TRUE)
+
+  pipe = mlr3pipelines::ppl("distrcompositor", learner = lrn("surv.rpart"), graph_learner = TRUE)
   expect_class(pipe, "GraphLearner")
-  pipe$train(task)
-  p = pipe$predict(task)
+
+  p = pipe$train(task)$predict(task)
   expect_prediction_surv(p)
   expect_true("distr" %in% p$predict_types)
 })
 
 test_that("survaverager", {
-  pipe = mlr3pipelines::ppl("survaverager", learners = list(lrn("surv.coxph"), lrn("surv.kaplan"),
+  pipe = mlr3pipelines::ppl("survaverager", learners = list(lrn("surv.kaplan"),
     lrn("surv.kaplan", id = "k2")))
   expect_class(pipe, "Graph")
-  pipe = mlr3pipelines::ppl("survaverager", learners = list(lrn("surv.coxph"), lrn("surv.kaplan"),
+
+  pipe = mlr3pipelines::ppl("survaverager", learners = list(lrn("surv.kaplan"),
     lrn("surv.kaplan", id = "k2")),
   graph_learner = TRUE)
   expect_class(pipe, "GraphLearner")
-  pipe$train(task)
-  p = pipe$predict(task)
-  expect_prediction_surv(p)
+
+  expect_prediction_surv(pipe$train(task)$predict(task))
 })
 
 test_that("survbagging", {
@@ -91,15 +92,17 @@ test_that("survtoregr 2", {
 test_that("survtoregr 3", {
   pipe = mlr3pipelines::ppl("survtoregr", method = 3, distrcompose = FALSE)
   expect_class(pipe, "Graph")
-  pipe = mlr3pipelines::ppl("survtoregr", method = 3, distrcompose = FALSE, graph_learner = TRUE)
+  pipe = mlr3pipelines::ppl("survtoregr", method = 3, distrcompose = FALSE,
+                            graph_learner = TRUE)
   expect_class(pipe, "GraphLearner")
-  pipe$train(task)
+  suppressWarnings(pipe$train(task)) # suppress loglik warning
   p = pipe$predict(task)
   expect_prediction_surv(p)
 
-  pipe = mlr3pipelines::ppl("survtoregr", method = 3, distrcompose = TRUE, graph_learner = TRUE)
+  pipe = mlr3pipelines::ppl("survtoregr", method = 3, distrcompose = TRUE,
+                            graph_learner = TRUE)
   expect_class(pipe, "GraphLearner")
-  pipe$train(task)
+  suppressWarnings(pipe$train(task)) # suppress loglik warning
   p = pipe$predict(task)
   expect_prediction_surv(p)
   expect_true("distr" %in% p$predict_types)

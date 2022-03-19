@@ -146,16 +146,17 @@ delayedAssign(
           timesmat = matrix(times, nrow = nr, ncol = nc, byrow = TRUE)
           lpmat = matrix(lp, nrow = nr, ncol = nc)
 
-          if (form == "ph") {
-            cdf = 1 - (survmat^exp(lpmat))
-          } else if (form == "aft") {
-            mtc = findInterval(timesmat / exp(lpmat), times)
-            cdf = 1 - matrix(survmat[1, mtc], nr, nc, FALSE)
-            cdf[is.na(cdf)] = 1
-          } else if (form == "po") {
-            cdf = 1 - (survmat * ((exp(-lpmat) + ((1 - exp(-lpmat)) * survmat))^-1))
-            cdf[survmat == 1] = 0
-          }
+        if (form == "ph") {
+          cdf = 1 - (survmat^exp(lpmat))
+        } else if (form == "aft") {
+          mtc = findInterval(timesmat / exp(lpmat), times)
+          mtc[mtc == 0] = NA
+          cdf = 1 - matrix(survmat[1, mtc], nr, nc, FALSE)
+          cdf[is.na(cdf)] = 0
+        } else if (form == "po") {
+          cdf = 1 - (survmat * ((exp(-lpmat) + ((1 - exp(-lpmat)) * survmat))^-1))
+          cdf[survmat == 1] = 0
+        }
 
           distr = .surv_return(times, 1 - cdf)$distr
 

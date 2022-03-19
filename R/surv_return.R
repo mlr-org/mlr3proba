@@ -1,7 +1,6 @@
 #' @title Get Survival Predict Types
 #' @description Internal helper function to easily return the correct survival predict types and to
-#' automatically coerce a predicted survival probability matrix to a
-#' [distr6::VectorDistribution] of [distr6::WeightedDiscrete] distributions.
+#' automatically coerce a predicted survival probability matrix to a [distr6::Matdist].
 #' @param times (`numeric()`) \cr Vector of survival times.
 #' @param surv (`matrix()`)\cr Matrix of predicted survival probabilities, rows are observations,
 #' columns are times. Number of columns should be equal to length of `times`.

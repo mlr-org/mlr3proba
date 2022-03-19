@@ -16,7 +16,9 @@ weighted_survival_score = function(loss, truth, distribution, times, t_max,
     unique_times = .c_get_unique_times(truth[, "time"], times)
   }
 
-  if (inherits(distribution, "Distribution")) {
+  if (inherits(distribution, "Matdist")) {
+    cdf = gprm(distribution, "cdf")
+  } else if (inherits(distribution, "Distribution")) {
     cdf = as.matrix(distribution$cdf(unique_times))
   } else {
     mtc = findInterval(unique_times, as.numeric(colnames(distribution)))
@@ -74,8 +76,8 @@ integrated_score = function(score, integrated, method = NULL) {
 
 integrated_se = function(score, integrated) {
   if (integrated) {
-    return(sqrt(sum(stats::cov(score)) / (nrow(score) * ncol(score)^2)))
+    sqrt(sum(stats::cov(score), na.rm = TRUE) / (nrow(score) * ncol(score)^2))
   } else {
-    return(apply(score, 2, function(x) stats::sd(x) / sqrt(nrow(score))))
+    apply(score, 2, function(x) stats::sd(x) / sqrt(nrow(score)))
   }
 }

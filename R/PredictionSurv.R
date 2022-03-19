@@ -33,8 +33,9 @@ PredictionSurv = R6Class("PredictionSurv",
     #'   observation in the test set. For a pair of continuous ranks, a higher rank indicates that
     #'   the observation is more likely to experience the event.
     #'
-    #' @param distr (`matrix()|[distr6::VectorDistribution]`)\cr
-    #'   Either a matrix of predicted survival probabilities or a [distr6::VectorDistribution].
+    #' @param distr (`matrix()|[distr6::Matdist]|[distr6::VectorDistribution]`)\cr
+    #'   Either a matrix of predicted survival probabilities or a [distr6::VectorDistribution]
+    #'   or a [distr6::Matdist].
     #'   If a matrix then column names must be given and correspond to survival times.
     #'   Rows of matrix correspond to individual predictions. It is advised that the
     #'   first column should be time `0` with all entries `1` and the last
@@ -89,9 +90,13 @@ PredictionSurv = R6Class("PredictionSurv",
       self$data$crank %??% rep(NA_real_, length(self$data$row_ids))
     },
 
-    #' @field distr ([VectorDistribution][distr6::VectorDistribution])\cr
+    #' @field distr ([distr6::Matdist]|[distr6::VectorDistribution])\cr
     #' Convert the stored survival matrix to a survival distribution.
     distr = function() {
+      if (inherits(self$data$distr, "Distribution")) {
+        return(self$data$distr)
+      }
+
       private$.distrify_survmatrix(self$data$distr %??% NA_real_)
     },
 
@@ -112,43 +117,39 @@ PredictionSurv = R6Class("PredictionSurv",
     .censtype = NULL,
     .distr = function() self$data$distr %??% NA_real_,
     .simplify_distr = function(x) {
-      if (!inherits(x, "VectorDistribution")) {
-        stop("'x' is not a 'VectorDistribution'")
+      if (inherits(x, "Matdist")) {
+        1 - gprm(x, "cdf")
+      } else {
+        if (!inherits(x, "VectorDistribution")) {
+          stop("'x' is not a 'VectorDistribution'")
+        }
+
+        ## check all distributions equal - return x if not
+        if (x$distlist) {
+          return(x)
+        }
+
+        ## check all distributions are WeightedDiscrete - return x if not
+        if (all(x$modelTable$Distribution != "WeightedDiscrete")) {
+          return(x)
+        }
+
+        times = x$getParameterValue("x")
+        time1 = times[[1]]
+
+        ## check all times equal - return x if not
+        if (!all(vapply(times, identical, logical(1), y = time1))) {
+          return(x)
+        }
+
+        surv = 1 - do.call(rbind, x$getParameterValue("cdf"))
+        rownames(surv) = NULL
+        surv
       }
-
-      ## check all distributions equal - return x if not
-      if (x$distlist) {
-        return(x)
-      }
-
-      ## check all distributions are WeightedDiscrete - return x if not
-      if (all(x$modelTable$Distribution != "WeightedDiscrete")) {
-        return(x)
-      }
-
-      times = x$getParameterValue("x")
-      time1 = times[[1]]
-
-      ## check all times equal - return x if not
-      if (!all(vapply(times, identical, logical(1), y = time1))) {
-        return(x)
-      }
-
-      surv = 1 - do.call(rbind, x$getParameterValue("cdf"))
-      rownames(surv) = NULL
-      surv
     },
     .distrify_survmatrix = function(x) {
-
-      if (!test_matrix(x)) {
-        return(x)
-      }
-
-      distr6::as.Distribution(
-        1 - x,
-        fun = "cdf",
-        decorators = c("CoreStatistics", "ExoticStatistics")
-      )
+      distr6::as.Distribution(1 - x, fun = "cdf",
+        decorators = c("CoreStatistics", "ExoticStatistics"))
     }
   )
 )
