@@ -148,8 +148,9 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
           cdf = 1 - (survmat^exp(lpmat))
         } else if (form == "aft") {
           mtc = findInterval(timesmat / exp(lpmat), times)
+          mtc[mtc == 0] = NA
           cdf = 1 - matrix(survmat[1, mtc], nr, nc, FALSE)
-          cdf[is.na(cdf)] = 1
+          cdf[is.na(cdf)] = 0
         } else if (form == "po") {
           cdf = 1 - (survmat * ((exp(-lpmat) + ((1 - exp(-lpmat)) * survmat))^-1))
           cdf[survmat == 1] = 0
