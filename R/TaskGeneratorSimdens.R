@@ -20,15 +20,16 @@ TaskGeneratorSimdens = R6::R6Class("TaskGeneratorSimdens",
   public = list(
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      param_set = ParamSet$new(list(
-        ParamFct$new("distribution", default = "Normal", levels = distr6::listDistributions(T)),
-        ParamUty$new("pars")
-      ))
+      param_set = ps(
+        distribution = p_fct(default = "Normal", levels = distr6::listDistributions(T)),
+        pars = p_uty()
+      )
       super$initialize(
         id = "simdens",
         task_type = "dens",
         packages = "distr6",
         param_set = param_set,
+        label = "Density Generator for package 'distr'",
         man = "mlr3::mlr_task_generators_simdens"
       )
     }

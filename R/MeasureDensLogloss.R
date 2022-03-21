@@ -33,6 +33,7 @@ MeasureDensLogloss = R6::R6Class("MeasureDensLogloss",
         minimize = TRUE,
         predict_type = "pdf",
         man = "mlr3proba::mlr_measures_dens.logloss",
+        label = "Log Loss",
         param_set = ps
       )
     }

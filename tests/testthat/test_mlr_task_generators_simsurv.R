@@ -1,5 +1,4 @@
-context("mlr_task_generators_simsurv")
-
+skip_if_not_installed("simsurv")
 test_that("mlr_task_generators_simsurv", {
   gen = mlr_task_generators$get("simsurv")
   task = gen$generate(100)

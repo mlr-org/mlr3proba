@@ -5,6 +5,7 @@
 #' @template param_times
 #' @template param_id
 #' @template param_measure_properties
+#' @template param_label
 #' @template param_man
 #' @template param_param_set
 #' @export
@@ -13,8 +14,8 @@ MeasureSurvAUC = R6Class("MeasureSurvAUC",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id, properties = character(), man = NA_character_,
-                          param_set = ps()) {
+    initialize = function(id, properties = character(), label = NA_character_,
+      man = NA_character_, param_set = ps()) {
       if (class(self)[[1]] == "MeasureSurvAUC") {
         stop("This is an abstract class that should not be constructed directly.")
       }
@@ -26,6 +27,7 @@ MeasureSurvAUC = R6Class("MeasureSurvAUC",
         packages = "survAUC",
         predict_type = "lp",
         properties = properties,
+        label = label,
         man = man,
         param_set = param_set
       )

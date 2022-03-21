@@ -1,5 +1,5 @@
 set.seed(1)
-task = tgen("simsurv")$generate(5)
+task = tsk("rats")$filter(sample(300, 5))
 
 test_that("pecs.list", {
   skip_on_cran()

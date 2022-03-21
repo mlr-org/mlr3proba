@@ -39,10 +39,11 @@ The \verb{$state} is left empty (\code{list()}).
 \itemize{
 \item \code{method} :: \code{character(1)} \cr
 Determines what method should be used to produce a continuous ranking from the distribution.
-One of \code{median}, \code{mode}, or \code{mean} corresponding to the respective functions in the predicted
-survival distribution. Note that for models with a proportional hazards form, the ranking
-implied by \code{mean} and \code{median} will be identical (but not the value of \code{crank} itself).
-Default is \code{mean}.
+One of \code{sum_haz}, \code{median}, \code{mode}, or \code{mean} corresponding to the
+respective functions in the predicted survival distribution. Note that
+for models with a proportional hazards form, the ranking implied by
+\code{mean} and \code{median} will be identical (but not the value of \code{crank}
+itself). \code{sum_haz} (default) uses \code{\link[survivalmodels:surv_to_risk]{survivalmodels::surv_to_risk()}}.
 \item \code{which} :: \code{numeric(1)}\cr
 If \code{method = "mode"} then specifies which mode to use if multi-modal, default is the first.
 \item \code{response} :: \code{logical(1)}\cr
@@ -68,12 +69,12 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   task = tsk("rats")
 
   learn = lrn("surv.coxph")$train(task)$predict(task)
-  poc = po("crankcompose", param_vals = list(method = "median"))
+  poc = po("crankcompose", param_vals = list(method = "sum_haz"))
   poc$predict(list(learn))[[1]]
 
   if (requireNamespace("cubature", quietly = TRUE)) {
     learn = lrn("surv.coxph")$train(task)$predict(task)
-    poc = po("crankcompose", param_vals = list(method = "mean"))
+    poc = po("crankcompose", param_vals = list(method = "sum_haz"))
     poc$predict(list(learn))[[1]]
   }
 }
@@ -113,7 +114,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{PipeOpCrankCompositor$new(
   id = "compose_crank",
-  param_vals = list(method = "mean", response = FALSE, overwrite = FALSE)
+  param_vals = list(method = "sum_haz", response = FALSE, overwrite = FALSE)
 )}\if{html}{\out{</div>}}
 }
 

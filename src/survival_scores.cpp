@@ -145,7 +145,7 @@ NumericMatrix c_weight_survival_score(NumericMatrix score, NumericMatrix truth,
               k = 1;
               break;
             } else if(times[i] >= cens_times[l] &&
-               (times[i] < cens_times[l+1] || l == cens_times.length()-1)) {
+               (l == cens_times.length()-1 || times[i] < cens_times[l+1])) {
               k = cens_surv[l];
               // k == 0 only if last obsv censored, therefore mat is set to 0 anyway
               if(k == 0) {

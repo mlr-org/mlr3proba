@@ -57,9 +57,9 @@ PipeOpPredRegrSurv = R6Class("PipeOpPredRegrSurv",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id = "trafopred_regrsurv", param_vals = list()) {
 
-      ps = ParamSet$new(list(
-        ParamFct$new("target_type", default = "response", levels = c("crank", "response", "lp"))
-      ))
+      ps = ps(
+        target_type = p_fct(default = "response", levels = c("crank", "response", "lp"))
+      )
 
       super$initialize(id = id,
         param_set = ps,

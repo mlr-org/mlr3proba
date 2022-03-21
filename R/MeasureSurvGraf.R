@@ -71,6 +71,7 @@ MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
         minimize = TRUE,
         packages = character(),
         predict_type = "distr",
+        label = "Integrated Graf Score",
         man = "mlr3proba::mlr_measures_surv.graf",
       )
     }

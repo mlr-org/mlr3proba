@@ -30,16 +30,16 @@ TaskGeneratorSimsurv = R6Class("TaskGeneratorSimsurv",
   public = list(
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      ps = ParamSet$new(list(
-        ParamFct$new("dist", levels = c("weibull", "exponential", "gompertz"), default = "weibull"),
-        ParamDbl$new("lambdas", lower = 0, default = 0.1, tags = "required"),
-        ParamDbl$new("gammas", lower = 0, default = 1.5, tags = "required"),
-        ParamDbl$new("maxt", lower = 0, default = 5, tags = "required")
-      ))
+      ps = ps(
+        dist = p_fct(levels = c("weibull", "exponential", "gompertz"), default = "weibull"),
+        lambdas = p_dbl(lower = 0, default = 0.1, tags = "required"),
+        gammas = p_dbl(lower = 0, default = 1.5, tags = "required"),
+        maxt = p_dbl(lower = 0, default = 5, tags = "required")
+      )
       ps$values = list(lambdas = 0.1, gammas = 1.5, maxt = 5)
 
       super$initialize(id = "simsurv", task_type = "classif", packages = "mlbench", param_set = ps,
-        man = "mlr3::mlr_task_generators_simsurv")
+        label = "Generator from package 'simsurv'", man = "mlr3::mlr_task_generators_simsurv")
     }
   ),
 
@@ -50,10 +50,10 @@ TaskGeneratorSimsurv = R6Class("TaskGeneratorSimsurv",
       pv = self$param_set$values
       covs = data.table(
         treatment = stats::rbinom(n, 1L, 0.5),
-        height = stats::rnorm(n, 180, 15),
+        height = stats::rnorm(n, 170, 10),
         weight = stats::rnorm(n, 80, 10)
       )
-      betas = c(treatment = -0.5, height = 1, weight = 0)
+      betas = c(treatment = -0.5, height = -0.00004, weight = -0.00005)
 
       data = setDT(invoke(simsurv::simsurv, x = covs, betas = betas, .args = pv)) # nolint
       data = rcbind(data, covs)

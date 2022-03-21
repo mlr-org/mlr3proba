@@ -1,6 +1,6 @@
 Package: mlr3proba
 Title: Probabilistic Supervised Learning for 'mlr3'
-Version: 0.4.3.9000
+Version: 0.4.6
 Authors@R:
     c(person(given = "Raphael",
              family = "Sonabend",
@@ -33,12 +33,12 @@ License: LGPL-3
 URL: https://mlr3proba.mlr-org.com, https://github.com/mlr-org/mlr3proba
 BugReports: https://github.com/mlr-org/mlr3proba/issues
 Depends:
-    mlr3 (>= 0.13.0),
+    mlr3 (>= 0.13.3),
     R (>= 3.5.0)
 Imports:
     checkmate,
     data.table,
-    distr6 (>= 1.6.4),
+    distr6 (>= 1.6.8),
     mlr3misc (>= 0.7.0),
     paradox (>= 0.1.0),
     R6,
@@ -51,12 +51,16 @@ Suggests:
     knitr,
     lgr,
     mlr3pipelines (>= 0.3.4),
+    param6 (>= 0.2.4),
     pracma,
     rpart,
     set6 (>= 0.1.7),
     simsurv,
     survAUC,
+    survivalmodels (>= 0.1.12),
     testthat
+Remotes:
+    alan-turing-institute/distr6
 LinkingTo:
     Rcpp
 ByteCompile: true
