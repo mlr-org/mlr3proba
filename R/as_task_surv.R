@@ -47,6 +47,8 @@ as_task_surv.DataBackend = function(x, time = "time", event = "event", time2, ty
   TaskSurv$new(id = id, backend = x, time = time, event = event, time2 = time2, type = type)
 }
 
+#' @param data (`data.frame()`)\cr
+#'   Data frame containing all columns referenced in formula `x`.
 #' @rdname as_task_surv
 #' @export
 as_task_surv.formula = function(x, data, id = deparse(substitute(data)), ...) { # nolint

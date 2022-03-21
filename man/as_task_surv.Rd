@@ -64,6 +64,9 @@ Name of the column giving the type of censoring. Default is 'right' censoring.}
 \item{id}{(\code{character(1)})\cr
 Id for the new task.
 Defaults to the (deparsed and substituted) name of \code{x}.}
+
+\item{data}{(\code{data.frame()})\cr
+Data frame containing all columns referenced in formula \code{x}.}
 }
 \description{
 Convert object to a survival task (\link{TaskSurv}).
