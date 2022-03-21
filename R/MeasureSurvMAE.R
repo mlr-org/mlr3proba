@@ -30,6 +30,7 @@ MeasureSurvMAE = R6::R6Class("MeasureSurvMAE",
         range = c(0, Inf),
         minimize = TRUE,
         predict_type = "response",
+        label = "Mean Absolute Error",
         man = "mlr3proba::mlr_measures_surv.mae",
         param_set = ps
       )

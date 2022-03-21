@@ -52,6 +52,7 @@ MeasureSurvDCalibration = R6Class("MeasureSurvDCalibration",
         range = c(0, Inf),
         minimize = TRUE,
         predict_type = "distr",
+        label = "D-Calibration",
         man = "mlr3proba::mlr_measures_surv.dcalib",
         param_set = ps
       )
@@ -64,7 +65,11 @@ MeasureSurvDCalibration = R6Class("MeasureSurvDCalibration",
       # initialize buckets
       bj = numeric(ps$B)
       # predict individual probability of death at observed event time
-      si = as.numeric(prediction$distr$survival(data = matrix(prediction$truth[, 1L], nrow = 1L)))
+      if (inherits(prediction$distr, "VectorDistribution")) {
+        si = as.numeric(prediction$distr$survival(data = matrix(prediction$truth[, 1L], nrow = 1L)))
+      } else {
+        si = diag(prediction$distr$survival(prediction$truth[, 1L]))
+      }
       # remove zeros
       si = map_dbl(si, function(.x) max(.x, 1e-5))
       # index of associated bucket

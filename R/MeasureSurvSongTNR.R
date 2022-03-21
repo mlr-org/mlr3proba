@@ -35,6 +35,7 @@ MeasureSurvSongTNR = R6Class("MeasureSurvSongTNR",
         id = "surv.song_tnr",
         properties = c("requires_task", "requires_train_set", "requires_learner"),
         man = "mlr3proba::mlr_measures_surv.song_tnr",
+        label = "Song and Zhou's TNR",
         param_set = ps
       )
     }

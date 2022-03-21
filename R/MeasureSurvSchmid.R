@@ -63,6 +63,7 @@ MeasureSurvSchmid = R6::R6Class("MeasureSurvSchmid",
         minimize = TRUE,
         packages = "distr6",
         predict_type = "distr",
+        label = "Integrated Schmid Score",
         man = "mlr3proba::mlr_measures_surv.schmid",
       )
     }

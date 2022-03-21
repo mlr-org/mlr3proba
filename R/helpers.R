@@ -49,3 +49,11 @@ get_akritas_learner = function() {
 r6_private = function(x) {
   x$.__enclos_env__$private
 }
+
+`%||%` = function(x, y) {
+  if (is.null(x)) {
+    y
+  } else {
+    x
+  }
+}

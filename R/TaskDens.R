@@ -10,6 +10,7 @@
 #' @template param_rows
 #' @template param_id
 #' @template param_backend
+#' @template param_label
 #'
 #' @family Task
 #' @export
@@ -25,7 +26,7 @@ TaskDens = R6::R6Class("TaskDens",
     #' Either a [DataBackend], a matrix-like object, or a numeric vector.
     #' If weights are used then two columns expected, otherwise one column. The weight column
     #' must be clearly specified (via `[Task]$col_roles`) or the learners will break.
-    initialize = function(id, backend) {
+    initialize = function(id, backend, label = NA_character_) {
 
       if (test_numeric(backend)) {
         backend = data.frame(x = backend)
@@ -35,7 +36,7 @@ TaskDens = R6::R6Class("TaskDens",
         assert_numeric(ncol(backend), lower = 1, upper = 2)
       }
 
-      super$initialize(id = id, task_type = "dens", backend = backend)
+      super$initialize(id = id, task_type = "dens", backend = backend, label = label)
     }
   )
 )

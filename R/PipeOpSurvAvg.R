@@ -46,68 +46,81 @@
 #'   poc$predict(list(p1, p2))
 #' }
 #' }
-PipeOpSurvAvg = R6Class("PipeOpSurvAvg",
-  inherit = mlr3pipelines::PipeOpEnsemble,
+delayedAssign(
+  "PipeOpSurvAvg",
+  R6Class("PipeOpSurvAvg",
+    inherit = mlr3pipelines::PipeOpEnsemble,
 
-  public = list(
-    #' @description
-    #' Creates a new instance of this [R6][R6::R6Class] class.
-    #'
-    #' @param innum `(numeric(1))`\cr
-    #'   Determines the number of input channels.
-    #'   If `innum` is 0 (default), a vararg input channel is created that can take an arbitrary
-    #'   number of inputs.
-    #' @param ... `ANY`\cr
-    #' Additional arguments passed to [mlr3pipelines::PipeOpEnsemble].
-    initialize = function(innum = 0, id = "survavg",
-      param_vals = list(), ...) {
-      super$initialize(innum = innum,
-        id = id,
-        param_vals = param_vals,
-        prediction_type = "PredictionSurv",
-        packages = "mlr3proba",
-        ...)
-    }
-  ),
-  private = list(
-    weighted_avg_predictions = function(inputs, weights, row_ids, truth) {
-      response_matrix = map(inputs, "response")
-      if (some(response_matrix, anyMissing)) {
-        response = NULL
-      } else {
-        response = c(simplify2array(response_matrix) %*% weights)
+    public = list(
+      #' @description
+      #' Creates a new instance of this [R6][R6::R6Class] class.
+      #'
+      #' @param innum `(numeric(1))`\cr
+      #'   Determines the number of input channels.
+      #'   If `innum` is 0 (default), a vararg input channel is created that can take an arbitrary
+      #'   number of inputs.
+      #' @param ... `ANY`\cr
+      #' Additional arguments passed to [mlr3pipelines::PipeOpEnsemble].
+      initialize = function(innum = 0, id = "survavg",
+        param_vals = list(), ...) {
+        super$initialize(innum = innum,
+          id = id,
+          param_vals = param_vals,
+          prediction_type = "PredictionSurv",
+          packages = "mlr3proba",
+          ...)
       }
+    ),
+    private = list(
+      weighted_avg_predictions = function(inputs, weights, row_ids, truth) {
+        response_matrix = map(inputs, "response")
+        if (some(response_matrix, anyMissing)) {
+          response = NULL
+        } else {
+          response = c(simplify2array(response_matrix) %*% weights)
+        }
 
-      crank_matrix = map(inputs, "crank")
-      if (some(crank_matrix, anyMissing)) {
-        crank = NULL
-      } else {
-        crank = c(simplify2array(crank_matrix) %*% weights)
-      }
+        crank_matrix = map(inputs, "crank")
+        if (some(crank_matrix, anyMissing)) {
+          crank = NULL
+        } else {
+          crank = c(simplify2array(crank_matrix) %*% weights)
+        }
 
-      lp_matrix = map(inputs, "lp")
-      if (some(lp_matrix, anyMissing)) {
-        lp = NULL
-      } else {
-        lp = c(simplify2array(lp_matrix) %*% weights)
-      }
+        lp_matrix = map(inputs, "lp")
+        if (some(lp_matrix, anyMissing)) {
+          lp = NULL
+        } else {
+          lp = c(simplify2array(lp_matrix) %*% weights)
+        }
 
-      if (length(unique(weights)) == 1) {
-        weights = "uniform"
-      }
+        if (length(unique(weights)) == 1) {
+          weights = "uniform"
+        }
 
       distr = map(inputs, "distr")
-      if (all(mlr3misc::map_lgl(distr, function(.x) {
-        checkmate::test_class(.x, "VectorDistribution")
-      }))) {
-        distr = distr6::mixturiseVector(distr, weights)
+
+      ok = mlr3misc::map_lgl(distr, function(.x) {
+        checkmate::test_class(.x, "Matdist")
+      })
+
+      if (all(ok)) {
+        distr = distr6::mixMatrix(distr)
       } else {
-        distr = NULL
+        ok = mlr3misc::map_lgl(distr, function(.x) {
+          checkmate::test_class(.x, "VectorDistribution")
+        })
+        if (all(ok)) {
+          distr = distr6::mixturiseVector(distr, weights)
+        } else {
+          distr = NULL
+        }
       }
 
-      PredictionSurv$new(row_ids = row_ids, truth = truth,
-        response = response, crank = crank,
-        lp = lp, distr = distr)
-    }
+        PredictionSurv$new(row_ids = row_ids, truth = truth,
+          response = response, crank = crank,
+          lp = lp, distr = distr)
+      }
+    )
   )
 )

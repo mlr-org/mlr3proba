@@ -112,8 +112,9 @@ pipeline_survbagging = function(learner, iterations = 10, frac = 0.7, avg = TRUE
 #' @templateVar id crankcompositor
 #' @template param_pipeline_learner
 #' @param method `character(1)`\cr
-#' One of `mean` (default), `mode`, or `median`; abbreviations allowed. Used to determine
-#' how `crank` is estimated from the predicted `distr`.
+#' One of `sum_haz` (default), `mean`, `mode`, or `median`;
+#' abbreviations allowed. Used to determine how `crank` is estimated from
+#' the predicted `distr`.
 #' @param which `integer(1)`\cr
 #' If `method = "mode"` then specifies which mode to use if multi-modal, default
 #' is the first.
@@ -133,13 +134,14 @@ pipeline_survbagging = function(learner, iterations = 10, frac = 0.7, avg = TRUE
 #'   pipe = ppl(
 #'     "crankcompositor",
 #'     learner = lrn("surv.coxph"),
-#'     method = "median"
+#'     method = "sum_haz"
 #'   )
 #'   pipe$train(task)
 #'   pipe$predict(task)
 #' }
 #' }
-pipeline_crankcompositor = function(learner, method = c("mean", "median", "mode"), which = NULL,
+pipeline_crankcompositor = function(learner,
+  method = c("sum_haz", "mean", "median", "mode"), which = NULL,
   response = FALSE, overwrite = FALSE, graph_learner = FALSE) {
 
   if (testCharacter(learner)) {

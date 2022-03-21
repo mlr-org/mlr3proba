@@ -98,7 +98,8 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   time = "time",
   event = "event",
   time2,
-  type = c("right", "left", "interval", "counting", "interval2", "mstate")
+  type = c("right", "left", "interval", "counting", "interval2", "mstate"),
+  label = NA_character_
 )}\if{html}{\out{</div>}}
 }
 
@@ -128,6 +129,9 @@ Name of the column for ending time for interval censored data, otherwise ignored
 
 \item{\code{type}}{(\code{character(1)})\cr
 Name of the column giving the type of censoring. Default is 'right' censoring.}
+
+\item{\code{label}}{(\code{character(1)})\cr
+Label for the new instance.}
 }
 \if{html}{\out{</div>}}
 }

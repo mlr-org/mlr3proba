@@ -10,7 +10,7 @@ load_precip = function(id = "precip") {
   b = as_data_backend(data.table::data.table(precip = load_dataset("precip", "datasets",
     keep_rownames = TRUE)))
   b$hash = "_mlr3_tasks_precip_"
-  TaskDens$new(id, b)
+  TaskDens$new(id, b, label = "Annual Precipitation")
 }
 
 #' @title Old Faithful Eruptions Density Task
@@ -26,5 +26,5 @@ load_faithful = function(id = "faithful") {
   b = as_data_backend(data.table::data.table(eruptions = load_dataset("faithful", "datasets",
     keep_rownames = TRUE)$eruptions))
   b$hash = "_mlr3_tasks_faithful_"
-  TaskDens$new(id, b)
+  TaskDens$new(id, b, label = "Old Faithful Eruptions")
 }

@@ -32,6 +32,7 @@ MeasureSurvChamblessAUC = R6Class("MeasureSurvChamblessAUC",
       super$initialize(
         id = "surv.chambless_auc",
         properties = c("requires_learner", "requires_task", "requires_train_set"),
+        label = "Chambless and Diao's AUC",
         man = "mlr3proba::mlr_measures_surv.chambless_auc",
         param_set = ps
       )

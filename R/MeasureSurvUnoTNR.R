@@ -35,6 +35,7 @@ MeasureSurvUnoTNR = R6Class("MeasureSurvUnoTNR",
       super$initialize(
         param_set = ps,
         id = "surv.uno_tnr",
+        label = "Uno's TNR",
         man = "mlr3proba::mlr_measures_surv.uno_tnr"
       )
     }

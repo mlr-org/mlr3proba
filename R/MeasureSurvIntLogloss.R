@@ -63,6 +63,7 @@ MeasureSurvIntLogloss = R6::R6Class("MeasureSurvIntLogloss",
         minimize = TRUE,
         packages = "distr6",
         predict_type = "distr",
+        label = "Integrated Log Loss",
         man = "mlr3proba::mlr_measures_surv.intlogloss"
       )
     }

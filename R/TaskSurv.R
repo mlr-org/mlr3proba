@@ -44,8 +44,11 @@ TaskSurv = R6::R6Class("TaskSurv",
     #' @template param_event
     #' @template param_time2
     #' @template param_type
+    #' @param label (`character(1)`)\cr
+    #'   Label for the new instance.
     initialize = function(id, backend, time = "time", event = "event", time2,
-      type = c("right", "left", "interval", "counting", "interval2", "mstate")) {
+      type = c("right", "left", "interval", "counting", "interval2", "mstate"),
+      label = NA_character_) {
 
       type = match.arg(type)
 
@@ -67,15 +70,15 @@ TaskSurv = R6::R6Class("TaskSurv",
       if (type %in% c("right", "left", "mstate")) {
         super$initialize(
           id = id, task_type = "surv", backend = backend,
-          target = c(time, event))
+          target = c(time, event), label = label)
       } else if (type %in% c("interval", "counting")) {
         super$initialize(
           id = id, task_type = "surv", backend = backend,
-          target = c(time, time2, event))
+          target = c(time, time2, event), label = label)
       } else {
         super$initialize(
           id = id, task_type = "surv", backend = backend,
-          target = c(time, time2))
+          target = c(time, time2), label = label)
       }
     },
 

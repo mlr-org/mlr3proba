@@ -37,6 +37,7 @@ MeasureSurvSongTPR = R6Class("MeasureSurvSongTPR",
         id = "surv.song_tpr",
         properties = c("requires_task", "requires_train_set", "requires_learner"),
         man = "mlr3proba::mlr_measures_surv.song_tpr",
+        label = "Song and Zhou's TPR",
         param_set = ps
       )
     }
