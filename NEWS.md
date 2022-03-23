@@ -1,3 +1,7 @@
+# mlr3proba 0.4.6
+
+* Patch for upstream breakages
+
 # mlr3proba 0.4.5
 
 * Improved reduction from survival matrix predictions to ranking predictions
