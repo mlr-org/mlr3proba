@@ -32,7 +32,7 @@ test_that("mlr_measures", {
       "rmse", "calib_alpha", "calib_beta"))) {
       m = suppressWarnings(msr(key, se = TRUE))
       perf = pred$score(m, task = task, train_set = seq(task$nrow), learner = learner)
-      expect_number(perf, na.ok = "na_score" %in% m$properties)
+      expect_number(perf, na.ok = TRUE)
     }
   }
 })
