@@ -102,7 +102,7 @@ are implemented in
 the [interactive search
 table](https://mlr3extralearners.mlr-org.com/articles/learners/list_learners.html)
 to search for available learners and see the [learner status
-page](https://mlr3extralearners.mlr-org.com/articles/learners/learner_status.html)
+page](https://mlr3extralearners.mlr-org.com/articles/learners/test_overview.html)
 for their live status.
 
 ## Measures

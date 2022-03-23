@@ -75,9 +75,9 @@ remotes::install_github("mlr-org/mlr3proba")
 
 ## Learners
 
-Core learners are implemented in [mlr3proba](https://github.com/mlr-org/mlr3proba), recommended common learners are implemented in [mlr3learners](https://github.com/mlr-org/mlr3learners), and many more are implemented in [mlr3extralearners](https://github.com/mlr-org/mlr3extralearners). Use the [interactive search table](https://mlr3extralearners.mlr-org.com/articles/learners/list_learners.html) to search for available learners and see the [learner status page](https://mlr3extralearners.mlr-org.com/articles/learners/learner_status.html) for their live status.
+Core learners are implemented in [mlr3proba](https://github.com/mlr-org/mlr3proba), recommended common learners are implemented in [mlr3learners](https://github.com/mlr-org/mlr3learners), and many more are implemented in [mlr3extralearners](https://github.com/mlr-org/mlr3extralearners). Use the [interactive search table](https://mlr3extralearners.mlr-org.com/articles/learners/list_learners.html) to search for available learners and see the [learner status page](https://mlr3extralearners.mlr-org.com/articles/learners/test_overview.html) for their live status.
 
-## Measures 
+## Measures
 
 For density estimation only the log-loss is currently implemented, for survival analysis, the following measures are implemented:
 
