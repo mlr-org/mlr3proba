@@ -59,8 +59,6 @@ Suggests:
     survAUC,
     survivalmodels (>= 0.1.12),
     testthat
-Remotes:
-    alan-turing-institute/distr6
 LinkingTo:
     Rcpp
 ByteCompile: true
