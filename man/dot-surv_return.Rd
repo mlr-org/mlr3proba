@@ -29,8 +29,7 @@ modification.}
 }
 \description{
 Internal helper function to easily return the correct survival predict types and to
-automatically coerce a predicted survival probability matrix to a
-\link[distr6:VectorDistribution]{distr6::VectorDistribution} of \link[distr6:WeightedDiscrete]{distr6::WeightedDiscrete} distributions.
+automatically coerce a predicted survival probability matrix to a \link[distr6:Matdist]{distr6::Matdist}.
 }
 \details{
 Uses \link[survivalmodels:surv_to_risk]{survivalmodels::surv_to_risk} to reduce survival matrices to relative

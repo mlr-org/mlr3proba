@@ -32,7 +32,7 @@ True (observed) outcome.}
 \item{\code{crank}}{(\code{numeric()})\cr
 Access the stored predicted continuous ranking.}
 
-\item{\code{distr}}{(\link[distr6:VectorDistribution]{VectorDistribution})\cr
+\item{\code{distr}}{(\link[distr6:Matdist]{distr6::Matdist}|\link[distr6:VectorDistribution]{distr6::VectorDistribution})\cr
 Convert the stored survival matrix to a survival distribution.}
 
 \item{\code{lp}}{(\code{numeric()})\cr
@@ -96,8 +96,9 @@ Numeric vector of predicted continuous rankings (or relative risks). One element
 observation in the test set. For a pair of continuous ranks, a higher rank indicates that
 the observation is more likely to experience the event.}
 
-\item{\code{distr}}{(\verb{matrix()|[distr6::VectorDistribution]})\cr
-Either a matrix of predicted survival probabilities or a \link[distr6:VectorDistribution]{distr6::VectorDistribution}.
+\item{\code{distr}}{(\verb{matrix()|[distr6::Matdist]|[distr6::VectorDistribution]})\cr
+Either a matrix of predicted survival probabilities or a \link[distr6:VectorDistribution]{distr6::VectorDistribution}
+or a \link[distr6:Matdist]{distr6::Matdist}.
 If a matrix then column names must be given and correspond to survival times.
 Rows of matrix correspond to individual predictions. It is advised that the
 first column should be time \code{0} with all entries \code{1} and the last

@@ -19,7 +19,7 @@
 \item{task}{(\link{TaskSurv})}
 
 \item{fun}{(\code{character}) \cr
-Passed to \code{distr6::plot.VectorDistribution}}
+Passed to \code{distr6::plot.Matdist}}
 
 \item{row_ids}{(\code{integer()}) \cr
 Passed to \code{Learner$predict}}
@@ -27,10 +27,10 @@ Passed to \code{Learner$predict}}
 \item{newdata}{(\code{data.frame()}) \cr
 If not missing \code{Learner$predict_newdata} is called instead of \code{Learner$predict}.}
 
-\item{...}{Additional arguments passed to \code{distr6::plot.VectorDistribution}}
+\item{...}{Additional arguments passed to \code{distr6::plot.Matdist}}
 }
 \description{
-Wrapper around \code{predict.LearnerSurv} and \code{plot.VectorDistribution}.
+Wrapper around \code{predict.LearnerSurv} and \code{plot.Matdist}.
 }
 \examples{
 \dontrun{
