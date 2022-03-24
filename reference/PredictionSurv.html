@@ -107,7 +107,7 @@ Access the stored predicted continuous ranking.</p></dd>
 
 
 <dt><code>distr</code></dt>
-<dd><p>(<a href="https://alan-turing-institute.github.io/distr6/reference/VectorDistribution.html" class="external-link">VectorDistribution</a>)<br>
+<dd><p>(<a href="https://alan-turing-institute.github.io/distr6/reference/Matdist.html" class="external-link">distr6::Matdist</a>|<a href="https://alan-turing-institute.github.io/distr6/reference/VectorDistribution.html" class="external-link">distr6::VectorDistribution</a>)<br>
 Convert the stored survival matrix to a survival distribution.</p></dd>
 
 
@@ -177,8 +177,9 @@ the observation is more likely to experience the event.</p></dd>
 
 
 <dt><code>distr</code></dt>
-<dd><p>(<code>matrix()|[distr6::VectorDistribution]</code>)<br>
-Either a matrix of predicted survival probabilities or a <a href="https://alan-turing-institute.github.io/distr6/reference/VectorDistribution.html" class="external-link">distr6::VectorDistribution</a>.
+<dd><p>(<code>matrix()|[distr6::Matdist]|[distr6::VectorDistribution]</code>)<br>
+Either a matrix of predicted survival probabilities or a <a href="https://alan-turing-institute.github.io/distr6/reference/VectorDistribution.html" class="external-link">distr6::VectorDistribution</a>
+or a <a href="https://alan-turing-institute.github.io/distr6/reference/Matdist.html" class="external-link">distr6::Matdist</a>.
 If a matrix then column names must be given and correspond to survival times.
 Rows of matrix correspond to individual predictions. It is advised that the
 first column should be time <code>0</code> with all entries <code>1</code> and the last
