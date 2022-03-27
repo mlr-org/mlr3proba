@@ -83,6 +83,7 @@ Other survival measures:
 \code{\link{mlr_measures_surv.mse}},
 \code{\link{mlr_measures_surv.nagelk_r2}},
 \code{\link{mlr_measures_surv.oquigley_r2}},
+\code{\link{mlr_measures_surv.rcll}},
 \code{\link{mlr_measures_surv.rmse}},
 \code{\link{mlr_measures_surv.song_auc}},
 \code{\link{mlr_measures_surv.song_tnr}},
@@ -95,14 +96,16 @@ Other survival measures:
 Other Probabilistic survival measures: 
 \code{\link{mlr_measures_surv.graf}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.logloss}}
+\code{\link{mlr_measures_surv.logloss}},
+\code{\link{mlr_measures_surv.rcll}}
 
 Other distr survival measures: 
 \code{\link{mlr_measures_surv.calib_alpha}},
 \code{\link{mlr_measures_surv.dcalib}},
 \code{\link{mlr_measures_surv.graf}},
 \code{\link{mlr_measures_surv.intlogloss}},
-\code{\link{mlr_measures_surv.logloss}}
+\code{\link{mlr_measures_surv.logloss}},
+\code{\link{mlr_measures_surv.rcll}}
 }
 \concept{Probabilistic survival measures}
 \concept{distr survival measures}
