@@ -1,7 +1,6 @@
 # mlr3proba 0.4.7
 
 * Add right-censored log loss
-* {survivalmodels} now imported (previously suggested)
 
 # mlr3proba 0.4.6
 
