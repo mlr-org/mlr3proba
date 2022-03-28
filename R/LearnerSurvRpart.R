@@ -6,6 +6,7 @@
 #'
 #' @description
 #' Parameter `xval` is set to 0 in order to save some computation time.
+#' Parameter `model` has been renamed to `keep_model`.
 #'
 #' @references
 #' `r format_bib("breiman_1984")`
@@ -28,7 +29,8 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart",
         usesurrogate   = p_int(default = 2L, lower = 0L, upper = 2L, tags = "train"),
         surrogatestyle = p_int(default = 0L, lower = 0L, upper = 1L, tags = "train"),
         xval           = p_int(default = 10L, lower = 0L, tags = "train"),
-        cost           = p_uty(tags = "train")
+        cost           = p_uty(tags = "train"),
+        keep_model     = p_lgl(default = FALSE, tags = "train")
       )
       ps$values = list(xval = 0L)
 
@@ -69,6 +71,7 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart",
   private = list(
     .train = function(task) {
       pv = self$param_set$get_values(tags = "train")
+      names(pv) = replace(names(pv), names(pv) == "keep_model", "model")
       if ("weights" %in% task$properties) {
         pv = insert_named(pv, list(weights = task$weights$weight))
       }

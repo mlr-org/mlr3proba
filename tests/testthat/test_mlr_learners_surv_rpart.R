@@ -16,3 +16,9 @@ test_that("importance/selected", {
   expect_silent(learner$selected_features())
   expect_silent(learner$importance())
 })
+
+test_that("keep_model", {
+  learner = lrn("surv.rpart", keep_model = TRUE)
+  learner$train(tsk("rats"))
+  expect_false(is.null(learner$model$model))
+})
