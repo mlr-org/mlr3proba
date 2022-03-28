@@ -43,7 +43,8 @@ Imports:
     paradox (>= 0.1.0),
     R6,
     Rcpp (>= 1.0.4),
-    survival
+    survival,
+    survivalmodels (>= 0.1.12)
 Suggests:
     bujar,
     cubature,
@@ -57,7 +58,6 @@ Suggests:
     set6 (>= 0.1.7),
     simsurv,
     survAUC,
-    survivalmodels (>= 0.1.12),
     testthat
 LinkingTo:
     Rcpp

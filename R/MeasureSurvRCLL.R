@@ -39,6 +39,7 @@ MeasureSurvRCLL = R6::R6Class("MeasureSurvRCLL",
         packages = "distr6",
         label = "RCLL",
         man = "mlr3proba::mlr_measures_surv.rcll",
+        range = c(-Inf, Inf),
         param_set = ps
       )
 
@@ -62,9 +63,9 @@ MeasureSurvRCLL = R6::R6Class("MeasureSurvRCLL",
       out = -log(out)
 
       if (ps$se) {
-        sd(ll) / sqrt(length(ll))
+        sd(out) / sqrt(length(out))
       } else {
-        mean(ll)
+        mean(out)
       }
     }
   )
