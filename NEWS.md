@@ -1,6 +1,8 @@
 # mlr3proba 0.4.6
 
 * Patch for upstream breakages
+* Add `TaskSurv$kaplan` method
+* {survivalmodels} now imported (previously suggested)
 
 # mlr3proba 0.4.5
 
