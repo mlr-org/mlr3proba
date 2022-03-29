@@ -62,7 +62,7 @@ MeasureSurvRCLL = R6::R6Class("MeasureSurvRCLL",
 
       out = -log(out)
 
-      if (ps$se) {
+      if (self$param_set$values$se) {
         sd(out) / sqrt(length(out))
       } else {
         mean(out)
