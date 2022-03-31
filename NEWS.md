@@ -1,6 +1,7 @@
 # mlr3proba 0.4.7
 
 * Add right-censored log loss
+* Fix bug in {rpart} where model was being discarded when set to be kept. Parameter `model` now called `keep_model`.
 
 # mlr3proba 0.4.6
 
