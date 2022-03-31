@@ -11,6 +11,7 @@ Calls \code{\link[rpart:rpart]{rpart::rpart()}}.
 }
 
 Parameter \code{xval} is set to 0 in order to save some computation time.
+Parameter \code{model} has been renamed to \code{keep_model}.
 }
 \section{Dictionary}{
 
