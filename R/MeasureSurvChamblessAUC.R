@@ -41,6 +41,9 @@ MeasureSurvChamblessAUC = R6Class("MeasureSurvChamblessAUC",
 
   private = list(
     .score = function(prediction, learner, task, train_set, ...) {
+      if (!inherits(learner, "LearnerSurvCoxPH")) {
+        stop("surv.chambless_auc only compatible with Cox PH models")
+      }
       ps = self$param_set$values
       if (!ps$integrated) {
         msg = "If `integrated=FALSE` then `times` should be a scalar numeric."

@@ -50,12 +50,18 @@ MeasureSurvUnoAUC = R6Class("MeasureSurvUnoAUC",
         }
       }
 
-      super$.score(
+      x = super$.score(
         prediction = prediction,
         task = task,
         train_set = train_set,
         FUN = survAUC::AUC.uno,
-        ...)
+        ...
+      )
+      if (is.list(x)) {
+        x$iauc
+      } else {
+        x
+      }
     }
   )
 )
