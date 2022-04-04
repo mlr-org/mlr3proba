@@ -86,8 +86,8 @@ NumericMatrix c_weight_survival_score(NumericMatrix score, NumericMatrix truth,
   NumericVector cens_times = cens(_,0);
   NumericVector cens_surv = cens(_,1);
 
-  int nr = score.nrow();
-  int nc = score.ncol();
+  const int nr = score.nrow();
+  const int nc = score.ncol();
   double k = 0;
 
   NumericMatrix mat(nr, nc);
@@ -102,10 +102,9 @@ NumericMatrix c_weight_survival_score(NumericMatrix score, NumericMatrix truth,
 
     for (int j = 0; j < nc; j++) {
       // if alive and not proper then IPC weights are current time
-      if ((times[i] > unique_times[j]) && !proper) {
+      if (!proper && times[i] > unique_times[j]) {
         for (int l = 0; l < cens_times.length(); l++) {
-          if(unique_times[j] >= cens_times[l] &&
-             (unique_times[j] < cens_times[l+1]  || l == cens_times.length()-1)) {
+          if(unique_times[j] >= cens_times[l] && (l == cens_times.length()-1 || unique_times[j] < cens_times[l+1])) {
             mat(i, j) = score(i, j) / cens_surv[l];
             break;
           }
@@ -124,8 +123,7 @@ NumericMatrix c_weight_survival_score(NumericMatrix score, NumericMatrix truth,
             if ((times[i] < cens_times[l]) && l == 0) {
               k = 1;
               break;
-            } else if(times[i] >= cens_times[l] &&
-               (l == cens_times.length()-1 || times[i] < cens_times[l+1])) {
+            } else if(times[i] >= cens_times[l] && (l == cens_times.length()-1 || times[i] < cens_times[l+1])) {
               k = cens_surv[l];
               // k == 0 only if last obsv censored, therefore mat is set to 0 anyway
               if(k == 0) {
@@ -182,8 +180,7 @@ float c_concordance(NumericVector time, NumericVector status, NumericVector cran
               weight = 1;
             } else if (weight_meth == "G2" || weight_meth == "G" || weight_meth == "SG") {
               for (int l = 0; l < cl; l++) {
-                if(time[i] >= cens_times[l] &&
-                  (time[i] < cens_times[l + 1]  || l == cl - 1)) {
+                if(time[i] >= cens_times[l] && (l == cl -1) || time[i] < cens_times[l + 1]) {
                   if (weight_meth == "G") {
                     weight = pow(cens_surv[l], -1);
                   } else {
@@ -196,8 +193,7 @@ float c_concordance(NumericVector time, NumericVector status, NumericVector cran
 
             if (weight_meth == "SG" || weight_meth == "S") {
               for (int l = 0; l < sl; l++) {
-                if(time[i] >= surv_times[l] &&
-                   (time[i] < surv_times[l + 1]  || l == sl - 1)) {
+                if(time[i] >= surv_times[l] && (l == sl - 1 || time[i] < surv_times[l + 1])) {
                   if (weight_meth == "S") {
                     weight = surv_surv[l];
                   } else {
