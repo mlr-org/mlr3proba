@@ -73,7 +73,7 @@ MeasureSurvCindex = R6Class("MeasureSurvCindex",
     .score = function(prediction, task, train_set, ...) {
       ps = self$param_set$values
       if (ps$weight_meth == "GH") {
-        return(c_gonen(sort(prediction$crank), ps$tiex))
+        return(gonen(prediction$crank, ps$tiex))
       } else if (ps$weight_meth == "I") {
         return(cindex(prediction$truth, prediction$crank, ps$cutoff, ps$weight_meth, ps$tiex))
       } else {
@@ -86,3 +86,10 @@ MeasureSurvCindex = R6Class("MeasureSurvCindex",
     }
   )
 )
+
+gonen = function(crank, tiex) {
+  assert_numeric(crank, any.missing = FALSE)
+  assert_number(tiex)
+
+  c_gonen(sort(crank), tiex)
+}
