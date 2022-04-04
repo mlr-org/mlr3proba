@@ -56,11 +56,11 @@ test_that("integrated_prob_losses", {
                                          proper = TRUE)),
                             "scalar numeric")
   )
+
+  prediction$score(msr("surv.intlogloss", integrated = TRUE, proper = TRUE, times = 100:110))
   expect_silent(prediction$score(lapply(probs, msr, integrated = TRUE, proper = TRUE)))
-  expect_error(prediction$score(lapply(probs, msr, integrated = TRUE, times = c(34:38),
-    proper = TRUE)), "Requested times")
-  expect_silent(prediction$score(lapply(probs, msr, integrated = TRUE, times = c(100:110),
-    proper = TRUE)))
+  expect_error(prediction$score(lapply(probs, msr, integrated = TRUE, times = c(34:38), proper = TRUE)), "Requested times")
+  expect_silent(prediction$score(lapply(probs, msr, integrated = TRUE, times = c(100:110), proper = TRUE)))
   expect_silent(prediction$score(lapply(probs, msr, integrated = FALSE, times = 80, proper = TRUE)))
 })
 

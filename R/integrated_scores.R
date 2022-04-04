@@ -1,6 +1,14 @@
-weighted_survival_score = function(loss, truth, distribution, times, t_max,
-                                    p_max, proper, train = NULL, eps, ...) {
+score_intslogloss = function(true_times, unique_times, cdf, eps = eps) {
+  assert_numeric(true_times, any.missing = FALSE)
+  assert_numeric(unique_times, any.missing = FALSE)
+  assert_matrix(cdf, nrow = length(unique_times), ncol = length(true_times), any.missing = FALSE)
+  assert_number(eps, lower = 0)
 
+  c_score_intslogloss(true_times, unique_times, cdf, eps = eps)
+}
+
+
+weighted_survival_score = function(loss, truth, distribution, times, t_max, p_max, proper, train = NULL, eps, ...) {
   assert_surv(truth)
 
   if (is.null(times) || !length(times)) {
@@ -17,7 +25,7 @@ weighted_survival_score = function(loss, truth, distribution, times, t_max,
   }
 
   if (inherits(distribution, "Matdist")) {
-    cdf = gprm(distribution, "cdf")
+    cdf = t(gprm(distribution, "cdf"))
   } else if (inherits(distribution, "Distribution")) {
     cdf = as.matrix(distribution$cdf(unique_times))
   } else {
@@ -38,7 +46,7 @@ weighted_survival_score = function(loss, truth, distribution, times, t_max,
   } else if (loss == "schmid") {
     score = c_score_graf_schmid(true_times, unique_times, cdf, power = 1)
   } else {
-    score = c_score_intslogloss(true_times, unique_times, cdf, eps = eps)
+    score = score_intslogloss(true_times, unique_times, cdf, eps = eps)
   }
 
   if (is.null(train)) {
