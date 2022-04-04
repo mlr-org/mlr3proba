@@ -68,18 +68,15 @@ NumericMatrix c_score_intslogloss(NumericVector truth, NumericVector unique_time
 // [[Rcpp::export]]
 NumericMatrix c_score_graf_schmid(NumericVector truth, NumericVector unique_times,
                                   NumericMatrix cdf, int power = 2){
-  int nr_obs = truth.length();
-  int nc_times = unique_times.length();
+  const int nr_obs = truth.length();
+  const int nc_times = unique_times.length();
   NumericMatrix igs(nr_obs, nc_times);
 
   for (int i = 0; i < nr_obs; i++) {
-    for (int j = 0; j < nc_times; j++) {
-      if(truth[i] > unique_times[j]) {
-        igs(i, j) = std::pow(cdf(j, i), power);
-      } else {
-        igs(i, j) = std::pow((1 - cdf(j, i)), power);
+      for (int j = 0; j < nc_times; j++) {
+          double tmp = (truth[i] > unique_times[j]) ? cdf(j, i) : 1 - cdf(j, i); // FIXME: different from above
+          igs(i, j) = std::pow(tmp, power);
       }
-    }
   }
 
   return igs;
@@ -238,21 +235,18 @@ float c_concordance(NumericVector time, NumericVector status, NumericVector cran
 }
 
 // [[Rcpp::export]]
-float c_gonen(NumericVector crank, float tiex) {
-  std::sort(crank.begin(), crank.end());
+double c_gonen(NumericVector crank, float tiex) {
+    // NOTE: we assume crank to be sorted!
+    const int n = crank.length();
+    double ghci = 0.0;
 
-  int n = crank.length();
-  double ghci = 0.0;
-
-  for (int i = 0; i < n - 1; i++) {
-    for (int j = i + 1; j < n; j++) {
-      if(crank[i] < crank[j]) {
-        ghci += 1/(1 + exp(crank[i] - crank[j]));
-      } else if (crank[i] == crank[j]) {
-        ghci += tiex/(1 + exp(crank[i] - crank[j]));
-      }
+    for (int i = 0; i < n - 1; i++) {
+        double ci = crank[i];
+        for (int j = i + 1; j < n; j++) {
+            double cj = crank[j];
+            ghci += ((ci < cj) ? 1 : tiex) / (1 + exp(ci - cj));
+        }
     }
-  }
 
-  return (2 * ghci)/(n * (n - 1));
+    return (2 * ghci) / (n * (n - 1));
 }

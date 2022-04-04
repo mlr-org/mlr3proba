@@ -1,10 +1,11 @@
 score_intslogloss = function(true_times, unique_times, cdf, eps = eps) {
-  assert_numeric(true_times, any.missing = FALSE)
-  assert_numeric(unique_times, any.missing = FALSE)
-  assert_matrix(cdf, nrow = length(unique_times), ncol = length(true_times), any.missing = FALSE)
   assert_number(eps, lower = 0)
-
   c_score_intslogloss(true_times, unique_times, cdf, eps = eps)
+}
+
+score_graf_schmid = function(true_times, unique_times, cdf, power = 2) {
+  assert_number(power)
+  c_score_graf_schmid(true_times, unique_times, cdf, power)
 }
 
 
@@ -39,12 +40,16 @@ weighted_survival_score = function(loss, truth, distribution, times, t_max, p_ma
 
   true_times <- truth[, "time"]
 
+  assert_numeric(true_times, any.missing = FALSE)
+  assert_numeric(unique_times, any.missing = FALSE)
+  assert_matrix(cdf, nrow = length(unique_times), ncol = length(true_times), any.missing = FALSE)
+
   ## Note that whilst we calculate the score for censored here, they are then
   ##  corrected in the weighting function
   if (loss == "graf") {
-    score = c_score_graf_schmid(true_times, unique_times, cdf, power = 2)
+    score = score_graf_schmid(true_times, unique_times, cdf, power = 2)
   } else if (loss == "schmid") {
-    score = c_score_graf_schmid(true_times, unique_times, cdf, power = 1)
+    score = score_graf_schmid(true_times, unique_times, cdf, power = 1)
   } else {
     score = score_intslogloss(true_times, unique_times, cdf, eps = eps)
   }
@@ -55,9 +60,7 @@ weighted_survival_score = function(loss, truth, distribution, times, t_max, p_ma
     cens = survival::survfit(Surv(train[, "time"], 1 - train[, "status"]) ~ 1)
   }
 
-  score = .c_weight_survival_score(score, truth, unique_times,
-    matrix(c(cens$time, cens$surv), ncol = 2),
-    proper, eps)
+  score = .c_weight_survival_score(score, truth, unique_times, matrix(c(cens$time, cens$surv), ncol = 2), proper, eps)
   colnames(score) = unique_times
 
   return(score)
