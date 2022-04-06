@@ -1,3 +1,7 @@
+# mlr3proba 0.4.9
+
+* Fixed bug in surv.logloss causing IPCW weighting to not be applied correctly
+
 # mlr3proba 0.4.8
 
 * Bug fixes in AUC measures
