@@ -27,7 +27,7 @@ lrn("surv.coxph")
 
 \itemize{
 \item Type: "surv"
-\item Predict Types: \verb{crank, distr, lp}
+\item Predict Types: \verb{distr, crank, lp}
 \item Feature Types: \verb{logical, integer, numeric, factor}
 \item Properties: \code{weights}
 \item Packages: \CRANpkg{mlr3} \CRANpkg{mlr3proba} \CRANpkg{survival} \CRANpkg{distr6}
