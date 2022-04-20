@@ -43,7 +43,7 @@ weighted_survival_score = function(loss, truth, distribution, times, t_max, p_ma
 
   assert_numeric(true_times, any.missing = FALSE)
   assert_numeric(unique_times, any.missing = FALSE)
-  assert_matrix(cdf, nrow = length(unique_times), ncol = length(true_times), any.missing = FALSE)
+  assert_matrix(cdf, nrows = length(unique_times), ncols = length(true_times), any.missing = FALSE)
 
   ## Note that whilst we calculate the score for censored here, they are then
   ##  corrected in the weighting function
