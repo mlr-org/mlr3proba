@@ -29,7 +29,8 @@ NumericVector c_get_unique_times(NumericVector true_times, NumericVector req_tim
   } else {
       for (int i = 0; i < true_times.length(); i++) {
           for (int j = 0; j < req_times.length(); j++) {
-              if(true_times[i] <= req_times[j] && (i == true_times.length() - 1) || true_times[i + 1] > req_times[j]) {
+              if(true_times[i] <= req_times[j] &&
+                (i == true_times.length() - 1 || true_times[i + 1] > req_times[j])) {
                   break;
               } else if(j == req_times.length() - 1) {
                   true_times.erase(i);
@@ -180,7 +181,7 @@ float c_concordance(NumericVector time, NumericVector status, NumericVector cran
               weight = 1;
             } else if (weight_meth == "G2" || weight_meth == "G" || weight_meth == "SG") {
               for (int l = 0; l < cl; l++) {
-                if(time[i] >= cens_times[l] && (l == cl -1) || time[i] < cens_times[l + 1]) {
+                if(time[i] >= cens_times[l] && ((l == cl -1) || time[i] < cens_times[l + 1])) {
                   if (weight_meth == "G") {
                     weight = pow(cens_surv[l], -1);
                   } else {
