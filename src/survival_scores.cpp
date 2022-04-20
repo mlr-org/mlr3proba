@@ -7,90 +7,71 @@ using namespace std;
 
 // [[Rcpp::export(.c_get_unique_times)]]
 NumericVector c_get_unique_times(NumericVector true_times, NumericVector req_times) {
+  if (req_times.length() == 0) {
+    return sort_unique(true_times);
+  }
+
   std::sort(true_times.begin(), true_times.end());
+  std::sort(req_times.begin(), req_times.end());
 
-  if(req_times.length() > 0) {
-    std::sort(req_times.begin(), req_times.end());
-    double mintime = true_times(0);
-    double maxtime = true_times(true_times.length()-1);
+  double mintime = true_times(0);
+  double maxtime = true_times(true_times.length()-1);
 
-    for (int i = 0; i < req_times.length(); i++) {
-      if (req_times[i] < mintime || req_times[i] > maxtime || req_times[i] == req_times[i-1]) {
-        req_times.erase (i);
-        i--;
+  for (int i = 0; i < req_times.length(); i++) {
+      if (req_times[i] < mintime || req_times[i] > maxtime || ((i > 1) && req_times[i] == req_times[i-1])) {
+          req_times.erase (i);
+          i--;
       }
-    }
+  }
 
-    if (req_times.length() == 0) {
+  if (req_times.length() == 0) {
       Rcpp::stop("Requested times are all outside the observed range.");
-    } else {
-      for (int i = 0; i < true_times.length(); i++) {
-        for (int j = 0; j < req_times.length(); j++) {
-          if(true_times[i] <= req_times[j] &&
-             (true_times[i+1] > req_times[j] || i == true_times.length()-1)) {
-            break;
-          } else if(j == req_times.length() - 1) {
-            true_times.erase(i);
-            i--;
-            break;
-          }
-        }
-      }
-    }
   } else {
-    for (int i = 0; i < true_times.length(); i++) {
-      if(true_times[i] == true_times[i-1]) {
-        true_times.erase(i);
-        i--;
+      for (int i = 0; i < true_times.length(); i++) {
+          for (int j = 0; j < req_times.length(); j++) {
+              if(true_times[i] <= req_times[j] &&
+                (i == true_times.length() - 1 || true_times[i + 1] > req_times[j])) {
+                  break;
+              } else if(j == req_times.length() - 1) {
+                  true_times.erase(i);
+                  i--;
+                  break;
+              }
+          }
       }
-    }
   }
 
   return true_times;
 }
 
 // [[Rcpp::export]]
-NumericMatrix c_score_intslogloss(NumericVector truth, NumericVector unique_times,
-                                  NumericMatrix cdf, double eps){
-  // NumericVector obs_times = truth(_,0);
-
-  int nr_obs = truth.length();
-  int nc_times = unique_times.length();
+NumericMatrix c_score_intslogloss(NumericVector truth, NumericVector unique_times, NumericMatrix cdf, double eps) {
+  const int nr_obs = truth.length();
+  const int nc_times = unique_times.length();
   NumericMatrix ll(nr_obs, nc_times);
 
   for (int i = 0; i < nr_obs; i++) {
     for (int j = 0; j < nc_times; j++) {
-      if(truth[i] > unique_times[j]) {
-        ll(i, j) = 1 - cdf(j, i);
-      } else {
-        ll(i, j) = cdf(j, i);
-      }
-
-      if (ll(i, j) == 0) {
-        ll(i, j) = eps;
-      }
-
-      ll(i, j) = -log(ll(i,j));
+        double tmp = (truth[i] > unique_times[j]) ? 1 - cdf(j, i) : cdf(j, i);
+        ll(i, j) = -log(max(tmp, eps));
     }
   }
+
   return ll;
 }
 
 // [[Rcpp::export]]
 NumericMatrix c_score_graf_schmid(NumericVector truth, NumericVector unique_times,
                                   NumericMatrix cdf, int power = 2){
-  int nr_obs = truth.length();
-  int nc_times = unique_times.length();
+  const int nr_obs = truth.length();
+  const int nc_times = unique_times.length();
   NumericMatrix igs(nr_obs, nc_times);
 
   for (int i = 0; i < nr_obs; i++) {
-    for (int j = 0; j < nc_times; j++) {
-      if(truth[i] > unique_times[j]) {
-        igs(i, j) = std::pow(cdf(j, i), power);
-      } else {
-        igs(i, j) = std::pow((1 - cdf(j, i)), power);
+      for (int j = 0; j < nc_times; j++) {
+          double tmp = (truth[i] > unique_times[j]) ? cdf(j, i) : 1 - cdf(j, i); // FIXME: different from above
+          igs(i, j) = std::pow(tmp, power);
       }
-    }
   }
 
   return igs;
@@ -106,8 +87,8 @@ NumericMatrix c_weight_survival_score(NumericMatrix score, NumericMatrix truth,
   NumericVector cens_times = cens(_,0);
   NumericVector cens_surv = cens(_,1);
 
-  int nr = score.nrow();
-  int nc = score.ncol();
+  const int nr = score.nrow();
+  const int nc = score.ncol();
   double k = 0;
 
   NumericMatrix mat(nr, nc);
@@ -122,10 +103,9 @@ NumericMatrix c_weight_survival_score(NumericMatrix score, NumericMatrix truth,
 
     for (int j = 0; j < nc; j++) {
       // if alive and not proper then IPC weights are current time
-      if ((times[i] > unique_times[j]) && !proper) {
+      if (!proper && times[i] > unique_times[j]) {
         for (int l = 0; l < cens_times.length(); l++) {
-          if(unique_times[j] >= cens_times[l] &&
-             (unique_times[j] < cens_times[l+1]  || l == cens_times.length()-1)) {
+          if(unique_times[j] >= cens_times[l] && (l == cens_times.length()-1 || unique_times[j] < cens_times[l+1])) {
             mat(i, j) = score(i, j) / cens_surv[l];
             break;
           }
@@ -144,8 +124,7 @@ NumericMatrix c_weight_survival_score(NumericMatrix score, NumericMatrix truth,
             if ((times[i] < cens_times[l]) && l == 0) {
               k = 1;
               break;
-            } else if(times[i] >= cens_times[l] &&
-               (l == cens_times.length()-1 || times[i] < cens_times[l+1])) {
+            } else if(times[i] >= cens_times[l] && (l == cens_times.length()-1 || times[i] < cens_times[l+1])) {
               k = cens_surv[l];
               // k == 0 only if last obsv censored, therefore mat is set to 0 anyway
               if(k == 0) {
@@ -202,8 +181,7 @@ float c_concordance(NumericVector time, NumericVector status, NumericVector cran
               weight = 1;
             } else if (weight_meth == "G2" || weight_meth == "G" || weight_meth == "SG") {
               for (int l = 0; l < cl; l++) {
-                if(time[i] >= cens_times[l] &&
-                  (time[i] < cens_times[l + 1]  || l == cl - 1)) {
+                if(time[i] >= cens_times[l] && ((l == cl -1) || time[i] < cens_times[l + 1])) {
                   if (weight_meth == "G") {
                     weight = pow(cens_surv[l], -1);
                   } else {
@@ -216,8 +194,7 @@ float c_concordance(NumericVector time, NumericVector status, NumericVector cran
 
             if (weight_meth == "SG" || weight_meth == "S") {
               for (int l = 0; l < sl; l++) {
-                if(time[i] >= surv_times[l] &&
-                   (time[i] < surv_times[l + 1]  || l == sl - 1)) {
+                if(time[i] >= surv_times[l] && (l == sl - 1 || time[i] < surv_times[l + 1])) {
                   if (weight_meth == "S") {
                     weight = surv_surv[l];
                   } else {
@@ -249,21 +226,18 @@ float c_concordance(NumericVector time, NumericVector status, NumericVector cran
 }
 
 // [[Rcpp::export]]
-float c_gonen(NumericVector crank, float tiex) {
-  std::sort(crank.begin(), crank.end());
+double c_gonen(NumericVector crank, float tiex) {
+    // NOTE: we assume crank to be sorted!
+    const int n = crank.length();
+    double ghci = 0.0;
 
-  int n = crank.length();
-  double ghci = 0.0;
-
-  for (int i = 0; i < n - 1; i++) {
-    for (int j = i + 1; j < n; j++) {
-      if(crank[i] < crank[j]) {
-        ghci += 1/(1 + exp(crank[i] - crank[j]));
-      } else if (crank[i] == crank[j]) {
-        ghci += tiex/(1 + exp(crank[i] - crank[j]));
-      }
+    for (int i = 0; i < n - 1; i++) {
+        double ci = crank[i];
+        for (int j = i + 1; j < n; j++) {
+            double cj = crank[j];
+            ghci += ((ci < cj) ? 1 : tiex) / (1 + exp(ci - cj));
+        }
     }
-  }
 
-  return (2 * ghci)/(n * (n - 1));
+    return (2 * ghci) / (n * (n - 1));
 }
