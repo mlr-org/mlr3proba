@@ -2,26 +2,26 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 .c_get_unique_times <- function(true_times, req_times) {
-    .Call('_mlr3proba_c_get_unique_times', PACKAGE = 'mlr3proba', true_times, req_times)
+    .Call(`_mlr3proba_c_get_unique_times`, true_times, req_times)
 }
 
 c_score_intslogloss <- function(truth, unique_times, cdf, eps) {
-    .Call('_mlr3proba_c_score_intslogloss', PACKAGE = 'mlr3proba', truth, unique_times, cdf, eps)
+    .Call(`_mlr3proba_c_score_intslogloss`, truth, unique_times, cdf, eps)
 }
 
 c_score_graf_schmid <- function(truth, unique_times, cdf, power = 2L) {
-    .Call('_mlr3proba_c_score_graf_schmid', PACKAGE = 'mlr3proba', truth, unique_times, cdf, power)
+    .Call(`_mlr3proba_c_score_graf_schmid`, truth, unique_times, cdf, power)
 }
 
 .c_weight_survival_score <- function(score, truth, unique_times, cens, proper, eps) {
-    .Call('_mlr3proba_c_weight_survival_score', PACKAGE = 'mlr3proba', score, truth, unique_times, cens, proper, eps)
+    .Call(`_mlr3proba_c_weight_survival_score`, score, truth, unique_times, cens, proper, eps)
 }
 
 c_concordance <- function(time, status, crank, cutoff, weight_meth, cens, surv, tiex) {
-    .Call('_mlr3proba_c_concordance', PACKAGE = 'mlr3proba', time, status, crank, cutoff, weight_meth, cens, surv, tiex)
+    .Call(`_mlr3proba_c_concordance`, time, status, crank, cutoff, weight_meth, cens, surv, tiex)
 }
 
 c_gonen <- function(crank, tiex) {
-    .Call('_mlr3proba_c_gonen', PACKAGE = 'mlr3proba', crank, tiex)
+    .Call(`_mlr3proba_c_gonen`, crank, tiex)
 }
 

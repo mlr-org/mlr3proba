@@ -4,7 +4,7 @@ Version: 0.4.9
 Authors@R:
     c(person(given = "Raphael",
              family = "Sonabend",
-             role = c("aut", "cre"),
+             role = "aut",
              email = "raphaelsonabend@gmail.com",
              comment = c(ORCID = "0000-0001-9225-4654")),
       person(given = "Franz",
@@ -13,7 +13,7 @@ Authors@R:
              email = "f.kiraly@ucl.ac.uk"),
       person(given = "Michel",
              family = "Lang",
-             role = "aut",
+             role = c("aut", "cre"),
              email = "michellang@gmail.com",
              comment = c(ORCID = "0000-0001-9754-0393")),
       person(given = "Nurul Ain",
@@ -137,6 +137,7 @@ Collate:
     'helpers.R'
     'histogram.R'
     'integrated_scores.R'
+    'mlr3proba-package.R'
     'partition.R'
     'pecs.R'
     'pipelines.R'
