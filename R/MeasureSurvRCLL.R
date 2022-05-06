@@ -28,9 +28,10 @@ MeasureSurvRCLL = R6::R6Class("MeasureSurvRCLL",
     initialize = function() {
       ps = ps(
         eps = p_dbl(0, 1, default = 1e-15),
-        se = p_lgl(default = FALSE)
+        se = p_lgl(default = FALSE),
+        ERV = p_lgl(default = FALSE)
       )
-      ps$values = list(eps = 1e-15, se = FALSE)
+      ps$values = list(eps = 1e-15, se = FALSE, ERV = FALSE)
 
       super$initialize(
         id = "surv.rcll",
@@ -49,6 +50,7 @@ MeasureSurvRCLL = R6::R6Class("MeasureSurvRCLL",
 
   private = list(
     .score = function(prediction, ...) {
+      if (ps$ERV) return(.scoring_rule_erv(self, prediction, task, train_set))
       out = numeric(length(prediction$row_ids))
       truth = prediction$truth
       event = truth[, 2] == 1

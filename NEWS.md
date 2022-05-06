@@ -1,3 +1,7 @@
+# mlr3proba 0.4.10
+
+* Added `ERV` parameter to scoring rule measures to return more interpretable scoring rules. Explained Residual Variation is the percentage decrease between a scoring rule comparing a Kaplan-Meier baseline to the learner of interest.
+
 # mlr3proba 0.4.9
 
 * Fixed bug in surv.logloss causing IPCW weighting to not be applied correctly
