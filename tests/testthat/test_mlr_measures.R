@@ -113,3 +113,31 @@ test_that("t_max, p_max", {
   m2 = p$score(msr("surv.graf", p_max = 0.3))
   expect_equal(m1, m2)
 })
+
+
+test_that("ERV works as expected", {
+  set.seed(1)
+  t = tsk("rats")$filter(sample(1:300, 50))
+  l = lrn("surv.kaplan")
+  p = l$train(t)$predict(t)
+  m = msr("surv.graf", ERV = TRUE)
+  expect_equal(as.numeric(p$score(m, task = t, train_set = t$row_ids)), 0)
+  expect_equal(as.numeric(resample(t, l, rsmp("holdout"))$aggregate(m)), 0)
+
+  set.seed(1)
+  t = tsk("rats")$filter(sample(1:300, 100))
+  l = lrn("surv.coxph")
+  p = suppressWarnings(l$train(t)$predict(t))
+  m = msr("surv.graf", ERV = TRUE)
+  expect_gt(as.numeric(p$score(m, task = t, train_set = t$row_ids)), 0)
+  expect_gt(suppressWarnings(as.numeric(resample(t, l, rsmp("holdout"))$
+    aggregate(m))), 0)
+
+  set.seed(1)
+  t = tsk("rats")$filter(sample(1:300, 50))
+  l = lrn("surv.kaplan")
+  p = l$train(t)$predict(t)
+  m = msr("surv.graf", ERV = TRUE, se = TRUE)
+  expect_error(p$score(m), "'task'")
+  expect_error(p$score(m, task = t, train_set = t$row_ids), "`se`")
+})

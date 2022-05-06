@@ -57,11 +57,12 @@ MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
         method = p_int(1L, 2L, default = 2L),
         se = p_lgl(default = FALSE),
         proper = p_lgl(default = FALSE),
-        eps = p_dbl(0, 1, default = 1e-3)
+        eps = p_dbl(0, 1, default = 1e-3),
+        ERV = p_lgl(default = FALSE)
       )
       ps$values = list(
         integrated = TRUE, method = 2L, se = FALSE,
-        proper = FALSE, eps = 1e-3
+        proper = FALSE, eps = 1e-3, ERV = FALSE
       )
 
       super$initialize(
@@ -80,6 +81,7 @@ MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
   private = list(
     .score = function(prediction, task, train_set, ...) {
       ps = self$param_set$values
+      if (ps$ERV) return(.scoring_rule_erv(self, prediction, task, train_set))
       nok = sum(!is.null(ps$times), !is.null(ps$t_max), !is.null(ps$p_max)) > 1
       if (nok) {
         stop("Only one of `times`, `t_max`, and `p_max` should be provided")

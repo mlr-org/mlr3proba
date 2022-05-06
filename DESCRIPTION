@@ -142,6 +142,7 @@ Collate:
     'pecs.R'
     'pipelines.R'
     'plot.R'
+    'scoring_rule_erv.R'
     'surv_measures.R'
     'surv_return.R'
     'zzz.R'
