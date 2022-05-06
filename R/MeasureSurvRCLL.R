@@ -49,8 +49,10 @@ MeasureSurvRCLL = R6::R6Class("MeasureSurvRCLL",
   ),
 
   private = list(
-    .score = function(prediction, ...) {
-      if (ps$ERV) return(.scoring_rule_erv(self, prediction, task, train_set))
+    .score = function(prediction, task, train_set, ...) {
+      if (self$param_set$values$ERV) {
+        return(.scoring_rule_erv(self, prediction, task, train_set))
+      }
       out = numeric(length(prediction$row_ids))
       truth = prediction$truth
       event = truth[, 2] == 1

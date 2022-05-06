@@ -58,7 +58,9 @@ MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
 
   private = list(
     .score = function(prediction, task, train_set, ...) {
-      if (ps$ERV) return(.scoring_rule_erv(self, prediction, task, train_set))
+      if (self$param_set$values$ERV) {
+        return(.scoring_rule_erv(self, prediction, task, train_set))
+      }
       x = as.integer(!is.null(task)) + as.integer(!is.null(train_set))
       if (x == 1) {
         stop("Either 'task' and 'train_set' should be passed to measure or neither.")
