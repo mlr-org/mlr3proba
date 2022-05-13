@@ -10,6 +10,7 @@ score_graf_schmid = function(true_times, unique_times, cdf, power = 2) {
 
 
 weighted_survival_score = function(loss, truth, distribution, times, t_max, p_max, proper, train = NULL, eps, ...) {
+
   assert_surv(truth)
 
   if (is.null(times) || !length(times)) {
@@ -27,9 +28,6 @@ weighted_survival_score = function(loss, truth, distribution, times, t_max, p_ma
 
   if (inherits(distribution, "Distribution")) {
     cdf = as.matrix(distribution$cdf(unique_times))
-    if (inherits(distribution, "Matdist")) {
-      cdf = t(cdf) # FIXME - distr6 transposes matdist
-    }
   } else {
     mtc = findInterval(unique_times, as.numeric(colnames(distribution)))
     cdf = 1 - t(distribution[, mtc])

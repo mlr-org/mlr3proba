@@ -73,6 +73,7 @@ MeasureSurvIntLogloss = R6::R6Class("MeasureSurvIntLogloss",
   private = list(
     .score = function(prediction, task, train_set, ...) {
       ps = self$param_set$values
+
       if (ps$ERV) return(.scoring_rule_erv(self, prediction, task, train_set))
       nok = sum(!is.null(ps$times), !is.null(ps$t_max), !is.null(ps$p_max)) > 1
       if (nok) {
