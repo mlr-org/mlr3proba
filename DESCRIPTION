@@ -61,6 +61,8 @@ Suggests:
     testthat
 LinkingTo:
     Rcpp
+Remotes:
+    alan-turing-institute/distr6
 ByteCompile: true
 Encoding: UTF-8
 LazyData: true
