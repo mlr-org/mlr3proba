@@ -82,7 +82,7 @@ see details."><meta property="og:image" content="https://mlr3proba.mlr-org.com/l
     </div>
 
     <div class="ref-description section level2">
-    <p>Wrapper around multiple <a href="https://mlr3pipelines.mlr-org.com//reference/PipeOp.html" class="external-link">PipeOp</a>s to help in creation
+    <p>Wrapper around multiple <a href="https://mlr3pipelines.mlr-org.com/reference/PipeOp.html" class="external-link">PipeOp</a>s to help in creation
 of complex survival to reduction methods. Three reductions are currently implemented,
 see details.</p>
     </div>
@@ -141,16 +141,16 @@ Parameters passed to <a href="mlr_pipeops_compose_probregr.html">PipeOpProbregrC
 distribution for composition.</p></dd>
 <dt>learnercv_params</dt>
 <dd><p><code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code><br>
-Parameters passed to <a href="https://mlr3pipelines.mlr-org.com//reference/mlr_pipeops_learner_cv.html" class="external-link">PipeOpLearnerCV</a>, default is to use
+Parameters passed to <a href="https://mlr3pipelines.mlr-org.com/reference/mlr_pipeops_learner_cv.html" class="external-link">PipeOpLearnerCV</a>, default is to use
 insampling.</p></dd>
 <dt>graph_learner</dt>
 <dd><p><code>logical(1)</code><br>
-If <code>TRUE</code> returns wraps the <a href="https://mlr3pipelines.mlr-org.com//reference/Graph.html" class="external-link">Graph</a> as a
-<a href="https://mlr3pipelines.mlr-org.com//reference/mlr_learners_graph.html" class="external-link">GraphLearner</a> otherwise (default) returns as a <code>Graph</code>.</p></dd>
+If <code>TRUE</code> returns wraps the <a href="https://mlr3pipelines.mlr-org.com/reference/Graph.html" class="external-link">Graph</a> as a
+<a href="https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html" class="external-link">GraphLearner</a> otherwise (default) returns as a <code>Graph</code>.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p><a href="https://mlr3pipelines.mlr-org.com//reference/Graph.html" class="external-link">mlr3pipelines::Graph</a> or <a href="https://mlr3pipelines.mlr-org.com//reference/mlr_learners_graph.html" class="external-link">mlr3pipelines::GraphLearner</a></p>
+    <p><a href="https://mlr3pipelines.mlr-org.com/reference/Graph.html" class="external-link">mlr3pipelines::Graph</a> or <a href="https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html" class="external-link">mlr3pipelines::GraphLearner</a></p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -169,7 +169,7 @@ predicted <code>response</code> predict_type.</p></li>
 <li><p><a href="mlr_pipeops_trafopred_regrsurv.html">PipeOpPredRegrSurv</a> transforms the resulting <a href="https://mlr3.mlr-org.com/reference/PredictionRegr.html" class="external-link">PredictionRegr</a>
 to <a href="PredictionSurv.html">PredictionSurv</a>.</p></li>
 </ol></li>
-<li><p>Survival to Deterministic Regression B</p><ol><li><p><a href="https://mlr3pipelines.mlr-org.com//reference/mlr_pipeops_learner_cv.html" class="external-link">PipeOpLearnerCV</a> cross-validates and makes predictions from
+<li><p>Survival to Deterministic Regression B</p><ol><li><p><a href="https://mlr3pipelines.mlr-org.com/reference/mlr_pipeops_learner_cv.html" class="external-link">PipeOpLearnerCV</a> cross-validates and makes predictions from
 a linear <a href="LearnerSurv.html">LearnerSurv</a> with <code>lp</code> predict type on the original <a href="TaskSurv.html">TaskSurv</a>.</p></li>
 <li><p><a href="mlr_pipeops_trafotask_survregr.html">PipeOpTaskSurvRegr</a> transforms the <code>lp</code> predictions into the target of a
 <a href="https://mlr3.mlr-org.com/reference/TaskRegr.html" class="external-link">TaskRegr</a> with the same features as the original <a href="TaskSurv.html">TaskSurv</a>.</p></li>
@@ -212,7 +212,7 @@ predictors of the new data, which can ultimately be composed to a distribution.<
 <span class="r-in">  <span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">tsk</a></span><span class="op">(</span><span class="st">"rats"</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in">  <span class="co"># method 1 with censoring deletion, compose to distribution</span></span>
-<span class="r-in">  <span class="va">pipe</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3pipelines.mlr-org.com//reference/ppl.html" class="external-link">ppl</a></span><span class="op">(</span></span>
+<span class="r-in">  <span class="va">pipe</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3pipelines.mlr-org.com/reference/ppl.html" class="external-link">ppl</a></span><span class="op">(</span></span>
 <span class="r-in">    <span class="st">"survtoregr"</span>,</span>
 <span class="r-in">    method <span class="op">=</span> <span class="fl">1</span>,</span>
 <span class="r-in">    regr_learner <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"regr.featureless"</span><span class="op">)</span>,</span>
@@ -223,7 +223,7 @@ predictors of the new data, which can ultimately be composed to a distribution.<
 <span class="r-in">  <span class="va">pipe</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in">  <span class="co"># method 2 with censoring imputation (mrl), one regr learner</span></span>
-<span class="r-in">  <span class="va">pipe</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3pipelines.mlr-org.com//reference/ppl.html" class="external-link">ppl</a></span><span class="op">(</span></span>
+<span class="r-in">  <span class="va">pipe</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3pipelines.mlr-org.com/reference/ppl.html" class="external-link">ppl</a></span><span class="op">(</span></span>
 <span class="r-in">    <span class="st">"survtoregr"</span>,</span>
 <span class="r-in">    method <span class="op">=</span> <span class="fl">2</span>,</span>
 <span class="r-in">    regr_learner <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"regr.featureless"</span>, predict_type <span class="op">=</span> <span class="st">"se"</span><span class="op">)</span>,</span>
@@ -233,7 +233,7 @@ predictors of the new data, which can ultimately be composed to a distribution.<
 <span class="r-in">  <span class="va">pipe</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in">  <span class="co"># method 3 with censoring omission and no composition, insample resampling</span></span>
-<span class="r-in">  <span class="va">pipe</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3pipelines.mlr-org.com//reference/ppl.html" class="external-link">ppl</a></span><span class="op">(</span></span>
+<span class="r-in">  <span class="va">pipe</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3pipelines.mlr-org.com/reference/ppl.html" class="external-link">ppl</a></span><span class="op">(</span></span>
 <span class="r-in">    <span class="st">"survtoregr"</span>,</span>
 <span class="r-in">    method <span class="op">=</span> <span class="fl">3</span>,</span>
 <span class="r-in">    regr_learner <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"regr.featureless"</span><span class="op">)</span>,</span>
