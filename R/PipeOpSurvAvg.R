@@ -105,7 +105,7 @@ delayedAssign(
       })
 
       if (all(ok)) {
-        distr = distr6::mixMatrix(distr)
+        distr = distr6::mixMatrix(distr, weights)
       } else {
         ok = mlr3misc::map_lgl(distr, function(.x) {
           checkmate::test_class(.x, "VectorDistribution")

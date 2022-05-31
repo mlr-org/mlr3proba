@@ -24,7 +24,6 @@
 #' }
 #' }
 pipeline_survaverager = function(learners, param_vals = list(), graph_learner = FALSE) {
-
   learners = mlr3pipelines::gunion(mlr3misc::map(learners, mlr3pipelines::as_graph))
   po = mlr3pipelines::po("survavg", param_vals = param_vals)
 

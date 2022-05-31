@@ -16,8 +16,8 @@ test_that("equal weights", {
   expect_prediction_surv(p)
 
   expect_equal(p$crank, (p1$crank + p2$crank) / 2)
-  expect_equal(as.numeric(p$distr$cdf(1)),
-    as.numeric((p1$distr$cdf(1) + p2$distr$cdf(1)) / 2))
+  expect_equal(as.numeric(p$distr$cdf(100)),
+    as.numeric((p1$distr$cdf(100) + p2$distr$cdf(100)) / 2))
   expect_equal(p$lp, rep(NA_real_, 5))
   expect_equal(p$response, rep(NA_real_, 5))
 })
@@ -30,8 +30,8 @@ test_that("unequal weights", {
   expect_prediction_surv(p)
 
   expect_equal(p$crank, (p1$crank * 0.2 + p2$crank * 0.8))
-  expect_equal(as.numeric(p$distr$cdf(1)),
-    as.numeric((p1$distr$cdf(1) * 0.2 + p2$distr$cdf(1) * 0.8)))
+  expect_equal(as.numeric(p$distr$cdf(100)),
+    as.numeric((p1$distr$cdf(100) * 0.2 + p2$distr$cdf(100) * 0.8)))
 })
 
 test_that("lp", {
