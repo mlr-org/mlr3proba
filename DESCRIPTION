@@ -40,6 +40,7 @@ Imports:
     data.table,
     distr6 (>= 1.6.8),
     mlr3misc (>= 0.7.0),
+    mlr3viz,
     paradox (>= 0.1.0),
     R6,
     Rcpp (>= 1.0.4),
@@ -58,7 +59,8 @@ Suggests:
     set6 (>= 0.1.7),
     simsurv,
     survAUC,
-    testthat
+    testthat,
+    vdiffr
 LinkingTo:
     Rcpp
 Remotes:
@@ -68,7 +70,7 @@ Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
 Roxygen: list(markdown = TRUE, r6 = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
 Collate:
     'LearnerDens.R'
     'LearnerDensHistogram.R'
@@ -133,6 +135,7 @@ Collate:
     'as_task_dens.R'
     'as_task_surv.R'
     'assertions.R'
+    'autoplot.R'
     'bibentries.R'
     'cindex.R'
     'data.R'

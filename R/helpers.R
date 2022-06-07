@@ -57,3 +57,8 @@ r6_private = function(x) {
     x
   }
 }
+
+## used for plotting
+apply_theme = function(theme_object, default_object = NULL) {
+  if (getOption("mlr3.theme", TRUE)) theme_object else default_object %??% geom_blank()
+}

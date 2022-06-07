@@ -13,8 +13,10 @@ A survival task for the \link{rats} data set.
 Column "sex" has been converted to a factor, all others have been converted to integer.
 }
 \section{Construction}{
-\preformatted{mlr3::mlr_tasks$get("rats")
+
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr3::mlr_tasks$get("rats")
 mlr3::tsk("rats")
-}
+}\if{html}{\out{</div>}}
 }
 

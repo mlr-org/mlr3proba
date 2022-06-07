@@ -22,6 +22,7 @@ NULL
 #' @import checkmate
 #' @import data.table
 #' @import distr6
+#' @import ggplot2
 #' @import mlr3
 #' @import mlr3misc
 #' @import paradox
@@ -29,6 +30,7 @@ NULL
 #' @importFrom utils data head tail
 #' @importFrom stats reformulate model.matrix model.frame sd predict complete.cases
 #' @importFrom survival Surv
+#' @importFrom mlr3viz theme_mlr3
 "_PACKAGE"
 # nolint end
 
