@@ -213,7 +213,7 @@ autoplot.PredictionSurv = function(object, type = "dcalib",
 
       km = mlr3::lrn("surv.kaplan")
       km_pred = km$train(task, row_ids = row_ids)$predict(task, row_ids = row_ids)
-      km_surv = colMeans(1 - km_pred$distr$cdf(times))
+      km_surv = rowMeans(1 - km_pred$distr$cdf(times))
 
       data = data.frame(x = times, y = c(km_surv, pred_surv),
         Group = rep(c("KM", "Pred"), each = length(times)))
