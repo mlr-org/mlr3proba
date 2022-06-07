@@ -208,7 +208,7 @@ autoplot.PredictionSurv = function(object, type = "dcalib",
       if (inherits(object$distr, "VectorDistribution")) {
         pred_surv = 1 - distr6::as.MixtureDistribution(object$distr)$cdf(times)
       } else {
-        pred_surv = colMeans(1 - object$distr$cdf(times))
+        pred_surv = rowMeans(1 - object$distr$cdf(times))
       }
 
       km = mlr3::lrn("surv.kaplan")
