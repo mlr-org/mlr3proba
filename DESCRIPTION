@@ -38,7 +38,7 @@ Depends:
 Imports:
     checkmate,
     data.table,
-    distr6 (>= 1.6.8),
+    distr6 (>= 1.6.10),
     ggplot2,
     mlr3misc (>= 0.7.0),
     mlr3viz,
@@ -50,6 +50,7 @@ Imports:
 Suggests:
     bujar,
     cubature,
+    GGally,
     knitr,
     lgr,
     mlr3pipelines (>= 0.3.4),
