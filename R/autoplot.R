@@ -232,7 +232,7 @@ autoplot.PredictionSurv = function(object, type = "dcalib",
     "dcalib" = {
       p = seq.int(0, 1, length.out = cuts)
       q = map_dbl(p, function(.x) {
-        sum(object$truth[, 1L] <= as.numeric(object$distr$quantile(.x))) / length(object$row_ids)
+        sum(object$truth[, 1L] <= as.numeric(object$distr$quantile(.x)), na.rm = TRUE) / length(object$row_ids)
       })
       pl = qplot(x = p, y = q, geom = "line")
       if (xyline) {
