@@ -101,32 +101,47 @@
 Either a <code>Learner</code> which will be wrapped in <a href="https://mlr3pipelines.mlr-org.com/reference/mlr_pipeops_learner.html" class="external-link">mlr3pipelines::PipeOpLearner</a>, a <code>PipeOp</code> which will
 be wrapped in <a href="https://mlr3pipelines.mlr-org.com/reference/Graph.html" class="external-link">mlr3pipelines::Graph</a> or a <code>Graph</code> itself. Underlying <code>Learner</code> should be
 <a href="LearnerSurv.html">LearnerSurv</a>.</p></dd>
+
+
 <dt>estimator</dt>
 <dd><p><code>character(1)</code><br>
 One of <code>kaplan</code> (default) or <code>nelson</code>, corresponding to the Kaplan-Meier and
 Nelson-Aalen estimators respectively. Used to estimate the baseline survival distribution.</p></dd>
+
+
 <dt>form</dt>
 <dd><p><code>character(1)</code><br>
 One of <code>aft</code> (default), <code>ph</code>, or <code>po</code>, corresponding to accelerated failure time,
 proportional hazards, and proportional odds respectively. Used to determine the form of the
 composed survival distribution.</p></dd>
+
+
 <dt>overwrite</dt>
 <dd><p><code>logical(1)</code><br>
 If <code>FALSE</code> (default) then if the <code>learner</code> already has a <code>distr</code>, the compositor does nothing.
 If <code>TRUE</code> then the <code>distr</code> is overwritten by the compositor if
 already present, which may be required for changing the prediction <code>distr</code> from one model form
 to another.</p></dd>
+
+
 <dt>graph_learner</dt>
 <dd><p><code>logical(1)</code><br>
 If <code>TRUE</code> returns wraps the <a href="https://mlr3pipelines.mlr-org.com/reference/Graph.html" class="external-link">Graph</a> as a
 <a href="https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html" class="external-link">GraphLearner</a> otherwise (default) returns as a <code>Graph</code>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p><code>ANY</code><br>
 For use with <code>distrcompositor</code>, now deprecated.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p><a href="https://mlr3pipelines.mlr-org.com/reference/Graph.html" class="external-link">mlr3pipelines::Graph</a> or <a href="https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html" class="external-link">mlr3pipelines::GraphLearner</a></p>
+    
+
+<p><a href="https://mlr3pipelines.mlr-org.com/reference/Graph.html" class="external-link">mlr3pipelines::Graph</a> or <a href="https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html" class="external-link">mlr3pipelines::GraphLearner</a></p>
+
+
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -168,7 +183,7 @@ For use with <code>distrcompositor</code>, now deprecated.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
     </footer></div>

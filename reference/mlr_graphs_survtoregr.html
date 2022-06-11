@@ -109,48 +109,73 @@ see details.</p>
     <dl><dt>method</dt>
 <dd><p><code>integer(1)</code><br>
 Reduction method to use, corresponds to those in <code>details</code>. Default is <code>1</code>.</p></dd>
+
+
 <dt>regr_learner</dt>
 <dd><p><a href="https://mlr3.mlr-org.com/reference/LearnerRegr.html" class="external-link">LearnerRegr</a><br>
 Regression learner to fit to the transformed <a href="https://mlr3.mlr-org.com/reference/TaskRegr.html" class="external-link">TaskRegr</a>. If <code>regr_se_learner</code> is
 <code>NULL</code> in method <code>2</code>, then <code>regr_learner</code> must have <code>se</code> predict_type.</p></dd>
+
+
 <dt>distrcompose</dt>
 <dd><p><code>logical(1)</code><br>
 For methods <code>1</code> and <code>3</code> if <code>TRUE</code> (default) then <a href="mlr_pipeops_compose_distr.html">PipeOpDistrCompositor</a> is utilised to
 transform the deterministic predictions to a survival distribution.</p></dd>
+
+
 <dt>distr_estimator</dt>
 <dd><p><a href="LearnerSurv.html">LearnerSurv</a><br>
 For methods <code>1</code> and <code>3</code> if <code>distrcompose = TRUE</code> then specifies the learner to estimate the
 baseline hazard, must have predict_type <code>distr</code>.</p></dd>
+
+
 <dt>regr_se_learner</dt>
 <dd><p><a href="https://mlr3.mlr-org.com/reference/LearnerRegr.html" class="external-link">LearnerRegr</a><br>
 For method <code>2</code> if <code>regr_learner</code> is not used to predict the <code>se</code> then a <code>LearnerRegr</code> with <code>se</code>
 predict_type must be provided.</p></dd>
+
+
 <dt>surv_learner</dt>
 <dd><p><a href="LearnerSurv.html">LearnerSurv</a><br>
 For method <code>3</code>, a <a href="LearnerSurv.html">LearnerSurv</a> with <code>lp</code> predict type to estimate linear predictors.</p></dd>
+
+
 <dt>survregr_params</dt>
 <dd><p><code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code><br>
 Parameters passed to <a href="mlr_pipeops_trafotask_survregr.html">PipeOpTaskSurvRegr</a>, default are survival to regression transformation
 via <code>ipcw</code>, with weighting determined by Kaplan-Meier and no additional penalty for censoring.</p></dd>
+
+
 <dt>distrcompose_params</dt>
 <dd><p><code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code><br>
 Parameters passed to <a href="mlr_pipeops_compose_distr.html">PipeOpDistrCompositor</a>, default is accelerated failure time model form.</p></dd>
+
+
 <dt>probregr_params</dt>
 <dd><p><code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code><br>
 Parameters passed to <a href="mlr_pipeops_compose_probregr.html">PipeOpProbregrCompositor</a>, default is <a href="https://alan-turing-institute.github.io/distr6/reference/Normal.html" class="external-link">Normal</a>
 distribution for composition.</p></dd>
+
+
 <dt>learnercv_params</dt>
 <dd><p><code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code><br>
 Parameters passed to <a href="https://mlr3pipelines.mlr-org.com/reference/mlr_pipeops_learner_cv.html" class="external-link">PipeOpLearnerCV</a>, default is to use
 insampling.</p></dd>
+
+
 <dt>graph_learner</dt>
 <dd><p><code>logical(1)</code><br>
 If <code>TRUE</code> returns wraps the <a href="https://mlr3pipelines.mlr-org.com/reference/Graph.html" class="external-link">Graph</a> as a
 <a href="https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html" class="external-link">GraphLearner</a> otherwise (default) returns as a <code>Graph</code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p><a href="https://mlr3pipelines.mlr-org.com/reference/Graph.html" class="external-link">mlr3pipelines::Graph</a> or <a href="https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html" class="external-link">mlr3pipelines::GraphLearner</a></p>
+    
+
+<p><a href="https://mlr3pipelines.mlr-org.com/reference/Graph.html" class="external-link">mlr3pipelines::Graph</a> or <a href="https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html" class="external-link">mlr3pipelines::GraphLearner</a></p>
+
+
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -256,7 +281,7 @@ predictors of the new data, which can ultimately be composed to a distribution.<
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
     </footer></div>
