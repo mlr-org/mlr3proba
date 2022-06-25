@@ -86,36 +86,36 @@ or a list of trained <a href="LearnerSurv.html">LearnerSurv</a>s.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">pecs</span><span class="op">(</span><span class="va">x</span>, measure <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"graf"</span>, <span class="st">"logloss"</span><span class="op">)</span>, <span class="va">times</span>, <span class="va">n</span>, eps <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for list</span>
-<span class="fu">pecs</span><span class="op">(</span>
-  <span class="va">x</span>,
-  measure <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"graf"</span>, <span class="st">"logloss"</span><span class="op">)</span>,
-  <span class="va">times</span>,
-  <span class="va">n</span>,
-  eps <span class="op">=</span> <span class="cn">NULL</span>,
-  task <span class="op">=</span> <span class="cn">NULL</span>,
-  row_ids <span class="op">=</span> <span class="cn">NULL</span>,
-  newdata <span class="op">=</span> <span class="cn">NULL</span>,
-  train_task <span class="op">=</span> <span class="cn">NULL</span>,
-  train_set <span class="op">=</span> <span class="cn">NULL</span>,
-  proper <span class="op">=</span> <span class="cn">TRUE</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
-
-<span class="co"># S3 method for PredictionSurv</span>
-<span class="fu">pecs</span><span class="op">(</span>
-  <span class="va">x</span>,
-  measure <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"graf"</span>, <span class="st">"logloss"</span><span class="op">)</span>,
-  <span class="va">times</span>,
-  <span class="va">n</span>,
-  eps <span class="op">=</span> <span class="fl">1e-15</span>,
-  train_task <span class="op">=</span> <span class="cn">NULL</span>,
-  train_set <span class="op">=</span> <span class="cn">NULL</span>,
-  proper <span class="op">=</span> <span class="cn">TRUE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">pecs</span><span class="op">(</span><span class="va">x</span>, measure <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"graf"</span>, <span class="st">"logloss"</span><span class="op">)</span>, <span class="va">times</span>, <span class="va">n</span>, eps <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for list</span></span>
+<span><span class="fu">pecs</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  measure <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"graf"</span>, <span class="st">"logloss"</span><span class="op">)</span>,</span>
+<span>  <span class="va">times</span>,</span>
+<span>  <span class="va">n</span>,</span>
+<span>  eps <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  task <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  row_ids <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  newdata <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  train_task <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  train_set <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  proper <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for PredictionSurv</span></span>
+<span><span class="fu">pecs</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  measure <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"graf"</span>, <span class="st">"logloss"</span><span class="op">)</span>,</span>
+<span>  <span class="va">times</span>,</span>
+<span>  <span class="va">n</span>,</span>
+<span>  eps <span class="op">=</span> <span class="fl">1e-15</span>,</span>
+<span>  train_task <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  train_set <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  proper <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -191,30 +191,30 @@ then all time-points between the range are returned.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"ggplot2"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="co">#' library(mlr3)</span></span>
-<span class="r-in">  <span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">tsk</a></span><span class="op">(</span><span class="st">"rats"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># Prediction Error Curves for prediction object</span></span>
-<span class="r-in">  <span class="va">learn</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"surv.coxph"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">p</span> <span class="op">=</span> <span class="va">learn</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu">pecs</span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu">pecs</span><span class="op">(</span><span class="va">p</span>, measure <span class="op">=</span> <span class="st">"logloss"</span>, times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">40</span>, <span class="fl">60</span>, <span class="fl">80</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Logloss Prediction Error Curve for Cox PH"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># Access underlying data</span></span>
-<span class="r-in">  <span class="va">x</span> <span class="op">=</span> <span class="fu">pecs</span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">x</span><span class="op">$</span><span class="va">data</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># Prediction Error Curves for fitted learners</span></span>
-<span class="r-in">  <span class="va">learns</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrns</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"surv.kaplan"</span>, <span class="st">"surv.coxph"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">learns</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu">pecs</span><span class="op">(</span><span class="va">learns</span>, task <span class="op">=</span> <span class="va">task</span>, measure <span class="op">=</span> <span class="st">"logloss"</span>, times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">90</span><span class="op">)</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"ggplot2"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="co">#' library(mlr3)</span></span></span>
+<span class="r-in"><span>  <span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">tsk</a></span><span class="op">(</span><span class="st">"rats"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># Prediction Error Curves for prediction object</span></span></span>
+<span class="r-in"><span>  <span class="va">learn</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"surv.coxph"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">p</span> <span class="op">=</span> <span class="va">learn</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">pecs</span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">pecs</span><span class="op">(</span><span class="va">p</span>, measure <span class="op">=</span> <span class="st">"logloss"</span>, times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">40</span>, <span class="fl">60</span>, <span class="fl">80</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Logloss Prediction Error Curve for Cox PH"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># Access underlying data</span></span></span>
+<span class="r-in"><span>  <span class="va">x</span> <span class="op">=</span> <span class="fu">pecs</span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">x</span><span class="op">$</span><span class="va">data</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># Prediction Error Curves for fitted learners</span></span></span>
+<span class="r-in"><span>  <span class="va">learns</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrns</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"surv.kaplan"</span>, <span class="st">"surv.coxph"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">learns</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">pecs</span><span class="op">(</span><span class="va">learns</span>, task <span class="op">=</span> <span class="va">task</span>, measure <span class="op">=</span> <span class="st">"logloss"</span>, times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">90</span><span class="op">)</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

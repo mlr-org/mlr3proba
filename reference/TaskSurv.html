@@ -146,15 +146,15 @@ Returns the type of censoring, one of "right", "left", "counting", "interval", o
 <h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va"><a href="../reference/TaskSurv.html">TaskSurv</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>
-  <span class="va">id</span>,
-  <span class="va">backend</span>,
-  time <span class="op">=</span> <span class="st">"time"</span>,
-  event <span class="op">=</span> <span class="st">"event"</span>,
-  <span class="va">time2</span>,
-  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"left"</span>, <span class="st">"interval"</span>, <span class="st">"counting"</span>, <span class="st">"interval2"</span>, <span class="st">"mstate"</span><span class="op">)</span>,
-  label <span class="op">=</span> <span class="cn">NA_character_</span>
-<span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/TaskSurv.html">TaskSurv</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span></span>
+<span>  <span class="va">id</span>,</span>
+<span>  <span class="va">backend</span>,</span>
+<span>  time <span class="op">=</span> <span class="st">"time"</span>,</span>
+<span>  event <span class="op">=</span> <span class="st">"event"</span>,</span>
+<span>  <span class="va">time2</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"left"</span>, <span class="st">"interval"</span>, <span class="st">"counting"</span>, <span class="st">"interval2"</span>, <span class="st">"mstate"</span><span class="op">)</span>,</span>
+<span>  label <span class="op">=</span> <span class="cn">NA_character_</span></span>
+<span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -208,7 +208,7 @@ Label for the new instance.</p></dd>
 <p>True response for specified <code>row_ids</code>. Format depends on the task type.
 Defaults to all rows with role "use".</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">TaskSurv</span><span class="op">$</span><span class="fu">truth</span><span class="op">(</span>rows <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TaskSurv</span><span class="op">$</span><span class="fu">truth</span><span class="op">(</span>rows <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -229,7 +229,7 @@ Row indices.</p></dd>
 <h3 id="method-formula-">Method <code><a href="https://rdrr.io/r/stats/formula.html" class="external-link">formula()</a></code><a class="anchor" aria-label="anchor" href="#method-formula-"></a></h3>
 <p>Creates a formula for survival models with <a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">survival::Surv</a> on the LHS.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">TaskSurv</span><span class="op">$</span><span class="fu">formula</span><span class="op">(</span>rhs <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TaskSurv</span><span class="op">$</span><span class="fu">formula</span><span class="op">(</span>rhs <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -249,7 +249,7 @@ Row indices.</p></dd>
 <h3 id="method-times-">Method <code>times()</code><a class="anchor" aria-label="anchor" href="#method-times-"></a></h3>
 <p>Returns the (unsorted) outcome times.</p><div class="section">
 <h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">TaskSurv</span><span class="op">$</span><span class="fu">times</span><span class="op">(</span>rows <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TaskSurv</span><span class="op">$</span><span class="fu">times</span><span class="op">(</span>rows <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -275,7 +275,7 @@ If <code>censtype</code> is <code>"interval"</code> then <code>0</code> is right
 <code>3</code> is interval-censored.
 See <a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">survival::Surv</a>.</p><div class="section">
 <h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">TaskSurv</span><span class="op">$</span><span class="fu">status</span><span class="op">(</span>rows <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TaskSurv</span><span class="op">$</span><span class="fu">status</span><span class="op">(</span>rows <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -296,7 +296,7 @@ Row indices.</p></dd>
 <h3 id="method-unique-times-">Method <code>unique_times()</code><a class="anchor" aria-label="anchor" href="#method-unique-times-"></a></h3>
 <p>Returns the sorted unique outcome times for 'right', 'left', and 'mcstate'.</p><div class="section">
 <h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">TaskSurv</span><span class="op">$</span><span class="fu">unique_times</span><span class="op">(</span>rows <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TaskSurv</span><span class="op">$</span><span class="fu">unique_times</span><span class="op">(</span>rows <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -317,7 +317,7 @@ Row indices.</p></dd>
 <h3 id="method-unique-event-times-">Method <code>unique_event_times()</code><a class="anchor" aria-label="anchor" href="#method-unique-event-times-"></a></h3>
 <p>Returns the sorted unique event (or failure) outcome times.</p><div class="section">
 <h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">TaskSurv</span><span class="op">$</span><span class="fu">unique_event_times</span><span class="op">(</span>rows <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TaskSurv</span><span class="op">$</span><span class="fu">unique_event_times</span><span class="op">(</span>rows <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -338,7 +338,7 @@ Row indices.</p></dd>
 <h3 id="method-risk-set-">Method <code>risk_set()</code><a class="anchor" aria-label="anchor" href="#method-risk-set-"></a></h3>
 <p>Returns the <code>row_ids</code> of the observations 'at risk' (not dead or censored) at <code>time</code>.</p><div class="section">
 <h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">TaskSurv</span><span class="op">$</span><span class="fu">risk_set</span><span class="op">(</span>time <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TaskSurv</span><span class="op">$</span><span class="fu">risk_set</span><span class="op">(</span>time <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -358,7 +358,7 @@ Row indices.</p></dd>
 <h3 id="method-kaplan-">Method <code>kaplan()</code><a class="anchor" aria-label="anchor" href="#method-kaplan-"></a></h3>
 <p>Calls <code><a href="https://rdrr.io/pkg/survival/man/survfit.html" class="external-link">survival::survfit()</a></code> to calculate the Kaplan-Meier estimator.</p><div class="section">
 <h4 id="usage-8">Usage<a class="anchor" aria-label="anchor" href="#usage-8"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">TaskSurv</span><span class="op">$</span><span class="fu">kaplan</span><span class="op">(</span>strata <span class="op">=</span> <span class="cn">NULL</span>, rows <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TaskSurv</span><span class="op">$</span><span class="fu">kaplan</span><span class="op">(</span>strata <span class="op">=</span> <span class="cn">NULL</span>, rows <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -389,7 +389,7 @@ Additional arguments passed down to <code><a href="https://rdrr.io/pkg/survival/
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-9">Usage<a class="anchor" aria-label="anchor" href="#usage-9"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">TaskSurv</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TaskSurv</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -407,25 +407,25 @@ Additional arguments passed down to <code><a href="https://rdrr.io/pkg/survival/
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mlr3.mlr-org.com" class="external-link">mlr3</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="va">lung</span> <span class="op">=</span> <span class="fu">survival</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/survival/man/lung.html" class="external-link">lung</a></span></span>
-<span class="r-in"><span class="va">lung</span><span class="op">$</span><span class="va">status</span> <span class="op">=</span> <span class="op">(</span><span class="va">lung</span><span class="op">$</span><span class="va">status</span> <span class="op">==</span> <span class="fl">2L</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">task</span> <span class="op">=</span> <span class="va">TaskSurv</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="st">"lung"</span>,</span>
-<span class="r-in">  backend <span class="op">=</span> <span class="va">lung</span>, time <span class="op">=</span> <span class="st">"time"</span>,</span>
-<span class="r-in">  event <span class="op">=</span> <span class="st">"status"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># meta data</span></span>
-<span class="r-in"><span class="va">task</span><span class="op">$</span><span class="va">target_names</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mlr3.mlr-org.com" class="external-link">mlr3</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">lung</span> <span class="op">=</span> <span class="fu">survival</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/survival/man/lung.html" class="external-link">lung</a></span></span></span>
+<span class="r-in"><span><span class="va">lung</span><span class="op">$</span><span class="va">status</span> <span class="op">=</span> <span class="op">(</span><span class="va">lung</span><span class="op">$</span><span class="va">status</span> <span class="op">==</span> <span class="fl">2L</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="va">TaskSurv</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="st">"lung"</span>,</span></span>
+<span class="r-in"><span>  backend <span class="op">=</span> <span class="va">lung</span>, time <span class="op">=</span> <span class="st">"time"</span>,</span></span>
+<span class="r-in"><span>  event <span class="op">=</span> <span class="st">"status"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># meta data</span></span></span>
+<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="va">target_names</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "time"   "status"</span>
-<span class="r-in"><span class="va">task</span><span class="op">$</span><span class="va">feature_names</span></span>
+<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="va">feature_names</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "age"       "inst"      "meal.cal"  "pat.karno" "ph.ecog"   "ph.karno" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [7] "sex"       "wt.loss"  </span>
-<span class="r-in"><span class="va">task</span><span class="op">$</span><span class="fu">formula</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">formula</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Surv(time, status, type = "right") ~ .</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: namespace:survival&gt;</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># survival data</span></span>
-<span class="r-in"><span class="va">task</span><span class="op">$</span><span class="fu">truth</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># survival data</span></span></span>
+<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">truth</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [1]  306   455  1010+  210   883  1022+  310   361   218   166   170   654 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [13]  728    71   567   144   613   707    61    88   301    81   624   371 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [25]  394   520   574   118   390    12   473    26   533   107    53   122 </span>
@@ -445,7 +445,7 @@ Additional arguments passed down to <code><a href="https://rdrr.io/pkg/survival/
 <span class="r-out co"><span class="r-pr">#&gt;</span> [193]  131   225+  269   225+  243+  279+  276+  135    79    59   240+  202+</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [205]  235+  105   224+  239   237+  173+  252+  221+  185+   92+   13   222+</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [217]  192+  183   211+  175+  197+  203+  116   188+  191+  105+  174+  177+</span>
-<span class="r-in"><span class="va">task</span><span class="op">$</span><span class="fu">times</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">times</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [1]  306  455 1010  210  883 1022  310  361  218  166  170  654  728   71  567</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [16]  144  613  707   61   88  301   81  624  371  394  520  574  118  390   12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [31]  473   26  533  107   53  122  814  965   93  731  460  153  433  145  583</span>
@@ -462,7 +462,7 @@ Additional arguments passed down to <code><a href="https://rdrr.io/pkg/survival/
 <span class="r-out co"><span class="r-pr">#&gt;</span> [196]  225  243  279  276  135   79   59  240  202  235  105  224  239  237  173</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [211]  252  221  185   92   13  222  192  183  211  175  197  203  116  188  191</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [226]  105  174  177</span>
-<span class="r-in"><span class="va">task</span><span class="op">$</span><span class="fu">status</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">status</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [1] 1 1 0 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [38] 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 0 1 1 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [75] 1 1 1 1 1 1 1 1 0 1 0 1 1 1 0 1 1 1 1 1 0 1 1 1 1 1 0 1 1 1 1 1 0 1 1 1 1</span>
@@ -470,7 +470,7 @@ Additional arguments passed down to <code><a href="https://rdrr.io/pkg/survival/
 <span class="r-out co"><span class="r-pr">#&gt;</span> [149] 1 1 1 0 0 1 1 1 0 1 1 0 0 1 0 1 0 0 1 1 1 1 0 1 1 0 0 0 1 1 1 0 0 0 1 0 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [186] 0 1 0 1 1 1 1 1 0 1 0 0 0 0 1 1 1 0 0 0 1 0 1 0 0 0 0 0 0 1 0 0 1 0 0 0 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [223] 1 0 0 0 0 0</span>
-<span class="r-in"><span class="va">task</span><span class="op">$</span><span class="fu">unique_times</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">unique_times</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [1]    5   11   12   13   15   26   30   31   53   54   59   60   61   62   65</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [16]   71   79   81   88   92   93   95  105  107  110  116  118  122  131  132</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [31]  135  142  144  145  147  153  156  163  166  167  170  173  174  175  176</span>
@@ -484,7 +484,7 @@ Additional arguments passed down to <code><a href="https://rdrr.io/pkg/survival/
 <span class="r-out co"><span class="r-pr">#&gt;</span> [151]  524  529  533  543  550  551  558  559  567  574  583  588  613  624  641</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [166]  643  654  655  687  689  705  707  728  731  735  740  765  791  806  814</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [181]  821  840  883  965 1010 1022</span>
-<span class="r-in"><span class="va">task</span><span class="op">$</span><span class="fu">unique_event_times</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">unique_event_times</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [1]   5  11  12  13  15  26  30  31  53  54  59  60  61  62  65  71  79  81</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [19]  88  92  93  95 105 107 110 116 118 122 131 132 135 142 144 145 147 153</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [37] 156 163 166 167 170 175 176 177 179 180 181 182 183 186 189 194 197 199</span>
@@ -493,9 +493,9 @@ Additional arguments passed down to <code><a href="https://rdrr.io/pkg/survival/
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [91] 348 350 351 353 361 363 364 371 387 390 394 426 428 429 433 442 444 450</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [109] 455 457 460 473 477 519 520 524 533 550 558 567 574 583 613 624 641 643</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [127] 654 655 687 689 705 707 728 731 735 765 791 814 883</span>
-<span class="r-in"><span class="va">task</span><span class="op">$</span><span class="fu">risk_set</span><span class="op">(</span>time <span class="op">=</span> <span class="fl">700</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">risk_set</span><span class="op">(</span>time <span class="op">=</span> <span class="fl">700</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  3  5  6 13 18 37 38 40 50 51 68 71 77 81 85 89</span>
-<span class="r-in"><span class="va">task</span><span class="op">$</span><span class="fu">kaplan</span><span class="op">(</span><span class="st">"sex"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">kaplan</span><span class="op">(</span><span class="st">"sex"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Call: survfit(formula = f, data = data)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         n events median 0.95LCL 0.95UCL</span>
