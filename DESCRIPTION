@@ -63,12 +63,13 @@ LinkingTo:
     Rcpp
 Remotes:
     alan-turing-institute/distr6
+    mlr-org/mlr3@reflections
 ByteCompile: true
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
 Roxygen: list(markdown = TRUE, r6 = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 Collate:
     'LearnerDens.R'
     'LearnerDensHistogram.R'
