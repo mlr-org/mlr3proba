@@ -62,7 +62,7 @@ Suggests:
 LinkingTo:
     Rcpp
 Remotes:
-    alan-turing-institute/distr6
+    alan-turing-institute/distr6,
     mlr-org/mlr3@reflections
 ByteCompile: true
 Encoding: UTF-8
