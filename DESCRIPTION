@@ -33,7 +33,7 @@ License: LGPL-3
 URL: https://mlr3proba.mlr-org.com, https://github.com/mlr-org/mlr3proba
 BugReports: https://github.com/mlr-org/mlr3proba/issues
 Depends:
-    mlr3 (>= 0.13.3),
+    mlr3 (>= 0.13.4-9000),
     R (>= 3.5.0)
 Imports:
     checkmate,
@@ -63,7 +63,7 @@ LinkingTo:
     Rcpp
 Remotes:
     alan-turing-institute/distr6,
-    mlr-org/mlr3@reflections
+    mlr-org/mlr3
 ByteCompile: true
 Encoding: UTF-8
 LazyData: true
