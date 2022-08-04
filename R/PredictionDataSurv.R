@@ -5,7 +5,7 @@ as_prediction.PredictionDataSurv = function(x, check = TRUE, ...) { # nolint
 
 
 #' @export
-check_prediction_data.PredictionDataSurv = function(pdata) { # nolint
+check_prediction_data.PredictionDataSurv = function(pdata, ...) { # nolint
 
   n = length(assert_row_ids(pdata$row_ids))
   assert_surv(pdata$truth, "Surv", len = n, any.missing = TRUE, null.ok = TRUE)
@@ -24,7 +24,7 @@ check_prediction_data.PredictionDataSurv = function(pdata) { # nolint
 
 
 #' @export
-is_missing_prediction_data.PredictionDataSurv = function(pdata) { # nolint
+is_missing_prediction_data.PredictionDataSurv = function(pdata, ...) { # nolint
   miss = logical(length(pdata$row_ids))
 
   if (!is.null(pdata$crank)) {
@@ -93,7 +93,7 @@ c.PredictionDataSurv = function(..., keep_duplicates = TRUE) {
 }
 
 #' @export
-filter_prediction_data.PredictionDataSurv = function(pdata, row_ids) {
+filter_prediction_data.PredictionDataSurv = function(pdata, row_ids, ...) {
   keep = pdata$row_ids %in% row_ids
   pdata$row_ids = pdata$row_ids[keep]
   pdata$truth = pdata$truth[keep]
