@@ -182,7 +182,7 @@ float c_concordance(NumericVector time, NumericVector status, NumericVector cran
             } else if (weight_meth == "G2" || weight_meth == "G" || weight_meth == "SG") {
               for (int l = 0; l < cl; l++) {
                 if(time[i] >= cens_times[l] && ((l == cl -1) || time[i] < cens_times[l + 1])) {
-                  if (weight_meth == "G") {
+                  if (weight_meth == "G" || weight_meth == "SG") {
                     weight = pow(cens_surv[l], -1);
                   } else {
                     weight = pow(cens_surv[l], -2);
