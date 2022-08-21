@@ -42,7 +42,7 @@ Chambless LE, Diao G (2006).
 \doi{10.1002/sim.2299}.
 }
 \seealso{
-Other survival measures: 
+Other survival measures:
 \code{\link{mlr_measures_surv.calib_alpha}},
 \code{\link{mlr_measures_surv.calib_beta}},
 \code{\link{mlr_measures_surv.cindex}},
@@ -66,7 +66,7 @@ Other survival measures:
 \code{\link{mlr_measures_surv.uno_tpr}},
 \code{\link{mlr_measures_surv.xu_r2}}
 
-Other AUC survival measures: 
+Other AUC survival measures:
 \code{\link{mlr_measures_surv.hung_auc}},
 \code{\link{mlr_measures_surv.song_auc}},
 \code{\link{mlr_measures_surv.song_tnr}},
@@ -75,7 +75,7 @@ Other AUC survival measures:
 \code{\link{mlr_measures_surv.uno_tnr}},
 \code{\link{mlr_measures_surv.uno_tpr}}
 
-Other lp survival measures: 
+Other lp survival measures:
 \code{\link{mlr_measures_surv.calib_beta}},
 \code{\link{mlr_measures_surv.hung_auc}},
 \code{\link{mlr_measures_surv.nagelk_r2}},
@@ -104,11 +104,11 @@ Other lp survival measures:
 \if{html}{\out{
 <details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate"><a href='../../mlr3/html/Measure.html#method-Measure-aggregate'><code>mlr3::Measure$aggregate()</code></a></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format"><a href='../../mlr3/html/Measure.html#method-Measure-format'><code>mlr3::Measure$format()</code></a></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help"><a href='../../mlr3/html/Measure.html#method-Measure-help'><code>mlr3::Measure$help()</code></a></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score"><a href='../../mlr3/html/Measure.html#method-Measure-score'><code>mlr3::Measure$score()</code></a></li>
-<li><span class="pkg-link" data-pkg="mlr3proba" data-topic="MeasureSurv" data-id="print"><a href='../../mlr3proba/html/MeasureSurv.html#method-MeasureSurv-print'><code>mlr3proba::MeasureSurv$print()</code></a></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate"><a href='../../mlr3/html/Measure.html#method-Measure-aggregate'><code>mlr3::Measure$aggregate()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format"><a href='../../mlr3/html/Measure.html#method-Measure-format'><code>mlr3::Measure$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help"><a href='../../mlr3/html/Measure.html#method-Measure-help'><code>mlr3::Measure$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score"><a href='../../mlr3/html/Measure.html#method-Measure-score'><code>mlr3::Measure$score()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3proba" data-topic="MeasureSurv" data-id="print"><a href='../../mlr3proba/html/MeasureSurv.html#method-MeasureSurv-print'><code>mlr3proba::MeasureSurv$print()</code></a></span></li>
 </ul>
 </details>
 }}

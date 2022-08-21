@@ -37,41 +37,40 @@ NULL
 utils::globalVariables(c("ShortName", "ClassName", "missing", "task"))
 register_mlr3 = function() {
 
+  # reflections
   x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
 
-  if (!("surv" %in% x$task_types$type)) {
-    x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
-    x$task_types = setkeyv(rbind(x$task_types, rowwise_table(
-      ~type, ~package, ~task, ~learner, ~prediction, ~measure,
-      "surv", "mlr3proba", "TaskSurv", "LearnerSurv", "PredictionSurv", "MeasureSurv"
-    )), "type")
-    x$task_col_roles$surv = x$task_col_roles$regr
-    x$task_properties$surv = x$task_properties$regr
-    x$learner_properties$surv = x$learner_properties$regr
-    x$measure_properties$surv = x$measure_properties$regr
-    x$learner_predict_types$surv = list(crank = c("crank", "lp", "distr", "response"),
-      distr = c("crank", "lp", "distr", "response"),
-      lp = c("crank", "lp", "distr", "response"),
-      response = c("crank", "lp", "distr", "response"))
-    x$default_measures$surv = "surv.cindex"
-  }
+  # task
+  x$task_types = x$task_types[!c("surv", "dens")]
+  x$task_types = setkeyv(rbind(x$task_types, rowwise_table(
+    ~type,  ~package,     ~task,      ~learner,      ~prediction,       ~prediction_data,     ~measure,
+    "surv", "mlr3proba",  "TaskSurv", "LearnerSurv", "PredictionSurv",  "PredictionDataSurv", "MeasureSurv",
+    "dens", "mlr3proba",  "TaskDens", "LearnerDens", "PredictionDens",  "PredictionDataDens", "MeasureDens"
+  )), "type")
 
-  if (!("dens" %in% x$task_types$type)) {
-    x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
-    x$task_types = setkeyv(rbind(x$task_types, rowwise_table(
-      ~type, ~package, ~task, ~learner, ~prediction, ~measure,
-      "dens", "mlr3proba", "TaskDens", "LearnerDens", "PredictionDens", "MeasureDens"
-    )), "type")
-    x$task_col_roles$dens = c("feature", "target", "label", "order", "group", "weight", "stratum")
-    x$task_properties$dens = x$task_properties$regr
-    x$learner_properties$dens = x$learner_properties$regr
-    x$measure_properties$dens = x$measure_properties$regr
-    x$learner_predict_types$dens = list(
-      pdf = c("pdf", "cdf", "distr"),
-      cdf = c("pdf", "cdf", "distr"),
-      distr = c("pdf", "cdf", "distr"))
-    x$default_measures$dens = "dens.logloss"
-  }
+  x$task_col_roles$surv = x$task_col_roles$regr
+  x$task_col_roles$dens = c("feature", "target", "label", "order", "group", "weight", "stratum")
+  x$task_properties$surv = x$task_properties$regr
+  x$task_properties$dens = x$task_properties$regr
+
+  # learner
+  x$learner_properties$surv = x$learner_properties$regr
+  x$learner_properties$dens = x$learner_properties$regr
+  x$learner_predict_types$surv = list(
+    crank = c("crank", "lp", "distr", "response"),
+    distr = c("crank", "lp", "distr", "response"),
+    lp = c("crank", "lp", "distr", "response"),
+    response = c("crank", "lp", "distr", "response"))
+  x$learner_predict_types$dens = list(
+    pdf = c("pdf", "cdf", "distr"),
+    cdf = c("pdf", "cdf", "distr"),
+    distr = c("pdf", "cdf", "distr"))
+
+  # measure
+  x$measure_properties$surv = x$measure_properties$regr
+  x$measure_properties$dens = x$measure_properties$regr
+  x$default_measures$surv = "surv.cindex"
+  x$default_measures$dens = "dens.logloss"
 
   # tasks
   x = utils::getFromNamespace("mlr_tasks", ns = "mlr3")

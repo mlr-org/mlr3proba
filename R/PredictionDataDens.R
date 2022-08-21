@@ -4,7 +4,7 @@ as_prediction.PredictionDataDens = function(x, check = TRUE, ...) { # nolint
 }
 
 #' @export
-check_prediction_data.PredictionDataDens = function(pdata) { # nolint
+check_prediction_data.PredictionDataDens = function(pdata, ...) { # nolint
   row_ids = assert_row_ids(pdata$row_ids)
   n = length(row_ids)
 
@@ -19,7 +19,7 @@ check_prediction_data.PredictionDataDens = function(pdata) { # nolint
 }
 
 #' @export
-is_missing_prediction_data.PredictionDataDens = function(pdata) { # nolint
+is_missing_prediction_data.PredictionDataDens = function(pdata, ...) { # nolint
   miss = logical(length(pdata$row_ids))
 
   if (!is.null(pdata$pdf)) {
