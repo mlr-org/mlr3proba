@@ -4,8 +4,6 @@
 on:
   workflow_dispatch:
   push:
-  pull_request:
-  # for now, CRON jobs only run on the default branch of the repo (i.e. usually on master)
   schedule:
     # * is a special character in YAML so you have to quote this string
     - cron: "0 4 * * *"
@@ -26,7 +24,6 @@ jobs:
           # - { os: windows-latest, r: "release" }
           - { os: ubuntu-latest, r: "release", pkgdown: true, latex: true }
           - { os: ubuntu-latest, r: "devel" }
-          - { os: macOS-latest, r: "release"}
 
     env:
       # otherwise remotes::fun() errors cause the build to fail. Example: Unavailability of binaries
@@ -39,8 +36,6 @@ jobs:
       # if you use bookdown or blogdown, replace "PKGDOWN" by the respective
       # capitalized term. This also might need to be done in tic.R
       BUILD_PKGDOWN: ${{ matrix.config.pkgdown }}
-      # macOS >= 10.15.4 linking
-      SDKROOT: /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
       # use GITHUB_TOKEN from GitHub to workaround rate limits in {remotes}
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
@@ -61,12 +56,10 @@ jobs:
       # https://github.community/t5/GitHub-Actions/How-to-set-and-access-a-Workflow-variable/m-p/42970
       # - cache R packages daily
       - name: "[Cache] Prepare daily timestamp for cache"
-        if: runner.os != 'Windows'
         id: date
         run: echo "::set-output name=date::$(date '+%d-%m')"
 
       - name: "[Cache] Cache R packages"
-        if: runner.os != 'Windows'
         uses: pat-s/always-upload-cache@v2
         with:
           path: ${{ env.R_LIBS_USER }}
@@ -74,13 +67,7 @@ jobs:
           restore-keys: ${{ runner.os }}-r-${{ matrix.config.r }}-${{steps.date.outputs.date}}
 
       - name: "[Stage] [Linux] Install required system libs"
-        if: runner.os == 'Linux'
         run: sudo apt install libcurl4-openssl-dev libgit2-dev
-
-      - name: "[Custom block] [macOS] Install xquartz"
-        if: runner.os == 'macOS'
-        run: |
-          brew install xquartz
 
       # for some strange Windows reason this step and the next one need to be decoupled
       - name: "[Stage] Prepare"
@@ -88,22 +75,13 @@ jobs:
           Rscript -e "if (!requireNamespace('remotes')) install.packages('remotes', type = 'source')"
           Rscript -e "if (!requireNamespace('curl')) install.packages('curl', type = 'source')"
 
-      - name: "[Stage] [macOS] Install libgit2"
-        if: runner.os == 'macOS'
-        run: brew install libgit2
-
-      - name: "[Stage] [macOS] Install system libs for pkgdown"
-        if: runner.os == 'macOS' && matrix.config.pkgdown != ''
-        run: brew install harfbuzz fribidi
-
       - name: "[Stage] [Linux] Install system libs for pkgdown"
-        if: runner.os == 'Linux' && matrix.config.pkgdown != ''
+        if: matrix.config.pkgdown != ''
         run: sudo apt install libharfbuzz-dev libfribidi-dev
 
       # Try to automatically check for system dependencies and install them
       # Note: this might not catch all required system libs and manual action might be needed
       - name: "[Stage] [Linux] Install linux system dependencies"
-        if: runner.os == 'Linux'
         run: |
           while read -r cmd
           do
@@ -111,21 +89,14 @@ jobs:
           done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
 
       - name: "[Stage] Install"
-        if: matrix.config.os != 'macOS-latest' || matrix.config.r != 'devel'
+        if: matrix.config.r != 'devel'
         run: Rscript -e "remotes::install_github('ropensci/tic')" -e "print(tic::dsl_load())" -e "tic::prepare_all_stages()" -e "tic::before_install()" -e "tic::install()"
-
-      # macOS devel needs its own stage because we need to work with an option to suppress the usage of binaries
-      - name: "[Stage] Prepare & Install (macOS-devel)"
-        if: matrix.config.os == 'macOS-latest' && matrix.config.r == 'devel'
-        run: |
-          echo -e 'options(Ncpus = 4, pkgType = "source", repos = structure(c(CRAN = "https://cloud.r-project.org/")))' > $HOME/.Rprofile
-          Rscript -e "remotes::install_github('ropensci/tic')" -e "print(tic::dsl_load())" -e "tic::prepare_all_stages()" -e "tic::before_install()" -e "tic::install()"
-
+        
       - name: "[Stage] Script"
         run: Rscript -e 'tic::script()'
 
       - name: "[Stage] After Success"
-        if: matrix.config.os == 'macOS-latest' && matrix.config.r == 'release'
+        if: matrix.config.r == 'release'
         run: Rscript -e "tic::after_success()"
 
       - name: "[Stage] Upload R CMD check artifacts"
