@@ -1,6 +1,6 @@
 Package: mlr3proba
 Title: Probabilistic Supervised Learning for 'mlr3'
-Version: 0.4.12
+Version: 0.4.13
 Authors@R:
     c(person(given = "Raphael",
              family = "Sonabend",
@@ -63,6 +63,8 @@ LinkingTo:
     Rcpp
 Remotes:
     alan-turing-institute/distr6,
+    xoopR/param6,
+    xoopR/set6,
     mlr-org/mlr3
 ByteCompile: true
 Encoding: UTF-8

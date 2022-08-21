@@ -1,3 +1,7 @@
+# mlr3proba 0.4.13
+
+* Fix minor bug in 'SG' cindex method
+
 # mlr3proba 0.4.12
 
 * Fix bug in survavg pipeline causing unequal weights not to be applied
