@@ -1,6 +1,6 @@
 # mlr3proba 0.4.13
 
-* Fix minor bug in 'S/G' cindex method
+* Fix minor bug in 'SG' cindex method
 
 # mlr3proba 0.4.12
 
