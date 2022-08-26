@@ -54,8 +54,8 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-vignettes">Vignettes</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-vignettes">
-    <a class="external-link dropdown-item" href="https://mlr3book.mlr-org.com/special-tasks.html#survival">Survival Analysis</a>
-    <a class="external-link dropdown-item" href="https://mlr3book.mlr-org.com/special-tasks.html#density">Density Estimation</a>
+    <a class="external-link dropdown-item" href="https://mlr3book.mlr-org.com/special.html#survival">Survival Analysis</a>
+    <a class="external-link dropdown-item" href="https://mlr3book.mlr-org.com/special.html#density">Density Estimation</a>
   </div>
 </li>
 <li class="nav-item">
@@ -156,7 +156,9 @@
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <p><code>mlr3proba</code> is not on CRAN and is unlikely to be reuploaded (see <a href="">here</a> for reasons). As such you must install with one of the following methods:</p>
-<p>Install from r-universe:</p>
+<div class="section level3">
+<h3 id="install-from-r-universe">Install from r-universe:<a class="anchor" aria-label="anchor" href="#install-from-r-universe"></a>
+</h3>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>repos<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>  mlrorg <span class="op">=</span> <span class="st">'https://mlr-org.r-universe.dev'</span>,</span>
@@ -167,7 +169,10 @@
 <p>or</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"mlr3proba"</span>, repos <span class="op">=</span> <span class="st">"https://mlr-org.r-universe.dev"</span><span class="op">)</span></span></code></pre></div>
-<p>Or for easier installation going forward:</p>
+</div>
+<div class="section level3">
+<h3 id="or-for-easier-installation-going-forward">Or for easier installation going forward:<a class="anchor" aria-label="anchor" href="#or-for-easier-installation-going-forward"></a>
+</h3>
 <ol style="list-style-type: decimal"><li>Run <code><a href="https://usethis.r-lib.org/reference/edit.html" class="external-link">usethis::edit_r_environ()</a></code> then in the file that opened add or edit <code>options</code> to look something like</li></ol>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
@@ -179,9 +184,13 @@
 <li>Save and close the file, restart your R session</li>
 <li>Run <code>install.packages("mlr3proba")</code> as usual</li>
 </ol>
-<p>Install from GitHub:</p>
+</div>
+<div class="section level3">
+<h3 id="install-from-github">Install from GitHub:<a class="anchor" aria-label="anchor" href="#install-from-github"></a>
+</h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"mlr-org/mlr3proba"</span><span class="op">)</span></span></code></pre></div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="learners">Learners<a class="anchor" aria-label="anchor" href="#learners"></a>
