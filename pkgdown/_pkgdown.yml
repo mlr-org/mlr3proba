@@ -22,9 +22,9 @@ navbar:
       text: Vignettes
       menu:
         - text: Survival Analysis
-          href: https://mlr3book.mlr-org.com/special-tasks.html#survival
+          href: https://mlr3book.mlr-org.com/special.html#survival
         - text: Density Estimation
-          href: https://mlr3book.mlr-org.com/special-tasks.html#density
+          href: https://mlr3book.mlr-org.com/special.html#density
     mattermost:
       icon: fa fa-comments
       href: https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/
