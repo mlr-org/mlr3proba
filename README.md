@@ -79,7 +79,7 @@ are very welcome (see
 
 `mlr3proba` is not on CRAN and is unlikely to be reuploaded (see [here]() for reasons). As such you must install with one of the following methods:
 
-Install from r-universe:
+### Install from r-universe:
 
 ```R
 options(repos=c(
@@ -96,7 +96,7 @@ or
 install.packages("mlr3proba", repos = "https://mlr-org.r-universe.dev")
 ```
 
-Or for easier installation going forward:
+### Or for easier installation going forward:
 
 1. Run `usethis::edit_r_environ()` then in the file that opened add or edit `options` to look something like
 
@@ -111,7 +111,7 @@ options(repos = c(
 2. Save and close the file, restart your R session
 3. Run `install.packages("mlr3proba")` as usual
 
-Install from GitHub:
+### Install from GitHub:
 
 ``` r
 remotes::install_github("mlr-org/mlr3proba")
