@@ -155,11 +155,32 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>Install the last release from CRAN:</p>
+<p><code>mlr3proba</code> is not on CRAN and is unlikely to be reuploaded (see <a href="">here</a> for reasons). As such you must install with one of the following methods:</p>
+<p>Install from r-universe:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"mlr3proba"</span><span class="op">)</span></span></code></pre></div>
-<p>Install the development version from GitHub:</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>repos<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  mlrorg <span class="op">=</span> <span class="st">'https://mlr-org.r-universe.dev'</span>,</span>
+<span>  raphaels1 <span class="op">=</span> <span class="st">'https://raphaels1.r-universe.dev'</span>,</span>
+<span>  CRAN <span class="op">=</span> <span class="st">'https://cloud.r-project.org'</span></span>
+<span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"mlr3proba"</span><span class="op">)</span></span></code></pre></div>
+<p>or</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"mlr3proba"</span>, repos <span class="op">=</span> <span class="st">"https://mlr-org.r-universe.dev"</span><span class="op">)</span></span></code></pre></div>
+<p>Or for easier installation going forward:</p>
+<ol style="list-style-type: decimal"><li>Run <code><a href="https://usethis.r-lib.org/reference/edit.html" class="external-link">usethis::edit_r_environ()</a></code> then in the file that opened add or edit <code>options</code> to look something like</li></ol>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>       raphaels1 <span class="op">=</span> <span class="st">"https://raphaels1.r-universe.dev"</span>,</span>
+<span>       mlrorg <span class="op">=</span> <span class="st">"https://mlr-org.r-universe.dev"</span>,</span>
+<span>       CRAN <span class="op">=</span> <span class="st">'https://cloud.r-project.org'</span></span>
+<span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>Save and close the file, restart your R session</li>
+<li>Run <code>install.packages("mlr3proba")</code> as usual</li>
+</ol>
+<p>Install from GitHub:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"mlr-org/mlr3proba"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -295,15 +316,15 @@
 <h2 id="citing-mlr3proba">Citing mlr3proba<a class="anchor" aria-label="anchor" href="#citing-mlr3proba"></a>
 </h2>
 <p>If you use mlr3proba, please cite our <a href="https://doi.org/10.1093/bioinformatics/btab039" class="external-link">Bioinformatics article</a>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="sc">@</span>Article{,</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  title <span class="ot">=</span> {mlr3proba<span class="sc">:</span> An R Package <span class="cf">for</span> Machine Learning <span class="cf">in</span> Survival Analysis},</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  author <span class="ot">=</span> {Raphael Sonabend and Franz J Király and Andreas Bender and Bernd Bischl and Michel Lang},</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  journal <span class="ot">=</span> {Bioinformatics},</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  month <span class="ot">=</span> {<span class="dv">02</span>},</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  year <span class="ot">=</span> {<span class="dv">2021</span>},</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  doi <span class="ot">=</span> {<span class="fl">10.1093</span><span class="sc">/</span>bioinformatics<span class="sc">/</span>btab039},</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  issn <span class="ot">=</span> {<span class="dv">1367-4803</span>},</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="sc">@</span>Article{,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  title <span class="ot">=</span> {mlr3proba<span class="sc">:</span> An R Package <span class="cf">for</span> Machine Learning <span class="cf">in</span> Survival Analysis},</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  author <span class="ot">=</span> {Raphael Sonabend and Franz J Király and Andreas Bender and Bernd Bischl and Michel Lang},</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  journal <span class="ot">=</span> {Bioinformatics},</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  month <span class="ot">=</span> {<span class="dv">02</span>},</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  year <span class="ot">=</span> {<span class="dv">2021</span>},</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  doi <span class="ot">=</span> {<span class="fl">10.1093</span><span class="sc">/</span>bioinformatics<span class="sc">/</span>btab039},</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  issn <span class="ot">=</span> {<span class="dv">1367-4803</span>},</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
