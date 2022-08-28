@@ -27,6 +27,7 @@
 #' library(mlr3)
 #' library(mlr3viz)
 #' library(mlr3proba)
+#' library(ggplot2)
 #'
 #' task = tsk("lung")
 #'
@@ -98,6 +99,8 @@ plot.TaskSurv = function(x, ...) {
 #' @examples
 #' library(mlr3)
 #' library(mlr3proba)
+#' library(mlr3viz)
+#' library(ggplot2)
 #' task = tsk("precip")
 #'
 #' head(fortify(task))

@@ -38,6 +38,8 @@ The \code{\link[=theme_mlr3]{theme_mlr3()}} and viridis color maps are applied b
 \examples{
 library(mlr3)
 library(mlr3proba)
+library(mlr3viz)
+library(ggplot2)
 task = tsk("precip")
 
 head(fortify(task))
