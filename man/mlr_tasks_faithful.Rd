@@ -13,10 +13,8 @@ A density task for the \link{faithful} data set.
 Only the \code{eruptions} column is kept in this task.
 }
 \section{Construction}{
-
-
-\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr3::mlr_tasks$get("faithful")
+\preformatted{mlr3::mlr_tasks$get("faithful")
 mlr3::tsk("faithful")
-}\if{html}{\out{</div>}}
+}
 }
 

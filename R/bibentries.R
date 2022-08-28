@@ -600,7 +600,6 @@ bibentries = c( # nolint start
     volume            = "66",
     year              = "1979"
   ),
-
   haider_2020 = bibentry("article",
     author            = "Haider, Humza and Hoehn, Bret and Davis, Sarah and Greiner, Russell",
     journal           = "Journal of Machine Learning Research",
@@ -610,5 +609,15 @@ bibentries = c( # nolint start
     title             = "Effective Ways to Build and Evaluate Individual Survival Distributions",
     url               = "https://jmlr.org/papers/v21/18-772.html",
     year              = "2020"
+  ),
+  dcalib = bibentry("article",
+    author            = "Humza Haider and Bret Hoehn and Sarah Davis and Russell Greiner",
+    title             = "Effective Ways to Build and Evaluate Individual Survival Distributions",
+    journal           = "Journal of Machine Learning Research",
+    year              = "2020",
+    volume            = "21",
+    number            = "85",
+    pages             = "1-63",
+    url               = "https://jmlr.org/papers/v21/18-772.html"
   )
 ) # nolint end

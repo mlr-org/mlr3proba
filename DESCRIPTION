@@ -38,8 +38,10 @@ Depends:
 Imports:
     checkmate,
     data.table,
-    distr6 (>= 1.6.8),
+    distr6 (>= 1.6.10),
+    ggplot2,
     mlr3misc (>= 0.7.0),
+    mlr3viz,
     paradox (>= 0.1.0),
     R6,
     Rcpp (>= 1.0.4),
@@ -48,7 +50,7 @@ Imports:
 Suggests:
     bujar,
     cubature,
-    ggplot2,
+    GGally,
     knitr,
     lgr,
     mlr3pipelines (>= 0.3.4),
@@ -58,7 +60,8 @@ Suggests:
     set6 (>= 0.1.7),
     simsurv,
     survAUC,
-    testthat
+    testthat,
+    vdiffr
 LinkingTo:
     Rcpp
 Remotes:
@@ -136,6 +139,7 @@ Collate:
     'as_task_dens.R'
     'as_task_surv.R'
     'assertions.R'
+    'autoplot.R'
     'bibentries.R'
     'cindex.R'
     'data.R'

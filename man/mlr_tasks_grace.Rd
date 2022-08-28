@@ -13,10 +13,8 @@ A survival task for the \link{grace} data set.
 Column "id" is removed. Columns "days" and "death" renamed to "time" and "status" resp.
 }
 \section{Construction}{
-
-
-\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr3::mlr_tasks$get("grace")
+\preformatted{mlr3::mlr_tasks$get("grace")
 mlr3::tsk("grace")
-}\if{html}{\out{</div>}}
+}
 }
 
