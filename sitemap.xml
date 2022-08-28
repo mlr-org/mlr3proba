@@ -70,6 +70,15 @@
     <loc>https://mlr3proba.mlr-org.com/reference/assert_surv.html</loc>
   </url>
   <url>
+    <loc>https://mlr3proba.mlr-org.com/reference/autoplot.PredictionSurv.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3proba.mlr-org.com/reference/autoplot.TaskDens.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3proba.mlr-org.com/reference/autoplot.TaskSurv.html</loc>
+  </url>
+  <url>
     <loc>https://mlr3proba.mlr-org.com/reference/cpp.html</loc>
   </url>
   <url>
