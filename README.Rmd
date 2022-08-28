@@ -63,13 +63,43 @@ The density and probabilistic supervised regression tasks are currently in the e
 
 ## Installation
 
-Install the last release from CRAN:
-```{r, eval = FALSE}
+`mlr3proba` is not on CRAN and is unlikely to be reuploaded (see [here]() for reasons). As such you must install with one of the following methods:
+
+### Install from r-universe:
+
+```{r eval=false}
+options(repos=c(
+  mlrorg = 'https://mlr-org.r-universe.dev',
+  raphaels1 = 'https://raphaels1.r-universe.dev',
+  CRAN = 'https://cloud.r-project.org'
+))
 install.packages("mlr3proba")
 ```
 
-Install the development version from GitHub:
-```{r, eval = FALSE}
+or
+
+```{r eval=false}
+install.packages("mlr3proba", repos = "https://mlr-org.r-universe.dev")
+```
+
+### Or for easier installation going forward:
+
+1. Run `usethis::edit_r_environ()` then in the file that opened add or edit `options` to look something like
+
+```{r eval=false}
+options(repos = c(
+       raphaels1 = "https://raphaels1.r-universe.dev",
+       mlrorg = "https://mlr-org.r-universe.dev",
+       CRAN = 'https://cloud.r-project.org'
+))
+```
+
+2. Save and close the file, restart your R session
+3. Run `install.packages("mlr3proba")` as usual
+
+### Install from GitHub:
+
+```{r eval=false}
 remotes::install_github("mlr-org/mlr3proba")
 ```
 
