@@ -127,7 +127,7 @@ autoplot.TaskDens = function(object, type = "dens", ...) { # nolint
   } else if (type == "overlay") {
     p +
       geom_histogram(aes(y = ..density..), colour = "black", fill = "white", ...) +
-      geom_density(alpha = 0.2) +
+      geom_density(alpha = 0.2, fill = "#5dadc8") +
       ylab("Density") +
       apply_theme(list(theme_mlr3()))
   } else {
