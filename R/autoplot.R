@@ -49,7 +49,7 @@ autoplot.TaskSurv = function(object, type = "target", ...) { # nolint
       )
 
       plot = GGally::ggsurv(sf, remove_named(ddd, "rhs"))
-      plot + apply_theme(list(scale_color_viridis_d(end = 0.8), theme_mlr3()))
+      plot + apply_theme(theme_mlr3())
     },
 
     "duo" = {
