@@ -15,10 +15,8 @@ Columns "id", "time_d", and "censor_d" have been removed so target is time to AI
 or death.
 }
 \section{Construction}{
-
-
-\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr3::mlr_tasks$get("actg")
+\preformatted{mlr3::mlr_tasks$get("actg")
 mlr3::tsk("actg")
-}\if{html}{\out{</div>}}
+}
 }
 

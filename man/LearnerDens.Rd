@@ -26,7 +26,7 @@ mlr_learners$get("dens.hist")
 lrn("dens.hist")
 }
 \seealso{
-Other Learner:
+Other Learner: 
 \code{\link{LearnerSurv}}
 }
 \concept{Learner}
@@ -36,8 +36,8 @@ Other Learner:
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-LearnerDens-new}{\code{LearnerDens$new()}}
-\item \href{#method-LearnerDens-clone}{\code{LearnerDens$clone()}}
+\item \href{#method-new}{\code{LearnerDens$new()}}
+\item \href{#method-clone}{\code{LearnerDens$clone()}}
 }
 }
 \if{html}{
@@ -55,8 +55,8 @@ Other Learner:
 \out{</details>}
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-LearnerDens-new"></a>}}
-\if{latex}{\out{\hypertarget{method-LearnerDens-new}{}}}
+\if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
@@ -120,8 +120,8 @@ The referenced help package can be opened via method \verb{$help()}.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-LearnerDens-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-LearnerDens-clone}{}}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

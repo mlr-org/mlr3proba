@@ -15,11 +15,9 @@ Contains the following columns of the original data set:
 "spell" (time), "censor1" (status), "age", "ui", "logwage", and "tenure".
 }
 \section{Construction}{
-
-
-\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr3::mlr_tasks$get("unemployment")
+\preformatted{mlr3::mlr_tasks$get("unemployment")
 mlr3::tsk("unemployment")
-}\if{html}{\out{</div>}}
+}
 }
 
 \seealso{
