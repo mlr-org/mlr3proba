@@ -96,6 +96,7 @@ reference:
     contents:
       - pecs
       - plot.LearnerSurv
+      - starts_with("autoplot")
   - title: Datasets
     contents:
       - actg
