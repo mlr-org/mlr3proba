@@ -38,7 +38,7 @@ Depends:
 Imports:
     checkmate,
     data.table,
-    distr6 (>= 1.6.10),
+    distr6 (>= 1.6.11),
     ggplot2,
     mlr3misc (>= 0.7.0),
     mlr3viz,
