@@ -77,7 +77,7 @@ are very welcome (see
 
 ## Installation
 
-`mlr3proba` is not on CRAN and is unlikely to be reuploaded (see [here]() for reasons). As such you must install with one of the following methods:
+`mlr3proba` is not on CRAN and is unlikely to be reuploaded (see [here](https://twitter.com/RaphaelS101/status/1506321623250571265) for reasons). As such you must install with one of the following methods:
 
 ### Install from r-universe:
 
