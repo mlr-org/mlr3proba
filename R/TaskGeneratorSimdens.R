@@ -14,7 +14,7 @@
 #' @examples
 #' generator = mlr3::mlr_task_generators$get("simdens")
 #' task = generator$generate(20)
-#' task$head()
+#' head(task)
 TaskGeneratorSimdens = R6::R6Class("TaskGeneratorSimdens",
   inherit = TaskGenerator,
   public = list(

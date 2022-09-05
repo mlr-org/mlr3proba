@@ -14,8 +14,10 @@ Column "id" and all date columns removed, as well as "rectime" and "censrec".
 Target is time to death.
 }
 \section{Construction}{
-\preformatted{mlr3::mlr_tasks$get("gbcs")
+
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr3::mlr_tasks$get("gbcs")
 mlr3::tsk("gbcs")
-}
+}\if{html}{\out{</div>}}
 }
 

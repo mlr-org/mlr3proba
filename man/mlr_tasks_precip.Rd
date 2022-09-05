@@ -10,8 +10,10 @@
 A density task for the \link{precip} data set.
 }
 \section{Construction}{
-\preformatted{mlr3::mlr_tasks$get("precip")
+
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr3::mlr_tasks$get("precip")
 mlr3::tsk("precip")
-}
+}\if{html}{\out{</div>}}
 }
 
