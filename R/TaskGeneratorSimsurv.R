@@ -23,7 +23,7 @@
 #' if (requireNamespace("simsurv", quietly = TRUE)) {
 #'   generator = mlr3::mlr_task_generators$get("simsurv")
 #'   task = generator$generate(20)
-#'   task$head()
+#'   head(task)
 #' }
 TaskGeneratorSimsurv = R6Class("TaskGeneratorSimsurv",
   inherit = TaskGenerator,
