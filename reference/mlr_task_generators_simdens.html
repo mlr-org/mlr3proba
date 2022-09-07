@@ -89,9 +89,9 @@ See <code><a href="https://alan-turing-institute.github.io/distr6/reference/dist
     <h2 id="dictionary">Dictionary<a class="anchor" aria-label="anchor" href="#dictionary"></a></h2>
     
 
-<p>This <a href="https://mlr3.mlr-org.com/reference/TaskGenerator.html" class="external-link">TaskGenerator</a> can be instantiated via the <a href="https://mlr3misc.mlr-org.com/reference/Dictionary.html" class="external-link">dictionary</a> <a href="https://mlr3.mlr-org.com/reference/mlr_task_generators.html" class="external-link">mlr_task_generators</a> or with the associated sugar function <code><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">tgen()</a></code>:</p><div class="sourceCode"><pre><code><span><span class="va">mlr_task_generators</span><span class="op">$</span><span class="fu">get</span><span class="op">(</span><span class="st">"simdens"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">tgen</a></span><span class="op">(</span><span class="st">"simdens"</span><span class="op">)</span></span></code></pre></div>
-
+<p>This <a href="https://mlr3.mlr-org.com/reference/TaskGenerator.html" class="external-link">TaskGenerator</a> can be instantiated via the <a href="https://mlr3misc.mlr-org.com/reference/Dictionary.html" class="external-link">dictionary</a> <a href="https://mlr3.mlr-org.com/reference/mlr_task_generators.html" class="external-link">mlr_task_generators</a> or with the associated sugar function <code><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">tgen()</a></code>:</p>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>mlr_task_generators<span class="sc">$</span><span class="fu">get</span>(<span class="st">"simdens"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tgen</span>(<span class="st">"simdens"</span>)</span></code></pre><p></p></div>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -107,12 +107,12 @@ See <code><a href="https://alan-turing-institute.github.io/distr6/reference/dist
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
 
-<ul><li><p><a href="#method-new"><code>TaskGeneratorSimdens$new()</code></a></p></li>
-<li><p><a href="#method-clone"><code>TaskGeneratorSimdens$clone()</code></a></p></li>
-</ul></div><p><details open><summary>Inherited methods</summary><ul><li><p><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="format"><a href="https://mlr3.mlr-org.com/reference/TaskGenerator.html#method-format"><code>mlr3::TaskGenerator$format()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="generate"><a href="https://mlr3.mlr-org.com/reference/TaskGenerator.html#method-generate"><code>mlr3::TaskGenerator$generate()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="print"><a href="https://mlr3.mlr-org.com/reference/TaskGenerator.html#method-print"><code>mlr3::TaskGenerator$print()</code></a></span></p></li>
-</ul></details></p><hr><a id="method-new"></a><div class="section">
+<ul><li><p><a href="#method-TaskGeneratorSimdens-new"><code>TaskGeneratorSimdens$new()</code></a></p></li>
+<li><p><a href="#method-TaskGeneratorSimdens-clone"><code>TaskGeneratorSimdens$clone()</code></a></p></li>
+</ul></div><p><details open><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="format"><a href="https://mlr3.mlr-org.com/reference/TaskGenerator.html#method-format"><code>mlr3::TaskGenerator$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="generate"><a href="https://mlr3.mlr-org.com/reference/TaskGenerator.html#method-generate"><code>mlr3::TaskGenerator$generate()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="print"><a href="https://mlr3.mlr-org.com/reference/TaskGenerator.html#method-print"><code>mlr3::TaskGenerator$print()</code></a></span></li>
+</ul></details></p><hr><a id="method-TaskGeneratorSimdens-new"></a><div class="section">
 <h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
@@ -120,7 +120,7 @@ See <code><a href="https://alan-turing-institute.github.io/distr6/reference/dist
 </div>
 
 
-</div><p></p><hr><a id="method-clone"></a><div class="section">
+</div><p></p><hr><a id="method-TaskGeneratorSimdens-clone"></a><div class="section">
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
@@ -144,14 +144,14 @@ See <code><a href="https://alan-turing-institute.github.io/distr6/reference/dist
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">generator</span> <span class="op">=</span> <span class="fu">mlr3</span><span class="fu">::</span><span class="va"><a href="https://mlr3.mlr-org.com/reference/mlr_task_generators.html" class="external-link">mlr_task_generators</a></span><span class="op">$</span><span class="fu">get</span><span class="op">(</span><span class="st">"simdens"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="va">generator</span><span class="op">$</span><span class="fu">generate</span><span class="op">(</span><span class="fl">20</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">head</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             x</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: -0.6424405</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:  1.5223294</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  0.4589699</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:  1.1226514</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: -0.1613105</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6:  0.9513663</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:  0.5899964</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:  1.9878307</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  1.9077651</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: -0.7217446</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: -0.9071784</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: -1.6295309</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
