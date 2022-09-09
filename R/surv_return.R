@@ -5,8 +5,9 @@
 #' @param surv (`matrix()`)\cr Matrix of predicted survival probabilities, rows are observations,
 #' columns are times. Number of columns should be equal to length of `times`.
 #' @param crank (`numeric()`)\cr Relative risk/continuous ranking. Higher value is associated
-#' with higher risk. If `NULL` then either set as `lp` if available or as the estimated
-#' survival expectation, computed by `colSums(surv)`.
+#' with higher risk. If `NULL` then either set as as `-response` if available or
+#' `lp` if available or as the sum of the cumulative hazard function (expected
+#' mortality) derived from the predicted survival function (`surv`).
 #' @param lp (`numeric()`)\cr Predicted linear predictor, used to impute `crank` if `NULL`.
 #' @param response (`numeric()`)\cr Predicted survival time, passed through function without
 #' modification.
@@ -14,9 +15,9 @@
 #' Uses [survivalmodels::surv_to_risk] to reduce survival matrices to relative
 #' risks / rankings if `crank` is NULL.
 #' @references
-#' Sonabend, R., Bender, A., & Vollmer, S. (2021).
-#' Evaluation of survival distribution predictions with discrimination
-#' measures. http://arxiv.org/abs/2112.04828.
+#' Sonabend, R., Bender, A., & Vollmer, S. (2022). Avoiding C-hacking when
+#' evaluating survival distribution predictions with discrimination measures.
+#' Bioinformatics. https://doi.org/10.1093/BIOINFORMATICS/BTAC451
 #' @export
 .surv_return = function(times = NULL, surv = NULL, crank = NULL, lp = NULL, response = NULL) {
 
