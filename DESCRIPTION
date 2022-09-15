@@ -68,7 +68,8 @@ Remotes:
     alan-turing-institute/distr6,
     xoopR/param6,
     xoopR/set6,
-    mlr-org/mlr3
+    mlr-org/mlr3,
+    mlr-org/mlr3pipelines
 ByteCompile: true
 Encoding: UTF-8
 LazyData: true
