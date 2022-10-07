@@ -108,8 +108,12 @@ columns are times. Number of columns should be equal to length of <code>times</c
 
 <dt>crank</dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>)<br> Relative risk/continuous ranking. Higher value is associated
-with higher risk. If <code>NULL</code> then either set as <code>lp</code> if available or as the estimated
-survival expectation, computed by <code>colSums(surv)</code>.</p></dd>
+with higher risk. If <code>NULL</code> then either set as <code>-response</code> if available or
+<code>lp</code> if available (this assumes that the <code>lp</code> prediction comes from a PH type
+model - in case of an AFT model the user should provide <code>-lp</code>).
+In case neither <code>response</code> or <code>lp</code> are provided, then <code>crank</code> is calculated
+as the sum of the cumulative hazard function (expected mortality) derived from
+the predicted survival function (<code>surv</code>).</p></dd>
 
 
 <dt>lp</dt>
@@ -128,9 +132,9 @@ risks / rankings if <code>crank</code> is NULL.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
-    <p>Sonabend, R., Bender, A., &amp; Vollmer, S. (2021).
-Evaluation of survival distribution predictions with discrimination
-measures. http://arxiv.org/abs/2112.04828.</p>
+    <p>Sonabend, R., Bender, A., &amp; Vollmer, S. (2022). Avoiding C-hacking when
+evaluating survival distribution predictions with discrimination measures.
+Bioinformatics. https://doi.org/10.1093/BIOINFORMATICS/BTAC451</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
