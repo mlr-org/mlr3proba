@@ -235,8 +235,7 @@ autoplot.PredictionSurv = function(object, type = "dcalib",
       q = map_dbl(p, function(.x) {
         sum(object$truth[, 1L] <= as.numeric(object$distr$quantile(.x)), na.rm = TRUE) / length(object$row_ids)
       })
-      pl = data.frame(p, q) %>%
-        ggplot(aes(x = p, y = q)) +
+      pl = ggplot(data = data.frame(p, q), aes(x = p, y = q)) +
         geom_line()
 
       if (xyline) {
