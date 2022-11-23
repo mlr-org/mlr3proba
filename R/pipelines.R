@@ -239,7 +239,6 @@ pipeline_distrcompositor = function(learner, estimator = c("kaplan", "nelson"),
 
   if (graph_learner) {
     gr = mlr3pipelines::GraphLearner$new(gr)
-    gr$predict_type = "distr"
   }
 
   gr

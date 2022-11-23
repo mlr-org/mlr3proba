@@ -37,7 +37,7 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart",
       super$initialize(
         id = "surv.rpart",
         param_set = ps,
-        predict_types = c("crank", "distr"),
+        predict_types = c("crank"),
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         properties = c("weights", "missings", "importance", "selected_features"),
         packages = c("rpart", "distr6", "survival"),

@@ -136,7 +136,8 @@ pecs.list = function(x, measure = c("graf", "logloss"), times, n, eps = NULL, ta
   scores$time = times
   scores = melt(scores, "time", value.name = measure, variable.name = "learner")
 
-  ggplot2::ggplot(data = scores, ggplot2::aes_string(x = "time", color = "learner", y = measure)) +
+  ggplot2::ggplot(data = scores, aes(x = .data[["time"]], color = .data[["learner"]],
+    y = .data[[measure]])) +
     ggplot2::geom_line()
 }
 
@@ -185,7 +186,7 @@ pecs.PredictionSurv = function(x, measure = c("graf", "logloss"), times, n, eps 
   scores$time = round(as.numeric(rownames(scores)), 3)
   rownames(scores) = NULL
 
-  ggplot2::ggplot(data = scores, ggplot2::aes_string(x = "time", y = measure)) +
+  ggplot2::ggplot(data = scores, aes(x = .data[["time"]], y = .data[[measure]])) +
     ggplot2::geom_line()
 }
 
