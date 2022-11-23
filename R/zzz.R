@@ -28,7 +28,7 @@ NULL
 #' @import paradox
 #' @importFrom R6 R6Class
 #' @importFrom utils data head tail
-#' @importFrom stats reformulate model.matrix model.frame sd predict complete.cases
+#' @importFrom stats reformulate model.matrix model.frame sd predict complete.cases density
 #' @importFrom survival Surv
 #' @importFrom mlr3viz theme_mlr3
 "_PACKAGE"

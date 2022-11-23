@@ -111,13 +111,11 @@ plot.TaskSurv = function(x, ...) {
 autoplot.TaskDens = function(object, type = "dens", ...) { # nolint
   assert_choice(type, c("dens", "freq", "overlay", "freqpoly"))
 
-  p = ggplot(data = object, aes_string(x = object$feature_names), ...)
-  # hacky density fix
-  ..density.. = NULL
+  p = ggplot(data = object, aes(x = .data[[object$feature_names]]), ...)
 
   if (type == "dens") {
     p +
-      geom_histogram(aes(y = ..density..), fill = "white", color = "black", ...) +
+      geom_histogram(aes(y = after_stat(density)), fill = "white", color = "black", ...) +
       ylab("Density") +
       apply_theme(list(theme_mlr3()))
   } else if (type == "freq") {
@@ -126,7 +124,7 @@ autoplot.TaskDens = function(object, type = "dens", ...) { # nolint
       apply_theme(list(theme_mlr3()))
   } else if (type == "overlay") {
     p +
-      geom_histogram(aes(y = ..density..), colour = "black", fill = "white", ...) +
+      geom_histogram(aes(y = after_stat(density)), colour = "black", fill = "white", ...) +
       geom_density(alpha = 0.2, fill = "#5dadc8") +
       ylab("Density") +
       apply_theme(list(theme_mlr3()))
@@ -237,7 +235,9 @@ autoplot.PredictionSurv = function(object, type = "dcalib",
       q = map_dbl(p, function(.x) {
         sum(object$truth[, 1L] <= as.numeric(object$distr$quantile(.x)), na.rm = TRUE) / length(object$row_ids)
       })
-      pl = qplot(x = p, y = q, geom = "line")
+      pl = ggplot(data = data.frame(p, q), aes(x = p, y = q)) +
+        geom_line()
+
       if (xyline) {
         pl = pl + geom_abline(slope = 1, intercept = 0, color = "lightgray")
       }

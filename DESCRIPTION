@@ -24,7 +24,12 @@ Authors@R:
              family = "Bender",
              role = "ctb",
              email = "bender.at.R@gmail.com",
-             comment = c(ORCID = "0000-0001-5628-8611")))
+             comment = c(ORCID = "0000-0001-5628-8611")),
+      person(given = "John",
+             family = "Zobolas",
+             role = "ctb",
+             email = "bblodfon@gmail.com",
+             comment = c(ORCID = "0000-0002-3609-8674")))
 Description: Provides extensions for probabilistic supervised learning for
     'mlr3'.  This includes extending the regression task to probabilistic
     and interval regression, adding a survival task, and other specialized
