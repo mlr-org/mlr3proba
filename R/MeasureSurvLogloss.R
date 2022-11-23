@@ -36,9 +36,10 @@ MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
       ps = ps(
         eps = p_dbl(0, 1, default = 1e-15),
         se = p_lgl(default = FALSE),
-        IPCW = p_lgl(default = TRUE)
+        IPCW = p_lgl(default = TRUE),
+        ERV = p_lgl(default = FALSE)
       )
-      ps$values = list(eps = 1e-15, se = FALSE, IPCW = TRUE)
+      ps$values = list(eps = 1e-15, se = FALSE, IPCW = TRUE, ERV = FALSE)
 
       super$initialize(
         id = "surv.logloss",
@@ -46,6 +47,7 @@ MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
         minimize = TRUE,
         predict_type = "distr",
         packages = "distr6",
+        label = "Log Loss",
         man = "mlr3proba::mlr_measures_surv.logloss",
         param_set = ps
       )
@@ -56,7 +58,9 @@ MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
 
   private = list(
     .score = function(prediction, task, train_set, ...) {
-
+      if (self$param_set$values$ERV) {
+        return(.scoring_rule_erv(self, prediction, task, train_set))
+      }
       x = as.integer(!is.null(task)) + as.integer(!is.null(train_set))
       if (x == 1) {
         stop("Either 'task' and 'train_set' should be passed to measure or neither.")

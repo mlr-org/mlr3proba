@@ -14,8 +14,10 @@ Columns "id", "yrgrp", and "dstat" are removed so target is status at last follo
 Column "sex" renamed to "sexF", "lenfol" to "time", and "fstat" to "status".
 }
 \section{Construction}{
-\preformatted{mlr3::mlr_tasks$get("whas")
+
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr3::mlr_tasks$get("whas")
 mlr3::tsk("whas")
-}
+}\if{html}{\out{</div>}}
 }
 

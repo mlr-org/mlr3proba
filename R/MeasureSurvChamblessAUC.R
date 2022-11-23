@@ -32,6 +32,7 @@ MeasureSurvChamblessAUC = R6Class("MeasureSurvChamblessAUC",
       super$initialize(
         id = "surv.chambless_auc",
         properties = c("requires_learner", "requires_task", "requires_train_set"),
+        label = "Chambless and Diao's AUC",
         man = "mlr3proba::mlr_measures_surv.chambless_auc",
         param_set = ps
       )
@@ -40,6 +41,9 @@ MeasureSurvChamblessAUC = R6Class("MeasureSurvChamblessAUC",
 
   private = list(
     .score = function(prediction, learner, task, train_set, ...) {
+      if (!inherits(learner, "LearnerSurvCoxPH")) {
+        stop("surv.chambless_auc only compatible with Cox PH models")
+      }
       ps = self$param_set$values
       if (!ps$integrated) {
         msg = "If `integrated=FALSE` then `times` should be a scalar numeric."

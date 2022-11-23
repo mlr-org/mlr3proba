@@ -85,7 +85,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // c_gonen
-float c_gonen(NumericVector crank, float tiex);
+double c_gonen(NumericVector crank, float tiex);
 RcppExport SEXP _mlr3proba_c_gonen(SEXP crankSEXP, SEXP tiexSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;

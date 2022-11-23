@@ -1,6 +1,6 @@
 Package: mlr3proba
 Title: Probabilistic Supervised Learning for 'mlr3'
-Version: 0.4.3.9000
+Version: 0.4.13
 Authors@R:
     c(person(given = "Raphael",
              family = "Sonabend",
@@ -33,38 +33,48 @@ License: LGPL-3
 URL: https://mlr3proba.mlr-org.com, https://github.com/mlr-org/mlr3proba
 BugReports: https://github.com/mlr-org/mlr3proba/issues
 Depends:
-    mlr3 (>= 0.13.0),
+    mlr3 (>= 0.13.4-9000),
     R (>= 3.5.0)
 Imports:
     checkmate,
     data.table,
-    distr6 (>= 1.6.4),
+    distr6 (>= 1.6.11),
+    ggplot2,
     mlr3misc (>= 0.7.0),
+    mlr3viz,
     paradox (>= 0.1.0),
     R6,
     Rcpp (>= 1.0.4),
-    survival
+    survival,
+    survivalmodels (>= 0.1.12)
 Suggests:
     bujar,
     cubature,
-    ggplot2,
+    GGally,
     knitr,
     lgr,
     mlr3pipelines (>= 0.3.4),
+    param6 (>= 0.2.4),
     pracma,
     rpart,
     set6 (>= 0.1.7),
     simsurv,
     survAUC,
-    testthat
+    testthat,
+    vdiffr
 LinkingTo:
     Rcpp
+Remotes:
+    alan-turing-institute/distr6,
+    xoopR/param6,
+    xoopR/set6,
+    mlr-org/mlr3
 ByteCompile: true
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
 Roxygen: list(markdown = TRUE, r6 = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 Collate:
     'LearnerDens.R'
     'LearnerDensHistogram.R'
@@ -92,6 +102,7 @@ Collate:
     'MeasureSurvMSE.R'
     'MeasureSurvNagelkR2.R'
     'MeasureSurvOQuigleyR2.R'
+    'MeasureSurvRCLL.R'
     'MeasureSurvRMSE.R'
     'MeasureSurvSchmid.R'
     'MeasureSurvSongAUC.R'
@@ -128,16 +139,19 @@ Collate:
     'as_task_dens.R'
     'as_task_surv.R'
     'assertions.R'
+    'autoplot.R'
     'bibentries.R'
     'cindex.R'
     'data.R'
     'helpers.R'
     'histogram.R'
     'integrated_scores.R'
+    'mlr3proba-package.R'
     'partition.R'
     'pecs.R'
     'pipelines.R'
     'plot.R'
+    'scoring_rule_erv.R'
     'surv_measures.R'
     'surv_return.R'
     'zzz.R'

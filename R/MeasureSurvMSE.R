@@ -31,6 +31,7 @@ MeasureSurvMSE = R6::R6Class("MeasureSurvMSE",
         minimize = TRUE,
         predict_type = "response",
         man = "mlr3proba::mlr_measures_surv.mse",
+        label = "Mean Squared Error",
         param_set = ps
       )
     }

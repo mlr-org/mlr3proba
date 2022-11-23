@@ -116,27 +116,24 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id = "trafotask_survregr", param_vals = list()) {
-      ps = ParamSet$new(list(
-        ParamFct$new("method", default = "ipcw",
-          levels = c("ipcw", "mrl", "bj", "delete", "omit", "reorder"),
-          tags = "train"),
-        ParamFct$new("estimator", default = "kaplan", levels = c("kaplan", "akritas", "cox"),
-          tags = "train"),
-        ParamDbl$new("alpha", default = 1, lower = 0, upper = 1, tags = "train"),
-        ParamDbl$new("lambda", default = 0.5, lower = 0, upper = 1, tags = "train"),
-        ParamDbl$new("eps", default = 1e-15, lower = 0, upper = 1, tags = "train"),
-        ParamUty$new("features", tags = "train"),
-        ParamUty$new("target", tags = "train"),
-        ParamFct$new("learner", default = "linear.regression",
-          levels = c("linear.regression", "mars", "pspline", "tree", "acosso",
-            "enet", "enet2", "mnet", "snet"), tags = c("train", "bj")),
-        ParamLgl$new("center", default = TRUE, tags = c("train", "bj")),
-        ParamLgl$new("mimpu", default = NULL, special_vals = list(NULL), tags = c("train", "bj")),
-        ParamInt$new("iter.bj", default = 20, lower = 2, tags = c("train", "bj")),
-        ParamInt$new("max.cycle", default = 5, lower = 1, tags = c("train", "bj")),
-        ParamInt$new("mstop", default = 50, lower = 1, tags = c("train", "bj")),
-        ParamDbl$new("nu", default = 0.1, lower = 0, tags = c("train", "bj"))
-      ))
+      ps = ps(
+        method    = p_fct(default = "ipcw", levels = c("ipcw", "mrl", "bj", "delete", "omit", "reorder"), tags = "train"),
+        estimator = p_fct(default = "kaplan", levels = c("kaplan", "akritas", "cox"), tags = "train"),
+        alpha     = p_dbl(default = 1, lower = 0, upper = 1, tags = "train"),
+        lambda    = p_dbl(default = 0.5, lower = 0, upper = 1, tags = "train"),
+        eps       = p_dbl(default = 1e-15, lower = 0, upper = 1, tags = "train"),
+        features  = p_uty(tags = "train"),
+        target    = p_uty(tags = "train"),
+        learner   = p_fct(default = "linear.regression",
+          levels = c("linear.regression", "mars", "pspline", "tree", "acosso", "enet", "enet2", "mnet", "snet"),
+          tags = c("train", "bj")),
+        center    = p_lgl(default = TRUE, tags = c("train", "bj")),
+        mimpu     = p_lgl(default = NULL, special_vals = list(NULL), tags = c("train", "bj")),
+        iter.bj   = p_int(default = 20, lower = 2, tags = c("train", "bj")),
+        max.cycle = p_int(default = 5, lower = 1, tags = c("train", "bj")),
+        mstop     = p_int(default = 50, lower = 1, tags = c("train", "bj")),
+        nu        = p_dbl(default = 0.1, lower = 0, tags = c("train", "bj"))
+      )
       ps$add_dep("alpha", "method", CondEqual$new("ipcw"))
       ps$add_dep("eps", "method", CondEqual$new("ipcw"))
       ps$add_dep("estimator", "method", CondAnyOf$new(c("ipcw", "mrl")))
@@ -231,7 +228,11 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
       }
 
       est = est$train(task)$predict(task)$distr
-      weights = as.numeric(est$survival(data = matrix(task$truth()[, 1], nrow = 1)))
+      if (inherits(est, "Matdist")) {
+        weights = diag(est$survival(task$truth()[, 1]))
+      } else {
+        weights = as.numeric(est$survival(data = matrix(task$truth()[, 1], nrow = 1)))
+      }
       weights[weights == 0] = eps
       weights = 1 / weights
 

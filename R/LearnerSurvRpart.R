@@ -6,6 +6,7 @@
 #'
 #' @description
 #' Parameter `xval` is set to 0 in order to save some computation time.
+#' Parameter `model` has been renamed to `keep_model`.
 #'
 #' @references
 #' `r format_bib("breiman_1984")`
@@ -17,19 +18,20 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      ps = ParamSet$new(list(
-        ParamDbl$new("parms", default = 1, tags = "train"),
-        ParamInt$new("minbucket", lower = 1L, tags = "train"),
-        ParamInt$new("minsplit", default = 20L, lower = 1L, tags = "train"),
-        ParamDbl$new("cp", default = 0.01, lower = 0, upper = 1, tags = "train"),
-        ParamInt$new("maxcompete", default = 4L, lower = 0L, tags = "train"),
-        ParamInt$new("maxsurrogate", default = 5L, lower = 0L, tags = "train"),
-        ParamInt$new("maxdepth", default = 30L, lower = 1L, upper = 30L, tags = "train"),
-        ParamInt$new(id = "usesurrogate", default = 2L, lower = 0L, upper = 2L, tags = "train"),
-        ParamInt$new(id = "surrogatestyle", default = 0L, lower = 0L, upper = 1L, tags = "train"),
-        ParamInt$new("xval", default = 10L, lower = 0L, tags = "train"),
-        ParamUty$new("cost", tags = "train")
-      ))
+      ps = ps(
+        parms          = p_dbl(default = 1, tags = "train"),
+        minbucket      = p_int(lower = 1L, tags = "train"),
+        minsplit       = p_int(default = 20L, lower = 1L, tags = "train"),
+        cp             = p_dbl(default = 0.01, lower = 0, upper = 1, tags = "train"),
+        maxcompete     = p_int(default = 4L, lower = 0L, tags = "train"),
+        maxsurrogate   = p_int(default = 5L, lower = 0L, tags = "train"),
+        maxdepth       = p_int(default = 30L, lower = 1L, upper = 30L, tags = "train"),
+        usesurrogate   = p_int(default = 2L, lower = 0L, upper = 2L, tags = "train"),
+        surrogatestyle = p_int(default = 0L, lower = 0L, upper = 1L, tags = "train"),
+        xval           = p_int(default = 10L, lower = 0L, tags = "train"),
+        cost           = p_uty(tags = "train"),
+        keep_model     = p_lgl(default = FALSE, tags = "train")
+      )
       ps$values = list(xval = 0L)
 
       super$initialize(
@@ -39,6 +41,7 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart",
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         properties = c("weights", "missings", "importance", "selected_features"),
         packages = c("rpart", "distr6", "survival"),
+        label = "Survival Tree",
         man = "mlr3proba::mlr_learners_surv.rpart"
       )
     },
@@ -68,6 +71,7 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart",
   private = list(
     .train = function(task) {
       pv = self$param_set$get_values(tags = "train")
+      names(pv) = replace(names(pv), names(pv) == "keep_model", "model")
       if ("weights" %in% task$properties) {
         pv = insert_named(pv, list(weights = task$weights$weight))
       }

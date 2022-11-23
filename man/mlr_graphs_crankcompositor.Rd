@@ -8,7 +8,7 @@
 \usage{
 pipeline_crankcompositor(
   learner,
-  method = c("mean", "median", "mode"),
+  method = c("sum_haz", "mean", "median", "mode"),
   which = NULL,
   response = FALSE,
   overwrite = FALSE,
@@ -24,8 +24,9 @@ be wrapped in \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or a \code{Graph}
 \link{LearnerSurv}.}
 
 \item{method}{\code{character(1)}\cr
-One of \code{mean} (default), \code{mode}, or \code{median}; abbreviations allowed. Used to determine
-how \code{crank} is estimated from the predicted \code{distr}.}
+One of \code{sum_haz} (default), \code{mean}, \code{mode}, or \code{median};
+abbreviations allowed. Used to determine how \code{crank} is estimated from
+the predicted \code{distr}.}
 
 \item{which}{\code{integer(1)}\cr
 If \code{method = "mode"} then specifies which mode to use if multi-modal, default
@@ -60,7 +61,7 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   pipe = ppl(
     "crankcompositor",
     learner = lrn("surv.coxph"),
-    method = "median"
+    method = "sum_haz"
   )
   pipe$train(task)
   pipe$predict(task)

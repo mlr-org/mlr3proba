@@ -1,16 +1,16 @@
 #' @title Visualization of fitted `LearnerSurv` objects
-#' @description Wrapper around `predict.LearnerSurv` and `plot.VectorDistribution`.
+#' @description Wrapper around `predict.LearnerSurv` and `plot.Matdist`.
 #'
 #' @importFrom graphics plot
 #' @param x ([LearnerSurv])
 #' @param task ([TaskSurv])
 #' @param fun (`character`) \cr
-#'   Passed to `distr6::plot.VectorDistribution`
+#'   Passed to `distr6::plot.Matdist`
 #' @param row_ids (`integer()`) \cr
 #'   Passed to `Learner$predict`
 #' @param newdata (`data.frame()`) \cr
 #'   If not missing `Learner$predict_newdata` is called instead of `Learner$predict`.
-#' @param ... Additional arguments passed to `distr6::plot.VectorDistribution`
+#' @param ... Additional arguments passed to `distr6::plot.Matdist`
 #'
 #'
 #' @examples

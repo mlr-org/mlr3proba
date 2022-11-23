@@ -60,6 +60,8 @@ test_that("surv methods", {
   expect_equal(task$unique_times(), c(1, 2, 4))
   expect_equal(task$unique_event_times(), c(1, 2))
   expect_equal(task$risk_set(2), c(3L, 4L, 5L))
+  expect_is(task$kaplan(), "survfit")
+  expect_is(task$kaplan(rows = 1:3), "survfit")
 })
 
 

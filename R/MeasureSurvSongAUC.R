@@ -35,6 +35,7 @@ MeasureSurvSongAUC = R6Class("MeasureSurvSongAUC",
         id = "surv.song_auc",
         properties = c("requires_learner", "requires_task", "requires_train_set"),
         man = "mlr3proba::mlr_measures_surv.song_auc",
+        label = "Song and Zhou's AUC",
         param_set = ps
       )
     }
@@ -42,6 +43,9 @@ MeasureSurvSongAUC = R6Class("MeasureSurvSongAUC",
 
   private = list(
     .score = function(prediction, learner, task, train_set, ...) {
+      if (!inherits(learner, "LearnerSurvCoxPH")) {
+        stop("surv.song_auc only compatible with Cox PH models")
+      }
       ps = self$param_set$values
       if (!ps$integrated) {
         msg = "If `integrated=FALSE` then `times` should be a scalar numeric."

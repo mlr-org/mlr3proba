@@ -1,11 +1,13 @@
 set.seed(1)
-task = TaskGeneratorSimsurv$new()$generate(20)
-learner = lrn("surv.coxph")$train(task)
+task = tsk("rats")$filter(sample(300, 20))
+learner = suppressWarnings(lrn("surv.coxph")$train(task))
 pred = learner$predict(task)
 pred$data$response = 1:20
 pred$predict_types = c(pred$predict_types, "response")
 
 test_that("mlr_measures", {
+  skip_if_not_installed("survAUC")
+
   keys = mlr_measures$keys("^surv")
 
   for (key in keys) {
@@ -21,20 +23,21 @@ test_that("mlr_measures", {
 
     expect_measure(m)
 
-    perf = pred$score(m, task = task, train_set = seq(task$nrow), learner = learner)
+    expect_silent({
+      perf = pred$score(m, task = task, train_set = seq(task$nrow), learner = learner)
+    })
     expect_number(perf, na.ok = "na_score" %in% m$properties)
 
     if (key %in% paste0("surv.", c("schmid", "graf", "intlogloss", "logloss", "mae", "mse",
       "rmse", "calib_alpha", "calib_beta"))) {
       m = suppressWarnings(msr(key, se = TRUE))
       perf = pred$score(m, task = task, train_set = seq(task$nrow), learner = learner)
-      expect_number(perf, na.ok = "na_score" %in% m$properties)
+      expect_number(perf, na.ok = TRUE)
     }
   }
 })
 
-# task = tsk("rats")
-learner = lrn("surv.coxph")$train(task)
+learner = suppressWarnings(lrn("surv.coxph")$train(task))
 prediction = learner$predict(task)
 
 test_that("unintegrated_prob_losses", {
@@ -43,21 +46,22 @@ test_that("unintegrated_prob_losses", {
 })
 
 test_that("integrated_prob_losses", {
-  t = tgen("simsurv")$generate(20)
+  set.seed(1)
+  t = tsk("rats")$filter(sample(300, 50))
   p = lrn("surv.kaplan")$train(t)$predict(t)
   probs = paste0("surv.", c("graf", "intlogloss", "schmid"))
   lapply(
     probs,
-    function(x) expect_error(p$score(msr(x, times = 34:37, integrated = FALSE,
+    function(x) expect_error(p$score(msr(x, times = 39:80, integrated = FALSE,
                                          proper = TRUE)),
                             "scalar numeric")
   )
+
+  prediction$score(msr("surv.intlogloss", integrated = TRUE, proper = TRUE, times = 100:110))
   expect_silent(prediction$score(lapply(probs, msr, integrated = TRUE, proper = TRUE)))
-  expect_error(prediction$score(lapply(probs, msr, integrated = TRUE, times = c(34:70),
-    proper = TRUE)), "Requested times")
-  expect_silent(prediction$score(lapply(probs, msr, integrated = TRUE, times = c(2:3),
-    proper = TRUE)))
-  expect_silent(prediction$score(lapply(probs, msr, integrated = FALSE, times = 2, proper = TRUE)))
+  expect_error(prediction$score(lapply(probs, msr, integrated = TRUE, times = c(34:38), proper = TRUE)), "Requested times")
+  expect_silent(prediction$score(lapply(probs, msr, integrated = TRUE, times = c(100:110), proper = TRUE)))
+  expect_silent(prediction$score(lapply(probs, msr, integrated = FALSE, times = 80, proper = TRUE)))
 })
 
 test_that("dcalib", {
@@ -81,7 +85,8 @@ test_that("graf proper option", {
   m1 = msr("surv.graf", proper = TRUE, method = 1)
   m2 = suppressWarnings(msr("surv.graf", proper = FALSE, method = 1))
   l = lrn("surv.kaplan")
-  p = l$train(tgen("simsurv")$generate(100))$predict(tgen("simsurv")$generate(50))
+  p = l$train(tsk("rats"), row_ids = sample(300, 50))$
+    predict(tsk("rats"), row_ids = sample(300, 50))
   s1 = p$score(m1)
   s2 = p$score(m2)
   expect_gt(s2, s1)
@@ -100,11 +105,39 @@ test_that("t_max, p_max", {
   m2 = p$score(msr("surv.graf", t_max = 100))
   expect_equal(m1, m2)
 
-  s = survival::survfit(t$formula(1), data = t$data())
+  s = t$kaplan()
 
   t_max = s$time[which(1 - s$n.risk / s$n > 0.3)[1]]
 
   m1 = p$score(msr("surv.graf", t_max = t_max))
   m2 = p$score(msr("surv.graf", p_max = 0.3))
   expect_equal(m1, m2)
+})
+
+
+test_that("ERV works as expected", {
+  set.seed(1)
+  t = tsk("rats")$filter(sample(1:300, 50))
+  l = lrn("surv.kaplan")
+  p = l$train(t)$predict(t)
+  m = msr("surv.graf", ERV = TRUE)
+  expect_equal(as.numeric(p$score(m, task = t, train_set = t$row_ids)), 0)
+  expect_equal(as.numeric(resample(t, l, rsmp("holdout"))$aggregate(m)), 0)
+
+  set.seed(1)
+  t = tsk("rats")$filter(sample(1:300, 100))
+  l = lrn("surv.coxph")
+  p = suppressWarnings(l$train(t)$predict(t))
+  m = msr("surv.graf", ERV = TRUE)
+  expect_gt(as.numeric(p$score(m, task = t, train_set = t$row_ids)), 0)
+  expect_gt(suppressWarnings(as.numeric(resample(t, l, rsmp("holdout"))$
+    aggregate(m))), 0)
+
+  set.seed(1)
+  t = tsk("rats")$filter(sample(1:300, 50))
+  l = lrn("surv.kaplan")
+  p = l$train(t)$predict(t)
+  m = msr("surv.graf", ERV = TRUE, se = TRUE)
+  expect_error(p$score(m), "'task'")
+  expect_error(p$score(m, task = t, train_set = t$row_ids), "`se`")
 })

@@ -19,20 +19,17 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH",
     initialize = function() {
       super$initialize(
         id = "surv.coxph",
-        param_set = ParamSet$new(
-          params = list(
-            ParamFct$new(id = "ties", default = "efron", levels = c("efron", "breslow", "exact"),
-              tags = "train"),
-            ParamLgl$new(id = "singular.ok", default = TRUE, tags = "train"),
-            ParamFct$new(id = "type", default = "efron",
-              levels = c("efron", "aalen", "kalbfleisch-prentice"), tags = "predict"),
-            ParamInt$new(id = "stype", default = 2L, lower = 1L, upper = 2L, tags = "predict")
-          )
+        param_set = ps(
+          ties        = p_fct(default = "efron", levels = c("efron", "breslow", "exact"), tags = "train"),
+          singular.ok = p_lgl(default = TRUE, tags = "train"),
+          type        = p_fct(default = "efron", levels = c("efron", "aalen", "kalbfleisch-prentice"), tags = "predict"),
+          stype       = p_int(default = 2L, lower = 1L, upper = 2L, tags = "predict")
         ),
         predict_types = c("distr", "crank", "lp"),
         feature_types = c("logical", "integer", "numeric", "factor"),
         properties = "weights",
         packages = c("survival", "distr6"),
+        label = "Cox Proportional Hazards",
         man = "mlr3proba::mlr_learners_surv.coxph"
       )
     }
@@ -55,11 +52,11 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH",
 
       # We move the missingness checks here manually as if any NAs are made in predictions then the
       # distribution object cannot be create (initialization of distr6 objects does not handle NAs)
-      if (anyMissing(task$data(cols = task$feature_names))) {
+      if (anyMissing(newdata)) {
         stop(sprintf(
           "Learner %s on task %s failed to predict: Missing values in new data (line(s) %s)\n",
           self$id, task$id,
-          paste0(which(is.na(data.frame(task$data(cols = task$feature_names)))), collapse = ", ")))
+          paste0(which(!complete.cases(newdata)), collapse = ", ")))
       }
 
       pv = self$param_set$get_values(tags = "predict")

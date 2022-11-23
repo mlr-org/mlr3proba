@@ -1,47 +1,33 @@
 #' @title Get Survival Predict Types
 #' @description Internal helper function to easily return the correct survival predict types and to
-#' automatically coerce a predicted survival probability matrix to a
-#' [distr6::VectorDistribution] of [distr6::WeightedDiscrete] distributions.
+#' automatically coerce a predicted survival probability matrix to a [distr6::Matdist].
 #' @param times (`numeric()`) \cr Vector of survival times.
 #' @param surv (`matrix()`)\cr Matrix of predicted survival probabilities, rows are observations,
 #' columns are times. Number of columns should be equal to length of `times`.
 #' @param crank (`numeric()`)\cr Relative risk/continuous ranking. Higher value is associated
-#' with higher risk. If `NULL` then either set as `lp` if available or as the estimated
-#' survival expectation, computed by `colSums(surv)`.
+#' with higher risk. If `NULL` then either set as `-response` if available or
+#' `lp` if available (this assumes that the `lp` prediction comes from a PH type
+#' model - in case of an AFT model the user should provide `-lp`).
+#' In case neither `response` or `lp` are provided, then `crank` is calculated
+#' as the sum of the cumulative hazard function (expected mortality) derived from
+#' the predicted survival function (`surv`).
 #' @param lp (`numeric()`)\cr Predicted linear predictor, used to impute `crank` if `NULL`.
 #' @param response (`numeric()`)\cr Predicted survival time, passed through function without
 #' modification.
 #' @details
-#' To avoid complications caused by degenerative distributions, if `0` is not in `times`, then
-#' this is added as the first time-point and a column of `1`s is bound to the left of `surv`.
-#' Additionally if the final column of `surv` is not all `1`s, then an additional time is added
-#' as `max(times) + 1e-3` and a column of `1`s is bound to the right of `surv`.
+#' Uses [survivalmodels::surv_to_risk] to reduce survival matrices to relative
+#' risks / rankings if `crank` is NULL.
+#' @references
+#' Sonabend, R., Bender, A., & Vollmer, S. (2022). Avoiding C-hacking when
+#' evaluating survival distribution predictions with discrimination measures.
+#' Bioinformatics. https://doi.org/10.1093/BIOINFORMATICS/BTAC451
 #' @export
 .surv_return = function(times = NULL, surv = NULL, crank = NULL, lp = NULL, response = NULL) {
 
-  out = list()
-
-  if ((!is.null(times) && is.null(surv)) || (is.null(times) && !is.null(surv))) {
-    stop("Either both `times` and `surv` should be `NULL` or neither should be.")
-  } else if (is.null(times) && is.null(surv)) {
-    distr = NULL
-  } else {
-    # assume surv rows = observations and cols = times
+  if (!is.null(surv)) {
+    times <- times %||% colnames(surv)
     assert(length(times) == ncol(surv))
-
-    # add predictions at time = 0 if not already present
-    if (0 %nin% times) {
-      times = c(0, times)
-      surv = cbind(1, surv)
-    }
-
-    # add S(t) = 1 if not already present
-    if (!all(surv[, ncol(surv)] == numeric(nrow(surv)))) {
-      times = c(times, max(times) + 1e-3)
-      surv = cbind(surv, 0)
-    }
-    colnames(surv) = times
-    out$distr = surv
+    colnames(surv) <- times
   }
 
   if (is.null(crank)) {
@@ -53,14 +39,14 @@
       # assumes PH-type lp where high value = high risk
       crank = lp
     } else if (!is.null(surv)) {
-      # negative mean survival time
-      crank = -apply(1 - surv, 1, function(.x) sum(c(.x[1], diff(.x)) * times))
+      crank = survivalmodels::surv_to_risk(surv)
     }
   }
 
-  out$crank = crank
-  out$lp = lp
-  out$response = response
-
-  out
+  list(
+    distr = surv,
+    crank = crank,
+    lp = lp,
+    response = response
+  )
 }

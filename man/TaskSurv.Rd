@@ -30,6 +30,7 @@ task$status()
 task$unique_times()
 task$unique_event_times()
 task$risk_set(time = 700)
+task$kaplan("sex")
 }
 \seealso{
 Other Task: 
@@ -50,43 +51,44 @@ Returns the type of censoring, one of "right", "left", "counting", "interval", o
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{TaskSurv$new()}}
-\item \href{#method-truth}{\code{TaskSurv$truth()}}
-\item \href{#method-formula}{\code{TaskSurv$formula()}}
-\item \href{#method-times}{\code{TaskSurv$times()}}
-\item \href{#method-status}{\code{TaskSurv$status()}}
-\item \href{#method-unique_times}{\code{TaskSurv$unique_times()}}
-\item \href{#method-unique_event_times}{\code{TaskSurv$unique_event_times()}}
-\item \href{#method-risk_set}{\code{TaskSurv$risk_set()}}
-\item \href{#method-clone}{\code{TaskSurv$clone()}}
+\item \href{#method-TaskSurv-new}{\code{TaskSurv$new()}}
+\item \href{#method-TaskSurv-truth}{\code{TaskSurv$truth()}}
+\item \href{#method-TaskSurv-formula}{\code{TaskSurv$formula()}}
+\item \href{#method-TaskSurv-times}{\code{TaskSurv$times()}}
+\item \href{#method-TaskSurv-status}{\code{TaskSurv$status()}}
+\item \href{#method-TaskSurv-unique_times}{\code{TaskSurv$unique_times()}}
+\item \href{#method-TaskSurv-unique_event_times}{\code{TaskSurv$unique_event_times()}}
+\item \href{#method-TaskSurv-risk_set}{\code{TaskSurv$risk_set()}}
+\item \href{#method-TaskSurv-kaplan}{\code{TaskSurv$kaplan()}}
+\item \href{#method-TaskSurv-clone}{\code{TaskSurv$clone()}}
 }
 }
-\if{html}{
-\out{<details ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="add_strata">}\href{../../mlr3/html/Task.html#method-add_strata}{\code{mlr3::Task$add_strata()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="cbind">}\href{../../mlr3/html/Task.html#method-cbind}{\code{mlr3::Task$cbind()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="data">}\href{../../mlr3/html/Task.html#method-data}{\code{mlr3::Task$data()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="droplevels">}\href{../../mlr3/html/Task.html#method-droplevels}{\code{mlr3::Task$droplevels()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="filter">}\href{../../mlr3/html/Task.html#method-filter}{\code{mlr3::Task$filter()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="format">}\href{../../mlr3/html/Task.html#method-format}{\code{mlr3::Task$format()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="head">}\href{../../mlr3/html/Task.html#method-head}{\code{mlr3::Task$head()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="help">}\href{../../mlr3/html/Task.html#method-help}{\code{mlr3::Task$help()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="levels">}\href{../../mlr3/html/Task.html#method-levels}{\code{mlr3::Task$levels()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="missings">}\href{../../mlr3/html/Task.html#method-missings}{\code{mlr3::Task$missings()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="print">}\href{../../mlr3/html/Task.html#method-print}{\code{mlr3::Task$print()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rbind">}\href{../../mlr3/html/Task.html#method-rbind}{\code{mlr3::Task$rbind()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rename">}\href{../../mlr3/html/Task.html#method-rename}{\code{mlr3::Task$rename()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="select">}\href{../../mlr3/html/Task.html#method-select}{\code{mlr3::Task$select()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_col_roles">}\href{../../mlr3/html/Task.html#method-set_col_roles}{\code{mlr3::Task$set_col_roles()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_levels">}\href{../../mlr3/html/Task.html#method-set_levels}{\code{mlr3::Task$set_levels()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_row_roles">}\href{../../mlr3/html/Task.html#method-set_row_roles}{\code{mlr3::Task$set_row_roles()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="add_strata"><a href='../../mlr3/html/Task.html#method-Task-add_strata'><code>mlr3::Task$add_strata()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="cbind"><a href='../../mlr3/html/Task.html#method-Task-cbind'><code>mlr3::Task$cbind()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="data"><a href='../../mlr3/html/Task.html#method-Task-data'><code>mlr3::Task$data()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="droplevels"><a href='../../mlr3/html/Task.html#method-Task-droplevels'><code>mlr3::Task$droplevels()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="filter"><a href='../../mlr3/html/Task.html#method-Task-filter'><code>mlr3::Task$filter()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="format"><a href='../../mlr3/html/Task.html#method-Task-format'><code>mlr3::Task$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="head"><a href='../../mlr3/html/Task.html#method-Task-head'><code>mlr3::Task$head()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="help"><a href='../../mlr3/html/Task.html#method-Task-help'><code>mlr3::Task$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="levels"><a href='../../mlr3/html/Task.html#method-Task-levels'><code>mlr3::Task$levels()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="missings"><a href='../../mlr3/html/Task.html#method-Task-missings'><code>mlr3::Task$missings()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="print"><a href='../../mlr3/html/Task.html#method-Task-print'><code>mlr3::Task$print()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rbind"><a href='../../mlr3/html/Task.html#method-Task-rbind'><code>mlr3::Task$rbind()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rename"><a href='../../mlr3/html/Task.html#method-Task-rename'><code>mlr3::Task$rename()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="select"><a href='../../mlr3/html/Task.html#method-Task-select'><code>mlr3::Task$select()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_col_roles"><a href='../../mlr3/html/Task.html#method-Task-set_col_roles'><code>mlr3::Task$set_col_roles()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_levels"><a href='../../mlr3/html/Task.html#method-Task-set_levels'><code>mlr3::Task$set_levels()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_row_roles"><a href='../../mlr3/html/Task.html#method-Task-set_row_roles'><code>mlr3::Task$set_row_roles()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-TaskSurv-new"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskSurv-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
@@ -96,7 +98,8 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   time = "time",
   event = "event",
   time2,
-  type = c("right", "left", "interval", "counting", "interval2", "mstate")
+  type = c("right", "left", "interval", "counting", "interval2", "mstate"),
+  label = NA_character_
 )}\if{html}{\out{</div>}}
 }
 
@@ -126,13 +129,16 @@ Name of the column for ending time for interval censored data, otherwise ignored
 
 \item{\code{type}}{(\code{character(1)})\cr
 Name of the column giving the type of censoring. Default is 'right' censoring.}
+
+\item{\code{label}}{(\code{character(1)})\cr
+Label for the new instance.}
 }
 \if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-truth"></a>}}
-\if{latex}{\out{\hypertarget{method-truth}{}}}
+\if{html}{\out{<a id="method-TaskSurv-truth"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskSurv-truth}{}}}
 \subsection{Method \code{truth()}}{
 True response for specified \code{row_ids}. Format depends on the task type.
 Defaults to all rows with role "use".
@@ -153,8 +159,8 @@ Row indices.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-formula"></a>}}
-\if{latex}{\out{\hypertarget{method-formula}{}}}
+\if{html}{\out{<a id="method-TaskSurv-formula"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskSurv-formula}{}}}
 \subsection{Method \code{formula()}}{
 Creates a formula for survival models with \link[survival:Surv]{survival::Surv} on the LHS.
 \subsection{Usage}{
@@ -173,8 +179,8 @@ Creates a formula for survival models with \link[survival:Surv]{survival::Surv} 
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-times"></a>}}
-\if{latex}{\out{\hypertarget{method-times}{}}}
+\if{html}{\out{<a id="method-TaskSurv-times"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskSurv-times}{}}}
 \subsection{Method \code{times()}}{
 Returns the (unsorted) outcome times.
 \subsection{Usage}{
@@ -194,8 +200,8 @@ Row indices.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-status"></a>}}
-\if{latex}{\out{\hypertarget{method-status}{}}}
+\if{html}{\out{<a id="method-TaskSurv-status"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskSurv-status}{}}}
 \subsection{Method \code{status()}}{
 Returns the event indicator (aka censoring/survival indicator).
 If \code{censtype} is \code{"right"} or \code{"left"} then \code{1} is event and \code{0} is censored.
@@ -220,8 +226,8 @@ Row indices.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-unique_times"></a>}}
-\if{latex}{\out{\hypertarget{method-unique_times}{}}}
+\if{html}{\out{<a id="method-TaskSurv-unique_times"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskSurv-unique_times}{}}}
 \subsection{Method \code{unique_times()}}{
 Returns the sorted unique outcome times for 'right', 'left', and 'mcstate'.
 \subsection{Usage}{
@@ -241,8 +247,8 @@ Row indices.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-unique_event_times"></a>}}
-\if{latex}{\out{\hypertarget{method-unique_event_times}{}}}
+\if{html}{\out{<a id="method-TaskSurv-unique_event_times"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskSurv-unique_event_times}{}}}
 \subsection{Method \code{unique_event_times()}}{
 Returns the sorted unique event (or failure) outcome times.
 \subsection{Usage}{
@@ -262,8 +268,8 @@ Row indices.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-risk_set"></a>}}
-\if{latex}{\out{\hypertarget{method-risk_set}{}}}
+\if{html}{\out{<a id="method-TaskSurv-risk_set"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskSurv-risk_set}{}}}
 \subsection{Method \code{risk_set()}}{
 Returns the \code{row_ids} of the observations 'at risk' (not dead or censored) at \code{time}.
 \subsection{Usage}{
@@ -282,8 +288,35 @@ Returns the \code{row_ids} of the observations 'at risk' (not dead or censored) 
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-TaskSurv-kaplan"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskSurv-kaplan}{}}}
+\subsection{Method \code{kaplan()}}{
+Calls \code{\link[survival:survfit]{survival::survfit()}} to calculate the Kaplan-Meier estimator.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TaskSurv$kaplan(strata = NULL, rows = NULL, ...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{strata}}{(\code{character()})\cr
+Stratification variables to use.}
+
+\item{\code{rows}}{(\code{integer()})\cr
+Subset of row indices.}
+
+\item{\code{...}}{(any)\cr
+Additional arguments passed down to \code{\link[survival:survfit.formula]{survival::survfit.formula()}}.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\link[survival:survfit.object]{survival::survfit.object}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TaskSurv-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskSurv-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

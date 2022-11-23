@@ -5,6 +5,7 @@
 \alias{as_task_surv.TaskSurv}
 \alias{as_task_surv.data.frame}
 \alias{as_task_surv.DataBackend}
+\alias{as_task_surv.formula}
 \title{Convert to a Survival Task}
 \usage{
 as_task_surv(x, ...)
@@ -30,6 +31,8 @@ as_task_surv(x, ...)
   id = deparse(substitute(x)),
   ...
 )
+
+\method{as_task_surv}{formula}(x, data, id = deparse(substitute(data)), ...)
 }
 \arguments{
 \item{x}{(\code{any})\cr
@@ -61,6 +64,9 @@ Name of the column giving the type of censoring. Default is 'right' censoring.}
 \item{id}{(\code{character(1)})\cr
 Id for the new task.
 Defaults to the (deparsed and substituted) name of \code{x}.}
+
+\item{data}{(\code{data.frame()})\cr
+Data frame containing all columns referenced in formula \code{x}.}
 }
 \description{
 Convert object to a survival task (\link{TaskSurv}).

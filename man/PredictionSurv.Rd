@@ -32,7 +32,7 @@ True (observed) outcome.}
 \item{\code{crank}}{(\code{numeric()})\cr
 Access the stored predicted continuous ranking.}
 
-\item{\code{distr}}{(\link[distr6:VectorDistribution]{VectorDistribution})\cr
+\item{\code{distr}}{(\link[distr6:Matdist]{distr6::Matdist}|\link[distr6:VectorDistribution]{distr6::VectorDistribution})\cr
 Convert the stored survival matrix to a survival distribution.}
 
 \item{\code{lp}}{(\code{numeric()})\cr
@@ -46,24 +46,24 @@ Access the stored predicted survival time.}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{PredictionSurv$new()}}
-\item \href{#method-clone}{\code{PredictionSurv$clone()}}
+\item \href{#method-PredictionSurv-new}{\code{PredictionSurv$new()}}
+\item \href{#method-PredictionSurv-clone}{\code{PredictionSurv$clone()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="filter">}\href{../../mlr3/html/Prediction.html#method-filter}{\code{mlr3::Prediction$filter()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="format">}\href{../../mlr3/html/Prediction.html#method-format}{\code{mlr3::Prediction$format()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="help">}\href{../../mlr3/html/Prediction.html#method-help}{\code{mlr3::Prediction$help()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="print">}\href{../../mlr3/html/Prediction.html#method-print}{\code{mlr3::Prediction$print()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="score">}\href{../../mlr3/html/Prediction.html#method-score}{\code{mlr3::Prediction$score()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="filter"><a href='../../mlr3/html/Prediction.html#method-Prediction-filter'><code>mlr3::Prediction$filter()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="format"><a href='../../mlr3/html/Prediction.html#method-Prediction-format'><code>mlr3::Prediction$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="help"><a href='../../mlr3/html/Prediction.html#method-Prediction-help'><code>mlr3::Prediction$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="print"><a href='../../mlr3/html/Prediction.html#method-Prediction-print'><code>mlr3::Prediction$print()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="score"><a href='../../mlr3/html/Prediction.html#method-Prediction-score'><code>mlr3::Prediction$score()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-PredictionSurv-new"></a>}}
+\if{latex}{\out{\hypertarget{method-PredictionSurv-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
@@ -96,8 +96,9 @@ Numeric vector of predicted continuous rankings (or relative risks). One element
 observation in the test set. For a pair of continuous ranks, a higher rank indicates that
 the observation is more likely to experience the event.}
 
-\item{\code{distr}}{(\verb{matrix()|[distr6::VectorDistribution]})\cr
-Either a matrix of predicted survival probabilities or a \link[distr6:VectorDistribution]{distr6::VectorDistribution}.
+\item{\code{distr}}{(\verb{matrix()|[distr6::Matdist]|[distr6::VectorDistribution]})\cr
+Either a matrix of predicted survival probabilities or a \link[distr6:VectorDistribution]{distr6::VectorDistribution}
+or a \link[distr6:Matdist]{distr6::Matdist}.
 If a matrix then column names must be given and correspond to survival times.
 Rows of matrix correspond to individual predictions. It is advised that the
 first column should be time \code{0} with all entries \code{1} and the last
@@ -120,8 +121,8 @@ If \code{TRUE}, performs argument checks and predict type conversions.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-PredictionSurv-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-PredictionSurv-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

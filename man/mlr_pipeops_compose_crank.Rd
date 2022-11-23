@@ -11,10 +11,12 @@ Uses a predicted \code{distr} in a \link{PredictionSurv} to estimate (or 'compos
 
 This \link[mlr3pipelines:PipeOp]{PipeOp} can be instantiated via the
 \link[mlr3misc:Dictionary]{dictionary} \link[mlr3pipelines:mlr_pipeops]{mlr3pipelines::mlr_pipeops} or with the associated sugar
-function \code{\link[mlr3pipelines:po]{mlr3pipelines::po()}}:\preformatted{PipeOpCrankCompositor$new()
+function \code{\link[mlr3pipelines:po]{mlr3pipelines::po()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{PipeOpCrankCompositor$new()
 mlr_pipeops$get("crankcompose")
 po("crankcompose")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Input and Output Channels}{
@@ -39,10 +41,11 @@ The \verb{$state} is left empty (\code{list()}).
 \itemize{
 \item \code{method} :: \code{character(1)} \cr
 Determines what method should be used to produce a continuous ranking from the distribution.
-One of \code{median}, \code{mode}, or \code{mean} corresponding to the respective functions in the predicted
-survival distribution. Note that for models with a proportional hazards form, the ranking
-implied by \code{mean} and \code{median} will be identical (but not the value of \code{crank} itself).
-Default is \code{mean}.
+One of \code{sum_haz}, \code{median}, \code{mode}, or \code{mean} corresponding to the
+respective functions in the predicted survival distribution. Note that
+for models with a proportional hazards form, the ranking implied by
+\code{mean} and \code{median} will be identical (but not the value of \code{crank}
+itself). \code{sum_haz} (default) uses \code{\link[survivalmodels:surv_to_risk]{survivalmodels::surv_to_risk()}}.
 \item \code{which} :: \code{numeric(1)}\cr
 If \code{method = "mode"} then specifies which mode to use if multi-modal, default is the first.
 \item \code{response} :: \code{logical(1)}\cr
@@ -68,12 +71,12 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   task = tsk("rats")
 
   learn = lrn("surv.coxph")$train(task)$predict(task)
-  poc = po("crankcompose", param_vals = list(method = "median"))
+  poc = po("crankcompose", param_vals = list(method = "sum_haz"))
   poc$predict(list(learn))[[1]]
 
   if (requireNamespace("cubature", quietly = TRUE)) {
     learn = lrn("surv.coxph")$train(task)$predict(task)
-    poc = po("crankcompose", param_vals = list(method = "mean"))
+    poc = po("crankcompose", param_vals = list(method = "sum_haz"))
     poc$predict(list(learn))[[1]]
   }
 }
@@ -92,28 +95,29 @@ Other survival compositors:
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{PipeOpCrankCompositor$new()}}
-\item \href{#method-clone}{\code{PipeOpCrankCompositor$clone()}}
+\item \href{#method-PipeOpCrankCompositor-new}{\code{PipeOpCrankCompositor$new()}}
+\item \href{#method-PipeOpCrankCompositor-clone}{\code{PipeOpCrankCompositor$clone()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="predict">}\href{../../mlr3pipelines/html/PipeOp.html#method-predict}{\code{mlr3pipelines::PipeOp$predict()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="print">}\href{../../mlr3pipelines/html/PipeOp.html#method-print}{\code{mlr3pipelines::PipeOp$print()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="train">}\href{../../mlr3pipelines/html/PipeOp.html#method-train}{\code{mlr3pipelines::PipeOp$train()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="help"><a href='../../mlr3pipelines/html/PipeOp.html#method-PipeOp-help'><code>mlr3pipelines::PipeOp$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="predict"><a href='../../mlr3pipelines/html/PipeOp.html#method-PipeOp-predict'><code>mlr3pipelines::PipeOp$predict()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="print"><a href='../../mlr3pipelines/html/PipeOp.html#method-PipeOp-print'><code>mlr3pipelines::PipeOp$print()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="train"><a href='../../mlr3pipelines/html/PipeOp.html#method-PipeOp-train'><code>mlr3pipelines::PipeOp$train()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-PipeOpCrankCompositor-new"></a>}}
+\if{latex}{\out{\hypertarget{method-PipeOpCrankCompositor-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{PipeOpCrankCompositor$new(
   id = "compose_crank",
-  param_vals = list(method = "mean", response = FALSE, overwrite = FALSE)
+  param_vals = list(method = "sum_haz", response = FALSE, overwrite = FALSE)
 )}\if{html}{\out{</div>}}
 }
 
@@ -131,8 +135,8 @@ otherwise be set during construction.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-PipeOpCrankCompositor-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-PipeOpCrankCompositor-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

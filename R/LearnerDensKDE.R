@@ -17,14 +17,11 @@ LearnerDensKDE = R6::R6Class("LearnerDensKDE",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      ps = ParamSet$new(list(
-        ParamFct$new("kernel",
-          levels = subset(distr6::listKernels(),
-            select = "ShortName")[[1]],
+      ps = ps(
+        kernel = p_fct(levels = subset(distr6::listKernels(), select = "ShortName")[[1]],
           default = "Epan", tags = "train"),
-        ParamDbl$new("bandwidth",
-          lower = 0, tags = "train",
-          special_vals = list("silver"))))
+        bandwidth = p_dbl(lower = 0, tags = "train", special_vals = list("silver"))
+      )
 
       ps$values = list(kernel = "Epan", bandwidth = "silver")
 
@@ -35,6 +32,7 @@ LearnerDensKDE = R6::R6Class("LearnerDensKDE",
         feature_types = c("integer", "numeric"),
         properties = "missings",
         packages = "distr6",
+        label = "Kernel Density Estimator",
         man = "mlr3proba::mlr_learners_dens.kde"
       )
     }

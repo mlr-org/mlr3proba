@@ -33,6 +33,7 @@
 #' task$unique_times()
 #' task$unique_event_times()
 #' task$risk_set(time = 700)
+#' task$kaplan("sex")
 TaskSurv = R6::R6Class("TaskSurv",
   inherit = TaskSupervised,
   public = list(
@@ -43,8 +44,11 @@ TaskSurv = R6::R6Class("TaskSurv",
     #' @template param_event
     #' @template param_time2
     #' @template param_type
+    #' @param label (`character(1)`)\cr
+    #'   Label for the new instance.
     initialize = function(id, backend, time = "time", event = "event", time2,
-      type = c("right", "left", "interval", "counting", "interval2", "mstate")) {
+      type = c("right", "left", "interval", "counting", "interval2", "mstate"),
+      label = NA_character_) {
 
       type = match.arg(type)
 
@@ -66,15 +70,15 @@ TaskSurv = R6::R6Class("TaskSurv",
       if (type %in% c("right", "left", "mstate")) {
         super$initialize(
           id = id, task_type = "surv", backend = backend,
-          target = c(time, event))
+          target = c(time, event), label = label)
       } else if (type %in% c("interval", "counting")) {
         super$initialize(
           id = id, task_type = "surv", backend = backend,
-          target = c(time, time2, event))
+          target = c(time, time2, event), label = label)
       } else {
         super$initialize(
           id = id, task_type = "surv", backend = backend,
-          target = c(time, time2))
+          target = c(time, time2), label = label)
       }
     },
 
@@ -190,6 +194,24 @@ TaskSurv = R6::R6Class("TaskSurv",
       } else {
         self$row_ids[self$times() >= time]
       }
+    },
+
+    #' @description
+    #' Calls [survival::survfit()] to calculate the Kaplan-Meier estimator.
+    #'
+    #' @param strata (`character()`)\cr
+    #'   Stratification variables to use.
+    #' @param rows (`integer()`)\cr
+    #'   Subset of row indices.
+    #' @param ... (any)\cr
+    #'   Additional arguments passed down to [survival::survfit.formula()].
+    #' @return [survival::survfit.object].
+    kaplan = function(strata = NULL, rows = NULL, ...) {
+      assert_character(strata, null.ok = TRUE)
+      f = self$formula(strata %??% 1)
+      cols = c(self$target_names, intersect(self$backend$colnames, strata))
+      data = self$data(cols = cols, rows = rows)
+      survival::survfit(f, data = data, ...)
     }
   ),
 

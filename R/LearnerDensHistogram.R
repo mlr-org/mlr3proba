@@ -12,13 +12,13 @@ LearnerDensHistogram = R6::R6Class("LearnerDensHistogram",
     initialize = function() {
       super$initialize(
         id = "dens.hist",
-        param_set = ParamSet$new(
-          params = list(
-            ParamUty$new(id = "breaks", default = "Sturges", tags = "train")
-        )),
+        param_set = ps(
+          breaks = p_uty(default = "Sturges", tags = "train")
+        ),
         feature_types = c("integer", "numeric"),
         predict_types = c("pdf", "cdf", "distr"),
         packages = "distr6",
+        label = "Histogram Density Estimator",
         man = "mlr3proba::mlr_learners_dens.hist"
       )
     }
@@ -26,7 +26,7 @@ LearnerDensHistogram = R6::R6Class("LearnerDensHistogram",
 
   private = list(
     .train = function(task) {
-      pars = self$param_set$get_values(tag = "train")
+      pars = self$param_set$get_values(tags = "train")
       fit = invoke(.histogram, dat = task$data()[[1]], .args = pars)
       set_class(list(distr = fit$distr, hist = fit$hist), "dens.hist")
     },

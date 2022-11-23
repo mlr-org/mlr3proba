@@ -19,8 +19,12 @@
 columns are times. Number of columns should be equal to length of \code{times}.}
 
 \item{crank}{(\code{numeric()})\cr Relative risk/continuous ranking. Higher value is associated
-with higher risk. If \code{NULL} then either set as \code{lp} if available or as the estimated
-survival expectation, computed by \code{colSums(surv)}.}
+with higher risk. If \code{NULL} then either set as \code{-response} if available or
+\code{lp} if available (this assumes that the \code{lp} prediction comes from a PH type
+model - in case of an AFT model the user should provide \code{-lp}).
+In case neither \code{response} or \code{lp} are provided, then \code{crank} is calculated
+as the sum of the cumulative hazard function (expected mortality) derived from
+the predicted survival function (\code{surv}).}
 
 \item{lp}{(\code{numeric()})\cr Predicted linear predictor, used to impute \code{crank} if \code{NULL}.}
 
@@ -29,12 +33,14 @@ modification.}
 }
 \description{
 Internal helper function to easily return the correct survival predict types and to
-automatically coerce a predicted survival probability matrix to a
-\link[distr6:VectorDistribution]{distr6::VectorDistribution} of \link[distr6:WeightedDiscrete]{distr6::WeightedDiscrete} distributions.
+automatically coerce a predicted survival probability matrix to a \link[distr6:Matdist]{distr6::Matdist}.
 }
 \details{
-To avoid complications caused by degenerative distributions, if \code{0} is not in \code{times}, then
-this is added as the first time-point and a column of \code{1}s is bound to the left of \code{surv}.
-Additionally if the final column of \code{surv} is not all \code{1}s, then an additional time is added
-as \code{max(times) + 1e-3} and a column of \code{1}s is bound to the right of \code{surv}.
+Uses \link[survivalmodels:surv_to_risk]{survivalmodels::surv_to_risk} to reduce survival matrices to relative
+risks / rankings if \code{crank} is NULL.
+}
+\references{
+Sonabend, R., Bender, A., & Vollmer, S. (2022). Avoiding C-hacking when
+evaluating survival distribution predictions with discrimination measures.
+Bioinformatics. https://doi.org/10.1093/BIOINFORMATICS/BTAC451
 }

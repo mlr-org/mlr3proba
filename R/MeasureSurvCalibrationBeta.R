@@ -35,6 +35,7 @@ MeasureSurvCalibrationBeta = R6Class("MeasureSurvCalibrationBeta",
         range = c(-Inf, Inf),
         minimize = FALSE,
         predict_type = "lp",
+        label = "Van Houwelingen's Beta",
         man = "mlr3proba::mlr_measures_surv.calib_beta",
         param_set = ps
       )

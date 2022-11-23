@@ -26,6 +26,7 @@ MeasureSurvXuR2 = R6Class("MeasureSurvXuR2",
         packages = "survAUC",
         predict_type = "lp",
         properties = c("requires_task", "requires_train_set"),
+        label = "Xu and O'Quigley's R2",
         man = "mlr3proba::mlr_measures_surv.xu_r2"
       )
     }

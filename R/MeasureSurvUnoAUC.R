@@ -32,6 +32,7 @@ MeasureSurvUnoAUC = R6Class("MeasureSurvUnoAUC",
         param_set = ps,
         id = "surv.uno_auc",
         properties = c("requires_task", "requires_train_set"),
+        label = "Uno's AUC",
         man = "mlr3proba::mlr_measures_surv.uno_auc"
       )
     }
@@ -49,12 +50,18 @@ MeasureSurvUnoAUC = R6Class("MeasureSurvUnoAUC",
         }
       }
 
-      super$.score(
+      x = super$.score(
         prediction = prediction,
         task = task,
         train_set = train_set,
         FUN = survAUC::AUC.uno,
-        ...)
+        ...
+      )
+      if (is.list(x)) {
+        x$iauc
+      } else {
+        x
+      }
     }
   )
 )

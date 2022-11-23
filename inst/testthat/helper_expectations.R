@@ -22,17 +22,16 @@ expect_task_surv = function(task) {
   f = task$formula()
   expect_formula(f)
   expect_set_equal(mlr3misc::extract_vars(f)$lhs, task$target_names)
-  #  expect_is(task$survfit(), "survfit")
+  expect_is(task$kaplan(), "survfit")
 }
 
 expect_prediction_surv = function(p) {
   checkmate::expect_r6(p, "Prediction", public = c("row_ids", "truth", "predict_types",
                                                    "response", "distr", "lp", "crank"))
-  #testthat::expect_output(print(p), "^<Prediction")
   checkmate::expect_data_table(data.table::as.data.table(p), nrows  = length(p$row_ids))
   checkmate::expect_atomic_vector(p$missing)
   if ("distr" %in% p$predict_types) {
-    checkmate::expect_class(p$distr, "VectorDistribution")
+    expect_true(class(p$distr)[[1]] %in% c("VectorDistribution", "Matdist"))
   }
   expect_true(inherits(p, "PredictionSurv"))
 }
