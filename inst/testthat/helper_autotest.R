@@ -79,4 +79,5 @@ sanity_check.PredictionSurv = function(prediction, ...) { # nolint
 
   x
 }
+
 registerS3method("sanity_check", "PredictionSurv", sanity_check.PredictionSurv)
