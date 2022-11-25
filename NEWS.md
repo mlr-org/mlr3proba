@@ -1,3 +1,8 @@
+# mlr3proba 0.4.14
+
+* Fix bug in converting distr6 distributions to matrices when creating `PredictionSurv`
+* Fix bug in RCLL
+
 # mlr3proba 0.4.13
 
 * Fix minor bug in 'SG' cindex method

@@ -144,6 +144,7 @@ PredictionSurv = R6Class("PredictionSurv",
 
         surv = 1 - do.call(rbind, x$getParameterValue("cdf"))
         rownames(surv) = NULL
+        colnames(surv) = time1
         surv
       }
     },
