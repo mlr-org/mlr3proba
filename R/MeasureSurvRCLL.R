@@ -58,9 +58,9 @@ MeasureSurvRCLL = R6::R6Class("MeasureSurvRCLL",
       event = truth[, 2] == 1
 
       # uncensored -> pdf at outcome time (survived *this* long)
-      out[event] = diag(prediction$distr$pdf(truth[event, 1]))
+      out[event] = diag(as.matrix(prediction$distr$pdf(truth[event, 1])))
       # censored -> survival at outcome time (survived *at least* this long)
-      out[!event] = diag(prediction$distr$survival(truth[!event, 1]))
+      out[!event] = diag(as.matrix(prediction$distr$survival(truth[!event, 1])))
       # prevent infinite log errors
       out[out == 0] = self$param_set$values$eps
 
