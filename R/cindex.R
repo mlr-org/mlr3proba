@@ -1,6 +1,6 @@
 cindex = function(truth, crank, cutoff = NULL,
   weight_meth = c("I", "G", "G2", "SG", "S"),
-  tiex = 0.5, train = NULL) {
+  tiex = 0.5, train = NULL, eps = 1e-3) {
 
   if (length(unique(crank)) == 1) {
     return(0.5)
@@ -19,7 +19,7 @@ cindex = function(truth, crank, cutoff = NULL,
   weight_meth = match.arg(weight_meth)
 
   if (weight_meth %in% c("I", "S")) {
-    cens = matrix()
+    cens = matrix(ncol = 2)
   } else {
     cens = survival::survfit(Surv(train[, "time"], 1 - train[, "status"]) ~ 1)
     cens = matrix(c(cens$time, cens$surv), ncol = 2)
@@ -29,12 +29,15 @@ cindex = function(truth, crank, cutoff = NULL,
     surv = survival::survfit(train ~ 1)
     surv = matrix(c(surv$time, surv$surv), ncol = 2)
   } else {
-    surv = matrix()
+    surv = matrix(ncol = 2)
   }
 
   if (is.null(cutoff)) {
     cutoff = max(time) + 1
   }
+
+  cens[cens[, 2] == 0, 2] = eps
+  surv[surv[, 2] == 0, 2] = eps
 
   c_concordance(time, status, crank[ord], cutoff, weight_meth, cens, surv, tiex)
 }
