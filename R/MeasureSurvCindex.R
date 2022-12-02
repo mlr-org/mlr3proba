@@ -33,6 +33,7 @@
 #' @template param_minimize
 #' @template param_packages
 #' @template param_predict_type
+#' @template param_eps
 #' @template param_measure_properties
 #' @export
 MeasureSurvCindex = R6Class("MeasureSurvCindex",
@@ -49,7 +50,8 @@ MeasureSurvCindex = R6Class("MeasureSurvCindex",
       ps = ps(
         cutoff = p_dbl(),
         weight_meth = p_fct(levels = c("I", "G", "G2", "SG", "S", "GH"), default = "I"),
-        tiex = p_dbl(0, 1, default = 0.5)
+        tiex = p_dbl(0, 1, default = 0.5),
+        eps = p_dbl(0, 1, default = 1e-3)
       )
       ps$values = list(weight_meth = "I", tiex = 0.5)
 
@@ -81,7 +83,7 @@ MeasureSurvCindex = R6Class("MeasureSurvCindex",
           stop("'task' and 'train_set' required for all weighted c-index (except GH).")
         }
         return(cindex(prediction$truth, prediction$crank, ps$cutoff, ps$weight_meth,
-          ps$tiex, task$truth(train_set)))
+          ps$tiex, task$truth(train_set), ps$eps))
       }
     }
   )
