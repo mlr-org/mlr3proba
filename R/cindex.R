@@ -19,7 +19,7 @@ cindex = function(truth, crank, cutoff = NULL,
   weight_meth = match.arg(weight_meth)
 
   if (weight_meth %in% c("I", "S")) {
-    cens = matrix()
+    cens = matrix(ncol = 2)
   } else {
     cens = survival::survfit(Surv(train[, "time"], 1 - train[, "status"]) ~ 1)
     cens = matrix(c(cens$time, cens$surv), ncol = 2)
