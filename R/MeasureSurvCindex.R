@@ -53,7 +53,7 @@ MeasureSurvCindex = R6Class("MeasureSurvCindex",
         tiex = p_dbl(0, 1, default = 0.5),
         eps = p_dbl(0, 1, default = 1e-3)
       )
-      ps$values = list(weight_meth = "I", tiex = 0.5)
+      ps$values = list(weight_meth = "I", tiex = 0.5, eps = 1e-3)
 
       super$initialize(
         id = "surv.cindex",
