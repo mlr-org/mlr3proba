@@ -17,7 +17,7 @@ Package website: [release](https://mlr3proba.mlr-org.com/) | [dev](https://mlr3p
 Probabilistic Supervised Learning for **[mlr3](https://github.com/mlr-org/mlr3/)**.
 
 <!-- badges: start -->
-[![tic](https://github.com/mlr-org/mlr3proba/workflows/tic/badge.svg?branch=main)](https://github.com/mlr-org/mlr3proba/actions)
+[![r-cmd-check](https://github.com/mlr-org/mlr3proba/actions/workflows/r-cmd-check.yml/badge.svg)](https://github.com/mlr-org/mlr3proba/actions/workflows/r-cmd-check.yml)
 [![CodeFactor](https://www.codefactor.io/repository/github/mlr-org/mlr3proba/badge)](https://www.codefactor.io/repository/github/mlr-org/mlr3proba)
 [![cran checks](https://cranchecks.info/badges/worst/mlr3proba)](https://cran.r-project.org/web/checks/check_results_mlr3proba.html)
 [![Article](https://img.shields.io/badge/Article-10.1093%2Fbioinformatics%2Fbtab039-brightgreen)](https://doi.org/10.1093/bioinformatics/btab039)
@@ -67,7 +67,7 @@ The density and probabilistic supervised regression tasks are currently in the e
 
 ### Install from r-universe:
 
-```{r eval=false}
+```{r eval=FALSE}
 options(repos=c(
   mlrorg = 'https://mlr-org.r-universe.dev',
   raphaels1 = 'https://raphaels1.r-universe.dev',
@@ -78,7 +78,7 @@ install.packages("mlr3proba")
 
 or
 
-```{r eval=false}
+```{r eval=FALSE}
 install.packages("mlr3proba", repos = "https://mlr-org.r-universe.dev")
 ```
 
@@ -86,7 +86,7 @@ install.packages("mlr3proba", repos = "https://mlr-org.r-universe.dev")
 
 1. Run `usethis::edit_r_environ()` then in the file that opened add or edit `options` to look something like
 
-```{r eval=false}
+```{r eval=FALSE}
 options(repos = c(
        raphaels1 = "https://raphaels1.r-universe.dev",
        mlrorg = "https://mlr-org.r-universe.dev",
@@ -99,7 +99,7 @@ options(repos = c(
 
 ### Install from GitHub:
 
-```{r eval=false}
+```{r eval=FALSE}
 remotes::install_github("mlr-org/mlr3proba")
 ```
 

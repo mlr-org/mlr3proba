@@ -9,8 +9,10 @@ Probabilistic Supervised Learning for
 
 <!-- badges: start -->
 
-[![tic](https://github.com/mlr-org/mlr3proba/workflows/tic/badge.svg?branch=main)](https://github.com/mlr-org/mlr3proba/actions)
+[![r-cmd-check](https://github.com/mlr-org/mlr3proba/actions/workflows/r-cmd-check.yml/badge.svg)](https://github.com/mlr-org/mlr3proba/actions/workflows/r-cmd-check.yml)
 [![CodeFactor](https://www.codefactor.io/repository/github/mlr-org/mlr3proba/badge)](https://www.codefactor.io/repository/github/mlr-org/mlr3proba)
+[![cran
+checks](https://cranchecks.info/badges/worst/mlr3proba)](https://cran.r-project.org/web/checks/check_results_mlr3proba.html)
 [![Article](https://img.shields.io/badge/Article-10.1093%2Fbioinformatics%2Fbtab039-brightgreen)](https://doi.org/10.1093/bioinformatics/btab039)
 [![StackOverflow](https://img.shields.io/badge/stackoverflow-mlr3-orange.svg)](https://stackoverflow.com/questions/tagged/mlr3)
 [![Mattermost](https://img.shields.io/badge/chat-mattermost-orange.svg)](https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/)
@@ -77,11 +79,13 @@ are very welcome (see
 
 ## Installation
 
-`mlr3proba` is not on CRAN and is unlikely to be reuploaded (see [here](https://twitter.com/RaphaelS101/status/1506321623250571265) for reasons). As such you must install with one of the following methods:
+`mlr3proba` is not on CRAN and is unlikely to be reuploaded (see
+[here](https://twitter.com/RaphaelS101/status/1506321623250571265) for
+reasons). As such you must install with one of the following methods:
 
 ### Install from r-universe:
 
-```R
+``` r
 options(repos=c(
   mlrorg = 'https://mlr-org.r-universe.dev',
   raphaels1 = 'https://raphaels1.r-universe.dev',
@@ -92,15 +96,18 @@ install.packages("mlr3proba")
 
 or
 
-```R
+``` r
 install.packages("mlr3proba", repos = "https://mlr-org.r-universe.dev")
 ```
 
 ### Or for easier installation going forward:
 
-1. Run `usethis::edit_r_environ()` then in the file that opened add or edit `options` to look something like
+1.  Run `usethis::edit_r_environ()` then in the file that opened add or
+    edit `options` to look something like
 
-```R
+<!-- end list -->
+
+``` r
 options(repos = c(
        raphaels1 = "https://raphaels1.r-universe.dev",
        mlrorg = "https://mlr-org.r-universe.dev",
@@ -108,8 +115,8 @@ options(repos = c(
 ))
 ```
 
-2. Save and close the file, restart your R session
-3. Run `install.packages("mlr3proba")` as usual
+2.  Save and close the file, restart your R session
+3.  Run `install.packages("mlr3proba")` as usual
 
 ### Install from GitHub:
 
