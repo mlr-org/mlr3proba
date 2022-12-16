@@ -1,3 +1,7 @@
+# mlr3proba 0.4.16
+
+* Fix bug in `surv.logloss` when using `IPCW = TRUE`
+
 # mlr3proba 0.4.15
 
 * Fix bug in `surv.cindex` caused when probability of censoring was 0. Added `eps` parameter to control this.
