@@ -9,19 +9,18 @@ surv_logloss = function(truth, distribution, eps = 1e-15, IPCW = TRUE, train = N
 
   if (!IPCW) {
     # set any '0' predictions to a small non-zero value (to avoid log(0))
+    # return -log(pdf) for all predictions
     pred[pred == 0] = eps
     return(-log(pred))
   }
 
-  pred = as.numeric(pred)[truth[, 2] == 1]
+  # Estimate censoring distribution
 
   if (is.null(train)) {
     cens = survival::survfit(Surv(truth[, "time"], 1 - truth[, "status"]) ~ 1)
   } else {
     cens = survival::survfit(Surv(train[, "time"], 1 - train[, "status"]) ~ 1)
   }
-
-  truth = truth[truth[, 2] == 1, 1]
 
   surv = matrix(rep(cens$surv, length(truth)), ncol = length(cens$time),
                 nrow = length(truth), byrow = TRUE)
@@ -30,17 +29,28 @@ surv_logloss = function(truth, distribution, eps = 1e-15, IPCW = TRUE, train = N
     fun = "cdf", decorators = c("CoreStatistics", "ExoticStatistics")
   )
 
+  # Remove all censored observations
+
+  uncensored = truth[, 2] == 1
+  pred = as.numeric(pred)[uncensored]
+  truth = truth[uncensored, 1]
+  distribution = distribution[uncensored]
+
   if (inherits(distribution, "Matdist")) {
     cens = diag(distribution$survival(truth))
   } else {
     cens = as.numeric(distribution$survival(data = matrix(truth, nrow = 1)))
   }
+
   # avoid divide by 0 errors
   cens[cens == 0] = eps
 
+  # apply IPCW
   pred = pred / cens
 
+  # avoid log 0 errors
   pred[pred == 0] = eps
+
   # return negative log-likelihood
   -log(pred)
 }
