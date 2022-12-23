@@ -45,7 +45,6 @@ Imports:
     data.table,
     distr6 (>= 1.6.11),
     ggplot2,
-    mlr3misc (>= 0.7.0),
     mlr3viz,
     paradox (>= 0.1.0),
     R6,
@@ -79,7 +78,7 @@ Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
 Roxygen: list(markdown = TRUE, r6 = TRUE)
-RoxygenNote: 7.2.2
+RoxygenNote: 7.2.3
 Collate:
     'LearnerDens.R'
     'LearnerDensHistogram.R'

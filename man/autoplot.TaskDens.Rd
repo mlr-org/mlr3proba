@@ -4,7 +4,7 @@
 \alias{autoplot.TaskDens}
 \title{Plot for Density Tasks}
 \usage{
-\method{autoplot}{TaskDens}(object, type = "dens", ...)
+\method{autoplot}{TaskDens}(object, type = "dens", theme = theme_minimal(), ...)
 }
 \arguments{
 \item{object}{(\link{TaskDens}).}
@@ -19,6 +19,9 @@ Type of the plot. Available choices:
 \item \code{"freqpoly"}: frequency polygon plot with \code{ggplot2::geom_freqpoly}.
 }}
 
+\item{theme}{(\code{\link[ggplot2:theme]{ggplot2::theme()}})\cr
+The \code{\link[ggplot2:ggtheme]{ggplot2::theme_minimal()}} is applied by default to all plots.}
+
 \item{...}{(\code{any}):
 Additional arguments, possibly passed down to the underlying plot functions.}
 }
@@ -28,13 +31,6 @@ Additional arguments, possibly passed down to the underlying plot functions.}
 \description{
 Generates plots for \link{TaskDens}.
 }
-\section{Theme}{
-
-The \code{\link[=theme_mlr3]{theme_mlr3()}} and viridis color maps are applied by default to all
-\code{autoplot()} methods. To change this behavior set
-\code{options(mlr3.theme = FALSE)}.
-}
-
 \examples{
 library(mlr3)
 library(mlr3proba)

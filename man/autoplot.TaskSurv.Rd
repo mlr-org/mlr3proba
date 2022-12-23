@@ -4,13 +4,16 @@
 \alias{autoplot.TaskSurv}
 \title{Plot for Survival Tasks}
 \usage{
-\method{autoplot}{TaskSurv}(object, type = "target", ...)
+\method{autoplot}{TaskSurv}(object, type = "target", theme = theme_minimal(), ...)
 }
 \arguments{
 \item{object}{(\link{TaskSurv}).}
 
 \item{type}{(\code{character(1)}):\cr
 Type of the plot. Available choices:}
+
+\item{theme}{(\code{\link[ggplot2:theme]{ggplot2::theme()}})\cr
+The \code{\link[ggplot2:ggtheme]{ggplot2::theme_minimal()}} is applied by default to all plots.}
 
 \item{...}{(\code{any}):
 Additional arguments.
@@ -32,13 +35,6 @@ Generates plots for \link{TaskSurv}, depending on argument \code{type}:
 Color is set to target column.
 }
 }
-\section{Theme}{
-
-The \code{\link[=theme_mlr3]{theme_mlr3()}} and viridis color maps are applied by default to all
-\code{autoplot()} methods. To change this behavior set
-\code{options(mlr3.theme = FALSE)}.
-}
-
 \examples{
 library(mlr3)
 library(mlr3viz)
