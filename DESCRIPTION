@@ -156,7 +156,6 @@ Collate:
     'pecs.R'
     'pipelines.R'
     'plot.R'
-    'reexport.R'
     'scoring_rule_erv.R'
     'surv_measures.R'
     'surv_return.R'
