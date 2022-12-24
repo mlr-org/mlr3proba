@@ -122,6 +122,7 @@ predicted median survival time. A model is D-calibrated if the resulting plot li
 <span>  times <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  xyline <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  cuts <span class="op">=</span> <span class="fl">11L</span>,</span>
+<span>  theme <span class="op">=</span> <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -163,19 +164,16 @@ If <code>TRUE</code> (default) plots the x-y line for <code>type = "dcalib"</cod
 Number of cuts in (0,1) to plot <code>dcalib</code> over, default is <code>11</code>.</p></dd>
 
 
+<dt>theme</dt>
+<dd><p>(<code><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">ggplot2::theme()</a></code>)<br>
+The <code><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">ggplot2::theme_minimal()</a></code> is applied by default to all plots.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>(<code>any</code>):
 Additional arguments, currently unused.</p></dd>
 
 </dl></div>
-    <div class="section level2">
-    <h2 id="theme">Theme<a class="anchor" aria-label="anchor" href="#theme"></a></h2>
-    
-
-<p>The <code><a href="https://rdrr.io/pkg/mlr3viz/man/theme_mlr3.html" class="external-link">theme_mlr3()</a></code> and viridis color maps are applied by default to all
-<code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot()</a></code> methods. To change this behavior set
-<code>options(mlr3.theme = FALSE)</code>.</p>
-    </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Haider H, Hoehn B, Davis S, Greiner R (2020).

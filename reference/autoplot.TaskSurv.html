@@ -105,7 +105,7 @@ Color is set to target column.</p></li>
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for TaskSurv</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">object</span>, type <span class="op">=</span> <span class="st">"target"</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">object</span>, type <span class="op">=</span> <span class="st">"target"</span>, theme <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -117,6 +117,11 @@ Color is set to target column.</p></li>
 <dt>type</dt>
 <dd><p>(<code>character(1)</code>):<br>
 Type of the plot. Available choices:</p></dd>
+
+
+<dt>theme</dt>
+<dd><p>(<code><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">ggplot2::theme()</a></code>)<br>
+The <code><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">ggplot2::theme_minimal()</a></code> is applied by default to all plots.</p></dd>
 
 
 <dt>...</dt>
@@ -132,14 +137,6 @@ functions.</p></dd>
     
 
 <p><code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot2::ggplot()</a></code> object.</p>
-    </div>
-    <div class="section level2">
-    <h2 id="theme">Theme<a class="anchor" aria-label="anchor" href="#theme"></a></h2>
-    
-
-<p>The <code><a href="https://rdrr.io/pkg/mlr3viz/man/theme_mlr3.html" class="external-link">theme_mlr3()</a></code> and viridis color maps are applied by default to all
-<code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot()</a></code> methods. To change this behavior set
-<code>options(mlr3.theme = FALSE)</code>.</p>
     </div>
 
     <div class="section level2">
