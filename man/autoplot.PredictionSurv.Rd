@@ -12,6 +12,7 @@
   times = NULL,
   xyline = TRUE,
   cuts = 11L,
+  theme = theme_minimal(),
   ...
 )
 }
@@ -37,6 +38,9 @@ If \code{TRUE} (default) plots the x-y line for \code{type = "dcalib"}.}
 \item{cuts}{(\code{integer(1)}) \cr
 Number of cuts in (0,1) to plot \code{dcalib} over, default is \code{11}.}
 
+\item{theme}{(\code{\link[ggplot2:theme]{ggplot2::theme()}})\cr
+The \code{\link[ggplot2:ggtheme]{ggplot2::theme_minimal()}} is applied by default to all plots.}
+
 \item{...}{(\code{any}):
 Additional arguments, currently unused.}
 }
@@ -54,13 +58,6 @@ predicted median survival time. A model is D-calibrated if the resulting plot li
 \item \code{"preds"}: Matplots the survival curves for all predictions
 }
 }
-\section{Theme}{
-
-The \code{\link[=theme_mlr3]{theme_mlr3()}} and viridis color maps are applied by default to all
-\code{autoplot()} methods. To change this behavior set
-\code{options(mlr3.theme = FALSE)}.
-}
-
 \examples{
 library(mlr3)
 library(mlr3proba)

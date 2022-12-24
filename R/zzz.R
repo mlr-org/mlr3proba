@@ -30,7 +30,7 @@ NULL
 #' @importFrom utils data head tail
 #' @importFrom stats reformulate model.matrix model.frame sd predict complete.cases density
 #' @importFrom survival Surv
-#' @importFrom mlr3viz theme_mlr3
+#' @importFrom mlr3viz fortify
 "_PACKAGE"
 # nolint end
 

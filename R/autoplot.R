@@ -12,6 +12,7 @@
 #' @param object ([mlr3proba::TaskSurv]).
 #' @param type (`character(1)`):\cr
 #'   Type of the plot. Available choices:
+#' @template param_theme
 #' @param ... (`any`):
 #'   Additional arguments.
 #'   `rhs` is passed down to `$formula` of [mlr3proba::TaskSurv] for stratification
@@ -35,7 +36,7 @@
 #' autoplot(task)
 #' autoplot(task, rhs = "sex")
 #' autoplot(task, type = "duo")
-autoplot.TaskSurv = function(object, type = "target", ...) { # nolint
+autoplot.TaskSurv = function(object, type = "target", theme = theme_minimal(), ...) { # nolint
   assert_string(type)
   require_namespaces(c("survival", "GGally"))
 
@@ -49,22 +50,19 @@ autoplot.TaskSurv = function(object, type = "target", ...) { # nolint
       )
 
       plot = GGally::ggsurv(sf, remove_named(ddd, "rhs"))
-      plot + apply_theme(theme_mlr3())
+      plot + theme
     },
 
     "duo" = {
       GGally::ggduo(object,
         columnsX = object$target_names,
         columnsY = object$feature_names, ...) +
-        apply_theme(list(
-          scale_color_viridis_d(end = 0.8),
-          theme_mlr3()
-        ))
+        theme
     },
 
     "pairs" = {
       GGally::ggpairs(object, ...) +
-        apply_theme(list(theme_mlr3(base_size = 10)))
+        theme
     },
 
     stopf("Unknown plot type '%s'", type)
@@ -89,6 +87,7 @@ plot.TaskSurv = function(x, ...) {
 #'   * `"overlay"`: histogram with overlaid density plot with [ggplot2::geom_histogram()] and
 #'   [ggplot2::geom_density()].
 #'   * `"freqpoly"`: frequency polygon plot with `ggplot2::geom_freqpoly`.
+#' @template param_theme
 #' @param ... (`any`):
 #'   Additional arguments, possibly passed down to the underlying plot functions.
 #' @return [ggplot2::ggplot()] object.
@@ -108,7 +107,7 @@ plot.TaskSurv = function(x, ...) {
 #' autoplot(task, type = "freq", bins = 15)
 #' autoplot(task, type = "overlay", bins = 15)
 #' autoplot(task, type = "freqpoly", bins = 15)
-autoplot.TaskDens = function(object, type = "dens", ...) { # nolint
+autoplot.TaskDens = function(object, type = "dens", theme = theme_minimal(), ...) { # nolint
   assert_choice(type, c("dens", "freq", "overlay", "freqpoly"))
 
   p = ggplot(data = object, aes(x = .data[[object$feature_names]]), ...)
@@ -117,21 +116,21 @@ autoplot.TaskDens = function(object, type = "dens", ...) { # nolint
     p +
       geom_histogram(aes(y = after_stat(density)), fill = "white", color = "black", ...) +
       ylab("Density") +
-      apply_theme(list(theme_mlr3()))
+      theme
   } else if (type == "freq") {
     p + geom_histogram(fill = "white", color = "black", ...) +
       ylab("Count") +
-      apply_theme(list(theme_mlr3()))
+      theme
   } else if (type == "overlay") {
     p +
       geom_histogram(aes(y = after_stat(density)), colour = "black", fill = "white", ...) +
       geom_density(alpha = 0.2, fill = "#5dadc8") +
       ylab("Density") +
-      apply_theme(list(theme_mlr3()))
+      theme
   } else {
     p +
       geom_freqpoly(...) +
-      apply_theme(list(theme_mlr3()))
+      theme
   }
 }
 
@@ -168,6 +167,7 @@ plot.TaskDens = function(x, ...) {
 #'   If `TRUE` (default) plots the x-y line for `type = "dcalib"`.
 #' @param cuts (`integer(1)`) \cr
 #'   Number of cuts in (0,1) to plot `dcalib` over, default is `11`.
+#' @template param_theme
 #' @param ... (`any`):
 #'   Additional arguments, currently unused.
 #'
@@ -196,7 +196,7 @@ plot.TaskDens = function(x, ...) {
 #' autoplot(p, type = "preds")
 autoplot.PredictionSurv = function(object, type = "dcalib",
   task = NULL, row_ids = NULL, times = NULL, xyline = TRUE,
-  cuts = 11L, ...) {
+  cuts = 11L, theme = theme_minimal(), ...) {
 
   assert("distr" %in% object$predict_types)
 
@@ -222,10 +222,7 @@ autoplot.PredictionSurv = function(object, type = "dcalib",
       ggplot(data, aes(x = .data[["x"]], y = .data[["y"]], group = .data[["Group"]], color = .data[["Group"]])) +
         geom_line() +
         labs(x = "T", y = "S(T)") +
-        apply_theme(list(
-          scale_color_viridis_d(end = 0.8),
-          theme_mlr3()
-        )) +
+        theme +
         theme(legend.title = element_blank())
 
     },
@@ -243,7 +240,7 @@ autoplot.PredictionSurv = function(object, type = "dcalib",
       }
       pl +
         labs(x = "True", y = "Predicted") +
-        apply_theme(list(theme_mlr3()))
+        theme
     },
 
     "preds" = {
@@ -257,7 +254,7 @@ autoplot.PredictionSurv = function(object, type = "dcalib",
       ggplot(surv, aes(x = .data[["Var2"]], y = .data[["value"]], group = .data[["Var1"]], color = .data[["Var1"]])) +
         geom_line() +
         labs(x = "T", y = "S(T)") +
-        apply_theme(list(theme_mlr3())) +
+        theme +
         theme(legend.position = "n")
     },
 

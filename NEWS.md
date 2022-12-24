@@ -1,5 +1,6 @@
 # mlr3proba 0.4.16
 
+* Remove `theme_mlr3` from plots.
 * Fix bug in `surv.logloss` when using `IPCW = TRUE`
 
 # mlr3proba 0.4.15
