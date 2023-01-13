@@ -25,7 +25,7 @@
 .surv_return = function(times = NULL, surv = NULL, crank = NULL, lp = NULL, response = NULL) {
 
   if (!is.null(surv)) {
-    if (class(surv) == "numeric") {
+    if (class(surv)[1] == "numeric") {
       surv = matrix(surv, nrow = 1)
     }
     times <- times %||% colnames(surv)
