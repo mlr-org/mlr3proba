@@ -6,3 +6,12 @@ test_that("autotest", {
   result = run_autotest(learner, check_replicable = FALSE, N = 10, exclude = "sanity")
   expect_true(result, info = result$error)
 })
+
+test_that("single prediction", {
+  set.seed(1)
+  task = tsk("rats")$filter(sample(300, 20))
+  learner = mlr_learners$get("surv.kaplan")
+  learner$train(task)
+  expect_prediction_surv(learner$predict(task, 1))
+})
+  
