@@ -12,6 +12,13 @@
 #' @template param_id
 #' @template param_eps
 #'
+#' @description
+#' Parameters
+#' * `eps` (numeric(1)) - Value to set zero-valued scores to prevent log(0) errors, default `1e-15`.
+#' * `se` (logical(1)) - If `TRUE` then returns standard error of the loss otherwise returns mean across all individual scores.
+#' * `ERV` (logical(1)) - If `TRUE` then the Explained Residual Variation method is applied, which means the score is standardised against a Kaplan-Meier baseline.
+#' * `na.rm` (logical(1)) - If `TRUE` (default) then removes any NAs in individual score calculations.
+#'
 #' @references
 #' Avati, A., Duan, T., Zhou, S., Jung, K., Shah, N. H., & Ng, A. (2018).
 #' Countdown Regression: Sharp and Calibrated Survival Predictions.
@@ -29,9 +36,10 @@ MeasureSurvRCLL = R6::R6Class("MeasureSurvRCLL",
       ps = ps(
         eps = p_dbl(0, 1, default = 1e-15),
         se = p_lgl(default = FALSE),
-        ERV = p_lgl(default = FALSE)
+        ERV = p_lgl(default = FALSE),
+        na.rm = p_lgl(default = TRUE)
       )
-      ps$values = list(eps = 1e-15, se = FALSE, ERV = FALSE)
+      ps$values = list(eps = 1e-15, se = FALSE, ERV = FALSE, na.rm = TRUE)
 
       super$initialize(
         id = "surv.rcll",
@@ -67,9 +75,9 @@ MeasureSurvRCLL = R6::R6Class("MeasureSurvRCLL",
       out = -log(out)
 
       if (self$param_set$values$se) {
-        sd(out) / sqrt(length(out))
+        sd(out, na.rm = self$param_set$values$na.rm) / sqrt(length(out))
       } else {
-        mean(out)
+        mean(out, na.rm = self$param_set$values$na.rm)
       }
     }
   )

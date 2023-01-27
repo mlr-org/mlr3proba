@@ -1,3 +1,7 @@
+# mlr3proba 0.4.17
+
+* Fix bug in `surv.rcll` when individual scores are `NA`.
+
 # mlr3proba 0.4.16
 
 * Remove `theme_mlr3` from plots.

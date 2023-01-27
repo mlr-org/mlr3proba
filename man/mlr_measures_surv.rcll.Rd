@@ -10,6 +10,14 @@ Calculates the right-censored logarithmic (log), loss.
 The RCLL, in the context of probabilistic predictions, is defined by
 \deqn{L(f, t, \Delta) = -log(\Delta f(t) + (1 - \Delta) S(t))}
 where \eqn{\Delta} is the censoring indicator.
+
+Parameters
+\itemize{
+\item \code{eps} (numeric(1)) - Value to set zero-valued scores to prevent log(0) errors, default \code{1e-15}.
+\item \code{se} (logical(1)) - If \code{TRUE} then returns standard error of the loss otherwise returns mean across all individual scores.
+\item \code{ERV} (logical(1)) - If \code{TRUE} then the Explained Residual Variation method is applied, which means the score is standardised against a Kaplan-Meier baseline.
+\item \code{na.rm} (logical(1)) - If \code{TRUE} (default) then removes any NAs in individual score calculations.
+}
 }
 \section{Dictionary}{
 
