@@ -150,11 +150,16 @@ test_that("rcll works", {
   m = msr("surv.rcll")
   expect_numeric(p$score(m))
 
+  status  = t$truth()[,2]
+  row_ids = t$row_ids
+  cens_ids = row_ids[status == 0]
+  event_ids = row_ids[status == 1]
+
   # only censored rats in test set
-  p = l$predict(t, row_ids = c(1, 3:7))
+  p = l$predict(t, row_ids = cens_ids)
   expect_numeric(p$score(m))
 
   # only dead rats in test set
-  p = l$predict(t, row_ids = c(37, 39, 43))
+  p = l$predict(t, row_ids = event_ids)
   expect_numeric(p$score(m))
 })
