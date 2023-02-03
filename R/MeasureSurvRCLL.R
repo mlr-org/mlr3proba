@@ -64,11 +64,20 @@ MeasureSurvRCLL = R6::R6Class("MeasureSurvRCLL",
       out = numeric(length(prediction$row_ids))
       truth = prediction$truth
       event = truth[, 2] == 1
+      event_times = truth[event, 1]
+      cens_times = truth[!event, 1]
 
-      # uncensored -> pdf at outcome time (survived *this* long)
-      out[event] = diag(as.matrix(prediction$distr$pdf(truth[event, 1])))
-      # censored -> survival at outcome time (survived *at least* this long)
-      out[!event] = diag(as.matrix(prediction$distr$survival(truth[!event, 1])))
+      if (length(event_times) == 0) { # all censored
+        # survival at outcome time (survived *at least* this long)
+        out[!event] = diag(as.matrix(prediction$distr$survival(cens_times)))
+      } else if (length(cens_times) == 0) { # all uncensored
+        # pdf at outcome time (survived *this* long)
+        out[event] = diag(as.matrix(prediction$distr$pdf(event_times)))
+      } else { # mix
+        out[event] = diag(as.matrix(prediction$distr$pdf(event_times)))
+        out[!event] = diag(as.matrix(prediction$distr$survival(cens_times)))
+      }
+
       # prevent infinite log errors
       out[out == 0] = self$param_set$values$eps
 
