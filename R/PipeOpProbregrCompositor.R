@@ -68,12 +68,13 @@ delayedAssign(
     public = list(
       #' @description
       #' Creates a new instance of this [R6][R6::R6Class] class.
-      initialize = function(id = "compose_probregr", param_vals = list(dist = "Normal")) {
+      initialize = function(id = "compose_probregr", param_vals = list()) {
         ps = ps(
           dist = p_fct(default = "Normal",
             levels = distr6::listDistributions(filter = list(Tags = "locscale"), simplify = TRUE),
             tags = "predict")
         )
+        ps$values = list(dist = "Normal")
 
         super$initialize(
           id = id,

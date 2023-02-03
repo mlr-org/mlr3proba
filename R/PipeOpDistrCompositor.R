@@ -82,14 +82,16 @@ delayedAssign(
     public = list(
       #' @description
       #' Creates a new instance of this [R6][R6::R6Class] class.
-      initialize = function(id = "compose_distr", param_vals = list(form = "aft", overwrite = FALSE)) {
+      initialize = function(id = "compose_distr", param_vals = list()) {
+        param_set = ps(
+          form = p_fct(default = "aft", levels = c("aft", "ph", "po"), tags = c("predict")),
+          overwrite = p_lgl(default = FALSE, tags = c("predict"))
+        )
+        param_set$values = list(form = "aft", overwrite = FALSE)
         super$initialize(
           id = id,
-          param_set = ps(
-            form = p_fct(default = "aft", levels = c("aft", "ph", "po"), tags = c("predict")),
-            overwrite = p_lgl(default = FALSE, tags = c("predict"))
-          ),
           param_vals = param_vals,
+          param_set = param_set,
           input = data.table(name = c("base", "pred"), train = "NULL", predict = "PredictionSurv"),
           output = data.table(name = "output", train = "NULL", predict = "PredictionSurv"),
           packages = c("mlr3proba", "distr6")

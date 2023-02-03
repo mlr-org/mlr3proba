@@ -77,8 +77,7 @@ delayedAssign(
     public = list(
       #' @description
       #' Creates a new instance of this [R6][R6::R6Class] class.
-      initialize = function(id = "compose_crank", param_vals = list(
-        method = "sum_haz", response = FALSE, overwrite = FALSE)) {
+      initialize = function(id = "compose_crank", param_vals = list()) {
         ps = ps(
           method = p_fct(default = "sum_haz", levels = c("sum_haz", "mean", "median", "mode"),
             tags = "predict"),
@@ -87,6 +86,7 @@ delayedAssign(
           overwrite = p_lgl(default = FALSE, tags = "predict")
         )
         ps$add_dep("which", "method", CondEqual$new("mode"))
+        ps$values = list(method = "sum_haz", response = FALSE, overwrite = FALSE) 
 
         super$initialize(
           id = id,

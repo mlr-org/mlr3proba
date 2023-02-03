@@ -115,10 +115,7 @@ Other survival compositors:
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{PipeOpCrankCompositor$new(
-  id = "compose_crank",
-  param_vals = list(method = "sum_haz", response = FALSE, overwrite = FALSE)
-)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{PipeOpCrankCompositor$new(id = "compose_crank", param_vals = list())}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
