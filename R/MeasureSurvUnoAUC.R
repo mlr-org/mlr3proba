@@ -21,7 +21,7 @@ MeasureSurvUnoAUC = R6Class("MeasureSurvUnoAUC",
   inherit = MeasureSurvAUC,
   public = list(
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(integrated = TRUE, times) {
+    initialize = function() {
       ps = ps(
         integrated = p_lgl(default = TRUE),
         times = p_uty()
