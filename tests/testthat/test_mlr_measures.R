@@ -141,3 +141,25 @@ test_that("ERV works as expected", {
   expect_error(p$score(m), "'task'")
   expect_error(p$score(m, task = t, train_set = t$row_ids), "`se`")
 })
+
+test_that("rcll works", {
+  set.seed(1)
+  t = tsk("rats")$filter(sample(1:300, 50))
+  l = lrn("surv.kaplan")
+  p = l$train(t)$predict(t)
+  m = msr("surv.rcll")
+  expect_numeric(p$score(m))
+
+  status  = t$truth()[,2]
+  row_ids = t$row_ids
+  cens_ids = row_ids[status == 0]
+  event_ids = row_ids[status == 1]
+
+  # only censored rats in test set
+  p = l$predict(t, row_ids = cens_ids)
+  expect_numeric(p$score(m))
+
+  # only dead rats in test set
+  p = l$predict(t, row_ids = event_ids)
+  expect_numeric(p$score(m))
+})
