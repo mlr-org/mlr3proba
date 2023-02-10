@@ -10,7 +10,7 @@ test_that("PipeOpProbregr", {
     graph_learner = TRUE)
   p = gr$train(task)$predict(task)
   expect_true(distr6::testDistribution(p$distr))
-  expect_true(inherits(p$distr, "Uniform"))
+  expect_equal(unique(p$distr$modelTable$Distribution), "Uniform")
 })
 
 test_that("no se", {
