@@ -47,7 +47,7 @@ plot_probregr = function(p, n, type = c("point", "line", "both", "none"),
   if (which_plot == "top") {
     which = seq(n)
   } else if (which_plot == "random") {
-    which = sample(length(p$row_ids), n)
+    which = sort(sample(length(p$row_ids), n))
   }
 
   d = p$distr[which]
