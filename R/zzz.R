@@ -104,7 +104,7 @@ register_mlr3 = function() {
 
   x$add("dens.logloss", MeasureDensLogloss)
 
-  # x$add("regr.logloss", MeasureRegrLogloss)
+  x$add("regr.logloss", MeasureRegrLogloss)
 
   x$add("surv.graf", MeasureSurvGraf)
   x$add("surv.brier", MeasureSurvGraf)
