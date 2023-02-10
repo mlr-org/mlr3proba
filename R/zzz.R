@@ -34,7 +34,10 @@ NULL
 "_PACKAGE"
 # nolint end
 
-utils::globalVariables(c("ShortName", "ClassName", "missing", "task"))
+utils::globalVariables(c(
+  "ShortName", "ClassName", "missing", "task",
+  "value", "variable", "y"
+))
 register_mlr3 = function() {
 
   # reflections
