@@ -148,7 +148,8 @@ test_that("rcll works", {
   l = lrn("surv.kaplan")
   p = l$train(t)$predict(t)
   m = msr("surv.rcll")
-  expect_numeric(p$score(m))
+  KMscore = p$score(m)
+  expect_numeric(KMscore)
 
   status  = t$truth()[,2]
   row_ids = t$row_ids
@@ -157,9 +158,14 @@ test_that("rcll works", {
 
   # only censored rats in test set
   p = l$predict(t, row_ids = cens_ids)
-  expect_numeric(p$score(m))
+  expect_numeric(KMscore)
 
   # only dead rats in test set
   p = l$predict(t, row_ids = event_ids)
-  expect_numeric(p$score(m))
+  expect_numeric(KMscore)
+
+  # better than baseline
+  l = lrn("surv.coxph")
+  p = suppressWarnings(l$train(t)$predict(t))
+  p$score(m) < KMscore
 })
