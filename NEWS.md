@@ -1,3 +1,12 @@
+# mlr3proba 0.5.0
+
+* Possibly small breaking change, renamed `PipeOpProbregrCompositor` to `PipeOpProbregr`
+* Renamed `probregrcompositor` pipeline to `probregr`
+* Bumped minor version to highlight all fixes in measures below
+* Bugfix in setting Uno's AUC parameters
+* Bugfix in RCLL when no censoring
+* Bugfix in all learners when making single predictions
+
 # mlr3proba 0.4.17
 
 * Fix bug in `surv.rcll` when individual scores are `NA`.
