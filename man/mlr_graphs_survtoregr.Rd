@@ -14,7 +14,7 @@ pipeline_survtoregr(
   surv_learner = lrn("surv.coxph"),
   survregr_params = list(method = "ipcw", estimator = "kaplan", alpha = 1),
   distrcompose_params = list(form = "aft"),
-  probregr_params = list(dist = "Normal"),
+  probregr_params = list(dist = "Uniform"),
   learnercv_params = list(resampling.method = "insample"),
   graph_learner = FALSE
 )
@@ -50,7 +50,7 @@ via \code{ipcw}, with weighting determined by Kaplan-Meier and no additional pen
 Parameters passed to \link{PipeOpDistrCompositor}, default is accelerated failure time model form.}
 
 \item{probregr_params}{\code{list()}\cr
-Parameters passed to \link{PipeOpProbregr}, default is \link[distr6:Normal]{Normal}
+Parameters passed to \link{PipeOpProbregr}, default is \link[distr6:Uniform]{Uniform}
 distribution for composition.}
 
 \item{learnercv_params}{\code{list()}\cr

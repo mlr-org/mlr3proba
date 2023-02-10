@@ -29,8 +29,9 @@
 #'
 #' @section Parameters:
 #' * `dist` :: `character(1)` \cr
-#'    Location-scale distribution to use for composition. Current choices are `"Normal"` (default),
-#'     `"Cauchy"`, `"Gumbel"`, `"Laplace"`, `"Logistic"`. All implemented via \CRANpkg{distr6}.
+#'    Location-scale distribution to use for composition. Current choices are
+#'    `"Uniform"` (default), `"Normal"`, `"Cauchy"`, `"Gumbel"`, `"Laplace"`,
+#'    `"Logistic"`. All implemented via \CRANpkg{distr6}.
 #'
 #' @section Internals:
 #' The composition is created by substituting the `response` and `se` predictions into the
@@ -68,9 +69,9 @@ delayedAssign(
     public = list(
       #' @description
       #' Creates a new instance of this [R6][R6::R6Class] class.
-      initialize = function(id = "compose_probregr", param_vals = list(dist = "Normal")) {
+      initialize = function(id = "compose_probregr", param_vals = list(dist = "Uniform")) {
         ps = ps(
-          dist = p_fct(default = "Normal",
+          dist = p_fct(default = "Uniform",
             levels = c("Uniform",
               distr6::listDistributions(filter = list(Tags = "locscale"), simplify = TRUE)),
             tags = "predict")

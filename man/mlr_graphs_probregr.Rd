@@ -8,7 +8,7 @@
 pipeline_probregr(
   learner,
   learner_se = NULL,
-  dist = "Normal",
+  dist = "Uniform",
   graph_learner = FALSE
 )
 }
@@ -24,7 +24,7 @@ error. If left \code{NULL} then \code{learner} must have \code{se} in predict_ty
 
 \item{dist}{\code{character(1)}\cr
 Location-scale distribution to use for composition.
-Current possibilities are' \verb{"Cauchy", "Gumbel", "Laplace", "Logistic", "Normal} (default).}
+Current possibilities are' \verb{"Cauchy", "Gumbel", "Laplace", "Logistic", "Normal", "Uniform"}. Default is \code{"Uniform"}.}
 
 \item{graph_learner}{\code{logical(1)}\cr
 If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
@@ -45,21 +45,21 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
 
   task = tsk("boston_housing")
 
-  # method 1 - one learner for response and se
+  # method 1 - same learner for response and se
   pipe = ppl(
     "probregr",
     learner = lrn("regr.featureless", predict_type = "se"),
-    dist = "Normal"
+    dist = "Uniform"
   )
   pipe$train(task)
   pipe$predict(task)
 
-  # method 2 - one learner for response and one for se
+  # method 2 - different learners for response and se
   pipe = ppl(
     "probregr",
     learner = lrn("regr.rpart"),
     learner_se = lrn("regr.featureless", predict_type = "se"),
-    dist = "Logistic"
+    dist = "Normal"
   )
   pipe$train(task)
   pipe$predict(task)

@@ -1,7 +1,7 @@
 # mlr3proba 0.5.0
 
-* Possibly small breaking change, renamed `PipeOpProbregrCompositor` to `PipeOpProbregr`
-* Renamed `probregrcompositor` pipeline to `probregr`
+* Possibly small breaking change, renamed `PipeOpProbregrCompositor` to `PipeOpProbregr` and default distribution now `"Uniform"`.
+* Renamed `probregrcompositor` pipeline to `probregr` and default distribution now `"Uniform"`.
 * Bumped minor version to highlight all fixes in measures below
 * Bugfix in setting Uno's AUC parameters
 * Bugfix in RCLL when no censoring
