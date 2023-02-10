@@ -61,23 +61,24 @@ MeasureSurvRCLL = R6::R6Class("MeasureSurvRCLL",
       if (self$param_set$values$ERV) {
         return(.scoring_rule_erv(self, prediction, task, train_set))
       }
-      out = numeric(length(prediction$row_ids))
+      out = rep(-99L, length(prediction$row_ids))
       truth = prediction$truth
       event = truth[, 2] == 1
       event_times = truth[event, 1]
       cens_times = truth[!event, 1]
 
-      if (length(event_times) == 0) { # all censored
+      if (!any(event)) { # all censored
         # survival at outcome time (survived *at least* this long)
-        out[!event] = diag(as.matrix(prediction$distr$survival(cens_times)))
-      } else if (length(cens_times) == 0) { # all uncensored
+        out[!event] = diag(prediction$distr[!event]$survival(cens_times))
+      } else if (all(event)) { # all uncensored
         # pdf at outcome time (survived *this* long)
-        out[event] = diag(as.matrix(prediction$distr$pdf(event_times)))
+        out[event] = diag(prediction$distr[event]$pdf(event_times))
       } else { # mix
-        out[event] = diag(as.matrix(prediction$distr$pdf(event_times)))
-        out[!event] = diag(as.matrix(prediction$distr$survival(cens_times)))
+        out[event] = diag(prediction$distr[event]$pdf(event_times))
+        out[!event] = diag(prediction$distr[!event]$survival(cens_times))
       }
 
+      stopifnot(!any(out == -99L)) # safety check
       # prevent infinite log errors
       out[out == 0] = self$param_set$values$eps
 
