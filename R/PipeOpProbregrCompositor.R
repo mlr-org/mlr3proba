@@ -1,4 +1,4 @@
-#' @title PipeOpProbregrCompositor
+#' @title PipeOpProbregr
 #' @name mlr_pipeops_compose_probregr
 #' @template param_pipelines
 #'
@@ -11,13 +11,13 @@
 #' [dictionary][mlr3misc::Dictionary] [mlr3pipelines::mlr_pipeops] or with the associated sugar
 #' function [mlr3pipelines::po()]:
 #' ```
-#' PipeOpProbregrCompositor$new()
+#' PipeOpProbregr$new()
 #' mlr_pipeops$get("compose_probregr")
 #' po("compose_probregr")
 #' ```
 #'
 #' @section Input and Output Channels:
-#' [PipeOpProbregrCompositor] has two input channels named `"input_response"` and `"input_se"`,
+#' [PipeOpProbregr] has two input channels named `"input_response"` and `"input_se"`,
 #' which take `NULL` during training and two [PredictionRegr]s during prediction, these should
 #' respectively contain the `response` and `se` return type, the same object can be passed twice.
 #'
@@ -29,8 +29,9 @@
 #'
 #' @section Parameters:
 #' * `dist` :: `character(1)` \cr
-#'    Location-scale distribution to use for composition. Current choices are `"Normal"` (default),
-#'     `"Cauchy"`, `"Gumbel"`, `"Laplace"`, `"Logistic"`. All implemented via \CRANpkg{distr6}.
+#'    Location-scale distribution to use for composition. Current choices are
+#'    `"Uniform"` (default), `"Normal"`, `"Cauchy"`, `"Gumbel"`, `"Laplace"`,
+#'    `"Logistic"`. All implemented via \CRANpkg{distr6}.
 #'
 #' @section Internals:
 #' The composition is created by substituting the `response` and `se` predictions into the
@@ -62,16 +63,17 @@
 #' }
 #' }
 delayedAssign(
-  "PipeOpProbregrCompositor",
-  R6Class("PipeOpProbregrCompositor",
+  "PipeOpProbregr",
+  R6Class("PipeOpProbregr",
     inherit = mlr3pipelines::PipeOp,
     public = list(
       #' @description
       #' Creates a new instance of this [R6][R6::R6Class] class.
-      initialize = function(id = "compose_probregr", param_vals = list(dist = "Normal")) {
+      initialize = function(id = "compose_probregr", param_vals = list(dist = "Uniform")) {
         ps = ps(
-          dist = p_fct(default = "Normal",
-            levels = distr6::listDistributions(filter = list(Tags = "locscale"), simplify = TRUE),
+          dist = p_fct(default = "Uniform",
+            levels = c("Uniform",
+              distr6::listDistributions(filter = list(Tags = "locscale"), simplify = TRUE)),
             tags = "predict")
         )
 
@@ -110,7 +112,12 @@ delayedAssign(
         pv = self$param_set$values
         dist = pv$dist
 
-        if (is.null(dist) || dist %in% c("Normal")) {
+        if (is.null(dist) || dist %in% c("Uniform")) {
+          params = data.table(
+            lower = response - se * sqrt(3),
+            upper = response + se * sqrt(3)
+          )
+        } else if (dist == "Normal") {
           params = data.table(mean = response, sd = se)
         } else if (dist %in% c("Cauchy", "Gumbel")) {
           params = data.table(location = response, scale = se)

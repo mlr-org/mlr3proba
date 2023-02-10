@@ -259,15 +259,15 @@ distrcompositor = function(...) {
 
 #' @template pipeline
 #' @templateVar title Estimate Regression distr Predict Type
-#' @templateVar pipeop [PipeOpProbregrCompositor]
-#' @templateVar id probregrcompositor
+#' @templateVar pipeop [PipeOpProbregr]
+#' @templateVar id probregr
 #' @template param_pipeline_learner_regr
 #' @param learner_se `[mlr3::Learner]|[mlr3pipelines::PipeOp]` \cr
 #' Optional [LearnerRegr][mlr3::LearnerRegr] with predict_type `se` to estimate the standard
 #' error. If left `NULL` then `learner` must have `se` in predict_types.
 #' @param dist `character(1)`\cr
 #' Location-scale distribution to use for composition.
-#' Current possibilities are' `"Cauchy", "Gumbel", "Laplace", "Logistic", "Normal` (default).
+#' Current possibilities are' `"Cauchy", "Gumbel", "Laplace", "Logistic", "Normal", "Uniform"`. Default is `"Uniform"`.
 #' @examples
 #' \dontrun{
 #' if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
@@ -277,27 +277,27 @@ distrcompositor = function(...) {
 #'
 #'   task = tsk("boston_housing")
 #'
-#'   # method 1 - one learner for response and se
+#'   # method 1 - same learner for response and se
 #'   pipe = ppl(
-#'     "probregrcompositor",
+#'     "probregr",
 #'     learner = lrn("regr.featureless", predict_type = "se"),
-#'     dist = "Normal"
+#'     dist = "Uniform"
 #'   )
 #'   pipe$train(task)
 #'   pipe$predict(task)
 #'
-#'   # method 2 - one learner for response and one for se
+#'   # method 2 - different learners for response and se
 #'   pipe = ppl(
-#'     "probregrcompositor",
+#'     "probregr",
 #'     learner = lrn("regr.rpart"),
 #'     learner_se = lrn("regr.featureless", predict_type = "se"),
-#'     dist = "Logistic"
+#'     dist = "Normal"
 #'   )
 #'   pipe$train(task)
 #'   pipe$predict(task)
 #' }
 #' }
-pipeline_probregrcompositor = function(learner, learner_se = NULL, dist = "Normal",
+pipeline_probregr = function(learner, learner_se = NULL, dist = "Uniform",
   graph_learner = FALSE) {
 
   gr = mlr3pipelines::Graph$new()$add_pipeop(mlr3pipelines::po("compose_probregr", param_vals = list(dist = dist)))
@@ -345,7 +345,7 @@ pipeline_probregrcompositor = function(learner, learner_se = NULL, dist = "Norma
 #' \item [PipeOpTaskSurvRegr] Converts [TaskSurv] to [TaskRegr][mlr3::TaskRegr].
 #' \item A [LearnerRegr] is fit on the new `TaskRegr` to predict `response`, optionally a second
 #' `LearnerRegr` can be fit to predict `se`.
-#' \item [PipeOpProbregrCompositor] composes a `distr` prediction from the learner(s).
+#' \item [PipeOpProbregr] composes a `distr` prediction from the learner(s).
 #' \item [PipeOpPredRegrSurv] transforms the resulting [PredictionRegr][mlr3::PredictionRegr]
 #' to [PredictionSurv].
 #' }
@@ -400,7 +400,7 @@ pipeline_probregrcompositor = function(learner, learner_se = NULL, dist = "Norma
 #' @param distrcompose_params `list()`\cr
 #' Parameters passed to [PipeOpDistrCompositor], default is accelerated failure time model form.
 #' @param probregr_params `list()`\cr
-#' Parameters passed to [PipeOpProbregrCompositor], default is [Normal][distr6::Normal]
+#' Parameters passed to [PipeOpProbregr], default is [Uniform][distr6::Uniform]
 #' distribution for composition.
 #' @param learnercv_params `list()`\cr
 #' Parameters passed to [PipeOpLearnerCV][mlr3pipelines::PipeOpLearnerCV], default is to use
@@ -461,7 +461,7 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
   surv_learner = lrn("surv.coxph"),
   survregr_params = list(method = "ipcw", estimator = "kaplan", alpha = 1),
   distrcompose_params = list(form = "aft"),
-  probregr_params = list(dist = "Normal"),
+  probregr_params = list(dist = "Uniform"),
   learnercv_params = list(resampling.method = "insample"),
   graph_learner = FALSE) {
 

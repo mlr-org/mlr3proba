@@ -14,7 +14,7 @@ pipeline_survtoregr(
   surv_learner = lrn("surv.coxph"),
   survregr_params = list(method = "ipcw", estimator = "kaplan", alpha = 1),
   distrcompose_params = list(form = "aft"),
-  probregr_params = list(dist = "Normal"),
+  probregr_params = list(dist = "Uniform"),
   learnercv_params = list(resampling.method = "insample"),
   graph_learner = FALSE
 )
@@ -50,7 +50,7 @@ via \code{ipcw}, with weighting determined by Kaplan-Meier and no additional pen
 Parameters passed to \link{PipeOpDistrCompositor}, default is accelerated failure time model form.}
 
 \item{probregr_params}{\code{list()}\cr
-Parameters passed to \link{PipeOpProbregrCompositor}, default is \link[distr6:Normal]{Normal}
+Parameters passed to \link{PipeOpProbregr}, default is \link[distr6:Uniform]{Uniform}
 distribution for composition.}
 
 \item{learnercv_params}{\code{list()}\cr
@@ -87,7 +87,7 @@ predicted \code{response} predict_type.
 \item \link{PipeOpTaskSurvRegr} Converts \link{TaskSurv} to \link[mlr3:TaskRegr]{TaskRegr}.
 \item A \link{LearnerRegr} is fit on the new \code{TaskRegr} to predict \code{response}, optionally a second
 \code{LearnerRegr} can be fit to predict \code{se}.
-\item \link{PipeOpProbregrCompositor} composes a \code{distr} prediction from the learner(s).
+\item \link{PipeOpProbregr} composes a \code{distr} prediction from the learner(s).
 \item \link{PipeOpPredRegrSurv} transforms the resulting \link[mlr3:PredictionRegr]{PredictionRegr}
 to \link{PredictionSurv}.
 }
@@ -168,7 +168,7 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 Other pipelines: 
 \code{\link{mlr_graphs_crankcompositor}},
 \code{\link{mlr_graphs_distrcompositor}},
-\code{\link{mlr_graphs_probregrcompositor}},
+\code{\link{mlr_graphs_probregr}},
 \code{\link{mlr_graphs_survaverager}},
 \code{\link{mlr_graphs_survbagging}}
 }
