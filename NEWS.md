@@ -1,3 +1,7 @@
+# mlr3proba 0.5.1
+
+* Add `regr.logloss`
+
 # mlr3proba 0.5.0
 
 * Possibly small breaking change, renamed `PipeOpProbregrCompositor` to `PipeOpProbregr` and default distribution now `"Uniform"`.
