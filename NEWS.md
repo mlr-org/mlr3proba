@@ -1,6 +1,7 @@
 # mlr3proba 0.5.1
 
 * Add `regr.logloss`
+* Add `plot_probregr` for plotting probabilistic regression distribution predictions
 
 # mlr3proba 0.5.0
 
