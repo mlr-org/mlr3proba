@@ -14,7 +14,7 @@ see details."><meta property="og:image" content="https://mlr3proba.mlr-org.com/l
     
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.17</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.5.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -98,7 +98,7 @@ see details.</p>
 <span>  surv_learner <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"surv.coxph"</span><span class="op">)</span>,</span>
 <span>  survregr_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"ipcw"</span>, estimator <span class="op">=</span> <span class="st">"kaplan"</span>, alpha <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
 <span>  distrcompose_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>form <span class="op">=</span> <span class="st">"aft"</span><span class="op">)</span>,</span>
-<span>  probregr_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>dist <span class="op">=</span> <span class="st">"Normal"</span><span class="op">)</span>,</span>
+<span>  probregr_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>dist <span class="op">=</span> <span class="st">"Uniform"</span><span class="op">)</span>,</span>
 <span>  learnercv_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>resampling.method <span class="op">=</span> <span class="st">"insample"</span><span class="op">)</span>,</span>
 <span>  graph_learner <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -153,7 +153,7 @@ Parameters passed to <a href="mlr_pipeops_compose_distr.html">PipeOpDistrComposi
 
 <dt>probregr_params</dt>
 <dd><p><code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code><br>
-Parameters passed to <a href="mlr_pipeops_compose_probregr.html">PipeOpProbregrCompositor</a>, default is <a href="https://alan-turing-institute.github.io/distr6/reference/Normal.html" class="external-link">Normal</a>
+Parameters passed to <a href="mlr_pipeops_compose_probregr.html">PipeOpProbregr</a>, default is <a href="https://alan-turing-institute.github.io/distr6/reference/Uniform.html" class="external-link">Uniform</a>
 distribution for composition.</p></dd>
 
 
@@ -190,7 +190,7 @@ predicted <code>response</code> predict_type.</p></li>
 <li><p>Survival to Probabilistic Regression</p><ol><li><p><a href="mlr_pipeops_trafotask_survregr.html">PipeOpTaskSurvRegr</a> Converts <a href="TaskSurv.html">TaskSurv</a> to <a href="https://mlr3.mlr-org.com/reference/TaskRegr.html" class="external-link">TaskRegr</a>.</p></li>
 <li><p>A <a href="https://mlr3.mlr-org.com/reference/LearnerRegr.html" class="external-link">LearnerRegr</a> is fit on the new <code>TaskRegr</code> to predict <code>response</code>, optionally a second
 <code>LearnerRegr</code> can be fit to predict <code>se</code>.</p></li>
-<li><p><a href="mlr_pipeops_compose_probregr.html">PipeOpProbregrCompositor</a> composes a <code>distr</code> prediction from the learner(s).</p></li>
+<li><p><a href="mlr_pipeops_compose_probregr.html">PipeOpProbregr</a> composes a <code>distr</code> prediction from the learner(s).</p></li>
 <li><p><a href="mlr_pipeops_trafopred_regrsurv.html">PipeOpPredRegrSurv</a> transforms the resulting <a href="https://mlr3.mlr-org.com/reference/PredictionRegr.html" class="external-link">PredictionRegr</a>
 to <a href="PredictionSurv.html">PredictionSurv</a>.</p></li>
 </ol></li>
@@ -222,7 +222,7 @@ predictors of the new data, which can ultimately be composed to a distribution.<
     <div class="dont-index"><p>Other pipelines: 
 <code><a href="mlr_graphs_crankcompositor.html">mlr_graphs_crankcompositor</a></code>,
 <code><a href="mlr_graphs_distrcompositor.html">mlr_graphs_distrcompositor</a></code>,
-<code><a href="mlr_graphs_probregrcompositor.html">mlr_graphs_probregrcompositor</a></code>,
+<code><a href="mlr_graphs_probregr.html">mlr_graphs_probregr</a></code>,
 <code><a href="mlr_graphs_survaverager.html">mlr_graphs_survaverager</a></code>,
 <code><a href="mlr_graphs_survbagging.html">mlr_graphs_survbagging</a></code></p></div>
     </div>
