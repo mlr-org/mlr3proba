@@ -1,6 +1,7 @@
 # mlr3proba 0.5.2
 
 * Add `plot_probregr` for plotting probabilistic regression distribution predictions
+* Fix big bug in `surv.rcll` creating erroneous results as distributions were not being subsetted correctly
 
 # mlr3proba 0.5.1
 
