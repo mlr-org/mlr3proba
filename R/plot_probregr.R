@@ -59,25 +59,26 @@ plot_probregr = function(p, n, type = c("point", "line", "both", "none"),
 
   data_pred = suppressWarnings(cbind(x, data.table::melt(d$pdf(x))))
   if (rm_zero) data_pred[round(data_pred$value, 6) == 0, ] = NA
-  data_truth = data.frame(x = truth, variable = d$strprint())
-  data_points = data.frame(x = truth, y = diag(as.matrix(d$pdf(truth))), variable = d$strprint())
+  variable = factor(d$strprint(), levels = d$strprint())
+  data_truth = data.frame(x = truth, variable = variable)
+  data_points = data.frame(x = truth, y = diag(as.matrix(d$pdf(truth))), variable = variable)
 
-  p = ggplot(data_pred, aes(x = x, y = value, color = variable)) +
+  out = ggplot(data_pred, aes(x = x, y = value, color = variable)) +
     geom_line(lwd = 1.2, na.rm = TRUE) +
     theme_minimal() +
     theme(legend.position = "n") +
     labs(x = "x", y = "f(x)")
 
   if (type %in% c("line", "both")) {
-    p = p +
+    out = out +
       geom_vline(aes(xintercept = x, color = variable), data_truth, lwd = 1, lty = 3)
   }
 
   if (type %in% c("point", "both")) {
-    p = p +
+    out = out +
       geom_point(aes(x = x, y = y, fill = variable),
               color = "black", data_points, size = 3, pch = 23)
   }
 
-  p
+  out
 }
