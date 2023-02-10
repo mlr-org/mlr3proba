@@ -118,21 +118,9 @@ Other lp survival measures:
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvUnoAUC$new(integrated = TRUE, times)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvUnoAUC$new()}\if{html}{\out{</div>}}
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{integrated}}{(\code{logical(1)})\cr
-If \code{TRUE} (default), returns the integrated score; otherwise, not integrated.}
-
-\item{\code{times}}{(\code{numeric()})\cr
-If \code{integrate == TRUE} then a vector of time-points over which to integrate the score.
-If \code{integrate == FALSE} then a single time point at which to return the score.}
-}
-\if{html}{\out{</div>}}
-}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MeasureSurvUnoAUC-clone"></a>}}

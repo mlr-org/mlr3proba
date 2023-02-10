@@ -72,7 +72,7 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
 \seealso{
 Other pipelines: 
 \code{\link{mlr_graphs_crankcompositor}},
-\code{\link{mlr_graphs_probregrcompositor}},
+\code{\link{mlr_graphs_probregr}},
 \code{\link{mlr_graphs_survaverager}},
 \code{\link{mlr_graphs_survbagging}},
 \code{\link{mlr_graphs_survtoregr}}

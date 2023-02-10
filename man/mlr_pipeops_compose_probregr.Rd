@@ -2,8 +2,8 @@
 % Please edit documentation in R/PipeOpProbregrCompositor.R
 \name{mlr_pipeops_compose_probregr}
 \alias{mlr_pipeops_compose_probregr}
-\alias{PipeOpProbregrCompositor}
-\title{PipeOpProbregrCompositor}
+\alias{PipeOpProbregr}
+\title{PipeOpProbregr}
 \description{
 Combines a predicted \code{reponse} and \code{se} from \link{PredictionRegr} with a specified probability
 distribution to estimate (or 'compose') a \code{distr} prediction.
@@ -14,7 +14,7 @@ This \link[mlr3pipelines:PipeOp]{PipeOp} can be instantiated via the
 \link[mlr3misc:Dictionary]{dictionary} \link[mlr3pipelines:mlr_pipeops]{mlr3pipelines::mlr_pipeops} or with the associated sugar
 function \code{\link[mlr3pipelines:po]{mlr3pipelines::po()}}:
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{PipeOpProbregrCompositor$new()
+\if{html}{\out{<div class="sourceCode">}}\preformatted{PipeOpProbregr$new()
 mlr_pipeops$get("compose_probregr")
 po("compose_probregr")
 }\if{html}{\out{</div>}}
@@ -22,7 +22,7 @@ po("compose_probregr")
 
 \section{Input and Output Channels}{
 
-\link{PipeOpProbregrCompositor} has two input channels named \code{"input_response"} and \code{"input_se"},
+\link{PipeOpProbregr} has two input channels named \code{"input_response"} and \code{"input_se"},
 which take \code{NULL} during training and two \link{PredictionRegr}s during prediction, these should
 respectively contain the \code{response} and \code{se} return type, the same object can be passed twice.
 
@@ -76,13 +76,13 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
 }
 }
 \section{Super class}{
-\code{\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}} -> \code{PipeOpProbregrCompositor}
+\code{\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}} -> \code{PipeOpProbregr}
 }
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-PipeOpProbregrCompositor-new}{\code{PipeOpProbregrCompositor$new()}}
-\item \href{#method-PipeOpProbregrCompositor-clone}{\code{PipeOpProbregrCompositor$clone()}}
+\item \href{#method-PipeOpProbregr-new}{\code{PipeOpProbregr$new()}}
+\item \href{#method-PipeOpProbregr-clone}{\code{PipeOpProbregr$clone()}}
 }
 }
 \if{html}{\out{
@@ -96,15 +96,12 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
 </details>
 }}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-PipeOpProbregrCompositor-new"></a>}}
-\if{latex}{\out{\hypertarget{method-PipeOpProbregrCompositor-new}{}}}
+\if{html}{\out{<a id="method-PipeOpProbregr-new"></a>}}
+\if{latex}{\out{\hypertarget{method-PipeOpProbregr-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{PipeOpProbregrCompositor$new(
-  id = "compose_probregr",
-  param_vals = list(dist = "Normal")
-)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{PipeOpProbregr$new(id = "compose_probregr", param_vals = list(dist = "Normal"))}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -121,12 +118,12 @@ otherwise be set during construction.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-PipeOpProbregrCompositor-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-PipeOpProbregrCompositor-clone}{}}}
+\if{html}{\out{<a id="method-PipeOpProbregr-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-PipeOpProbregr-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{PipeOpProbregrCompositor$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{PipeOpProbregr$clone(deep = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
