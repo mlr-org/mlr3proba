@@ -9,7 +9,8 @@ plot_probregr(
   n,
   type = c("point", "line", "both", "none"),
   which_plot = c("random", "top"),
-  rm_zero = TRUE
+  rm_zero = TRUE,
+  ...
 )
 }
 \arguments{

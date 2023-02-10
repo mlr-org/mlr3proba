@@ -35,7 +35,7 @@
 #' }
 #' @export
 plot_probregr = function(p, n, type = c("point", "line", "both", "none"),
-  which_plot = c("random", "top"), rm_zero = TRUE) {
+  which_plot = c("random", "top"), rm_zero = TRUE, ...) {
 
   which_plot = match.arg(which_plot)
   type = match.arg(type)
