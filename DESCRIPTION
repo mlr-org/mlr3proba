@@ -1,6 +1,6 @@
 Package: mlr3proba
 Title: Probabilistic Supervised Learning for 'mlr3'
-Version: 0.5.1
+Version: 0.5.2
 Authors@R:
     c(person(given = "Raphael",
              family = "Sonabend",
