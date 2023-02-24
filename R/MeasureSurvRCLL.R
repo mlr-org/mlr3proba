@@ -69,13 +69,13 @@ MeasureSurvRCLL = R6::R6Class("MeasureSurvRCLL",
 
       if (!any(event)) { # all censored
         # survival at outcome time (survived *at least* this long)
-        out[!event] = diag(prediction$distr[!event]$survival(cens_times))
+        out[!event] = diag(as.matrix(prediction$distr[!event]$survival(cens_times)))
       } else if (all(event)) { # all uncensored
         # pdf at outcome time (survived *this* long)
-        out[event] = diag(prediction$distr[event]$pdf(event_times))
+        out[event] = diag(as.matrix(prediction$distr[event]$pdf(event_times)))
       } else { # mix
-        out[event] = diag(prediction$distr[event]$pdf(event_times))
-        out[!event] = diag(prediction$distr[!event]$survival(cens_times))
+        out[event] = diag(as.matrix(prediction$distr[event]$pdf(event_times)))
+        out[!event] = diag(as.matrix(prediction$distr[!event]$survival(cens_times)))
       }
 
       stopifnot(!any(out == -99L)) # safety check

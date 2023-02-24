@@ -159,13 +159,16 @@ test_that("rcll works", {
   # only censored rats in test set
   p = l$predict(t, row_ids = cens_ids)
   expect_numeric(p$score(m))
+  expect_numeric(p$filter(row_ids = cens_ids[1])$score(m)) # 1 test rat
 
   # only dead rats in test set
   p = l$predict(t, row_ids = event_ids)
   expect_numeric(p$score(m))
+  expect_numeric(p$filter(row_ids = event_ids[1])$score(m)) # 1 test rat
 
   # Cox is better than baseline (Kaplan-Meier)
   l = lrn("surv.coxph")
   p = suppressWarnings(l$train(t)$predict(t))
   expect_true(p$score(m) < KMscore)
 })
+
