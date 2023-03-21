@@ -148,6 +148,8 @@ test_that("rcll works", {
   l = lrn("surv.kaplan")
   p = l$train(t)$predict(t)
   m = msr("surv.rcll")
+  expect_true(m$minimize)
+  expect_equal(m$range, c(0, Inf))
   KMscore = p$score(m)
   expect_numeric(KMscore)
 
@@ -171,4 +173,3 @@ test_that("rcll works", {
   p = suppressWarnings(l$train(t)$predict(t))
   expect_true(p$score(m) < KMscore)
 })
-
