@@ -32,6 +32,9 @@ MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
+    #' @param ERV (`logical(1)`)\cr
+    #'   Standardize measure against a Kaplan-Meier baseline
+    #'   (Explained Residual Variation)
     initialize = function(ERV = FALSE) {
       assert(check_logical(ERV))
 
