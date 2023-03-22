@@ -39,7 +39,8 @@ MeasureSurvSchmid = R6::R6Class("MeasureSurvSchmid",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function() {
+    initialize = function(ERV = FALSE) {
+      assert(check_logical(ERV))
 
       ps = ps(
         integrated = p_lgl(default = TRUE),
@@ -54,14 +55,16 @@ MeasureSurvSchmid = R6::R6Class("MeasureSurvSchmid",
       )
       ps$values = list(
         integrated = TRUE, method = 2L, se = FALSE,
-        proper = FALSE, eps = 1e-3, ERV = FALSE
+        proper = FALSE, eps = 1e-3, ERV = ERV
       )
+
+      range = if (ERV) c(-Inf, 1) else c(0, Inf)
 
       super$initialize(
         param_set = ps,
         id = "surv.schmid",
-        range = c(0, Inf),
-        minimize = TRUE,
+        range = range,
+        minimize = !ERV,
         packages = "distr6",
         predict_type = "distr",
         label = "Integrated Schmid Score",

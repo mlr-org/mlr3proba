@@ -32,19 +32,23 @@ MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function() {
+    initialize = function(ERV = FALSE) {
+      assert(check_logical(ERV))
+
       ps = ps(
         eps = p_dbl(0, 1, default = 1e-15),
         se = p_lgl(default = FALSE),
         IPCW = p_lgl(default = TRUE),
         ERV = p_lgl(default = FALSE)
       )
-      ps$values = list(eps = 1e-15, se = FALSE, IPCW = TRUE, ERV = FALSE)
+      ps$values = list(eps = 1e-15, se = FALSE, IPCW = TRUE, ERV = ERV)
+
+      range = if (ERV) c(-Inf, 1) else c(0, Inf)
 
       super$initialize(
         id = "surv.logloss",
-        range = c(0, Inf),
-        minimize = TRUE,
+        range = range,
+        minimize = !ERV,
         predict_type = "distr",
         packages = "distr6",
         label = "Log Loss",
