@@ -32,23 +32,30 @@ MeasureSurvRCLL = R6::R6Class("MeasureSurvRCLL",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function() {
+    #' @param ERV (`logical(1)`)\cr
+    #'   Standardize measure against a Kaplan-Meier baseline
+    #'   (Explained Residual Variation)
+    initialize = function(ERV = FALSE) {
+      assert(check_logical(ERV))
+
       ps = ps(
         eps = p_dbl(0, 1, default = 1e-15),
         se = p_lgl(default = FALSE),
         ERV = p_lgl(default = FALSE),
         na.rm = p_lgl(default = TRUE)
       )
-      ps$values = list(eps = 1e-15, se = FALSE, ERV = FALSE, na.rm = TRUE)
+      ps$values = list(eps = 1e-15, se = FALSE, ERV = ERV, na.rm = TRUE)
+
+      range = if (ERV) c(-Inf, 1) else c(0, Inf)
 
       super$initialize(
         id = "surv.rcll",
-        minimize = TRUE,
+        minimize = !ERV,
         predict_type = "distr",
         packages = "distr6",
         label = "RCLL",
         man = "mlr3proba::mlr_measures_surv.rcll",
-        range = c(-Inf, Inf),
+        range = range,
         param_set = ps
       )
 
