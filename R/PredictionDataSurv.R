@@ -14,8 +14,10 @@ check_prediction_data.PredictionDataSurv = function(pdata, ...) { # nolint
   assert_numeric(pdata$lp, len = n, any.missing = FALSE, null.ok = TRUE)
   if (inherits(pdata$distr, "VectorDistribution")) {
     assert(nrow(pdata$distr$modelTable) == n)
-  } else if (inherits(pdata$distr, "Matdist")) {
+  } else if (inherits(pdata$distr, c("Matdist", "Arrdist"))) {
     assert(nrow(gprm(pdata$distr, "pdf")) == n)
+  } else if (class(pdata$distr)[1] == "array") { # from Arrdist
+    assert_array(pdata$distr, d = 3, any.missing = FALSE, null.ok = TRUE)
   } else {
     assert_matrix(pdata$distr, nrows = n, any.missing = FALSE, null.ok = TRUE)
   }
@@ -70,7 +72,7 @@ c.PredictionDataSurv = function(..., keep_duplicates = TRUE) {
   }
 
   if ("distr" %in% predict_types) {
-    if (inherits(dots[[1]], c("Matdist", "VectorDistribution"))) {
+    if (inherits(dots[[1]], c("Matdist", "VectorDistribution", "Arrdist"))) {
       result$distr = do.call(c, map(dots, "distr"))
     } else {
       result$distr = tryCatch(

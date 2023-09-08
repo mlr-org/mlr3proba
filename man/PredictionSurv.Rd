@@ -14,6 +14,8 @@ task = tsk("rats")
 learner = lrn("surv.kaplan")
 p = learner$train(task, row_ids = 1:20)$predict(task, row_ids = 21:30)
 head(as.data.table(p))
+class(p$data$distr) # survival matrix stored
+p$distr # Matdist
 }
 \seealso{
 Other Prediction: 
@@ -32,8 +34,8 @@ True (observed) outcome.}
 \item{\code{crank}}{(\code{numeric()})\cr
 Access the stored predicted continuous ranking.}
 
-\item{\code{distr}}{(\link[distr6:Matdist]{distr6::Matdist}|\link[distr6:VectorDistribution]{distr6::VectorDistribution})\cr
-Convert the stored survival matrix to a survival distribution.}
+\item{\code{distr}}{(\link[distr6:Matdist]{distr6::Matdist}|\link[distr6:Arrdist]{distr6::Arrdist}|\link[distr6:VectorDistribution]{distr6::VectorDistribution})\cr
+Convert the stored survival array or matrix to a survival distribution.}
 
 \item{\code{lp}}{(\code{numeric()})\cr
 Access the stored predicted linear predictor.}
@@ -96,10 +98,10 @@ Numeric vector of predicted continuous rankings (or relative risks). One element
 observation in the test set. For a pair of continuous ranks, a higher rank indicates that
 the observation is more likely to experience the event.}
 
-\item{\code{distr}}{(\verb{matrix()|[distr6::Matdist]|[distr6::VectorDistribution]})\cr
-Either a matrix of predicted survival probabilities or a \link[distr6:VectorDistribution]{distr6::VectorDistribution}
-or a \link[distr6:Matdist]{distr6::Matdist}.
-If a matrix then column names must be given and correspond to survival times.
+\item{\code{distr}}{(\verb{matrix()|[distr6::Arrdist]|[distr6::Matdist]|[distr6::VectorDistribution]})\cr
+Either a matrix of predicted survival probabilities, a \link[distr6:VectorDistribution]{distr6::VectorDistribution},
+a \link[distr6:Matdist]{distr6::Matdist} or an \link[distr6:Arrdist]{distr6::Arrdist}.
+If a matrix/array then column names must be given and correspond to survival times.
 Rows of matrix correspond to individual predictions. It is advised that the
 first column should be time \code{0} with all entries \code{1} and the last
 with all entries \code{0}. If a \code{VectorDistribution} then each distribution in the vector
@@ -119,6 +121,15 @@ If \code{TRUE}, performs argument checks and predict type conversions.}
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Details}{
+Upon initialization, the \code{distr} input will be coerced to a survival matrix
+or array (accessible via \verb{$data$distr}) if it's a \link[distr6:Distribution]{Distribution}
+object. The active field \verb{$distr} always returns a distribution
+(\link[distr6:Matdist]{Matdist} or \link[distr6:Arrdist]{Arrdist}) depening on
+the class of the stored \verb{$data$distr}. In the case of an \link[distr6:Arrdist]{Arrdist},
+the distribution is by default initialized using \code{which.curve = 'mean'}.
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-PredictionSurv-clone"></a>}}

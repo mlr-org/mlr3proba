@@ -101,7 +101,7 @@ delayedAssign(
       distr = map(inputs, "distr")
 
       ok = mlr3misc::map_lgl(distr, function(.x) {
-        checkmate::test_class(.x, "Matdist")
+        checkmate::test_class(.x, "Matdist") | checkmate::test_class(.x, "Arrdist")
       })
 
       if (all(ok)) {
