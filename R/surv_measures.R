@@ -1,7 +1,7 @@
 surv_logloss = function(truth, distribution, eps = 1e-15, IPCW = TRUE, train = NULL, ...) {
 
   # calculate pdf at true death time
-  if (inherits(distribution, "Matdist")) {
+  if (inherits(distribution, c("Matdist", "Arrdist"))) {
     pred = diag(distribution$pdf(truth[, 1]))
   } else {
     pred = as.numeric(distribution$pdf(data = matrix(truth[, 1], nrow = 1)))
@@ -36,7 +36,7 @@ surv_logloss = function(truth, distribution, eps = 1e-15, IPCW = TRUE, train = N
   truth = truth[uncensored, 1]
   distribution = distribution[uncensored]
 
-  if (inherits(distribution, "Matdist")) {
+  if (inherits(distribution, c("Matdist", "Arrdist"))) {
     cens = diag(distribution$survival(truth))
   } else {
     cens = as.numeric(distribution$survival(data = matrix(truth, nrow = 1)))

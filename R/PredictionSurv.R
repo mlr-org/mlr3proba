@@ -13,11 +13,21 @@
 #' learner = lrn("surv.kaplan")
 #' p = learner$train(task, row_ids = 1:20)$predict(task, row_ids = 21:30)
 #' head(as.data.table(p))
+#' class(p$data$distr) # survival matrix stored
+#' p$distr # Matdist
 PredictionSurv = R6Class("PredictionSurv",
   inherit = Prediction,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @details
+    #' Upon initialization, the `distr` input will be coerced to a survival matrix
+    #' or array (accessible via `$data$distr`) if it's a [Distribution][distr6::Distribution]
+    #' object. The active field `$distr` always returns a distribution
+    #' ([Matdist][distr6::Matdist] or [Arrdist][distr6::Arrdist]) depening on
+    #' the class of the stored `$data$distr`. In the case of an [Arrdist][distr6::Arrdist],
+    #' the distribution is by default initialized using `which.curve = 'mean'`.
     #'
     #' @param task ([TaskSurv])\cr
     #'   Task, used to extract defaults for `row_ids` and `truth`.
@@ -33,10 +43,10 @@ PredictionSurv = R6Class("PredictionSurv",
     #'   observation in the test set. For a pair of continuous ranks, a higher rank indicates that
     #'   the observation is more likely to experience the event.
     #'
-    #' @param distr (`matrix()|[distr6::Matdist]|[distr6::VectorDistribution]`)\cr
-    #'   Either a matrix of predicted survival probabilities or a [distr6::VectorDistribution]
-    #'   or a [distr6::Matdist].
-    #'   If a matrix then column names must be given and correspond to survival times.
+    #' @param distr (`matrix()|[distr6::Arrdist]|[distr6::Matdist]|[distr6::VectorDistribution]`)\cr
+    #'   Either a matrix of predicted survival probabilities, a [distr6::VectorDistribution],
+    #'   a [distr6::Matdist] or an [distr6::Arrdist].
+    #'   If a matrix/array then column names must be given and correspond to survival times.
     #'   Rows of matrix correspond to individual predictions. It is advised that the
     #'   first column should be time `0` with all entries `1` and the last
     #'   with all entries `0`. If a `VectorDistribution` then each distribution in the vector
@@ -57,7 +67,7 @@ PredictionSurv = R6Class("PredictionSurv",
       distr = NULL, lp = NULL, response = NULL, check = TRUE) {
 
       if (inherits(distr, "Distribution")) {
-        # coerce to matrix if possible
+        # coerce to matrix/array if possible
         distr = private$.simplify_distr(distr)
       }
 
@@ -90,14 +100,14 @@ PredictionSurv = R6Class("PredictionSurv",
       self$data$crank %??% rep(NA_real_, length(self$data$row_ids))
     },
 
-    #' @field distr ([distr6::Matdist]|[distr6::VectorDistribution])\cr
-    #' Convert the stored survival matrix to a survival distribution.
+    #' @field distr ([distr6::Matdist]|[distr6::Arrdist]|[distr6::VectorDistribution])\cr
+    #' Convert the stored survival array or matrix to a survival distribution.
     distr = function() {
       if (inherits(self$data$distr, "Distribution")) {
         return(self$data$distr)
       }
 
-      private$.distrify_survmatrix(self$data$distr %??% NA_real_)
+      private$.distrify_survarray(self$data$distr %??% NA_real_)
     },
 
     #' @field lp (`numeric()`)\cr
@@ -117,7 +127,7 @@ PredictionSurv = R6Class("PredictionSurv",
     .censtype = NULL,
     .distr = function() self$data$distr %??% NA_real_,
     .simplify_distr = function(x) {
-      if (inherits(x, "Matdist")) {
+      if (inherits(x, c("Matdist", "Arrdist"))) {
         1 - gprm(x, "cdf")
       } else {
         if (!inherits(x, "VectorDistribution")) {
@@ -148,9 +158,16 @@ PredictionSurv = R6Class("PredictionSurv",
         surv
       }
     },
-    .distrify_survmatrix = function(x) {
-      distr6::as.Distribution(1 - x, fun = "cdf",
-        decorators = c("CoreStatistics", "ExoticStatistics"))
+    .distrify_survarray = function(x) {
+      if (inherits(x, "matrix")) {
+        # create Matdist
+        distr6::as.Distribution(1 - x, fun = "cdf",
+          decorators = c("CoreStatistics", "ExoticStatistics"))
+      } else {
+        # create Arrdist
+        distr6::Arrdist$new(cdf = 1 - x, which.curve = "mean",
+          decorators = c("CoreStatistics", "ExoticStatistics"))
+      }
     }
   )
 )
