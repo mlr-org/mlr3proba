@@ -84,9 +84,11 @@
     return(apply(arr, c(1,2), mean))
   }
 
-  if (length(which.curve) != 1 ||
-     (is.numeric(which.curve) && length(which.curve) == 1 && which.curve < 0) ||
-     (is.character(which.curve) && length(which.curve) == 1 && which.curve != "mean")) {
+  # which.curve must be length 1 and either 'mean' or >0
+  ok = (length(which.curve) == 1) &&
+    ((is.character(which.curve) && which.curve == "mean") ||
+      (is.numeric(which.curve) && which.curve > 0))
+  if (!ok) {
     stop("'which.curve' has to be a numeric between (0,1) or the index of the
       3rd dimension or 'mean'")
   }
