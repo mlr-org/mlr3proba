@@ -109,7 +109,12 @@ filter_prediction_data.PredictionDataSurv = function(pdata, row_ids, ...) {
   }
 
   if (!is.null(pdata$distr)) {
-    pdata$distr = pdata$distr[keep, , drop = FALSE]
+    if (inherits(pdata$distr, "matrix")) {
+      pdata$distr = pdata$distr[keep, , drop = FALSE]
+    } else { # array
+      pdata$distr = pdata$distr[keep, , , drop = FALSE]
+    }
+
   }
 
   pdata
