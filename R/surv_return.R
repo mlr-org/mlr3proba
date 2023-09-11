@@ -10,9 +10,10 @@
 #' vector is provided, it is converted to a single row (one observation) matrix.
 #' @param which.curve Which curve (3rd dimension) should the `crank` be
 #' calculated for, in case `surv` is an `array`? If between (0,1) it is taken as
-#' the quantile of the curves (assumes these are ordered) otherwise if greater
-#' than 1 it is taken as the curve index. It can also be 'mean' and the survival
-#' probabilities are averaged across the 3rd dimension.
+#' the quantile of the curves otherwise if greater than 1 it is taken as the
+#' curve index. It can also be 'mean' and the survival probabilities are averaged
+#' across the 3rd dimension. Default value (`NULL`) is the **0.5 quantile** which
+#' is the median across the 3rd dimension of the survival array.
 #' @param crank (`numeric()`)\cr Relative risk/continuous ranking. Higher value is associated
 #' with higher risk. If `NULL` then either set as `-response` if available or
 #' `lp` if available (this assumes that the `lp` prediction comes from a PH type
@@ -83,9 +84,10 @@
 
 # helper function to extract a survival matrix from a 3D survival array
 .ext_surv_mat = function(arr, which.curve) {
-  # if NULL return the 'mean' curve (default)
+  # if NULL return the 'median' curve (default)
   if (is.null(which.curve)) {
-    return(apply(arr, c(1,2), mean))
+    return(array(apply(arr, c(1, 2), quantile, 0.5), c(nrow(arr), ncol(arr)),
+      dimnames(arr)[c(1, 2)]))
   }
 
   # which.curve must be length 1 and either 'mean' or >0
