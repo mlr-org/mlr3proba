@@ -70,7 +70,7 @@ Suggests:
 LinkingTo:
     Rcpp
 Remotes:
-    alan-turing-institute/distr6,
+    xoopR/distr6,
     xoopR/param6,
     xoopR/set6
 ByteCompile: true
