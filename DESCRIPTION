@@ -70,7 +70,7 @@ Suggests:
 LinkingTo:
     Rcpp
 Remotes:
-    xoopR/distr6,
+    xoopR/distr6#289,
     xoopR/param6,
     xoopR/set6
 ByteCompile: true
