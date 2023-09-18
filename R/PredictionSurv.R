@@ -128,7 +128,7 @@ PredictionSurv = R6Class("PredictionSurv",
     .distr = function() self$data$distr %??% NA_real_,
     .simplify_distr = function(x) {
       if (inherits(x, c("Matdist", "Arrdist"))) {
-        1 - gprm(x, "cdf")
+        1 - gprm(x, "cdf") # matrix or 3d array
       } else {
         if (!inherits(x, "VectorDistribution")) {
           stop("'x' is not a 'VectorDistribution'")
@@ -159,13 +159,9 @@ PredictionSurv = R6Class("PredictionSurv",
       }
     },
     .distrify_survarray = function(x) {
-      if (inherits(x, "matrix")) {
-        # create Matdist
+      if (inherits(x, "array")) { # can be matrix as well
+        # create Matdist or Arrdist (default => median curve)
         distr6::as.Distribution(1 - x, fun = "cdf",
-          decorators = c("CoreStatistics", "ExoticStatistics"))
-      } else {
-        # create Arrdist
-        distr6::Arrdist$new(cdf = 1 - x, which.curve = "mean",
           decorators = c("CoreStatistics", "ExoticStatistics"))
       }
     }
