@@ -22,12 +22,24 @@ PredictionSurv = R6Class("PredictionSurv",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
     #' @details
-    #' Upon initialization, the `distr` input will be coerced to a survival matrix
-    #' or array (accessible via `$data$distr`) if it's a [Distribution][distr6::Distribution]
-    #' object. The active field `$distr` always returns a distribution
-    #' ([Matdist][distr6::Matdist] or [Arrdist][distr6::Arrdist]) depening on
-    #' the class of the stored `$data$distr`. In the case of an [Arrdist][distr6::Arrdist],
-    #' the distribution is by default initialized using `which.curve = 'mean'`.
+    #' Upon **initialization**, if the `distr` input is a [Distribution][distr6::Distribution],
+    #' we try to coerce it either to a survival matrix or a survival array and store it
+    #' in the `$data$distr` slot for internal use.
+    #'
+    #' If the stored `$data$distr` is a [Distribution][distr6::Distribution] object,
+    #' the active field `$distr` (**external user API**) returns it without modification.
+    #' Otherwise, if `$data$distr` is a survival matrix or array, `$distr`
+    #' constructs a distribution out of the `$data$distr` object, which will be a
+    #' [Matdist][distr6::Matdist] or [Arrdist][distr6::Arrdist] respectively.
+    #'
+    #' Note that if a survival 3d array is stored in `$data$distr`, the `$distr`
+    #' field returns an [Arrdist][distr6::Arrdist] initialized with `which.curve = 0.5`
+    #' by default (i.e. the median curve). This means that measures that require
+    #' a `distr` prediction like [MeasureSurvGraf], [MeasureSurvRCLL], etc.
+    #' will use the median survival probabilities.
+    #' Note that it is possible to manually change `which.curve` after construction
+    #' of the predicted distribution but we advise against this as it may lead to
+    #' inconsistent results.
     #'
     #' @param task ([TaskSurv])\cr
     #'   Task, used to extract defaults for `row_ids` and `truth`.

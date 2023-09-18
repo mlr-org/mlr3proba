@@ -14,8 +14,8 @@ task = tsk("rats")
 learner = lrn("surv.kaplan")
 p = learner$train(task, row_ids = 1:20)$predict(task, row_ids = 21:30)
 head(as.data.table(p))
-class(p$data$distr) # survival matrix stored
-p$distr # Matdist
+# survival probability of first rat in the test set at a specific time point
+p$distr$survival(77)[1]
 }
 \seealso{
 Other Prediction: 
@@ -122,12 +122,24 @@ If \code{TRUE}, performs argument checks and predict type conversions.}
 \if{html}{\out{</div>}}
 }
 \subsection{Details}{
-Upon initialization, the \code{distr} input will be coerced to a survival matrix
-or array (accessible via \verb{$data$distr}) if it's a \link[distr6:Distribution]{Distribution}
-object. The active field \verb{$distr} always returns a distribution
-(\link[distr6:Matdist]{Matdist} or \link[distr6:Arrdist]{Arrdist}) depening on
-the class of the stored \verb{$data$distr}. In the case of an \link[distr6:Arrdist]{Arrdist},
-the distribution is by default initialized using \code{which.curve = 'mean'}.
+Upon \strong{initialization}, if the \code{distr} input is a \link[distr6:Distribution]{Distribution},
+we try to coerce it either to a survival matrix or a survival array and store it
+in the \verb{$data$distr} slot for internal use.
+
+If the stored \verb{$data$distr} is a \link[distr6:Distribution]{Distribution} object,
+the active field \verb{$distr} (\strong{external user API}) returns it without modification.
+Otherwise, if \verb{$data$distr} is a survival matrix or array, \verb{$distr}
+constructs a distribution out of the \verb{$data$distr} object, which will be a
+\link[distr6:Matdist]{Matdist} or \link[distr6:Arrdist]{Arrdist} respectively.
+
+Note that if a survival 3d array is stored in \verb{$data$distr}, the \verb{$distr}
+field returns an \link[distr6:Arrdist]{Arrdist} initialized with \code{which.curve = 0.5}
+by default (i.e. the median curve). This means that measures that require
+a \code{distr} prediction like \link{MeasureSurvGraf}, \link{MeasureSurvRCLL}, etc.
+will use the median survival probabilities.
+Note that it is possible to manually change \code{which.curve} after construction
+of the predicted distribution but we advise against this as it may lead to
+inconsistent results.
 }
 
 }
