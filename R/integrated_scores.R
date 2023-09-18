@@ -26,7 +26,11 @@ weighted_survival_score = function(loss, truth, distribution, times, t_max, p_ma
     unique_times = .c_get_unique_times(truth[, "time"], times)
   }
 
-  if (inherits(distribution, "Distribution")) {
+  is_distr_or_array =
+    (inherits(distribution, "Distribution")) ||
+    (inherits(distribution, "array") & length(dim(array)) == 3)
+
+  if (is_distr_or_array) {
     cdf = as.matrix(distribution$cdf(unique_times))
   } else {
     mtc = findInterval(unique_times, as.numeric(colnames(distribution)))
