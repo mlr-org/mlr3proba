@@ -13,8 +13,8 @@
 #' learner = lrn("surv.kaplan")
 #' p = learner$train(task, row_ids = 1:20)$predict(task, row_ids = 21:30)
 #' head(as.data.table(p))
-#' class(p$data$distr) # survival matrix stored
-#' p$distr # Matdist
+#' # survival probability of first rat in the test set at a specific time point
+#' p$distr$survival(77)[1]
 PredictionSurv = R6Class("PredictionSurv",
   inherit = Prediction,
   public = list(
