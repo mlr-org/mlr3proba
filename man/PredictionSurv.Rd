@@ -12,10 +12,10 @@ The \code{task_type} is set to \code{"surv"}.
 library(mlr3)
 task = tsk("rats")
 learner = lrn("surv.kaplan")
-p = learner$train(task, row_ids = 1:20)$predict(task, row_ids = 21:30)
+p = learner$train(task, row_ids = 1:26)$predict(task, row_ids = 27:30)
 head(as.data.table(p))
-# survival probability of first rat in the test set at a specific time point
-p$distr$survival(77)[1]
+# survival probabilities of the 4 test rats at two time points
+p$distr$survival(c(20, 100))
 }
 \seealso{
 Other Prediction: 
