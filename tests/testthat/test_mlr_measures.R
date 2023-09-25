@@ -230,3 +230,29 @@ test_that("rcll works", {
   p = suppressWarnings(l$train(t)$predict(t))
   expect_true(p$score(m) < KMscore)
 })
+
+test_that("distr measures work with 3d survival array", {
+  learner = lrn("surv.kaplan")$train(task)
+  p = learner$predict(task)
+  expect_class(p$data$distr, "matrix")
+  expect_class(p$distr, "Matdist")
+
+  # hack: substitute with 3d survival array
+  surv_mat = p$data$distr
+  p$data$distr = abind::abind(
+    sapply(seq(0.1, 0.4, 0.1), function(n) {surv_mat - n}, simplify = FALSE),
+    along = 3
+  )
+  expect_class(p$data$distr, "array")
+  expect_class(p$distr, "Arrdist") # `distr6` interface class changed
+
+  distr_msrs = msrs(as.data.table(mlr_measures)[
+    predict_type == 'distr' & startsWith(key, 'surv')
+  ]$key)
+
+  for (m in distr_msrs) {
+    expect_numeric({
+      print(p$score(m, task = task, train_set = seq(task$nrow), learner = learner))
+    })
+  }
+})
