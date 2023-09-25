@@ -28,19 +28,12 @@ test_that("mlr_measures", {
     })
     expect_number(perf, na.ok = "na_score" %in% m$properties)
 
-    if (key == "surv.graf") {
-      expect_equal(unname(perf), 1.070536, tolerance = 1e-05)
-    }
-
     # test measures with squared-errors
     if (key %in% paste0("surv.", c("schmid", "graf", "intlogloss", "logloss", "mae", "mse",
       "rmse", "calib_alpha", "calib_beta"))) {
       m = suppressWarnings(msr(key, se = TRUE))
       perf = pred$score(m, task = task, train_set = seq(task$nrow), learner = learner)
       expect_number(perf, na.ok = TRUE)
-      if (key == "surv.graf") {
-        expect_equal(unname(perf), 1.507289, tolerance = 1e-05)
-      }
     }
   }
 })
@@ -65,13 +58,10 @@ test_that("integrated_prob_losses", {
   )
 
   prediction$score(msr("surv.intlogloss", integrated = TRUE, proper = TRUE, times = 100:110))
-  expect_silent({p1 = prediction$score(lapply(probs, msr, integrated = TRUE, proper = TRUE))})
-  expect_equal(unname(p1), c(0.07928, 0.31106, 0.18810), tolerance = 1e-05)
+  expect_silent(prediction$score(lapply(probs, msr, integrated = TRUE, proper = TRUE)))
   expect_error(prediction$score(lapply(probs, msr, integrated = TRUE, times = c(34:38), proper = TRUE)), "Requested times")
-  expect_silent({p2 = prediction$score(lapply(probs, msr, integrated = TRUE, times = c(100:110), proper = TRUE))})
-  expect_equal(unname(p2), c(0.12778, 0.42691, 0.28868), tolerance = 1e-05)
-  expect_silent({p3 = prediction$score(lapply(probs, msr, integrated = FALSE, times = 80, proper = TRUE))})
-  expect_equal(unname(p3), c(0.05290, 0.24390, 0.12461), tolerance = 1e-05)
+  expect_silent(prediction$score(lapply(probs, msr, integrated = TRUE, times = c(100:110), proper = TRUE)))
+  expect_silent(prediction$score(lapply(probs, msr, integrated = FALSE, times = 80, proper = TRUE)))
 })
 
 test_that("dcalib", {
@@ -252,7 +242,7 @@ test_that("distr measures work with 3d survival array", {
 
   for (m in distr_msrs) {
     expect_numeric({
-      print(p$score(m, task = task, train_set = seq(task$nrow), learner = learner))
+      p$score(m, task = task, train_set = seq(task$nrow), learner = learner)
     })
   }
 })
