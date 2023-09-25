@@ -86,7 +86,7 @@
 .ext_surv_mat = function(arr, which.curve) {
   # if NULL return the 'median' curve (default)
   if (is.null(which.curve)) {
-    return(array(apply(arr, c(1, 2), quantile, 0.5), c(nrow(arr), ncol(arr)),
+    return(array(apply(arr, c(1, 2), stats::quantile, 0.5), c(nrow(arr), ncol(arr)),
       dimnames(arr)[c(1, 2)]))
   }
 
@@ -109,7 +109,7 @@
     apply(arr, c(1, 2), mean)
   # curve chosen based on quantile
   } else if (which.curve < 1) {
-    array(apply(arr, c(1, 2), quantile, which.curve), c(nrow(arr), ncol(arr)),
+    array(apply(arr, c(1, 2), stats::quantile, which.curve), c(nrow(arr), ncol(arr)),
       dimnames(arr)[c(1, 2)])
   # curve chosen based on index
   } else {
