@@ -10,38 +10,77 @@ test_that("Internally constructed Prediction", {
   lrn = lrn("surv.kaplan")
   p = lrn$train(task)$predict(task)
   expect_prediction_surv(p)
+
+  p = reshape_distr_to_3d(p)
+  expect_prediction_surv(p)
 })
 
 lrn = lrn("surv.kaplan")
 
 test_that("c", {
+  set.seed(1)
   resampling = rsmp("cv", folds = 2)
   rr = resample(task, lrn, resampling)
 
   preds = rr$predictions()
 
+  # combining survival matrices
+  # same number of time points (columns) but different values
+  distr1 = preds[[1]]$data$distr
+  distr2 = preds[[2]]$data$distr
+  times1 = as.integer(colnames(distr1))
+  times2 = as.integer(colnames(distr2))
+  expect_true(length(times1) == length(times2))
+  expect_false(all(times1 == times2))
+
+  # so internal prediction data must be a distribution and not a survival matrix
   pred = do.call(c, preds)
   expect_prediction_surv(pred)
+  expect_class(pred$data$distr, "Distribution")
 
+  # data.table conversion
   dt = as.data.table(pred)
   expect_data_table(dt, nrows = task$nrow, ncols = 5L, any.missing = FALSE)
+
+  # different number of time points
+  preds2 = rr$predictions()
+  preds2[[2]]$data$distr = cbind(distr2,
+    matrix(data = rep(0.3, 10), ncol = 1, dimnames = list(NULL, 108)))
+  expect_false(ncol(preds2[[1]]$data$distr) == ncol(preds2[[2]]$data$distr))
+  pred2 = do.call(c, preds2)
+  expect_prediction_surv(pred2)
+  expect_class(pred2$data$distr, "Distribution")
+
+  # combining survival arrays
+  arr_preds = mlr3misc::map(preds, reshape_distr_to_3d)
+  arr_pred = do.call(c, arr_preds)
+  expect_prediction_surv(arr_pred)
+  expect_class(arr_pred$data$distr, "array")
+  expect_class(arr_pred$distr, "Arrdist")
+  # check that time points are combined properly
+  expect_equal(as.integer(colnames(arr_pred$data$distr)),
+    unique(sort(c(times1, times2))))
 
   p1 = lrn("surv.kaplan")$train(task)$predict(task)
   p2 = suppressWarnings(lrn("surv.coxph")$train(task))$predict(task)
   expect_error(c(p1, p2), "Cannot combine")
 
-  resampling = rsmp("cv", folds = 2)
-  rr = resample(task, lrn, resampling)
-
-  preds = rr$predictions()
-
-  pred = do.call(c, preds)
-  expect_prediction_surv(pred)
-
+  # combining distr predictions with exactly the same time points
   p1 = lrn("surv.kaplan")$train(task)$predict(task)
-  p2 = p1
+  p2 = p1$clone()
   expect_equal(length(c(p1, p2, keep_duplicates = TRUE)$row_ids), 40)
   expect_equal(length(c(p1, p2, keep_duplicates = FALSE)$row_ids), 20)
+  preds = list(p1, p2)
+  p12 = do.call(c, preds)
+  expect_class(p12$data$distr, "matrix") # combination is a matrix
+  expect_equal(colnames(p12$data$distr), colnames(p1$data$distr)) # same time points
+
+  arr_p1 = reshape_distr_to_3d(p1)
+  arr_p2 = reshape_distr_to_3d(p2)
+  arr_preds = list(arr_p1, arr_p2)
+  arr_pred = do.call(c, arr_preds)
+  expect_class(arr_pred$data$distr, "array") # combination is an array
+  expect_equal(colnames(arr_pred$data$distr), colnames(arr_p1$data$distr)) # same time points
 })
 
 test_that("data.frame roundtrip", {
@@ -66,11 +105,20 @@ test_that("as_prediction_surv", {
 
 test_that("filtering", {
   p = suppressWarnings(lrn("surv.coxph")$train(task)$predict(task))
+  p2 = reshape_distr_to_3d(p) # survival array distr
+
   p$filter(c(20, 37, 42))
+  p2$filter(c(20, 37, 42))
   expect_prediction_surv(p)
+  expect_prediction_surv(p2)
 
   expect_set_equal(p$data$row_ids, c(20, 37, 42))
+  expect_set_equal(p2$data$row_ids, c(20, 37, 42))
   expect_numeric(p$data$crank, any.missing = FALSE, len = 3)
+  expect_numeric(p2$data$crank, any.missing = FALSE, len = 3)
   expect_numeric(p$data$lp, any.missing = FALSE, len = 3)
+  expect_numeric(p2$data$lp, any.missing = FALSE, len = 3)
   expect_matrix(p$data$distr, nrows = 3)
+  expect_array(p2$data$distr, d = 3)
+  expect_equal(nrow(p2$data$distr), 3)
 })
