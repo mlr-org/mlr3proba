@@ -20,6 +20,7 @@ pecs(x, measure = c("graf", "logloss"), times, n, eps = NULL, ...)
   train_task = NULL,
   train_set = NULL,
   proper = TRUE,
+  which.curve = 0.5,
   ...
 )
 
@@ -32,6 +33,7 @@ pecs(x, measure = c("graf", "logloss"), times, n, eps = NULL, ...)
   train_task = NULL,
   train_set = NULL,
   proper = TRUE,
+  which.curve = 0.5,
   ...
 )
 }
@@ -73,6 +75,13 @@ training data.}
 
 \item{proper}{(\code{logical(1)}) \cr
 Passed to \link{MeasureSurvGraf} or \link{MeasureSurvIntLogloss}.}
+
+\item{which.curve}{(\code{numeric(1)|character(1)}) \cr
+Passed to \link{MeasureSurvGraf} or \link{MeasureSurvIntLogloss}. Decides which curve
+(third dimension) should we extract from survival distribution predictions
+that have 3 dimensions. If between (0,1) taken as the quantile of the curves
+otherwise if greater than 1 taken as the curve index, can also be 'mean'.
+Defaults to 0.5 (median curve).}
 }
 \description{
 Methods to plot prediction error curves (pecs) for either a \link{PredictionSurv} object

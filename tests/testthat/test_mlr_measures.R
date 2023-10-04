@@ -241,4 +241,12 @@ test_that("distr measures work with 3d survival array", {
       p$score(m, task = task, train_set = seq(task$nrow), learner = learner)
     })
   }
+
+  # different 'which.curve' changes the IntBrier score
+  m = msr("surv.graf")
+  expect_equal(m$param_set$get_values()$which.curve, 0.5)
+  s1 = p$score(m, task = task, train_set = seq(task$nrow), learner = learner)
+  m$param_set$set_values(which.curve = 1)
+  s2 = p$score(m, task = task, train_set = seq(task$nrow), learner = learner)
+  expect_true(s1 != s2)
 })

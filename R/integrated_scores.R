@@ -9,7 +9,8 @@ score_graf_schmid = function(true_times, unique_times, cdf, power = 2) {
 }
 
 
-weighted_survival_score = function(loss, truth, distribution, times, t_max, p_max, proper, train = NULL, eps, ...) {
+weighted_survival_score = function(loss, truth, distribution, times, t_max,
+  p_max, proper, train = NULL, eps, which.curve, ...) {
 
   assert_surv(truth)
 
@@ -32,9 +33,9 @@ weighted_survival_score = function(loss, truth, distribution, times, t_max, p_ma
   }
   else if (inherits(distribution, "array")) {
     if (length(dim(distribution)) == 3) {
-      # survival 3d array, extract median
-      surv_mat = .ext_surv_mat(arr = distribution, which.curve = 0.5)
-    } else { # survival 2d array
+      # survival 3d array, extract matrix
+      surv_mat = .ext_surv_mat(arr = distribution, which.curve = which.curve)
+    } else { # survival 2d matrix
       surv_mat = distribution
     }
     mtc = findInterval(unique_times, as.numeric(colnames(surv_mat)))

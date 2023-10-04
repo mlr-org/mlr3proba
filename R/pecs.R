@@ -26,6 +26,12 @@
 #'   training data.
 #' @param proper (`logical(1)`) \cr
 #'   Passed to [MeasureSurvGraf] or [MeasureSurvIntLogloss].
+#' @param which.curve (`numeric(1)|character(1)`) \cr
+#'   Passed to [MeasureSurvGraf] or [MeasureSurvIntLogloss]. Decides which curve
+#'   (third dimension) should we extract from survival distribution predictions
+#'   that have 3 dimensions. If between (0,1) taken as the quantile of the curves
+#'   otherwise if greater than 1 taken as the curve index, can also be 'mean'.
+#'   Defaults to 0.5 (median curve).
 #' @param ... Additional arguments.
 #'
 #' @details If `times` and `n` are missing then `measure` is evaluated over all observed time-points
@@ -71,7 +77,7 @@ pecs = function(x, measure = c("graf", "logloss"), times, n, eps = NULL, ...) {
 #' @export
 pecs.list = function(x, measure = c("graf", "logloss"), times, n, eps = NULL, task = NULL, # nolint
   row_ids = NULL, newdata = NULL, train_task = NULL, train_set = NULL,
-  proper = TRUE, ...) {
+  proper = TRUE, which.curve = 0.5, ...) {
 
   measure = match.arg(measure)
 
@@ -116,7 +122,7 @@ pecs.list = function(x, measure = c("graf", "logloss"), times, n, eps = NULL, ta
         distribution = y$data$distr,
         times = times,
         eps = eps, train = train,
-        proper = proper),
+        proper = proper, which.curve = which.curve),
       integrated = FALSE)
     })
   } else {
@@ -125,7 +131,7 @@ pecs.list = function(x, measure = c("graf", "logloss"), times, n, eps = NULL, ta
         truth = task$truth(),
         distribution = y$data$distr,
         times = times, train = train, eps = eps,
-        proper = proper),
+        proper = proper, which.curve = which.curve),
       integrated = FALSE)
     })
   }
@@ -144,7 +150,7 @@ pecs.list = function(x, measure = c("graf", "logloss"), times, n, eps = NULL, ta
 #' @rdname pecs
 #' @export
 pecs.PredictionSurv = function(x, measure = c("graf", "logloss"), times, n, eps = 1e-15, # nolint
-  train_task = NULL, train_set = NULL, proper = TRUE, ...) {
+  train_task = NULL, train_set = NULL, proper = TRUE, which.curve = 0.5, ...) {
 
   measure = match.arg(measure)
   if (is.null(eps)) {
@@ -171,7 +177,7 @@ pecs.PredictionSurv = function(x, measure = c("graf", "logloss"), times, n, eps 
         truth = x$truth,
         distribution = x$data$distr,
         times = times,
-        eps = eps, train = train, proper = proper),
+        eps = eps, train = train, proper = proper, which.curve = which.curve),
       integrated = FALSE))
   } else {
     scores = data.frame(graf = integrated_score(
@@ -179,7 +185,7 @@ pecs.PredictionSurv = function(x, measure = c("graf", "logloss"), times, n, eps 
         truth = x$truth,
         distribution = x$data$distr,
         times = times, train = train, eps = eps,
-        proper = proper),
+        proper = proper, which.curve = which.curve),
       integrated = FALSE))
   }
 
