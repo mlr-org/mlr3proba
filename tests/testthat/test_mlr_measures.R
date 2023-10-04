@@ -228,11 +228,7 @@ test_that("distr measures work with 3d survival array", {
   expect_class(p$distr, "Matdist")
 
   # hack: substitute with 3d survival array
-  surv_mat = p$data$distr
-  p$data$distr = abind::abind(
-    sapply(seq(0.1, 0.4, 0.1), function(n) {surv_mat - n}, simplify = FALSE),
-    along = 3
-  )
+  p = reshape_distr_to_3d(p)
   expect_class(p$data$distr, "array")
   expect_class(p$distr, "Arrdist") # `distr6` interface class changed
 
