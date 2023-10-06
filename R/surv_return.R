@@ -8,12 +8,6 @@
 #' are times and in the case of an array there should be one more dimension.
 #' Number of columns should be equal to length of `times`. In case a `numeric()`
 #' vector is provided, it is converted to a single row (one observation) matrix.
-#' @param which.curve Which curve (3rd dimension) should the `crank` be
-#' calculated for, in case `surv` is an `array`? If between (0,1) it is taken as
-#' the quantile of the curves otherwise if greater than 1 it is taken as the
-#' curve index. It can also be 'mean' and the survival probabilities are averaged
-#' across the 3rd dimension. Default value (`NULL`) is the **0.5 quantile** which
-#' is the median across the 3rd dimension of the survival array.
 #' @param crank (`numeric()`)\cr Relative risk/continuous ranking. Higher value is associated
 #' with higher risk. If `NULL` then either set as `-response` if available or
 #' `lp` if available (this assumes that the `lp` prediction comes from a PH type
@@ -26,6 +20,12 @@
 #' @param lp (`numeric()`)\cr Predicted linear predictor, used to impute `crank` if `NULL`.
 #' @param response (`numeric()`)\cr Predicted survival time, passed through function without
 #' modification.
+#' @param which.curve Which curve (3rd dimension) should the `crank` be
+#' calculated for, in case `surv` is an `array`? If between (0,1) it is taken as
+#' the quantile of the curves otherwise if greater than 1 it is taken as the
+#' curve index. It can also be 'mean' and the survival probabilities are averaged
+#' across the 3rd dimension. Default value (`NULL`) is the **0.5 quantile** which
+#' is the median across the 3rd dimension of the survival array.
 #'
 #' @details
 #' Uses [survivalmodels::surv_to_risk] to reduce survival matrices to relative
@@ -36,8 +36,8 @@
 #' evaluating survival distribution predictions with discrimination measures.
 #' Bioinformatics. https://doi.org/10.1093/BIOINFORMATICS/BTAC451
 #' @export
-.surv_return = function(times = NULL, surv = NULL, which.curve = NULL,
-  crank = NULL, lp = NULL, response = NULL) {
+.surv_return = function(times = NULL, surv = NULL, crank = NULL, lp = NULL,
+  response = NULL, which.curve = NULL) {
 
   if (!is.null(surv)) {
     if (class(surv)[1] == "numeric") {
@@ -74,6 +74,7 @@
     }
   }
 
+  # TODO: pass the 'which.curve' parameter in PredictionSurv
   list(
     distr = surv, # matrix or array
     crank = crank,

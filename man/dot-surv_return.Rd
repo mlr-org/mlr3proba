@@ -7,10 +7,10 @@
 .surv_return(
   times = NULL,
   surv = NULL,
-  which.curve = NULL,
   crank = NULL,
   lp = NULL,
-  response = NULL
+  response = NULL,
+  which.curve = NULL
 )
 }
 \arguments{
@@ -21,13 +21,6 @@ probabilities, rows (1st dimension) are observations, columns (2nd dimension)
 are times and in the case of an array there should be one more dimension.
 Number of columns should be equal to length of \code{times}. In case a \code{numeric()}
 vector is provided, it is converted to a single row (one observation) matrix.}
-
-\item{which.curve}{Which curve (3rd dimension) should the \code{crank} be
-calculated for, in case \code{surv} is an \code{array}? If between (0,1) it is taken as
-the quantile of the curves otherwise if greater than 1 it is taken as the
-curve index. It can also be 'mean' and the survival probabilities are averaged
-across the 3rd dimension. Default value (\code{NULL}) is the \strong{0.5 quantile} which
-is the median across the 3rd dimension of the survival array.}
 
 \item{crank}{(\code{numeric()})\cr Relative risk/continuous ranking. Higher value is associated
 with higher risk. If \code{NULL} then either set as \code{-response} if available or
@@ -43,6 +36,13 @@ dimension) will be chosen for the calculation of \code{crank}.}
 
 \item{response}{(\code{numeric()})\cr Predicted survival time, passed through function without
 modification.}
+
+\item{which.curve}{Which curve (3rd dimension) should the \code{crank} be
+calculated for, in case \code{surv} is an \code{array}? If between (0,1) it is taken as
+the quantile of the curves otherwise if greater than 1 it is taken as the
+curve index. It can also be 'mean' and the survival probabilities are averaged
+across the 3rd dimension. Default value (\code{NULL}) is the \strong{0.5 quantile} which
+is the median across the 3rd dimension of the survival array.}
 }
 \description{
 Internal helper function to easily return the correct survival predict types.
