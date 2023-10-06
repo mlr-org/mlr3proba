@@ -73,7 +73,7 @@ c.PredictionDataSurv = function(..., keep_duplicates = TRUE) {
 
   if ("distr" %in% predict_types) {
     distr_list = map(dots, "distr")
-    classes = sapply(distr_list, function(d) { class(d)[1] })
+    classes = lapply(distr_list, function(d) { class(d)[1] })
     distr6_classes = c("Matdist", "VectorDistribution", "Arrdist")
     data_classes = c("matrix", "array")
 
@@ -89,7 +89,7 @@ c.PredictionDataSurv = function(..., keep_duplicates = TRUE) {
         # 2) in case of arrays, the size of the third dimension is also the same
         # TODO(?): use code from distr6 to make matrices and arrays with same
         # number of columns and fill in the survival probabilities inside
-        ncols = sapply(distr_list, ncol)
+        ncols = lapply(distr_list, ncol)
         same_ncols = length(unique(ncols)) == 1
 
         same_colnames = FALSE
@@ -99,7 +99,7 @@ c.PredictionDataSurv = function(..., keep_duplicates = TRUE) {
         }
         same_dim3 = TRUE # in case of matrices this is always true
         if (classes[1] == "array") {
-          dim3_sizes = sapply(distr_list, function(x) dim(x)[[3L]])
+          dim3_sizes = lapply(distr_list, function(x) dim(x)[[3L]])
           same_dim3 = length(unique(dim3_sizes)) == 1
         }
 
