@@ -34,13 +34,9 @@ PredictionSurv = R6Class("PredictionSurv",
     #'
     #' Note that if a survival 3d array is stored in `$data$distr`, the `$distr`
     #' field returns an [Arrdist][distr6::Arrdist] initialized with `which.curve = 0.5`
-    #' by default (i.e. the median curve). Some measures that require a `distr`
-    #' prediction like [MeasureSurvDCalibration] and [MeasureSurvRCLL], use
-    #' internally the `$distr` field, and thus use the median survival probabilities.
-    #' Other integrated measures that require a `distr` prediction, like
-    #' [MeasureSurvGraf] and [MeasureSurvIntLogloss], will in most cases use
-    #' directly the `$data$distr` matrix/array and have a configurable `which.curve`
-    #' parameter (defaults to `0.5`).
+    #' by default (i.e. the median curve). This means that measures that require
+    #' a `distr` prediction like [MeasureSurvGraf], [MeasureSurvRCLL], etc.
+    #' will use the median survival probabilities.
     #' Note that it is possible to manually change `which.curve` after construction
     #' of the predicted distribution but we advise against this as it may lead to
     #' inconsistent results.

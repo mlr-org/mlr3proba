@@ -134,13 +134,9 @@ constructs a distribution out of the \verb{$data$distr} object, which will be a
 
 Note that if a survival 3d array is stored in \verb{$data$distr}, the \verb{$distr}
 field returns an \link[distr6:Arrdist]{Arrdist} initialized with \code{which.curve = 0.5}
-by default (i.e. the median curve). Some measures that require a \code{distr}
-prediction like \link{MeasureSurvDCalibration} and \link{MeasureSurvRCLL}, use
-internally the \verb{$distr} field, and thus use the median survival probabilities.
-Other integrated measures that require a \code{distr} prediction, like
-\link{MeasureSurvGraf} and \link{MeasureSurvIntLogloss}, will in most cases use
-directly the \verb{$data$distr} matrix/array and have a configurable \code{which.curve}
-parameter (defaults to \code{0.5}).
+by default (i.e. the median curve). This means that measures that require
+a \code{distr} prediction like \link{MeasureSurvGraf}, \link{MeasureSurvRCLL}, etc.
+will use the median survival probabilities.
 Note that it is possible to manually change \code{which.curve} after construction
 of the predicted distribution but we advise against this as it may lead to
 inconsistent results.

@@ -62,12 +62,11 @@ MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
         se = p_lgl(default = FALSE),
         proper = p_lgl(default = FALSE),
         eps = p_dbl(0, 1, default = 1e-3),
-        ERV = p_lgl(default = FALSE),
-        which.curve = p_uty()
+        ERV = p_lgl(default = FALSE)
       )
       ps$values = list(
         integrated = TRUE, method = 2L, se = FALSE,
-        proper = FALSE, eps = 1e-3, ERV = ERV, which.curve = 0.5
+        proper = FALSE, eps = 1e-3, ERV = ERV
       )
 
       range = if (ERV) c(-Inf, 1) else c(0, Inf)
@@ -115,7 +114,7 @@ MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
         truth = prediction$truth,
         distribution = prediction$data$distr, times = ps$times,
         t_max = ps$t_max, p_max = ps$p_max, proper = ps$proper, train = train,
-        eps = ps$eps, which.curve = ps$which.curve
+        eps = ps$eps
       )
 
       if (ps$se) {

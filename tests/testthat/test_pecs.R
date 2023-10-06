@@ -20,7 +20,4 @@ test_that("pecs.PredictionSurv", {
     p = lrn("surv.coxph")$train(task)$predict(task)
   })
   expect_silent(pecs(p))
-
-  p2 = reshape_distr_to_3d(p)
-  expect_silent(pecs(p2, which.curve = 3))
 })
