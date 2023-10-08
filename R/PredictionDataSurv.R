@@ -73,60 +73,32 @@ c.PredictionDataSurv = function(..., keep_duplicates = TRUE) {
 
   if ("distr" %in% predict_types) {
     distr_list = map(dots, "distr")
-    classes = lapply(distr_list, function(d) { class(d)[1] })
-    distr6_classes = c("Matdist", "VectorDistribution", "Arrdist")
-    data_classes = c("matrix", "array")
+    test_dist = unique(vapply(distr_list, testDistribution, logical(1)))
 
-    # all distr predictions has the same class (most frequent scenario)
-    if (length(unique(classes)) == 1) {
-      if (classes[1] %in% distr6_classes) {
-        # 1st case: distr6 objects
-        result$distr = do.call(c, distr_list)
-      } else if (classes[1] %in% data_classes) {
-        # 2nd case: survival matrices (or arrays)
-        # Can only be combined if:
-        # 1) number and names of columns (time points) are the same
-        # 2) in case of arrays, the size of the third dimension is also the same
-        # TODO(?): use code from distr6 to make matrices and arrays with same
-        # number of columns and fill in the survival probabilities inside
-        ncols = lapply(distr_list, ncol)
-        same_ncols = length(unique(ncols)) == 1
-
-        same_colnames = FALSE
-        if (same_ncols) {
-          colnames_mat  = sapply(distr_list, colnames)
-          same_colnames = all(colnames_mat[,1] == colnames_mat)
-        }
-        same_dim3 = TRUE # in case of matrices this is always true
-        if (classes[1] == "array") {
-          dim3_sizes = lapply(distr_list, function(x) dim(x)[[3L]])
-          same_dim3 = length(unique(dim3_sizes)) == 1
-        }
-
-        if (same_ncols && same_colnames && same_dim3) {
-          result$distr = abind::abind(distr_list, along = 1, force.array = FALSE)
+    # Mix of distributions and arrays? Convert arrays to distributions!
+    if (length(test_dist) == 2) {
+      distr_list = map(distr_list, function(.x) {
+        if (testDistribution(.x)) {
+          .x
         } else {
-          # convert internally within distr6 and then combine
-          result$distr = do.call(c, map(distr_list,
-            function(x) {
-              as.Distribution(1 - x, "cdf", decorators = c("CoreStatistics",
-                "ExoticStatistics"), vector = TRUE)
-            }))
+          as.Distribution(1 - .x,  fun = "cdf",
+            decorators = c("CoreStatistics", "ExoticStatistics"))
         }
-      } else {
-        # should never reach this point
-        stop("One prediction object to be combined is not a distr6 object,
-          survival matrix or array")
-      }
+      })
+    }
+
+    # All distributions? Concatenate!
+    if (test_dist) {
+      result$distr = do.call(c, distr_list)
+    # Otherwise rbind arrays and ensure all have same column names
     } else {
-      # distr predictions are of different classes (rare cases)
-      if (all(classes %in% distr6_classes)) {
-        stop("Combining different distr6 prediction objects is not implemented")
-      } else if (all(classes %in% data_classes)) {
-        # TODO: combine survival arrays with matrices somehow?
+      dims = vapply(distr_list, function(.x) length(dim(.x)), integer(1))
+      # Can't combine matrices with general arrays
+      if (length(unique(dims)) > 1) {
+        stop("Can only combine survival array predictions with each other.")
       } else {
-        stop("Combining mix of distr6 and matrix/array prediction classes is not
-          implemented")
+        # this automatically converts to pdf then back to surv
+        result$distr = do.call(rbind, distr6:::.merge_cols(distr_list, "surv"))
       }
     }
   }

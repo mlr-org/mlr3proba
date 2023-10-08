@@ -43,7 +43,7 @@ Depends:
 Imports:
     checkmate,
     data.table,
-    distr6 (>= 1.8.0),
+    distr6 (>= 1.8.1),
     ggplot2,
     mlr3misc (>= 0.7.0),
     mlr3viz,
@@ -71,7 +71,7 @@ Suggests:
 LinkingTo:
     Rcpp
 Remotes:
-    xoopR/distr6,
+    xoopR/distr6#292,
     xoopR/param6,
     xoopR/set6
 ByteCompile: true
