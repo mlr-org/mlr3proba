@@ -85,6 +85,7 @@ c.PredictionDataSurv = function(..., keep_duplicates = TRUE) {
             decorators = c("CoreStatistics", "ExoticStatistics"))
         }
       })
+      test_dist = TRUE
     }
 
     # All distributions? Concatenate!
@@ -95,10 +96,12 @@ c.PredictionDataSurv = function(..., keep_duplicates = TRUE) {
       dims = vapply(distr_list, function(.x) length(dim(.x)), integer(1))
       # Can't combine matrices with general arrays
       if (length(unique(dims)) > 1) {
-        stop("Can only combine survival array predictions with each other.")
+        stop("Cannot combine survival matrices with arrays.")
       } else {
         # this automatically converts to pdf then back to surv
-        result$distr = do.call(rbind, distr6:::.merge_cols(distr_list, "surv"))
+        merged_array = distr6:::.merge_cols(distr_list, "surv")
+        # works also with 2d matrices
+        result$distr = abind::abind(merged_array, along = 1, force.array = FALSE)
       }
     }
   }
