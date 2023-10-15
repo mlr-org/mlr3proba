@@ -91,18 +91,22 @@ c.PredictionDataSurv = function(..., keep_duplicates = TRUE) {
     # All distributions? Concatenate!
     if (test_dist) {
       result$distr = do.call(c, distr_list)
-    # Otherwise rbind arrays and ensure all have same column names
     } else {
       dims = vapply(distr_list, function(.x) length(dim(.x)), integer(1))
-      # Can't combine matrices with general arrays
+      # If mix of arrays and matrices, convert arrays to median survival matrices
       if (length(unique(dims)) > 1) {
-        stop("Cannot combine survival matrices with arrays.")
-      } else {
-        # this automatically converts to pdf then back to surv
-        merged_array = distr6:::.merge_cols(distr_list, "surv")
-        # works also with 2d matrices
-        result$distr = abind::abind(merged_array, along = 1, force.array = FALSE)
+        distr_list = lapply(distr_list, function(.x) {
+          if (length(dim(.x)) == 3) {
+            .ext_surv_mat(.x, which.curve = 0.5)
+          } else .x
+        })
       }
+      # All objects are now either 3d arrays or 2d matrices
+      # row-bind arrays and ensure all have same column names
+      # by automatically converting to pdf then back to surv
+      merged_array = distr6:::.merge_cols(distr_list, "surv")
+      # abind works with matrices as well
+      result$distr = abind::abind(merged_array, along = 1, force.array = FALSE)
     }
   }
 

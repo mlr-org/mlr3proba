@@ -144,8 +144,15 @@ test_that("c", {
   # combine survival matrix and array
   p2 = p1$clone()
   p2 = reshape_distr_to_3d(p2)
+  expect_array(p2$data$distr, d = 3)
+  # add extra time point in the survival matrix
+  p1$data$distr = cbind(p1$data$distr,
+    matrix(data = rep(0.3, 20), ncol = 1, dimnames = list(NULL, 108)))
+  expect_matrix(p1$data$distr, nrows = 20)
   preds = list(p1, p2)
-  expect_error(do.call(c, preds), "Cannot combine")
+  pred = do.call(c, preds)
+  expect_prediction_surv(pred)
+  expect_true("108" %in% colnames(pred$data$distr)) # time point was added for all observations
 })
 
 test_that("data.frame roundtrip", {
