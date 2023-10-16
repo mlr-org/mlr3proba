@@ -12,7 +12,7 @@ The task_type is set to "surv".'><meta property="og:image" content="https://mlr3
     
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.5.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.5.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -107,8 +107,8 @@ Access the stored predicted continuous ranking.</p></dd>
 
 
 <dt><code>distr</code></dt>
-<dd><p>(<a href="https://alan-turing-institute.github.io/distr6/reference/Matdist.html" class="external-link">distr6::Matdist</a>|<a href="https://alan-turing-institute.github.io/distr6/reference/VectorDistribution.html" class="external-link">distr6::VectorDistribution</a>)<br>
-Convert the stored survival matrix to a survival distribution.</p></dd>
+<dd><p>(<a href="https://rdrr.io/pkg/distr6/man/Matdist.html" class="external-link">distr6::Matdist</a>|<a href="https://rdrr.io/pkg/distr6/man/Arrdist.html" class="external-link">distr6::Arrdist</a>|<a href="https://rdrr.io/pkg/distr6/man/VectorDistribution.html" class="external-link">distr6::VectorDistribution</a>)<br>
+Convert the stored survival array or matrix to a survival distribution.</p></dd>
 
 
 <dt><code>lp</code></dt>
@@ -177,10 +177,10 @@ the observation is more likely to experience the event.</p></dd>
 
 
 <dt><code>distr</code></dt>
-<dd><p>(<code>matrix()|[distr6::Matdist]|[distr6::VectorDistribution]</code>)<br>
-Either a matrix of predicted survival probabilities or a <a href="https://alan-turing-institute.github.io/distr6/reference/VectorDistribution.html" class="external-link">distr6::VectorDistribution</a>
-or a <a href="https://alan-turing-institute.github.io/distr6/reference/Matdist.html" class="external-link">distr6::Matdist</a>.
-If a matrix then column names must be given and correspond to survival times.
+<dd><p>(<code>matrix()|[distr6::Arrdist]|[distr6::Matdist]|[distr6::VectorDistribution]</code>)<br>
+Either a matrix of predicted survival probabilities, a <a href="https://rdrr.io/pkg/distr6/man/VectorDistribution.html" class="external-link">distr6::VectorDistribution</a>,
+a <a href="https://rdrr.io/pkg/distr6/man/Matdist.html" class="external-link">distr6::Matdist</a> or an <a href="https://rdrr.io/pkg/distr6/man/Arrdist.html" class="external-link">distr6::Arrdist</a>.
+If a matrix/array then column names must be given and correspond to survival times.
 Rows of matrix correspond to individual predictions. It is advised that the
 first column should be time <code>0</code> with all entries <code>1</code> and the last
 with all entries <code>0</code>. If a <code>VectorDistribution</code> then each distribution in the vector
@@ -207,6 +207,26 @@ If <code>TRUE</code>, performs argument checks and predict type conversions.</p>
 
 </dl><p></p></div>
 </div>
+<div class="section">
+<h4 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h4>
+<p>Upon <strong>initialization</strong>, if the <code>distr</code> input is a <a href="https://rdrr.io/pkg/distr6/man/Distribution.html" class="external-link">Distribution</a>,
+we try to coerce it either to a survival matrix or a survival array and store it
+in the <code>$data$distr</code> slot for internal use.</p>
+<p>If the stored <code>$data$distr</code> is a <a href="https://rdrr.io/pkg/distr6/man/Distribution.html" class="external-link">Distribution</a> object,
+the active field <code>$distr</code> (<strong>external user API</strong>) returns it without modification.
+Otherwise, if <code>$data$distr</code> is a survival matrix or array, <code>$distr</code>
+constructs a distribution out of the <code>$data$distr</code> object, which will be a
+<a href="https://rdrr.io/pkg/distr6/man/Matdist.html" class="external-link">Matdist</a> or <a href="https://rdrr.io/pkg/distr6/man/Arrdist.html" class="external-link">Arrdist</a> respectively.</p>
+<p>Note that if a survival 3d array is stored in <code>$data$distr</code>, the <code>$distr</code>
+field returns an <a href="https://rdrr.io/pkg/distr6/man/Arrdist.html" class="external-link">Arrdist</a> initialized with <code>which.curve = 0.5</code>
+by default (i.e. the median curve). This means that measures that require
+a <code>distr</code> prediction like <a href="mlr_measures_surv.graf.html">MeasureSurvGraf</a>, <a href="mlr_measures_surv.rcll.html">MeasureSurvRCLL</a>, etc.
+will use the median survival probabilities.
+Note that it is possible to manually change <code>which.curve</code> after construction
+of the predicted distribution but we advise against this as it may lead to
+inconsistent results.</p>
+</div>
+
 
 </div><p></p><hr><a id="method-PredictionSurv-clone"></a><div class="section">
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
@@ -233,15 +253,18 @@ If <code>TRUE</code>, performs argument checks and predict type conversions.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mlr3.mlr-org.com" class="external-link">mlr3</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">tsk</a></span><span class="op">(</span><span class="st">"rats"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">learner</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"surv.kaplan"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">p</span> <span class="op">=</span> <span class="va">learner</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span>, row_ids <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">)</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span>, row_ids <span class="op">=</span> <span class="fl">21</span><span class="op">:</span><span class="fl">30</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">=</span> <span class="va">learner</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span>, row_ids <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">26</span><span class="op">)</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span>, row_ids <span class="op">=</span> <span class="fl">27</span><span class="op">:</span><span class="fl">30</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    row_ids time status     crank     distr</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:      21   79  FALSE 0.4616396 &lt;list[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:      22   91  FALSE 0.4616396 &lt;list[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:      23   98  FALSE 0.4616396 &lt;list[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:      24   76  FALSE 0.4616396 &lt;list[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5:      25   89  FALSE 0.4616396 &lt;list[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6:      26  104  FALSE 0.4616396 &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:      27  104  FALSE 0.4706486 &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:      28  104  FALSE 0.4706486 &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:      29  104  FALSE 0.4706486 &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:      30   98  FALSE 0.4706486 &lt;list[1]&gt;</span>
+<span class="r-in"><span><span class="co"># survival probabilities of the 4 test rats at two time points</span></span></span>
+<span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="va">distr</span><span class="op">$</span><span class="fu">survival</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          [,1]      [,2]      [,3]      [,4]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20  1.0000000 1.0000000 1.0000000 1.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 100 0.9615385 0.9615385 0.9615385 0.9615385</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

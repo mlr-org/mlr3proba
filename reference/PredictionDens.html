@@ -12,7 +12,7 @@ The task_type is set to "dens".'><meta property="og:image" content="https://mlr3
     
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.5.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.5.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -107,7 +107,7 @@ Access the stored predicted cumulative distribution function.</p></dd>
 
 
 <dt><code>distr</code></dt>
-<dd><p>(<a href="https://alan-turing-institute.github.io/distr6/reference/Distribution.html" class="external-link">Distribution</a>)<br>
+<dd><p>(<a href="https://rdrr.io/pkg/distr6/man/Distribution.html" class="external-link">Distribution</a>)<br>
 Access the stored estimated distribution.</p></dd>
 
 
@@ -165,7 +165,7 @@ set. One element for each observation in the test set.</p></dd>
 
 
 <dt><code>distr</code></dt>
-<dd><p>(<a href="https://alan-turing-institute.github.io/distr6/reference/Distribution.html" class="external-link">Distribution</a>)<br><a href="https://alan-turing-institute.github.io/distr6/reference/Distribution.html" class="external-link">Distribution</a> from <a href="https://CRAN.R-project.org/package=distr6" class="external-link"><span class="pkg">distr6</span></a>.
+<dd><p>(<a href="https://rdrr.io/pkg/distr6/man/Distribution.html" class="external-link">Distribution</a>)<br><a href="https://rdrr.io/pkg/distr6/man/Distribution.html" class="external-link">Distribution</a> from <a href="https://CRAN.R-project.org/package=distr6" class="external-link"><span class="pkg">distr6</span></a>.
 The distribution from which <code>pdf</code> and <code>cdf</code> are derived.</p></dd>
 
 
@@ -205,12 +205,12 @@ If <code>TRUE</code>, performs argument checks and predict type conversions.</p>
 <span class="r-in"><span><span class="va">p</span> <span class="op">=</span> <span class="va">learner</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    row_ids         pdf       cdf              distr</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:       1 0.001428571 0.9957143 &lt;Distribution[39]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:       2 0.007142857 0.9478571 &lt;Distribution[39]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:       3 0.005714286 0.0400000 &lt;Distribution[39]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:       4 0.030000000 0.8692857 &lt;Distribution[39]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5:       5 0.012857143 0.1085714 &lt;Distribution[39]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6:       6 0.012857143 0.1497143 &lt;Distribution[39]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:       1 0.001428571 0.9957143 &lt;Distribution[40]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:       2 0.007142857 0.9478571 &lt;Distribution[40]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:       3 0.005714286 0.0400000 &lt;Distribution[40]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:       4 0.030000000 0.8692857 &lt;Distribution[40]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:       5 0.012857143 0.1085714 &lt;Distribution[40]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:       6 0.012857143 0.1497143 &lt;Distribution[40]&gt;</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

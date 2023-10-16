@@ -30,7 +30,7 @@ equal weights for each prediction.'><meta property="og:image" content="https://m
     
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.5.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.5.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -103,7 +103,7 @@ equal weights for each prediction.'><meta property="og:image" content="https://m
 <p>The resulting prediction will aggregate any predict types that are contained within all inputs.
 Any predict types missing from at least one input will be set to <code>NULL</code>. These are aggregated
 as follows:</p><ul><li><p><code>"response"</code>, <code>"crank"</code>, and <code>"lp"</code> are all a weighted average from the incoming predictions.</p></li>
-<li><p><code>"distr"</code> is a <a href="https://alan-turing-institute.github.io/distr6/reference/VectorDistribution.html" class="external-link">distr6::VectorDistribution</a> containing <a href="https://alan-turing-institute.github.io/distr6/reference/MixtureDistribution.html" class="external-link">distr6::MixtureDistribution</a>s.</p></li>
+<li><p><code>"distr"</code> is a <a href="https://rdrr.io/pkg/distr6/man/VectorDistribution.html" class="external-link">distr6::VectorDistribution</a> containing <a href="https://rdrr.io/pkg/distr6/man/MixtureDistribution.html" class="external-link">distr6::MixtureDistribution</a>s.</p></li>
 </ul><p>Weights can be set as a parameter; if none are provided, defaults to
 equal weights for each prediction.</p>
     </div>
