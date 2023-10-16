@@ -113,7 +113,7 @@ pecs.list = function(x, measure = c("graf", "logloss"), times, n, eps = NULL, ta
     scores = lapply(p, function(y) {
       integrated_score(score = weighted_survival_score("intslogloss",
         truth = task$truth(),
-        distribution = y$distr,
+        distribution = y$data$distr,
         times = times,
         eps = eps, train = train,
         proper = proper),
@@ -123,7 +123,7 @@ pecs.list = function(x, measure = c("graf", "logloss"), times, n, eps = NULL, ta
     scores = lapply(p, function(y) {
       integrated_score(score = weighted_survival_score("graf",
         truth = task$truth(),
-        distribution = y$distr,
+        distribution = y$data$distr,
         times = times, train = train, eps = eps,
         proper = proper),
       integrated = FALSE)
@@ -169,7 +169,7 @@ pecs.PredictionSurv = function(x, measure = c("graf", "logloss"), times, n, eps 
     scores = data.frame(logloss = integrated_score(
       score = weighted_survival_score("intslogloss",
         truth = x$truth,
-        distribution = x$distr,
+        distribution = x$data$distr,
         times = times,
         eps = eps, train = train, proper = proper),
       integrated = FALSE))
@@ -177,7 +177,7 @@ pecs.PredictionSurv = function(x, measure = c("graf", "logloss"), times, n, eps 
     scores = data.frame(graf = integrated_score(
       score = weighted_survival_score("graf",
         truth = x$truth,
-        distribution = x$distr,
+        distribution = x$data$distr,
         times = times, train = train, eps = eps,
         proper = proper),
       integrated = FALSE))

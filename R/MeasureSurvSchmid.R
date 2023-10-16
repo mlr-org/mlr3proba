@@ -103,7 +103,7 @@ MeasureSurvSchmid = R6::R6Class("MeasureSurvSchmid",
       }
 
       score = weighted_survival_score("schmid", truth = prediction$truth,
-        distribution = prediction$distr, times = ps$times, t_max = ps$t_max,
+        distribution = prediction$data$distr, times = ps$times, t_max = ps$t_max,
         p_max = ps$p_max, proper = ps$proper, train = train, eps = ps$eps)
 
       if (ps$se) {

@@ -9,14 +9,18 @@
   surv = NULL,
   crank = NULL,
   lp = NULL,
-  response = NULL
+  response = NULL,
+  which.curve = NULL
 )
 }
 \arguments{
 \item{times}{(\code{numeric()}) \cr Vector of survival times.}
 
-\item{surv}{(\code{matrix()})\cr Matrix of predicted survival probabilities, rows are observations,
-columns are times. Number of columns should be equal to length of \code{times}.}
+\item{surv}{(\code{matrix()|array()})\cr Matrix or array of predicted survival
+probabilities, rows (1st dimension) are observations, columns (2nd dimension)
+are times and in the case of an array there should be one more dimension.
+Number of columns should be equal to length of \code{times}. In case a \code{numeric()}
+vector is provided, it is converted to a single row (one observation) matrix.}
 
 \item{crank}{(\code{numeric()})\cr Relative risk/continuous ranking. Higher value is associated
 with higher risk. If \code{NULL} then either set as \code{-response} if available or
@@ -24,16 +28,24 @@ with higher risk. If \code{NULL} then either set as \code{-response} if availabl
 model - in case of an AFT model the user should provide \code{-lp}).
 In case neither \code{response} or \code{lp} are provided, then \code{crank} is calculated
 as the sum of the cumulative hazard function (expected mortality) derived from
-the predicted survival function (\code{surv}).}
+the predicted survival function (\code{surv}). In case \code{surv} is a 3d array, we use
+the \code{which.curve} parameter to decide which survival matrix (index in the 3rd
+dimension) will be chosen for the calculation of \code{crank}.}
 
 \item{lp}{(\code{numeric()})\cr Predicted linear predictor, used to impute \code{crank} if \code{NULL}.}
 
 \item{response}{(\code{numeric()})\cr Predicted survival time, passed through function without
 modification.}
+
+\item{which.curve}{Which curve (3rd dimension) should the \code{crank} be
+calculated for, in case \code{surv} is an \code{array}? If between (0,1) it is taken as
+the quantile of the curves otherwise if greater than 1 it is taken as the
+curve index. It can also be 'mean' and the survival probabilities are averaged
+across the 3rd dimension. Default value (\code{NULL}) is the \strong{0.5 quantile} which
+is the median across the 3rd dimension of the survival array.}
 }
 \description{
-Internal helper function to easily return the correct survival predict types and to
-automatically coerce a predicted survival probability matrix to a \link[distr6:Matdist]{distr6::Matdist}.
+Internal helper function to easily return the correct survival predict types.
 }
 \details{
 Uses \link[survivalmodels:surv_to_risk]{survivalmodels::surv_to_risk} to reduce survival matrices to relative

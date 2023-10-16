@@ -28,6 +28,7 @@ test_that("mlr_measures", {
     })
     expect_number(perf, na.ok = "na_score" %in% m$properties)
 
+    # test measures with squared-errors
     if (key %in% paste0("surv.", c("schmid", "graf", "intlogloss", "logloss", "mae", "mse",
       "rmse", "calib_alpha", "calib_beta"))) {
       m = suppressWarnings(msr(key, se = TRUE))
@@ -53,8 +54,7 @@ test_that("integrated_prob_losses", {
   lapply(
     probs,
     function(x) expect_error(p$score(msr(x, times = 39:80, integrated = FALSE,
-                                         proper = TRUE)),
-                            "scalar numeric")
+      proper = TRUE)), "scalar numeric")
   )
 
   prediction$score(msr("surv.intlogloss", integrated = TRUE, proper = TRUE, times = 100:110))
@@ -219,4 +219,26 @@ test_that("rcll works", {
   l = lrn("surv.coxph")
   p = suppressWarnings(l$train(t)$predict(t))
   expect_true(p$score(m) < KMscore)
+})
+
+test_that("distr measures work with 3d survival array", {
+  learner = lrn("surv.kaplan")$train(task)
+  p = learner$predict(task)
+  expect_class(p$data$distr, "matrix")
+  expect_class(p$distr, "Matdist")
+
+  # hack: substitute with 3d survival array
+  p = reshape_distr_to_3d(p)
+  expect_class(p$data$distr, "array")
+  expect_class(p$distr, "Arrdist") # `distr6` interface class changed
+
+  distr_msrs = msrs(as.data.table(mlr_measures)[
+    predict_type == 'distr' & startsWith(key, 'surv')
+  ]$key)
+
+  for (m in distr_msrs) {
+    expect_numeric({
+      p$score(m, task = task, train_set = seq(task$nrow), learner = learner)
+    })
+  }
 })

@@ -26,18 +26,26 @@ weighted_survival_score = function(loss, truth, distribution, times, t_max, p_ma
     unique_times = .c_get_unique_times(truth[, "time"], times)
   }
 
+  # get the cdf matrix (rows => times, cols => obs)
   if (inherits(distribution, "Distribution")) {
     cdf = as.matrix(distribution$cdf(unique_times))
-  } else {
-    mtc = findInterval(unique_times, as.numeric(colnames(distribution)))
-    cdf = 1 - t(distribution[, mtc])
+  }
+  else if (inherits(distribution, "array")) {
+    if (length(dim(distribution)) == 3) {
+      # survival 3d array, extract median
+      surv_mat = .ext_surv_mat(arr = distribution, which.curve = 0.5)
+    } else { # survival 2d array
+      surv_mat = distribution
+    }
+    mtc = findInterval(unique_times, as.numeric(colnames(surv_mat)))
+    cdf = 1 - t(surv_mat[, mtc])
     if (any(mtc == 0)) {
       cdf = rbind(matrix(0, sum(mtc == 0), ncol(cdf)), cdf)
     }
     rownames(cdf) = unique_times
   }
 
-  true_times <- truth[, "time"]
+  true_times = truth[, "time"]
 
   assert_numeric(true_times, any.missing = FALSE)
   assert_numeric(unique_times, any.missing = FALSE)

@@ -11,13 +11,35 @@
 #' library(mlr3)
 #' task = tsk("rats")
 #' learner = lrn("surv.kaplan")
-#' p = learner$train(task, row_ids = 1:20)$predict(task, row_ids = 21:30)
+#' p = learner$train(task, row_ids = 1:26)$predict(task, row_ids = 27:30)
 #' head(as.data.table(p))
+#' # survival probabilities of the 4 test rats at two time points
+#' p$distr$survival(c(20, 100))
 PredictionSurv = R6Class("PredictionSurv",
   inherit = Prediction,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @details
+    #' Upon **initialization**, if the `distr` input is a [Distribution][distr6::Distribution],
+    #' we try to coerce it either to a survival matrix or a survival array and store it
+    #' in the `$data$distr` slot for internal use.
+    #'
+    #' If the stored `$data$distr` is a [Distribution][distr6::Distribution] object,
+    #' the active field `$distr` (**external user API**) returns it without modification.
+    #' Otherwise, if `$data$distr` is a survival matrix or array, `$distr`
+    #' constructs a distribution out of the `$data$distr` object, which will be a
+    #' [Matdist][distr6::Matdist] or [Arrdist][distr6::Arrdist] respectively.
+    #'
+    #' Note that if a survival 3d array is stored in `$data$distr`, the `$distr`
+    #' field returns an [Arrdist][distr6::Arrdist] initialized with `which.curve = 0.5`
+    #' by default (i.e. the median curve). This means that measures that require
+    #' a `distr` prediction like [MeasureSurvGraf], [MeasureSurvRCLL], etc.
+    #' will use the median survival probabilities.
+    #' Note that it is possible to manually change `which.curve` after construction
+    #' of the predicted distribution but we advise against this as it may lead to
+    #' inconsistent results.
     #'
     #' @param task ([TaskSurv])\cr
     #'   Task, used to extract defaults for `row_ids` and `truth`.
@@ -33,10 +55,10 @@ PredictionSurv = R6Class("PredictionSurv",
     #'   observation in the test set. For a pair of continuous ranks, a higher rank indicates that
     #'   the observation is more likely to experience the event.
     #'
-    #' @param distr (`matrix()|[distr6::Matdist]|[distr6::VectorDistribution]`)\cr
-    #'   Either a matrix of predicted survival probabilities or a [distr6::VectorDistribution]
-    #'   or a [distr6::Matdist].
-    #'   If a matrix then column names must be given and correspond to survival times.
+    #' @param distr (`matrix()|[distr6::Arrdist]|[distr6::Matdist]|[distr6::VectorDistribution]`)\cr
+    #'   Either a matrix of predicted survival probabilities, a [distr6::VectorDistribution],
+    #'   a [distr6::Matdist] or an [distr6::Arrdist].
+    #'   If a matrix/array then column names must be given and correspond to survival times.
     #'   Rows of matrix correspond to individual predictions. It is advised that the
     #'   first column should be time `0` with all entries `1` and the last
     #'   with all entries `0`. If a `VectorDistribution` then each distribution in the vector
@@ -57,7 +79,7 @@ PredictionSurv = R6Class("PredictionSurv",
       distr = NULL, lp = NULL, response = NULL, check = TRUE) {
 
       if (inherits(distr, "Distribution")) {
-        # coerce to matrix if possible
+        # coerce to matrix/array if possible
         distr = private$.simplify_distr(distr)
       }
 
@@ -90,14 +112,14 @@ PredictionSurv = R6Class("PredictionSurv",
       self$data$crank %??% rep(NA_real_, length(self$data$row_ids))
     },
 
-    #' @field distr ([distr6::Matdist]|[distr6::VectorDistribution])\cr
-    #' Convert the stored survival matrix to a survival distribution.
+    #' @field distr ([distr6::Matdist]|[distr6::Arrdist]|[distr6::VectorDistribution])\cr
+    #' Convert the stored survival array or matrix to a survival distribution.
     distr = function() {
       if (inherits(self$data$distr, "Distribution")) {
         return(self$data$distr)
       }
 
-      private$.distrify_survmatrix(self$data$distr %??% NA_real_)
+      private$.distrify_survarray(self$data$distr %??% NA_real_)
     },
 
     #' @field lp (`numeric()`)\cr
@@ -117,8 +139,8 @@ PredictionSurv = R6Class("PredictionSurv",
     .censtype = NULL,
     .distr = function() self$data$distr %??% NA_real_,
     .simplify_distr = function(x) {
-      if (inherits(x, "Matdist")) {
-        1 - gprm(x, "cdf")
+      if (inherits(x, c("Matdist", "Arrdist"))) {
+        1 - gprm(x, "cdf") # matrix or 3d array
       } else {
         if (!inherits(x, "VectorDistribution")) {
           stop("'x' is not a 'VectorDistribution'")
@@ -148,9 +170,12 @@ PredictionSurv = R6Class("PredictionSurv",
         surv
       }
     },
-    .distrify_survmatrix = function(x) {
-      distr6::as.Distribution(1 - x, fun = "cdf",
-        decorators = c("CoreStatistics", "ExoticStatistics"))
+    .distrify_survarray = function(x) {
+      if (inherits(x, "array")) { # can be matrix as well
+        # create Matdist or Arrdist (default => median curve)
+        distr6::as.Distribution(1 - x, fun = "cdf",
+          decorators = c("CoreStatistics", "ExoticStatistics"))
+      }
     }
   )
 )

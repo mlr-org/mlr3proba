@@ -31,7 +31,7 @@ expect_prediction_surv = function(p) {
   checkmate::expect_data_table(data.table::as.data.table(p), nrows  = length(p$row_ids))
   checkmate::expect_atomic_vector(p$missing)
   if ("distr" %in% p$predict_types) {
-    expect_true(class(p$distr)[[1]] %in% c("VectorDistribution", "Matdist"))
+    expect_true(class(p$distr)[[1]] %in% c("VectorDistribution", "Matdist", "Arrdist"))
   }
   expect_true(inherits(p, "PredictionSurv"))
 }
