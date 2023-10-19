@@ -90,7 +90,8 @@ c.PredictionDataSurv = function(..., keep_duplicates = TRUE) {
 
     # All distributions? Concatenate!
     if (test_dist) {
-      result$distr = do.call(c, distr_list)
+      result$distr = do.call(c, c(distr_list,
+        list(decorators = c("CoreStatistics", "ExoticStatistics"))))
     } else {
       dims = vapply(distr_list, function(.x) length(dim(.x)), integer(1))
       # If mix of arrays and matrices, convert arrays to median survival matrices
