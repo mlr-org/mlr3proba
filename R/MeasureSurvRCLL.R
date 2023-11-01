@@ -73,17 +73,34 @@ MeasureSurvRCLL = R6::R6Class("MeasureSurvRCLL",
       event = truth[, 2] == 1
       event_times = truth[event, 1]
       cens_times = truth[!event, 1]
-      distr = prediction$distr
 
-      if (!any(event)) { # all censored
-        # survival at outcome time (survived *at least* this long)
-        out[!event] = diag(as.matrix(distr[!event]$survival(cens_times)))
-      } else if (all(event)) { # all uncensored
-        # pdf at outcome time (survived *this* long)
-        out[event] = diag(as.matrix(distr[event]$pdf(event_times)))
-      } else { # mix
-        out[event] = diag(as.matrix(distr[event]$pdf(event_times)))
-        out[!event] = diag(as.matrix(distr[!event]$survival(cens_times)))
+      # Bypass distr6 construction if underlying distr represented by array
+      if (inherits(prediction$data$distr, "array")) {
+        surv = prediction$data$distr
+        times = as.numeric(colnames(surv))
+        pdf = distr6:::cdfpdf(1 - surv)
+        if (any(!event)) {
+          out[!event] = diag(t(distr6:::C_Vec_WeightedDiscreteCdf(
+            cens_times, times, t(1 - surv), FALSE, FALSE)))
+        }
+        if (any(event)) {
+          out[event] = diag(t(distr6:::C_Vec_WeightedDiscretePdf(
+            event_times, times, t(pdf))))
+        }
+      } else {
+        distr = prediction$distr
+
+        # Splitting in this way bypasses unnecessary distr extraction
+        if (!any(event)) { # all censored
+          # survival at outcome time (survived *at least* this long)
+          out = diag(as.matrix(distr$survival(cens_times)))
+        } else if (all(event)) { # all uncensored
+          # pdf at outcome time (survived *this* long)
+          out = diag(as.matrix(distr$pdf(event_times)))
+        } else { # mix
+          out[event] = diag(as.matrix(distr[event]$pdf(event_times)))
+          out[!event] = diag(as.matrix(distr[!event]$survival(cens_times)))
+        }
       }
 
       stopifnot(!any(out == -99L)) # safety check

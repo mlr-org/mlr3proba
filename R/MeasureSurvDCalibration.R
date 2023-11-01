@@ -64,11 +64,21 @@ MeasureSurvDCalibration = R6Class("MeasureSurvDCalibration",
       ps = self$param_set$values
       # initialize buckets
       bj = numeric(ps$B)
+      true_times = prediction$truth[, 1L]
       # predict individual probability of death at observed event time
-      if (inherits(prediction$distr, "VectorDistribution")) {
-        si = as.numeric(prediction$distr$survival(data = matrix(prediction$truth[, 1L], nrow = 1L)))
+      #  bypass distr6 construction if possible
+      if (inherits(prediction$data$distr, "array")) {
+        si = diag(t(distr6:::C_Vec_WeightedDiscreteCdf(true_times,
+          as.numeric(colnames(prediction$data$distr)),
+          t(1 - prediction$data$distr), FALSE, FALSE
+        )))
       } else {
-        si = diag(prediction$distr$survival(prediction$truth[, 1L]))
+        distr = prediction$distr
+        if (inherits(distr, "VectorDistribution")) {
+          si = as.numeric(distr$survival(data = matrix(true_times, nrow = 1L)))
+        } else {
+          si = diag(distr$survival(true_times))
+        }
       }
       # remove zeros
       si = map_dbl(si, function(.x) max(.x, 1e-5))
