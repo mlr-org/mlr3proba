@@ -129,12 +129,17 @@ filter_prediction_data.PredictionDataSurv = function(pdata, row_ids, ...) {
   }
 
   if (!is.null(pdata$distr)) {
-    if (inherits(pdata$distr, "matrix")) {
-      pdata$distr = pdata$distr[keep, , drop = FALSE]
-    } else { # array
-      pdata$distr = pdata$distr[keep, , , drop = FALSE]
-    }
+    distr = pdata$distr
 
+    if (testDistribution(distr)) { # distribution
+      pdata$distr = distr[keep]
+    } else {
+      if (length(dim(distr)) == 2) { # 2d matrix
+        pdata$distr = distr[keep, , drop = FALSE]
+      } else { # 3d array
+        pdata$distr = distr[keep, , , drop = FALSE]
+      }
+    }
   }
 
   pdata

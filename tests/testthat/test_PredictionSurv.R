@@ -178,19 +178,35 @@ test_that("as_prediction_surv", {
 test_that("filtering", {
   p = suppressWarnings(lrn("surv.coxph")$train(task)$predict(task))
   p2 = reshape_distr_to_3d(p) # survival array distr
+  p3 = p$clone()
+  p4 = p2$clone()
+  p3$data$distr = p3$distr # Matdist
+  p4$data$distr = p4$distr # Arrdist
 
   p$filter(c(20, 37, 42))
   p2$filter(c(20, 37, 42))
+  p3$filter(c(20, 37, 42))
+  p4$filter(c(20, 37, 42))
   expect_prediction_surv(p)
   expect_prediction_surv(p2)
+  expect_prediction_surv(p3)
+  expect_prediction_surv(p4)
 
   expect_set_equal(p$data$row_ids, c(20, 37, 42))
   expect_set_equal(p2$data$row_ids, c(20, 37, 42))
+  expect_set_equal(p3$data$row_ids, c(20, 37, 42))
+  expect_set_equal(p4$data$row_ids, c(20, 37, 42))
   expect_numeric(p$data$crank, any.missing = FALSE, len = 3)
   expect_numeric(p2$data$crank, any.missing = FALSE, len = 3)
+  expect_numeric(p3$data$crank, any.missing = FALSE, len = 3)
+  expect_numeric(p4$data$crank, any.missing = FALSE, len = 3)
   expect_numeric(p$data$lp, any.missing = FALSE, len = 3)
   expect_numeric(p2$data$lp, any.missing = FALSE, len = 3)
+  expect_numeric(p3$data$lp, any.missing = FALSE, len = 3)
+  expect_numeric(p4$data$lp, any.missing = FALSE, len = 3)
   expect_matrix(p$data$distr, nrows = 3)
   expect_array(p2$data$distr, d = 3)
   expect_equal(nrow(p2$data$distr), 3)
+  expect_true(inherits(p3$data$distr, "Matdist"))
+  expect_true(inherits(p4$data$distr, "Arrdist"))
 })
