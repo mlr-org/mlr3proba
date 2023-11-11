@@ -132,7 +132,13 @@ filter_prediction_data.PredictionDataSurv = function(pdata, row_ids, ...) {
     distr = pdata$distr
 
     if (testDistribution(distr)) { # distribution
-      pdata$distr = distr[keep]
+      ok = inherits(distr, c("VectorDistribution", "Matdist", "Arrdist")) &&
+           length(keep) > 1 # edge case: Arrdist(1xYxZ) and keep = FALSE
+      if (ok) {
+        pdata$distr = distr[keep] # we can subset row/samples like this
+      } else {
+        pdata$distr = base::switch(keep, distr) # one distribution only
+      }
     } else {
       if (length(dim(distr)) == 2) { # 2d matrix
         pdata$distr = distr[keep, , drop = FALSE]

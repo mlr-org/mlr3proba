@@ -176,8 +176,8 @@ test_that("as_prediction_surv", {
 })
 
 test_that("filtering", {
-  p = suppressWarnings(lrn("surv.coxph")$train(task)$predict(task))
-  p2 = reshape_distr_to_3d(p) # survival array distr
+  p = suppressWarnings(lrn("surv.coxph")$train(task)$predict(task)) # survival matrix
+  p2 = reshape_distr_to_3d(p) # survival array
   p3 = p$clone()
   p4 = p2$clone()
   p3$data$distr = p3$distr # Matdist
@@ -209,4 +209,34 @@ test_that("filtering", {
   expect_equal(nrow(p2$data$distr), 3)
   expect_true(inherits(p3$data$distr, "Matdist"))
   expect_true(inherits(p4$data$distr, "Arrdist"))
+
+  # edge case: filter to 1 observation
+  p$filter(20)
+  p2$filter(20)
+  p3$filter(20)
+  p4$filter(20)
+  expect_prediction_surv(p)
+  expect_prediction_surv(p2)
+  expect_prediction_surv(p3)
+  expect_prediction_surv(p4)
+  expect_matrix(p$data$distr, nrows = 1)
+  expect_array(p2$data$distr, d = 3)
+  expect_equal(nrow(p2$data$distr), 1)
+  expect_true(inherits(p3$data$distr, "WeightedDiscrete")) # from Matdist!
+  expect_true(inherits(p4$data$distr, "Arrdist")) # remains an Arrdist!
+
+  # filter to 0 observations using non-existent (positive) id
+  p$filter(42)
+  p2$filter(42)
+  p3$filter(42)
+  p4$filter(42)
+
+  expect_prediction_surv(p)
+  expect_prediction_surv(p2)
+  expect_prediction_surv(p3)
+  expect_prediction_surv(p4)
+  expect_null(p$distr)
+  expect_null(p2$distr)
+  expect_null(p3$distr)
+  expect_null(p4$distr)
 })
