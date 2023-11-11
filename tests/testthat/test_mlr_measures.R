@@ -194,11 +194,15 @@ test_that("rcll works", {
   t = tsk("rats")$filter(sample(1:300, 50))
   l = lrn("surv.kaplan")
   p = l$train(t)$predict(t)
+  p2 = p$clone()
+  p2$data$distr = p2$distr # hack: test score via distribution
   m = msr("surv.rcll")
   expect_true(m$minimize)
   expect_equal(m$range, c(0, Inf))
   KMscore = p$score(m)
   expect_numeric(KMscore)
+  KMscore2 = p2$score(m)
+  expect_equal(KMscore, KMscore2)
 
   status  = t$truth()[,2]
   row_ids = t$row_ids
@@ -207,18 +211,44 @@ test_that("rcll works", {
 
   # only censored rats in test set
   p = l$predict(t, row_ids = cens_ids)
-  expect_numeric(p$score(m))
-  expect_numeric(p$filter(row_ids = cens_ids[1])$score(m)) # 1 test rat
+  score = p$score(m)
+  expect_numeric(score)
+  p2 = p$clone() # test score via distribution
+  p2$data$distr = p2$distr
+  score2 = p2$score(m)
+  expect_equal(score, score2)
+
+  # 1 censored test rat
+  p = p$filter(row_ids = cens_ids[1])
+  score = p$score(m)
+  expect_numeric(score)
+  p2 = p$clone() # test score via distribution
+  p2$data$distr = p2$distr
+  score2 = p2$score(m)
+  expect_equal(score, score2)
 
   # only dead rats in test set
   p = l$predict(t, row_ids = event_ids)
-  expect_numeric(p$score(m))
-  expect_numeric(p$filter(row_ids = event_ids[1])$score(m)) # 1 test rat
+  score = p$score(m)
+  expect_numeric(score)
+  p2 = p$clone() # test score via distribution
+  p2$data$distr = p2$distr # Matdist(1xY)
+  score2 = p2$score(m)
+  expect_equal(score, score2)
+
+  # 1 dead rat
+  p = p$filter(row_ids = event_ids[1])
+  score = p$score(m)
+  expect_numeric(score)
+  p2 = p$clone() # test score via distribution
+  p2$data$distr = p2$distr[1] # WeightDisc
+  score2 = p2$score(m)
+  expect_equal(score, score2)
 
   # Cox is better than baseline (Kaplan-Meier)
-  l = lrn("surv.coxph")
-  p = suppressWarnings(l$train(t)$predict(t))
-  expect_true(p$score(m) < KMscore)
+  l2 = lrn("surv.coxph")
+  p2 = suppressWarnings(l2$train(t)$predict(t))
+  expect_true(p2$score(m) < KMscore)
 })
 
 test_that("distr measures work with 3d survival array", {
