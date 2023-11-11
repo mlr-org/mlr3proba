@@ -77,15 +77,34 @@ MeasureSurvRCLL = R6::R6Class("MeasureSurvRCLL",
       # Bypass distr6 construction if underlying distr represented by array
       if (inherits(prediction$data$distr, "array")) {
         surv = prediction$data$distr
+        if (length(dim(surv)) == 3) {
+          # survival 3d array, extract median
+          surv = .ext_surv_mat(arr = surv, which.curve = 0.5)
+        }
         times = as.numeric(colnames(surv))
-        pdf = distr6:::cdfpdf(1 - surv)
+
         if (any(!event)) {
-          out[!event] = diag(t(distr6:::C_Vec_WeightedDiscreteCdf(
-            cens_times, times, t(1 - surv), FALSE, FALSE)))
+          if (sum(!event) == 1) { # fix subsetting issue in case of 1 censored
+            cdf = t(1 - surv)
+          } else {
+            cdf = t(1 - surv[!event, ])
+          }
+
+          out[!event] = diag(
+            distr6:::C_Vec_WeightedDiscreteCdf(cens_times, times, cdf = cdf, FALSE, FALSE)
+          )
         }
         if (any(event)) {
-          out[event] = diag(t(distr6:::C_Vec_WeightedDiscretePdf(
-            event_times, times, t(pdf))))
+          pdf = distr6:::cdfpdf(1 - surv)
+          if (sum(event) == 1) { # fix subsetting issue in case of 1 event
+            pdf = t(pdf)
+          } else {
+            pdf = t(pdf[event, ])
+          }
+
+          out[event] = diag(
+            distr6:::C_Vec_WeightedDiscretePdf(event_times, times, pdf = pdf)
+          )
         }
       } else {
         distr = prediction$distr
