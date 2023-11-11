@@ -133,7 +133,7 @@ filter_prediction_data.PredictionDataSurv = function(pdata, row_ids, ...) {
 
     if (testDistribution(distr)) { # distribution
       ok = inherits(distr, c("VectorDistribution", "Matdist", "Arrdist")) &&
-           length(keep) > 1 # edge case: Arrdist(1xYxZ) and keep = FALSE
+           length(keep) > 1 # e.g.: Arrdist(1xYxZ) and keep = FALSE
       if (ok) {
         pdata$distr = distr[keep] # we can subset row/samples like this
       } else {
