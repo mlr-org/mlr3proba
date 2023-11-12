@@ -85,7 +85,7 @@ MeasureSurvRCLL = R6::R6Class("MeasureSurvRCLL",
 
         if (any(!event)) {
           if (sum(!event) == 1) { # fix subsetting issue in case of 1 censored
-            cdf = t(1 - surv)
+            cdf = as.matrix(1 - surv[!event, ])
           } else {
             cdf = t(1 - surv[!event, ])
           }
@@ -97,7 +97,7 @@ MeasureSurvRCLL = R6::R6Class("MeasureSurvRCLL",
         if (any(event)) {
           pdf = distr6:::cdfpdf(1 - surv)
           if (sum(event) == 1) { # fix subsetting issue in case of 1 event
-            pdf = t(pdf)
+            pdf = as.matrix(pdf[event, ])
           } else {
             pdf = t(pdf[event, ])
           }

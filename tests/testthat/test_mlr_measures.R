@@ -249,6 +249,14 @@ test_that("rcll works", {
   l2 = lrn("surv.coxph")
   p2 = suppressWarnings(l2$train(t)$predict(t))
   expect_true(p2$score(m) < KMscore)
+
+  # Another edge case: some dead rats and 1 only censored
+  p3 = p2$filter(row_ids = c(event_ids, cens_ids[1]))
+  score = p3$score(m)
+  expect_numeric(score)
+  p3$data$distr = p3$distr
+  score2 = p3$score(m)
+  expect_equal(score, score2)
 })
 
 test_that("distr measures work with 3d survival array", {
