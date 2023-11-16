@@ -62,8 +62,10 @@ MeasureSurvDCalibration = R6Class("MeasureSurvDCalibration",
   private = list(
     .score = function(prediction, ...) {
       ps = self$param_set$values
+      B = ps$B
+
       # initialize buckets
-      bj = numeric(ps$B)
+      bj = numeric(B)
       true_times = prediction$truth[, 1L]
       # predict individual probability of death at observed event time
       #  bypass distr6 construction if possible
@@ -83,7 +85,7 @@ MeasureSurvDCalibration = R6Class("MeasureSurvDCalibration",
       # remove zeros
       si = map_dbl(si, function(.x) max(.x, 1e-5))
       # index of associated bucket
-      js = ceiling(ps$B * si)
+      js = ceiling(B * si)
 
       # could remove loop for dead observations but needed for censored ones and minimal overhead
       # in combining both
@@ -95,16 +97,16 @@ MeasureSurvDCalibration = R6Class("MeasureSurvDCalibration",
         } else {
           # uncensored observations spread across buckets with most weighting on penultimate
           for (k in seq.int(ji - 1)) {
-            bj[k] = bj[k] + 1 / (ps$B * si[[i]])
+            bj[k] = bj[k] + 1 / (B * si[[i]])
           }
-          bj[ji] = bj[ji] + (1 - (ji - 1) / (ps$B * si[[i]]))
+          bj[ji] = bj[ji] + (1 - (ji - 1) / (B * si[[i]]))
         }
       }
 
       if (ps$chisq) {
         return(stats::chisq.test(bj)$p.value)
       } else {
-        return((ps$B / length(si)) * sum((bj - length(si) / ps$B)^2))
+        return((B / length(si)) * sum((bj - length(si) / B)^2))
       }
     }
   )
