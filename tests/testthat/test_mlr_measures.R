@@ -259,6 +259,71 @@ test_that("rcll works", {
   expect_equal(score, score2)
 })
 
+test_that("dcal works", {
+  set.seed(1)
+  t = tsk("rats")$filter(sample(1:300, 50))
+  l = lrn("surv.coxph")
+  p = suppressWarnings(l$train(t)$predict(t))
+  p2 = p$clone()
+  p2$data$distr = p2$distr # hack: test score via distribution
+  m = msr("surv.dcalib")
+  expect_true(m$minimize)
+  expect_equal(m$range, c(0, Inf))
+  KMscore = p$score(m)
+  expect_numeric(KMscore)
+  KMscore2 = p2$score(m)
+  expect_equal(KMscore, KMscore2)
+
+  status  = t$truth()[,2]
+  row_ids = t$row_ids
+  cens_ids = row_ids[status == 0]
+  event_ids = row_ids[status == 1]
+
+  # only censored rats in test set
+  p = l$predict(t, row_ids = cens_ids)
+  score = p$score(m)
+  expect_numeric(score)
+  p2 = p$clone() # test score via distribution
+  p2$data$distr = p2$distr
+  score2 = p2$score(m)
+  expect_equal(score, score2)
+
+  # 1 censored test rat
+  p = p$filter(row_ids = cens_ids[1])
+  score = p$score(m)
+  expect_numeric(score)
+  p2 = p$clone() # test score via distribution
+  p2$data$distr = p2$distr
+  score2 = p2$score(m)
+  expect_equal(score, score2)
+
+  # only dead rats in test set
+  p = l$predict(t, row_ids = event_ids)
+  score = p$score(m)
+  expect_numeric(score)
+  p2 = p$clone() # test score via distribution
+  p2$data$distr = p2$distr # Matdist(1xY)
+  score2 = p2$score(m)
+  expect_equal(score, score2)
+
+  # 1 dead rat
+  p = p$filter(row_ids = event_ids[1])
+  score = p$score(m)
+  expect_numeric(score)
+  p2 = p$clone() # test score via distribution
+  p2$data$distr = p2$distr[1] # WeightDisc
+  score2 = p2$score(m)
+  expect_equal(score, score2)
+
+  # Another edge case: some dead rats and 1 only censored
+  p3 = p2$filter(row_ids = c(event_ids, cens_ids[1]))
+  score = p3$score(m)
+  expect_numeric(score)
+  p3$data$distr = p3$distr
+  score2 = p3$score(m)
+  expect_equal(score, score2)
+})
+
 test_that("distr measures work with 3d survival array", {
   learner = lrn("surv.kaplan")$train(task)
   p = learner$predict(task)
