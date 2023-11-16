@@ -3,15 +3,18 @@
 #' @templateVar fullname MeasureSurvDCalibration
 #'
 #' @description
-#' This calibration method is defined by calculating
+#' This calibration method is defined by calculating the following statistic:
 #' \deqn{s = B/n \sum_i (P_i - n/B)^2}
-#' where \eqn{B} is number of 'buckets', \eqn{n} is the number of predictions,
-#' and \eqn{P_i} is the predicted number of deaths in the \eqn{i}th interval
-#' [0, 100/B), [100/B, 50/B),....,[(B - 100)/B, 1).
+#' where \eqn{B} is number of 'buckets' (that equally divide \eqn{[0,1]} into intervals),
+#' \eqn{n} is the number of predictions, and \eqn{P_i} is the observed proportion
+#' of observations in the \eqn{i}th interval. An observation is assigned to the
+#' \eqn{i}th bucket, if its predicted survival probability at the time of event
+#' falls within the corresponding interval.
+#' This statistic assumes that censoring time is independent of death time.
 #'
-#' A model is well-calibrated if `s ~ Unif(B)`, tested with `chisq.test`
-#'  (`p > 0.05` if well-calibrated).
-#' Model `i` is better calibrated than model `j` if `s_i < s_j`.
+#' A model is well-calibrated if \eqn{s \sim Unif(B)}, tested with `chisq.test`
+#'  (\eqn{p > 0.05} if well-calibrated).
+#' Model \eqn{i} is better calibrated than model \eqn{j} if \eqn{s(i) < s(j)}.
 #'
 #' @details
 #' This measure can either return the test statistic or the p-value from the `chisq.test`.
