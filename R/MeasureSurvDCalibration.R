@@ -16,7 +16,7 @@
 #' @details
 #' This measure can either return the test statistic or the p-value from the `chisq.test`.
 #' The former is useful for model comparison whereas the latter is useful for determining if a model
-#' is well-calibration. If `chisq = FALSE` and `m` is the predicted value then you can manually
+#' is well-calibrated. If `chisq = FALSE` and `m` is the predicted value then you can manually
 #' compute the p.value with `pchisq(m, B - 1, lower.tail = FALSE)`.
 #'
 #' NOTE: This measure is still experimental both theoretically and in implementation. Results
