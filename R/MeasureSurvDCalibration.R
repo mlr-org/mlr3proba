@@ -74,16 +74,21 @@ MeasureSurvDCalibration = R6Class("MeasureSurvDCalibration",
       # predict individual probability of death at observed event time
       # bypass distr6 construction if possible
       if (inherits(prediction$data$distr, "array")) {
-        si = diag(distr6:::C_Vec_WeightedDiscreteCdf(true_times,
-          as.numeric(colnames(prediction$data$distr)),
-          t(1 - prediction$data$distr), FALSE, FALSE
-        ))
+        surv = prediction$data$distr
+        if (length(dim(surv)) == 3) {
+          # survival 3d array, extract median
+          surv = .ext_surv_mat(arr = surv, which.curve = 0.5)
+        }
+        times = as.numeric(colnames(surv))
+
+        si = diag(distr6:::C_Vec_WeightedDiscreteCdf(true_times, times,
+          cdf = t(1 - surv), FALSE, FALSE))
       } else {
         distr = prediction$distr
-        if (inherits(distr, "VectorDistribution")) {
-          si = as.numeric(distr$survival(data = matrix(true_times, nrow = 1L)))
-        } else {
+        if (inherits(distr, c("Matdist", "Arrdist"))) {
           si = diag(distr$survival(true_times))
+        } else { # VectorDistribution or single Distribution, e.g. WeightDisc()
+          si = as.numeric(distr$survival(data = matrix(true_times, nrow = 1L)))
         }
       }
       # remove zeros
