@@ -67,6 +67,7 @@ MeasureSurvDCalibration = R6Class("MeasureSurvDCalibration",
       # initialize buckets
       bj = numeric(B)
       true_times = prediction$truth[, 1L]
+
       # predict individual probability of death at observed event time
       #  bypass distr6 construction if possible
       if (inherits(prediction$data$distr, "array")) {
@@ -95,7 +96,7 @@ MeasureSurvDCalibration = R6Class("MeasureSurvDCalibration",
           # dead observations contribute 1 to their index
           bj[ji] = bj[ji] + 1
         } else {
-          # uncensored observations spread across buckets with most weighting on penultimate
+          # censored observations spread across buckets with most weighting on penultimate
           for (k in seq.int(ji - 1)) {
             bj[k] = bj[k] + 1 / (B * si[[i]])
           }
