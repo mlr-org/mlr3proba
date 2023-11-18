@@ -14,13 +14,14 @@
 #'
 #' A model is well-calibrated if \eqn{s \sim Unif(B)}, tested with `chisq.test`
 #'  (\eqn{p > 0.05} if well-calibrated).
-#' Model \eqn{i} is better calibrated than model \eqn{j} if \eqn{s(i) < s(j)}.
+#' Model \eqn{i} is better calibrated than model \eqn{j} if \eqn{s(i) < s(j)},
+#' meaning that *lower values* of this measure are preferred.
 #'
 #' @details
 #' This measure can either return the test statistic or the p-value from the `chisq.test`.
 #' The former is useful for model comparison whereas the latter is useful for determining if a model
-#' is well-calibrated. If `chisq = FALSE` and `m` is the predicted value then you can manually
-#' compute the p.value with `pchisq(m, B - 1, lower.tail = FALSE)`.
+#' is well-calibrated. If `chisq = FALSE` and `s` is the predicted value then you can manually
+#' compute the p.value with `pchisq(s, B - 1, lower.tail = FALSE)`.
 #'
 #' NOTE: This measure is still experimental both theoretically and in implementation. Results
 #' should therefore only be taken as an indicator of performance and not for
@@ -37,12 +38,22 @@ MeasureSurvDCalibration = R6Class("MeasureSurvDCalibration",
   public = list(
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
     #' @param B (`integer(1)`) \cr
-    #' Number of buckets to test for uniform predictions over. Default of `10` is recommended by
-    #' Haider et al. (2020).
+    #' Number of buckets to test for uniform predictions over.
+    #' Default of `10` is recommended by Haider et al. (2020).
+    #' Changing this parameter affects `truncate`.
     #' @param chisq (`logical(1)`) \cr
-    #' If `TRUE` returns the p.value of the corresponding chisq.test instead of the measure.
-    #' Otherwise this can be performed manually with `pchisq(m, B - 1, lower.tail = FALSE)`.
-    #' `p > 0.05` indicates well-calibrated.
+    #' If `TRUE` returns the p-value of the corresponding chisq.test instead of the measure.
+    #' Default is `FALSE` and returns the statistic `s`.
+    #' You can manually get the p-value by executing `pchisq(s, B - 1, lower.tail = FALSE)`.
+    #' `p > 0.05` indicates a well-calibrated model.
+    #' @param truncate (`double(1)`) \cr
+    #' This parameter controls the upper bound of the output statistic,
+    #' when `chisq` is `FALSE`. The default `truncate` value of \eqn{10}
+    #' corresponds to a p-value of 0.35 for the chisq.test using \eqn{B = 10} buckets.
+    #' Values \eqn{>10} translate to even lower p-values and thus less calibrated
+    #' models. If the number of buckets \eqn{B} changes, you probably will want to
+    #' change the `truncate` value as well to correspond to the same p-value significance.
+    #' Initialize with `truncate = Inf` if no truncation is desired.
     initialize = function() {
       ps = ps(
         B = p_int(1, default = 10),
