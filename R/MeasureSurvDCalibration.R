@@ -46,9 +46,10 @@ MeasureSurvDCalibration = R6Class("MeasureSurvDCalibration",
     initialize = function() {
       ps = ps(
         B = p_int(1, default = 10),
-        chisq = p_lgl(default = FALSE)
+        chisq = p_lgl(default = FALSE),
+        truncate = p_dbl(lower = 0, upper = Inf, default = 10)
       )
-      ps$values = list(B = 10L, chisq = FALSE)
+      ps$values = list(B = 10L, chisq = FALSE, truncate = 10)
 
       super$initialize(
         id = "surv.dcalib",
@@ -115,7 +116,7 @@ MeasureSurvDCalibration = R6Class("MeasureSurvDCalibration",
       if (ps$chisq) {
         return(stats::chisq.test(bj)$p.value)
       } else {
-        return((B / length(si)) * sum((bj - length(si) / B)^2))
+        return(min(ps$truncate, (B / length(si)) * sum((bj - length(si) / B)^2)))
       }
     }
   )
