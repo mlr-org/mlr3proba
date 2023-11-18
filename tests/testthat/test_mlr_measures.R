@@ -266,9 +266,12 @@ test_that("dcal works", {
   p = suppressWarnings(l$train(t)$predict(t))
   p2 = p$clone()
   p2$data$distr = p2$distr # hack: test score via distribution
-  m = msr("surv.dcalib")
+  m = msr("surv.dcalib", truncate = 20)
   expect_true(m$minimize)
   expect_equal(m$range, c(0, Inf))
+  expect_equal(m$param_set$values$B, 10)
+  expect_equal(m$param_set$values$chisq, FALSE)
+  expect_equal(m$param_set$values$truncate, 20)
   KMscore = p$score(m)
   expect_numeric(KMscore)
   KMscore2 = p2$score(m)
@@ -316,12 +319,20 @@ test_that("dcal works", {
   expect_equal(score, score2)
 
   # Another edge case: some dead rats and 1 only censored
-  p3 = p2$filter(row_ids = c(event_ids, cens_ids[1]))
-  score = p3$score(m)
+  p = l$predict(t, row_ids = c(event_ids, cens_ids[1]))
+  score = p$score(m)
   expect_numeric(score)
-  p3$data$distr = p3$distr
-  score2 = p3$score(m)
+  p$data$distr = p$distr
+  score2 = p$score(m)
   expect_equal(score, score2)
+  expect_true(score > 10)
+
+  score3 = p$score(msr("surv.dcalib")) # default truncate = 10
+  expect_equal(unname(score3), 10)
+  score4 = p$score(msr("surv.dcalib", truncate = 5))
+  expect_equal(unname(score4), 5)
+  score5 = p$score(msr("surv.dcalib", truncate = Inf, B = 20)) # B affects truncate
+  expect_true(score5 > score)
 })
 
 test_that("distr measures work with 3d survival array", {
