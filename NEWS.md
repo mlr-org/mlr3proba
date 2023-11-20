@@ -1,3 +1,7 @@
+# mlr3proba 0.5.4
+
+* Fix bottlenecks in Dcalib and RCLL
+
 # mlr3proba 0.5.3
 
 * Add support for learners that can predict multiple posterior distributions by using `distr6::Arrdist`

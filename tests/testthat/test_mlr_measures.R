@@ -194,11 +194,15 @@ test_that("rcll works", {
   t = tsk("rats")$filter(sample(1:300, 50))
   l = lrn("surv.kaplan")
   p = l$train(t)$predict(t)
+  p2 = p$clone()
+  p2$data$distr = p2$distr # hack: test score via distribution
   m = msr("surv.rcll")
   expect_true(m$minimize)
   expect_equal(m$range, c(0, Inf))
   KMscore = p$score(m)
   expect_numeric(KMscore)
+  KMscore2 = p2$score(m)
+  expect_equal(KMscore, KMscore2)
 
   status  = t$truth()[,2]
   row_ids = t$row_ids
@@ -207,18 +211,128 @@ test_that("rcll works", {
 
   # only censored rats in test set
   p = l$predict(t, row_ids = cens_ids)
-  expect_numeric(p$score(m))
-  expect_numeric(p$filter(row_ids = cens_ids[1])$score(m)) # 1 test rat
+  score = p$score(m)
+  expect_numeric(score)
+  p2 = p$clone() # test score via distribution
+  p2$data$distr = p2$distr
+  score2 = p2$score(m)
+  expect_equal(score, score2)
+
+  # 1 censored test rat
+  p = p$filter(row_ids = cens_ids[1])
+  score = p$score(m)
+  expect_numeric(score)
+  p2 = p$clone() # test score via distribution
+  p2$data$distr = p2$distr
+  score2 = p2$score(m)
+  expect_equal(score, score2)
 
   # only dead rats in test set
   p = l$predict(t, row_ids = event_ids)
-  expect_numeric(p$score(m))
-  expect_numeric(p$filter(row_ids = event_ids[1])$score(m)) # 1 test rat
+  score = p$score(m)
+  expect_numeric(score)
+  p2 = p$clone() # test score via distribution
+  p2$data$distr = p2$distr # Matdist(1xY)
+  score2 = p2$score(m)
+  expect_equal(score, score2)
+
+  # 1 dead rat
+  p = p$filter(row_ids = event_ids[1])
+  score = p$score(m)
+  expect_numeric(score)
+  p2 = p$clone() # test score via distribution
+  p2$data$distr = p2$distr[1] # WeightDisc
+  score2 = p2$score(m)
+  expect_equal(score, score2)
 
   # Cox is better than baseline (Kaplan-Meier)
+  l2 = lrn("surv.coxph")
+  p2 = suppressWarnings(l2$train(t)$predict(t))
+  expect_true(p2$score(m) < KMscore)
+
+  # Another edge case: some dead rats and 1 only censored
+  p3 = p2$filter(row_ids = c(event_ids, cens_ids[1]))
+  score = p3$score(m)
+  expect_numeric(score)
+  p3$data$distr = p3$distr
+  score2 = p3$score(m)
+  expect_equal(score, score2)
+})
+
+test_that("dcal works", {
+  set.seed(1)
+  t = tsk("rats")$filter(sample(1:300, 50))
   l = lrn("surv.coxph")
   p = suppressWarnings(l$train(t)$predict(t))
-  expect_true(p$score(m) < KMscore)
+  p2 = p$clone()
+  p2$data$distr = p2$distr # hack: test score via distribution
+  m = msr("surv.dcalib", truncate = 20)
+  expect_true(m$minimize)
+  expect_equal(m$range, c(0, Inf))
+  expect_equal(m$param_set$values$B, 10)
+  expect_equal(m$param_set$values$chisq, FALSE)
+  expect_equal(m$param_set$values$truncate, 20)
+  KMscore = p$score(m)
+  expect_numeric(KMscore)
+  KMscore2 = p2$score(m)
+  expect_equal(KMscore, KMscore2)
+
+  status  = t$truth()[,2]
+  row_ids = t$row_ids
+  cens_ids = row_ids[status == 0]
+  event_ids = row_ids[status == 1]
+
+  # only censored rats in test set
+  p = l$predict(t, row_ids = cens_ids)
+  score = p$score(m)
+  expect_numeric(score)
+  p2 = p$clone() # test score via distribution
+  p2$data$distr = p2$distr
+  score2 = p2$score(m)
+  expect_equal(score, score2)
+
+  # 1 censored test rat
+  p = p$filter(row_ids = cens_ids[1])
+  score = p$score(m)
+  expect_numeric(score)
+  p2 = p$clone() # test score via distribution
+  p2$data$distr = p2$distr
+  score2 = p2$score(m)
+  expect_equal(score, score2)
+
+  # only dead rats in test set
+  p = l$predict(t, row_ids = event_ids)
+  score = p$score(m)
+  expect_numeric(score)
+  p2 = p$clone() # test score via distribution
+  p2$data$distr = p2$distr # Matdist(1xY)
+  score2 = p2$score(m)
+  expect_equal(score, score2)
+
+  # 1 dead rat
+  p = p$filter(row_ids = event_ids[1])
+  score = p$score(m)
+  expect_numeric(score)
+  p2 = p$clone() # test score via distribution
+  p2$data$distr = p2$distr[1] # WeightDisc
+  score2 = p2$score(m)
+  expect_equal(score, score2)
+
+  # Another edge case: some dead rats and 1 only censored
+  p = l$predict(t, row_ids = c(event_ids, cens_ids[1]))
+  score = p$score(m)
+  expect_numeric(score)
+  p$data$distr = p$distr
+  score2 = p$score(m)
+  expect_equal(score, score2)
+  expect_true(score > 10)
+
+  score3 = p$score(msr("surv.dcalib")) # default truncate = 10
+  expect_equal(unname(score3), 10)
+  score4 = p$score(msr("surv.dcalib", truncate = 5))
+  expect_equal(unname(score4), 5)
+  score5 = p$score(msr("surv.dcalib", truncate = Inf, B = 20)) # B affects truncate
+  expect_true(score5 > score)
 })
 
 test_that("distr measures work with 3d survival array", {

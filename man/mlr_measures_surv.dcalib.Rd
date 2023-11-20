@@ -5,21 +5,25 @@
 \alias{MeasureSurvDCalibration}
 \title{D-Calibration Survival Measure}
 \description{
-This calibration method is defined by calculating
+This calibration method is defined by calculating the following statistic:
 \deqn{s = B/n \sum_i (P_i - n/B)^2}
-where \eqn{B} is number of 'buckets', \eqn{n} is the number of predictions,
-and \eqn{P_i} is the predicted number of deaths in the \eqn{i}th interval
-[0, 100/B), [100/B, 50/B),....,[(B - 100)/B, 1).
+where \eqn{B} is number of 'buckets' (that equally divide \eqn{[0,1]} into intervals),
+\eqn{n} is the number of predictions, and \eqn{P_i} is the observed proportion
+of observations in the \eqn{i}th interval. An observation is assigned to the
+\eqn{i}th bucket, if its predicted survival probability at the time of event
+falls within the corresponding interval.
+This statistic assumes that censoring time is independent of death time.
 
-A model is well-calibrated if \code{s ~ Unif(B)}, tested with \code{chisq.test}
-(\code{p > 0.05} if well-calibrated).
-Model \code{i} is better calibrated than model \code{j} if \code{s_i < s_j}.
+A model is well-calibrated if \eqn{s \sim Unif(B)}, tested with \code{chisq.test}
+(\eqn{p > 0.05} if well-calibrated).
+Model \eqn{i} is better calibrated than model \eqn{j} if \eqn{s(i) < s(j)},
+meaning that \emph{lower values} of this measure are preferred.
 }
 \details{
 This measure can either return the test statistic or the p-value from the \code{chisq.test}.
 The former is useful for model comparison whereas the latter is useful for determining if a model
-is well-calibration. If \code{chisq = FALSE} and \code{m} is the predicted value then you can manually
-compute the p.value with \code{pchisq(m, B - 1, lower.tail = FALSE)}.
+is well-calibrated. If \code{chisq = FALSE} and \code{s} is the predicted value then you can manually
+compute the p.value with \code{pchisq(s, B - 1, lower.tail = FALSE)}.
 
 NOTE: This measure is still experimental both theoretically and in implementation. Results
 should therefore only be taken as an indicator of performance and not for
@@ -126,13 +130,24 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{B}}{(\code{integer(1)}) \cr
-Number of buckets to test for uniform predictions over. Default of \code{10} is recommended by
-Haider et al. (2020).}
+Number of buckets to test for uniform predictions over.
+Default of \code{10} is recommended by Haider et al. (2020).
+Changing this parameter affects \code{truncate}.}
 
 \item{\code{chisq}}{(\code{logical(1)}) \cr
-If \code{TRUE} returns the p.value of the corresponding chisq.test instead of the measure.
-Otherwise this can be performed manually with \code{pchisq(m, B - 1, lower.tail = FALSE)}.
-\code{p > 0.05} indicates well-calibrated.}
+If \code{TRUE} returns the p-value of the corresponding chisq.test instead of the measure.
+Default is \code{FALSE} and returns the statistic \code{s}.
+You can manually get the p-value by executing \code{pchisq(s, B - 1, lower.tail = FALSE)}.
+\code{p > 0.05} indicates a well-calibrated model.}
+
+\item{\code{truncate}}{(\code{double(1)}) \cr
+This parameter controls the upper bound of the output statistic,
+when \code{chisq} is \code{FALSE}. The default \code{truncate} value of \eqn{10}
+corresponds to a p-value of 0.35 for the chisq.test using \eqn{B = 10} buckets.
+Values \eqn{>10} translate to even lower p-values and thus less calibrated
+models. If the number of buckets \eqn{B} changes, you probably will want to
+change the \code{truncate} value as well to correspond to the same p-value significance.
+Initialize with \code{truncate = Inf} if no truncation is desired.}
 }
 \if{html}{\out{</div>}}
 }

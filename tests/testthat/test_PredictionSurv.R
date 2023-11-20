@@ -176,21 +176,67 @@ test_that("as_prediction_surv", {
 })
 
 test_that("filtering", {
-  p = suppressWarnings(lrn("surv.coxph")$train(task)$predict(task))
-  p2 = reshape_distr_to_3d(p) # survival array distr
+  p = suppressWarnings(lrn("surv.coxph")$train(task)$predict(task)) # survival matrix
+  p2 = reshape_distr_to_3d(p) # survival array
+  p3 = p$clone()
+  p4 = p2$clone()
+  p3$data$distr = p3$distr # Matdist
+  p4$data$distr = p4$distr # Arrdist
 
   p$filter(c(20, 37, 42))
   p2$filter(c(20, 37, 42))
+  p3$filter(c(20, 37, 42))
+  p4$filter(c(20, 37, 42))
   expect_prediction_surv(p)
   expect_prediction_surv(p2)
+  expect_prediction_surv(p3)
+  expect_prediction_surv(p4)
 
   expect_set_equal(p$data$row_ids, c(20, 37, 42))
   expect_set_equal(p2$data$row_ids, c(20, 37, 42))
+  expect_set_equal(p3$data$row_ids, c(20, 37, 42))
+  expect_set_equal(p4$data$row_ids, c(20, 37, 42))
   expect_numeric(p$data$crank, any.missing = FALSE, len = 3)
   expect_numeric(p2$data$crank, any.missing = FALSE, len = 3)
+  expect_numeric(p3$data$crank, any.missing = FALSE, len = 3)
+  expect_numeric(p4$data$crank, any.missing = FALSE, len = 3)
   expect_numeric(p$data$lp, any.missing = FALSE, len = 3)
   expect_numeric(p2$data$lp, any.missing = FALSE, len = 3)
+  expect_numeric(p3$data$lp, any.missing = FALSE, len = 3)
+  expect_numeric(p4$data$lp, any.missing = FALSE, len = 3)
   expect_matrix(p$data$distr, nrows = 3)
   expect_array(p2$data$distr, d = 3)
   expect_equal(nrow(p2$data$distr), 3)
+  expect_true(inherits(p3$data$distr, "Matdist"))
+  expect_true(inherits(p4$data$distr, "Arrdist"))
+
+  # edge case: filter to 1 observation
+  p$filter(20)
+  p2$filter(20)
+  p3$filter(20)
+  p4$filter(20)
+  expect_prediction_surv(p)
+  expect_prediction_surv(p2)
+  expect_prediction_surv(p3)
+  expect_prediction_surv(p4)
+  expect_matrix(p$data$distr, nrows = 1)
+  expect_array(p2$data$distr, d = 3)
+  expect_equal(nrow(p2$data$distr), 1)
+  expect_true(inherits(p3$data$distr, "WeightedDiscrete")) # from Matdist!
+  expect_true(inherits(p4$data$distr, "Arrdist")) # remains an Arrdist!
+
+  # filter to 0 observations using non-existent (positive) id
+  p$filter(42)
+  p2$filter(42)
+  p3$filter(42)
+  p4$filter(42)
+
+  expect_prediction_surv(p)
+  expect_prediction_surv(p2)
+  expect_prediction_surv(p3)
+  expect_prediction_surv(p4)
+  expect_null(p$distr)
+  expect_null(p2$distr)
+  expect_null(p3$distr)
+  expect_null(p4$distr)
 })

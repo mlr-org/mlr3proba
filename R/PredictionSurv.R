@@ -171,10 +171,12 @@ PredictionSurv = R6Class("PredictionSurv",
       }
     },
     .distrify_survarray = function(x) {
-      if (inherits(x, "array")) { # can be matrix as well
+      if (inherits(x, "array") && nrow(x) > 0) { # can be matrix as well
         # create Matdist or Arrdist (default => median curve)
         distr6::as.Distribution(1 - x, fun = "cdf",
           decorators = c("CoreStatistics", "ExoticStatistics"))
+      } else {
+        NULL
       }
     }
   )

@@ -1,6 +1,6 @@
 Package: mlr3proba
 Title: Probabilistic Supervised Learning for 'mlr3'
-Version: 0.5.3
+Version: 0.5.4
 Authors@R:
     c(person(given = "Raphael",
              family = "Sonabend",
@@ -43,7 +43,7 @@ Depends:
 Imports:
     checkmate,
     data.table,
-    distr6 (>= 1.8.3),
+    distr6 (>= 1.8.4),
     ggplot2,
     mlr3misc (>= 0.7.0),
     mlr3viz,
