@@ -1,3 +1,7 @@
+# mlr3proba 0.5.5
+
+* Add breslow estimator for the cumulative baseline hazard of proportional hazard models
+
 # mlr3proba 0.5.4
 
 * Fix bottlenecks in Dcalib and RCLL
