@@ -127,7 +127,7 @@ surv_breslow = function(times, status, lp_train, lp_test, eval_times = NULL) {
 #' head(base_haz)
 #'
 #'@export
-.cbhaz_breslow = function(times, status, lp, eval_times) {
+.cbhaz_breslow = function(times, status, lp, eval_times = NULL) {
   utimes = sort(unique(times[status == 1])) # unique, sorted event times
   bhaz = vapply(utimes, function(ut) sum(times[status == 1] == ut) / sum(exp(lp[times >= ut])), numeric(1))
 
