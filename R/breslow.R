@@ -57,6 +57,8 @@ surv_breslow = function(times, status, lp_train, lp_test, eval_times = NULL) {
   assert_numeric(lp_train, null.ok = FALSE)
   assert_numeric(lp_test, null.ok = FALSE)
   assert_numeric(eval_times, null.ok = TRUE)
+  assert_true(length(times) == length(status))
+  assert_true(length(times) == length(lp_train))
 
   base_haz = .cbhaz_breslow(times = times, status = status, lp = lp_train,
                             eval_times = eval_times)
