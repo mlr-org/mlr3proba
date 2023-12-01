@@ -15,9 +15,8 @@
 #' These are the relative score predictions (\eqn{lp = \hat{\beta}X_{test}})
 #' from a proportional hazards model on the test set.
 #' @param eval_times (`numeric()`)\cr Vector of times to compute survival
-#' probabilities. Should be unique and increasing time points.
-#' If `NULL` (default), the unique and sorted `times` from the train set will
-#' be used.
+#' probabilities. If `NULL` (default), the unique and sorted `times` from the
+#' train set will be used, otherwise the unique and sorted `eval_times`.
 #'
 #' @details
 #' We estimate the survival probability of individual \eqn{i} (from the test set),
@@ -42,32 +41,26 @@
 #' @examples
 #' task = tsk("rats")
 #' part = partition(task, ratio = 0.8)
-#' truth_train = task$truth(part$train)
 #'
 #' learner = lrn("surv.coxph")
 #' learner$train(task, part$train)
 #' p_train = learner$predict(task, part$train)
 #' p_test  = learner$predict(task, part$test)
 #'
-#' surv = surv_breslow(times = truth_train[,1], status = truth_train[,2],
+#' surv = surv_breslow(times = task$times(part$train), status = task$status(part$train),
 #'                     lp_train = p_train$lp, lp_test = p_test$lp)
 #' head(surv)
 #' @export
-surv_breslow = function(times = NULL, status = NULL, lp_train = NULL,
-  lp_test = NULL, eval_times = NULL) {
-  checkmate::assert_numeric(times, null.ok = FALSE)
-  checkmate::assert_numeric(status, null.ok = FALSE)
-  checkmate::assert_numeric(lp_train, null.ok = FALSE)
-  checkmate::assert_numeric(lp_test, null.ok = FALSE)
+surv_breslow = function(times, status, lp_train, lp_test, eval_times = NULL) {
+  assert_numeric(times, null.ok = FALSE)
+  assert_numeric(status, null.ok = FALSE)
+  assert_numeric(lp_train, null.ok = FALSE)
+  assert_numeric(lp_test, null.ok = FALSE)
+  assert_numeric(eval_times, null.ok = TRUE)
 
-  eval_times = eval_times %||% sort(unique(times))
-  base_haz = cbhaz_breslow(times = times, status = status, lp = lp_train,
-                           eval_times = eval_times)
+  base_haz = .cbhaz_breslow(times = times, status = status, lp = lp_train,
+                            eval_times = eval_times)
   surv = exp(exp(lp_test) %*% -t(base_haz))
-
-  # check if not NULL or other strange things here
-  # if (nrow(prb) != nrow() || ncol(prb) != length(eval_times))
-  # stop("Prediction failed") # return something here?
   rownames(surv) = 1:nrow(surv)
   surv
 }
@@ -122,22 +115,22 @@ surv_breslow = function(times = NULL, status = NULL, lp_train = NULL,
 #' @examples
 #' task = tsk("rats")
 #' part = partition(task, ratio = 0.8)
-#' truth_train = task$truth(part$train)
 #'
 #' learner = lrn("surv.coxph")
 #' learner$train(task, part$train)
 #' p_train = learner$predict(task, part$train)
 #'
-#' base_haz = cbhaz_breslow(times = truth_train[,1], status = truth_train[,2],
-#'                          lp = p_train$lp)
+#' base_haz = .cbhaz_breslow(times = task$times(part$train),
+#'   status = task$status(part$train), lp = p_train$lp)
 #' head(base_haz)
+#'
 #'@export
-cbhaz_breslow = function(times = NULL, status = NULL, lp = NULL, eval_times = NULL) {
+.cbhaz_breslow = function(times, status, lp, eval_times) {
   utimes = sort(unique(times[status == 1])) # unique, sorted event times
   bhaz = vapply(utimes, function(ut) sum(times[status == 1] == ut) / sum(exp(lp[times >= ut])), numeric(1))
 
+  # constant interpolation of cumulative hazards across `eval_times`
   eval_times = sort(unique(eval_times %||% times))
-
   res = stats::approx(x = utimes, y = cumsum(bhaz), yleft = 0,
                       xout = eval_times, rule = 2)$y
   names(res) = eval_times
