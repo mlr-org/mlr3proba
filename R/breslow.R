@@ -55,10 +55,10 @@ surv_breslow = function(times, status, lp_train, lp_test, eval_times = NULL) {
   assert_numeric(times, null.ok = FALSE)
   assert_numeric(status, null.ok = FALSE)
   assert_numeric(lp_train, null.ok = FALSE)
-  assert_numeric(lp_test, null.ok = FALSE)
-  assert_numeric(eval_times, null.ok = TRUE)
   assert_true(length(times) == length(status))
   assert_true(length(times) == length(lp_train))
+  assert_numeric(lp_test, null.ok = FALSE)
+  assert_numeric(eval_times, null.ok = TRUE)
 
   base_haz = .cbhaz_breslow(times = times, status = status, lp = lp_train,
                             eval_times = eval_times)
@@ -104,6 +104,14 @@ surv_breslow = function(times, status, lp_train, lp_test, eval_times = NULL) {
 #' - \eqn{lp_j} is the risk prediction (linear predictor) of individual \eqn{j}
 #' (who is part of the risk set \eqn{R_i}).
 #'
+#' We employ **constant interpolation** to estimate the cumulative hazards,
+#' extending from the observed unique event times to the specified evaluation
+#' times (`eval_times`).
+#' Any values falling outside the range of the estimated times are assigned as
+#' follows:
+#' \deqn{\hat{H}_0(eval\_times < min(t)) = 0} and
+#' \deqn{\hat{H}_0(eval\_times > max(t)) = \hat{H}_0(max(t))}
+#'
 #' For similar implementations, see `gbm::basehaz.gbm()`, `C060::basesurv()` and
 #' `xgboost.surv::sgb_bhaz()`.
 #'
@@ -131,10 +139,18 @@ surv_breslow = function(times, status, lp_train, lp_test, eval_times = NULL) {
   utimes = sort(unique(times[status == 1])) # unique, sorted event times
   bhaz = vapply(utimes, function(ut) sum(times[status == 1] == ut) / sum(exp(lp[times >= ut])), numeric(1))
 
-  # constant interpolation of cumulative hazards across `eval_times`
   eval_times = sort(unique(eval_times %||% times))
-  res = stats::approx(x = utimes, y = cumsum(bhaz), yleft = 0,
-                      xout = eval_times, rule = 2)$y
+  if (length(utimes) == 0) {
+    # 0 events (training data has only censored observations!)
+    res = numeric(length(eval_times))
+  } else {
+    # constant interpolation of cumulative hazards across `eval_times`
+    # rule = 1:2 means return NAs for `xout < x` and max(y) for `xout > x`
+    # NAs are overwritten with zeros (`yleft = 0`)
+    res = stats::approx(x = utimes, y = cumsum(bhaz), yleft = 0, method = "constant",
+                        xout = eval_times, rule = 1:2)$y
+  }
+
   names(res) = eval_times
   res
 }
