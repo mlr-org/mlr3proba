@@ -87,9 +87,9 @@ surv_breslow = function(times = NULL, status = NULL, lp_train = NULL,
 #' These are the relative score predictions from a proportional hazards model
 #' on the train set.
 #' @param eval_times (`numeric()`)\cr Vector of times to compute the cumulative
-#' baseline hazard estimations. Should be unique and increasing time points.
-#' If `NULL` (default), the unique and sorted `times` from the train set will
-#' be used.
+#' baseline hazard estimations. If `NULL` (default), the unique and sorted
+#' `times` from the train set will be used, otherwise the unique and sorted
+#' `eval_times`.
 #'
 #' @details
 #' Breslow's approach uses a non-parametric maximum likelihood estimation of the
