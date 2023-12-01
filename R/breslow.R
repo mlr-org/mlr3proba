@@ -27,7 +27,7 @@
 #' - \eqn{H_i(t)} is the cumulative hazard function for individual \eqn{i}
 #' - \eqn{\hat{H}_0(t)} is Breslow's estimator for the cumulative baseline
 #' hazard. Estimation requires the training set's `times` and `status` as well
-#' the risk predictions (`lp_train`), see more details in [cbhaz_breslow])
+#' the risk predictions (`lp_train`), see more details in [.cbhaz_breslow])
 #' - \eqn{lp_i} is the risk prediction (linear predictor) of individual \eqn{i}
 #' on the test set.
 #'
@@ -94,8 +94,8 @@ surv_breslow = function(times, status, lp_train, lp_test, eval_times = NULL) {
 #' {\sum\nolimits_{j \in R_i}e^{lp_j}}}}
 #'
 #' where:
-#' - \eqn{\hat{H}_0(t)} is the cumulative baseline hazard
-#' - \eqn{t} is the vector of time points
+#' - \eqn{\hat{H}_0(t)} is the cumulative baseline hazard estimate
+#' - \eqn{t} is the vector of time points (unique and sorted)
 #' - \eqn{n} is number of events
 #' - \eqn{T} is the vector of event times
 #' - \eqn{\delta} is the status indicator (event or censoring)

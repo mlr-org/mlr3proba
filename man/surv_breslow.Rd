@@ -44,7 +44,7 @@ where:
 \item \eqn{H_i(t)} is the cumulative hazard function for individual \eqn{i}
 \item \eqn{\hat{H}_0(t)} is Breslow's estimator for the cumulative baseline
 hazard. Estimation requires the training set's \code{times} and \code{status} as well
-the risk predictions (\code{lp_train}), see more details in \link{cbhaz_breslow})
+the risk predictions (\code{lp_train}), see more details in \link{.cbhaz_breslow})
 \item \eqn{lp_i} is the risk prediction (linear predictor) of individual \eqn{i}
 on the test set.
 }

@@ -4,7 +4,7 @@
 \alias{.cbhaz_breslow}
 \title{Breslow's Cumulative Baseline Hazard}
 \usage{
-.cbhaz_breslow(times, status, lp, eval_times)
+.cbhaz_breslow(times, status, lp, eval_times = NULL)
 }
 \arguments{
 \item{times}{(\code{numeric()})\cr Vector of times (train set).}
@@ -40,8 +40,8 @@ cumulative baseline hazard function:
 
 where:
 \itemize{
-\item \eqn{\hat{H}_0(t)} is the cumulative baseline hazard
-\item \eqn{t} is the vector of time points
+\item \eqn{\hat{H}_0(t)} is the cumulative baseline hazard estimate
+\item \eqn{t} is the vector of time points (unique and sorted)
 \item \eqn{n} is number of events
 \item \eqn{T} is the vector of event times
 \item \eqn{\delta} is the status indicator (event or censoring)
