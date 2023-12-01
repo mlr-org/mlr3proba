@@ -4,13 +4,7 @@
 \alias{surv_breslow}
 \title{Survival probabilities using Breslow's estimator}
 \usage{
-surv_breslow(
-  times = NULL,
-  status = NULL,
-  lp_train = NULL,
-  lp_test = NULL,
-  eval_times = NULL
-)
+surv_breslow(times, status, lp_train, lp_test, eval_times = NULL)
 }
 \arguments{
 \item{times}{(\code{numeric()})\cr Vector of times (train set).}
@@ -28,9 +22,8 @@ These are the relative score predictions (\eqn{lp = \hat{\beta}X_{test}})
 from a proportional hazards model on the test set.}
 
 \item{eval_times}{(\code{numeric()})\cr Vector of times to compute survival
-probabilities. Should be unique and increasing time points.
-If \code{NULL} (default), the unique and sorted \code{times} from the train set will
-be used.}
+probabilities. If \code{NULL} (default), the unique and sorted \code{times} from the
+train set will be used, otherwise the unique and sorted \code{eval_times}.}
 }
 \value{
 a survival probability \code{matrix} (obs x times). Number of columns is
@@ -59,14 +52,13 @@ on the test set.
 \examples{
 task = tsk("rats")
 part = partition(task, ratio = 0.8)
-truth_train = task$truth(part$train)
 
 learner = lrn("surv.coxph")
 learner$train(task, part$train)
 p_train = learner$predict(task, part$train)
 p_test  = learner$predict(task, part$test)
 
-surv = surv_breslow(times = truth_train[,1], status = truth_train[,2],
+surv = surv_breslow(times = task$times(part$train), status = task$status(part$train),
                     lp_train = p_train$lp, lp_test = p_test$lp)
 head(surv)
 }
