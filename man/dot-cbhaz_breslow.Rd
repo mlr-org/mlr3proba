@@ -51,6 +51,14 @@ event \eqn{i})
 (who is part of the risk set \eqn{R_i}).
 }
 
+We employ \strong{constant interpolation} to estimate the cumulative hazards,
+extending from the observed unique event times to the specified evaluation
+times (\code{eval_times}).
+Any values falling outside the range of the estimated times are assigned as
+follows:
+\deqn{\hat{H}_0(eval\_times < min(t)) = 0} and
+\deqn{\hat{H}_0(eval\_times > max(t)) = \hat{H}_0(max(t))}
+
 For similar implementations, see \code{gbm::basehaz.gbm()}, \code{C060::basesurv()} and
 \code{xgboost.surv::sgb_bhaz()}.
 }
