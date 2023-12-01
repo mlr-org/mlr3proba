@@ -140,9 +140,7 @@ cbhaz_breslow = function(times = NULL, status = NULL, lp = NULL, eval_times = NU
               sum(exp(lp[times >= utimes[i]]))
   }
 
-  eval_times = eval_times %||% sort(unique(times))
-  ok = all(diff(eval_times) > 0)
-  if (!ok) stop("'eval_times' should be monotically increasing sequence")
+  eval_times = sort(unique(eval_times %||% times))
 
   res = stats::approx(x = utimes, y = cumsum(bhaz), yleft = 0,
                       xout = eval_times, rule = 2)$y
