@@ -149,6 +149,7 @@ register_mlr3pipelines = function() {
   # deprecated
   x$add("distrcompose", PipeOpDistrCompositor)
   x$add("crankcompose", PipeOpCrankCompositor)
+  x$add("breslowcompose", PipeOpBreslow)
 
   x$add("trafotask_regrsurv", PipeOpTaskRegrSurv)
   x$add("trafotask_survregr", PipeOpTaskSurvRegr)
