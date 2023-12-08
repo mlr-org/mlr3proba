@@ -25,11 +25,38 @@
 #'
 #' where:
 #' - \eqn{H_i(t)} is the cumulative hazard function for individual \eqn{i}
-#' - \eqn{\hat{H}_0(t)} is Breslow's estimator for the cumulative baseline
-#' hazard. Estimation requires the training set's `times` and `status` as well
-#' the risk predictions (`lp_train`), see more details in [.cbhaz_breslow])
+#' - \eqn{\hat{H}_0(t)} is Breslow's estimator for the **cumulative baseline
+#' hazard**. Estimation requires the training set's `times` and `status` as well
+#' the risk predictions (`lp_train`).
 #' - \eqn{lp_i} is the risk prediction (linear predictor) of individual \eqn{i}
 #' on the test set.
+#'
+#' Breslow's approach uses a non-parametric maximum likelihood estimation of the
+#' cumulative baseline hazard function:
+#'
+#' \deqn{\hat{H}_0(t) = \sum_{i=1}^n{\frac{I(T_i \le t)\delta_i}
+#' {\sum\nolimits_{j \in R_i}e^{lp_j}}}}
+#'
+#' where:
+#' - \eqn{t} is the vector of time points (unique and sorted)
+#' - \eqn{n} is number of events
+#' - \eqn{T} is the vector of event times
+#' - \eqn{\delta} is the status indicator (1 = event or 0 = censored)
+#' - \eqn{R_i} is the risk set (number of individuals at risk just before
+#' event \eqn{i})
+#' - \eqn{lp_j} is the risk prediction (linear predictor) of individual \eqn{j}
+#' (who is part of the risk set \eqn{R_i}).
+#'
+#' We employ **constant interpolation** to estimate the cumulative hazards,
+#' extending from the observed unique event times to the specified evaluation
+#' times (`eval_times`).
+#' Any values falling outside the range of the estimated times are assigned as
+#' follows:
+#' \deqn{\hat{H}_0(eval\_times < min(t)) = 0} and
+#' \deqn{\hat{H}_0(eval\_times > max(t)) = \hat{H}_0(max(t))}
+#'
+#' For similar implementations, see `gbm::basehaz.gbm()`, `C060::basesurv()` and
+#' `xgboost.surv::sgb_bhaz()`.
 #'
 #' @return a survival probability `matrix` (obs x times). Number of columns is
 #' equal to `eval_times` and number of rows is equal to the number of test
@@ -67,74 +94,27 @@ surv_breslow = function(times, status, lp_train, lp_test, eval_times = NULL) {
   surv
 }
 
-#' @title Breslow's Cumulative Baseline Hazard
-#'
-#' @description
-#' Computes the cumulative baseline hazard using Breslow's (1972) estimator.
-#' Assumes risk predictions are derived from a **proportional hazards**
-#' regression model.
-#'
-#' @param times (`numeric()`)\cr Vector of times (train set).
-#' @param status (`numeric()`)\cr Vector of status indicators (train set).
-#' For each observation in the train set, this should be 0 (alive/censored) or
-#' 1 (dead).
-#' @param lp (`numeric()`)\cr Vector of linear predictors (train set).
-#' These are the relative score predictions from a proportional hazards model
-#' on the train set.
-#' @param eval_times (`numeric()`)\cr Vector of times to compute the cumulative
-#' baseline hazard estimations. If `NULL` (default), the unique and sorted
-#' `times` from the train set will be used, otherwise the unique and sorted
-#' `eval_times`.
-#'
-#' @details
-#' Breslow's approach uses a non-parametric maximum likelihood estimation of the
-#' cumulative baseline hazard function:
-#'
-#' \deqn{\hat{H}_0(t) = \sum_{i=1}^n{\frac{I(T_i \le t)\delta_i}
-#' {\sum\nolimits_{j \in R_i}e^{lp_j}}}}
-#'
-#' where:
-#' - \eqn{\hat{H}_0(t)} is the cumulative baseline hazard estimate
-#' - \eqn{t} is the vector of time points (unique and sorted)
-#' - \eqn{n} is number of events
-#' - \eqn{T} is the vector of event times
-#' - \eqn{\delta} is the status indicator (event or censoring)
-#' - \eqn{R_i} is the risk set (number of individuals at risk just before
-#' event \eqn{i})
-#' - \eqn{lp_j} is the risk prediction (linear predictor) of individual \eqn{j}
-#' (who is part of the risk set \eqn{R_i}).
-#'
-#' We employ **constant interpolation** to estimate the cumulative hazards,
-#' extending from the observed unique event times to the specified evaluation
-#' times (`eval_times`).
-#' Any values falling outside the range of the estimated times are assigned as
-#' follows:
-#' \deqn{\hat{H}_0(eval\_times < min(t)) = 0} and
-#' \deqn{\hat{H}_0(eval\_times > max(t)) = \hat{H}_0(max(t))}
-#'
-#' For similar implementations, see `gbm::basehaz.gbm()`, `C060::basesurv()` and
-#' `xgboost.surv::sgb_bhaz()`.
-#'
-#' @returns
-#' A vector of cumulative baseline hazards, one per (increasing) time
-#' point. The times are added as names in the output vector.
-#'
-#' @references
-#' `r format_bib("cox_1972", "lin_2007")`
-#'
-#' @examples
-#' task = tsk("rats")
-#' part = partition(task, ratio = 0.8)
-#'
-#' learner = lrn("surv.coxph")
-#' learner$train(task, part$train)
-#' p_train = learner$predict(task, part$train)
-#'
-#' base_haz = .cbhaz_breslow(times = task$times(part$train),
-#'   status = task$status(part$train), lp = p_train$lp)
-#' head(base_haz)
-#'
-#'@export
+# Breslow's Cumulative Baseline Hazard helper function
+#
+# Computes the cumulative baseline hazard using Breslow's (1972) estimator.
+# Assumes risk predictions are derived from a **proportional hazards**
+# regression model.
+#
+# @param times (`numeric()`)\cr Vector of times (train set).
+# @param status (`numeric()`)\cr Vector of status indicators (train set).
+# For each observation in the train set, this should be 0 (alive/censored) or
+# 1 (dead).
+# @param lp (`numeric()`)\cr Vector of linear predictors (train set).
+# These are the relative score predictions from a proportional hazards model
+# on the train set.
+# @param eval_times (`numeric()`)\cr Vector of times to compute the cumulative
+# baseline hazard estimations. If `NULL` (default), the unique and sorted
+# `times` from the train set will be used, otherwise the unique and sorted
+# `eval_times`.
+#
+# @returns
+# A vector of cumulative baseline hazards, one per (increasing) time
+# point. The times are added as names in the output vector.
 .cbhaz_breslow = function(times, status, lp, eval_times = NULL) {
   # unique, sorted event times
   event_times = sort(unique(times[status == 1]))

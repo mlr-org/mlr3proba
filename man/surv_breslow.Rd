@@ -42,12 +42,41 @@ at time point \eqn{t} as follows:
 where:
 \itemize{
 \item \eqn{H_i(t)} is the cumulative hazard function for individual \eqn{i}
-\item \eqn{\hat{H}_0(t)} is Breslow's estimator for the cumulative baseline
-hazard. Estimation requires the training set's \code{times} and \code{status} as well
-the risk predictions (\code{lp_train}), see more details in \link{.cbhaz_breslow})
+\item \eqn{\hat{H}_0(t)} is Breslow's estimator for the \strong{cumulative baseline
+hazard}. Estimation requires the training set's \code{times} and \code{status} as well
+the risk predictions (\code{lp_train}).
 \item \eqn{lp_i} is the risk prediction (linear predictor) of individual \eqn{i}
 on the test set.
 }
+
+Breslow's approach uses a non-parametric maximum likelihood estimation of the
+cumulative baseline hazard function:
+
+\deqn{\hat{H}_0(t) = \sum_{i=1}^n{\frac{I(T_i \le t)\delta_i}
+{\sum\nolimits_{j \in R_i}e^{lp_j}}}}
+
+where:
+\itemize{
+\item \eqn{t} is the vector of time points (unique and sorted)
+\item \eqn{n} is number of events
+\item \eqn{T} is the vector of event times
+\item \eqn{\delta} is the status indicator (1 = event or 0 = censored)
+\item \eqn{R_i} is the risk set (number of individuals at risk just before
+event \eqn{i})
+\item \eqn{lp_j} is the risk prediction (linear predictor) of individual \eqn{j}
+(who is part of the risk set \eqn{R_i}).
+}
+
+We employ \strong{constant interpolation} to estimate the cumulative hazards,
+extending from the observed unique event times to the specified evaluation
+times (\code{eval_times}).
+Any values falling outside the range of the estimated times are assigned as
+follows:
+\deqn{\hat{H}_0(eval\_times < min(t)) = 0} and
+\deqn{\hat{H}_0(eval\_times > max(t)) = \hat{H}_0(max(t))}
+
+For similar implementations, see \code{gbm::basehaz.gbm()}, \code{C060::basesurv()} and
+\code{xgboost.surv::sgb_bhaz()}.
 }
 \examples{
 task = tsk("rats")
