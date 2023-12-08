@@ -63,7 +63,7 @@ surv_breslow = function(times, status, lp_train, lp_test, eval_times = NULL) {
   base_haz = .cbhaz_breslow(times = times, status = status, lp = lp_train,
                             eval_times = eval_times)
   surv = exp(exp(lp_test) %*% -t(base_haz))
-  rownames(surv) = 1:nrow(surv)
+  rownames(surv) = seq(nrow(surv))
   surv
 }
 
