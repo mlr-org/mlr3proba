@@ -139,7 +139,7 @@ surv_breslow = function(times, status, lp_train, lp_test, eval_times = NULL) {
   # unique, sorted event times
   event_times = sort(unique(times[status == 1]))
 
-  # cumulative hazards are first evaluated across `event_times`
+  # baseline hazards are first evaluated on the `event_times`
   bhaz = vapply(event_times, function(et) {
     sum(times[status == 1] == et) / sum(exp(lp[times >= et]))
   }, numeric(1))
@@ -153,8 +153,8 @@ surv_breslow = function(times, status, lp_train, lp_test, eval_times = NULL) {
     # constant interpolation of cumulative hazards across `eval_times`
     # rule = 1:2 means return NAs for `xout < x` and max(y) for `xout > x`
     # NAs are overwritten with zeros (`yleft = 0`)
-    res = stats::approx(x = event_times, y = cumsum(bhaz), yleft = 0, method = "constant",
-                        xout = eval_times, rule = 1:2)$y
+    res = stats::approx(x = event_times, y = cumsum(bhaz), yleft = 0,
+      method = "constant", xout = eval_times, rule = 1:2)$y
   }
 
   names(res) = eval_times
