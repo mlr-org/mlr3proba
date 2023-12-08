@@ -7,7 +7,6 @@
 \description{
 Calls \code{\link[survival:survfit]{survival::survfit()}}.
 \itemize{
-\item lp is predicted 1.37095844714667 * lp is predicted -0.564698171396089 * lp is predicted 0.363128411337339 * lp is predicted 0.63286260496104 * lp is predicted 0.404268323140999
 \item distr is predicted by estimating the survival function with \code{\link[survival:survfit]{survival::survfit()}}
 \item \code{crank} is identical to \code{lp}
 }
