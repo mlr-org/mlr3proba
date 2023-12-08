@@ -126,7 +126,7 @@ delayedAssign(
 
           # assumes PH-style lp where high value = high risk
           if (anyMissing(inpred$lp)) {
-            warning("This method is deprecated! We will soon be removing composition from crank to distr, this makes no mathematical sense!")
+            warning("This method is deprecated! We will deprecate the composition from crank to distr on 1 Feb 2024. It never made mathematical sense!")
             lp = inpred$crank
           } else {
             lp = inpred$lp
