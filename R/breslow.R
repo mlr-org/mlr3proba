@@ -1,8 +1,9 @@
 #' @title Survival probabilities using Breslow's estimator
 #'
 #' @description
-#' Helper function to compose a survival distribution from the relative risk
-#' predictions (`lp`) of a **proportional hazards** model (e.g. a Cox-type model).
+#' Helper function to compose a survival distribution (or cumulative hazard)
+#' from the relative risk predictions (linear predictors, `lp`) of a
+#' **proportional hazards** model (e.g. a Cox-type model).
 #'
 #' @param times (`numeric()`)\cr Vector of times (train set).
 #' @param status (`numeric()`)\cr Vector of status indicators (train set).
@@ -17,6 +18,10 @@
 #' @param eval_times (`numeric()`)\cr Vector of times to compute survival
 #' probabilities. If `NULL` (default), the unique and sorted `times` from the
 #' train set will be used, otherwise the unique and sorted `eval_times`.
+#' @param type (`character()`)\cr Type of prediction estimates.
+#' Default is `surv` which returns the survival probabilities \eqn{S_i(t)} for
+#' each test observation \eqn{i}. If `cumhaz`, the function returns the estimated
+#' cumulative hazards \eqn{H_i(t)}.
 #'
 #' @details
 #' We estimate the survival probability of individual \eqn{i} (from the test set),
@@ -38,14 +43,14 @@
 #' {\sum\nolimits_{j \in R_i}e^{lp_j}}}}
 #'
 #' where:
-#' - \eqn{t} is the vector of time points (unique and sorted)
-#' - \eqn{n} is number of events
-#' - \eqn{T} is the vector of event times
+#' - \eqn{t} is the vector of time points (unique and sorted, from the train set)
+#' - \eqn{n} is number of events (train set)
+#' - \eqn{T} is the vector of event times (train set)
 #' - \eqn{\delta} is the status indicator (1 = event or 0 = censored)
 #' - \eqn{R_i} is the risk set (number of individuals at risk just before
 #' event \eqn{i})
 #' - \eqn{lp_j} is the risk prediction (linear predictor) of individual \eqn{j}
-#' (who is part of the risk set \eqn{R_i}).
+#' (who is part of the risk set \eqn{R_i}) on the train set.
 #'
 #' We employ **constant interpolation** to estimate the cumulative hazards,
 #' extending from the observed unique event times to the specified evaluation
@@ -58,9 +63,10 @@
 #' For similar implementations, see `gbm::basehaz.gbm()`, `C060::basesurv()` and
 #' `xgboost.surv::sgb_bhaz()`.
 #'
-#' @return a survival probability `matrix` (obs x times). Number of columns is
-#' equal to `eval_times` and number of rows is equal to the number of test
-#' observations (i.e. the length of the `lp_test` vector).
+#' @return a `matrix` (obs x times). Number of columns is equal to `eval_times`
+#' and number of rows is equal to the number of test observations (i.e. the
+#' length of the `lp_test` vector). Depending on the `type` argument, the matrix
+#' can have either survival probabilities or cumulative hazard estimates.
 #'
 #' @references
 #' `r format_bib("cox_1972", "lin_2007")`
@@ -74,11 +80,11 @@
 #' p_train = learner$predict(task, part$train)
 #' p_test  = learner$predict(task, part$test)
 #'
-#' surv = surv_breslow(times = task$times(part$train), status = task$status(part$train),
-#'                     lp_train = p_train$lp, lp_test = p_test$lp)
+#' surv = breslow(times = task$times(part$train), status = task$status(part$train),
+#'                lp_train = p_train$lp, lp_test = p_test$lp)
 #' head(surv)
 #' @export
-surv_breslow = function(times, status, lp_train, lp_test, eval_times = NULL) {
+breslow = function(times, status, lp_train, lp_test, eval_times = NULL, type = "surv") {
   assert_numeric(times, null.ok = FALSE)
   assert_numeric(status, null.ok = FALSE)
   assert_numeric(lp_train, null.ok = FALSE)
@@ -86,12 +92,19 @@ surv_breslow = function(times, status, lp_train, lp_test, eval_times = NULL) {
   assert_true(length(times) == length(lp_train))
   assert_numeric(lp_test, null.ok = FALSE)
   assert_numeric(eval_times, null.ok = TRUE)
+  assert_character(type, fixed = c("surv", "cumhaz"), null.ok = FALSE)
 
-  base_haz = .cbhaz_breslow(times = times, status = status, lp = lp_train,
-                            eval_times = eval_times)
-  surv = exp(exp(lp_test) %*% -t(base_haz))
-  rownames(surv) = seq(nrow(surv))
-  surv
+  base_chaz = .cbhaz_breslow(times = times, status = status, lp = lp_train,
+                             eval_times = eval_times)
+
+  cumhaz = exp(lp_test) %*% t(base_chaz)
+  rownames(cumhaz) = seq(nrow(cumhaz))
+
+  if (type == "surv") {
+    return(exp(-cumhaz))
+  } else {
+    return(cumhaz)
+  }
 }
 
 # Breslow's Cumulative Baseline Hazard helper function
