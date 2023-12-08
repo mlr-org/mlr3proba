@@ -136,18 +136,20 @@ surv_breslow = function(times, status, lp_train, lp_test, eval_times = NULL) {
 #'
 #'@export
 .cbhaz_breslow = function(times, status, lp, eval_times = NULL) {
-  utimes = sort(unique(times[status == 1])) # unique, sorted event times
-  bhaz = vapply(utimes, function(ut) sum(times[status == 1] == ut) / sum(exp(lp[times >= ut])), numeric(1))
+  event_times = sort(unique(times[status == 1])) # unique, sorted event times
+  bhaz = vapply(event_times, function(ut) {
+    sum(times[status == 1] == ut) / sum(exp(lp[times >= ut]))
+  }, numeric(1))
 
   eval_times = sort(unique(eval_times %||% times))
-  if (length(utimes) == 0) {
+  if (length(event_times) == 0) {
     # 0 events (training data has only censored observations!)
     res = numeric(length(eval_times))
   } else {
     # constant interpolation of cumulative hazards across `eval_times`
     # rule = 1:2 means return NAs for `xout < x` and max(y) for `xout > x`
     # NAs are overwritten with zeros (`yleft = 0`)
-    res = stats::approx(x = utimes, y = cumsum(bhaz), yleft = 0, method = "constant",
+    res = stats::approx(x = event_times, y = cumsum(bhaz), yleft = 0, method = "constant",
                         xout = eval_times, rule = 1:2)$y
   }
 
