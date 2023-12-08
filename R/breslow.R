@@ -136,11 +136,15 @@ surv_breslow = function(times, status, lp_train, lp_test, eval_times = NULL) {
 #'
 #'@export
 .cbhaz_breslow = function(times, status, lp, eval_times = NULL) {
-  event_times = sort(unique(times[status == 1])) # unique, sorted event times
+  # unique, sorted event times
+  event_times = sort(unique(times[status == 1]))
+
+  # cumulative hazards are first evaluated across `event_times`
   bhaz = vapply(event_times, function(ut) {
     sum(times[status == 1] == ut) / sum(exp(lp[times >= ut]))
   }, numeric(1))
 
+  # `eval_times` will be the sorted unique times (not just events)
   eval_times = sort(unique(eval_times %||% times))
   if (length(event_times) == 0) {
     # 0 events (training data has only censored observations!)
