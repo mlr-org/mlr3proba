@@ -140,8 +140,8 @@ surv_breslow = function(times, status, lp_train, lp_test, eval_times = NULL) {
   event_times = sort(unique(times[status == 1]))
 
   # cumulative hazards are first evaluated across `event_times`
-  bhaz = vapply(event_times, function(ut) {
-    sum(times[status == 1] == ut) / sum(exp(lp[times >= ut]))
+  bhaz = vapply(event_times, function(et) {
+    sum(times[status == 1] == et) / sum(exp(lp[times >= et]))
   }, numeric(1))
 
   # `eval_times` will be the sorted unique times (not just events)
