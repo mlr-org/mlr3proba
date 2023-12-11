@@ -237,7 +237,7 @@ autoplot.PredictionSurv = function(object, type = "calib",
     "dcalib" = {
       p = seq.int(0, 1, length.out = cuts)
       true_times = object$truth[, 1L]
-      q = mlr3misc::map_dbl(p, function(.x) {
+      q = map_dbl(p, function(.x) {
         qi = as.numeric(object$distr$quantile(.x))
         if (extend_quantile) {
           qi[is.na(qi)] = max(true_times)
