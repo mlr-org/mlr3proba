@@ -67,8 +67,7 @@ test_that("breslow works", {
   surv = breslow(times = t$times(p$train), status = t$status(p$train),
     lp_train = ptrain$lp, lp_test = ptest$lp)
   expect_matrix(surv, any.missing = FALSE, nrows = length(p$test),
-    ncols = length(unique(t$times(p$train))), row.names = "unique",
-    col.names = "unique")
+    ncols = length(unique(t$times(p$train))), col.names = "unique")
   # compare with Breslow estimation from survival
   surv_mat = t(ptest$distr$survival(t$unique_times(p$train)))
   expect_equal(unname(surv), unname(surv_mat), tolerance = 0.004) # very close!
@@ -78,22 +77,19 @@ test_that("breslow works", {
   surv2 = breslow(times = t$times(p$train), status = t$status(p$train),
     lp_train = ptrain$lp, lp_test = ptest$lp, eval_times = eval_times)
   expect_matrix(surv2, any.missing = FALSE, nrows = length(p$test),
-    ncols = length(eval_times), row.names = "unique",
-    col.names = "unique")
+    ncols = length(eval_times), col.names = "unique")
 
   # 1 test observation + 1 eval_point
   surv3 = breslow(times = t$times(p$train), status = t$status(p$train),
     lp_train = ptrain$lp, lp_test = ptest$lp[3], eval_times = eval_times[3])
   expect_matrix(surv3, any.missing = FALSE, nrows = 1, ncols = 1,
-    row.names = "unique", col.names = "unique")
+    col.names = "unique")
 
   # test cumhaz
   surv4 = breslow(times = t$times(p$train), status = t$status(p$train),
     lp_train = ptrain$lp, lp_test = ptest$lp, eval_times = eval_times, type = "cumhaz")
   expect_matrix(surv4, any.missing = FALSE, nrows = length(p$test),
-    ncols = length(eval_times), row.names = "unique",
-    col.names = "unique")
-
+    ncols = length(eval_times), col.names = "unique")
 
   # basic parameter checks
   expect_error(breslow(times = NULL))
