@@ -114,13 +114,19 @@ TaskSurv = R6::R6Class("TaskSurv",
     #'
     #' @param rhs
     #' If `NULL` RHS is `.`, otherwise gives RHS of formula.
+    #' @param reverse
+    #' If `TRUE` then formula calculated with 1 - status.
     #'
     #' @return `numeric()`.
-    formula = function(rhs = NULL) {
+    formula = function(rhs = NULL, reverse = FALSE) {
       # formula appends the rhs argument to Surv(time, event)~
       tn = self$target_names
       if (length(tn) == 2) {
-        lhs = sprintf("Surv(%s, %s, type = '%s')", tn[1L], tn[2L], self$censtype)
+        if (reverse) {
+          lhs = sprintf("Surv(%s, 1 - %s, type = '%s')", tn[1L], tn[2L], self$censtype)
+        } else {
+          lhs = sprintf("Surv(%s, %s, type = '%s')", tn[1L], tn[2L], self$censtype)
+        }
       } else {
         lhs = sprintf("Surv(%s, %s, %s, type = '%s')", tn[1L], tn[2L], tn[3L], self$censtype)
       }
@@ -203,15 +209,32 @@ TaskSurv = R6::R6Class("TaskSurv",
     #'   Stratification variables to use.
     #' @param rows (`integer()`)\cr
     #'   Subset of row indices.
+    #' @param reverse (`logical()`)\cr
+    #' If `TRUE` calculates Kaplan-Meier of censoring distribution (1-status). Default `FALSE`.
     #' @param ... (any)\cr
     #'   Additional arguments passed down to [survival::survfit.formula()].
     #' @return [survival::survfit.object].
-    kaplan = function(strata = NULL, rows = NULL, ...) {
+    kaplan = function(strata = NULL, rows = NULL, reverse = FALSE, ...) {
       assert_character(strata, null.ok = TRUE)
-      f = self$formula(strata %??% 1)
+      f = self$formula(strata %??% 1, reverse)
       cols = c(self$target_names, intersect(self$backend$colnames, strata))
       data = self$data(cols = cols, rows = rows)
       survival::survfit(f, data = data, ...)
+    },
+
+    #' @description
+    #' Returns the same task with the status variable reversed, i.e., 1 - status.
+    #' Only designed for left and right censoring.
+    #'
+    #' @return [mlr3proba::TaskSurv].
+    reverse = function() {
+      assert(self$censtype %in% c("left", "right"))
+      d = copy(self$data())
+      d[, (self$target_names[2L]) := 1 - get(self$target_names[2L])]
+      as_task_surv(d, self$target_names[1L],
+        self$target_names[2L],
+        type = self$censtype, id = paste0(self$id, "_reverse")
+      )
     }
   ),
 

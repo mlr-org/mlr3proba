@@ -1,6 +1,8 @@
 # mlr3proba 0.5.5
 
 * Add breslow estimator for the cumulative baseline hazard of proportional hazard models
+* Add `$reverse()` method to `TaskSurv`, which returns the same task but with 1-status.
+* Add `reverse` parameter to `TaskSurv$kaplan()` method, which calculates Kaplan-Meier on the censoring distribution of the task (1-status).
 
 # mlr3proba 0.5.4
 

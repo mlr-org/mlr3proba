@@ -84,3 +84,15 @@ test_that("as_task_surv", {
   expect_false("litter" %in% names(t1$data()))
   expect_false("litter" %in% names(t2$data()))
 })
+
+test_that("reverse", {
+  t = tsk("rats")
+  expect_equal(t$kaplan()$surv,
+    survival::survfit(Surv(time, status) ~ 1, t$data())$surv)
+  expect_equal(t$kaplan(reverse = TRUE)$surv,
+    survival::survfit(Surv(time, 1 - status) ~ 1, t$data())$surv)
+
+  t2 = tsk("rats")$reverse()
+  expect_equal(t$kaplan(reverse = TRUE)$surv, t2$kaplan()$surv)
+  expect_equal(t2$data()$status, 1 - t$data()$status)
+})

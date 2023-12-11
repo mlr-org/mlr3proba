@@ -60,6 +60,7 @@ Returns the type of censoring, one of "right", "left", "counting", "interval", o
 \item \href{#method-TaskSurv-unique_event_times}{\code{TaskSurv$unique_event_times()}}
 \item \href{#method-TaskSurv-risk_set}{\code{TaskSurv$risk_set()}}
 \item \href{#method-TaskSurv-kaplan}{\code{TaskSurv$kaplan()}}
+\item \href{#method-TaskSurv-reverse}{\code{TaskSurv$reverse()}}
 \item \href{#method-TaskSurv-clone}{\code{TaskSurv$clone()}}
 }
 }
@@ -164,13 +165,15 @@ Row indices.}
 \subsection{Method \code{formula()}}{
 Creates a formula for survival models with \link[survival:Surv]{survival::Surv} on the LHS.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskSurv$formula(rhs = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TaskSurv$formula(rhs = NULL, reverse = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{rhs}}{If \code{NULL} RHS is \code{.}, otherwise gives RHS of formula.}
+
+\item{\code{reverse}}{If \code{TRUE} then formula calculated with 1 - status.}
 }
 \if{html}{\out{</div>}}
 }
@@ -293,7 +296,7 @@ Returns the \code{row_ids} of the observations 'at risk' (not dead or censored) 
 \subsection{Method \code{kaplan()}}{
 Calls \code{\link[survival:survfit]{survival::survfit()}} to calculate the Kaplan-Meier estimator.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskSurv$kaplan(strata = NULL, rows = NULL, ...)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TaskSurv$kaplan(strata = NULL, rows = NULL, reverse = FALSE, ...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -305,6 +308,9 @@ Stratification variables to use.}
 \item{\code{rows}}{(\code{integer()})\cr
 Subset of row indices.}
 
+\item{\code{reverse}}{(\code{logical()})\cr
+If \code{TRUE} calculates Kaplan-Meier of censoring distribution (1-status). Default \code{FALSE}.}
+
 \item{\code{...}}{(any)\cr
 Additional arguments passed down to \code{\link[survival:survfit.formula]{survival::survfit.formula()}}.}
 }
@@ -312,6 +318,20 @@ Additional arguments passed down to \code{\link[survival:survfit.formula]{surviv
 }
 \subsection{Returns}{
 \link[survival:survfit.object]{survival::survfit.object}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TaskSurv-reverse"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskSurv-reverse}{}}}
+\subsection{Method \code{reverse()}}{
+Returns the same task with the status variable reversed, i.e., 1 - status.
+Only designed for left and right censoring.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TaskSurv$reverse()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+\link{TaskSurv}.
 }
 }
 \if{html}{\out{<hr>}}

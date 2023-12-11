@@ -3,6 +3,7 @@
 #' @description
 #' Generates plots for [mlr3proba::TaskSurv], depending on argument `type`:
 #'   * `"target"`: Calls [GGally::ggsurv()] on a [survival::survfit()] object.
+#'   This computes the **Kaplan-Meier survival curve** for the observations if this task.
 #'   * `"duo"`: Passes data and additional arguments down to [GGally::ggduo()].
 #'     `columnsX` is target, `columnsY` is features.
 #'   * `"pairs"`: Passes data and additional arguments down to
@@ -11,8 +12,11 @@
 #'
 #' @param object ([mlr3proba::TaskSurv]).
 #' @param type (`character(1)`):\cr
-#'   Type of the plot. Available choices:
+#'   Type of the plot. See above for available choices.
 #' @template param_theme
+#' @param reverse (`logical()`)\cr
+#' If `TRUE` and `type = 'target'`, it plots the Kaplan-Meier curve of the
+#' censoring distribution. Default is `FALSE`.
 #' @param ... (`any`):
 #'   Additional arguments.
 #'   `rhs` is passed down to `$formula` of [mlr3proba::TaskSurv] for stratification
@@ -33,10 +37,11 @@
 #' task = tsk("lung")
 #'
 #' head(fortify(task))
-#' autoplot(task)
+#' autoplot(task) # KM
+#' autoplot(task) # KM of the censoring distribution
 #' autoplot(task, rhs = "sex")
 #' autoplot(task, type = "duo")
-autoplot.TaskSurv = function(object, type = "target", theme = theme_minimal(), ...) { # nolint
+autoplot.TaskSurv = function(object, type = "target", theme = theme_minimal(), reverse = FALSE, ...) { # nolint
   assert_string(type)
   require_namespaces(c("survival", "GGally"))
 
@@ -45,7 +50,7 @@ autoplot.TaskSurv = function(object, type = "target", theme = theme_minimal(), .
       ddd = list(...)
 
       sf = survival::survfit(
-        object$formula(ddd$rhs %??% 1),
+        object$formula(rhs = ddd$rhs %??% 1, reverse = reverse),
         data = object$data()
       )
 

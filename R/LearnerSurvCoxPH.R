@@ -25,7 +25,7 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH",
           type        = p_fct(default = "efron", levels = c("efron", "aalen", "kalbfleisch-prentice"), tags = "predict"),
           stype       = p_int(default = 2L, lower = 1L, upper = 2L, tags = "predict")
         ),
-        predict_types = c("distr", "crank", "lp"),
+        predict_types = c("crank", "distr", "lp"),
         feature_types = c("logical", "integer", "numeric", "factor"),
         properties = "weights",
         packages = c("survival", "distr6"),
