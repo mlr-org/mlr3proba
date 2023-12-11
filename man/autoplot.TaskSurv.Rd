@@ -4,16 +4,26 @@
 \alias{autoplot.TaskSurv}
 \title{Plot for Survival Tasks}
 \usage{
-\method{autoplot}{TaskSurv}(object, type = "target", theme = theme_minimal(), ...)
+\method{autoplot}{TaskSurv}(
+  object,
+  type = "target",
+  theme = theme_minimal(),
+  reverse = FALSE,
+  ...
+)
 }
 \arguments{
 \item{object}{(\link{TaskSurv}).}
 
 \item{type}{(\code{character(1)}):\cr
-Type of the plot. Available choices:}
+Type of the plot. See above for available choices.}
 
 \item{theme}{(\code{\link[ggplot2:theme]{ggplot2::theme()}})\cr
 The \code{\link[ggplot2:ggtheme]{ggplot2::theme_minimal()}} is applied by default to all plots.}
+
+\item{reverse}{(\code{logical()})\cr
+If \code{TRUE} and \code{type = 'target'}, it plots the Kaplan-Meier curve of the
+censoring distribution. Default is \code{FALSE}.}
 
 \item{...}{(\code{any}):
 Additional arguments.
@@ -28,6 +38,7 @@ functions.}
 Generates plots for \link{TaskSurv}, depending on argument \code{type}:
 \itemize{
 \item \code{"target"}: Calls \code{\link[GGally:ggsurv]{GGally::ggsurv()}} on a \code{\link[survival:survfit]{survival::survfit()}} object.
+This computes the \strong{Kaplan-Meier survival curve} for the observations if this task.
 \item \code{"duo"}: Passes data and additional arguments down to \code{\link[GGally:ggduo]{GGally::ggduo()}}.
 \code{columnsX} is target, \code{columnsY} is features.
 \item \code{"pairs"}: Passes data and additional arguments down to
@@ -44,7 +55,8 @@ library(ggplot2)
 task = tsk("lung")
 
 head(fortify(task))
-autoplot(task)
+autoplot(task) # KM
+autoplot(task) # KM of the censoring distribution
 autoplot(task, rhs = "sex")
 autoplot(task, type = "duo")
 }

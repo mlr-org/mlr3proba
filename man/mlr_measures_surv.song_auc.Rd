@@ -36,7 +36,10 @@ msr("surv.song_auc")
 }
 
 \references{
-\cite{mlr3proba}{song_2008}
+Song, Xiao, Zhou, Xiao-Hua (2008).
+\dQuote{A semiparametric approach for the covariate specific ROC curve with survival outcome.}
+\emph{Statistica Sinica}, \bold{18}(3), 947--65.
+\url{https://www.jstor.org/stable/24308524}.
 }
 \seealso{
 Other survival measures: 
