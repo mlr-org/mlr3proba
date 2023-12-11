@@ -94,11 +94,11 @@ breslow = function(times, status, lp_train, lp_test, eval_times = NULL, type = "
   assert_numeric(eval_times, null.ok = TRUE)
   assert_character(type, fixed = c("surv", "cumhaz"), null.ok = FALSE)
 
-  base_chaz = .cbhaz_breslow(times = times, status = status, lp = lp_train,
-                             eval_times = eval_times)
+  # cumulative baseline hazard
+  cbhaz = .cbhaz_breslow(times = times, status = status, lp = lp_train,
+                         eval_times = eval_times)
 
-  cumhaz = exp(lp_test) %*% t(base_chaz)
-  rownames(cumhaz) = seq(nrow(cumhaz))
+  cumhaz = exp(lp_test) %*% t(cbhaz)
 
   if (type == "surv") {
     return(exp(-cumhaz))
@@ -132,7 +132,7 @@ breslow = function(times, status, lp_train, lp_test, eval_times = NULL, type = "
   # unique, sorted event times
   event_times = sort(unique(times[status == 1]))
 
-  # baseline hazards are first evaluated on the `event_times`
+  # baseline (non-cumulative) hazards are first evaluated on the specific `event_times`
   bhaz = vapply(event_times, function(et) {
     sum(times[status == 1] == et) / sum(exp(lp[times >= et]))
   }, numeric(1))
