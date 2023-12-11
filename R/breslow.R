@@ -92,7 +92,7 @@ breslow = function(times, status, lp_train, lp_test, eval_times = NULL, type = "
   assert_true(length(times) == length(lp_train))
   assert_numeric(lp_test, null.ok = FALSE)
   assert_numeric(eval_times, null.ok = TRUE)
-  assert_character(type, fixed = c("surv", "cumhaz"), null.ok = FALSE)
+  assert_subset(type, choices = c("surv", "cumhaz"), empty.ok = FALSE)
 
   # cumulative baseline hazard
   cbhaz = .cbhaz_breslow(times = times, status = status, lp = lp_train,
