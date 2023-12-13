@@ -1,73 +1,112 @@
+#' @title PipeOpBreslow
+#' @name mlr_pipeops_compose_breslow_distr
+#' @description
+#' A short description...
+#'
 PipeOpBreslow = R6Class("PipeOpBreslow",
   inherit = mlr3pipelines::PipeOp,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id = "po_breslow") {
+    #' @param id description
+    initialize = function(learner, id = "po_breslow", param_vals = list(overwrite = FALSE)) {
+      if (!"lp" %in% learner$predict_types) {
+        stopf("Learner %s must provide lp predictions", learner$id)
+      }
+
+      private$.learner = as_learner(learner, clone = TRUE)
+      # other way to store this?
+      private$.overwrite = param_vals$overwrite %??% FALSE
+
       super$initialize(
         id = id,
-        input = data.table(name = c("train_task", "train_model", "test_pred"),
-                           train = c("TaskSurv", "LearnerSurv", "NULL"),
-                           predict = c("NULL", "NULL", "PredictionSurv")),
-        output = data.table(name = "output",
-                            train = "NULL",
-                            predict = "PredictionSurv"),
-        packages = c("mlr3proba", "distr6")
+        # param_vals = param_vals,
+        # make parameters available for tuning, strip "PipeOp" id?
+        param_set = alist(private$.learner$param_set),
+        #param_set = ps(
+        #  overwrite = p_lgl(default = FALSE, tags = c("predict"))
+        #),
+        input = data.table(name = "input", train = "TaskSurv", predict = "TaskSurv"),
+        output = data.table(name = "output", train = "NULL", predict = "PredictionSurv"),
+        packages = learner$packages
       )
+    }
+  ),
+
+  active = list(
+    learner = function() {
+      private$.learner
     }
   ),
 
   private = list(
     .train = function(inputs) {
-      browser()
-      task = inputs$train_task
-      learner = inputs$train_model
+      # browser()
+      task = inputs[[1]]
+      learner = private$.learner
+
+      # train learner
+      learner$train(task)
 
       if (is.null(learner$model))
         stopf("No trained model stored")
 
-      # get predictions on the train set
+      # predictions on the train set
       p = learner$predict(task)
 
-      # take crank if lp is absent
+      # Breslow works only with `lp` predictions (not crank)
       if (anyMissing(p$lp)) {
-        lp_train = p$crank
-      } else {
-        lp_train = p$lp
+        stopf("Missing lp predictions")
       }
 
       times  = task$truth()[,1L]
       status = task$truth()[,2L]
 
       # keep the training data that Breslow estimator needs
-      self$state = list(times = times, status = status, lp_train = lp_train)
+      self$state = list(
+        times = times,
+        status = status,
+        lp_train = p$lp
+      )
+
       list(NULL)
     },
 
     .predict = function(inputs) {
-      p = inputs$test_pred
+      task = inputs[[1]]
+      learner = private$.learner
 
-      #browser()
-      # take crank if lp is absent
-      has_lp = anyMissing(p$lp) || !("lp" %in% p$predict_types)
-      if (has_lp) {
-        lp_test = p$crank
+      # predictions on the test set
+      p = learner$predict(task)
+
+      if (!private$.overwrite) {
+        pred = list(p)
       } else {
-        lp_test = p$lp
+        # missing lp
+        if (anyMissing(p$lp)) {
+          stopf("Missing lp predictions!")
+        }
+
+        distr = breslow(
+          times = self$state$times,
+          status = self$state$status,
+          lp_train = self$state$lp_train,
+          lp_test = p$lp
+        )
+
+        pred = list(PredictionSurv$new(
+          row_ids = p$row_ids,
+          truth = p$truth,
+          crank = p$crank,
+          lp = p$lp,
+          distr = distr
+        ))
       }
 
-      # check for overwrite?
-      surv = surv_breslow(
-        times = self$state$times,
-        status = self$state$status,
-        lp_train = self$state$lp_train,
-        lp_test = lp_test
-      )
+      pred
+    },
 
-      list(
-        PredictionSurv$new(row_ids = p$row_ids, truth = p$truth,
-          crank = p$crank, distr = surv, lp = lp_test)
-      )
-    }
+    .learner = NULL,
+    .overwrite = NULL
   )
 )

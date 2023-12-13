@@ -117,6 +117,7 @@ Collate:
     'MeasureSurvUnoTNR.R'
     'MeasureSurvUnoTPR.R'
     'MeasureSurvXuR2.R'
+    'PipeOpBreslow.R'
     'PipeOpCrankCompositor.R'
     'PipeOpDistrCompositor.R'
     'PipeOpTransformer.R'
