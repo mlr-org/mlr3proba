@@ -209,6 +209,7 @@ autoplot.PredictionSurv = function(object, type = "calib",
 
   switch(type,
     "calib" = {
+      assert_task(task)
       if (is.null(times)) {
         times = sort(unique(task$truth()[, 1]))
       }
@@ -248,7 +249,8 @@ autoplot.PredictionSurv = function(object, type = "calib",
         geom_line()
 
       if (xyline) {
-        pl = pl + geom_abline(slope = 1, intercept = 0, color = "lightgray")
+        pl = pl +
+          geom_segment(aes(x = 0, y = 0, xend = 1, yend = 1), color = "lightgray")
       }
       pl +
         labs(x = "True", y = "Predicted") +
