@@ -6,13 +6,14 @@
 \usage{
 \method{autoplot}{PredictionSurv}(
   object,
-  type = "dcalib",
+  type = "calib",
   task = NULL,
   row_ids = NULL,
   times = NULL,
   xyline = TRUE,
   cuts = 11L,
   theme = theme_minimal(),
+  extend_quantile = FALSE,
   ...
 )
 }
@@ -40,6 +41,9 @@ Number of cuts in (0,1) to plot \code{dcalib} over, default is \code{11}.}
 
 \item{theme}{(\code{\link[ggplot2:theme]{ggplot2::theme()}})\cr
 The \code{\link[ggplot2:ggtheme]{ggplot2::theme_minimal()}} is applied by default to all plots.}
+
+\item{extend_quantile}{\code{(logical(1))} \cr
+If \code{TRUE} then \code{dcalib} will impute NAs from predicted quantile function with the maximum observed outcome time, e.g. if the last predicted survival probability is greater than 0.1, then the last predicted cdf is smaller than 0.9 so F^1(0.9) = NA, this would be imputed with max(times). Default is \code{FALSE}.}
 
 \item{...}{(\code{any}):
 Additional arguments, currently unused.}
