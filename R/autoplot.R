@@ -207,7 +207,6 @@ autoplot.PredictionSurv = function(object, type = "dcalib",
 
   switch(type,
     "calib" = {
-      assert_task(task)
       if (is.null(times)) {
         times = sort(unique(task$truth()[, 1]))
       }
