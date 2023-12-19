@@ -4,7 +4,7 @@ Version: 0.5.5
 Authors@R:
     c(person(given = "Raphael",
              family = "Sonabend",
-             role = c("aut", "cre"),
+             role = "aut",
              email = "raphaelsonabend@gmail.com",
              comment = c(ORCID = "0000-0001-9225-4654")),
       person(given = "Franz",
@@ -27,7 +27,7 @@ Authors@R:
              comment = c(ORCID = "0000-0001-5628-8611")),
       person(given = "John",
              family = "Zobolas",
-             role = "ctb",
+             role = c("cre", "aut"),
              email = "bblodfon@gmail.com",
              comment = c(ORCID = "0000-0002-3609-8674")))
 Description: Provides extensions for probabilistic supervised learning for
