@@ -219,10 +219,11 @@ crankcompositor = function(...) {
 #'   pipe$predict(task)
 #' }
 #' }
-pipeline_distrcompositor = function(learner, estimator = c("kaplan", "nelson", "breslow"),
-  form = c("aft", "ph", "po"),
+pipeline_distrcompositor = function(learner, estimator = "kaplan", form = "aft",
   overwrite = FALSE, graph_learner = FALSE) {
-
+  # some checks
+  assert_choice(estimator, choices = c("kaplan", "nelson", "breslow"), null.ok = FALSE)
+  assert_choice(form, choices = c("aft", "ph", "po"), null.ok = FALSE)
   assert_learner(learner)
 
   # make the pipeline Graph object
@@ -232,11 +233,10 @@ pipeline_distrcompositor = function(learner, estimator = c("kaplan", "nelson", "
     )
   } else {
     pred = mlr3pipelines::as_graph(learner)
-    base = match.arg(estimator)
     base = mlr3pipelines::po("learner",
-      lrn(paste0("surv.", base), id = paste0("distrcompositor.", base)))
+      lrn(paste0("surv.", estimator), id = paste0("distrcompositor.", estimator)))
 
-    compositor = mlr3pipelines::po("distrcompose", param_vals = list(form = match.arg(form), overwrite = overwrite))
+    compositor = mlr3pipelines::po("distrcompose", param_vals = list(form = form, overwrite = overwrite))
 
     gr = mlr3pipelines::`%>>%`(mlr3pipelines::gunion(list(base, pred)), compositor)
   }
