@@ -182,16 +182,18 @@ crankcompositor = function(...) {
 
 #' @template pipeline
 #' @templateVar title Estimate Survival distr Predict Type
-#' @templateVar pipeop [PipeOpDistrCompositor]
+#' @templateVar pipeop [PipeOpDistrCompositor] or [PipeOpBreslow]
 #' @templateVar id distrcompositor
 #' @template param_pipeline_learner
 #' @param estimator `character(1)`\cr
-#' One of `kaplan` (default) or `nelson`, corresponding to the Kaplan-Meier and
-#' Nelson-Aalen estimators respectively. Used to estimate the baseline survival distribution.
+#' One of `kaplan` (default), `nelson` or `breslow`, corresponding to the Kaplan-Meier,
+#' Nelson-Aalen and [Breslow][breslow] estimators respectively.
+#' Used to estimate the baseline survival distribution.
 #' @param form `character(1)`\cr
 #' One of `aft` (default), `ph`, or `po`, corresponding to accelerated failure time,
-#' proportional hazards, and proportional odds respectively. Used to determine the form of the
-#' composed survival distribution.
+#' proportional hazards, and proportional odds respectively.
+#' Used to determine the form of the composed survival distribution.
+#' Ignored if estimator is `breslow`.
 #' @param overwrite `logical(1)`\cr
 #' If `FALSE` (default) then if the `learner` already has a `distr`, the compositor does nothing.
 #' If `TRUE` then the `distr` is overwritten by the compositor if
@@ -217,25 +219,27 @@ crankcompositor = function(...) {
 #'   pipe$predict(task)
 #' }
 #' }
-pipeline_distrcompositor = function(learner, estimator = c("kaplan", "nelson"),
+pipeline_distrcompositor = function(learner, estimator = c("kaplan", "nelson", "breslow"),
   form = c("aft", "ph", "po"),
   overwrite = FALSE, graph_learner = FALSE) {
 
-  if (testCharacter(learner)) {
-    warning("Passing a learner id is now deprecated. In the future please pass a constructed
-            learner or graph instead.")
-    learner = lrn(learner)
+  assert_learner(learner)
+
+  # make the pipeline Graph object
+  if (estimator == "breslow") {
+    gr = mlr3pipelines::as_graph(
+      mlr3pipelines::po("breslowcompose", learner = learner, param_vals = list(overwrite = overwrite))
+    )
+  } else {
+    pred = mlr3pipelines::as_graph(learner)
+    base = match.arg(estimator)
+    base = mlr3pipelines::po("learner",
+      lrn(paste0("surv.", base), id = paste0("distrcompositor.", base)))
+
+    compositor = mlr3pipelines::po("distrcompose", param_vals = list(form = match.arg(form), overwrite = overwrite))
+
+    gr = mlr3pipelines::`%>>%`(mlr3pipelines::gunion(list(base, pred)), compositor)
   }
-
-  pred = mlr3pipelines::as_graph(learner)
-
-  base = match.arg(estimator)
-  base = mlr3pipelines::po("learner",
-    lrn(paste0("surv.", base), id = paste0("distrcompositor.", base)))
-
-  compositor = mlr3pipelines::po("distrcompose", param_vals = list(form = match.arg(form), overwrite = overwrite))
-
-  gr = mlr3pipelines::`%>>%`(mlr3pipelines::gunion(list(base, pred)), compositor)
 
   if (graph_learner) {
     gr = mlr3pipelines::GraphLearner$new(gr)
