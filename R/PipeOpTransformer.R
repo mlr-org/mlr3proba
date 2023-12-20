@@ -22,35 +22,32 @@
 #' @family PipeOps
 #' @family Transformers
 #' @export
-delayedAssign(
-  "PipeOpTransformer",
-  R6Class("PipeOpTransformer",
-    inherit = mlr3pipelines::PipeOp,
-    public = list(
-      #' @description
-      #' Creates a new instance of this [R6][R6::R6Class] class.
-      initialize = function(id, param_set = ps(), param_vals = list(),
-        packages = character(), input = data.table(),
-        output = data.table()) {
+PipeOpTransformer = R6Class("PipeOpTransformer",
+  inherit = mlr3pipelines::PipeOp,
+  public = list(
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    initialize = function(id, param_set = ps(), param_vals = list(),
+      packages = character(), input = data.table(),
+      output = data.table()) {
 
-        super$initialize(
-          id = id, param_set = param_set, param_vals = param_vals,
-          packages = unique(c("mlr3proba", packages)), input = input,
-          output = output
-        )
-      }
-    ),
+      super$initialize(
+        id = id, param_set = param_set, param_vals = param_vals,
+        packages = unique(c("mlr3proba", packages)), input = input,
+        output = output
+      )
+    }
+  ),
 
-    private = list(
-      .train = function(inputs) {
-        list(private$.transform(inputs))
-      },
+  private = list(
+    .train = function(inputs) {
+      list(private$.transform(inputs))
+    },
 
-      .predict = function(inputs) {
-        list(private$.transform(inputs))
-      },
+    .predict = function(inputs) {
+      list(private$.transform(inputs))
+    },
 
-      .transform = function(...) stop("Abstract.")
-    )
+    .transform = function(...) stop("Abstract.")
   )
 )
