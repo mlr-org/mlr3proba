@@ -106,7 +106,6 @@ PipeOpBreslow = R6Class("PipeOpBreslow",
 
   private = list(
     .train = function(inputs) {
-      # browser()
       task = inputs[[1]]
       learner = private$.learner
 
@@ -151,7 +150,6 @@ PipeOpBreslow = R6Class("PipeOpBreslow",
 
       # If learner predicts `distr` and overwrite is FALSE don't use breslow
       if ("distr" %in% learner$predict_types & !overwrite) {
-        browser()
         pred = list(p)
       } else {
         # missing lp
