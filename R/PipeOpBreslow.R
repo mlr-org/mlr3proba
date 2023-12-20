@@ -10,22 +10,25 @@ PipeOpBreslow = R6Class("PipeOpBreslow",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #' @param id description
     initialize = function(learner, id = "po_breslow", param_vals = list(overwrite = FALSE)) {
-      if (!"lp" %in% learner$predict_types) {
+      if ("lp" %nin% learner$predict_types) {
         stopf("Learner %s must provide lp predictions", learner$id)
       }
 
       private$.learner = as_learner(learner, clone = TRUE)
-      # other way to store this?
-      private$.overwrite = param_vals$overwrite %??% FALSE
+
+      # PipeOp-specific ParamSet
+      ps_pipeop = ps(
+        overwrite = p_lgl(default = FALSE, tags = c("predict"))
+      )
+      # add learner's ParamSet
+      param_set = ParamSetCollection$new(
+        list(private$.learner$param_set, ps_pipeop)
+      )
 
       super$initialize(
         id = id,
-        # param_vals = param_vals,
-        # make parameters available for tuning, strip "PipeOp" id?
-        param_set = alist(private$.learner$param_set),
-        #param_set = ps(
-        #  overwrite = p_lgl(default = FALSE, tags = c("predict"))
-        #),
+        param_set = param_set,
+        param_vals = param_vals,
         input = data.table(name = "input", train = "TaskSurv", predict = "TaskSurv"),
         output = data.table(name = "output", train = "NULL", predict = "PredictionSurv"),
         packages = learner$packages
@@ -34,7 +37,8 @@ PipeOpBreslow = R6Class("PipeOpBreslow",
   ),
 
   active = list(
-    learner = function() {
+    learner = function(rhs) {
+      assert_ro_binding(rhs)
       private$.learner
     }
   ),
@@ -48,8 +52,9 @@ PipeOpBreslow = R6Class("PipeOpBreslow",
       # train learner
       learner$train(task)
 
-      if (is.null(learner$model))
+      if (is.null(learner$model)) {
         stopf("No trained model stored")
+      }
 
       # predictions on the train set
       p = learner$predict(task)
@@ -59,13 +64,10 @@ PipeOpBreslow = R6Class("PipeOpBreslow",
         stopf("Missing lp predictions")
       }
 
-      times  = task$truth()[,1L]
-      status = task$truth()[,2L]
-
       # keep the training data that Breslow estimator needs
       self$state = list(
-        times = times,
-        status = status,
+        times = task$times(),
+        status = task$status(),
         lp_train = p$lp
       )
 
@@ -76,10 +78,16 @@ PipeOpBreslow = R6Class("PipeOpBreslow",
       task = inputs[[1]]
       learner = private$.learner
 
+      if (is.null(learner$model) && is.null(learner$state$fallback_state$model)) {
+        stopf("Cannot predict, Learner '%s' has not been trained yet", learner$id)
+      }
+
       # predictions on the test set
       p = learner$predict(task)
 
-      if (!private$.overwrite) {
+      pv = self$param_set$get_values(tags = "predict")
+      if (is.null(pv$overwrite) || !pv$overwrite) {
+        #browser()
         pred = list(p)
       } else {
         # missing lp
@@ -106,7 +114,6 @@ PipeOpBreslow = R6Class("PipeOpBreslow",
       pred
     },
 
-    .learner = NULL,
-    .overwrite = NULL
+    .learner = NULL
   )
 )
