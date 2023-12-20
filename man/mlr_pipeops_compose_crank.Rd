@@ -86,6 +86,7 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 \link{pipeline_crankcompositor}
 
 Other survival compositors: 
+\code{\link{mlr_pipeops_compose_breslow_distr}},
 \code{\link{mlr_pipeops_compose_distr}}
 }
 \concept{survival compositors}
