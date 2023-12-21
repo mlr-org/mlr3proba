@@ -1,10 +1,10 @@
-# mlr3proba 0.5.7
+# mlr3proba 0.5.6
 
 * Add `extend_quantile` to `autoplot.PredictionSurv` for `type = "dcalib"`, which imputes NAs with the maximum observed survival time
 * Fixes default in `autoplot.PredictionSurv`, now `"calib"`
 * Update `msr("surv.dcalib")` default for `truncate` to `Inf`
 
-# mlr3proba 0.5.6
+# mlr3proba 0.5.5
 
 * Add `$reverse()` method to `TaskSurv`, which returns the same task but with 1-status.
 * Add `reverse` parameter to `TaskSurv$kaplan()` method, which calculates Kaplan-Meier on the censoring distribution of the task (1-status).
