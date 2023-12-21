@@ -32,7 +32,7 @@ meaning that lower values of this measure are preferred."><meta property="og:ima
     
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.5.5</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.5.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -225,18 +225,18 @@ Changing this parameter affects <code>truncate</code>.</p></dd>
 If <code>TRUE</code> returns the p-value of the corresponding chisq.test instead of the measure.
 Default is <code>FALSE</code> and returns the statistic <code>s</code>.
 You can manually get the p-value by executing <code>pchisq(s, B - 1, lower.tail = FALSE)</code>.
-<code>p &gt; 0.05</code> indicates a well-calibrated model.</p></dd>
+The null hypothesis is that the model is D-calibrated.</p></dd>
 
 
 <dt><code>truncate</code></dt>
 <dd><p>(<code>double(1)</code>) <br>
 This parameter controls the upper bound of the output statistic,
-when <code>chisq</code> is <code>FALSE</code>. The default <code>truncate</code> value of \(10\)
-corresponds to a p-value of 0.35 for the chisq.test using \(B = 10\) buckets.
-Values \(&gt;10\) translate to even lower p-values and thus less calibrated
-models. If the number of buckets \(B\) changes, you probably will want to
+when <code>chisq</code> is <code>FALSE</code>. We use <code>truncate = Inf</code> by default but \(10\) may be sufficient
+for most purposes, which corresponds to a p-value of 0.35 for the chisq.test using
+\(B = 10\) buckets. Values \(&gt;10\) translate to even lower p-values and thus
+less calibrated models. If the number of buckets \(B\) changes, you probably will want to
 change the <code>truncate</code> value as well to correspond to the same p-value significance.
-Initialize with <code>truncate = Inf</code> if no truncation is desired.</p></dd>
+Note that truncation may severely limit automated tuning with this measure.</p></dd>
 
 
 </dl><p></p></div>

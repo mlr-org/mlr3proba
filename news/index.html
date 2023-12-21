@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.5.5</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.5.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,6 +76,14 @@
       <small>Source: <a href="https://github.com/mlr-org/mlr3proba/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.5.6" id="mlr3proba-056">mlr3proba 0.5.6<a class="anchor" aria-label="anchor" href="#mlr3proba-056"></a></h2>
+<ul><li>Add <code>extend_quantile</code> to <code>autoplot.PredictionSurv</code> for <code>type = "dcalib"</code>, which imputes NAs with the maximum observed survival time</li>
+<li>Fixes default in <code>autoplot.PredictionSurv</code>, now <code>"calib"</code>
+</li>
+<li>Update <code>msr("surv.dcalib")</code> default for <code>truncate</code> to <code>Inf</code>
+</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.5.5" id="mlr3proba-055">mlr3proba 0.5.5<a class="anchor" aria-label="anchor" href="#mlr3proba-055"></a></h2>
 <ul><li>Add <code>$reverse()</code> method to <code>TaskSurv</code>, which returns the same task but with 1-status.</li>
