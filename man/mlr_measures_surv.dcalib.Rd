@@ -138,16 +138,16 @@ Changing this parameter affects \code{truncate}.}
 If \code{TRUE} returns the p-value of the corresponding chisq.test instead of the measure.
 Default is \code{FALSE} and returns the statistic \code{s}.
 You can manually get the p-value by executing \code{pchisq(s, B - 1, lower.tail = FALSE)}.
-\code{p > 0.05} indicates a well-calibrated model.}
+The null hypothesis is that the model is D-calibrated.}
 
 \item{\code{truncate}}{(\code{double(1)}) \cr
 This parameter controls the upper bound of the output statistic,
-when \code{chisq} is \code{FALSE}. The default \code{truncate} value of \eqn{10}
-corresponds to a p-value of 0.35 for the chisq.test using \eqn{B = 10} buckets.
-Values \eqn{>10} translate to even lower p-values and thus less calibrated
-models. If the number of buckets \eqn{B} changes, you probably will want to
+when \code{chisq} is \code{FALSE}. We use \code{truncate = Inf} by default but \eqn{10} may be sufficient
+for most purposes, which corresponds to a p-value of 0.35 for the chisq.test using
+\eqn{B = 10} buckets. Values \eqn{>10} translate to even lower p-values and thus
+less calibrated models. If the number of buckets \eqn{B} changes, you probably will want to
 change the \code{truncate} value as well to correspond to the same p-value significance.
-Initialize with \code{truncate = Inf} if no truncation is desired.}
+Note that truncation may severely limit automated tuning with this measure.}
 }
 \if{html}{\out{</div>}}
 }

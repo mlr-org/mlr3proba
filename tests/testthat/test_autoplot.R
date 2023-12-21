@@ -11,7 +11,7 @@ test_that("autoplot.PredictionSurv", {
   expect_true(is.ggplot(p))
   vdiffr::expect_doppelganger("predictionsurv_calib", p)
 
-  p = autoplot(prediction, type = "dcalib")
+  p = autoplot(prediction, type = "dcalib", extend_quantile = TRUE)
   expect_true(is.ggplot(p))
   vdiffr::expect_doppelganger("predictionsurv_dcalib", p)
 
