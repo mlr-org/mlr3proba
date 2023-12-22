@@ -3,7 +3,7 @@
 \name{mlr_pipeops_compose_breslow_distr}
 \alias{mlr_pipeops_compose_breslow_distr}
 \alias{PipeOpBreslow}
-\title{PipeOpBreslow}
+\title{Wrap a learner into a PipeOp with survival predictions estimated by the Breslow estimator}
 \description{
 Composes a survival distribution (\code{distr}) from the linear predictor
 predictions (\code{lp}) of a given \link{LearnerSurv} generated during training and
@@ -19,7 +19,7 @@ or with the associated sugar function \link[mlr3pipelines:po]{po()}:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{PipeOpBreslow$new(learner)
 mlr_pipeops$get("breslowcompose", learner)
-po("breslowcompose", learner, overwrite = TRUE)
+po("breslowcompose", learner, breslow.overwrite = TRUE)
 }\if{html}{\out{</div>}}
 }
 
@@ -42,7 +42,7 @@ the train \link{TaskSurv} as well as the \code{lp} predictions on the train set.
 
 The parameters are:
 \itemize{
-\item \code{overwrite} :: \code{logical(1)} \cr
+\item \code{breslow.overwrite} :: \code{logical(1)} \cr
 If \code{FALSE} (default) then the compositor does nothing and returns the
 input \code{learner}'s \link{PredictionSurv}.
 If \code{TRUE} or in the case that the input \code{learner} doesn't have \code{distr}
@@ -64,7 +64,7 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   test_task  = task$clone()$filter(part$test)
 
   learner = lrn("surv.coxph") # learner with lp predictions
-  b = po("breslowcompose", learner = learner, overwrite = TRUE)
+  b = po("breslowcompose", learner = learner, breslow.overwrite = TRUE)
 
   b$train(list(train_task))
   p = b$predict(list(test_task))[[1L]]
@@ -86,7 +86,7 @@ Other survival compositors:
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{learner}}{\cr
-The input learner.}
+The input survival learner.}
 }
 \if{html}{\out{</div>}}
 }
@@ -113,11 +113,7 @@ The input learner.}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{PipeOpBreslow$new(
-  learner,
-  id = "po_breslow",
-  param_vals = list(overwrite = FALSE)
-)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{PipeOpBreslow$new(learner, id = NULL, param_vals = list())}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

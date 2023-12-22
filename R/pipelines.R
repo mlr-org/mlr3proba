@@ -229,7 +229,7 @@ pipeline_distrcompositor = function(learner, estimator = "kaplan", form = "aft",
   # make the pipeline Graph object
   if (estimator == "breslow") {
     gr = mlr3pipelines::as_graph(
-      mlr3pipelines::po("breslowcompose", learner = learner, param_vals = list(overwrite = overwrite))
+      mlr3pipelines::po("breslowcompose", learner = learner, breslow.overwrite = overwrite)
     )
   } else {
     pred = mlr3pipelines::as_graph(learner)

@@ -1,4 +1,4 @@
-#' @title PipeOpBreslow
+#' @title Wrap a learner into a PipeOp with survival predictions estimated by the Breslow estimator
 #' @name mlr_pipeops_compose_breslow_distr
 #' @template param_pipelines
 #' @description
@@ -15,7 +15,7 @@
 #' ```
 #' PipeOpBreslow$new(learner)
 #' mlr_pipeops$get("breslowcompose", learner)
-#' po("breslowcompose", learner, overwrite = TRUE)
+#' po("breslowcompose", learner, breslow.overwrite = TRUE)
 #' ```
 #'
 #' @section Input and Output Channels:
@@ -31,7 +31,7 @@
 #'
 #' @section Parameters:
 #' The parameters are:
-#' * `overwrite` :: `logical(1)` \cr
+#' * `breslow.overwrite` :: `logical(1)` \cr
 #'    If `FALSE` (default) then the compositor does nothing and returns the
 #'    input `learner`'s [PredictionSurv].
 #'    If `TRUE` or in the case that the input `learner` doesn't have `distr`
@@ -53,7 +53,7 @@
 #'   test_task  = task$clone()$filter(part$test)
 #'
 #'   learner = lrn("surv.coxph") # learner with lp predictions
-#'   b = po("breslowcompose", learner = learner, overwrite = TRUE)
+#'   b = po("breslowcompose", learner = learner, breslow.overwrite = TRUE)
 #'
 #'   b$train(list(train_task))
 #'   p = b$predict(list(test_task))[[1L]]
@@ -68,36 +68,38 @@ PipeOpBreslow = R6Class("PipeOpBreslow",
     #' Survival learner which must provide `lp`-type predictions
     #' @param id (character(1))\cr
     #' Identifier of the resulting object.
-    initialize = function(learner, id = "po_breslow", param_vals = list(overwrite = FALSE)) {
+    initialize = function(learner, id = NULL, param_vals = list()) {
+      assert_learner(learner, task_type = "surv")
       if ("lp" %nin% learner$predict_types) {
         stopf("Learner %s must provide lp predictions", learner$id)
       }
 
+      # id of the PipeOp is the id of the learner
       private$.learner = as_learner(learner, clone = TRUE)
+      private$.learner$param_set$set_id = ""
+      id = id %??% private$.learner$id
 
-      # PipeOp-specific ParamSet
-      ps_pipeop = ps(
-        overwrite = p_lgl(default = FALSE, tags = c("predict"))
+      # define `breslow.overwrite` parameter
+      private$.breslow_ps = ps(
+        overwrite = p_lgl(default = FALSE, tags = c("predict", "required"))
       )
-      # add learner's ParamSet
-      param_set = ParamSetCollection$new(
-        list(private$.learner$param_set, ps_pipeop)
-      )
+      private$.breslow_ps$values = list(overwrite = FALSE)
+      private$.breslow_ps$set_id = "breslow"
 
       super$initialize(
         id = id,
-        param_set = param_set,
+        param_set = alist(private$.breslow_ps, private$.learner$param_set),
         param_vals = param_vals,
         input = data.table(name = "input", train = "TaskSurv", predict = "TaskSurv"),
         output = data.table(name = "output", train = "NULL", predict = "PredictionSurv"),
-        packages = learner$packages
+        packages = private$.learner$packages
       )
     }
   ),
 
   active = list(
     #' @field learner \cr
-    #' The input learner.
+    #' The input survival learner.
     learner = function(rhs) {
       assert_ro_binding(rhs)
       private$.learner
@@ -111,10 +113,6 @@ PipeOpBreslow = R6Class("PipeOpBreslow",
 
       # train learner
       learner$train(task)
-
-      if (is.null(learner$model)) {
-        stopf("No trained model stored")
-      }
 
       # predictions on the train set
       p = learner$predict(task)
@@ -138,7 +136,7 @@ PipeOpBreslow = R6Class("PipeOpBreslow",
       task = inputs[[1]]
       learner = private$.learner
 
-      if (is.null(learner$model) && is.null(learner$state$fallback_state$model)) {
+      if (is.null(learner$model)) {
         stopf("Cannot predict, Learner '%s' has not been trained yet", learner$id)
       }
 
@@ -146,7 +144,7 @@ PipeOpBreslow = R6Class("PipeOpBreslow",
       p = learner$predict(task)
 
       pv = self$param_set$get_values(tags = "predict")
-      overwrite = pv$overwrite
+      overwrite = pv$breslow.overwrite
 
       # If learner predicts `distr` and overwrite is FALSE don't use breslow
       if ("distr" %in% learner$predict_types & !overwrite) {
@@ -176,6 +174,7 @@ PipeOpBreslow = R6Class("PipeOpBreslow",
       pred
     },
 
+    .breslow_ps = NULL,
     .learner = NULL
   )
 )

@@ -8,8 +8,8 @@
 \usage{
 pipeline_distrcompositor(
   learner,
-  estimator = c("kaplan", "nelson", "breslow"),
-  form = c("aft", "ph", "po"),
+  estimator = "kaplan",
+  form = "aft",
   overwrite = FALSE,
   graph_learner = FALSE
 )
