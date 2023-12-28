@@ -22,9 +22,9 @@ navbar:
       text: Vignettes
       menu:
         - text: Survival Analysis
-          href: https://mlr3book.mlr-org.com/special.html#survival
+          href: https://mlr3book.mlr-org.com/chapters/chapter13/beyond_regression_and_classification.html#sec-survival
         - text: Density Estimation
-          href: https://mlr3book.mlr-org.com/special.html#density
+          href: https://mlr3book.mlr-org.com/chapters/chapter13/beyond_regression_and_classification.html#sec-density
     mattermost:
       icon: fa fa-comments
       href: https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/
