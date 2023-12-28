@@ -117,7 +117,7 @@ PipeOpBreslow = R6Class("PipeOpBreslow",
       # predictions on the train set
       p = learner$predict(task)
 
-      # Breslow works only with `lp` predictions (not crank)
+      # Breslow works only with non-NA `lp` predictions
       if (anyMissing(p$lp)) {
         stopf("Missing lp predictions")
       }
@@ -150,7 +150,7 @@ PipeOpBreslow = R6Class("PipeOpBreslow",
       if ("distr" %in% learner$predict_types & !overwrite) {
         pred = list(p)
       } else {
-        # missing lp
+        # Breslow works only with non-NA `lp` predictions
         if (anyMissing(p$lp)) {
           stopf("Missing lp predictions!")
         }
