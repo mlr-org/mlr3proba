@@ -55,6 +55,9 @@ test_that("breslow PipeOp works", {
   # learner needs to be of survival type
   expect_error(po("breslowcompose", learner = lrn("classif.featureless")),
                "must have task type")
+  # learner needs to have lp predictions
+  expect_error(po("breslowcompose", learner = lrn("surv.kaplan")),
+    "must provide lp")
 
   # learner with lp predictions
   learner = lrn("surv.coxph")
@@ -67,6 +70,8 @@ test_that("breslow PipeOp works", {
   expect_equal(b2$id, learner$id)
   expect_true(b1$param_set$values$breslow.overwrite)
   expect_false(b2$param_set$values$breslow.overwrite)
+  expect_learner(b1$learner)
+  expect_error({b1$learner = lrn("surv.kaplan")}) # read-only
 
   expect_silent(b1$train(list(task)))
   expect_silent(b2$train(list(task)))
