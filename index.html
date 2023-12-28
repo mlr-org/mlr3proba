@@ -54,8 +54,8 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-vignettes">Vignettes</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-vignettes">
-    <a class="external-link dropdown-item" href="https://mlr3book.mlr-org.com/special.html#survival">Survival Analysis</a>
-    <a class="external-link dropdown-item" href="https://mlr3book.mlr-org.com/special.html#density">Density Estimation</a>
+    <a class="external-link dropdown-item" href="https://mlr3book.mlr-org.com/chapters/chapter13/beyond_regression_and_classification.html#sec-survival">Survival Analysis</a>
+    <a class="external-link dropdown-item" href="https://mlr3book.mlr-org.com/chapters/chapter13/beyond_regression_and_classification.html#sec-density">Density Estimation</a>
   </div>
 </li>
 <li class="nav-item">
@@ -113,7 +113,7 @@
 <img src="logo.svg" class="logo" alt=""><h1 id="mlr3proba">mlr3proba<a class="anchor" aria-label="anchor" href="#mlr3proba"></a>
 </h1>
 </div>
-<p>Package website: <a href="https://mlr3proba.mlr-org.com/">release</a> | <a href="https://mlr3proba.mlr-org.com/dev/">dev</a></p>
+<p>Package website: <a href="https://mlr3proba.mlr-org.com/">release</a></p>
 <p>Probabilistic Supervised Learning for <strong><a href="https://github.com/mlr-org/mlr3/" class="external-link">mlr3</a></strong>.</p>
 <!-- badges: start -->
 
@@ -122,9 +122,12 @@
 </h2>
 <p><strong>mlr3proba</strong> is a machine learning toolkit for making probabilistic predictions within the <strong><a href="https://github.com/mlr-org/mlr3" class="external-link">mlr3</a></strong> ecosystem. It currently supports the following tasks:</p>
 <ul>
-<li>Probabilistic supervised regression - Supervised regression with a predictive distribution as the return type.</li>
-<li>Predictive survival analysis - Survival analysis where individual predictive hazards can be queried. This is equivalent to probabilistic supervised regression with censored observations.</li>
-<li>Unconditional distribution estimation, where the distribution is returned. Sub-cases are density estimation and unconditional survival estimation.</li>
+<li>
+<strong>Probabilistic supervised regression</strong> - Supervised regression with a predictive distribution as the return type.</li>
+<li>
+<strong>Predictive survival analysis</strong> - Survival analysis where individual predictive hazards can be queried. This is equivalent to probabilistic supervised regression with censored observations.</li>
+<li>
+<strong>Unconditional distribution estimation</strong>, where the distribution is returned. Sub-cases are density estimation and unconditional survival estimation.</li>
 </ul>
 <p>Key features of <strong>mlr3proba</strong> are</p>
 <ul>
@@ -141,8 +144,8 @@
 <p>The current <strong>mlr3proba</strong> release focuses on survival analysis, and contains:</p>
 <ul>
 <li>Task frameworks for survival analysis (<code>TaskSurv</code>)</li>
-<li>A comprehensive selection of 17 predictive survival learners</li>
-<li>A comprehensive selection of 21 performance measures for predictive survival learners, with respect to prognostic index (continuous rank) prediction, and probabilistic (distribution) prediction</li>
+<li>A comprehensive selection of predictive survival learners (mostly via <a href="https://github.com/mlr-org/mlr3extralearners/" class="external-link">mlr3extralearners</a>)</li>
+<li>A comprehensive selection of performance measures for predictive survival learners, with respect to prognostic index (continuous rank) prediction, and probabilistic (distribution) prediction</li>
 <li>PipeOps integrated with <strong><a href="https://github.com/mlr-org/mlr3pipelines" class="external-link">mlr3pipelines</a></strong>, for basic pipeline building, and reduction/composition strategies using linear predictors and baseline hazards.</li>
 </ul>
 </div>
@@ -177,7 +180,7 @@
 <ol style="list-style-type: decimal">
 <li>Run <code>usethis::edit_r_environ()</code> then in the file that opened add or edit <code>options</code> to look something like</li>
 </ol>
-<!-- end list --><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>       raphaels1 <span class="op">=</span> <span class="st">"https://raphaels1.r-universe.dev"</span>,</span>
 <span>       mlrorg <span class="op">=</span> <span class="st">"https://mlr-org.r-universe.dev"</span>,</span>
@@ -198,126 +201,70 @@
 <div class="section level2">
 <h2 id="learners">Learners<a class="anchor" aria-label="anchor" href="#learners"></a>
 </h2>
-<p>Core learners are implemented in <a href="https://github.com/mlr-org/mlr3proba" class="external-link">mlr3proba</a>, recommended common learners are implemented in <a href="https://github.com/mlr-org/mlr3learners" class="external-link">mlr3learners</a>, and many more are implemented in <a href="https://github.com/mlr-org/mlr3extralearners" class="external-link">mlr3extralearners</a>. Use the <a href="https://mlr3extralearners.mlr-org.com/articles/learners/list_learners.html" class="external-link">interactive search table</a> to search for available learners and see the <a href="https://mlr3extralearners.mlr-org.com/articles/learners/test_overview.html" class="external-link">learner status page</a> for their live status.</p>
+<p>Core learners are implemented in <a href="https://mlr3proba.mlr-org.com/reference/index.html#survival-learners">mlr3proba</a>, recommended common learners are implemented in <a href="https://github.com/mlr-org/mlr3learners" class="external-link">mlr3learners</a>, and many more are implemented in <a href="https://github.com/mlr-org/mlr3extralearners" class="external-link">mlr3extralearners</a>. Use the <a href="https://mlr-org.com/learners.html" class="external-link">interactive search table</a> to search for available survival learners and see the <a href="https://mlr3extralearners.mlr-org.com/articles/learner_status.html" class="external-link">learner status page</a> for their live status.</p>
 </div>
 <div class="section level2">
 <h2 id="measures">Measures<a class="anchor" aria-label="anchor" href="#measures"></a>
 </h2>
-<p>For density estimation only the log-loss is currently implemented, for survival analysis, the following measures are implemented:</p>
+<p>For density estimation only the log-loss is currently implemented, for survival analysis, see full list <a href="https://mlr3proba.mlr-org.com/reference/index.html#survival-measures">here</a>. Some commonly used measures are the following:</p>
 <table class="table">
 <colgroup>
-<col width="51%">
-<col width="18%">
-<col width="29%">
+<col width="48%">
+<col width="12%">
+<col width="30%">
+<col width="8%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">ID</th>
 <th align="left">Measure</th>
 <th align="left">Package</th>
+<th align="left">Type</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left"><a href="https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.calib_alpha.html">surv.calib_alpha</a></td>
-<td align="left">van Houwelingen’s Alpha Calibration</td>
+<td align="left"><a href="https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.dcalib.html">surv.dcalib</a></td>
+<td align="left">D-Calibration</td>
 <td align="left"><a href="https://CRAN.R-project.org/package=mlr3proba" class="external-link">mlr3proba</a></td>
-</tr>
-<tr class="even">
-<td align="left"><a href="https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.calib_beta.html">surv.calib_beta</a></td>
-<td align="left">van Houwelingen’s Beta Calibration</td>
-<td align="left"><a href="https://CRAN.R-project.org/package=mlr3proba" class="external-link">mlr3proba</a></td>
-</tr>
-<tr class="odd">
-<td align="left"><a href="https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.chambless_auc.html">surv.chambless_auc</a></td>
-<td align="left">Chambless and Diao’s AUC</td>
-<td align="left"><a href="https://CRAN.R-project.org/package=survAUC" class="external-link">survAUC</a></td>
+<td align="left">Calibration</td>
 </tr>
 <tr class="even">
 <td align="left"><a href="https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.cindex.html">surv.cindex</a></td>
 <td align="left">Concordance Index</td>
 <td align="left"><a href="https://CRAN.R-project.org/package=mlr3proba" class="external-link">mlr3proba</a></td>
+<td align="left">Discrimination</td>
 </tr>
 <tr class="odd">
-<td align="left"><a href="https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.graf.html">surv.graf</a></td>
-<td align="left">Integrated Graf Score</td>
-<td align="left"><a href="https://CRAN.R-project.org/package=mlr3proba" class="external-link">mlr3proba</a></td>
-</tr>
-<tr class="even">
-<td align="left"><a href="https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.hung_auc.html">surv.hungAUC</a></td>
-<td align="left">Hung and Chiang’s AUC</td>
-<td align="left"><a href="https://CRAN.R-project.org/package=survAUC" class="external-link">survAUC</a></td>
-</tr>
-<tr class="odd">
-<td align="left"><a href="https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.intlogloss.html">surv.intlogloss</a></td>
-<td align="left">Integrated Log Loss</td>
-<td align="left"><a href="https://CRAN.R-project.org/package=mlr3proba" class="external-link">mlr3proba</a></td>
-</tr>
-<tr class="even">
-<td align="left"><a href="https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.logloss.html">surv.logloss</a></td>
-<td align="left">Log Loss</td>
-<td align="left"><a href="https://CRAN.R-project.org/package=mlr3proba" class="external-link">mlr3proba</a></td>
-</tr>
-<tr class="odd">
-<td align="left"><a href="https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.nagelk_r2.html">surv.nagelk_r2</a></td>
-<td align="left">Nagelkerke’s R2</td>
-<td align="left"><a href="https://CRAN.R-project.org/package=survAUC" class="external-link">survAUC</a></td>
-</tr>
-<tr class="even">
-<td align="left"><a href="https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.oquigley_r2.html">surv.oquigley_r2</a></td>
-<td align="left">O’Quigley, Xu, and Stare’s R2</td>
-<td align="left"><a href="https://CRAN.R-project.org/package=survAUC" class="external-link">survAUC</a></td>
-</tr>
-<tr class="odd">
-<td align="left"><a href="https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.song_auc.html">surv.song_auc</a></td>
-<td align="left">Song and Zhou’s AUC</td>
-<td align="left"><a href="https://CRAN.R-project.org/package=survAUC" class="external-link">survAUC</a></td>
-</tr>
-<tr class="even">
-<td align="left"><a href="https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.song_tnr.html">surv.song_tnr</a></td>
-<td align="left">Song and Zhou’s TNR</td>
-<td align="left"><a href="https://CRAN.R-project.org/package=survAUC" class="external-link">survAUC</a></td>
-</tr>
-<tr class="odd">
-<td align="left"><a href="https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.song_tpr.html">surv.song_tpr</a></td>
-<td align="left">Song and Zhou’s TPR</td>
-<td align="left"><a href="https://CRAN.R-project.org/package=survAUC" class="external-link">survAUC</a></td>
-</tr>
-<tr class="even">
 <td align="left"><a href="https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.uno_auc.html">surv.uno_auc</a></td>
 <td align="left">Uno’s AUC</td>
 <td align="left"><a href="https://CRAN.R-project.org/package=survAUC" class="external-link">survAUC</a></td>
-</tr>
-<tr class="odd">
-<td align="left"><a href="https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.uno_tnr.html">surv.uno_tnr</a></td>
-<td align="left">Uno’s TNR</td>
-<td align="left"><a href="https://CRAN.R-project.org/package=survAUC" class="external-link">survAUC</a></td>
+<td align="left">Discrimination</td>
 </tr>
 <tr class="even">
-<td align="left"><a href="https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.uno_tpr.html">surv.uno_tpr</a></td>
-<td align="left">Uno’s TPR</td>
-<td align="left"><a href="https://CRAN.R-project.org/package=survAUC" class="external-link">survAUC</a></td>
+<td align="left"><a href="https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.graf.html">surv.graf</a></td>
+<td align="left">Integrated Brier Score</td>
+<td align="left"><a href="https://CRAN.R-project.org/package=mlr3proba" class="external-link">mlr3proba</a></td>
+<td align="left">Scoring Rule</td>
 </tr>
 <tr class="odd">
-<td align="left"><a href="https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.xu_r2.html">surv.xu_r2</a></td>
-<td align="left">Xu and O’Quigley’s R2</td>
-<td align="left"><a href="https://CRAN.R-project.org/package=survAUC" class="external-link">survAUC</a></td>
+<td align="left"><a href="https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.rcll.html">surv.rcll</a></td>
+<td align="left">Right-Censored Log loss</td>
+<td align="left"><a href="https://CRAN.R-project.org/package=mlr3proba" class="external-link">mlr3proba</a></td>
+<td align="left">Scoring Rule</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.intlogloss.html">surv.intlogloss</a></td>
+<td align="left">Integrated Log Loss</td>
+<td align="left"><a href="https://CRAN.R-project.org/package=mlr3proba" class="external-link">mlr3proba</a></td>
+<td align="left">Scoring Rule</td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section level2">
-<h2 id="near-future-plans">Near-Future Plans<a class="anchor" aria-label="anchor" href="#near-future-plans"></a>
-</h2>
-<ul>
-<li>Add <code>prob</code> predict type to <code>TaskRegr</code>, and associated learners/measures</li>
-<li>Allow <code>MeasureSurv</code> to return measures at multiple time-points simultaneously</li>
-<li>Continue to add survival measures and learners</li>
-</ul>
-</div>
-<div class="section level2">
 <h2 id="bugs-questions-feedback">Bugs, Questions, Feedback<a class="anchor" aria-label="anchor" href="#bugs-questions-feedback"></a>
 </h2>
 <p><strong>mlr3proba</strong> is a free and open source software project that encourages participation and feedback. If you have any issues, questions, suggestions or feedback, please do not hesitate to open an “issue” about it on the <a href="https://github.com/mlr-org/mlr3proba/issues" class="external-link">GitHub page</a>!</p>
-<p>In case of problems / bugs, it is often helpful if you provide a “minimum working example” that showcases the behaviour (but don’t worry about this if the bug is obvious).</p>
+<p>In case of problems / bugs, it is often helpful if you provide a “minimum working example” that showcases the behavior (but don’t worry about this if the bug is obvious).</p>
 </div>
 <div class="section level2">
 <h2 id="similar-projects">Similar Projects<a class="anchor" aria-label="anchor" href="#similar-projects"></a>
