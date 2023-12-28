@@ -173,6 +173,8 @@ plot.TaskDens = function(x, ...) {
 #' @param cuts (`integer(1)`) \cr
 #'   Number of cuts in (0,1) to plot `dcalib` over, default is `11`.
 #' @template param_theme
+#' @param extend_quantile `(logical(1))` \cr
+#'  If `TRUE` then `dcalib` will impute NAs from predicted quantile function with the maximum observed outcome time, e.g. if the last predicted survival probability is greater than 0.1, then the last predicted cdf is smaller than 0.9 so F^1(0.9) = NA, this would be imputed with max(times). Default is `FALSE`.
 #' @param ... (`any`):
 #'   Additional arguments, currently unused.
 #'
@@ -199,14 +201,15 @@ plot.TaskDens = function(x, ...) {
 #'
 #' # Predictions
 #' autoplot(p, type = "preds")
-autoplot.PredictionSurv = function(object, type = "dcalib",
+autoplot.PredictionSurv = function(object, type = "calib",
   task = NULL, row_ids = NULL, times = NULL, xyline = TRUE,
-  cuts = 11L, theme = theme_minimal(), ...) {
+  cuts = 11L, theme = theme_minimal(), extend_quantile = FALSE, ...) {
 
   assert("distr" %in% object$predict_types)
 
   switch(type,
     "calib" = {
+      assert_task(task)
       if (is.null(times)) {
         times = sort(unique(task$truth()[, 1]))
       }
@@ -234,14 +237,20 @@ autoplot.PredictionSurv = function(object, type = "dcalib",
 
     "dcalib" = {
       p = seq.int(0, 1, length.out = cuts)
+      true_times = object$truth[, 1L]
       q = map_dbl(p, function(.x) {
-        sum(object$truth[, 1L] <= as.numeric(object$distr$quantile(.x)), na.rm = TRUE) / length(object$row_ids)
+        qi = as.numeric(object$distr$quantile(.x))
+        if (extend_quantile) {
+          qi[is.na(qi)] = max(true_times)
+        }
+        sum(true_times <= qi) / length(object$row_ids)
       })
       pl = ggplot(data = data.frame(p, q), aes(x = p, y = q)) +
         geom_line()
 
       if (xyline) {
-        pl = pl + geom_abline(slope = 1, intercept = 0, color = "lightgray")
+        pl = pl +
+          geom_segment(aes(x = 0, y = 0, xend = 1, yend = 1), color = "lightgray")
       }
       pl +
         labs(x = "True", y = "Predicted") +

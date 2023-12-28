@@ -1,3 +1,9 @@
+# mlr3proba 0.5.6
+
+* Add `extend_quantile` to `autoplot.PredictionSurv` for `type = "dcalib"`, which imputes NAs with the maximum observed survival time
+* Fixes default in `autoplot.PredictionSurv`, now `"calib"`
+* Update `msr("surv.dcalib")` default for `truncate` to `Inf`
+
 # mlr3proba 0.5.5
 
 * Add breslow estimator for the cumulative baseline hazard of proportional hazard models

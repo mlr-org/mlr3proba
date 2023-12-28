@@ -327,7 +327,7 @@ test_that("dcal works", {
   expect_equal(score, score2)
   expect_true(score > 10)
 
-  score3 = p$score(msr("surv.dcalib")) # default truncate = 10
+  score3 = p$score(msr("surv.dcalib", truncate = 10))
   expect_equal(unname(score3), 10)
   score4 = p$score(msr("surv.dcalib", truncate = 5))
   expect_equal(unname(score4), 5)

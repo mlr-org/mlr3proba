@@ -45,22 +45,22 @@ MeasureSurvDCalibration = R6Class("MeasureSurvDCalibration",
     #' If `TRUE` returns the p-value of the corresponding chisq.test instead of the measure.
     #' Default is `FALSE` and returns the statistic `s`.
     #' You can manually get the p-value by executing `pchisq(s, B - 1, lower.tail = FALSE)`.
-    #' `p > 0.05` indicates a well-calibrated model.
+    #' The null hypothesis is that the model is D-calibrated.
     #' @param truncate (`double(1)`) \cr
     #' This parameter controls the upper bound of the output statistic,
-    #' when `chisq` is `FALSE`. The default `truncate` value of \eqn{10}
-    #' corresponds to a p-value of 0.35 for the chisq.test using \eqn{B = 10} buckets.
-    #' Values \eqn{>10} translate to even lower p-values and thus less calibrated
-    #' models. If the number of buckets \eqn{B} changes, you probably will want to
+    #' when `chisq` is `FALSE`. We use `truncate = Inf` by default but \eqn{10} may be sufficient
+    #' for most purposes, which corresponds to a p-value of 0.35 for the chisq.test using
+    #' \eqn{B = 10} buckets. Values \eqn{>10} translate to even lower p-values and thus
+    #' less calibrated models. If the number of buckets \eqn{B} changes, you probably will want to
     #' change the `truncate` value as well to correspond to the same p-value significance.
-    #' Initialize with `truncate = Inf` if no truncation is desired.
+    #' Note that truncation may severely limit automated tuning with this measure.
     initialize = function() {
       ps = ps(
         B = p_int(1, default = 10),
         chisq = p_lgl(default = FALSE),
-        truncate = p_dbl(lower = 0, upper = Inf, default = 10)
+        truncate = p_dbl(lower = 0, upper = Inf, default = Inf)
       )
-      ps$values = list(B = 10L, chisq = FALSE, truncate = 10)
+      ps$values = list(B = 10L, chisq = FALSE, truncate = Inf)
 
       super$initialize(
         id = "surv.dcalib",
