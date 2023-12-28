@@ -8,8 +8,8 @@
 \usage{
 pipeline_distrcompositor(
   learner,
-  estimator = c("kaplan", "nelson"),
-  form = c("aft", "ph", "po"),
+  estimator = "kaplan",
+  form = "aft",
   overwrite = FALSE,
   graph_learner = FALSE
 )
@@ -17,19 +17,19 @@ pipeline_distrcompositor(
 distrcompositor(...)
 }
 \arguments{
-\item{learner}{\verb{[mlr3::Learner]|[mlr3pipelines::PipeOp]|[mlr3pipelines::Graph]} \cr
-Either a \code{Learner} which will be wrapped in \link[mlr3pipelines:mlr_pipeops_learner]{mlr3pipelines::PipeOpLearner}, a \code{PipeOp} which will
-be wrapped in \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or a \code{Graph} itself. Underlying \code{Learner} should be
-\link{LearnerSurv}.}
+\item{learner}{\link{LearnerSurv}\cr
+Survival learner.}
 
 \item{estimator}{\code{character(1)}\cr
-One of \code{kaplan} (default) or \code{nelson}, corresponding to the Kaplan-Meier and
-Nelson-Aalen estimators respectively. Used to estimate the baseline survival distribution.}
+One of \code{kaplan} (default), \code{nelson} or \code{breslow}, corresponding to the Kaplan-Meier,
+Nelson-Aalen and \link[=breslow]{Breslow} estimators respectively.
+Used to estimate the baseline survival distribution.}
 
 \item{form}{\code{character(1)}\cr
 One of \code{aft} (default), \code{ph}, or \code{po}, corresponding to accelerated failure time,
-proportional hazards, and proportional odds respectively. Used to determine the form of the
-composed survival distribution.}
+proportional hazards, and proportional odds respectively.
+Used to determine the form of the composed survival distribution.
+Ignored if estimator is \code{breslow}.}
 
 \item{overwrite}{\code{logical(1)}\cr
 If \code{FALSE} (default) then if the \code{learner} already has a \code{distr}, the compositor does nothing.
@@ -48,7 +48,7 @@ For use with \code{distrcompositor}, now deprecated.}
 \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or \link[mlr3pipelines:mlr_learners_graph]{mlr3pipelines::GraphLearner}
 }
 \description{
-Wrapper around \link{PipeOpDistrCompositor} to simplify \link[mlr3pipelines:Graph]{Graph} creation.
+Wrapper around \link{PipeOpDistrCompositor} or \link{PipeOpBreslow} to simplify \link[mlr3pipelines:Graph]{Graph} creation.
 }
 \examples{
 \dontrun{

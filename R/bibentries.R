@@ -619,5 +619,25 @@ bibentries = c( # nolint start
     number            = "85",
     pages             = "1-63",
     url               = "https://jmlr.org/papers/v21/18-772.html"
+  ),
+  breslow_1972 = bibentry("article",
+    author            = "Norman Breslow",
+    title             = "Discussion of 'Regression Models and Life-Tables' by D.R. Cox",
+    journal           = "Journal of the Royal Statistical Society: Series B",
+    year              = "1972",
+    volume            = "34",
+    number            = "2",
+    pages             = "216-217"
+  ),
+  lin_2007 = bibentry("article",
+    author            = "Lin, D. Y.",
+    title             = "On the Breslow estimator",
+    journal           = "Lifetime Data Analysis",
+    year              = "2007",
+    volume            = "13",
+    number            = "4",
+    pages             = "471-480",
+    publisher         = "Springer",
+    doi               = "10.1007/S10985-007-9048-Y/METRICS"
   )
 ) # nolint end
