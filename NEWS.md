@@ -1,3 +1,9 @@
+# mlr3proba 0.5.7
+
+* Add `breslow` function for estimating the cumulative baseline hazard of proportional hazard models
+* Add `PipeOpBreslow` to wrap a survival learner and generate `distr` predictions from `lp` predictions
+* Add option `breslow` estimator option in `distrcompositor`
+
 # mlr3proba 0.5.6
 
 * Add `extend_quantile` to `autoplot.PredictionSurv` for `type = "dcalib"`, which imputes NAs with the maximum observed survival time
@@ -6,7 +12,6 @@
 
 # mlr3proba 0.5.5
 
-* Add breslow estimator for the cumulative baseline hazard of proportional hazard models
 * Add `$reverse()` method to `TaskSurv`, which returns the same task but with 1-status.
 * Add `reverse` parameter to `TaskSurv$kaplan()` method, which calculates Kaplan-Meier on the censoring distribution of the task (1-status).
 
