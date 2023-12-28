@@ -17,10 +17,8 @@ pipeline_distrcompositor(
 distrcompositor(...)
 }
 \arguments{
-\item{learner}{\verb{[mlr3::Learner]|[mlr3pipelines::PipeOp]|[mlr3pipelines::Graph]} \cr
-Either a \code{Learner} which will be wrapped in \link[mlr3pipelines:mlr_pipeops_learner]{mlr3pipelines::PipeOpLearner}, a \code{PipeOp} which will
-be wrapped in \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or a \code{Graph} itself. Underlying \code{Learner} should be
-\link{LearnerSurv}.}
+\item{learner}{\link{LearnerSurv}\cr
+Survival learner.}
 
 \item{estimator}{\code{character(1)}\cr
 One of \code{kaplan} (default), \code{nelson} or \code{breslow}, corresponding to the Kaplan-Meier,

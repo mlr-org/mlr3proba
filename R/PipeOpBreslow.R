@@ -2,11 +2,10 @@
 #' @name mlr_pipeops_compose_breslow_distr
 #' @template param_pipelines
 #' @description
-#' Composes a survival distribution (`distr`) from the linear predictor
-#' predictions (`lp`) of a given [LearnerSurv] generated during training and
-#' prediction using the [breslow] estimator.
-#' The input `learner` needs to be able to predict `lp` type of predictions (eg
-#' a Cox-type of model).
+#' Composes a survival distribution (`distr`) using the linear predictor
+#' predictions (`lp`) from a given [LearnerSurv] during training and prediction,
+#' utilizing the [breslow estimator][breslow]. The specified `learner` must be
+#' capable of generating `lp`-type predictions (e.g., a Cox-type model).
 #'
 #' @section Dictionary:
 #' This [PipeOp][mlr3pipelines::PipeOp] can be instantiated via the
@@ -67,7 +66,8 @@ PipeOpBreslow = R6Class("PipeOpBreslow",
     #' @param learner ([LearnerSurv])\cr
     #' Survival learner which must provide `lp`-type predictions
     #' @param id (character(1))\cr
-    #' Identifier of the resulting object.
+    #' Identifier of the resulting object. If `NULL` (default), it will be set
+    #' as the `id` of the input `learner`.
     initialize = function(learner, id = NULL, param_vals = list()) {
       assert_learner(learner, task_type = "surv")
       if ("lp" %nin% learner$predict_types) {

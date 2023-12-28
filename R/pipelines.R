@@ -185,6 +185,8 @@ crankcompositor = function(...) {
 #' @templateVar pipeop [PipeOpDistrCompositor] or [PipeOpBreslow]
 #' @templateVar id distrcompositor
 #' @template param_pipeline_learner
+#' @param learner [LearnerSurv]\cr
+#' Survival learner.
 #' @param estimator `character(1)`\cr
 #' One of `kaplan` (default), `nelson` or `breslow`, corresponding to the Kaplan-Meier,
 #' Nelson-Aalen and [Breslow][breslow] estimators respectively.
@@ -224,7 +226,7 @@ pipeline_distrcompositor = function(learner, estimator = "kaplan", form = "aft",
   # some checks
   assert_choice(estimator, choices = c("kaplan", "nelson", "breslow"), null.ok = FALSE)
   assert_choice(form, choices = c("aft", "ph", "po"), null.ok = FALSE)
-  assert_learner(learner)
+  assert_learner(learner, task_type = "surv")
 
   # make the pipeline Graph object
   if (estimator == "breslow") {

@@ -5,11 +5,10 @@
 \alias{PipeOpBreslow}
 \title{Wrap a learner into a PipeOp with survival predictions estimated by the Breslow estimator}
 \description{
-Composes a survival distribution (\code{distr}) from the linear predictor
-predictions (\code{lp}) of a given \link{LearnerSurv} generated during training and
-prediction using the \link{breslow} estimator.
-The input \code{learner} needs to be able to predict \code{lp} type of predictions (eg
-a Cox-type of model).
+Composes a survival distribution (\code{distr}) using the linear predictor
+predictions (\code{lp}) from a given \link{LearnerSurv} during training and prediction,
+utilizing the \link[=breslow]{breslow estimator}. The specified \code{learner} must be
+capable of generating \code{lp}-type predictions (e.g., a Cox-type model).
 }
 \section{Dictionary}{
 
@@ -123,7 +122,8 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 Survival learner which must provide \code{lp}-type predictions}
 
 \item{\code{id}}{(character(1))\cr
-Identifier of the resulting object.}
+Identifier of the resulting object. If \code{NULL} (default), it will be set
+as the \code{id} of the input \code{learner}.}
 
 \item{\code{param_vals}}{(\code{list()})\cr
 List of hyperparameter settings, overwriting the hyperparameter settings that would
