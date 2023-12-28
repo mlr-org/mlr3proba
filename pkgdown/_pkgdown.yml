@@ -62,7 +62,7 @@ reference:
   - title: Survival Tasks
     contents:
       - mlr_task_generators_simsurv
-      -  mlr_tasks_actg
+      - mlr_tasks_actg
       - mlr_tasks_gbcs
       - mlr_tasks_grace
       - mlr_tasks_lung
@@ -90,7 +90,6 @@ reference:
   - title: Probabilistic Regression Measures
     contents:
       - starts_with("mlr_measures_regr")
-
   - title: S3 Methods
     contents:
       - starts_with("as_prediction")
@@ -110,5 +109,6 @@ reference:
   - title: Internal
     contents:
       - .surv_return
+      - breslow
       - assert_surv
       - MeasureSurvAUC
