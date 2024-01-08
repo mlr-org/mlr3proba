@@ -175,6 +175,7 @@ PipeOpBreslow = R6Class("PipeOpBreslow",
     },
 
     .breslow_ps = NULL,
-    .learner = NULL
+    .learner = NULL,
+    .additional_phash_input = function() private$.learner$phash
   )
 )
