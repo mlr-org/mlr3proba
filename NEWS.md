@@ -1,3 +1,7 @@
+# mlr3proba 0.5.8
+
+* Fix Breslow issues (`phash` warning and `Inf` lp predictions)
+
 # mlr3proba 0.5.7
 
 * Add `breslow` function for estimating the cumulative baseline hazard of proportional hazard models
