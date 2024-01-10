@@ -60,6 +60,11 @@
 #' \deqn{\hat{H}_0(eval\_times < min(t)) = 0} and
 #' \deqn{\hat{H}_0(eval\_times > max(t)) = \hat{H}_0(max(t))}
 #'
+#' Note that in the rare event of `lp` predictions being `Inf` or `-Inf`, we
+#' substitute them with the maximum or minimum `lp` risk score of the training
+#' (`lp_train`) and testing (`lp_test`) vectors, respectively. This is to avoid
+#' `NaN` values in the output cumulative hazard.
+#'
 #' For similar implementations, see `gbm::basehaz.gbm()`, `C060::basesurv()` and
 #' `xgboost.surv::sgb_bhaz()`.
 #'
@@ -93,6 +98,12 @@ breslow = function(times, status, lp_train, lp_test, eval_times = NULL, type = "
   assert_numeric(lp_test, null.ok = FALSE)
   assert_numeric(eval_times, null.ok = TRUE)
   assert_subset(type, choices = c("surv", "cumhaz"), empty.ok = FALSE)
+
+  # dealing with Inf lp predictions
+  lp_train[is.infinite(lp_train) & lp_train > 0] = max(lp_train[is.finite(lp_train)])
+  lp_train[is.infinite(lp_train) & lp_train < 0] = min(lp_train[is.finite(lp_train)])
+  lp_test[is.infinite(lp_test) & lp_test > 0] = max(lp_test[is.finite(lp_test)])
+  lp_test[is.infinite(lp_test) & lp_test < 0] = min(lp_test[is.finite(lp_test)])
 
   # cumulative baseline hazard
   cbhaz = .cbhaz_breslow(times = times, status = status, lp = lp_train,

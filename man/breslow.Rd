@@ -82,6 +82,11 @@ follows:
 \deqn{\hat{H}_0(eval\_times < min(t)) = 0} and
 \deqn{\hat{H}_0(eval\_times > max(t)) = \hat{H}_0(max(t))}
 
+Note that in the rare event of \code{lp} predictions being \code{Inf} or \code{-Inf}, we
+substitute them with the maximum or minimum \code{lp} risk score of the training
+(\code{lp_train}) and testing (\code{lp_test}) vectors, respectively. This is to avoid
+\code{NaN} values in the output cumulative hazard.
+
 For similar implementations, see \code{gbm::basehaz.gbm()}, \code{C060::basesurv()} and
 \code{xgboost.surv::sgb_bhaz()}.
 }
