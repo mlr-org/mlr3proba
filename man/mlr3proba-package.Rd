@@ -20,10 +20,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Raphael Sonabend \email{raphaelsonabend@gmail.com} (\href{https://orcid.org/0000-0001-9225-4654}{ORCID})
+\strong{Maintainer}: John Zobolas \email{bblodfon@gmail.com} (\href{https://orcid.org/0000-0002-3609-8674}{ORCID})
 
 Authors:
 \itemize{
+  \item Raphael Sonabend \email{raphaelsonabend@gmail.com} (\href{https://orcid.org/0000-0001-9225-4654}{ORCID})
   \item Franz Kiraly \email{f.kiraly@ucl.ac.uk}
   \item Michel Lang \email{michellang@gmail.com} (\href{https://orcid.org/0000-0001-9754-0393}{ORCID})
 }
@@ -32,7 +33,6 @@ Other contributors:
 \itemize{
   \item Nurul Ain Toha \email{nurul.toha.15@ucl.ac.uk} [contributor]
   \item Andreas Bender \email{bender.at.R@gmail.com} (\href{https://orcid.org/0000-0001-5628-8611}{ORCID}) [contributor]
-  \item John Zobolas \email{bblodfon@gmail.com} (\href{https://orcid.org/0000-0002-3609-8674}{ORCID}) [contributor]
 }
 
 }
