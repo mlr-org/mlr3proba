@@ -146,10 +146,11 @@ register_mlr3pipelines = function() {
 
   x = utils::getFromNamespace("mlr_pipeops", ns = "mlr3pipelines")
 
-  # deprecated
   x$add("distrcompose", PipeOpDistrCompositor)
   x$add("crankcompose", PipeOpCrankCompositor)
-  x$add("breslowcompose", PipeOpBreslow)
+  x$add("breslowcompose", PipeOpBreslow, list(R6Class("Learner",
+    public = list(id = "breslowcompose", task_type = "surv", predict_types = "lp",
+      packages = c("mlr3", "mlr3proba"), param_set = ps()))$new()))
 
   x$add("trafotask_regrsurv", PipeOpTaskRegrSurv)
   x$add("trafotask_survregr", PipeOpTaskSurvRegr)
