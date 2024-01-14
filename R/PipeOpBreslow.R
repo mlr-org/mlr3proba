@@ -80,7 +80,7 @@ PipeOpBreslow = R6Class("PipeOpBreslow",
 
       # define `breslow.overwrite` parameter
       private$.breslow_ps = ps(
-        overwrite = p_lgl(default = FALSE, tags = c("predict", "required"))
+        overwrite = p_lgl(tags = c("predict", "required"))
       )
       private$.breslow_ps$values = list(overwrite = FALSE)
       if ("set_id" %in% names(private$.learner$param_set)) {
