@@ -34,7 +34,8 @@ cumulative hazards \eqn{H_i(t)}.}
 a \code{matrix} (obs x times). Number of columns is equal to \code{eval_times}
 and number of rows is equal to the number of test observations (i.e. the
 length of the \code{lp_test} vector). Depending on the \code{type} argument, the matrix
-can have either survival probabilities or cumulative hazard estimates.
+can have either survival probabilities ($0-1$) or cumulative hazard estimates
+($0$-\code{Inf}).
 }
 \description{
 Helper function to compose a survival distribution (or cumulative hazard)
@@ -74,7 +75,7 @@ event \eqn{i})
 (who is part of the risk set \eqn{R_i}) on the train set.
 }
 
-We employ \strong{constant interpolation} to estimate the cumulative hazards,
+We employ \strong{constant interpolation} to estimate the cumulative baseline hazards,
 extending from the observed unique event times to the specified evaluation
 times (\code{eval_times}).
 Any values falling outside the range of the estimated times are assigned as
@@ -82,10 +83,9 @@ follows:
 \deqn{\hat{H}_0(eval\_times < min(t)) = 0} and
 \deqn{\hat{H}_0(eval\_times > max(t)) = \hat{H}_0(max(t))}
 
-Note that in the rare event of \code{lp} predictions being \code{Inf} or \code{-Inf}, we
-substitute them with the maximum or minimum \code{lp} risk score of the training
-(\code{lp_train}) and testing (\code{lp_test}) vectors, respectively. This is to avoid
-\code{NaN} values in the output cumulative hazard.
+Note that in the rare event of \code{lp} predictions being \code{Inf} or \code{-Inf}, the
+resulting cumulative hazard values become \code{NaN}, which we substitute with
+\code{Inf} (and corresponding survival probabilities take the value of \eqn{0}).
 
 For similar implementations, see \code{gbm::basehaz.gbm()}, \code{C060::basesurv()} and
 \code{xgboost.surv::sgb_bhaz()}.
