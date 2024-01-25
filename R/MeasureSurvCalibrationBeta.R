@@ -26,9 +26,10 @@ MeasureSurvCalibrationBeta = R6Class("MeasureSurvCalibrationBeta",
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       ps = ps(
-        se = p_lgl(default = FALSE)
+        se = p_lgl(default = FALSE),
+        method = p_fct(c("ratio", "diff"), default = "ratio")
       )
-      ps$values$se = FALSE
+      ps$values = list(se = FALSE, method = "ratio")
 
       super$initialize(
         id = "surv.calib_beta",
@@ -50,10 +51,18 @@ MeasureSurvCalibrationBeta = R6Class("MeasureSurvCalibrationBeta",
       if (class(fit)[1] == "try-error") {
         return(NA)
       } else {
-        if (self$param_set$values$se) {
+        ps = self$param_set$values
+
+        if (ps$se) {
           return(fit$coefficients[3])
         } else {
-          return(fit$coefficients[1])
+          out = fit$coefficients[1]
+
+          if (ps$method == "diff") {
+            out = abs(1 - out)
+          }
+
+          return(out)
         }
       }
     }

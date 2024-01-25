@@ -27,9 +27,10 @@ MeasureSurvCalibrationAlpha = R6Class("MeasureSurvCalibrationAlpha",
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       ps = ps(
-        se = p_lgl(default = FALSE)
+        se = p_lgl(default = FALSE),
+        method = p_fct(c("ratio", "diff"), default = "ratio")
       )
-      ps$values$se = FALSE
+      ps$values = list(se = FALSE, method = "ratio")
 
       super$initialize(
         id = "surv.calib_alpha",
@@ -47,7 +48,8 @@ MeasureSurvCalibrationAlpha = R6Class("MeasureSurvCalibrationAlpha",
     .score = function(prediction, ...) {
       deaths = sum(prediction$truth[, 2])
 
-      if (self$param_set$values$se) {
+      ps = self$param_set$values
+      if (ps$se) {
         return(exp(1 / sqrt(deaths)))
       } else {
         if (inherits(prediction$distr, "VectorDistribution")) {
@@ -59,7 +61,13 @@ MeasureSurvCalibrationAlpha = R6Class("MeasureSurvCalibrationAlpha",
         }
         # cumulative hazard should only be infinite if only censoring occurs at the final time-point
         haz[haz == Inf] = 0
-        return(deaths / sum(haz))
+        out = deaths / sum(haz)
+
+        if (ps$method == "diff") {
+          out = abs(1 - out)
+        }
+
+        return(out)
       }
     }
   )
