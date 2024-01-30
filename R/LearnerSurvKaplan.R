@@ -1,11 +1,9 @@
-#' @template surv_learner
 #' @templateVar title Kaplan-Meier Estimator
 #' @templateVar fullname LearnerSurvKaplan
 #' @templateVar caller [survival::survfit()]
 #' @templateVar distr by estimating the survival function with [survival::survfit()]
-#'
-#' @description
-#'
+#' @templateVar id surv.kaplan
+#' @template surv_learner
 #'
 #' @references
 #' `r format_bib("kaplan_1958")`

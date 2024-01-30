@@ -1,11 +1,10 @@
-#' @template surv_learner
 #' @templateVar title Cox Proportional Hazards
 #' @templateVar fullname LearnerSurvCoxPH
 #' @templateVar caller [survival::coxph()]
 #' @templateVar distr by [survival::survfit.coxph()]
 #' @templateVar lp by [survival::predict.coxph()]
-#' @description
-#'
+#' @templateVar id surv.coxph
+#' @template surv_learner
 #'
 #' @references
 #' `r format_bib("cox_1972")`
