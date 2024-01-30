@@ -67,17 +67,18 @@ PipeOpProbregr = R6Class("PipeOpProbregr",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id = "compose_probregr", param_vals = list(dist = "Uniform")) {
-      ps = ps(
+    initialize = function(id = "compose_probregr", param_vals = list()) {
+      param_set = ps(
         dist = p_fct(default = "Uniform",
           levels = c("Uniform",
             distr6::listDistributions(filter = list(Tags = "locscale"), simplify = TRUE)),
           tags = "predict")
       )
+      param_set$values = list(dist = "Uniform")
 
       super$initialize(
         id = id,
-        param_set = ps,
+        param_set = param_set,
         param_vals = param_vals,
         input = data.table(name = c("input_response", "input_se"), train = "NULL",
           predict = c("PredictionRegr", "PredictionRegr")),

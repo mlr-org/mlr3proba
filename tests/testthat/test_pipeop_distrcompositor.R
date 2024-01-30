@@ -1,5 +1,10 @@
 test_that("PipeOpDistrCompositor - basic properties", {
   expect_pipeop(PipeOpDistrCompositor$new())
+
+  # check that during construction, initial values are not overwritten
+  values  = PipeOpDistrCompositor$new()$param_set$values
+  values2 = PipeOpDistrCompositor$new(param_vals = list(overwrite = FALSE))$param_set$values
+  expect_equal(values, values2)
 })
 
 set.seed(42)
