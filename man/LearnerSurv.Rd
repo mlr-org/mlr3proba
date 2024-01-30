@@ -11,7 +11,7 @@ This Learner specializes \link{Learner} for survival problems:
 \item Possible values for \code{predict_types} are:
 \itemize{
 \item \code{"distr"}: Predicts a probability distribution for each observation in the test set,
-uses \CRANpkg{distr6}.
+uses \link{distr6}.
 \item \code{"lp"}: Predicts a linear predictor for each observation in the test set.
 \item \code{"crank"}: Predicts a continuous ranking for each observation in the test set.
 \item \code{"response"}: Predicts a survival time for each observation in the test set.

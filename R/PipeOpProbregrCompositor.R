@@ -31,7 +31,7 @@
 #' * `dist` :: `character(1)` \cr
 #'    Location-scale distribution to use for composition. Current choices are
 #'    `"Uniform"` (default), `"Normal"`, `"Cauchy"`, `"Gumbel"`, `"Laplace"`,
-#'    `"Logistic"`. All implemented via \CRANpkg{distr6}.
+#'    `"Logistic"`. All implemented via [distr6].
 #'
 #' @section Internals:
 #' The composition is created by substituting the `response` and `se` predictions into the

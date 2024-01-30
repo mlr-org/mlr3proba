@@ -47,7 +47,7 @@
 #'
 #' @section Internals:
 #' The `median`, `mode`, or `mean` will use analytical expressions if possible but if not they are
-#' calculated using methods from \CRANpkg{distr6}. `mean` requires \CRANpkg{cubature}.
+#' calculated using methods from [distr6]. `mean` requires \CRANpkg{cubature}.
 #'
 #' @seealso [pipeline_crankcompositor]
 #' @family survival compositors

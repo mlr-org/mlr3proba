@@ -41,7 +41,7 @@ The \verb{$state} is left empty (\code{list()}).
 \item \code{dist} :: \code{character(1)} \cr
 Location-scale distribution to use for composition. Current choices are
 \code{"Uniform"} (default), \code{"Normal"}, \code{"Cauchy"}, \code{"Gumbel"}, \code{"Laplace"},
-\code{"Logistic"}. All implemented via \CRANpkg{distr6}.
+\code{"Logistic"}. All implemented via \link{distr6}.
 }
 }
 

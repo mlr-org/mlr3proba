@@ -60,7 +60,7 @@ both the \code{crank} and \code{response} are overwritten.
 \section{Internals}{
 
 The \code{median}, \code{mode}, or \code{mean} will use analytical expressions if possible but if not they are
-calculated using methods from \CRANpkg{distr6}. \code{mean} requires \CRANpkg{cubature}.
+calculated using methods from \link{distr6}. \code{mean} requires \CRANpkg{cubature}.
 }
 
 \examples{
