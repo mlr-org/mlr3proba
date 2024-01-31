@@ -1,0 +1,16 @@
+test_that("unloading leaves no trace", {
+  library(mlr3proba)
+  n_learners = length(mlr_learners$keys(pattern = "surv"))
+  n_measures = length(mlr_measures$keys(pattern = "surv|dens"))
+  n_tasks = length(mlr_tasks$keys())
+  expect_true(n_learners > 0)
+  expect_true(n_measures > 0)
+
+  unloadNamespace("mlr3proba")
+  n_learners = length(mlr_learners$keys(pattern = "surv"))
+  n_measures = length(mlr_measures$keys(pattern = "surv"))
+  n_tasks_mlr3 = length(mlr_tasks$keys())
+  expect_equal(n_learners, 0)
+  expect_equal(n_measures, 0)
+  expect_true(n_tasks_mlr3 < n_tasks)
+})
