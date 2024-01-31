@@ -2,7 +2,7 @@ test_that("autotest", {
   set.seed(1)
   learner = lrn("dens.kde")
   expect_learner(learner)
-  skip("Due to long execution time (distr6 needs to be improved)")
+  skip_if_offline("Due to long execution time (distr6 needs to be improved)")
   result = run_autotest(learner, check_replicable = FALSE)
   expect_true(result, info = result$error)
 })
