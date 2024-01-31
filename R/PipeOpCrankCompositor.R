@@ -1,5 +1,5 @@
 #' @title PipeOpCrankCompositor
-#' @name mlr_pipeops_compose_crank
+#' @name mlr_pipeops_crankcompose
 #' @template param_pipelines
 #'
 #' @description
@@ -75,7 +75,7 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id = "compose_crank", param_vals = list()) {
+    initialize = function(id = "crankcompose", param_vals = list()) {
       param_set = ps(
         method = p_fct(default = "sum_haz", levels = c("sum_haz", "mean", "median", "mode"),
           tags = "predict"),
@@ -185,3 +185,5 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
     }
   )
 )
+
+register_pipeop("crankcompose", PipeOpCrankCompositor)

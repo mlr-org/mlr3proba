@@ -1,5 +1,5 @@
 #' @title PipeOpDistrCompositor
-#' @name mlr_pipeops_compose_distr
+#' @name mlr_pipeops_distrcompose
 #' @template param_pipelines
 #'
 #' @description
@@ -80,7 +80,7 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id = "compose_distr", param_vals = list()) {
+    initialize = function(id = "distrcompose", param_vals = list()) {
       param_set = ps(
         form = p_fct(default = "aft", levels = c("aft", "ph", "po"), tags = c("predict")),
         overwrite = p_lgl(default = FALSE, tags = c("predict"))
@@ -174,3 +174,5 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
     }
   )
 )
+
+register_pipeop("distrcompose", PipeOpDistrCompositor)

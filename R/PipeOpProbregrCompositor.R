@@ -134,3 +134,5 @@ PipeOpProbregr = R6Class("PipeOpProbregr",
     }
   )
 )
+
+register_pipeop("compose_probregr", PipeOpProbregr)

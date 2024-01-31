@@ -103,3 +103,5 @@ PipeOpPredRegrSurv = R6Class("PipeOpPredRegrSurv",
     }
   )
 )
+
+register_pipeop("trafopred_regrsurv", PipeOpPredRegrSurv)

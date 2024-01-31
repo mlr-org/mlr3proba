@@ -486,9 +486,9 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
       assert("distr" %in% distr_estimator$predict_types)
 
       gr$add_pipeop(mlr3pipelines::po("learner", distr_estimator, id = "distr_estimator"))$
-        add_pipeop(mlr3pipelines::po("compose_distr", param_vals = distrcompose_params))$
-        add_edge("trafopred_regrsurv", dst_id = "compose_distr", dst_channel = "pred")$
-        add_edge("distr_estimator", dst_id = "compose_distr", dst_channel = "base")
+        add_pipeop(mlr3pipelines::po("distrcompose", param_vals = distrcompose_params))$
+        add_edge("trafopred_regrsurv", dst_id = "distrcompose", dst_channel = "pred")$
+        add_edge("distr_estimator", dst_id = "distrcompose", dst_channel = "base")
     }
 
   } else if (method == 2) {
@@ -539,9 +539,9 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
       assert("distr" %in% distr_estimator$predict_types)
 
       gr$add_pipeop(mlr3pipelines::po("learner", distr_estimator, id = "distr_estimator"))$
-        add_pipeop(mlr3pipelines::po("compose_distr", param_vals = distrcompose_params))$
-        add_edge("trafopred_regrsurv", dst_id = "compose_distr", dst_channel = "pred")$
-        add_edge("distr_estimator", dst_id = "compose_distr", dst_channel = "base")
+        add_pipeop(mlr3pipelines::po("distrcompose", param_vals = distrcompose_params))$
+        add_edge("trafopred_regrsurv", dst_id = "distrcompose", dst_channel = "pred")$
+        add_edge("distr_estimator", dst_id = "distrcompose", dst_channel = "base")
     }
   }
 
