@@ -153,7 +153,7 @@ register_mlr3pipelines = function() {
   iwalk(as.list(mlr3proba_graphs), function(obj, name) mlr_graphs$add(name, obj)) # nolint
 }
 
-.onLoad = function(libname, pkgname) { # nolint
+.onLoad = function(libname, pkgname) {
   register_mlr3()
   if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
     register_mlr3pipelines()
@@ -164,7 +164,7 @@ register_mlr3pipelines = function() {
     action = "append")
 }
 
-.onUnload = function(libpath) { # nolint
+.onUnload = function(libpath) {
   event = packageEvent("mlr3", "onLoad")
   hooks = getHook(event)
   pkgname = vapply(hooks[-1], function(x) environment(x)$pkgname, NA_character_)
@@ -180,8 +180,8 @@ register_mlr3pipelines = function() {
   walk(names(mlr3proba_tasks), function(nm) mlr_tasks$remove(nm))
   walk(names(mlr3proba_measures), function(nm) mlr_measures$remove(nm))
   walk(names(mlr3proba_task_gens), function(nm) mlr_task_generators$remove(nm))
-  walk(names(mlr3proba_pipeops), function(nm) mlr_pipeops$remove(nm))
-  walk(names(mlr3proba_graphs), function(nm) mlr_graphs$remove(nm))
+  walk(names(mlr3proba_pipeops), function(nm) mlr3pipelines::mlr_pipeops$remove(nm))
+  walk(names(mlr3proba_graphs), function(nm) mlr3pipelines::mlr_graphs$remove(nm))
 
   library.dynam.unload("mlr3proba", libpath)
 }
