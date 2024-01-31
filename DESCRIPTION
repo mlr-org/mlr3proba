@@ -85,7 +85,6 @@ Collate:
     'LearnerDens.R'
     'LearnerDensHistogram.R'
     'LearnerDensKDE.R'
-    'LearnerRegrGaussian.R'
     'LearnerSurv.R'
     'LearnerSurvCoxPH.R'
     'LearnerSurvKaplan.R'
