@@ -88,3 +88,5 @@ LearnerDensKDE = R6::R6Class("LearnerDensKDE",
     }
   )
 )
+
+register_learner("dens.kde", LearnerDensKDE)

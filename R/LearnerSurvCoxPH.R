@@ -70,3 +70,5 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH",
     }
   )
 )
+
+register_learner("surv.coxph", LearnerSurvCoxPH)

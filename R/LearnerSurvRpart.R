@@ -89,3 +89,5 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart",
     }
   )
 )
+
+register_learner("surv.rpart", LearnerSurvRpart)

@@ -43,3 +43,5 @@ LearnerSurvKaplan = R6Class("LearnerSurvKaplan",
     }
   )
 )
+
+register_learner("surv.kaplan", LearnerSurvKaplan)

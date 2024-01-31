@@ -34,12 +34,23 @@ NULL
 "_PACKAGE"
 # nolint end
 
+# to silence RCMD check
 utils::globalVariables(c(
   "ShortName", "ClassName", "missing", "task",
   "value", "variable", "y"
 ))
-register_mlr3 = function() {
 
+mlr3proba_learners = new.env()
+
+register_learner = function(name, constructor) {
+  assert_class(constructor, "R6ClassGenerator")
+  if (name %in% names(mlr3proba_learners)) {
+    stopf("learner %s registered twice", name)
+  }
+  mlr3proba_learners[[name]] = constructor # fn
+}
+
+register_mlr3 = function() {
   # reflections
   x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
 
@@ -93,14 +104,8 @@ register_mlr3 = function() {
   x$add("simsurv", TaskGeneratorSimsurv)
 
   # learners
-  x = utils::getFromNamespace("mlr_learners", ns = "mlr3")
-
-  x$add("dens.hist", LearnerDensHistogram)
-  x$add("dens.kde", LearnerDensKDE)
-
-  x$add("surv.coxph", LearnerSurvCoxPH)
-  x$add("surv.kaplan", LearnerSurvKaplan)
-  x$add("surv.rpart", LearnerSurvRpart)
+  mlr_learners = utils::getFromNamespace("mlr_learners", ns = "mlr3")
+  iwalk(as.list(mlr3proba_learners), function(obj, name) mlr_learners$add(name, obj)) # nolint
 
   # measures
   x = utils::getFromNamespace("mlr_measures", ns = "mlr3")
@@ -178,7 +183,6 @@ register_mlr3pipelines = function() {
     register_mlr3pipelines()
   }
 
-
   setHook(packageEvent("mlr3", "onLoad"), function(...) register_mlr3(), action = "append")
   setHook(packageEvent("mlr3pipelines", "onLoad"), function(...) register_mlr3pipelines(),
     action = "append")
@@ -194,6 +198,8 @@ register_mlr3pipelines = function() {
   hooks = getHook(event)
   pkgname = vapply(hooks[-1], function(x) environment(x)$pkgname, NA_character_)
   setHook(event, hooks[pkgname != "mlr3proba"], action = "replace")
+
+  walk(names(mlr3proba_learners), function(nm) mlr_learners$remove(nm))
 
   library.dynam.unload("mlr3proba", libpath)
 }
