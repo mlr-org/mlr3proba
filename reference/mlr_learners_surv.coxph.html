@@ -9,7 +9,7 @@ lp is predicted by survival::predict.coxph()
 distr is predicted by survival::survfit.coxph()
 crank is identical to lp
 
-"><meta property="og:image" content="https://mlr3proba.mlr-org.com/logo.svg"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
+"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body>
@@ -20,7 +20,7 @@ crank is identical to lp
     
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.5.8</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.5.9</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,7 +84,7 @@ crank is identical to lp
 </nav><div class="container template-reference-topic">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.svg" class="logo" alt=""><h1>Cox Proportional Hazards Survival Learner</h1>
+      <img src="" class="logo" alt=""><h1>Cox Proportional Hazards Survival Learner</h1>
       <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/HEAD/R/LearnerSurvCoxPH.R" class="external-link"><code>R/LearnerSurvCoxPH.R</code></a></small>
       <div class="d-none name"><code>mlr_learners_surv.coxph.Rd</code></div>
     </div>
@@ -110,12 +110,15 @@ crank is identical to lp
     <h2 id="meta-information">Meta Information<a class="anchor" aria-label="anchor" href="#meta-information"></a></h2>
     
 
-<ul><li><p>Type: "surv"</p></li>
-<li><p>Predict Types: <code>crank, distr, lp</code></p></li>
-<li><p>Feature Types: <code>logical, integer, numeric, factor</code></p></li>
-<li><p>Properties: <code>weights</code></p></li>
-<li><p>Packages: <a href="https://CRAN.R-project.org/package=mlr3" class="external-link"><span class="pkg">mlr3</span></a> <a href="https://CRAN.R-project.org/package=mlr3proba" class="external-link"><span class="pkg">mlr3proba</span></a> <a href="https://CRAN.R-project.org/package=survival" class="external-link"><span class="pkg">survival</span></a> <a href="https://CRAN.R-project.org/package=distr6" class="external-link"><span class="pkg">distr6</span></a></p></li>
+<ul><li><p>Task type: “surv”</p></li>
+<li><p>Predict Types: “crank”, “distr”, “lp”</p></li>
+<li><p>Feature Types: “logical”, “integer”, “numeric”, “factor”</p></li>
+<li><p>Required Packages: <a href="https://CRAN.R-project.org/package=mlr3" class="external-link"><span class="pkg">mlr3</span></a>, <a href="https://CRAN.R-project.org/package=mlr3proba" class="external-link"><span class="pkg">mlr3proba</span></a>, <a href="https://CRAN.R-project.org/package=survival" class="external-link"><span class="pkg">survival</span></a>, <a href="https://CRAN.R-project.org/package=distr6" class="external-link"><span class="pkg">distr6</span></a></p></li>
 </ul></div>
+    <div class="section level2">
+    <h2 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a></h2>
+    
+<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Levels</td><td>Range</td></tr><tr><td>ties</td><td>character</td><td>efron</td><td>efron, breslow, exact</td><td>-</td></tr><tr><td>singular.ok</td><td>logical</td><td>TRUE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>type</td><td>character</td><td>efron</td><td>efron, aalen, kalbfleisch-prentice</td><td>-</td></tr><tr><td>stype</td><td>integer</td><td>2</td><td></td><td>\([1, 2]\)</td></tr></table></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Cox DR (1972).

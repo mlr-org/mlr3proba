@@ -211,13 +211,13 @@
     <loc>https://mlr3proba.mlr-org.com/reference/mlr_pipeops_compose_breslow_distr.html</loc>
   </url>
   <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_pipeops_compose_crank.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3proba.mlr-org.com/reference/mlr_pipeops_compose_distr.html</loc>
-  </url>
-  <url>
     <loc>https://mlr3proba.mlr-org.com/reference/mlr_pipeops_compose_probregr.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3proba.mlr-org.com/reference/mlr_pipeops_crankcompose.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3proba.mlr-org.com/reference/mlr_pipeops_distrcompose.html</loc>
   </url>
   <url>
     <loc>https://mlr3proba.mlr-org.com/reference/mlr_pipeops_survavg.html</loc>
