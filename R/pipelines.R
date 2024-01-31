@@ -121,8 +121,6 @@ pipeline_survbagging = function(learner, iterations = 10, frac = 0.7, avg = TRUE
 #' If `TRUE` then the `response` predict type is also estimated with the same values as `crank`.
 #' @param overwrite `logical(1)`\cr
 #' If `TRUE` then existing `response` and `crank` predict types are overwritten.
-#' @param ... `ANY`\cr
-#' For use with `crankcompositor`, now deprecated.
 #' @examples
 #' \dontrun{
 #' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
@@ -188,8 +186,6 @@ pipeline_crankcompositor = function(learner,
 #' If `TRUE` then the `distr` is overwritten by the compositor if
 #' already present, which may be required for changing the prediction `distr` from one model form
 #' to another.
-#' @param ... `ANY`\cr
-#' For use with `distrcompositor`, now deprecated.
 #' @examples
 #' \dontrun{
 #' if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
