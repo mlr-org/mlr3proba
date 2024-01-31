@@ -166,13 +166,14 @@ functions.</p></dd>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">tsk</a></span><span class="op">(</span><span class="st">"lung"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/fortify.html" class="external-link">fortify</a></span><span class="op">(</span><span class="va">task</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    time status age inst meal.cal pat.karno ph.ecog ph.karno sex wt.loss</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:  306   TRUE  74    3     1175       100       1       90   m      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:  455   TRUE  68    3     1225        90       0       90   m      15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 1010  FALSE  56    3       NA        90       0       90   m      15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:  210   TRUE  57    5     1150        60       1       90   m      11</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5:  883   TRUE  60    1       NA        90       0      100   m       0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 1022  FALSE  74   12      513        80       1       50   m       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     time status   age  inst meal.cal pat.karno ph.ecog ph.karno    sex wt.loss</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;int&gt; &lt;lgcl&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;     &lt;int&gt;   &lt;int&gt;    &lt;int&gt; &lt;fctr&gt;   &lt;int&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:   306   TRUE    74     3     1175       100       1       90      m      NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:   455   TRUE    68     3     1225        90       0       90      m      15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  1010  FALSE    56     3       NA        90       0       90      m      15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:   210   TRUE    57     5     1150        60       1       90      m      11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:   883   TRUE    60     1       NA        90       0      100      m       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:  1022  FALSE    74    12      513        80       1       50      m       0</span>
 <span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">task</span><span class="op">)</span> <span class="co"># KM</span></span></span>
 <span class="r-plt img"><img src="autoplot.TaskSurv-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">task</span><span class="op">)</span> <span class="co"># KM of the censoring distribution</span></span></span>
