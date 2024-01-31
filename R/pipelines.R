@@ -167,19 +167,6 @@ pipeline_crankcompositor = function(learner,
   gr
 }
 
-#' @rdname mlr_graphs_crankcompositor
-#' @export
-crankcompositor = function(...) {
-  warning("Deprecated, please now use pipeline_crankcompositor or ppl('crankcompositor', ...).
-          graph_learner will also be FALSE by default.")
-  if ("graph_learner" %nin% names(list(...))) {
-    pipeline_crankcompositor(graph_learner = TRUE, ...)
-  } else {
-    pipeline_crankcompositor(...)
-  }
-}
-
-
 #' @template pipeline
 #' @templateVar title Estimate Survival distr Predict Type
 #' @templateVar pipeop [PipeOpDistrCompositor] or [PipeOpBreslow]
@@ -249,19 +236,6 @@ pipeline_distrcompositor = function(learner, estimator = "kaplan", form = "aft",
 
   gr
 }
-
-#' @rdname mlr_graphs_distrcompositor
-#' @export
-distrcompositor = function(...) {
-  warning("Deprecated, please now use pipeline_distrcompositor or ppl('distrcompositor', ...).
-          graph_learner will also be FALSE by default.")
-  if ("graph_learner" %nin% names(list(...))) {
-    pipeline_distrcompositor(graph_learner = TRUE, ...)
-  } else {
-    pipeline_distrcompositor(...)
-  }
-}
-
 
 #' @template pipeline
 #' @templateVar title Estimate Regression distr Predict Type

@@ -3,7 +3,6 @@
 \name{mlr_graphs_distrcompositor}
 \alias{mlr_graphs_distrcompositor}
 \alias{pipeline_distrcompositor}
-\alias{distrcompositor}
 \title{Estimate Survival distr Predict Type Pipeline}
 \usage{
 pipeline_distrcompositor(
@@ -13,8 +12,6 @@ pipeline_distrcompositor(
   overwrite = FALSE,
   graph_learner = FALSE
 )
-
-distrcompositor(...)
 }
 \arguments{
 \item{learner}{\link{LearnerSurv}\cr

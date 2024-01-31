@@ -3,7 +3,6 @@
 \name{mlr_graphs_crankcompositor}
 \alias{mlr_graphs_crankcompositor}
 \alias{pipeline_crankcompositor}
-\alias{crankcompositor}
 \title{Estimate Survival crank Predict Type Pipeline}
 \usage{
 pipeline_crankcompositor(
@@ -14,8 +13,6 @@ pipeline_crankcompositor(
   overwrite = FALSE,
   graph_learner = FALSE
 )
-
-crankcompositor(...)
 }
 \arguments{
 \item{learner}{\verb{[mlr3::Learner]|[mlr3pipelines::PipeOp]|[mlr3pipelines::Graph]} \cr
