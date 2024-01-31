@@ -1,3 +1,8 @@
+# mlr3proba 0.5.9
+
+* Fix several old issues (#348, #301, #281)
+* `distrcompositor` and `crankcompositor` deprecated functions were completely removed
+
 # mlr3proba 0.5.8
 
 * Fix Breslow issues (`phash` warning and `Inf` lp predictions)

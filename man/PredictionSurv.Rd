@@ -7,6 +7,10 @@
 This object stores the predictions returned by a learner of class \link{LearnerSurv}.
 
 The \code{task_type} is set to \code{"surv"}.
+
+For accessing survival and hazard functions, as well as other complex methods
+from a \link{PredictionSurv} object, see public methods on \code{\link[distr6:ExoticStatistics]{distr6::ExoticStatistics()}}
+and example below.
 }
 \examples{
 library(mlr3)
@@ -14,6 +18,9 @@ task = tsk("rats")
 learner = lrn("surv.kaplan")
 p = learner$train(task, row_ids = 1:26)$predict(task, row_ids = 27:30)
 head(as.data.table(p))
+
+p$distr # distr6::Matdist class (test obs x time points)
+
 # survival probabilities of the 4 test rats at two time points
 p$distr$survival(c(20, 100))
 }

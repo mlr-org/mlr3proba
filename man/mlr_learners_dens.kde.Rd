@@ -5,7 +5,7 @@
 \alias{LearnerDensKDE}
 \title{Kernel Density Estimator}
 \description{
-Calls kernels implemented in \CRANpkg{distr6} and the result is coerced to a \link[distr6:Distribution]{distr6::Distribution}.
+Calls kernels implemented in \link{distr6} and the result is coerced to a \link[distr6:Distribution]{distr6::Distribution}.
 }
 \details{
 The default bandwidth uses Silverman's rule-of-thumb for Gaussian kernels, however for

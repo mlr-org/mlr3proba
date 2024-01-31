@@ -1,5 +1,5 @@
 #' @title PipeOpCrankCompositor
-#' @name mlr_pipeops_compose_crank
+#' @name mlr_pipeops_crankcompose
 #' @template param_pipelines
 #'
 #' @description
@@ -47,7 +47,7 @@
 #'
 #' @section Internals:
 #' The `median`, `mode`, or `mean` will use analytical expressions if possible but if not they are
-#' calculated using methods from \CRANpkg{distr6}. `mean` requires \CRANpkg{cubature}.
+#' calculated using methods from [distr6]. `mean` requires \CRANpkg{cubature}.
 #'
 #' @seealso [pipeline_crankcompositor]
 #' @family survival compositors
@@ -75,20 +75,20 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id = "compose_crank", param_vals = list(
-      method = "sum_haz", response = FALSE, overwrite = FALSE)) {
-      ps = ps(
+    initialize = function(id = "crankcompose", param_vals = list()) {
+      param_set = ps(
         method = p_fct(default = "sum_haz", levels = c("sum_haz", "mean", "median", "mode"),
           tags = "predict"),
         which = p_int(default = 1, lower = 1, tags = "predict"),
         response = p_lgl(default = FALSE, tags = "predict"),
         overwrite = p_lgl(default = FALSE, tags = "predict")
       )
-      ps$add_dep("which", "method", CondEqual$new("mode"))
+      param_set$add_dep("which", "method", CondEqual$new("mode"))
+      param_set$values = list(method = "sum_haz", response = FALSE, overwrite = FALSE)
 
       super$initialize(
         id = id,
-        param_set = ps,
+        param_set = param_set,
         param_vals = param_vals,
         input = data.table(name = "input", train = "NULL", predict = "PredictionSurv"),
         output = data.table(name = "output", train = "NULL", predict = "PredictionSurv"),
@@ -185,3 +185,5 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
     }
   )
 )
+
+register_pipeop("crankcompose", PipeOpCrankCompositor)

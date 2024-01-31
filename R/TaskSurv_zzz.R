@@ -146,3 +146,11 @@ load_whas = function() {
   b$hash = "_mlr3_survival_whas_"
   TaskSurv$new("whas", b, time = "time", event = "status", label = "Worcester Heart Attack")
 }
+
+register_task("rats", load_rats)
+register_task("unemployment", load_unemployment)
+register_task("lung", load_lung)
+register_task("actg", load_actg)
+register_task("gbcs", load_gbcs)
+register_task("grace", load_grace)
+register_task("whas", load_whas)

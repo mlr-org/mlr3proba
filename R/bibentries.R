@@ -183,7 +183,7 @@ bibentries = c( # nolint start
   ),
   goenen_2005 = bibentry("article",
     title             = "Concordance probability and discriminatory power in proportional hazards regression",
-    author            = "Mithat G\u00f6nen and Glenn Heller",
+    author            = "Mithat Goenen and Glenn Heller",
     year              = 2005,
     month             = "dec",
     journal           = "Biometrika",

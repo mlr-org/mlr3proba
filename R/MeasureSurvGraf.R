@@ -125,3 +125,6 @@ MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
     }
   )
 )
+
+register_measure("surv.graf", MeasureSurvGraf)
+register_measure("surv.brier", MeasureSurvGraf)

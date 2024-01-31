@@ -1,6 +1,11 @@
 test_that("PipeOpCrankCompositor - basic properties", {
   expect_pipeop(PipeOpCrankCompositor$new())
   expect_equal(PipeOpCrankCompositor$new()$param_set$values$method, "sum_haz")
+
+  # check that during construction, initial values are not overwritten
+  values  = PipeOpCrankCompositor$new()$param_set$values
+  values2 = PipeOpCrankCompositor$new(param_vals = list(method = "sum_haz"))$param_set$values
+  expect_equal(values, values2)
 })
 
 set.seed(2218L)

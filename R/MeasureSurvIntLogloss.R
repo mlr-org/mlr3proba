@@ -115,3 +115,5 @@ MeasureSurvIntLogloss = R6::R6Class("MeasureSurvIntLogloss",
     }
   )
 )
+
+register_measure("surv.intlogloss", MeasureSurvIntLogloss)

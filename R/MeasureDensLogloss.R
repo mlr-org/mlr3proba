@@ -47,3 +47,5 @@ MeasureDensLogloss = R6::R6Class("MeasureDensLogloss",
     }
   )
 )
+
+register_measure("dens.logloss", MeasureDensLogloss)

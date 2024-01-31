@@ -132,3 +132,5 @@ MeasureSurvDCalibration = R6Class("MeasureSurvDCalibration",
     }
   )
 )
+
+register_measure("surv.dcalib", MeasureSurvDCalibration)

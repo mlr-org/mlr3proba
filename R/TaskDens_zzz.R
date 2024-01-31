@@ -28,3 +28,6 @@ load_faithful = function(id = "faithful") {
   b$hash = "_mlr3_tasks_faithful_"
   TaskDens$new(id, b, label = "Old Faithful Eruptions")
 }
+
+register_task("precip", load_precip)
+register_task("faithful", load_faithful)

@@ -78,8 +78,6 @@ reference:
       - starts_with("mlr_pipeops")
       - starts_with("mlr_graphs")
       - starts_with("PipeOp")
-      - crankcompositor
-      - distrcompositor
   - title: Density Learners
     contents:
       - starts_with("mlr_learners_dens")

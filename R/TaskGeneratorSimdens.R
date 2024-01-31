@@ -42,3 +42,5 @@ TaskGeneratorSimdens = R6::R6Class("TaskGeneratorSimdens",
     }
   )
 )
+
+register_task_generator("simdens", TaskGeneratorSimdens)

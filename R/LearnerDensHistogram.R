@@ -38,3 +38,6 @@ LearnerDensHistogram = R6::R6Class("LearnerDensHistogram",
     }
   )
 )
+
+#' @include zzz.R
+register_learner("dens.hist", LearnerDensHistogram)

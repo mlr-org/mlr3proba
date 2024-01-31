@@ -1,7 +1,7 @@
 #' @template dens_learner
 #' @templateVar title Kernel
 #' @templateVar fullname LearnerDensKDE
-#' @templateVar caller kernels implemented in \CRANpkg{distr6}
+#' @templateVar caller kernels implemented in [distr6]
 #' @details The default bandwidth uses Silverman's rule-of-thumb for Gaussian kernels, however for
 #' non-Gaussian kernels it is recommended to use \CRANpkg{mlr3tuning} to tune the bandwidth with
 #' cross-validation. Other density learners can be used for automated bandwidth selection.
@@ -88,3 +88,5 @@ LearnerDensKDE = R6::R6Class("LearnerDensKDE",
     }
   )
 )
+
+register_learner("dens.kde", LearnerDensKDE)

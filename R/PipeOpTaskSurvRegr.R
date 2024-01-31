@@ -331,3 +331,5 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
     }
   )
 )
+
+register_pipeop("trafotask_survregr", PipeOpTaskSurvRegr)

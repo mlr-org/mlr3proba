@@ -57,3 +57,5 @@ MeasureSurvUnoTNR = R6Class("MeasureSurvUnoTNR",
     }
   )
 )
+
+register_measure("surv.uno_tnr", MeasureSurvUnoTNR)

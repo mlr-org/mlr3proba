@@ -7,7 +7,7 @@
 #' * Creates [Prediction]s of class [PredictionSurv].
 #' * Possible values for `predict_types` are:
 #'   - `"distr"`: Predicts a probability distribution for each observation in the test set,
-#'                uses \CRANpkg{distr6}.
+#'                uses [distr6].
 #'   - `"lp"`: Predicts a linear predictor for each observation in the test set.
 #'   - `"crank"`: Predicts a continuous ranking for each observation in the test set.
 #'   - `"response"`: Predicts a survival time for each observation in the test set.
