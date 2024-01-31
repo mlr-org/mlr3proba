@@ -41,6 +41,7 @@ utils::globalVariables(c(
 ))
 
 mlr3proba_learners = new.env()
+mlr3proba_tasks = new.env()
 
 register_learner = function(name, constructor) {
   assert_class(constructor, "R6ClassGenerator")
@@ -48,6 +49,11 @@ register_learner = function(name, constructor) {
     stopf("learner %s registered twice", name)
   }
   mlr3proba_learners[[name]] = constructor # fn
+}
+
+register_task = function(name, constructor) {
+  if (name %in% names(mlr3proba_tasks)) stopf("task %s registered twice", name)
+  mlr3proba_tasks[[name]] = constructor
 }
 
 register_mlr3 = function() {
@@ -87,16 +93,8 @@ register_mlr3 = function() {
   x$default_measures$dens = "dens.logloss"
 
   # tasks
-  x = utils::getFromNamespace("mlr_tasks", ns = "mlr3")
-  x$add("precip", load_precip)
-  x$add("faithful", load_faithful)
-  x$add("rats", load_rats)
-  x$add("lung", load_lung)
-  x$add("actg", load_actg)
-  x$add("gbcs", load_gbcs)
-  x$add("grace", load_grace)
-  x$add("whas", load_whas)
-  x$add("unemployment", load_unemployment)
+  mlr_tasks = utils::getFromNamespace("mlr_tasks", ns = "mlr3")
+  iwalk(as.list(mlr3proba_tasks), function(obj, name) mlr_tasks$add(name, obj)) # nolint
 
   # generators
   x = utils::getFromNamespace("mlr_task_generators", ns = "mlr3")
@@ -200,6 +198,7 @@ register_mlr3pipelines = function() {
   setHook(event, hooks[pkgname != "mlr3proba"], action = "replace")
 
   walk(names(mlr3proba_learners), function(nm) mlr_learners$remove(nm))
+  walk(names(mlr3proba_tasks), function(nm) mlr_tasks$remove(nm))
 
   library.dynam.unload("mlr3proba", libpath)
 }
