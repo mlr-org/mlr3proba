@@ -5,6 +5,10 @@
 #'
 #' The `task_type` is set to `"surv"`.
 #'
+#' For accessing survival and hazard functions, as well as other complex methods
+#' from a [PredictionSurv] object, see public methods on [distr6::ExoticStatistics()]
+#' and example below.
+#'
 #' @family Prediction
 #' @export
 #' @examples
@@ -13,6 +17,9 @@
 #' learner = lrn("surv.kaplan")
 #' p = learner$train(task, row_ids = 1:26)$predict(task, row_ids = 27:30)
 #' head(as.data.table(p))
+#'
+#' p$distr # distr6::Matdist class (test obs x time points)
+#'
 #' # survival probabilities of the 4 test rats at two time points
 #' p$distr$survival(c(20, 100))
 PredictionSurv = R6Class("PredictionSurv",
