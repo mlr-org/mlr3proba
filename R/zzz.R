@@ -36,8 +36,7 @@ NULL
 
 # to silence RCMD check
 utils::globalVariables(c(
-  "ShortName", "ClassName", "missing", "task",
-  "value", "variable", "y"
+  "ShortName", "ClassName", "missing", "task", "value", "variable", "y"
 ))
 
 mlr3proba_learners = new.env()
