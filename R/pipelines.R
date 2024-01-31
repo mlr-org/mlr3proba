@@ -525,3 +525,10 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
 
   gr
 }
+
+register_graph("survaverager", pipeline_survaverager)
+register_graph("survbagging", pipeline_survbagging)
+register_graph("crankcompositor", pipeline_crankcompositor)
+register_graph("distrcompositor", pipeline_distrcompositor)
+register_graph("probregr", pipeline_probregr)
+register_graph("survtoregr", pipeline_survtoregr)
