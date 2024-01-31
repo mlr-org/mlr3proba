@@ -59,3 +59,5 @@ MeasureSurvCalibrationBeta = R6Class("MeasureSurvCalibrationBeta",
     }
   )
 )
+
+register_measure("surv.calib_beta", MeasureSurvCalibrationBeta)

@@ -95,3 +95,5 @@ gonen = function(crank, tiex) {
 
   c_gonen(sort(crank), tiex)
 }
+
+register_measure("surv.cindex", MeasureSurvCindex)

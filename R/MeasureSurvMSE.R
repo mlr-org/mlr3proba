@@ -47,3 +47,5 @@ MeasureSurvMSE = R6::R6Class("MeasureSurvMSE",
     }
   )
 )
+
+register_measure("surv.mse", MeasureSurvMSE)

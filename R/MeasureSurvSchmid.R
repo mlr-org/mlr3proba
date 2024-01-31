@@ -114,3 +114,5 @@ MeasureSurvSchmid = R6::R6Class("MeasureSurvSchmid",
     }
   )
 )
+
+register_measure("surv.schmid", MeasureSurvSchmid)

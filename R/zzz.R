@@ -42,6 +42,7 @@ utils::globalVariables(c(
 
 mlr3proba_learners = new.env()
 mlr3proba_tasks = new.env()
+mlr3proba_measures = new.env()
 
 register_learner = function(name, constructor) {
   assert_class(constructor, "R6ClassGenerator")
@@ -54,6 +55,11 @@ register_learner = function(name, constructor) {
 register_task = function(name, constructor) {
   if (name %in% names(mlr3proba_tasks)) stopf("task %s registered twice", name)
   mlr3proba_tasks[[name]] = constructor
+}
+
+register_measure = function(name, constructor) {
+  if (name %in% names(mlr3proba_measures)) stopf("measure %s registered twice", name)
+  mlr3proba_measures[[name]] = constructor
 }
 
 register_mlr3 = function() {
@@ -106,44 +112,10 @@ register_mlr3 = function() {
   iwalk(as.list(mlr3proba_learners), function(obj, name) mlr_learners$add(name, obj)) # nolint
 
   # measures
-  x = utils::getFromNamespace("mlr_measures", ns = "mlr3")
-
-  x$add("dens.logloss", MeasureDensLogloss)
-
-  x$add("regr.logloss", MeasureRegrLogloss)
-
-  x$add("surv.graf", MeasureSurvGraf)
-  x$add("surv.brier", MeasureSurvGraf)
-  x$add("surv.schmid", MeasureSurvSchmid)
-  x$add("surv.logloss", MeasureSurvLogloss)
-  x$add("surv.rcll", MeasureSurvRCLL)
-  x$add("surv.intlogloss", MeasureSurvIntLogloss)
-
-  x$add("surv.cindex", MeasureSurvCindex)
-
-  x$add("surv.dcalib", MeasureSurvDCalibration)
-  x$add("surv.calib_beta", MeasureSurvCalibrationBeta)
-  x$add("surv.calib_alpha", MeasureSurvCalibrationAlpha)
-
-  x$add("surv.nagelk_r2", MeasureSurvNagelkR2)
-  x$add("surv.oquigley_r2", MeasureSurvOQuigleyR2)
-  x$add("surv.xu_r2", MeasureSurvXuR2)
-
-  x$add("surv.chambless_auc", MeasureSurvChamblessAUC)
-  x$add("surv.hung_auc", MeasureSurvHungAUC)
-  x$add("surv.uno_auc", MeasureSurvUnoAUC)
-  x$add("surv.song_auc", MeasureSurvSongAUC)
-
-  x$add("surv.uno_tpr", MeasureSurvUnoTPR)
-  x$add("surv.song_tpr", MeasureSurvSongTPR)
-
-  x$add("surv.uno_tnr", MeasureSurvUnoTNR)
-  x$add("surv.song_tnr", MeasureSurvSongTNR)
-
-  x$add("surv.rmse", MeasureSurvRMSE)
-  x$add("surv.mse", MeasureSurvMSE)
-  x$add("surv.mae", MeasureSurvMAE)
+  mlr_measures = utils::getFromNamespace("mlr_measures", ns = "mlr3")
+  iwalk(as.list(mlr3proba_measures), function(obj, name) mlr_measures$add(name, obj)) # nolint
 }
+
 register_mlr3pipelines = function() {
   mlr3pipelines::add_class_hierarchy_cache(c("PredictionSurv", "Prediction"))
 
@@ -197,8 +169,10 @@ register_mlr3pipelines = function() {
   pkgname = vapply(hooks[-1], function(x) environment(x)$pkgname, NA_character_)
   setHook(event, hooks[pkgname != "mlr3proba"], action = "replace")
 
+  # unregister
   walk(names(mlr3proba_learners), function(nm) mlr_learners$remove(nm))
   walk(names(mlr3proba_tasks), function(nm) mlr_tasks$remove(nm))
+  walk(names(mlr3proba_measures), function(nm) mlr_measures$remove(nm))
 
   library.dynam.unload("mlr3proba", libpath)
 }
