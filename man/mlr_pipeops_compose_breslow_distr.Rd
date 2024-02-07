@@ -84,7 +84,7 @@ Other survival compositors:
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{learner}}{(\link[mlr3:Learner]{mlr3::Learner})\cr
+\item{\code{learner}}{(\link{LearnerSurv})\cr
 The input survival learner.}
 }
 \if{html}{\out{</div>}}
