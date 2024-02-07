@@ -98,7 +98,7 @@ PipeOpBreslow = R6Class("PipeOpBreslow",
   ),
 
   active = list(
-    #' @field learner \cr
+    #' @field learner ([mlr3::Learner])\cr
     #' The input survival learner.
     learner = function(rhs) {
       assert_ro_binding(rhs)
