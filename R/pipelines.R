@@ -31,7 +31,6 @@ pipeline_survaverager = function(learners, param_vals = list(), graph_learner = 
 
   if (graph_learner) {
     gr = mlr3pipelines::GraphLearner$new(gr)
-    gr$predict_type = "distr"
   }
 
   gr
@@ -98,7 +97,6 @@ pipeline_survbagging = function(learner, iterations = 10, frac = 0.7, avg = TRUE
 
     if (graph_learner) {
       gr = mlr3pipelines::GraphLearner$new(gr)
-      gr$predict_type = "distr"
     }
 
     gr
@@ -159,7 +157,6 @@ pipeline_crankcompositor = function(learner,
 
   if (graph_learner) {
     gr = mlr3pipelines::GraphLearner$new(gr)
-    gr$predict_type = "distr"
   }
 
   gr
