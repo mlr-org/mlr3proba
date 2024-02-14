@@ -6,18 +6,11 @@
 \title{Right-Censored Log loss Survival Measure}
 \description{
 Calculates the right-censored logarithmic (log), loss.
-
+}
+\details{
 The RCLL, in the context of probabilistic predictions, is defined by
 \deqn{L(f, t, \Delta) = -log(\Delta f(t) + (1 - \Delta) S(t))}
 where \eqn{\Delta} is the censoring indicator.
-
-Parameters
-\itemize{
-\item \code{eps} (numeric(1)) - Value to set zero-valued scores to prevent log(0) errors, default \code{1e-15}.
-\item \code{se} (logical(1)) - If \code{TRUE} then returns standard error of the loss otherwise returns mean across all individual scores.
-\item \code{ERV} (logical(1)) - If \code{TRUE} then the Explained Residual Variation method is applied, which means the score is standardised against a Kaplan-Meier baseline.
-\item \code{na.rm} (logical(1)) - If \code{TRUE} (default) then removes any NAs in individual score calculations.
-}
 }
 \section{Dictionary}{
 
@@ -50,10 +43,26 @@ msr("surv.rcll")
 }
 }
 
+\section{Parameter details}{
+
+\itemize{
+\item \code{eps} (\code{numeric(1)})\cr
+Value to set zero-valued scores to prevent log(0) errors, default \code{1e-15}.
+\item \code{se} (\code{logical(1)})\cr
+If \code{TRUE} then returns standard error of the loss otherwise returns mean across all individual scores (default).
+\item \code{ERV} (\code{logical(1)})\cr
+If \code{TRUE} then the Explained Residual Variation method is applied, which means the score is standardised against a Kaplan-Meier baseline.
+Default is \code{FALSE}.
+\item \code{na.rm} (\code{logical(1)})\cr
+If \code{TRUE} (default) then removes any NAs in individual score calculations.
+}
+}
+
 \references{
-Avati, A., Duan, T., Zhou, S., Jung, K., Shah, N. H., & Ng, A. (2018).
-Countdown Regression: Sharp and Calibrated Survival Predictions.
-http://arxiv.org/abs/1806.08324
+Avati, Anand, Duan, Tony, Zhou, Sharon, Jung, Kenneth, Shah, H N, Ng, Y A (2020).
+\dQuote{Countdown Regression: Sharp and Calibrated Survival Predictions.}
+\emph{Proceedings of The 35th Uncertainty in Artificial Intelligence Conference}, \bold{115}(4), 145--155.
+\url{https://proceedings.mlr.press/v115/avati20a.html}.
 }
 \seealso{
 Other survival measures: 

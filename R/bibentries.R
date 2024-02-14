@@ -639,5 +639,17 @@ bibentries = c( # nolint start
     pages             = "471-480",
     publisher         = "Springer",
     doi               = "10.1007/S10985-007-9048-Y/METRICS"
+  ),
+  avati_2020 = bibentry("article",
+    author            = "Avati, Anand and Duan, Tony and Zhou, Sharon and Jung, Kenneth and Shah, Nigam H and Ng, Andrew Y",
+    title             = "Countdown Regression: Sharp and Calibrated Survival Predictions",
+    journal           = "Proceedings of The 35th Uncertainty in Artificial Intelligence Conference",
+    year              = "2020",
+    volume            = "115",
+    number            = "4",
+    series            = "Proceedings of Machine Learning Research",
+    pages             = "145--155",
+    publisher         = "PMLR",
+    url               = "https://proceedings.mlr.press/v115/avati20a.html"
   )
 ) # nolint end

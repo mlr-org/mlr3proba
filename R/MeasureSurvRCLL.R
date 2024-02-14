@@ -5,24 +5,24 @@
 #' @description
 #' Calculates the right-censored logarithmic (log), loss.
 #'
+#' @details
 #' The RCLL, in the context of probabilistic predictions, is defined by
 #' \deqn{L(f, t, \Delta) = -log(\Delta f(t) + (1 - \Delta) S(t))}
 #' where \eqn{\Delta} is the censoring indicator.
 #'
-#' @template param_id
-#' @template param_eps
-#'
-#' @description
-#' Parameters
-#' * `eps` (numeric(1)) - Value to set zero-valued scores to prevent log(0) errors, default `1e-15`.
-#' * `se` (logical(1)) - If `TRUE` then returns standard error of the loss otherwise returns mean across all individual scores.
-#' * `ERV` (logical(1)) - If `TRUE` then the Explained Residual Variation method is applied, which means the score is standardised against a Kaplan-Meier baseline.
-#' * `na.rm` (logical(1)) - If `TRUE` (default) then removes any NAs in individual score calculations.
+#' @section Parameter details:
+#' - `eps` (`numeric(1)`)\cr
+#' Value to set zero-valued scores to prevent log(0) errors, default `1e-15`.
+#' - `se` (`logical(1)`)\cr
+#' If `TRUE` then returns standard error of the loss otherwise returns mean across all individual scores (default).
+#' - `ERV` (`logical(1)`)\cr
+#' If `TRUE` then the Explained Residual Variation method is applied, which means the score is standardised against a Kaplan-Meier baseline.
+#' Default is `FALSE`.
+#' - `na.rm` (`logical(1)`)\cr
+#' If `TRUE` (default) then removes any NAs in individual score calculations.
 #'
 #' @references
-#' Avati, A., Duan, T., Zhou, S., Jung, K., Shah, N. H., & Ng, A. (2018).
-#' Countdown Regression: Sharp and Calibrated Survival Predictions.
-#' http://arxiv.org/abs/1806.08324
+#' `r format_bib("avati_2020")`
 #'
 #' @family Probabilistic survival measures
 #' @family distr survival measures
