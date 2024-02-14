@@ -2,17 +2,20 @@
 #' @templateVar title Log loss
 #' @templateVar inherit [MeasureDens]
 #' @templateVar fullname MeasureDensLogloss
-#' @templateVar pars eps = 1e-15
-#' @templateVar eps_par TRUE
 #'
 #' @template param_eps
 #'
 #' @description
 #' Calculates the cross-entropy, or logarithmic (log), loss.
 #'
+#' @details
 #' The logloss, in the context of probabilistic predictions, is defined as the negative log
 #' probability density function, \eqn{f}, evaluated at the observed value, \eqn{y},
 #' \deqn{L(f, y) = -\log(f(y))}{L(f, y) = -log(f(y))}
+#'
+#' @section Parameter details:
+#' - `eps` (`numeric(1)`)\cr
+#' Value to set zero-valued scores to prevent log(0) errors, default `1e-15`.
 #'
 #' @family Density estimation measures
 #' @export

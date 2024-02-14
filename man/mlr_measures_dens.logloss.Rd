@@ -6,11 +6,30 @@
 \title{Log loss Density Measure}
 \description{
 Calculates the cross-entropy, or logarithmic (log), loss.
-
+}
+\details{
 The logloss, in the context of probabilistic predictions, is defined as the negative log
 probability density function, \eqn{f}, evaluated at the observed value, \eqn{y},
 \deqn{L(f, y) = -\log(f(y))}{L(f, y) = -log(f(y))}
 }
+\section{Dictionary}{
+
+This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3:mlr_measures]{mlr_measures} or with the associated sugar function \link[mlr3:mlr_sugar]{msr()}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{MeasureDensLogloss$new()
+mlr_measures$get("dens.logloss")
+msr("dens.logloss")
+}\if{html}{\out{</div>}}
+}
+
+\section{Parameters}{
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Range \cr
+   eps \tab numeric \tab 1e-15 \tab \eqn{[0, 1]}{[0, 1]} \cr
+}
+}
+
 \section{Meta Information}{
 
 \itemize{
@@ -18,6 +37,14 @@ probability density function, \eqn{f}, evaluated at the observed value, \eqn{y},
 \item Range: \eqn{[0, \infty)}{[0, Inf)}
 \item Minimize: \code{TRUE}
 \item Required prediction: \code{pdf}
+}
+}
+
+\section{Parameter details}{
+
+\itemize{
+\item \code{eps} (\code{numeric(1)})\cr
+Value to set zero-valued scores to prevent log(0) errors, default \code{1e-15}.
 }
 }
 
