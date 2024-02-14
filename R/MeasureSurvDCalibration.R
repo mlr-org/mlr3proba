@@ -93,8 +93,8 @@ MeasureSurvDCalibration = R6Class("MeasureSurvDCalibration",
         }
         times = as.numeric(colnames(surv))
 
-        si = diag(distr6:::C_Vec_WeightedDiscreteCdf(true_times, times,
-          cdf = t(1 - surv), FALSE, FALSE))
+        extend_times = getFromNamespace("C_Vec_WeightedDiscreteCdf", ns = "distr6")
+        si = diag(extend_times(true_times, times, cdf = t(1 - surv), FALSE, FALSE))
       } else {
         distr = prediction$distr
         if (inherits(distr, c("Matdist", "Arrdist"))) {

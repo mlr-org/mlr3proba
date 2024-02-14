@@ -90,20 +90,23 @@ MeasureSurvRCLL = R6::R6Class("MeasureSurvRCLL",
             cdf = t(1 - surv[!event, ])
           }
 
+          extend_times_cdf = getFromNamespace("C_Vec_WeightedDiscreteCdf", ns = "distr6")
           out[!event] = diag(
-            distr6:::C_Vec_WeightedDiscreteCdf(cens_times, times, cdf = cdf, FALSE, FALSE)
+            extend_times_cdf(cens_times, times, cdf = cdf, FALSE, FALSE)
           )
         }
         if (any(event)) {
-          pdf = distr6:::cdfpdf(1 - surv)
+          convert_to_pdf = getFromNamespace("cdfpdf", ns = "distr6")
+          pdf = convert_to_pdf(cdf = 1 - surv)
           if (sum(event) == 1) { # fix subsetting issue in case of 1 event
             pdf = as.matrix(pdf[event, ])
           } else {
             pdf = t(pdf[event, ])
           }
 
+          extend_times_pdf = getFromNamespace("C_Vec_WeightedDiscretePdf", ns = "distr6")
           out[event] = diag(
-            distr6:::C_Vec_WeightedDiscretePdf(event_times, times, pdf = pdf)
+            extend_times_pdf(event_times, times, pdf = pdf)
           )
         }
       } else {
