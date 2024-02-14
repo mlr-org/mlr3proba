@@ -5,11 +5,21 @@
 #' @description
 #' Calculates the cross-entropy, or negative log-likelihood (NLL) or logarithmic (log), loss.
 #'
+#' @section Parameter details:
+#' - `eps` (`numeric(1)`)\cr
+#' Value to set zero-valued scores to prevent log(0) errors, default `1e-15`.
+#' - `se` (`logical(1)`)\cr
+#' If `TRUE` then returns standard error of the loss otherwise returns mean across all individual scores (default).
+#' - `IPCW` (`logical(1)`)\cr
+#' If `TRUE` (default) then returns the \eqn{L_{RNLL}} score (which is proper), otherwise the \eqn{L_{NLL}} score (improper).
+#' - `ERV` (`logical(1)`)\cr
+#' If `TRUE` then the Explained Residual Variation method is applied, which means the score is standardised against a Kaplan-Meier baseline.
+#' Default is `FALSE`.
+#'
+#' @details
 #' The Log Loss, in the context of probabilistic predictions, is defined as the negative log
 #' probability density function, \eqn{f}, evaluated at the observation time, \eqn{t},
 #' \deqn{L_{NLL}(f, t) = -log(f(t))}
-#'
-#' We return return the mean value across all observations.
 #'
 #' The standard error of the Log Loss, L, is approximated via,
 #' \deqn{se(L) = sd(L)/\sqrt{N}}{se(L) = sd(L)/\sqrt N}
@@ -23,9 +33,6 @@
 #' So only observations that have experienced the event are taking into account
 #' and both \eqn{f(t), G(t)} are calculated only at the event times.
 #'
-#' @template param_id
-#' @template param_eps
-#' @template param_se
 #' @template details_trainG
 #'
 #' @family Probabilistic survival measures

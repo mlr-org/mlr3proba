@@ -6,12 +6,11 @@
 \title{Negative Log-Likelihood Survival Measure}
 \description{
 Calculates the cross-entropy, or negative log-likelihood (NLL) or logarithmic (log), loss.
-
+}
+\details{
 The Log Loss, in the context of probabilistic predictions, is defined as the negative log
 probability density function, \eqn{f}, evaluated at the observation time, \eqn{t},
 \deqn{L_{NLL}(f, t) = -log(f(t))}
-
-We return return the mean value across all observations.
 
 The standard error of the Log Loss, L, is approximated via,
 \deqn{se(L) = sd(L)/\sqrt{N}}{se(L) = sd(L)/\sqrt N}
@@ -24,8 +23,7 @@ where \eqn{\Delta} is the censoring indicator and G is the Kaplan-Meier estimato
 censoring distribution.
 So only observations that have experienced the event are taking into account
 and both \eqn{f(t), G(t)} are calculated only at the event times.
-}
-\details{
+
 If \code{task} and \code{train_set} are passed to \verb{$score} then G is fit on training data,
 otherwise testing data. The first is likely to reduce any bias caused by calculating
 parts of the measure on the test data it is evaluating. The training data is automatically
@@ -42,6 +40,16 @@ msr("surv.logloss")
 }\if{html}{\out{</div>}}
 }
 
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Levels \tab Range \cr
+   eps \tab numeric \tab 1e-15 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   se \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   IPCW \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
+   ERV \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+}
+}
+
 \section{Meta Information}{
 
 \itemize{
@@ -49,6 +57,21 @@ msr("surv.logloss")
 \item Range: \eqn{[0, \infty)}{[0, Inf)}
 \item Minimize: \code{TRUE}
 \item Required prediction: \code{distr}
+}
+}
+
+\section{Parameter details}{
+
+\itemize{
+\item \code{eps} (\code{numeric(1)})\cr
+Value to set zero-valued scores to prevent log(0) errors, default \code{1e-15}.
+\item \code{se} (\code{logical(1)})\cr
+If \code{TRUE} then returns standard error of the loss otherwise returns mean across all individual scores (default).
+\item \code{IPCW} (\code{logical(1)})\cr
+If \code{TRUE} (default) then returns the \eqn{L_{RNLL}} score (which is proper), otherwise the \eqn{L_{NLL}} score (improper).
+\item \code{ERV} (\code{logical(1)})\cr
+If \code{TRUE} then the Explained Residual Variation method is applied, which means the score is standardised against a Kaplan-Meier baseline.
+Default is \code{FALSE}.
 }
 }
 
