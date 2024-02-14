@@ -31,6 +31,7 @@ NULL
 #' @importFrom stats reformulate model.matrix model.frame sd predict complete.cases density
 #' @importFrom survival Surv
 #' @importFrom mlr3viz fortify
+#' @importFrom utils getFromNamespace
 "_PACKAGE"
 # nolint end
 
