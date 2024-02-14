@@ -47,14 +47,17 @@ surv_logloss = function(prediction, eps = 1e-15, IPCW = TRUE, train = NULL, ...)
     km_fit = survival::survfit(Surv(train[, "time"], 1 - train[, "status"]) ~ 1)
   }
 
-  # get survival matrix from KM
+  # Get survival matrix from KM
   surv_km = matrix(rep(km_fit$surv, length(truth)), ncol = length(km_fit$time),
                    nrow = length(truth), byrow = TRUE)
+
+  # Remove all censored observations
+  surv_km = surv_km[event,]
 
   # calculate KM survival at event times
   extend_times_cdf = getFromNamespace("C_Vec_WeightedDiscreteCdf", ns = "distr6")
   cens = diag(
-    extend_times_cdf(event_times, km_fit$time, cdf = t(1 - surv_km), FALSE, FALSE)
+    extend_times_cdf(x = event_times, data = km_fit$time, cdf = t(1 - surv_km), FALSE, FALSE)
   )
 
   # avoid divide by 0 errors
