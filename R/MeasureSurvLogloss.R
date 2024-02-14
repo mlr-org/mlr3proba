@@ -7,7 +7,7 @@
 #'
 #' The Log Loss, in the context of probabilistic predictions, is defined as the negative log
 #' probability density function, \eqn{f}, evaluated at the observation time, \eqn{t},
-#' \deqn{L(f, t) = -log(f(t))}
+#' \deqn{L_{NLL}(f, t) = -log(f(t))}
 #'
 #' We return return the mean value across all observations.
 #'
@@ -17,7 +17,7 @@
 #' deviation.
 #'
 #' The **Re-weighted Negative Log-Likelihood** (RNLL) or IPCW Log Loss is defined by
-#' \deqn{L(f, t, \Delta) = -\Delta log(f(t))/G(t)}
+#' \deqn{L_{RNLL}(f, t, \Delta) = -\Delta log(f(t))/G(t)}
 #' where \eqn{\Delta} is the censoring indicator and G is the Kaplan-Meier estimator of the
 #' censoring distribution.
 #' So only observations that have experienced the event are taking into account
