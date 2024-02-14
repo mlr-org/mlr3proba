@@ -3,12 +3,12 @@
 \name{mlr_measures_dens.logloss}
 \alias{mlr_measures_dens.logloss}
 \alias{MeasureDensLogloss}
-\title{Log loss Density Measure}
+\title{Log Loss Density Measure}
 \description{
 Calculates the cross-entropy, or logarithmic (log), loss.
 }
 \details{
-The logloss, in the context of probabilistic predictions, is defined as the negative log
+The Log Loss, in the context of probabilistic predictions, is defined as the negative log
 probability density function, \eqn{f}, evaluated at the observed value, \eqn{y},
 \deqn{L(f, y) = -\log(f(y))}{L(f, y) = -log(f(y))}
 }
@@ -44,7 +44,9 @@ msr("dens.logloss")
 
 \itemize{
 \item \code{eps} (\code{numeric(1)})\cr
-Value to set zero-valued scores to prevent log(0) errors, default \code{1e-15}.
+Very small number to substitute zero values in order to prevent errors
+in e.g. log(0) and/or division-by-zero calculations.
+Default value is 1e-15.
 }
 }
 

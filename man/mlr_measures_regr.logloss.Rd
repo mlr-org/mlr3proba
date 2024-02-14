@@ -3,14 +3,22 @@
 \name{mlr_measures_regr.logloss}
 \alias{mlr_measures_regr.logloss}
 \alias{MeasureRegrLogloss}
-\title{Log loss Regression Measure}
+\title{Log Loss Regression Measure}
 \description{
 Calculates the cross-entropy, or logarithmic (log), loss.
-
-The logloss, in the context of probabilistic predictions, is defined as the negative log
+}
+\details{
+The Log Loss, in the context of probabilistic predictions, is defined as the negative log
 probability density function, \eqn{f}, evaluated at the observed value, \eqn{y},
 \deqn{L(f, y) = -\log(f(y))}{L(f, y) = -log(f(y))}
 }
+\section{Parameters}{
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Range \cr
+   eps \tab numeric \tab 1e-15 \tab \eqn{[0, 1]}{[0, 1]} \cr
+}
+}
+
 \section{Meta Information}{
 
 \itemize{
@@ -18,6 +26,16 @@ probability density function, \eqn{f}, evaluated at the observed value, \eqn{y},
 \item Range: \eqn{[0, \infty)}{[0, Inf)}
 \item Minimize: \code{TRUE}
 \item Required prediction: \code{distr}
+}
+}
+
+\section{Parameter details}{
+
+\itemize{
+\item \code{eps} (\code{numeric(1)})\cr
+Very small number to substitute zero values in order to prevent errors
+in e.g. log(0) and/or division-by-zero calculations.
+Default value is 1e-15.
 }
 }
 
