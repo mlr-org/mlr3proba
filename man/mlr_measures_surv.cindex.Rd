@@ -39,6 +39,16 @@ msr("surv.cindex")
 }\if{html}{\out{</div>}}
 }
 
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Levels \tab Range \cr
+   cutoff \tab numeric \tab - \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
+   weight_meth \tab character \tab I \tab I, G, G2, SG, S, GH \tab - \cr
+   tiex \tab numeric \tab 0.5 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   eps \tab numeric \tab 0.001 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+}
+}
+
 \section{Meta Information}{
 
 \itemize{

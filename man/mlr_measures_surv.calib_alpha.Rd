@@ -26,6 +26,14 @@ msr("surv.calib_alpha")
 }\if{html}{\out{</div>}}
 }
 
+\section{Parameters}{
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Levels \cr
+   se \tab logical \tab FALSE \tab TRUE, FALSE \cr
+   method \tab character \tab ratio \tab ratio, diff \cr
+}
+}
+
 \section{Meta Information}{
 
 \itemize{

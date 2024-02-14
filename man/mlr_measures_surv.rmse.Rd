@@ -24,6 +24,13 @@ msr("surv.rmse")
 }\if{html}{\out{</div>}}
 }
 
+\section{Parameters}{
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Levels \cr
+   se \tab logical \tab FALSE \tab TRUE, FALSE \cr
+}
+}
+
 \section{Meta Information}{
 
 \itemize{

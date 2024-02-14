@@ -25,6 +25,11 @@ msr("surv.xu_r2")
 }\if{html}{\out{</div>}}
 }
 
+\section{Parameters}{
+
+Empty ParamSet
+}
+
 \section{Meta Information}{
 
 \itemize{

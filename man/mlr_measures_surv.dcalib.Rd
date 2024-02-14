@@ -40,6 +40,15 @@ msr("surv.dcalib")
 }\if{html}{\out{</div>}}
 }
 
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Levels \tab Range \cr
+   B \tab integer \tab 10 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
+   chisq \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   truncate \tab numeric \tab Inf \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+}
+}
+
 \section{Meta Information}{
 
 \itemize{

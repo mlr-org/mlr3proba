@@ -28,6 +28,14 @@ msr("surv.uno_tnr")
 }\if{html}{\out{</div>}}
 }
 
+\section{Parameters}{
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Range \cr
+   times \tab numeric \tab - \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   lp_thresh \tab numeric \tab 0 \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
+}
+}
+
 \section{Meta Information}{
 
 \itemize{

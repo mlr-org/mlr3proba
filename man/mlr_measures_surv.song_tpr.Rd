@@ -28,6 +28,15 @@ msr("surv.song_tpr")
 }\if{html}{\out{</div>}}
 }
 
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Levels \tab Range \cr
+   times \tab numeric \tab - \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   lp_thresh \tab numeric \tab 0 \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
+   type \tab character \tab incident \tab incident, cumulative \tab - \cr
+}
+}
+
 \section{Meta Information}{
 
 \itemize{

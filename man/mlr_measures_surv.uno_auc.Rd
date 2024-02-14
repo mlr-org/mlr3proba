@@ -25,6 +25,14 @@ msr("surv.uno_auc")
 }\if{html}{\out{</div>}}
 }
 
+\section{Parameters}{
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Levels \cr
+   integrated \tab logical \tab TRUE \tab TRUE, FALSE \cr
+   times \tab untyped \tab - \tab  \cr
+}
+}
+
 \section{Meta Information}{
 
 \itemize{

@@ -49,6 +49,21 @@ msr("surv.intlogloss")
 }\if{html}{\out{</div>}}
 }
 
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Levels \tab Range \cr
+   integrated \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
+   times \tab untyped \tab - \tab  \tab - \cr
+   t_max \tab numeric \tab - \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   p_max \tab numeric \tab - \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   method \tab integer \tab 2 \tab  \tab \eqn{[1, 2]}{[1, 2]} \cr
+   se \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   proper \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   eps \tab numeric \tab 0.001 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   ERV \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+}
+}
+
 \section{Meta Information}{
 
 \itemize{

@@ -25,6 +25,15 @@ msr("surv.song_auc")
 }\if{html}{\out{</div>}}
 }
 
+\section{Parameters}{
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Levels \cr
+   times \tab untyped \tab - \tab  \cr
+   integrated \tab logical \tab TRUE \tab TRUE, FALSE \cr
+   type \tab character \tab incident \tab incident, cumulative \cr
+}
+}
+
 \section{Meta Information}{
 
 \itemize{
