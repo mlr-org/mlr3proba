@@ -1,12 +1,11 @@
-surv_logloss = function(prediction, eps = 1e-15, IPCW = TRUE, train = NULL, ...) {
-  truth = prediction$truth
+surv_logloss = function(truth, distr, eps = 1e-15, IPCW = TRUE, train = NULL, ...) {
   event = truth[, 2] == 1
   all_times = truth[, 1]
   event_times = truth[event, 1]
 
   # Bypass distr6 construction if underlying distr represented by array
-  if (inherits(prediction$data$distr, "array")) {
-    surv = prediction$data$distr
+  if (inherits(distr, "array")) {
+    surv = distr
     if (length(dim(surv)) == 3) {
       # survival 3d array, extract median
       surv = .ext_surv_mat(arr = surv, which.curve = 0.5)
@@ -22,7 +21,6 @@ surv_logloss = function(prediction, eps = 1e-15, IPCW = TRUE, train = NULL, ...)
       extend_times_pdf(x = all_times, data = times, pdf = t(pdf))
     )
   } else {
-    distr = prediction$distr
     if (inherits(distr, c("Matdist", "Arrdist"))) {
       pred = diag(distr$pdf(truth[, 1]))
     } else {

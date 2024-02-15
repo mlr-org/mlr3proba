@@ -91,10 +91,10 @@ MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
       ps = self$param_set$values
 
       if (ps$se) {
-        ll = surv_logloss(prediction, ps$eps, ps$IPCW, train)
+        ll = surv_logloss(prediction$truth, prediction$data$distr, ps$eps, ps$IPCW, train) #nolint
         sd(ll) / sqrt(length(ll))
       } else {
-        mean(surv_logloss(prediction, ps$eps, ps$IPCW, train))
+        mean(surv_logloss(prediction$truth, prediction$data$distr, ps$eps, ps$IPCW, train)) # nolint
       }
     }
   )
