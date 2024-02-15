@@ -1,6 +1,10 @@
 #' @template surv_measure
-#' @templateVar title Right-Censored Log loss
+#' @templateVar title Right-Censored Log Loss
 #' @templateVar fullname MeasureSurvRCLL
+#' @templateVar eps 1e-15
+#' @template param_eps
+#' @template param_se
+#' @template param_erv
 #'
 #' @description
 #' Calculates the right-censored logarithmic (log), loss.
@@ -8,21 +12,16 @@
 #' @details
 #' The RCLL, in the context of probabilistic predictions, is defined by
 #' \deqn{L(f, t, \Delta) = -log(\Delta f(t) + (1 - \Delta) S(t))}
-#' where \eqn{\Delta} is the censoring indicator.
+#' where \eqn{\Delta} is the censoring indicator, \eqn{f} the probability
+#' density function and \eqn{S} the survival function.
+#' RCLL is proper given that censoring and survival distribution are independent, see Rindt et al. (2022).
 #'
 #' @section Parameter details:
-#' - `eps` (`numeric(1)`)\cr
-#' Value to set zero-valued scores to prevent log(0) errors, default `1e-15`.
-#' - `se` (`logical(1)`)\cr
-#' If `TRUE` then returns standard error of the loss otherwise returns mean across all individual scores (default).
-#' - `ERV` (`logical(1)`)\cr
-#' If `TRUE` then the Explained Residual Variation method is applied, which means the score is standardised against a Kaplan-Meier baseline.
-#' Default is `FALSE`.
 #' - `na.rm` (`logical(1)`)\cr
 #' If `TRUE` (default) then removes any NAs in individual score calculations.
 #'
 #' @references
-#' `r format_bib("avati_2020")`
+#' `r format_bib("avati_2020", "rindt_2022")`
 #'
 #' @family Probabilistic survival measures
 #' @family distr survival measures

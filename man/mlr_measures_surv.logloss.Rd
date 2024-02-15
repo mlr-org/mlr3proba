@@ -8,8 +8,9 @@
 Calculates the cross-entropy, or negative log-likelihood (NLL) or logarithmic (log), loss.
 }
 \details{
-The Log Loss, in the context of probabilistic predictions, is defined as the negative log
-probability density function, \eqn{f}, evaluated at the observation time, \eqn{t},
+The Log Loss, in the context of probabilistic predictions, is defined as the
+negative log probability density function, \eqn{f}, evaluated at the
+observation time (event or censoring), \eqn{t},
 \deqn{L_{NLL}(f, t) = -log(f(t))}
 
 The standard error of the Log Loss, L, is approximated via,
@@ -22,7 +23,8 @@ The \strong{Re-weighted Negative Log-Likelihood} (RNLL) or IPCW Log Loss is defi
 where \eqn{\Delta} is the censoring indicator and G is the Kaplan-Meier estimator of the
 censoring distribution.
 So only observations that have experienced the event are taking into account
-and both \eqn{f(t), G(t)} are calculated only at the event times.
+for RNLL and both \eqn{f(t), G(t)} are calculated only at the event times.
+If only censored observations exist in the test set, \code{NaN} is returned.
 
 If \code{task} and \code{train_set} are passed to \verb{$score} then G is fit on training data,
 otherwise testing data. The first is likely to reduce any bias caused by calculating
@@ -64,14 +66,32 @@ msr("surv.logloss")
 
 \itemize{
 \item \code{eps} (\code{numeric(1)})\cr
-Value to set zero-valued scores to prevent log(0) errors, default \code{1e-15}.
+Very small number to substitute zero values in order to prevent errors
+in e.g. log(0) and/or division-by-zero calculations.
+Default value is 1e-15.
+}
+
+
+\itemize{
 \item \code{se} (\code{logical(1)})\cr
-If \code{TRUE} then returns standard error of the loss otherwise returns mean across all individual scores (default).
+If \code{TRUE} then returns standard error of the measure otherwise
+returns the mean across all individual scores, e.g. the mean of
+the per observation scores.
+Default is \code{FALSE} (returns the mean).
+}
+
+
+\itemize{
+\item \code{ERV} (\code{logical(1)})\cr
+If \code{TRUE} then the Explained Residual Variation method is applied, which
+means the score is standardized against a Kaplan-Meier baseline.
+Default is \code{FALSE}.
+}
+
+
+\itemize{
 \item \code{IPCW} (\code{logical(1)})\cr
 If \code{TRUE} (default) then returns the \eqn{L_{RNLL}} score (which is proper), otherwise the \eqn{L_{NLL}} score (improper).
-\item \code{ERV} (\code{logical(1)})\cr
-If \code{TRUE} then the Explained Residual Variation method is applied, which means the score is standardised against a Kaplan-Meier baseline.
-Default is \code{FALSE}.
 }
 }
 

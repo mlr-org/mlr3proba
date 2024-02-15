@@ -3,14 +3,16 @@
 \name{mlr_measures_surv.rcll}
 \alias{mlr_measures_surv.rcll}
 \alias{MeasureSurvRCLL}
-\title{Right-Censored Log loss Survival Measure}
+\title{Right-Censored Log Loss Survival Measure}
 \description{
 Calculates the right-censored logarithmic (log), loss.
 }
 \details{
 The RCLL, in the context of probabilistic predictions, is defined by
 \deqn{L(f, t, \Delta) = -log(\Delta f(t) + (1 - \Delta) S(t))}
-where \eqn{\Delta} is the censoring indicator.
+where \eqn{\Delta} is the censoring indicator, \eqn{f} the probability
+density function and \eqn{S} the survival function.
+RCLL is proper given that censoring and survival distribution are independent, see Rindt et al. (2022).
 }
 \section{Dictionary}{
 
@@ -47,12 +49,30 @@ msr("surv.rcll")
 
 \itemize{
 \item \code{eps} (\code{numeric(1)})\cr
-Value to set zero-valued scores to prevent log(0) errors, default \code{1e-15}.
+Very small number to substitute zero values in order to prevent errors
+in e.g. log(0) and/or division-by-zero calculations.
+Default value is 1e-15.
+}
+
+
+\itemize{
 \item \code{se} (\code{logical(1)})\cr
-If \code{TRUE} then returns standard error of the loss otherwise returns mean across all individual scores (default).
+If \code{TRUE} then returns standard error of the measure otherwise
+returns the mean across all individual scores, e.g. the mean of
+the per observation scores.
+Default is \code{FALSE} (returns the mean).
+}
+
+
+\itemize{
 \item \code{ERV} (\code{logical(1)})\cr
-If \code{TRUE} then the Explained Residual Variation method is applied, which means the score is standardised against a Kaplan-Meier baseline.
+If \code{TRUE} then the Explained Residual Variation method is applied, which
+means the score is standardized against a Kaplan-Meier baseline.
 Default is \code{FALSE}.
+}
+
+
+\itemize{
 \item \code{na.rm} (\code{logical(1)})\cr
 If \code{TRUE} (default) then removes any NAs in individual score calculations.
 }
@@ -63,6 +83,11 @@ Avati, Anand, Duan, Tony, Zhou, Sharon, Jung, Kenneth, Shah, H N, Ng, Y A (2020)
 \dQuote{Countdown Regression: Sharp and Calibrated Survival Predictions.}
 \emph{Proceedings of The 35th Uncertainty in Artificial Intelligence Conference}, \bold{115}(4), 145--155.
 \url{https://proceedings.mlr.press/v115/avati20a.html}.
+
+Rindt, David, Hu, Robert, Steinsaltz, David, Sejdinovic, Dino (2022).
+\dQuote{Survival regression with proper scoring rules and monotonic neural networks.}
+\emph{Proceedings of The 25th International Conference on Artificial Intelligence and Statistics}, \bold{151}(4), 1190--1205.
+\url{https://proceedings.mlr.press/v151/rindt22a.html}.
 }
 \seealso{
 Other survival measures: 

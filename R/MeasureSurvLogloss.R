@@ -1,24 +1,21 @@
 #' @template surv_measure
 #' @templateVar title Negative Log-Likelihood
 #' @templateVar fullname MeasureSurvLogloss
+#' @templateVar eps 1e-15
+#' @template param_eps
+#' @template param_se
+#' @template param_erv
 #'
 #' @description
 #' Calculates the cross-entropy, or negative log-likelihood (NLL) or logarithmic (log), loss.
-#'
 #' @section Parameter details:
-#' - `eps` (`numeric(1)`)\cr
-#' Value to set zero-valued scores to prevent log(0) errors, default `1e-15`.
-#' - `se` (`logical(1)`)\cr
-#' If `TRUE` then returns standard error of the loss otherwise returns mean across all individual scores (default).
 #' - `IPCW` (`logical(1)`)\cr
 #' If `TRUE` (default) then returns the \eqn{L_{RNLL}} score (which is proper), otherwise the \eqn{L_{NLL}} score (improper).
-#' - `ERV` (`logical(1)`)\cr
-#' If `TRUE` then the Explained Residual Variation method is applied, which means the score is standardised against a Kaplan-Meier baseline.
-#' Default is `FALSE`.
 #'
 #' @details
-#' The Log Loss, in the context of probabilistic predictions, is defined as the negative log
-#' probability density function, \eqn{f}, evaluated at the observation time, \eqn{t},
+#' The Log Loss, in the context of probabilistic predictions, is defined as the
+#' negative log probability density function, \eqn{f}, evaluated at the
+#' observation time (event or censoring), \eqn{t},
 #' \deqn{L_{NLL}(f, t) = -log(f(t))}
 #'
 #' The standard error of the Log Loss, L, is approximated via,
@@ -31,7 +28,8 @@
 #' where \eqn{\Delta} is the censoring indicator and G is the Kaplan-Meier estimator of the
 #' censoring distribution.
 #' So only observations that have experienced the event are taking into account
-#' and both \eqn{f(t), G(t)} are calculated only at the event times.
+#' for RNLL and both \eqn{f(t), G(t)} are calculated only at the event times.
+#' If only censored observations exist in the test set, `NaN` is returned.
 #'
 #' @template details_trainG
 #'

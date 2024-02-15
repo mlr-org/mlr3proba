@@ -651,5 +651,17 @@ bibentries = c( # nolint start
     pages             = "145--155",
     publisher         = "PMLR",
     url               = "https://proceedings.mlr.press/v115/avati20a.html"
+  ),
+  rindt_2022 = bibentry("article",
+    author            = "Rindt, David and Hu, Robert and Steinsaltz, David and Sejdinovic, Dino",
+    title             = "Survival regression with proper scoring rules and monotonic neural networks",
+    journal           = "Proceedings of The 25th International Conference on Artificial Intelligence and Statistics",
+    year              = "2022",
+    volume            = "151",
+    number            = "4",
+    series            = "Proceedings of Machine Learning Research",
+    pages             = "1190--1205",
+    publisher         = "PMLR",
+    url               = "https://proceedings.mlr.press/v151/rindt22a.html"
   )
 ) # nolint end

@@ -7,9 +7,10 @@
 \description{
 Calculates weighted concordance statistics, which, depending on the chosen weighting method
 and tied times solution, are equivalent to several proposed methods.
-
-For the Kaplan-Meier estimate of the training survival distribution, S, and the Kaplan-Meier
-estimate of the training censoring distribution, G:
+}
+\details{
+For the Kaplan-Meier estimate of the training survival distribution, \code{S}, and
+the Kaplan-Meier estimate of the training censoring distribution, \code{G}:
 
 \code{weight_meth}:
 \itemize{
@@ -23,10 +24,10 @@ estimate of the training censoring distribution, G:
 
 The last three require training data. \code{"GH"} is only applicable to \link{LearnerSurvCoxPH}.
 
-@details
-The implementation is slightly different from \link[survival:concordance]{survival::concordance}. Firstly this
-implementation is faster, and secondly the weights are computed on the training dataset whereas
-in \link[survival:concordance]{survival::concordance} the weights are computed on the same testing data.
+The implementation is slightly different from \link[survival:concordance]{survival::concordance}.
+Firstly this implementation is faster, and secondly the weights are computed
+on the training dataset whereas in \link[survival:concordance]{survival::concordance} the weights are
+computed on the same testing data.
 }
 \section{Dictionary}{
 
@@ -56,6 +57,26 @@ msr("surv.cindex")
 \item Range: \eqn{[0, 1]}{[0, 1]}
 \item Minimize: \code{FALSE}
 \item Required prediction: \code{crank}
+}
+}
+
+\section{Parameter details}{
+
+\itemize{
+\item \code{eps} (\code{numeric(1)})\cr
+Very small number to substitute zero values in order to prevent errors
+in e.g. log(0) and/or division-by-zero calculations.
+Default value is 0.001.
+}
+
+
+\itemize{
+\item \code{cutoff} (\code{numeric(1)})\cr
+Cut-off time to evaluate concordance up to.
+\item \code{weight_meth} (\code{character(1)})\cr
+Method for weighting concordance. Default \code{"I"} is Harrell's C. See details.
+\item \code{tiex} (\code{numeric(1)})\cr
+Weighting applied to tied rankings, default is to give them half (0.5) weighting.
 }
 }
 
@@ -139,20 +160,6 @@ This is an abstract class that should not be constructed directly.
 \if{html}{\out{<div class="r">}}\preformatted{MeasureSurvCindex$new()}\if{html}{\out{</div>}}
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{cutoff}}{(\code{numeric(1)})\cr
-Cut-off time to evaluate concordance up to.}
-
-\item{\code{weight_meth}}{(\code{character(1)}) \cr
-Method for weighting concordance. Default \code{"I"} is Harrell's C. See details.}
-
-\item{\code{tiex}}{(\code{numeric(1)}) \cr
-Weighting applied to tied rankings, default is to give them half weighting.}
-}
-\if{html}{\out{</div>}}
-}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MeasureSurvCindex-clone"></a>}}

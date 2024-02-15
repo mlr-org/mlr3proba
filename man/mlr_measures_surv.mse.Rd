@@ -41,6 +41,17 @@ msr("surv.mse")
 }
 }
 
+\section{Parameter details}{
+
+\itemize{
+\item \code{se} (\code{logical(1)})\cr
+If \code{TRUE} then returns standard error of the measure otherwise
+returns the mean across all individual scores, e.g. the mean of
+the per observation scores.
+Default is \code{FALSE} (returns the mean).
+}
+}
+
 \seealso{
 Other survival measures: 
 \code{\link{mlr_measures_surv.calib_alpha}},
