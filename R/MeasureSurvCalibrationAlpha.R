@@ -2,8 +2,6 @@
 #' @templateVar title Van Houwelingen's Alpha
 #' @templateVar fullname MeasureSurvCalibrationAlpha
 #'
-#' @template param_se
-#'
 #' @description
 #' This calibration method is defined by estimating
 #' \deqn{\alpha = \sum \delta_i / \sum H_i(t_i)}

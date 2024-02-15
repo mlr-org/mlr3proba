@@ -2,8 +2,6 @@
 #' @templateVar title Van Houwelingen's Beta
 #' @templateVar fullname MeasureSurvCalibrationBeta
 #'
-#' @template param_se
-#'
 #' @description
 #' This calibration method fits the predicted linear predictor from a Cox PH model as the only
 #' predictor in a new Cox PH model with the test data as the response.
