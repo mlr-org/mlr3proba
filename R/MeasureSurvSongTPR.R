@@ -61,3 +61,5 @@ MeasureSurvSongTPR = R6Class("MeasureSurvSongTPR",
     }
   )
 )
+
+register_measure("surv.song_tpr", MeasureSurvSongTPR)

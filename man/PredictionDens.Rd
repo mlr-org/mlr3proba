@@ -89,7 +89,7 @@ Numeric vector of estimated cumulative distribution function, evaluated at value
 set. One element for each observation in the test set.}
 
 \item{\code{distr}}{(\link[distr6:Distribution]{Distribution})\cr
-\link[distr6:Distribution]{Distribution} from \CRANpkg{distr6}.
+\link[distr6:Distribution]{Distribution} from \link{distr6}.
 The distribution from which \code{pdf} and \code{cdf} are derived.}
 
 \item{\code{check}}{(\code{logical(1)})\cr

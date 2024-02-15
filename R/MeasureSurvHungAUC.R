@@ -58,3 +58,5 @@ MeasureSurvHungAUC = R6Class("MeasureSurvHungAUC",
     }
   )
 )
+
+register_measure("surv.hung_auc", MeasureSurvHungAUC)

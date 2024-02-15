@@ -9,9 +9,6 @@ Calls \code{\link[rpart:rpart]{rpart::rpart()}}.
 \itemize{
 \item crank is predicted using \code{\link[rpart:predict.rpart]{rpart::predict.rpart()}}
 }
-
-Parameter \code{xval} is set to 0 in order to save some computation time.
-Parameter \code{model} has been renamed to \code{keep_model}.
 }
 \section{Dictionary}{
 
@@ -27,11 +24,36 @@ lrn("surv.rpart")
 \section{Meta Information}{
 
 \itemize{
-\item Type: "surv"
-\item Predict Types: \code{crank}
-\item Feature Types: \verb{logical, integer, numeric, character, factor, ordered}
-\item Properties: \verb{importance, missings, selected_features, weights}
-\item Packages: \CRANpkg{mlr3} \CRANpkg{mlr3proba} \CRANpkg{rpart} \CRANpkg{distr6} \CRANpkg{survival}
+\item Task type: \dQuote{surv}
+\item Predict Types: \dQuote{crank}
+\item Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{character}, \dQuote{factor}, \dQuote{ordered}
+\item Required Packages: \CRANpkg{mlr3}, \CRANpkg{mlr3proba}, \CRANpkg{rpart}, \CRANpkg{distr6}, \CRANpkg{survival}
+}
+}
+
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Levels \tab Range \cr
+   parms \tab numeric \tab 1 \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
+   minbucket \tab integer \tab - \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
+   minsplit \tab integer \tab 20 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
+   cp \tab numeric \tab 0.01 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   maxcompete \tab integer \tab 4 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   maxsurrogate \tab integer \tab 5 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   maxdepth \tab integer \tab 30 \tab  \tab \eqn{[1, 30]}{[1, 30]} \cr
+   usesurrogate \tab integer \tab 2 \tab  \tab \eqn{[0, 2]}{[0, 2]} \cr
+   surrogatestyle \tab integer \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   xval \tab integer \tab 10 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   cost \tab untyped \tab - \tab  \tab - \cr
+   keep_model \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+}
+}
+
+\section{Initial parameter values}{
+
+\itemize{
+\item \code{xval} is set to 0 in order to save some computation time.
+\item \code{model} has been renamed to \code{keep_model}.
 }
 }
 

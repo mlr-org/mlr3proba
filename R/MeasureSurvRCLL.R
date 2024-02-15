@@ -138,3 +138,5 @@ MeasureSurvRCLL = R6::R6Class("MeasureSurvRCLL",
     }
   )
 )
+
+register_measure("surv.rcll", MeasureSurvRCLL)

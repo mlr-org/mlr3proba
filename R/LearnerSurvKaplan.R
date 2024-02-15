@@ -1,11 +1,9 @@
-#' @template surv_learner
 #' @templateVar title Kaplan-Meier Estimator
 #' @templateVar fullname LearnerSurvKaplan
 #' @templateVar caller [survival::survfit()]
 #' @templateVar distr by estimating the survival function with [survival::survfit()]
-#'
-#' @description
-#'
+#' @templateVar id surv.kaplan
+#' @template surv_learner
 #'
 #' @references
 #' `r format_bib("kaplan_1958")`
@@ -35,13 +33,13 @@ LearnerSurvKaplan = R6Class("LearnerSurvKaplan",
     },
 
     .predict = function(task) {
-
-      # Define WeightedDiscrete distr6 distribution from the survival function
       times = self$model$time
-      surv = matrix(rep(self$model$surv, task$nrow), ncol = length(times), nrow = task$nrow,
-        byrow = TRUE)
+      surv = matrix(rep(self$model$surv, task$nrow), ncol = length(times),
+                    nrow = task$nrow, byrow = TRUE)
 
       .surv_return(times = times, surv = surv)
     }
   )
 )
+
+register_learner("surv.kaplan", LearnerSurvKaplan)

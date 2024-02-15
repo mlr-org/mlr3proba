@@ -1,6 +1,11 @@
 test_that("PipeOpProbregr - basic properties", {
   expect_pipeop(PipeOpProbregr$new())
   expect_pipeop(PipeOpProbregr$new(param_vals = list()))
+
+  # check that during construction, initial values are not overwritten
+  values  = PipeOpProbregr$new()$param_set$values
+  values2 = PipeOpProbregr$new(param_vals = list(dist = "Uniform"))$param_set$values
+  expect_equal(values, values2)
 })
 
 task = tgen("friedman1")$generate(10)

@@ -40,3 +40,5 @@ MeasureSurvXuR2 = R6Class("MeasureSurvXuR2",
     }
   )
 )
+
+register_measure("surv.xu_r2", MeasureSurvXuR2)

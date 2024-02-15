@@ -40,3 +40,5 @@ MeasureSurvNagelkR2 = R6Class("MeasureSurvNagelkR2",
     }
   )
 )
+
+register_measure("surv.nagelk_r2", MeasureSurvNagelkR2)

@@ -121,3 +121,5 @@ PipeOpSurvAvg = R6Class("PipeOpSurvAvg",
     }
   )
 )
+
+register_pipeop("survavg", PipeOpSurvAvg)

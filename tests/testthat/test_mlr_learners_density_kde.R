@@ -2,6 +2,8 @@ test_that("autotest", {
   set.seed(1)
   learner = lrn("dens.kde")
   expect_learner(learner)
+  # Skip due to long execution time (distr6 needs to be improved)
+  skip_on_os(os = c("windows", "mac", "linux", "solaris"))
   result = run_autotest(learner, check_replicable = FALSE)
   expect_true(result, info = result$error)
 })

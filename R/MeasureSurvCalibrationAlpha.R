@@ -72,3 +72,5 @@ MeasureSurvCalibrationAlpha = R6Class("MeasureSurvCalibrationAlpha",
     }
   )
 )
+
+register_measure("surv.calib_alpha", MeasureSurvCalibrationAlpha)

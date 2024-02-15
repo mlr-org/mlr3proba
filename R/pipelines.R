@@ -31,7 +31,6 @@ pipeline_survaverager = function(learners, param_vals = list(), graph_learner = 
 
   if (graph_learner) {
     gr = mlr3pipelines::GraphLearner$new(gr)
-    gr$predict_type = "distr"
   }
 
   gr
@@ -98,7 +97,6 @@ pipeline_survbagging = function(learner, iterations = 10, frac = 0.7, avg = TRUE
 
     if (graph_learner) {
       gr = mlr3pipelines::GraphLearner$new(gr)
-      gr$predict_type = "distr"
     }
 
     gr
@@ -121,8 +119,6 @@ pipeline_survbagging = function(learner, iterations = 10, frac = 0.7, avg = TRUE
 #' If `TRUE` then the `response` predict type is also estimated with the same values as `crank`.
 #' @param overwrite `logical(1)`\cr
 #' If `TRUE` then existing `response` and `crank` predict types are overwritten.
-#' @param ... `ANY`\cr
-#' For use with `crankcompositor`, now deprecated.
 #' @examples
 #' \dontrun{
 #' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
@@ -161,24 +157,10 @@ pipeline_crankcompositor = function(learner,
 
   if (graph_learner) {
     gr = mlr3pipelines::GraphLearner$new(gr)
-    gr$predict_type = "distr"
   }
 
   gr
 }
-
-#' @rdname mlr_graphs_crankcompositor
-#' @export
-crankcompositor = function(...) {
-  warning("Deprecated, please now use pipeline_crankcompositor or ppl('crankcompositor', ...).
-          graph_learner will also be FALSE by default.")
-  if ("graph_learner" %nin% names(list(...))) {
-    pipeline_crankcompositor(graph_learner = TRUE, ...)
-  } else {
-    pipeline_crankcompositor(...)
-  }
-}
-
 
 #' @template pipeline
 #' @templateVar title Estimate Survival distr Predict Type
@@ -201,8 +183,6 @@ crankcompositor = function(...) {
 #' If `TRUE` then the `distr` is overwritten by the compositor if
 #' already present, which may be required for changing the prediction `distr` from one model form
 #' to another.
-#' @param ... `ANY`\cr
-#' For use with `distrcompositor`, now deprecated.
 #' @examples
 #' \dontrun{
 #' if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
@@ -249,19 +229,6 @@ pipeline_distrcompositor = function(learner, estimator = "kaplan", form = "aft",
 
   gr
 }
-
-#' @rdname mlr_graphs_distrcompositor
-#' @export
-distrcompositor = function(...) {
-  warning("Deprecated, please now use pipeline_distrcompositor or ppl('distrcompositor', ...).
-          graph_learner will also be FALSE by default.")
-  if ("graph_learner" %nin% names(list(...))) {
-    pipeline_distrcompositor(graph_learner = TRUE, ...)
-  } else {
-    pipeline_distrcompositor(...)
-  }
-}
-
 
 #' @template pipeline
 #' @templateVar title Estimate Regression distr Predict Type
@@ -486,9 +453,9 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
       assert("distr" %in% distr_estimator$predict_types)
 
       gr$add_pipeop(mlr3pipelines::po("learner", distr_estimator, id = "distr_estimator"))$
-        add_pipeop(mlr3pipelines::po("compose_distr", param_vals = distrcompose_params))$
-        add_edge("trafopred_regrsurv", dst_id = "compose_distr", dst_channel = "pred")$
-        add_edge("distr_estimator", dst_id = "compose_distr", dst_channel = "base")
+        add_pipeop(mlr3pipelines::po("distrcompose", param_vals = distrcompose_params))$
+        add_edge("trafopred_regrsurv", dst_id = "distrcompose", dst_channel = "pred")$
+        add_edge("distr_estimator", dst_id = "distrcompose", dst_channel = "base")
     }
 
   } else if (method == 2) {
@@ -539,9 +506,9 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
       assert("distr" %in% distr_estimator$predict_types)
 
       gr$add_pipeop(mlr3pipelines::po("learner", distr_estimator, id = "distr_estimator"))$
-        add_pipeop(mlr3pipelines::po("compose_distr", param_vals = distrcompose_params))$
-        add_edge("trafopred_regrsurv", dst_id = "compose_distr", dst_channel = "pred")$
-        add_edge("distr_estimator", dst_id = "compose_distr", dst_channel = "base")
+        add_pipeop(mlr3pipelines::po("distrcompose", param_vals = distrcompose_params))$
+        add_edge("trafopred_regrsurv", dst_id = "distrcompose", dst_channel = "pred")$
+        add_edge("distr_estimator", dst_id = "distrcompose", dst_channel = "base")
     }
   }
 
@@ -551,3 +518,10 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
 
   gr
 }
+
+register_graph("survaverager", pipeline_survaverager)
+register_graph("survbagging", pipeline_survbagging)
+register_graph("crankcompositor", pipeline_crankcompositor)
+register_graph("distrcompositor", pipeline_distrcompositor)
+register_graph("probregr", pipeline_probregr)
+register_graph("survtoregr", pipeline_survtoregr)

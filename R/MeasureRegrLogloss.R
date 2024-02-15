@@ -53,3 +53,5 @@ MeasureRegrLogloss = R6::R6Class("MeasureRegrLogloss",
     }
   )
 )
+
+register_measure("regr.logloss", MeasureRegrLogloss)

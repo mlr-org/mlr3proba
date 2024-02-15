@@ -40,3 +40,5 @@ MeasureSurvOQuigleyR2 = R6Class("MeasureSurvOQuigleyR2",
     }
   )
 )
+
+register_measure("surv.oquigley_r2", MeasureSurvOQuigleyR2)

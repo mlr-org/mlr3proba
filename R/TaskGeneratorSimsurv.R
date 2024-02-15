@@ -61,3 +61,5 @@ TaskGeneratorSimsurv = R6Class("TaskGeneratorSimsurv",
     }
   )
 )
+
+register_task_generator("simsurv", TaskGeneratorSimsurv)

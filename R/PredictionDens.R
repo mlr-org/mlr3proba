@@ -34,7 +34,7 @@ PredictionDens = R6Class("PredictionDens",
     #'   set. One element for each observation in the test set.
     #'
     #' @param distr ([Distribution][distr6::Distribution])\cr
-    #'   [Distribution][distr6::Distribution] from \CRANpkg{distr6}.
+    #'   [Distribution][distr6::Distribution] from [distr6].
     #'   The distribution from which `pdf` and `cdf` are derived.
     #'
     #' @param check (`logical(1)`)\cr

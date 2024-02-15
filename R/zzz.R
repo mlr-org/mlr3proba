@@ -35,13 +35,50 @@ NULL
 "_PACKAGE"
 # nolint end
 
+# to silence RCMD check
 utils::globalVariables(c(
-  "ShortName", "ClassName", "missing", "task",
-  "value", "variable", "y"
+  "ShortName", "ClassName", "missing", "task", "value", "variable", "y"
 ))
-register_mlr3 = function() {
 
-  # reflections
+mlr3proba_learners = new.env()
+mlr3proba_tasks = new.env()
+mlr3proba_measures = new.env()
+mlr3proba_task_gens = new.env()
+mlr3proba_pipeops = new.env()
+mlr3proba_graphs = new.env()
+
+register_learner = function(name, constructor) {
+  assert_class(constructor, "R6ClassGenerator")
+  if (name %in% names(mlr3proba_learners)) stopf("learner %s registered twice", name)
+  mlr3proba_learners[[name]] = constructor
+}
+
+register_task = function(name, constructor) {
+  if (name %in% names(mlr3proba_tasks)) stopf("task %s registered twice", name)
+  mlr3proba_tasks[[name]] = constructor
+}
+
+register_measure = function(name, constructor) {
+  if (name %in% names(mlr3proba_measures)) stopf("measure %s registered twice", name)
+  mlr3proba_measures[[name]] = constructor
+}
+
+register_task_generator = function(name, constructor) {
+  if (name %in% names(mlr3proba_task_gens)) stopf("task generator %s registered twice", name)
+  mlr3proba_task_gens[[name]] = constructor
+}
+
+register_pipeop = function(name, constructor) {
+  if (name %in% names(mlr3proba_pipeops)) stopf("pipeop %s registered twice", name)
+  mlr3proba_pipeops[[name]] = constructor
+}
+
+register_graph = function(name, constructor) {
+  if (name %in% names(mlr3proba_graphs)) stopf("graph %s registered twice", name)
+  mlr3proba_graphs[[name]] = constructor
+}
+
+register_reflections = function() {
   x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
 
   # task
@@ -64,128 +101,71 @@ register_mlr3 = function() {
     crank = c("crank", "lp", "distr", "response"),
     distr = c("crank", "lp", "distr", "response"),
     lp = c("crank", "lp", "distr", "response"),
-    response = c("crank", "lp", "distr", "response"))
+    response = c("crank", "lp", "distr", "response")
+  )
   x$learner_predict_types$dens = list(
     pdf = c("pdf", "cdf", "distr"),
     cdf = c("pdf", "cdf", "distr"),
-    distr = c("pdf", "cdf", "distr"))
+    distr = c("pdf", "cdf", "distr")
+  )
 
   # measure
   x$measure_properties$surv = x$measure_properties$regr
   x$measure_properties$dens = x$measure_properties$regr
   x$default_measures$surv = "surv.cindex"
   x$default_measures$dens = "dens.logloss"
+}
+
+register_mlr3 = function() {
+  # reflections
+  register_reflections()
 
   # tasks
-  x = utils::getFromNamespace("mlr_tasks", ns = "mlr3")
-  x$add("precip", load_precip)
-  x$add("faithful", load_faithful)
-  x$add("rats", load_rats)
-  x$add("lung", load_lung)
-  x$add("actg", load_actg)
-  x$add("gbcs", load_gbcs)
-  x$add("grace", load_grace)
-  x$add("whas", load_whas)
-  x$add("unemployment", load_unemployment)
+  mlr_tasks = utils::getFromNamespace("mlr_tasks", ns = "mlr3")
+  iwalk(as.list(mlr3proba_tasks), function(obj, name) mlr_tasks$add(name, obj)) # nolint
 
-  # generators
-  x = utils::getFromNamespace("mlr_task_generators", ns = "mlr3")
-  x$add("simdens", TaskGeneratorSimdens)
-  x$add("simsurv", TaskGeneratorSimsurv)
+  # task generators
+  mlr_task_gens = utils::getFromNamespace("mlr_task_generators", ns = "mlr3")
+  iwalk(as.list(mlr3proba_task_gens), function(obj, name) mlr_task_gens$add(name, obj)) # nolint
 
   # learners
-  x = utils::getFromNamespace("mlr_learners", ns = "mlr3")
-
-  x$add("dens.hist", LearnerDensHistogram)
-  x$add("dens.kde", LearnerDensKDE)
-
-  x$add("surv.coxph", LearnerSurvCoxPH)
-  x$add("surv.kaplan", LearnerSurvKaplan)
-  x$add("surv.rpart", LearnerSurvRpart)
+  mlr_learners = utils::getFromNamespace("mlr_learners", ns = "mlr3")
+  iwalk(as.list(mlr3proba_learners), function(obj, name) mlr_learners$add(name, obj)) # nolint
 
   # measures
-  x = utils::getFromNamespace("mlr_measures", ns = "mlr3")
-
-  x$add("dens.logloss", MeasureDensLogloss)
-
-  x$add("regr.logloss", MeasureRegrLogloss)
-
-  x$add("surv.graf", MeasureSurvGraf)
-  x$add("surv.brier", MeasureSurvGraf)
-  x$add("surv.schmid", MeasureSurvSchmid)
-  x$add("surv.logloss", MeasureSurvLogloss)
-  x$add("surv.rcll", MeasureSurvRCLL)
-  x$add("surv.intlogloss", MeasureSurvIntLogloss)
-
-  x$add("surv.cindex", MeasureSurvCindex)
-
-  x$add("surv.dcalib", MeasureSurvDCalibration)
-  x$add("surv.calib_beta", MeasureSurvCalibrationBeta)
-  x$add("surv.calib_alpha", MeasureSurvCalibrationAlpha)
-
-  x$add("surv.nagelk_r2", MeasureSurvNagelkR2)
-  x$add("surv.oquigley_r2", MeasureSurvOQuigleyR2)
-  x$add("surv.xu_r2", MeasureSurvXuR2)
-
-  x$add("surv.chambless_auc", MeasureSurvChamblessAUC)
-  x$add("surv.hung_auc", MeasureSurvHungAUC)
-  x$add("surv.uno_auc", MeasureSurvUnoAUC)
-  x$add("surv.song_auc", MeasureSurvSongAUC)
-
-  x$add("surv.uno_tpr", MeasureSurvUnoTPR)
-  x$add("surv.song_tpr", MeasureSurvSongTPR)
-
-  x$add("surv.uno_tnr", MeasureSurvUnoTNR)
-  x$add("surv.song_tnr", MeasureSurvSongTNR)
-
-  x$add("surv.rmse", MeasureSurvRMSE)
-  x$add("surv.mse", MeasureSurvMSE)
-  x$add("surv.mae", MeasureSurvMAE)
+  mlr_measures = utils::getFromNamespace("mlr_measures", ns = "mlr3")
+  iwalk(as.list(mlr3proba_measures), function(obj, name) mlr_measures$add(name, obj)) # nolint
 }
+
 register_mlr3pipelines = function() {
   mlr3pipelines::add_class_hierarchy_cache(c("PredictionSurv", "Prediction"))
 
-  x = utils::getFromNamespace("mlr_pipeops", ns = "mlr3pipelines")
+  # pipeops
+  mlr_pipeops = utils::getFromNamespace("mlr_pipeops", ns = "mlr3pipelines")
+  iwalk(as.list(mlr3proba_pipeops), function(obj, name) mlr_pipeops$add(name, obj)) # nolint
 
-  x$add("distrcompose", PipeOpDistrCompositor)
-  x$add("crankcompose", PipeOpCrankCompositor)
-  x$add("breslowcompose", PipeOpBreslow, list(R6Class("Learner",
+  # Breslow needs another argument so we do it manually
+  mlr_pipeops$add("breslowcompose", PipeOpBreslow, list(R6Class("Learner",
     public = list(id = "breslowcompose", task_type = "surv", predict_types = "lp",
       packages = c("mlr3", "mlr3proba"), param_set = ps()))$new()))
 
-  x$add("trafotask_regrsurv", PipeOpTaskRegrSurv)
-  x$add("trafotask_survregr", PipeOpTaskSurvRegr)
-  x$add("trafopred_regrsurv", PipeOpPredRegrSurv)
-  x$add("trafopred_survregr", PipeOpPredSurvRegr)
-
-  x$add("compose_distr", PipeOpDistrCompositor)
-  x$add("compose_crank", PipeOpCrankCompositor)
-  x$add("compose_probregr", PipeOpProbregr)
-
-  x$add("survavg", PipeOpSurvAvg)
-
-  x = utils::getFromNamespace("mlr_graphs", ns = "mlr3pipelines")
-  x$add("distrcompositor", pipeline_distrcompositor)
-  x$add("crankcompositor", pipeline_crankcompositor)
-  x$add("probregr", pipeline_probregr)
-  x$add("survaverager", pipeline_survaverager)
-  x$add("survbagging", pipeline_survbagging)
-  x$add("survtoregr", pipeline_survtoregr)
+  # graphs
+  mlr_graphs = utils::getFromNamespace("mlr_graphs", ns = "mlr3pipelines")
+  iwalk(as.list(mlr3proba_graphs), function(obj, name) mlr_graphs$add(name, obj)) # nolint
 }
 
-.onLoad = function(libname, pkgname) { # nolint
+.onLoad = function(libname, pkgname) {
   register_mlr3()
   if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
     register_mlr3pipelines()
   }
-
 
   setHook(packageEvent("mlr3", "onLoad"), function(...) register_mlr3(), action = "append")
   setHook(packageEvent("mlr3pipelines", "onLoad"), function(...) register_mlr3pipelines(),
     action = "append")
 }
 
-.onUnload = function(libpath) { # nolint
+.onUnload = function(libpath) {
   event = packageEvent("mlr3", "onLoad")
   hooks = getHook(event)
   pkgname = vapply(hooks[-1], function(x) environment(x)$pkgname, NA_character_)
@@ -195,6 +175,14 @@ register_mlr3pipelines = function() {
   hooks = getHook(event)
   pkgname = vapply(hooks[-1], function(x) environment(x)$pkgname, NA_character_)
   setHook(event, hooks[pkgname != "mlr3proba"], action = "replace")
+
+  # unregister
+  walk(names(mlr3proba_learners), function(nm) mlr_learners$remove(nm))
+  walk(names(mlr3proba_tasks), function(nm) mlr_tasks$remove(nm))
+  walk(names(mlr3proba_measures), function(nm) mlr_measures$remove(nm))
+  walk(names(mlr3proba_task_gens), function(nm) mlr_task_generators$remove(nm))
+  walk(names(mlr3proba_pipeops), function(nm) mlr3pipelines::mlr_pipeops$remove(nm))
+  walk(names(mlr3proba_graphs), function(nm) mlr3pipelines::mlr_graphs$remove(nm))
 
   library.dynam.unload("mlr3proba", libpath)
 }

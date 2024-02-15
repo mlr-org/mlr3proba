@@ -62,3 +62,5 @@ MeasureSurvChamblessAUC = R6Class("MeasureSurvChamblessAUC",
     }
   )
 )
+
+register_measure("surv.chambless_auc", MeasureSurvChamblessAUC)

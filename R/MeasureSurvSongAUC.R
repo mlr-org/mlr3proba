@@ -65,3 +65,5 @@ MeasureSurvSongAUC = R6Class("MeasureSurvSongAUC",
     }
   )
 )
+
+register_measure("surv.song_auc", MeasureSurvSongAUC)

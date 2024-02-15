@@ -74,8 +74,8 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 \link{pipeline_distrcompositor}
 
 Other survival compositors: 
-\code{\link{mlr_pipeops_compose_crank}},
-\code{\link{mlr_pipeops_compose_distr}}
+\code{\link{mlr_pipeops_crankcompose}},
+\code{\link{mlr_pipeops_distrcompose}}
 }
 \concept{survival compositors}
 \section{Super class}{
@@ -84,7 +84,7 @@ Other survival compositors:
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{learner}}{\cr
+\item{\code{learner}}{(\link[mlr3:Learner]{mlr3::Learner})\cr
 The input survival learner.}
 }
 \if{html}{\out{</div>}}
