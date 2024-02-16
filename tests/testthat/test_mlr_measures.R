@@ -64,11 +64,27 @@ test_that("integrated_prob_losses", {
   expect_silent(prediction$score(lapply(probs, msr, integrated = FALSE, times = 80, proper = TRUE)))
 })
 
-test_that("dcalib", {
+test_that("dcalib works", {
   expect_equal(
     pchisq(prediction$score(msr("surv.dcalib", B = 14)), df = 13, lower.tail = FALSE),
     suppressWarnings(prediction$score(msr("surv.dcalib", B = 14, chisq = TRUE)))
   )
+})
+
+test_that("calib_beta works", {
+  m = msr("surv.calib_beta") # ratio
+  expect_equal(m$range, c(-Inf, Inf))
+  expect_equal(m$minimize, FALSE)
+  expect_false(m$param_set$values$se)
+  expect_equal(m$param_set$values$method, "ratio")
+  expect_numeric(pred$score(m))
+
+  m2 = msr("surv.calib_beta", method = "diff") # diff
+  expect_equal(m2$range, c(0, Inf))
+  expect_equal(m2$minimize, TRUE)
+  expect_false(m2$param_set$values$se)
+  expect_equal(m2$param_set$values$method, "diff")
+  expect_numeric(pred$score(m2))
 })
 
 test_that("graf training data for weights", {
