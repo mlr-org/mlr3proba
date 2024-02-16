@@ -103,7 +103,7 @@ MeasureSurvCalibrationAlpha = R6Class("MeasureSurvCalibrationAlpha",
               distr$cumHazard(data = matrix(all_times, nrow = 1))
             )
           } else {
-            cumhaz = diag(distr$cumHazard(all_times))
+            cumhaz = diag(as.matrix(distr$cumHazard(all_times)))
           }
         }
 
