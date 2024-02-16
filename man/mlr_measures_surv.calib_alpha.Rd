@@ -29,10 +29,11 @@ msr("surv.calib_alpha")
 }
 
 \section{Parameters}{
-\tabular{llll}{
-   Id \tab Type \tab Default \tab Levels \cr
-   se \tab logical \tab FALSE \tab TRUE, FALSE \cr
-   method \tab character \tab ratio \tab ratio, diff \cr
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Levels \tab Range \cr
+   se \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   method \tab character \tab ratio \tab ratio, diff \tab - \cr
+   truncate \tab numeric \tab Inf \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
 }
 }
 
@@ -53,9 +54,16 @@ msr("surv.calib_alpha")
 If \code{TRUE} then return standard error of the measure, otherwise the score
 itself (default).
 \item \code{method} (\code{character(1)})\cr
-Returns \eqn{\hat{\alpha}} if equal to \code{ratio} (default) and \eqn{|1-\hat{\alpha}|} if equal to \code{diff}.
-With \code{diff}, the output score can be minimized and for example be used for tuning purposes.
-This parameter takes effect only if \code{se} is \code{FALSE}.
+Returns \eqn{\hat{\alpha}} if equal to \code{ratio} (default) and
+\eqn{|1-\hat{\alpha}|} if equal to \code{diff}.
+With \code{diff}, the output score can be minimized and for example be used for
+tuning purposes. This parameter takes effect only if \code{se} is \code{FALSE}.
+\item \code{truncate} (\code{double(1)}) \cr
+This parameter controls the upper bound of the output score.
+We use \code{truncate = Inf} by default (so no truncation) and it's up to the user
+\strong{to set this up reasonbly} given the chosen \code{method}.
+Note that truncation may severely limit automated tuning with this measure
+using \code{method = diff}.
 }
 }
 

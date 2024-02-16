@@ -20,9 +20,16 @@
 #' If `TRUE` then return standard error of the measure, otherwise the score
 #' itself (default).
 #' - `method` (`character(1)`)\cr
-#' Returns \eqn{\hat{\alpha}} if equal to `ratio` (default) and \eqn{|1-\hat{\alpha}|} if equal to `diff`.
-#' With `diff`, the output score can be minimized and for example be used for tuning purposes.
-#' This parameter takes effect only if `se` is `FALSE`.
+#' Returns \eqn{\hat{\alpha}} if equal to `ratio` (default) and
+#' \eqn{|1-\hat{\alpha}|} if equal to `diff`.
+#' With `diff`, the output score can be minimized and for example be used for
+#' tuning purposes. This parameter takes effect only if `se` is `FALSE`.
+#' - `truncate` (`double(1)`) \cr
+#' This parameter controls the upper bound of the output score.
+#' We use `truncate = Inf` by default (so no truncation) and it's up to the user
+#' **to set this up reasonbly** given the chosen `method`.
+#' Note that truncation may severely limit automated tuning with this measure
+#' using `method = diff`.
 #'
 #' @references
 #' `r format_bib("vanhouwelingen_2000")`
@@ -41,9 +48,10 @@ MeasureSurvCalibrationAlpha = R6Class("MeasureSurvCalibrationAlpha",
 
       ps = ps(
         se = p_lgl(default = FALSE),
-        method = p_fct(c("ratio", "diff"), default = "ratio")
+        method = p_fct(c("ratio", "diff"), default = "ratio"),
+        truncate = p_dbl(lower = -Inf, upper = Inf, default = Inf)
       )
-      ps$values = list(se = FALSE, method = method)
+      ps$values = list(se = FALSE, method = method, truncate = Inf)
       range = if (method == "ratio") c(-Inf, Inf) else c(0, Inf)
       minimize = ifelse(method == "ratio", FALSE, TRUE)
 
@@ -61,28 +69,53 @@ MeasureSurvCalibrationAlpha = R6Class("MeasureSurvCalibrationAlpha",
 
   private = list(
     .score = function(prediction, ...) {
-      deaths = sum(prediction$truth[, 2])
+      truth = prediction$truth
+      all_times = truth[, 1] # both event times and censoring times
+      status = truth[, 2]
+      deaths = sum(status)
 
       ps = self$param_set$values
       if (ps$se) {
         return(exp(1 / sqrt(deaths)))
       } else {
-        if (inherits(prediction$distr, "VectorDistribution")) {
-          haz = as.numeric(prediction$distr$cumHazard(
-            data = matrix(prediction$truth[, 1], nrow = 1)
-          ))
+        distr = prediction$data$distr
+
+        # Bypass distr6 construction if underlying distr represented by array
+        if (inherits(distr, "array")) {
+          surv = distr
+          if (length(dim(surv)) == 3) {
+            # survival 3d array, extract median
+            surv = .ext_surv_mat(arr = surv, which.curve = 0.5)
+          }
+          times = as.numeric(colnames(surv))
+
+          extend_times_cdf = getFromNamespace("C_Vec_WeightedDiscreteCdf", ns = "distr6")
+          # get survival probability for each test obs at observed time
+          surv_all = diag(
+            extend_times_cdf(all_times, times, cdf = t(1 - surv), FALSE, FALSE)
+          )
+
+          # H(t) = -log(S(t))
+          cumhaz = -log(surv_all)
         } else {
-          haz = diag(prediction$distr$cumHazard(prediction$truth[, 1]))
+          if (inherits(distr, "VectorDistribution")) {
+            cumhaz = as.numeric(
+              distr$cumHazard(data = matrix(all_times, nrow = 1))
+            )
+          } else {
+            cumhaz = diag(distr$cumHazard(all_times))
+          }
         }
-        # cumulative hazard should only be infinite if only censoring occurs at the final time-point
-        haz[haz == Inf] = 0
-        out = deaths / sum(haz)
+
+        # ignore Inf values? maybe eps substitute is better?
+        cumhaz[cumhaz == Inf] = 0
+        out = deaths / sum(cumhaz)
 
         if (ps$method == "diff") {
           out = abs(1 - out)
         }
 
-        return(out)
+        return(min(ps$truncate, out))
       }
     }
   )
