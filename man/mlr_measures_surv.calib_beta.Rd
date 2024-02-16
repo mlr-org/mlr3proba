@@ -3,7 +3,7 @@
 \name{mlr_measures_surv.calib_beta}
 \alias{mlr_measures_surv.calib_beta}
 \alias{MeasureSurvCalibrationBeta}
-\title{Van Houwelingen's Beta Survival Measure}
+\title{Van Houwelingen's Calibration Beta Survival Measure}
 \description{
 This calibration method fits the predicted linear predictor from a Cox PH
 model as the only predictor in a new Cox PH model with the test data as
@@ -145,7 +145,8 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{method}}{defines the output score, see "Parameter details" section.}
+\item{\code{method}}{defines which output score to return, see "Parameter
+details" section.}
 }
 \if{html}{\out{</div>}}
 }

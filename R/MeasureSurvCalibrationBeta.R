@@ -1,5 +1,5 @@
 #' @template surv_measure
-#' @templateVar title Van Houwelingen's Beta
+#' @templateVar title Van Houwelingen's Calibration Beta
 #' @templateVar fullname MeasureSurvCalibrationBeta
 #'
 #' @description
@@ -36,7 +36,8 @@ MeasureSurvCalibrationBeta = R6Class("MeasureSurvCalibrationBeta",
   inherit = MeasureSurv,
   public = list(
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
-    #' @param method defines the output score, see "Parameter details" section.
+    #' @param method defines which output score to return, see "Parameter
+    #' details" section.
     initialize = function(method = "ratio") {
       assert_choice(method, choices = c("ratio", "diff"))
 
