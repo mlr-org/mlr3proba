@@ -87,6 +87,28 @@ test_that("calib_beta works", {
   expect_numeric(pred$score(m2))
 })
 
+test_that("calib_alpha works", {
+  m = msr("surv.calib_alpha") # ratio
+  expect_equal(m$range, c(-Inf, Inf))
+  expect_equal(m$minimize, FALSE)
+  expect_false(m$param_set$values$se)
+  expect_false(is.finite(m$param_set$values$truncate))
+  expect_equal(m$param_set$values$method, "ratio")
+  expect_numeric(pred$score(m))
+
+  m2 = msr("surv.calib_alpha", method = "diff") # diff
+  expect_equal(m2$range, c(0, Inf))
+  expect_equal(m2$minimize, TRUE)
+  expect_false(m2$param_set$values$se)
+  expect_false(is.finite(m2$param_set$values$truncate))
+  expect_equal(m2$param_set$values$method, "diff")
+  expect_numeric(pred$score(m2))
+
+  m3 = msr("surv.calib_alpha", method = "diff", truncate = -1)
+  expect_equal(m3$param_set$values$truncate, -1)
+  expect_equal(unname(pred$score(m3)), -1)
+})
+
 test_that("graf training data for weights", {
   m = msr("surv.graf", proper = TRUE)
   t = tsk("rats")
