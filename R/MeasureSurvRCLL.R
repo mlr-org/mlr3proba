@@ -35,7 +35,7 @@ MeasureSurvRCLL = R6::R6Class("MeasureSurvRCLL",
     #'   Standardize measure against a Kaplan-Meier baseline
     #'   (Explained Residual Variation)
     initialize = function(ERV = FALSE) {
-      assert(check_logical(ERV))
+      assert_logical(ERV)
 
       ps = ps(
         eps = p_dbl(0, 1, default = 1e-15),
