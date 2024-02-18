@@ -34,8 +34,8 @@ cumulative hazards \eqn{H_i(t)}.}
 a \code{matrix} (obs x times). Number of columns is equal to \code{eval_times}
 and number of rows is equal to the number of test observations (i.e. the
 length of the \code{lp_test} vector). Depending on the \code{type} argument, the matrix
-can have either survival probabilities ($0-1$) or cumulative hazard estimates
-($0$-\code{Inf}).
+can have either survival probabilities (0-1) or cumulative hazard estimates
+(0-\code{Inf}).
 }
 \description{
 Helper function to compose a survival distribution (or cumulative hazard)
