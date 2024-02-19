@@ -81,8 +81,8 @@ NeedsCompilation: no
 Roxygen: list(markdown = TRUE, r6 = TRUE)
 RoxygenNote: 7.3.1
 Collate:
+    'aaa.R'
     'LearnerDens.R'
-    'zzz.R'
     'LearnerDensHistogram.R'
     'LearnerDensKDE.R'
     'LearnerSurv.R'
@@ -162,3 +162,4 @@ Collate:
     'scoring_rule_erv.R'
     'surv_measures.R'
     'surv_return.R'
+    'zzz.R'
