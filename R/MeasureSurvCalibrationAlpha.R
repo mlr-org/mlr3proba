@@ -1,6 +1,8 @@
 #' @template surv_measure
 #' @templateVar title Van Houwelingen's Calibration Alpha
 #' @templateVar fullname MeasureSurvCalibrationAlpha
+#' @templateVar eps 1e-3
+#' @template param_eps
 #'
 #' @description
 #' This calibration method is defined by estimating
@@ -27,7 +29,7 @@
 #' - `truncate` (`double(1)`) \cr
 #' This parameter controls the upper bound of the output score.
 #' We use `truncate = Inf` by default (so no truncation) and it's up to the user
-#' **to set this up reasonbly** given the chosen `method`.
+#' **to set this up reasonably** given the chosen `method`.
 #' Note that truncation may severely limit automated tuning with this measure
 #' using `method = diff`.
 #'
@@ -47,11 +49,12 @@ MeasureSurvCalibrationAlpha = R6Class("MeasureSurvCalibrationAlpha",
       assert_choice(method, choices = c("ratio", "diff"))
 
       ps = ps(
+        eps = p_dbl(0, 1, default = 1e-3),
         se = p_lgl(default = FALSE),
         method = p_fct(c("ratio", "diff"), default = "ratio"),
         truncate = p_dbl(lower = -Inf, upper = Inf, default = Inf)
       )
-      ps$values = list(se = FALSE, method = method, truncate = Inf)
+      ps$values = list(eps = 1e-3, se = FALSE, method = method, truncate = Inf)
       range = if (method == "ratio") c(-Inf, Inf) else c(0, Inf)
       minimize = ifelse(method == "ratio", FALSE, TRUE)
 
@@ -107,8 +110,9 @@ MeasureSurvCalibrationAlpha = R6Class("MeasureSurvCalibrationAlpha",
           }
         }
 
-        # ignore Inf values? maybe eps substitute is better?
-        cumhaz[cumhaz == Inf] = 0
+        # Inf => case where censoring occurs at last time point
+        # 0   => case where survival probabilities are all 1
+        cumhaz[cumhaz == Inf | cumhaz == 0] = ps$eps
         out = deaths / sum(cumhaz)
 
         if (ps$method == "diff") {

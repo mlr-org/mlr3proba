@@ -31,6 +31,7 @@ msr("surv.calib_alpha")
 \section{Parameters}{
 \tabular{lllll}{
    Id \tab Type \tab Default \tab Levels \tab Range \cr
+   eps \tab numeric \tab 0.001 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    se \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    method \tab character \tab ratio \tab ratio, diff \tab - \cr
    truncate \tab numeric \tab Inf \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
@@ -50,6 +51,14 @@ msr("surv.calib_alpha")
 \section{Parameter details}{
 
 \itemize{
+\item \code{eps} (\code{numeric(1)})\cr
+Very small number to substitute zero values in order to prevent errors
+in e.g. log(0) and/or division-by-zero calculations.
+Default value is 0.001.
+}
+
+
+\itemize{
 \item \code{se} (\code{logical(1)})\cr
 If \code{TRUE} then return standard error of the measure, otherwise the score
 itself (default).
@@ -61,7 +70,7 @@ tuning purposes. This parameter takes effect only if \code{se} is \code{FALSE}.
 \item \code{truncate} (\code{double(1)}) \cr
 This parameter controls the upper bound of the output score.
 We use \code{truncate = Inf} by default (so no truncation) and it's up to the user
-\strong{to set this up reasonbly} given the chosen \code{method}.
+\strong{to set this up reasonably} given the chosen \code{method}.
 Note that truncation may severely limit automated tuning with this measure
 using \code{method = diff}.
 }
