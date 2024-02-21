@@ -32,7 +32,7 @@ meaning that lower values of this measure are preferred."><!-- mathjax --><scrip
     
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.5.9</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.6.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -138,6 +138,10 @@ conclusive judgements about model calibration.</p>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">msr</span>(<span class="st">"surv.dcalib"</span>)</span></code></pre><p></p></div>
     </div>
     <div class="section level2">
+    <h2 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a></h2>
+    
+<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Levels</td><td>Range</td></tr><tr><td>B</td><td>integer</td><td>10</td><td></td><td>\([1, \infty)\)</td></tr><tr><td>chisq</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>truncate</td><td>numeric</td><td>Inf</td><td></td><td>\([0, \infty)\)</td></tr></table></div>
+    <div class="section level2">
     <h2 id="meta-information">Meta Information<a class="anchor" aria-label="anchor" href="#meta-information"></a></h2>
     
 
@@ -145,6 +149,28 @@ conclusive judgements about model calibration.</p>
 <li><p>Range: \([0, \infty)\)</p></li>
 <li><p>Minimize: <code>TRUE</code></p></li>
 <li><p>Required prediction: <code>distr</code></p></li>
+</ul></div>
+    <div class="section level2">
+    <h2 id="parameter-details">Parameter details<a class="anchor" aria-label="anchor" href="#parameter-details"></a></h2>
+    
+
+<ul><li><p><code>B</code> (<code>integer(1)</code>) <br>
+Number of buckets to test for uniform predictions over.
+Default of <code>10</code> is recommended by Haider et al. (2020).
+Changing this parameter affects <code>truncate</code>.</p></li>
+<li><p><code>chisq</code> (<code>logical(1)</code>) <br>
+If <code>TRUE</code> returns the p-value of the corresponding chisq.test instead of the measure.
+Default is <code>FALSE</code> and returns the statistic <code>s</code>.
+You can manually get the p-value by executing <code>pchisq(s, B - 1, lower.tail = FALSE)</code>.
+The null hypothesis is that the model is D-calibrated.</p></li>
+<li><p><code>truncate</code> (<code>double(1)</code>) <br>
+This parameter controls the upper bound of the output statistic,
+when <code>chisq</code> is <code>FALSE</code>. We use <code>truncate = Inf</code> by default but \(10\) may be sufficient
+for most purposes, which corresponds to a p-value of 0.35 for the chisq.test using
+\(B = 10\) buckets. Values \(&gt;10\) translate to even lower p-values and thus
+less calibrated models. If the number of buckets \(B\) changes, you probably will want to
+change the <code>truncate</code> value as well to correspond to the same p-value significance.
+Note that truncation may severely limit automated tuning with this measure.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -213,36 +239,6 @@ conclusive judgements about model calibration.</p>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/mlr_measures_surv.dcalib.html">MeasureSurvDCalibration</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
-<div class="section">
-<h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
-<p></p><div class="arguments"><dl><dt><code>B</code></dt>
-<dd><p>(<code>integer(1)</code>) <br>
-Number of buckets to test for uniform predictions over.
-Default of <code>10</code> is recommended by Haider et al. (2020).
-Changing this parameter affects <code>truncate</code>.</p></dd>
-
-
-<dt><code>chisq</code></dt>
-<dd><p>(<code>logical(1)</code>) <br>
-If <code>TRUE</code> returns the p-value of the corresponding chisq.test instead of the measure.
-Default is <code>FALSE</code> and returns the statistic <code>s</code>.
-You can manually get the p-value by executing <code>pchisq(s, B - 1, lower.tail = FALSE)</code>.
-The null hypothesis is that the model is D-calibrated.</p></dd>
-
-
-<dt><code>truncate</code></dt>
-<dd><p>(<code>double(1)</code>) <br>
-This parameter controls the upper bound of the output statistic,
-when <code>chisq</code> is <code>FALSE</code>. We use <code>truncate = Inf</code> by default but \(10\) may be sufficient
-for most purposes, which corresponds to a p-value of 0.35 for the chisq.test using
-\(B = 10\) buckets. Values \(&gt;10\) translate to even lower p-values and thus
-less calibrated models. If the number of buckets \(B\) changes, you probably will want to
-change the <code>truncate</code> value as well to correspond to the same p-value significance.
-Note that truncation may severely limit automated tuning with this measure.</p></dd>
-
-
-</dl><p></p></div>
-</div>
 
 </div><p></p><hr><a id="method-MeasureSurvDCalibration-clone"></a><div class="section">
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
@@ -252,7 +248,7 @@ Note that truncation may severely limit automated tuning with this measure.</p><
 </div>
 
 <div class="section">
-<h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
+<h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
 

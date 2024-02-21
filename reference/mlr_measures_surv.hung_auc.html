@@ -12,7 +12,7 @@ Assumes random censoring."><!-- mathjax --><script src="https://cdnjs.cloudflare
     
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.5.9</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.6.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -89,9 +89,11 @@ Assumes random censoring."><!-- mathjax --><script src="https://cdnjs.cloudflare
 
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>All measures implemented from <a href="https://CRAN.R-project.org/package=survAUC" class="external-link"><span class="pkg">survAUC</span></a> should be used with care, we are aware
-of problems in implementation that sometimes cause fatal errors in R. In future updates these
-measures will all be re-written and implemented directly in <code>mlr3proba</code>.</p>
+    <p>All measures implemented from <a href="https://CRAN.R-project.org/package=survAUC" class="external-link"><span class="pkg">survAUC</span></a> should be used with
+care, we are aware of problems in implementation that sometimes cause fatal
+errors in R.
+In future updates some of these measures may be re-written and implemented
+directly in <code>mlr3proba</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="dictionary">Dictionary<a class="anchor" aria-label="anchor" href="#dictionary"></a></h2>
@@ -104,6 +106,10 @@ measures will all be re-written and implemented directly in <code>mlr3proba</cod
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">msr</span>(<span class="st">"surv.hung_auc"</span>)</span></code></pre><p></p></div>
     </div>
     <div class="section level2">
+    <h2 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a></h2>
+    
+<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Levels</td></tr><tr><td>integrated</td><td>logical</td><td>TRUE</td><td>TRUE, FALSE</td></tr><tr><td>times</td><td>untyped</td><td>-</td><td></td></tr></table></div>
+    <div class="section level2">
     <h2 id="meta-information">Meta Information<a class="anchor" aria-label="anchor" href="#meta-information"></a></h2>
     
 
@@ -111,6 +117,17 @@ measures will all be re-written and implemented directly in <code>mlr3proba</cod
 <li><p>Range: \([0, 1]\)</p></li>
 <li><p>Minimize: <code>FALSE</code></p></li>
 <li><p>Required prediction: <code>lp</code></p></li>
+</ul></div>
+    <div class="section level2">
+    <h2 id="parameter-details">Parameter details<a class="anchor" aria-label="anchor" href="#parameter-details"></a></h2>
+    
+
+<ul><li><p><code>integrated</code> (<code>logical(1)</code>)<br>
+If <code>TRUE</code> (default), returns the integrated score (eg across
+time points); otherwise, not integrated (eg at a single time point).</p></li>
+</ul><ul><li><p><code>times</code> (<code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>)<br>
+If <code>integrate == TRUE</code> then a vector of time-points over which to integrate the score.
+If <code>integrate == FALSE</code> then a single time point at which to return the score.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
