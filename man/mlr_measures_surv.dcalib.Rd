@@ -40,6 +40,15 @@ msr("surv.dcalib")
 }\if{html}{\out{</div>}}
 }
 
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Levels \tab Range \cr
+   B \tab integer \tab 10 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
+   chisq \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   truncate \tab numeric \tab Inf \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+}
+}
+
 \section{Meta Information}{
 
 \itemize{
@@ -47,6 +56,29 @@ msr("surv.dcalib")
 \item Range: \eqn{[0, \infty)}{[0, Inf)}
 \item Minimize: \code{TRUE}
 \item Required prediction: \code{distr}
+}
+}
+
+\section{Parameter details}{
+
+\itemize{
+\item \code{B} (\code{integer(1)}) \cr
+Number of buckets to test for uniform predictions over.
+Default of \code{10} is recommended by Haider et al. (2020).
+Changing this parameter affects \code{truncate}.
+\item \code{chisq} (\code{logical(1)}) \cr
+If \code{TRUE} returns the p-value of the corresponding chisq.test instead of the measure.
+Default is \code{FALSE} and returns the statistic \code{s}.
+You can manually get the p-value by executing \code{pchisq(s, B - 1, lower.tail = FALSE)}.
+The null hypothesis is that the model is D-calibrated.
+\item \code{truncate} (\code{double(1)}) \cr
+This parameter controls the upper bound of the output statistic,
+when \code{chisq} is \code{FALSE}. We use \code{truncate = Inf} by default but \eqn{10} may be sufficient
+for most purposes, which corresponds to a p-value of 0.35 for the chisq.test using
+\eqn{B = 10} buckets. Values \eqn{>10} translate to even lower p-values and thus
+less calibrated models. If the number of buckets \eqn{B} changes, you probably will want to
+change the \code{truncate} value as well to correspond to the same p-value significance.
+Note that truncation may severely limit automated tuning with this measure.
 }
 }
 
@@ -126,31 +158,6 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \if{html}{\out{<div class="r">}}\preformatted{MeasureSurvDCalibration$new()}\if{html}{\out{</div>}}
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{B}}{(\code{integer(1)}) \cr
-Number of buckets to test for uniform predictions over.
-Default of \code{10} is recommended by Haider et al. (2020).
-Changing this parameter affects \code{truncate}.}
-
-\item{\code{chisq}}{(\code{logical(1)}) \cr
-If \code{TRUE} returns the p-value of the corresponding chisq.test instead of the measure.
-Default is \code{FALSE} and returns the statistic \code{s}.
-You can manually get the p-value by executing \code{pchisq(s, B - 1, lower.tail = FALSE)}.
-The null hypothesis is that the model is D-calibrated.}
-
-\item{\code{truncate}}{(\code{double(1)}) \cr
-This parameter controls the upper bound of the output statistic,
-when \code{chisq} is \code{FALSE}. We use \code{truncate = Inf} by default but \eqn{10} may be sufficient
-for most purposes, which corresponds to a p-value of 0.35 for the chisq.test using
-\eqn{B = 10} buckets. Values \eqn{>10} translate to even lower p-values and thus
-less calibrated models. If the number of buckets \eqn{B} changes, you probably will want to
-change the \code{truncate} value as well to correspond to the same p-value significance.
-Note that truncation may severely limit automated tuning with this measure.}
-}
-\if{html}{\out{</div>}}
-}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MeasureSurvDCalibration-clone"></a>}}

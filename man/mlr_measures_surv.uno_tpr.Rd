@@ -9,13 +9,15 @@ Calls \code{\link[survAUC:AUC.uno]{survAUC::sens.uno()}}.
 
 Assumes random censoring.
 
-\code{times} and \code{lp_thresh} are arbitrarily set to \code{0} to prevent crashing, these should be further
-specified.
+\code{times} and \code{lp_thresh} are arbitrarily set to \code{0} to prevent crashing, these
+should be further specified.
 }
 \details{
-All measures implemented from \CRANpkg{survAUC} should be used with care, we are aware
-of problems in implementation that sometimes cause fatal errors in R. In future updates these
-measures will all be re-written and implemented directly in \code{mlr3proba}.
+All measures implemented from \CRANpkg{survAUC} should be used with
+care, we are aware of problems in implementation that sometimes cause fatal
+errors in R.
+In future updates some of these measures may be re-written and implemented
+directly in \code{mlr3proba}.
 }
 \section{Dictionary}{
 
@@ -28,6 +30,14 @@ msr("surv.uno_tpr")
 }\if{html}{\out{</div>}}
 }
 
+\section{Parameters}{
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Range \cr
+   times \tab numeric \tab - \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   lp_thresh \tab numeric \tab 0 \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
+}
+}
+
 \section{Meta Information}{
 
 \itemize{
@@ -35,6 +45,21 @@ msr("surv.uno_tpr")
 \item Range: \eqn{[0, 1]}{[0, 1]}
 \item Minimize: \code{FALSE}
 \item Required prediction: \code{lp}
+}
+}
+
+\section{Parameter details}{
+
+\itemize{
+\item \code{times} (\code{numeric()})\cr
+A vector of time-points at which we calculate the TPR/TNR scores.
+}
+
+
+\itemize{
+\item \code{lp_thresh} (\code{numeric(1)})\cr
+Determines the cutoff threshold of the linear predictor in the
+calculation of the TPR/TNR scores.
 }
 }
 

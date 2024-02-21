@@ -1,10 +1,31 @@
-surv_logloss = function(truth, distribution, eps = 1e-15, IPCW = TRUE, train = NULL, ...) {
+surv_logloss = function(truth, distr, eps = 1e-15, IPCW = TRUE, train = NULL, ...) {
+  event = truth[, 2] == 1
+  all_times = truth[, 1]
+  event_times = truth[event, 1]
 
-  # calculate pdf at true death time
-  if (inherits(distribution, c("Matdist", "Arrdist"))) {
-    pred = diag(distribution$pdf(truth[, 1]))
+  # Bypass distr6 construction if underlying distr represented by array
+  if (inherits(distr, "array")) {
+    surv = distr
+    if (length(dim(surv)) == 3) {
+      # survival 3d array, extract median
+      surv = .ext_surv_mat(arr = surv, which.curve = 0.5)
+    }
+    times = as.numeric(colnames(surv))
+
+    # calculate pdf (probability of event) at the given time of event
+    # or censoring for each observation
+    convert_to_pdf = getFromNamespace("cdfpdf", ns = "distr6")
+    pdf = convert_to_pdf(cdf = 1 - surv)
+    extend_times_pdf = getFromNamespace("C_Vec_WeightedDiscretePdf", ns = "distr6")
+    pred = diag(
+      extend_times_pdf(x = all_times, data = times, pdf = t(pdf))
+    )
   } else {
-    pred = as.numeric(distribution$pdf(data = matrix(truth[, 1], nrow = 1)))
+    if (inherits(distr, c("Matdist", "Arrdist"))) {
+      pred = diag(distr$pdf(truth[, 1]))
+    } else {
+      pred = as.numeric(distr$pdf(data = matrix(truth[, 1], nrow = 1)))
+    }
   }
 
   if (!IPCW) {
@@ -14,33 +35,28 @@ surv_logloss = function(truth, distribution, eps = 1e-15, IPCW = TRUE, train = N
     return(-log(pred))
   }
 
-  # Estimate censoring distribution
+  # Remove all censored observations
+  pred = as.numeric(pred)[event]
 
+  # Estimate censoring distribution using Kaplan-Meier
   if (is.null(train)) {
-    cens = survival::survfit(Surv(truth[, "time"], 1 - truth[, "status"]) ~ 1)
+    km_fit = survival::survfit(Surv(truth[, "time"], 1 - truth[, "status"]) ~ 1)
   } else {
-    cens = survival::survfit(Surv(train[, "time"], 1 - train[, "status"]) ~ 1)
+    km_fit = survival::survfit(Surv(train[, "time"], 1 - train[, "status"]) ~ 1)
   }
 
-  surv = matrix(rep(cens$surv, length(truth)), ncol = length(cens$time),
-                nrow = length(truth), byrow = TRUE)
-  distr = as.Distribution(
-    1 - .surv_return(times = cens$time, surv = surv)$distr,
-    fun = "cdf", decorators = c("CoreStatistics", "ExoticStatistics")
-  )
+  # Get survival matrix from KM
+  surv_km = matrix(rep(km_fit$surv, length(truth)), ncol = length(km_fit$time),
+                   nrow = length(truth), byrow = TRUE)
 
   # Remove all censored observations
+  surv_km = surv_km[event,]
 
-  uncensored = truth[, 2] == 1
-  pred = as.numeric(pred)[uncensored]
-  truth = truth[uncensored, 1]
-  distribution = distribution[uncensored]
-
-  if (inherits(distribution, c("Matdist", "Arrdist"))) {
-    cens = diag(distribution$survival(truth))
-  } else {
-    cens = as.numeric(distribution$survival(data = matrix(truth, nrow = 1)))
-  }
+  # calculate KM survival at event times
+  extend_times_cdf = getFromNamespace("C_Vec_WeightedDiscreteCdf", ns = "distr6")
+  cens = diag(
+    extend_times_cdf(x = event_times, data = km_fit$time, cdf = t(1 - surv_km), FALSE, FALSE)
+  )
 
   # avoid divide by 0 errors
   cens[cens == 0] = eps

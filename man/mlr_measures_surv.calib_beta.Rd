@@ -3,16 +3,18 @@
 \name{mlr_measures_surv.calib_beta}
 \alias{mlr_measures_surv.calib_beta}
 \alias{MeasureSurvCalibrationBeta}
-\title{Van Houwelingen's Beta Survival Measure}
+\title{Van Houwelingen's Calibration Beta Survival Measure}
 \description{
-This calibration method fits the predicted linear predictor from a Cox PH model as the only
-predictor in a new Cox PH model with the test data as the response.
-\deqn{h(t|x) = h_0(t)exp(l\beta)}
-where \eqn{l} is the predicted linear predictor.
+This calibration method fits the predicted linear predictor from a Cox PH
+model as the only predictor in a new Cox PH model with the test data as
+the response.
+\deqn{h(t|x) = h_0(t)exp(\beta \times lp)}
+where \eqn{lp} is the predicted linear predictor on the test data.
 
-The model is well calibrated if the estimated \eqn{\beta} coefficient is equal to 1.
+The model is well calibrated if the estimated \eqn{\hat{\beta}} coefficient
+(returned score) is equal to 1.
 
-Assumes fitted model is Cox PH.
+\strong{Note}: Assumes fitted model is Cox PH (i.e. has an \code{lp} prediction type).
 }
 \section{Dictionary}{
 
@@ -25,6 +27,14 @@ msr("surv.calib_beta")
 }\if{html}{\out{</div>}}
 }
 
+\section{Parameters}{
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Levels \cr
+   se \tab logical \tab FALSE \tab TRUE, FALSE \cr
+   method \tab character \tab ratio \tab ratio, diff \cr
+}
+}
+
 \section{Meta Information}{
 
 \itemize{
@@ -32,6 +42,22 @@ msr("surv.calib_beta")
 \item Range: \eqn{(-\infty, \infty)}{(-Inf, Inf)}
 \item Minimize: \code{FALSE}
 \item Required prediction: \code{lp}
+}
+}
+
+\section{Parameter details}{
+
+\itemize{
+\item \code{se} (\code{logical(1)})\cr
+If \code{TRUE} then return standard error of the measure which is the standard
+error of the estimated coefficient \eqn{se_{\hat{\beta}}} from the Cox PH model.
+If \code{FALSE} (default) then returns the estimated coefficient \eqn{\hat{\beta}}.
+\item \code{method} (\code{character(1)})\cr
+Returns \eqn{\hat{\beta}} if equal to \code{ratio} (default) and \eqn{|1-\hat{\beta}|}
+if \code{diff}.
+With \code{diff}, the output score can be minimized and for example be used for
+tuning purposes.
+This parameter takes effect only if \code{se} is \code{FALSE}.
 }
 }
 
@@ -113,9 +139,17 @@ Other lp survival measures:
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvCalibrationBeta$new()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvCalibrationBeta$new(method = "ratio")}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{method}}{defines which output score to return, see "Parameter
+details" section.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MeasureSurvCalibrationBeta-clone"></a>}}

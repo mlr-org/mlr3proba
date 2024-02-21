@@ -113,8 +113,8 @@ Label for the new instance.}
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 The referenced help package can be opened via method \verb{$help()}.}
 
-\item{\code{se}}{(\code{logical(1)})\cr
-If \code{TRUE} returns the standard error of the measure.}
+\item{\code{se}}{If \code{TRUE} then returns standard error of the
+measure otherwise returns the mean (default).}
 }
 \if{html}{\out{</div>}}
 }

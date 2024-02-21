@@ -70,8 +70,8 @@
 #' @return a `matrix` (obs x times). Number of columns is equal to `eval_times`
 #' and number of rows is equal to the number of test observations (i.e. the
 #' length of the `lp_test` vector). Depending on the `type` argument, the matrix
-#' can have either survival probabilities ($0-1$) or cumulative hazard estimates
-#' ($0$-`Inf`).
+#' can have either survival probabilities (0-1) or cumulative hazard estimates
+#' (0-`Inf`).
 #'
 #' @references
 #' `r format_bib("cox_1972", "lin_2007")`

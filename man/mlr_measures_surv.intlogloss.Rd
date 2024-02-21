@@ -3,36 +3,28 @@
 \name{mlr_measures_surv.intlogloss}
 \alias{mlr_measures_surv.intlogloss}
 \alias{MeasureSurvIntLogloss}
-\title{Integrated Log loss Survival Measure}
+\title{Integrated Log-Likelihood Survival Measure}
 \description{
-Calculates the integrated survival logarithmic (log) (ISLL), loss, aka integrated cross entropy.
-
-For an individual who dies at time \eqn{t}, with predicted Survival function, \eqn{S}, the
-probabilistic log loss at time \eqn{t^*}{t*} is given by
-\deqn{L(S,t|t^*) = - [log(1 - S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] - [log(S(t^*))I(t > t^*)(1/G(t^*))]}{L(S,t|t*) = - [log(1 - S(t*))I(t \le t*, \delta = 1)(1/G(t))] - [log(S(t*))I(t > t*)(1/G(t*))]} # nolint
-where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
-
-The re-weighted ISLL, ISLL* is given by
-\deqn{L(S,t|t^*) = - [log(1 - S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] - [log(S(t^*))I(t > t^*)(1/G(t))]}{L(S,t|t*) = - [log(1 - S(t*))I(t \le t*, \delta = 1)(1/G(t))] - [log(S(t*))I(t > t*)(1/G(t))]} # nolint
-where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution, i.e. always
-weighted by \eqn{G(t)}. ISLL* is strictly proper when the censoring distribution is independent
-of the survival distribution and when G is fit on a sufficiently large dataset. ISLL is never
-proper. Use \code{proper = FALSE} for ISLL and \code{proper = TRUE} for ISLL*, in the future the default
-will be changed to \code{proper = TRUE}. Results may be very different if many observations are
-censored at the last observed time due to division by 1/\code{eps} in \code{proper = TRUE}.
-
-If \code{integrated == FALSE} then the sample mean is taken for the single specified \code{times}, \eqn{t^*}{t*}, and the returned
-score is given by
-\deqn{L(S,t|t^*) = \frac{1}{N} \sum_{i=1}^N L(S_i,t_i|t^*)}{L(S,t|t*) = 1/N \sum_i^N L(S_i,t_i|t*)}
-where \eqn{N} is the number of observations, \eqn{S_i} is the predicted survival function for
-individual \eqn{i} and \eqn{t_i} is their true survival time.
-
-If \code{integrated == TRUE} then an approximation to integration is made by either taking the sample
-mean over all \eqn{T} unique time-points (\code{method == 1}), or by taking a mean weighted by the difference
-between time-points (\code{method == 2}). Then the sample mean is taken over all \eqn{N} observations.
-\deqn{L(S) = \frac{1}{NT} \sum_{i=1}^N \sum_{j=1}^T L(S_i,t_i|t^*_j)}{L(S) = 1/(NT) \sum_i^N \sum_j^T L(S_i,t_i|t*_j)}
+Calculates the \strong{Integrated Survival Log-Likelihood} (ISLL) or Integrated
+Logarithmic (log) Loss, aka integrated cross entropy.
 }
 \details{
+For an individual who dies at time \eqn{t}, with predicted Survival function, \eqn{S}, the
+probabilistic log loss at time \eqn{t^*}{t*} is given by
+\deqn{L_{ISLL}(S,t|t^*) = - [log(1 - S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] - [log(S(t^*))I(t > t^*)(1/G(t^*))]}
+where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
+
+The re-weighted ISLL, RISLL is given by
+\deqn{L_{RISLL}(S,t|t^*) = - [log(1 - S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] - [log(S(t^*))I(t > t^*)(1/G(t))]}
+where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution, i.e. always
+weighted by \eqn{G(t)}.
+RISLL is strictly proper when the censoring distribution is independent
+of the survival distribution and when G is fit on a sufficiently large dataset.
+ISLL is never proper.
+Use \code{proper = FALSE} for ISLL and \code{proper = TRUE} for RISLL.
+Results may be very different if many observations are censored at the last
+observed time due to division by 1/\code{eps} in \code{proper = TRUE}.
+
 If \code{task} and \code{train_set} are passed to \verb{$score} then G is fit on training data,
 otherwise testing data. The first is likely to reduce any bias caused by calculating
 parts of the measure on the test data it is evaluating. The training data is automatically
@@ -49,6 +41,21 @@ msr("surv.intlogloss")
 }\if{html}{\out{</div>}}
 }
 
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Levels \tab Range \cr
+   integrated \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
+   times \tab untyped \tab - \tab  \tab - \cr
+   t_max \tab numeric \tab - \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   p_max \tab numeric \tab - \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   method \tab integer \tab 2 \tab  \tab \eqn{[1, 2]}{[1, 2]} \cr
+   se \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   proper \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   eps \tab numeric \tab 0.001 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   ERV \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+}
+}
+
 \section{Meta Information}{
 
 \itemize{
@@ -56,6 +63,83 @@ msr("surv.intlogloss")
 \item Range: \eqn{[0, \infty)}{[0, Inf)}
 \item Minimize: \code{TRUE}
 \item Required prediction: \code{distr}
+}
+}
+
+\section{Parameter details}{
+
+\itemize{
+\item \code{integrated} (\code{logical(1)})\cr
+If \code{TRUE} (default), returns the integrated score (eg across
+time points); otherwise, not integrated (eg at a single time point).
+}
+
+
+\itemize{
+\item \code{times} (\code{numeric()})\cr
+If \code{integrate == TRUE} then a vector of time-points over which to integrate the score.
+If \code{integrate == FALSE} then a single time point at which to return the score.
+}
+
+
+\itemize{
+\item \code{t_max} (\code{numeric(1)})\cr
+Cutoff time (i.e. time horizon) to evaluate the measure up to.
+Mutually exclusive with \code{p_max} or \code{times}.
+}
+
+
+\itemize{
+\item \code{p_max} (\code{numeric(1)})\cr
+The proportion of censoring to integrate up to in the given dataset.
+Mutually exclusive with \code{times} or \code{t_max}.
+}
+
+
+\itemize{
+\item \code{method} (\code{integer(1)})\cr
+If \code{integrate == TRUE}, this selects the integration weighting method.
+\code{method == 1} corresponds to weighting each time-point equally
+and taking the mean score over discrete time-points.
+\code{method == 2} corresponds to calculating a mean weighted by the
+difference between time-points.
+\code{method == 2} is the default value, to be in line with other packages.
+}
+
+
+\itemize{
+\item \code{se} (\code{logical(1)})\cr
+If \code{TRUE} then returns standard error of the measure otherwise
+returns the mean across all individual scores, e.g. the mean of
+the per observation scores.
+Default is \code{FALSE} (returns the mean).
+}
+
+
+\itemize{
+\item \code{proper} (\code{logical(1)})\cr
+If \code{TRUE} then weights scores by the censoring distribution at
+the observed event time, which results in a strictly proper scoring
+rule if censoring and survival time distributions are independent
+and a sufficiently large dataset is used.
+If \code{FALSE} then weights scores by the Graf method which is the
+more common usage but the loss is not proper.
+}
+
+
+\itemize{
+\item \code{eps} (\code{numeric(1)})\cr
+Very small number to substitute zero values in order to prevent errors
+in e.g. log(0) and/or division-by-zero calculations.
+Default value is 0.001.
+}
+
+
+\itemize{
+\item \code{ERV} (\code{logical(1)})\cr
+If \code{TRUE} then the Explained Residual Variation method is applied, which
+means the score is standardized against a Kaplan-Meier baseline.
+Default is \code{FALSE}.
 }
 }
 

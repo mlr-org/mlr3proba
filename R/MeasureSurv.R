@@ -21,7 +21,6 @@
 #' @template param_packages
 #' @template param_label
 #' @template param_man
-#' @template param_se
 #'
 #' @family Measure
 #' @seealso
@@ -32,6 +31,8 @@ MeasureSurv = R6Class("MeasureSurv",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
+    #' @param se If `TRUE` then returns standard error of the
+    #' measure otherwise returns the mean (default).
     initialize = function(id, param_set = ps(), range, minimize = NA, aggregator = NULL,
       properties = character(), predict_type = "distr", task_properties = character(),
       packages = character(), label = NA_character_, man = NA_character_, se = FALSE) {

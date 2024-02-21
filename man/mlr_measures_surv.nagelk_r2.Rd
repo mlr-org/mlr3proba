@@ -10,9 +10,11 @@ Calls \code{\link[survAUC:OXS]{survAUC::Nagelk()}}.
 Assumes Cox PH model specification.
 }
 \details{
-All measures implemented from \CRANpkg{survAUC} should be used with care, we are aware
-of problems in implementation that sometimes cause fatal errors in R. In future updates these
-measures will all be re-written and implemented directly in \code{mlr3proba}.
+All measures implemented from \CRANpkg{survAUC} should be used with
+care, we are aware of problems in implementation that sometimes cause fatal
+errors in R.
+In future updates some of these measures may be re-written and implemented
+directly in \code{mlr3proba}.
 }
 \section{Dictionary}{
 
@@ -23,6 +25,11 @@ This \link[mlr3:Measure]{Measure} can be instantiated via the \link[mlr3misc:Dic
 mlr_measures$get("surv.nagelk_r2")
 msr("surv.nagelk_r2")
 }\if{html}{\out{</div>}}
+}
+
+\section{Parameters}{
+
+Empty ParamSet
 }
 
 \section{Meta Information}{
