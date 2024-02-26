@@ -105,7 +105,7 @@ equal weights for each prediction.'><!-- mathjax --><script src="https://cdnjs.c
 <p>The resulting prediction will aggregate any predict types that are contained within all inputs.
 Any predict types missing from at least one input will be set to <code>NULL</code>. These are aggregated
 as follows:</p><ul><li><p><code>"response"</code>, <code>"crank"</code>, and <code>"lp"</code> are all a weighted average from the incoming predictions.</p></li>
-<li><p><code>"distr"</code> is a <a href="https://rdrr.io/pkg/distr6/man/VectorDistribution.html" class="external-link">distr6::VectorDistribution</a> containing <a href="https://rdrr.io/pkg/distr6/man/MixtureDistribution.html" class="external-link">distr6::MixtureDistribution</a>s.</p></li>
+<li><p><code>"distr"</code> is a <a href="https://xoopr.github.io/distr6/reference/VectorDistribution.html" class="external-link">distr6::VectorDistribution</a> containing <a href="https://xoopr.github.io/distr6/reference/MixtureDistribution.html" class="external-link">distr6::MixtureDistribution</a>s.</p></li>
 </ul><p>Weights can be set as a parameter; if none are provided, defaults to
 equal weights for each prediction.</p>
     </div>

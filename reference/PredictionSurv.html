@@ -91,7 +91,7 @@ and example below.'><!-- mathjax --><script src="https://cdnjs.cloudflare.com/aj
     <p>This object stores the predictions returned by a learner of class <a href="LearnerSurv.html">LearnerSurv</a>.</p>
 <p>The <code>task_type</code> is set to <code>"surv"</code>.</p>
 <p>For accessing survival and hazard functions, as well as other complex methods
-from a PredictionSurv object, see public methods on <code><a href="https://rdrr.io/pkg/distr6/man/ExoticStatistics.html" class="external-link">distr6::ExoticStatistics()</a></code>
+from a PredictionSurv object, see public methods on <code><a href="https://xoopr.github.io/distr6/reference/ExoticStatistics.html" class="external-link">distr6::ExoticStatistics()</a></code>
 and example below.</p>
     </div>
 
@@ -118,7 +118,7 @@ Access the stored predicted continuous ranking.</p></dd>
 
 
 <dt><code>distr</code></dt>
-<dd><p>(<a href="https://rdrr.io/pkg/distr6/man/Matdist.html" class="external-link">distr6::Matdist</a>|<a href="https://rdrr.io/pkg/distr6/man/Arrdist.html" class="external-link">distr6::Arrdist</a>|<a href="https://rdrr.io/pkg/distr6/man/VectorDistribution.html" class="external-link">distr6::VectorDistribution</a>)<br>
+<dd><p>(<a href="https://xoopr.github.io/distr6/reference/Matdist.html" class="external-link">distr6::Matdist</a>|<a href="https://xoopr.github.io/distr6/reference/Arrdist.html" class="external-link">distr6::Arrdist</a>|<a href="https://xoopr.github.io/distr6/reference/VectorDistribution.html" class="external-link">distr6::VectorDistribution</a>)<br>
 Convert the stored survival array or matrix to a survival distribution.</p></dd>
 
 
@@ -189,8 +189,8 @@ the observation is more likely to experience the event.</p></dd>
 
 <dt><code>distr</code></dt>
 <dd><p>(<code>matrix()|[distr6::Arrdist]|[distr6::Matdist]|[distr6::VectorDistribution]</code>)<br>
-Either a matrix of predicted survival probabilities, a <a href="https://rdrr.io/pkg/distr6/man/VectorDistribution.html" class="external-link">distr6::VectorDistribution</a>,
-a <a href="https://rdrr.io/pkg/distr6/man/Matdist.html" class="external-link">distr6::Matdist</a> or an <a href="https://rdrr.io/pkg/distr6/man/Arrdist.html" class="external-link">distr6::Arrdist</a>.
+Either a matrix of predicted survival probabilities, a <a href="https://xoopr.github.io/distr6/reference/VectorDistribution.html" class="external-link">distr6::VectorDistribution</a>,
+a <a href="https://xoopr.github.io/distr6/reference/Matdist.html" class="external-link">distr6::Matdist</a> or an <a href="https://xoopr.github.io/distr6/reference/Arrdist.html" class="external-link">distr6::Arrdist</a>.
 If a matrix/array then column names must be given and correspond to survival times.
 Rows of matrix correspond to individual predictions. It is advised that the
 first column should be time <code>0</code> with all entries <code>1</code> and the last
@@ -220,16 +220,16 @@ If <code>TRUE</code>, performs argument checks and predict type conversions.</p>
 </div>
 <div class="section">
 <h4 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h4>
-<p>Upon <strong>initialization</strong>, if the <code>distr</code> input is a <a href="https://rdrr.io/pkg/distr6/man/Distribution.html" class="external-link">Distribution</a>,
+<p>Upon <strong>initialization</strong>, if the <code>distr</code> input is a <a href="https://xoopr.github.io/distr6/reference/Distribution.html" class="external-link">Distribution</a>,
 we try to coerce it either to a survival matrix or a survival array and store it
 in the <code>$data$distr</code> slot for internal use.</p>
-<p>If the stored <code>$data$distr</code> is a <a href="https://rdrr.io/pkg/distr6/man/Distribution.html" class="external-link">Distribution</a> object,
+<p>If the stored <code>$data$distr</code> is a <a href="https://xoopr.github.io/distr6/reference/Distribution.html" class="external-link">Distribution</a> object,
 the active field <code>$distr</code> (<strong>external user API</strong>) returns it without modification.
 Otherwise, if <code>$data$distr</code> is a survival matrix or array, <code>$distr</code>
 constructs a distribution out of the <code>$data$distr</code> object, which will be a
-<a href="https://rdrr.io/pkg/distr6/man/Matdist.html" class="external-link">Matdist</a> or <a href="https://rdrr.io/pkg/distr6/man/Arrdist.html" class="external-link">Arrdist</a> respectively.</p>
+<a href="https://xoopr.github.io/distr6/reference/Matdist.html" class="external-link">Matdist</a> or <a href="https://xoopr.github.io/distr6/reference/Arrdist.html" class="external-link">Arrdist</a> respectively.</p>
 <p>Note that if a survival 3d array is stored in <code>$data$distr</code>, the <code>$distr</code>
-field returns an <a href="https://rdrr.io/pkg/distr6/man/Arrdist.html" class="external-link">Arrdist</a> initialized with <code>which.curve = 0.5</code>
+field returns an <a href="https://xoopr.github.io/distr6/reference/Arrdist.html" class="external-link">Arrdist</a> initialized with <code>which.curve = 0.5</code>
 by default (i.e. the median curve). This means that measures that require
 a <code>distr</code> prediction like <a href="mlr_measures_surv.graf.html">MeasureSurvGraf</a>, <a href="mlr_measures_surv.rcll.html">MeasureSurvRCLL</a>, etc.
 will use the median survival probabilities.
