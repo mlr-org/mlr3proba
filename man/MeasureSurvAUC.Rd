@@ -6,6 +6,22 @@
 \description{
 This is an abstract class that should not be constructed directly.
 }
+\section{Parameter details}{
+
+\itemize{
+\item \code{integrated} (\code{logical(1)})\cr
+If \code{TRUE} (default), returns the integrated score (eg across
+time points); otherwise, not integrated (eg at a single time point).
+}
+
+
+\itemize{
+\item \code{times} (\code{numeric()})\cr
+If \code{integrate == TRUE} then a vector of time-points over which to integrate the score.
+If \code{integrate == FALSE} then a single time point at which to return the score.
+}
+}
+
 \section{Super classes}{
 \code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3proba:MeasureSurv]{mlr3proba::MeasureSurv}} -> \code{MeasureSurvAUC}
 }

@@ -1,15 +1,14 @@
 #' @template surv_measure
 #' @templateVar title Hung and Chiang's AUC
 #' @templateVar fullname MeasureSurvHungAUC
+#' @template measure_survAUC
+#' @template param_integrated
+#' @template param_times
 #'
 #' @description
 #' Calls [survAUC::AUC.hc()].
 #'
 #' Assumes random censoring.
-#'
-#' @template measure_survAUC
-#' @template param_integrated
-#' @template param_times
 #'
 #' @references
 #' `r format_bib("hung_2010")`
@@ -59,3 +58,5 @@ MeasureSurvHungAUC = R6Class("MeasureSurvHungAUC",
     }
   )
 )
+
+register_measure("surv.hung_auc", MeasureSurvHungAUC)

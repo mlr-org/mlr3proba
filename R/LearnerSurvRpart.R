@@ -1,12 +1,14 @@
-#' @template surv_learner
 #' @templateVar title Rpart Survival Trees
 #' @templateVar fullname LearnerSurvRpart
 #' @templateVar caller [rpart::rpart()]
 #' @templateVar crank using [rpart::predict.rpart()]
+#' @templateVar id surv.rpart
+#' @template surv_learner
 #'
-#' @description
-#' Parameter `xval` is set to 0 in order to save some computation time.
-#' Parameter `model` has been renamed to `keep_model`.
+#' @section Initial parameter values:
+#'
+#' - `xval` is set to 0 in order to save some computation time.
+#' - `model` has been renamed to `keep_model`.
 #'
 #' @references
 #' `r format_bib("breiman_1984")`
@@ -87,3 +89,5 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart",
     }
   )
 )
+
+register_learner("surv.rpart", LearnerSurvRpart)

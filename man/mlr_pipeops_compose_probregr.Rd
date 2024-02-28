@@ -41,7 +41,7 @@ The \verb{$state} is left empty (\code{list()}).
 \item \code{dist} :: \code{character(1)} \cr
 Location-scale distribution to use for composition. Current choices are
 \code{"Uniform"} (default), \code{"Normal"}, \code{"Cauchy"}, \code{"Gumbel"}, \code{"Laplace"},
-\code{"Logistic"}. All implemented via \CRANpkg{distr6}.
+\code{"Logistic"}. All implemented via \link{distr6}.
 }
 }
 
@@ -102,10 +102,7 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{PipeOpProbregr$new(
-  id = "compose_probregr",
-  param_vals = list(dist = "Uniform")
-)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{PipeOpProbregr$new(id = "compose_probregr", param_vals = list())}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

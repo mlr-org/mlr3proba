@@ -1,17 +1,15 @@
 #' @template surv_measure
 #' @templateVar title Song and Zhou's AUC
 #' @templateVar fullname MeasureSurvSongAUC
-#'
-#' @template param_integrated
+#' @template measure_survAUC
 #' @template param_times
-#' @template param_measure_type
+#' @template param_integrated
+#' @template param_type_auc
 #'
 #' @description
 #' Calls [survAUC::AUC.sh()].
 #'
 #' Assumes Cox PH model specification.
-#'
-#' @template measure_survAUC
 #'
 #' @references
 #' `r format_bib("song_2008")`
@@ -67,3 +65,5 @@ MeasureSurvSongAUC = R6Class("MeasureSurvSongAUC",
     }
   )
 )
+
+register_measure("surv.song_auc", MeasureSurvSongAUC)

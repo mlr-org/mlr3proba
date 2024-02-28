@@ -1,19 +1,17 @@
 #' @template surv_measure
 #' @templateVar title Song and Zhou's TPR
 #' @templateVar fullname MeasureSurvSongTPR
+#' @template measure_survAUC
+#' @template param_times
+#' @template param_thresh
 #'
 #' @description
 #' Calls [survAUC::sens.sh()].
 #'
 #' Assumes Cox PH model specification.
 #'
-#' `times` and `lp_thresh` are arbitrarily set to `0` to prevent crashing, these should be further
-#' specified.
-#'
-#' @template measure_survAUC
-#' @template param_times
-#' @template param_thresh
-#' @template param_measure_type
+#' `times` and `lp_thresh` are arbitrarily set to `0` to prevent crashing, these
+#' should be further specified.
 #'
 #' @references
 #' `r format_bib("song_2008")`
@@ -63,3 +61,5 @@ MeasureSurvSongTPR = R6Class("MeasureSurvSongTPR",
     }
   )
 )
+
+register_measure("surv.song_tpr", MeasureSurvSongTPR)

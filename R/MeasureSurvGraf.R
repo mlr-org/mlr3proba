@@ -1,39 +1,46 @@
 #' @template surv_measure
-#' @templateVar title Integrated Graf Score
+#' @templateVar title Integrated Brier Score
 #' @templateVar fullname MeasureSurvGraf
+#' @template param_integrated
+#' @template param_times
+#' @template param_tmax
+#' @template param_pmax
+#' @template param_method
+#' @template param_se
+#' @template param_proper
+#' @templateVar eps 1e-3
+#' @template param_eps
+#' @template param_erv
 #'
 #' @aliases MeasureSurvBrier mlr_measures_surv.brier
 #'
 #' @description
-#' Calculates the Integrated Graf Score, aka integrated Brier score or squared loss.
+#' Calculates the **Integrated Survival Brier Score** (ISBS), Integrated Graf Score
+#' or squared survival loss.
 #'
+#' @details
 #' For an individual who dies at time \eqn{t}, with predicted Survival function, \eqn{S}, the
 #' Graf Score at time \eqn{t^*}{t*} is given by
-#' \deqn{L(S,t|t^*) = [(S(t^*)^2)I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*))^2)I(t > t^*)(1/G(t^*))]}{L(S,t|t*) = [(S(t*)^2)I(t \le t*, \delta = 1)(1/G(t))] + [((1 - S(t*))^2)I(t > t*)(1/G(t*))]} # nolint
+#' \deqn{L_{ISBS}(S,t|t^*) = [(S(t^*)^2)I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*))^2)I(t > t^*)(1/G(t^*))]}
 #' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
 #'
-#' The re-weighted IGS, IGS* is given by
-#' \deqn{L(S,t|t^*) = [(S(t^*)^2)I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*))^2)I(t > t^*)(1/G(t))]}{L(S,t|t*) = [(S(t*)^2)I(t \le t*, \delta = 1)(1/G(t))] + [((1 - S(t*))^2)I(t > t*)(1/G(t))]} # nolint
+#' The re-weighted ISBS (RISBS) is given by
+#' \deqn{L_{RISBS}(S,t|t^*) = [(S(t^*)^2)I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*))^2)I(t > t^*)(1/G(t))]}
 #' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution, i.e. always
-#' weighted by \eqn{G(t)}. IGS* is strictly proper when the censoring distribution is independent
-#' of the survival distribution and when G is fit on a sufficiently large dataset. IGS is never
-#' proper. Use `proper = FALSE` for IGS and `proper = TRUE` for IGS*, in the future the default
-#' will be changed to `proper = TRUE`. Results may be very different if many observations are
+#' weighted by \eqn{G(t)}.
+#' RISBS is strictly proper when the censoring distribution is independent
+#' of the survival distribution and when G is fit on a sufficiently large dataset.
+#' ISBS is never proper. Use `proper = FALSE` for ISBS and `proper = TRUE` for RISBS.
+#' Results may be very different if many observations are
 #' censored at the last observed time due to division by 1/`eps` in `proper = TRUE`.
 #'
-#' Note: If comparing the integrated graf score to other packages, e.g. \CRANpkg{pec}, then
-#' `method = 2` should be used. However the results may still be very slightly different as
-#' this package uses `survfit` to estimate the censoring distribution, in line with the Graf 1999
-#' paper; whereas some other packages use `prodlim` with `reverse = TRUE` (meaning Kaplan-Meier is
+#' **Note**: If comparing the integrated graf score to other packages, e.g.
+#' \CRANpkg{pec}, then `method = 2` should be used. However the results may
+#' still be very slightly different as this package uses `survfit` to estimate
+#' the censoring distribution, in line with the Graf 1999 paper; whereas some
+#' other packages use `prodlim` with `reverse = TRUE` (meaning Kaplan-Meier is
 #' not used).
 #'
-#' @template measure_integrated
-#' @template param_integrated
-#' @template param_times
-#' @template param_method
-#' @template param_proper
-#' @template param_se
-#' @template param_eps
 #' @template details_trainG
 #'
 #' @references
@@ -51,7 +58,7 @@ MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
     #'   Standardize measure against a Kaplan-Meier baseline
     #'   (Explained Residual Variation)
     initialize = function(ERV = FALSE) {
-      assert(check_logical(ERV))
+      assert_logical(ERV)
 
       ps = ps(
         integrated = p_lgl(default = TRUE),
@@ -125,3 +132,6 @@ MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
     }
   )
 )
+
+register_measure("surv.graf", MeasureSurvGraf)
+register_measure("surv.brier", MeasureSurvGraf)

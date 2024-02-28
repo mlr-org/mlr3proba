@@ -3,25 +3,29 @@
 \name{mlr_measures_surv.logloss}
 \alias{mlr_measures_surv.logloss}
 \alias{MeasureSurvLogloss}
-\title{Log loss Survival Measure}
+\title{Negative Log-Likelihood Survival Measure}
 \description{
-Calculates the cross-entropy, or logarithmic (log), loss.
+Calculates the cross-entropy, or negative log-likelihood (NLL) or logarithmic (log), loss.
+}
+\details{
+The Log Loss, in the context of probabilistic predictions, is defined as the
+negative log probability density function, \eqn{f}, evaluated at the
+observation time (event or censoring), \eqn{t},
+\deqn{L_{NLL}(f, t) = -log(f(t))}
 
-The logloss, in the context of probabilistic predictions, is defined as the negative log
-probability density function, \eqn{f}, evaluated at the observation time, \eqn{t},
-\deqn{L(f, t) = -log(f(t))}
-
-The standard error of the Logloss, L, is approximated via,
+The standard error of the Log Loss, L, is approximated via,
 \deqn{se(L) = sd(L)/\sqrt{N}}{se(L) = sd(L)/\sqrt N}
 where \eqn{N} are the number of observations in the test set, and \eqn{sd} is the standard
 deviation.
 
-The IPCW log loss is defined by
-\deqn{L(f, t, \Delta) = -\Delta log(f(t))/G(t)}
+The \strong{Re-weighted Negative Log-Likelihood} (RNLL) or IPCW Log Loss is defined by
+\deqn{L_{RNLL}(f, t, \Delta) = -\Delta log(f(t))/G(t)}
 where \eqn{\Delta} is the censoring indicator and G is the Kaplan-Meier estimator of the
 censoring distribution.
-}
-\details{
+So only observations that have experienced the event are taking into account
+for RNLL and both \eqn{f(t), G(t)} are calculated only at the event times.
+If only censored observations exist in the test set, \code{NaN} is returned.
+
 If \code{task} and \code{train_set} are passed to \verb{$score} then G is fit on training data,
 otherwise testing data. The first is likely to reduce any bias caused by calculating
 parts of the measure on the test data it is evaluating. The training data is automatically
@@ -38,6 +42,16 @@ msr("surv.logloss")
 }\if{html}{\out{</div>}}
 }
 
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Levels \tab Range \cr
+   eps \tab numeric \tab 1e-15 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   se \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   IPCW \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
+   ERV \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+}
+}
+
 \section{Meta Information}{
 
 \itemize{
@@ -45,6 +59,39 @@ msr("surv.logloss")
 \item Range: \eqn{[0, \infty)}{[0, Inf)}
 \item Minimize: \code{TRUE}
 \item Required prediction: \code{distr}
+}
+}
+
+\section{Parameter details}{
+
+\itemize{
+\item \code{eps} (\code{numeric(1)})\cr
+Very small number to substitute zero values in order to prevent errors
+in e.g. log(0) and/or division-by-zero calculations.
+Default value is 1e-15.
+}
+
+
+\itemize{
+\item \code{se} (\code{logical(1)})\cr
+If \code{TRUE} then returns standard error of the measure otherwise
+returns the mean across all individual scores, e.g. the mean of
+the per observation scores.
+Default is \code{FALSE} (returns the mean).
+}
+
+
+\itemize{
+\item \code{ERV} (\code{logical(1)})\cr
+If \code{TRUE} then the Explained Residual Variation method is applied, which
+means the score is standardized against a Kaplan-Meier baseline.
+Default is \code{FALSE}.
+}
+
+
+\itemize{
+\item \code{IPCW} (\code{logical(1)})\cr
+If \code{TRUE} (default) then returns the \eqn{L_{RNLL}} score (which is proper), otherwise the \eqn{L_{NLL}} score (improper).
 }
 }
 

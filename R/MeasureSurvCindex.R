@@ -1,51 +1,54 @@
 #' @template surv_measure
 #' @templateVar title Concordance Statistics
 #' @templateVar fullname MeasureSurvCindex
+#' @templateVar eps 1e-3
+#' @template param_eps
 #'
 #' @description
 #' Calculates weighted concordance statistics, which, depending on the chosen weighting method
 #' and tied times solution, are equivalent to several proposed methods.
 #'
-#' For the Kaplan-Meier estimate of the training survival distribution, S, and the Kaplan-Meier
-#' estimate of the training censoring distribution, G:
+#' @details
+#' For the Kaplan-Meier estimate of the training survival distribution, `S`, and
+#' the Kaplan-Meier estimate of the training censoring distribution, `G`:
 #'
 #' `weight_meth`:
 #'
-#'  * `"I"` = No weighting. (Harrell)
-#'  * `"GH"` = Gonen and Heller's Concordance Index
-#'  * `"G"` = Weights concordance by G^-1.
-#'  * `"G2"` = Weights concordance by G^-2. (Uno et al.)
-#'  * `"SG"` = Weights concordance by S/G (Shemper et al.)
-#'  * `"S"` = Weights concordance by S (Peto and Peto)
+#' - `"I"` = No weighting. (Harrell)
+#' - `"GH"` = Gonen and Heller's Concordance Index
+#' - `"G"` = Weights concordance by G^-1.
+#' - `"G2"` = Weights concordance by G^-2. (Uno et al.)
+#' - `"SG"` = Weights concordance by S/G (Shemper et al.)
+#' - `"S"` = Weights concordance by S (Peto and Peto)
 #'
-#'  The last three require training data. `"GH"` is only applicable to [LearnerSurvCoxPH].
+#' The last three require training data. `"GH"` is only applicable to [LearnerSurvCoxPH].
 #'
-#'  @details
-#'  The implementation is slightly different from [survival::concordance]. Firstly this
-#'  implementation is faster, and secondly the weights are computed on the training dataset whereas
-#'  in [survival::concordance] the weights are computed on the same testing data.
+#' The implementation is slightly different from [survival::concordance].
+#' Firstly this implementation is faster, and secondly the weights are computed
+#' on the training dataset whereas in [survival::concordance] the weights are
+#' computed on the same testing data.
+#'
+#' @section Parameter details:
+#' - `cutoff` (`numeric(1)`)\cr
+#' Cut-off time to evaluate concordance up to.
+#' - `weight_meth` (`character(1)`)\cr
+#' Method for weighting concordance. Default `"I"` is Harrell's C. See details.
+#' - `tiex` (`numeric(1)`)\cr
+#' Weighting applied to tied rankings, default is to give them half (0.5) weighting.
 #'
 #' @references
 #' `r format_bib("peto_1972", "harrell_1982", "goenen_2005", "schemper_2009", "uno_2011")`
 #'
-#' @template param_id
 #' @template param_range
 #' @template param_minimize
 #' @template param_packages
 #' @template param_predict_type
-#' @template param_eps
 #' @template param_measure_properties
 #' @export
 MeasureSurvCindex = R6Class("MeasureSurvCindex",
   inherit = MeasureSurv,
   public = list(
     #' @description This is an abstract class that should not be constructed directly.
-    #' @param cutoff (`numeric(1)`)\cr
-    #'   Cut-off time to evaluate concordance up to.
-    #' @param weight_meth (`character(1)`) \cr
-    #'   Method for weighting concordance. Default `"I"` is Harrell's C. See details.
-    #' @param tiex (`numeric(1)`) \cr
-    #'   Weighting applied to tied rankings, default is to give them half weighting.
     initialize = function() {
       ps = ps(
         cutoff = p_dbl(),
@@ -95,3 +98,5 @@ gonen = function(crank, tiex) {
 
   c_gonen(sort(crank), tiex)
 }
+
+register_measure("surv.cindex", MeasureSurvCindex)

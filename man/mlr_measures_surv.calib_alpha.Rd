@@ -3,17 +3,19 @@
 \name{mlr_measures_surv.calib_alpha}
 \alias{mlr_measures_surv.calib_alpha}
 \alias{MeasureSurvCalibrationAlpha}
-\title{Van Houwelingen's Alpha Survival Measure}
+\title{Van Houwelingen's Calibration Alpha Survival Measure}
 \description{
 This calibration method is defined by estimating
-\deqn{\alpha = \sum \delta_i / \sum H_i(t_i)}
-where \eqn{\delta} is the observed censoring indicator from the test data, \eqn{H_i} is the
-predicted cumulative hazard, and \eqn{t_i} is the observed survival time.
+\deqn{\hat{\alpha} = \sum \delta_i / \sum H_i(T_i)}
+where \eqn{\delta} is the observed censoring indicator from the test data,
+\eqn{H_i} is the predicted cumulative hazard, and \eqn{T_i} is the observed
+survival time (event or censoring).
 
 The standard error is given by
-\deqn{exp(1/\sqrt{\sum \delta_i})}
+\deqn{\hat{\alpha_{se}} = exp(1/\sqrt{\sum \delta_i})}
 
-The model is well calibrated if the estimated \eqn{\alpha} coefficient is equal to 1.
+The model is well calibrated if the estimated \eqn{\hat{\alpha}} coefficient
+(returned score) is equal to 1.
 }
 \section{Dictionary}{
 
@@ -26,6 +28,16 @@ msr("surv.calib_alpha")
 }\if{html}{\out{</div>}}
 }
 
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Levels \tab Range \cr
+   eps \tab numeric \tab 0.001 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   se \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   method \tab character \tab ratio \tab ratio, diff \tab - \cr
+   truncate \tab numeric \tab Inf \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
+}
+}
+
 \section{Meta Information}{
 
 \itemize{
@@ -33,6 +45,34 @@ msr("surv.calib_alpha")
 \item Range: \eqn{(-\infty, \infty)}{(-Inf, Inf)}
 \item Minimize: \code{FALSE}
 \item Required prediction: \code{distr}
+}
+}
+
+\section{Parameter details}{
+
+\itemize{
+\item \code{eps} (\code{numeric(1)})\cr
+Very small number to substitute zero values in order to prevent errors
+in e.g. log(0) and/or division-by-zero calculations.
+Default value is 0.001.
+}
+
+
+\itemize{
+\item \code{se} (\code{logical(1)})\cr
+If \code{TRUE} then return standard error of the measure, otherwise the score
+itself (default).
+\item \code{method} (\code{character(1)})\cr
+Returns \eqn{\hat{\alpha}} if equal to \code{ratio} (default) and
+\eqn{|1-\hat{\alpha}|} if equal to \code{diff}.
+With \code{diff}, the output score can be minimized and for example be used for
+tuning purposes. This parameter takes effect only if \code{se} is \code{FALSE}.
+\item \code{truncate} (\code{double(1)}) \cr
+This parameter controls the upper bound of the output score.
+We use \code{truncate = Inf} by default (so no truncation) and it's up to the user
+\strong{to set this up reasonably} given the chosen \code{method}.
+Note that truncation may severely limit automated tuning with this measure
+using \code{method = diff}.
 }
 }
 
@@ -109,9 +149,17 @@ Other distr survival measures:
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvCalibrationAlpha$new()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvCalibrationAlpha$new(method = "ratio")}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{method}}{defines which output score to return, see "Parameter
+details" section.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MeasureSurvCalibrationAlpha-clone"></a>}}

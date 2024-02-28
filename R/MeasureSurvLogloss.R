@@ -1,27 +1,36 @@
 #' @template surv_measure
-#' @templateVar title Log loss
+#' @templateVar title Negative Log-Likelihood
 #' @templateVar fullname MeasureSurvLogloss
+#' @templateVar eps 1e-15
+#' @template param_eps
+#' @template param_se
+#' @template param_erv
 #'
 #' @description
-#' Calculates the cross-entropy, or logarithmic (log), loss.
+#' Calculates the cross-entropy, or negative log-likelihood (NLL) or logarithmic (log), loss.
+#' @section Parameter details:
+#' - `IPCW` (`logical(1)`)\cr
+#' If `TRUE` (default) then returns the \eqn{L_{RNLL}} score (which is proper), otherwise the \eqn{L_{NLL}} score (improper).
 #'
-#' The logloss, in the context of probabilistic predictions, is defined as the negative log
-#' probability density function, \eqn{f}, evaluated at the observation time, \eqn{t},
-#' \deqn{L(f, t) = -log(f(t))}
+#' @details
+#' The Log Loss, in the context of probabilistic predictions, is defined as the
+#' negative log probability density function, \eqn{f}, evaluated at the
+#' observation time (event or censoring), \eqn{t},
+#' \deqn{L_{NLL}(f, t) = -log(f(t))}
 #'
-#' The standard error of the Logloss, L, is approximated via,
+#' The standard error of the Log Loss, L, is approximated via,
 #' \deqn{se(L) = sd(L)/\sqrt{N}}{se(L) = sd(L)/\sqrt N}
 #' where \eqn{N} are the number of observations in the test set, and \eqn{sd} is the standard
 #' deviation.
 #'
-#' The IPCW log loss is defined by
-#' \deqn{L(f, t, \Delta) = -\Delta log(f(t))/G(t)}
+#' The **Re-weighted Negative Log-Likelihood** (RNLL) or IPCW Log Loss is defined by
+#' \deqn{L_{RNLL}(f, t, \Delta) = -\Delta log(f(t))/G(t)}
 #' where \eqn{\Delta} is the censoring indicator and G is the Kaplan-Meier estimator of the
 #' censoring distribution.
+#' So only observations that have experienced the event are taking into account
+#' for RNLL and both \eqn{f(t), G(t)} are calculated only at the event times.
+#' If only censored observations exist in the test set, `NaN` is returned.
 #'
-#' @template param_id
-#' @template param_eps
-#' @template param_se
 #' @template details_trainG
 #'
 #' @family Probabilistic survival measures
@@ -36,7 +45,7 @@ MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
     #'   Standardize measure against a Kaplan-Meier baseline
     #'   (Explained Residual Variation)
     initialize = function(ERV = FALSE) {
-      assert(check_logical(ERV))
+      assert_logical(ERV)
 
       ps = ps(
         eps = p_dbl(0, 1, default = 1e-15),
@@ -80,11 +89,13 @@ MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
       ps = self$param_set$values
 
       if (ps$se) {
-        ll = surv_logloss(prediction$truth, prediction$distr, ps$eps, ps$IPCW, train)
+        ll = surv_logloss(prediction$truth, prediction$data$distr, ps$eps, ps$IPCW, train) #nolint
         sd(ll) / sqrt(length(ll))
       } else {
-        mean(surv_logloss(prediction$truth, prediction$distr, ps$eps, ps$IPCW, train))
+        mean(surv_logloss(prediction$truth, prediction$data$distr, ps$eps, ps$IPCW, train)) # nolint
       }
     }
   )
 )
+
+register_measure("surv.logloss", MeasureSurvLogloss)

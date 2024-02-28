@@ -1,16 +1,15 @@
 #' @template regr_measure
-#' @templateVar title Log loss
+#' @templateVar title Log Loss
 #' @templateVar inherit [MeasureRegr]
 #' @templateVar fullname MeasureRegrLogloss
-#' @templateVar pars eps = 1e-15
-#' @templateVar eps_par TRUE
-#'
+#' @templateVar eps 1e-15
 #' @template param_eps
 #'
 #' @description
 #' Calculates the cross-entropy, or logarithmic (log), loss.
 #'
-#' The logloss, in the context of probabilistic predictions, is defined as the negative log
+#' @details
+#' The Log Loss, in the context of probabilistic predictions, is defined as the negative log
 #' probability density function, \eqn{f}, evaluated at the observed value, \eqn{y},
 #' \deqn{L(f, y) = -\log(f(y))}{L(f, y) = -log(f(y))}
 #'
@@ -54,3 +53,5 @@ MeasureRegrLogloss = R6::R6Class("MeasureRegrLogloss",
     }
   )
 )
+
+register_measure("regr.logloss", MeasureRegrLogloss)

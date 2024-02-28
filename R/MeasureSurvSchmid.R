@@ -1,31 +1,35 @@
 #' @template surv_measure
 #' @templateVar title Integrated Schmid Score
 #' @templateVar fullname MeasureSurvSchmid
-#'
-#' @description
-#' Calculates the Integrated Schmid Score (ISS), aka integrated absolute loss.
-#'
-#' For an individual who dies at time \eqn{t}, with predicted Survival function, \eqn{S}, the
-#' Schmid Score at time \eqn{t^*}{t*} is given by
-#' \deqn{L(S,t|t^*) = [(S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*)))I(t > t^*)(1/G(t^*))]}{L(S,t|t*) = [(S(t*))I(t \le t*, \delta = 1)(1/G(t))] + [((1 - S(t*)))I(t > t*)(1/G(t*))]} # nolint
-#' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
-#'
-#' The re-weighted ISS, ISS* is given by
-#' \deqn{L(S,t|t^*) = [(S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*)))I(t > t^*)(1/G(t))]}{L(S,t|t*) = [(S(t*))I(t \le t*, \delta = 1)(1/G(t))] + [((1 - S(t*)))I(t > t*)(1/G(t))]} # nolint
-#' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution, i.e. always
-#' weighted by \eqn{G(t)}. ISS* is strictly proper when the censoring distribution is independent
-#' of the survival distribution and when G is fit on a sufficiently large dataset. ISS is never
-#' proper. Use `proper = FALSE` for ISS and `proper = TRUE` for ISS*, in the future the default
-#' will be changed to `proper = TRUE`. Results may be very different if many observations are
-#' censored at the last observed time due to division by 1/`eps` in `proper = TRUE`.
-#'
-#' @template measure_integrated
 #' @template param_integrated
 #' @template param_times
+#' @template param_tmax
+#' @template param_pmax
 #' @template param_method
-#' @template param_proper
 #' @template param_se
+#' @template param_proper
+#' @templateVar eps 1e-3
 #' @template param_eps
+#' @template param_erv
+#'
+#' @description
+#' Calculates the **Integrated Schmid Score** (ISS), aka integrated absolute loss.
+#'
+#' @details
+#' For an individual who dies at time \eqn{t}, with predicted Survival function, \eqn{S}, the
+#' Schmid Score at time \eqn{t^*}{t*} is given by
+#' \deqn{L_{ISS}(S,t|t^*) = [(S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*)))I(t > t^*)(1/G(t^*))]}
+#' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
+#'
+#' The re-weighted ISS, RISS is given by
+#' \deqn{L_{RISS}(S,t|t^*) = [(S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*)))I(t > t^*)(1/G(t))]}
+#' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution, i.e. always
+#' weighted by \eqn{G(t)}. RISS is strictly proper when the censoring distribution is independent
+#' of the survival distribution and when G is fit on a sufficiently large dataset. ISS is never
+#' proper. Use `proper = FALSE` for ISS and `proper = TRUE` for RISS.
+#' Results may be very different if many observations are censored at the last
+#' observed time due to division by 1/`eps` in `proper = TRUE`.
+#'
 #' @template details_trainG
 #'
 #' @references
@@ -43,7 +47,7 @@ MeasureSurvSchmid = R6::R6Class("MeasureSurvSchmid",
     #'   Standardize measure against a Kaplan-Meier baseline
     #'   (Explained Residual Variation)
     initialize = function(ERV = FALSE) {
-      assert(check_logical(ERV))
+      assert_logical(ERV)
 
       ps = ps(
         integrated = p_lgl(default = TRUE),
@@ -114,3 +118,5 @@ MeasureSurvSchmid = R6::R6Class("MeasureSurvSchmid",
     }
   )
 )
+
+register_measure("surv.schmid", MeasureSurvSchmid)

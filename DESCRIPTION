@@ -1,6 +1,6 @@
 Package: mlr3proba
 Title: Probabilistic Supervised Learning for 'mlr3'
-Version: 0.5.8
+Version: 0.6.0
 Authors@R:
     c(person(given = "Raphael",
              family = "Sonabend",
@@ -79,12 +79,12 @@ Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
 Roxygen: list(markdown = TRUE, r6 = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1.9000
 Collate:
     'LearnerDens.R'
+    'aaa.R'
     'LearnerDensHistogram.R'
     'LearnerDensKDE.R'
-    'LearnerRegrGaussian.R'
     'LearnerSurv.R'
     'LearnerSurvCoxPH.R'
     'LearnerSurvKaplan.R'
@@ -135,11 +135,11 @@ Collate:
     'PredictionSurv.R'
     'RcppExports.R'
     'TaskDens.R'
-    'TaskDens_X.R'
+    'TaskDens_zzz.R'
     'TaskGeneratorSimdens.R'
     'TaskGeneratorSimsurv.R'
     'TaskSurv.R'
-    'TaskSurv_X.R'
+    'TaskSurv_zzz.R'
     'as_prediction_dens.R'
     'as_prediction_surv.R'
     'as_task_dens.R'

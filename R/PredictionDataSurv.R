@@ -105,7 +105,8 @@ c.PredictionDataSurv = function(..., keep_duplicates = TRUE) {
       # All objects are now either 3d arrays or 2d matrices
       # row-bind arrays and ensure all have same column names
       # by automatically converting to pdf then back to surv
-      merged_array = distr6:::.merge_cols(distr_list, "surv")
+      merge_cols = getFromNamespace(".merge_cols", ns = "distr6")
+      merged_array = merge_cols(distr_list, "surv")
       # abind works with matrices as well
       result$distr = abind::abind(merged_array, along = 1, force.array = FALSE)
     }

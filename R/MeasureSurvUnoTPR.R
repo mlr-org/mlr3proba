@@ -1,18 +1,17 @@
 #' @template surv_measure
 #' @templateVar title Uno's TPR
 #' @templateVar fullname MeasureSurvUnoTPR
+#' @template measure_survAUC
+#' @template param_times2
+#' @template param_thresh
 #'
 #' @description
 #' Calls [survAUC::sens.uno()].
 #'
 #' Assumes random censoring.
 #'
-#' `times` and `lp_thresh` are arbitrarily set to `0` to prevent crashing, these should be further
-#' specified.
-#'
-#' @template measure_survAUC
-#' @template param_times
-#' @template param_thresh
+#' `times` and `lp_thresh` are arbitrarily set to `0` to prevent crashing, these
+#' should be further specified.
 #'
 #' @references
 #' `r format_bib("uno_2007")`
@@ -58,3 +57,5 @@ MeasureSurvUnoTPR = R6Class("MeasureSurvUnoTPR",
     }
   )
 )
+
+register_measure("surv.uno_tpr", MeasureSurvUnoTPR)

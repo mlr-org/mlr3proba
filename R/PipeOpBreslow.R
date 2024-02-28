@@ -100,7 +100,7 @@ PipeOpBreslow = R6Class("PipeOpBreslow",
   ),
 
   active = list(
-    #' @field learner \cr
+    #' @field learner ([mlr3::Learner])\cr
     #' The input survival learner.
     learner = function(rhs) {
       assert_ro_binding(rhs)
@@ -126,6 +126,7 @@ PipeOpBreslow = R6Class("PipeOpBreslow",
 
       # keep the training data that Breslow estimator needs
       self$state = list(
+        learner = learner,
         times = task$times(),
         status = task$status(),
         lp_train = p$lp
@@ -136,7 +137,7 @@ PipeOpBreslow = R6Class("PipeOpBreslow",
 
     .predict = function(inputs) {
       task = inputs[[1]]
-      learner = private$.learner
+      learner = self$state$learner
 
       if (is.null(learner$model)) {
         stopf("Cannot predict, Learner '%s' has not been trained yet", learner$id)

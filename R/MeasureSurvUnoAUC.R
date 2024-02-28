@@ -65,3 +65,5 @@ MeasureSurvUnoAUC = R6Class("MeasureSurvUnoAUC",
     }
   )
 )
+
+register_measure("surv.uno_auc", MeasureSurvUnoAUC)

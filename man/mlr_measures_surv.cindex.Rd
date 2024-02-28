@@ -7,9 +7,10 @@
 \description{
 Calculates weighted concordance statistics, which, depending on the chosen weighting method
 and tied times solution, are equivalent to several proposed methods.
-
-For the Kaplan-Meier estimate of the training survival distribution, S, and the Kaplan-Meier
-estimate of the training censoring distribution, G:
+}
+\details{
+For the Kaplan-Meier estimate of the training survival distribution, \code{S}, and
+the Kaplan-Meier estimate of the training censoring distribution, \code{G}:
 
 \code{weight_meth}:
 \itemize{
@@ -23,10 +24,10 @@ estimate of the training censoring distribution, G:
 
 The last three require training data. \code{"GH"} is only applicable to \link{LearnerSurvCoxPH}.
 
-@details
-The implementation is slightly different from \link[survival:concordance]{survival::concordance}. Firstly this
-implementation is faster, and secondly the weights are computed on the training dataset whereas
-in \link[survival:concordance]{survival::concordance} the weights are computed on the same testing data.
+The implementation is slightly different from \link[survival:concordance]{survival::concordance}.
+Firstly this implementation is faster, and secondly the weights are computed
+on the training dataset whereas in \link[survival:concordance]{survival::concordance} the weights are
+computed on the same testing data.
 }
 \section{Dictionary}{
 
@@ -39,6 +40,16 @@ msr("surv.cindex")
 }\if{html}{\out{</div>}}
 }
 
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Levels \tab Range \cr
+   cutoff \tab numeric \tab - \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
+   weight_meth \tab character \tab I \tab I, G, G2, SG, S, GH \tab - \cr
+   tiex \tab numeric \tab 0.5 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   eps \tab numeric \tab 0.001 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+}
+}
+
 \section{Meta Information}{
 
 \itemize{
@@ -46,6 +57,26 @@ msr("surv.cindex")
 \item Range: \eqn{[0, 1]}{[0, 1]}
 \item Minimize: \code{FALSE}
 \item Required prediction: \code{crank}
+}
+}
+
+\section{Parameter details}{
+
+\itemize{
+\item \code{eps} (\code{numeric(1)})\cr
+Very small number to substitute zero values in order to prevent errors
+in e.g. log(0) and/or division-by-zero calculations.
+Default value is 0.001.
+}
+
+
+\itemize{
+\item \code{cutoff} (\code{numeric(1)})\cr
+Cut-off time to evaluate concordance up to.
+\item \code{weight_meth} (\code{character(1)})\cr
+Method for weighting concordance. Default \code{"I"} is Harrell's C. See details.
+\item \code{tiex} (\code{numeric(1)})\cr
+Weighting applied to tied rankings, default is to give them half (0.5) weighting.
 }
 }
 
@@ -58,7 +89,7 @@ Harrell, E F, Califf, M R, Pryor, B D, Lee, L K, Rosati, A R (1982).
 \dQuote{Evaluating the yield of medical tests.}
 \emph{Jama}, \bold{247}(18), 2543--2546.
 
-Gönen M, Heller G (2005).
+Goenen M, Heller G (2005).
 \dQuote{Concordance probability and discriminatory power in proportional hazards regression.}
 \emph{Biometrika}, \bold{92}(4), 965--970.
 \doi{10.1093/biomet/92.4.965}.
@@ -129,20 +160,6 @@ This is an abstract class that should not be constructed directly.
 \if{html}{\out{<div class="r">}}\preformatted{MeasureSurvCindex$new()}\if{html}{\out{</div>}}
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{cutoff}}{(\code{numeric(1)})\cr
-Cut-off time to evaluate concordance up to.}
-
-\item{\code{weight_meth}}{(\code{character(1)}) \cr
-Method for weighting concordance. Default \code{"I"} is Harrell's C. See details.}
-
-\item{\code{tiex}}{(\code{numeric(1)}) \cr
-Weighting applied to tied rankings, default is to give them half weighting.}
-}
-\if{html}{\out{</div>}}
-}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MeasureSurvCindex-clone"></a>}}

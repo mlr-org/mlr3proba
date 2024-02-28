@@ -48,10 +48,17 @@ test_that(".cbhaz_breslow works", {
   cbh10 = .cbhaz_breslow(times = c(1,1,1,1,1), status = c(0,1,1,0,1), lp)
   expect_numeric(cbh10, len = 1)
 
-  cbh11 = .cbhaz_breslow(times = c(1,1,1,1,1), status = c(0,1,1,0,1), lp, eval_times = c(0.9, 1.1))
+  cbh11 = .cbhaz_breslow(times = c(1,1,1,1,1), status = c(0,1,1,0,1), lp,
+    eval_times = c(0.9, 1.1))
   expect_numeric(cbh11, len = 2)
   expect_equal(unname(cbh11[1]), 0)
   expect_true(cbh11[2] > 0)
+
+  # Inf lp predictions => cumulative baseline hazards are all zero
+  cbh12 = .cbhaz_breslow(times = times, status = c(0,1,1,0,1), lp = rep(Inf, 5))
+  expect_numeric(cbh12, len = 5, lower = 0, upper = 0)
+  cbh13 = .cbhaz_breslow(times = times, status = rep(1,5), lp = c(-Inf, -Inf, Inf, Inf, -Inf))
+  expect_numeric(cbh13, len = 5, lower = 0, upper = Inf, sorted = TRUE)
 })
 
 test_that("breslow works", {
@@ -99,4 +106,21 @@ test_that("breslow works", {
   expect_error(breslow(times = c(1,2), status = c(0,1), lp_train = c(1,2)))
   expect_error(breslow(times = c(1,2), status = c(0,1), lp_train = c(1,2),
     lp_test = c(1,2), type = "hazard")) # has to be "cumhaz"
+
+  # Inf lp predictions: cumulative baseline hazard
+  times = seq_len(5)
+  lp = c(-Inf, -Inf, Inf, Inf, -Inf)
+  st = rep(1,5)
+  cbhaz = .cbhaz_breslow(times = times, status = st, lp = lp)
+  expect_numeric(cbhaz, len = 5, lower = 0, upper = Inf, sorted = TRUE)
+
+  # Inf lp predictions: cumulative hazard and survival matrix
+  lp_test = c(-Inf, -1, 0, 1, Inf)
+  cumhaz = breslow(times, status = st, lp_train = lp, lp_test = lp_test, type = "cumhaz")
+  expect_matrix(cumhaz, nrows = length(lp_test), ncols = length(cbhaz))
+  expect_equal(sum(is.nan(cumhaz)), 0)
+
+  surv = breslow(times, status = st, lp_train = lp, lp_test = lp_test)
+  expect_matrix(surv, nrows = length(lp_test), ncols = length(cbhaz))
+  expect_true(all(surv >= 0, surv <= 1))
 })

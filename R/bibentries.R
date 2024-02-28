@@ -183,7 +183,7 @@ bibentries = c( # nolint start
   ),
   goenen_2005 = bibentry("article",
     title             = "Concordance probability and discriminatory power in proportional hazards regression",
-    author            = "Mithat G\u00f6nen and Glenn Heller",
+    author            = "Mithat Goenen and Glenn Heller",
     year              = 2005,
     month             = "dec",
     journal           = "Biometrika",
@@ -639,5 +639,29 @@ bibentries = c( # nolint start
     pages             = "471-480",
     publisher         = "Springer",
     doi               = "10.1007/S10985-007-9048-Y/METRICS"
+  ),
+  avati_2020 = bibentry("article",
+    author            = "Avati, Anand and Duan, Tony and Zhou, Sharon and Jung, Kenneth and Shah, Nigam H and Ng, Andrew Y",
+    title             = "Countdown Regression: Sharp and Calibrated Survival Predictions",
+    journal           = "Proceedings of The 35th Uncertainty in Artificial Intelligence Conference",
+    year              = "2020",
+    volume            = "115",
+    number            = "4",
+    series            = "Proceedings of Machine Learning Research",
+    pages             = "145--155",
+    publisher         = "PMLR",
+    url               = "https://proceedings.mlr.press/v115/avati20a.html"
+  ),
+  rindt_2022 = bibentry("article",
+    author            = "Rindt, David and Hu, Robert and Steinsaltz, David and Sejdinovic, Dino",
+    title             = "Survival regression with proper scoring rules and monotonic neural networks",
+    journal           = "Proceedings of The 25th International Conference on Artificial Intelligence and Statistics",
+    year              = "2022",
+    volume            = "151",
+    number            = "4",
+    series            = "Proceedings of Machine Learning Research",
+    pages             = "1190--1205",
+    publisher         = "PMLR",
+    url               = "https://proceedings.mlr.press/v151/rindt22a.html"
   )
 ) # nolint end

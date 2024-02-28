@@ -8,7 +8,9 @@
 Calls \code{\link[survival:survfit]{survival::survfit()}}.
 \itemize{
 \item distr is predicted by estimating the survival function with \code{\link[survival:survfit]{survival::survfit()}}
-\item \code{crank} is identical to \code{lp}
+\item \code{crank} is predicted as the sum of the cumulative
+hazard function (expected mortality) derived from the survival distribution,
+\code{distr}
 }
 }
 \section{Dictionary}{
@@ -25,12 +27,16 @@ lrn("surv.kaplan")
 \section{Meta Information}{
 
 \itemize{
-\item Type: "surv"
-\item Predict Types: \verb{crank, distr}
-\item Feature Types: \verb{logical, integer, numeric, character, factor, ordered}
-\item Properties: \code{missings}
-\item Packages: \CRANpkg{mlr3} \CRANpkg{mlr3proba} \CRANpkg{survival} \CRANpkg{distr6}
+\item Task type: \dQuote{surv}
+\item Predict Types: \dQuote{crank}, \dQuote{distr}
+\item Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{character}, \dQuote{factor}, \dQuote{ordered}
+\item Required Packages: \CRANpkg{mlr3}, \CRANpkg{mlr3proba}, \CRANpkg{survival}, \CRANpkg{distr6}
 }
+}
+
+\section{Parameters}{
+
+Empty ParamSet
 }
 
 \references{

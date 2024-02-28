@@ -52,7 +52,7 @@
 #' - \eqn{lp_j} is the risk prediction (linear predictor) of individual \eqn{j}
 #' (who is part of the risk set \eqn{R_i}) on the train set.
 #'
-#' We employ **constant interpolation** to estimate the cumulative hazards,
+#' We employ **constant interpolation** to estimate the cumulative baseline hazards,
 #' extending from the observed unique event times to the specified evaluation
 #' times (`eval_times`).
 #' Any values falling outside the range of the estimated times are assigned as
@@ -60,10 +60,9 @@
 #' \deqn{\hat{H}_0(eval\_times < min(t)) = 0} and
 #' \deqn{\hat{H}_0(eval\_times > max(t)) = \hat{H}_0(max(t))}
 #'
-#' Note that in the rare event of `lp` predictions being `Inf` or `-Inf`, we
-#' substitute them with the maximum or minimum `lp` risk score of the training
-#' (`lp_train`) and testing (`lp_test`) vectors, respectively. This is to avoid
-#' `NaN` values in the output cumulative hazard.
+#' Note that in the rare event of `lp` predictions being `Inf` or `-Inf`, the
+#' resulting cumulative hazard values become `NaN`, which we substitute with
+#' `Inf` (and corresponding survival probabilities take the value of \eqn{0}).
 #'
 #' For similar implementations, see `gbm::basehaz.gbm()`, `C060::basesurv()` and
 #' `xgboost.surv::sgb_bhaz()`.
@@ -71,7 +70,8 @@
 #' @return a `matrix` (obs x times). Number of columns is equal to `eval_times`
 #' and number of rows is equal to the number of test observations (i.e. the
 #' length of the `lp_test` vector). Depending on the `type` argument, the matrix
-#' can have either survival probabilities or cumulative hazard estimates.
+#' can have either survival probabilities (0-1) or cumulative hazard estimates
+#' (0-`Inf`).
 #'
 #' @references
 #' `r format_bib("cox_1972", "lin_2007")`
@@ -99,17 +99,15 @@ breslow = function(times, status, lp_train, lp_test, eval_times = NULL, type = "
   assert_numeric(eval_times, null.ok = TRUE)
   assert_subset(type, choices = c("surv", "cumhaz"), empty.ok = FALSE)
 
-  # dealing with Inf lp predictions
-  lp_train[is.infinite(lp_train) & lp_train > 0] = max(lp_train[is.finite(lp_train)])
-  lp_train[is.infinite(lp_train) & lp_train < 0] = min(lp_train[is.finite(lp_train)])
-  lp_test[is.infinite(lp_test) & lp_test > 0] = max(lp_test[is.finite(lp_test)])
-  lp_test[is.infinite(lp_test) & lp_test < 0] = min(lp_test[is.finite(lp_test)])
-
   # cumulative baseline hazard
   cbhaz = .cbhaz_breslow(times = times, status = status, lp = lp_train,
                          eval_times = eval_times)
 
   cumhaz = exp(lp_test) %*% t(cbhaz)
+
+  # (Inf * 0) or (0 * Inf) cases
+  # Inf predicted risk or Inf cumulative baseline hazard
+  cumhaz[is.nan(cumhaz)] = Inf
 
   if (type == "surv") {
     return(exp(-cumhaz))

@@ -10,9 +10,11 @@ Calls \code{\link[survAUC:AUC.uno]{survAUC::AUC.uno()}}.
 Assumes random censoring.
 }
 \details{
-All measures implemented from \CRANpkg{survAUC} should be used with care, we are aware
-of problems in implementation that sometimes cause fatal errors in R. In future updates these
-measures will all be re-written and implemented directly in \code{mlr3proba}.
+All measures implemented from \CRANpkg{survAUC} should be used with
+care, we are aware of problems in implementation that sometimes cause fatal
+errors in R.
+In future updates some of these measures may be re-written and implemented
+directly in \code{mlr3proba}.
 }
 \section{Dictionary}{
 
@@ -25,6 +27,14 @@ msr("surv.uno_auc")
 }\if{html}{\out{</div>}}
 }
 
+\section{Parameters}{
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Levels \cr
+   integrated \tab logical \tab TRUE \tab TRUE, FALSE \cr
+   times \tab untyped \tab - \tab  \cr
+}
+}
+
 \section{Meta Information}{
 
 \itemize{
@@ -32,6 +42,22 @@ msr("surv.uno_auc")
 \item Range: \eqn{[0, 1]}{[0, 1]}
 \item Minimize: \code{FALSE}
 \item Required prediction: \code{lp}
+}
+}
+
+\section{Parameter details}{
+
+\itemize{
+\item \code{integrated} (\code{logical(1)})\cr
+If \code{TRUE} (default), returns the integrated score (eg across
+time points); otherwise, not integrated (eg at a single time point).
+}
+
+
+\itemize{
+\item \code{times} (\code{numeric()})\cr
+If \code{integrate == TRUE} then a vector of time-points over which to integrate the score.
+If \code{integrate == FALSE} then a single time point at which to return the score.
 }
 }
 

@@ -1,31 +1,38 @@
 #' @template surv_measure
-#' @templateVar title Integrated Log loss
+#' @templateVar title Integrated Log-Likelihood
 #' @templateVar fullname MeasureSurvIntLogloss
-#'
-#' @description
-#' Calculates the integrated survival logarithmic (log) (ISLL), loss, aka integrated cross entropy.
-#'
-#' For an individual who dies at time \eqn{t}, with predicted Survival function, \eqn{S}, the
-#' probabilistic log loss at time \eqn{t^*}{t*} is given by
-#' \deqn{L(S,t|t^*) = - [log(1 - S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] - [log(S(t^*))I(t > t^*)(1/G(t^*))]}{L(S,t|t*) = - [log(1 - S(t*))I(t \le t*, \delta = 1)(1/G(t))] - [log(S(t*))I(t > t*)(1/G(t*))]} # nolint
-#' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
-#'
-#' The re-weighted ISLL, ISLL* is given by
-#' \deqn{L(S,t|t^*) = - [log(1 - S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] - [log(S(t^*))I(t > t^*)(1/G(t))]}{L(S,t|t*) = - [log(1 - S(t*))I(t \le t*, \delta = 1)(1/G(t))] - [log(S(t*))I(t > t*)(1/G(t))]} # nolint
-#' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution, i.e. always
-#' weighted by \eqn{G(t)}. ISLL* is strictly proper when the censoring distribution is independent
-#' of the survival distribution and when G is fit on a sufficiently large dataset. ISLL is never
-#' proper. Use `proper = FALSE` for ISLL and `proper = TRUE` for ISLL*, in the future the default
-#' will be changed to `proper = TRUE`. Results may be very different if many observations are
-#' censored at the last observed time due to division by 1/`eps` in `proper = TRUE`.
-#'
-#' @template measure_integrated
 #' @template param_integrated
 #' @template param_times
+#' @template param_tmax
+#' @template param_pmax
 #' @template param_method
-#' @template param_proper
 #' @template param_se
+#' @template param_proper
+#' @templateVar eps 1e-3
 #' @template param_eps
+#' @template param_erv
+#'
+#' @description
+#' Calculates the **Integrated Survival Log-Likelihood** (ISLL) or Integrated
+#' Logarithmic (log) Loss, aka integrated cross entropy.
+#'
+#' @details
+#' For an individual who dies at time \eqn{t}, with predicted Survival function, \eqn{S}, the
+#' probabilistic log loss at time \eqn{t^*}{t*} is given by
+#' \deqn{L_{ISLL}(S,t|t^*) = - [log(1 - S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] - [log(S(t^*))I(t > t^*)(1/G(t^*))]}
+#' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
+#'
+#' The re-weighted ISLL, RISLL is given by
+#' \deqn{L_{RISLL}(S,t|t^*) = - [log(1 - S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] - [log(S(t^*))I(t > t^*)(1/G(t))]}
+#' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution, i.e. always
+#' weighted by \eqn{G(t)}.
+#' RISLL is strictly proper when the censoring distribution is independent
+#' of the survival distribution and when G is fit on a sufficiently large dataset.
+#' ISLL is never proper.
+#' Use `proper = FALSE` for ISLL and `proper = TRUE` for RISLL.
+#' Results may be very different if many observations are censored at the last
+#' observed time due to division by 1/`eps` in `proper = TRUE`.
+#'
 #' @template details_trainG
 #'
 #' @references
@@ -43,7 +50,7 @@ MeasureSurvIntLogloss = R6::R6Class("MeasureSurvIntLogloss",
     #'   Standardize measure against a Kaplan-Meier baseline
     #'   (Explained Residual Variation)
     initialize = function(ERV = FALSE) {
-      assert(check_logical(ERV))
+      assert_logical(ERV)
 
       ps = ps(
         integrated = p_lgl(default = TRUE),
@@ -115,3 +122,5 @@ MeasureSurvIntLogloss = R6::R6Class("MeasureSurvIntLogloss",
     }
   )
 )
+
+register_measure("surv.intlogloss", MeasureSurvIntLogloss)

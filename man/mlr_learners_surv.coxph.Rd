@@ -26,11 +26,20 @@ lrn("surv.coxph")
 \section{Meta Information}{
 
 \itemize{
-\item Type: "surv"
-\item Predict Types: \verb{crank, distr, lp}
-\item Feature Types: \verb{logical, integer, numeric, factor}
-\item Properties: \code{weights}
-\item Packages: \CRANpkg{mlr3} \CRANpkg{mlr3proba} \CRANpkg{survival} \CRANpkg{distr6}
+\item Task type: \dQuote{surv}
+\item Predict Types: \dQuote{crank}, \dQuote{distr}, \dQuote{lp}
+\item Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{factor}
+\item Required Packages: \CRANpkg{mlr3}, \CRANpkg{mlr3proba}, \CRANpkg{survival}, \CRANpkg{distr6}
+}
+}
+
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Levels \tab Range \cr
+   ties \tab character \tab efron \tab efron, breslow, exact \tab - \cr
+   singular.ok \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
+   type \tab character \tab efron \tab efron, aalen, kalbfleisch-prentice \tab - \cr
+   stype \tab integer \tab 2 \tab  \tab \eqn{[1, 2]}{[1, 2]} \cr
 }
 }
 
