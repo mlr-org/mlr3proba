@@ -76,19 +76,21 @@ PipeOpBreslow = R6Class("PipeOpBreslow",
 
       # id of the PipeOp is the id of the learner
       private$.learner = as_learner(learner, clone = TRUE)
-      private$.learner$param_set$set_id = ""
       id = id %??% private$.learner$id
 
       # define `breslow.overwrite` parameter
       private$.breslow_ps = ps(
-        overwrite = p_lgl(default = FALSE, tags = c("predict", "required"))
+        overwrite = p_lgl(tags = c("predict", "required"))
       )
       private$.breslow_ps$values = list(overwrite = FALSE)
-      private$.breslow_ps$set_id = "breslow"
-
+      if ("set_id" %in% names(private$.learner$param_set)) {
+        # old paradox
+        private$.learner$param_set$set_id = ""
+        private$.breslow_ps$set_id = "breslow"
+      }
       super$initialize(
         id = id,
-        param_set = alist(private$.breslow_ps, private$.learner$param_set),
+        param_set = alist(breslow = private$.breslow_ps, private$.learner$param_set),
         param_vals = param_vals,
         input = data.table(name = "input", train = "TaskSurv", predict = "TaskSurv"),
         output = data.table(name = "output", train = "NULL", predict = "PredictionSurv"),

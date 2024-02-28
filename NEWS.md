@@ -1,3 +1,7 @@
+# mlr3proba 0.6.0-9000
+
+* Compatibility with upcoming 'paradox' release.
+
 # mlr3proba 0.6.0
 
 * Optimized `surv.logloss` and `calib_alpha` measures (bypassing `distr6`)
