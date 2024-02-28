@@ -25,6 +25,7 @@ jobs:
       matrix:
         config:
           - {os: ubuntu-latest, r: 'release', dev-package: 'mlr-org/mlr3'}
+          - {os: ubuntu-latest, r: 'release', dev-package: "mlr-org/mlr3viz', 'mlr-org/mlr3pipelines', 'mlr-org/paradox"}
 
     steps:
       - uses: actions/checkout@v4
@@ -41,7 +42,7 @@ jobs:
           needs: check
 
       - name: Install dev versions
-        run: pak::pkg_install('${{ matrix.config.dev-package }}')
+        run: pak::pkg_install(c('${{ matrix.config.dev-package }}'))
         shell: Rscript {0}
 
       - uses: r-lib/actions/check-r-package@v2
