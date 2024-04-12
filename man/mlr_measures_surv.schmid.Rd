@@ -30,8 +30,10 @@ used in scoring resamplings.
 If \code{t_max} or \code{p_max} is given, then \eqn{G(t)} will be fitted using \strong{all observations} from the
 train set (or test set) and only then the cutoff time will be applied.
 This is to ensure that more data is used for fitting the censoring distribution via the
-Kaplan-Meier and allow the user to remove the latest time points that may introduce
-inflation of the proper score due to division by \code{eps}.
+Kaplan-Meier.
+Setting the \code{t_max} can help alleviate inflation of the score when \code{proper} is \code{TRUE},
+in cases where an observation is censored at the last observed time point.
+This results in \eqn{G(t_{max}) = 0} and the use of \code{eps} instead (when \code{t_max} is \code{NULL}).
 }
 \section{Dictionary}{
 
@@ -91,8 +93,7 @@ Cutoff time (i.e. time horizon) to evaluate the measure up to.
 Mutually exclusive with \code{p_max} or \code{times}.
 This will effectively remove test observations for which the time
 (event or censoring) is less than \code{t_max}.
-Useful also for avoiding division by eps which can inflate the score
-especially in the case when \code{proper} is \code{TRUE}.
+It's recommended to set \code{t_max} to avoid division by \code{eps}, see Details.
 }
 
 
