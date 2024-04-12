@@ -1,6 +1,7 @@
-# mlr3proba 0.6.0-9000
+# mlr3proba 0.6.1
 
 * Compatibility with upcoming 'paradox' release.
+* Fix bug when applying `t_max` in `surv.graf` and similar time-integrated scores.
 
 # mlr3proba 0.6.0
 
