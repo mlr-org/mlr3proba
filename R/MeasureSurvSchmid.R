@@ -31,6 +31,7 @@
 #' observed time due to division by 1/`eps` in `proper = TRUE`.
 #'
 #' @template details_trainG
+#' @template details_tmax
 #'
 #' @references
 #' `r format_bib("schemper_2000", "schmid_2011")`

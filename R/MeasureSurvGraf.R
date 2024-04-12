@@ -42,6 +42,7 @@
 #' not used).
 #'
 #' @template details_trainG
+#' @template details_tmax
 #'
 #' @references
 #' `r format_bib("graf_1999")`

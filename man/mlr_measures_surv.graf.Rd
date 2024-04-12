@@ -33,10 +33,16 @@ the censoring distribution, in line with the Graf 1999 paper; whereas some
 other packages use \code{prodlim} with \code{reverse = TRUE} (meaning Kaplan-Meier is
 not used).
 
-If \code{task} and \code{train_set} are passed to \verb{$score} then G is fit on training data,
+If \code{task} and \code{train_set} are passed to \verb{$score} then \eqn{G(t)} is fit on training data,
 otherwise testing data. The first is likely to reduce any bias caused by calculating
 parts of the measure on the test data it is evaluating. The training data is automatically
 used in scoring resamplings.
+
+If \code{t_max} or \code{p_max} is given, then \eqn{G(t)} will be fitted using \strong{all observations} from the
+train set (or test set) and only then the cutoff time will be applied.
+This is to ensure that more data is used for fitting the censoring distribution via the
+Kaplan-Meier and allow the user to remove the latest time points that may introduce
+inflation of the proper score due to division by \code{eps}.
 }
 \section{Dictionary}{
 
@@ -94,6 +100,10 @@ If \code{integrate == FALSE} then a single time point at which to return the sco
 \item \code{t_max} (\code{numeric(1)})\cr
 Cutoff time (i.e. time horizon) to evaluate the measure up to.
 Mutually exclusive with \code{p_max} or \code{times}.
+This will effectively remove test observations for which the time
+(event or censoring) is less than \code{t_max}.
+Useful also for avoiding division by eps which can inflate the score
+especially in the case when \code{proper} is \code{TRUE}.
 }
 
 

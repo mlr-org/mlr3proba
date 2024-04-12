@@ -26,7 +26,7 @@ So only observations that have experienced the event are taking into account
 for RNLL and both \eqn{f(t), G(t)} are calculated only at the event times.
 If only censored observations exist in the test set, \code{NaN} is returned.
 
-If \code{task} and \code{train_set} are passed to \verb{$score} then G is fit on training data,
+If \code{task} and \code{train_set} are passed to \verb{$score} then \eqn{G(t)} is fit on training data,
 otherwise testing data. The first is likely to reduce any bias caused by calculating
 parts of the measure on the test data it is evaluating. The training data is automatically
 used in scoring resamplings.
