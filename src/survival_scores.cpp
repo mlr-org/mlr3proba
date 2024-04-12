@@ -68,10 +68,10 @@ NumericMatrix c_score_graf_schmid(NumericVector truth, NumericVector unique_time
   NumericMatrix igs(nr_obs, nc_times);
 
   for (int i = 0; i < nr_obs; i++) {
-      for (int j = 0; j < nc_times; j++) {
-          double tmp = (truth[i] > unique_times[j]) ? cdf(j, i) : 1 - cdf(j, i); // FIXME: different from above
-          igs(i, j) = std::pow(tmp, power);
-      }
+    for (int j = 0; j < nc_times; j++) {
+      double tmp = (truth[i] > unique_times[j]) ? cdf(j, i) : 1 - cdf(j, i);
+      igs(i, j) = std::pow(tmp, power);
+    }
   }
 
   return igs;
@@ -124,10 +124,13 @@ NumericMatrix c_weight_survival_score(NumericMatrix score, NumericMatrix truth,
             if ((times[i] < cens_times[l]) && l == 0) {
               k = 1;
               break;
-            } else if(times[i] >= cens_times[l] && (l == cens_times.length()-1 || times[i] < cens_times[l+1])) {
+            } else if (times[i] >= cens_times[l] && (l == cens_times.length()-1 || times[i] < cens_times[l+1])) {
               k = cens_surv[l];
               // k == 0 only if last obsv censored, therefore mat is set to 0 anyway
-              if(k == 0) {
+              // This division by eps can cause inflation of the score, due to a
+              // very large value for a particular (i-obs, j-time)
+              // use 't_max' to filter 'cens' in that case
+              if (k == 0) {
                 k = eps;
               }
               break;
