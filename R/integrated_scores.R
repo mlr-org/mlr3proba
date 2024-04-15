@@ -22,8 +22,16 @@ weighted_survival_score = function(loss, truth, distribution, times = NULL,
   if (is.null(times) || !length(times)) {
     unique_times = unique(sort(truth[, "time"]))
     if (!is.null(p_max)) {
-      s = survival::survfit(truth ~ 1)
-      t_max = s$time[which(1 - s$n.risk / s$n > p_max)[1]]
+      surv = survival::survfit(truth ~ 1)
+      indx = which(1 - (surv$n.risk / surv$n) > p_max)
+      if (length(indx) == 0) {
+        # no indexes found, get last time point
+        t_max = tail(surv$time, n = 1)
+      } else {
+        # first time point that surpasses the specified
+        # `p_max` proportion of censoring
+        t_max = surv$time[indx[1]]
+      }
     } else if (is.null(t_max)) {
       t_max = max(unique_times)
     }
