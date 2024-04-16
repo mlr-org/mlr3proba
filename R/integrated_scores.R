@@ -73,6 +73,7 @@ weighted_survival_score = function(loss, truth, distribution, times = NULL,
   # apply `t_max` cutoff to the test set's (time, status)
   true_times  = all_times [all_times <= t_max]
   true_status = all_status[all_times <= t_max]
+  true_truth  = Surv(true_times, true_status)
 
   assert_numeric(true_times, any.missing = FALSE)
   assert_numeric(unique_times, any.missing = FALSE)
@@ -105,7 +106,7 @@ weighted_survival_score = function(loss, truth, distribution, times = NULL,
     cens = cens[cens[,1] <= t_max, , drop = FALSE]
   }
 
-  score = .c_weight_survival_score(score, truth, unique_times, cens, proper, eps)
+  score = .c_weight_survival_score(score, true_truth, unique_times, cens, proper, eps)
   colnames(score) = unique_times
 
   return(score)
