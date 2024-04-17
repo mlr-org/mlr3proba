@@ -57,7 +57,7 @@ NULL
 load_lung = function() {
   data = survival::lung
   data = map_dtc(data, as.integer)
-  data$status = (data$status == 2L)
+  data$status = as.integer(data$status == 2L)
   data$sex = factor(ifelse(data$sex == 1L, "m", "f"), levels = c("f", "m"))
 
   b = as_data_backend(data)

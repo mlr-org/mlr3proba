@@ -25,10 +25,18 @@ Use \code{proper = FALSE} for ISLL and \code{proper = TRUE} for RISLL.
 Results may be very different if many observations are censored at the last
 observed time due to division by 1/\code{eps} in \code{proper = TRUE}.
 
-If \code{task} and \code{train_set} are passed to \verb{$score} then G is fit on training data,
+If \code{task} and \code{train_set} are passed to \verb{$score} then \eqn{G(t)} is fit on training data,
 otherwise testing data. The first is likely to reduce any bias caused by calculating
 parts of the measure on the test data it is evaluating. The training data is automatically
 used in scoring resamplings.
+
+If \code{t_max} or \code{p_max} is given, then \eqn{G(t)} will be fitted using \strong{all observations} from the
+train set (or test set) and only then the cutoff time will be applied.
+This is to ensure that more data is used for fitting the censoring distribution via the
+Kaplan-Meier.
+Setting the \code{t_max} can help alleviate inflation of the score when \code{proper} is \code{TRUE},
+in cases where an observation is censored at the last observed time point.
+This results in \eqn{G(t_{max}) = 0} and the use of \code{eps} instead (when \code{t_max} is \code{NULL}).
 }
 \section{Dictionary}{
 
@@ -86,6 +94,9 @@ If \code{integrate == FALSE} then a single time point at which to return the sco
 \item \code{t_max} (\code{numeric(1)})\cr
 Cutoff time (i.e. time horizon) to evaluate the measure up to.
 Mutually exclusive with \code{p_max} or \code{times}.
+This will effectively remove test observations for which the time
+(event or censoring) is less than \code{t_max}.
+It's recommended to set \code{t_max} to avoid division by \code{eps}, see Details.
 }
 
 
