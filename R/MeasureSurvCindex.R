@@ -31,6 +31,9 @@
 #' @section Parameter details:
 #' - `cutoff` (`numeric(1)`)\cr
 #' Cut-off time to evaluate concordance up to.
+#' - `p_max` (`numeric(1)`)\cr
+#' The proportion of censoring to integrate up to in the given dataset. When
+#' `cutoff` is specified, this parameter is ignored.
 #' - `weight_meth` (`character(1)`)\cr
 #' Method for weighting concordance. Default `"I"` is Harrell's C. See details.
 #' - `tiex` (`numeric(1)`)\cr
@@ -52,6 +55,7 @@ MeasureSurvCindex = R6Class("MeasureSurvCindex",
     initialize = function() {
       ps = ps(
         cutoff = p_dbl(),
+        p_max = p_dbl(0, 1),
         weight_meth = p_fct(levels = c("I", "G", "G2", "SG", "S", "GH"), default = "I"),
         tiex = p_dbl(0, 1, default = 0.5),
         eps = p_dbl(0, 1, default = 1e-3)
@@ -77,15 +81,31 @@ MeasureSurvCindex = R6Class("MeasureSurvCindex",
   private = list(
     .score = function(prediction, task, train_set, ...) {
       ps = self$param_set$values
+
+      # getting the cutoff to the specified value
+      # Copied from integrated scores
+      if (is.null(ps$cutoff) && !is.null(ps$p_max)) {
+        unique_times = unique(sort(prediction$truth[,"time"]))
+        surv = survival::survfit(prediction$truth ~ 1)
+        indx = which(1 - (surv$n.risk / surv$n) > ps$p_max)
+        if (length(indx)==0) {
+          cutoff = NULL
+        } else {
+          cutoff = surv$time[indx[1]]
+        }
+      } else {
+        cutoff = ps$cutoff
+      }
+
       if (ps$weight_meth == "GH") {
         return(gonen(prediction$crank, ps$tiex))
       } else if (ps$weight_meth == "I") {
-        return(cindex(prediction$truth, prediction$crank, ps$cutoff, ps$weight_meth, ps$tiex))
+        return(cindex(prediction$truth, prediction$crank, cutoff, ps$weight_meth, ps$tiex))
       } else {
         if (is.null(task) | is.null(train_set)) {
           stop("'task' and 'train_set' required for all weighted c-index (except GH).")
         }
-        return(cindex(prediction$truth, prediction$crank, ps$cutoff, ps$weight_meth,
+        return(cindex(prediction$truth, prediction$crank, cutoff, ps$weight_meth,
           ps$tiex, task$truth(train_set), ps$eps))
       }
     }
