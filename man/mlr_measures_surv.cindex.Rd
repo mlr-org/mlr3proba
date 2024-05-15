@@ -92,7 +92,7 @@ Weighting applied to tied rankings, default is to give them half (0.5) weighting
 library(mlr3)
 task = tsk("rats")
 learner = lrn("surv.coxph")
-part = partition(task)
+part = partition(task) # train/test split, stratified on `status` by default
 learner$train(task, part$train)
 p = learner$predict(task, part$test)
 
@@ -105,7 +105,7 @@ p$score(msr("surv.cindex", weight_meth = "G2"),
 
 # Harrell's C-index evaluated up to a specific time horizon
 p$score(msr("surv.cindex", t_max = 97))
-# Harrell's C-index evaluated up until 30\% of censoring
+# Harrell's C-index evaluated up to the time corresponding to 30\% of censoring
 p$score(msr("surv.cindex", p_max = 0.3))
 
 }
