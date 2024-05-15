@@ -143,15 +143,23 @@ test_that("t_max, p_max", {
   m2 = p$score(msr("surv.graf", t_max = 100))
   expect_equal(m1, m2)
 
-  s = t$kaplan()
+  s = t$kaplan() # KM
+  t_max = s$time[which(1 - s$n.risk / s$n > 0.3)[1]] # t_max for up to 30% cens
 
-  t_max = s$time[which(1 - s$n.risk / s$n > 0.3)[1]]
-
+  # graf score: t_max and p_max are the same
   m1 = p$score(msr("surv.graf", t_max = t_max))
   m2 = p$score(msr("surv.graf", p_max = 0.3))
+  m3 = p$score(msr("surv.graf", p_max = 0.5))
   expect_equal(m1, m2)
-})
+  expect_true(m1 != m3)
 
+  p_cox = suppressWarnings(lrn("surv.coxph")$train(t)$predict(t))
+  c1 = p_cox$score(msr("surv.cindex", t_max = t_max))
+  c2 = p_cox$score(msr("surv.cindex", p_max = 0.3))
+  c3 = p_cox$score(msr("surv.cindex", p_max = 0.5))
+  expect_equal(c1, c2)
+  expect_true(c1 != c3)
+})
 
 test_that("ERV works as expected", {
   set.seed(1)
