@@ -1,4 +1,4 @@
-cindex = function(truth, crank, cutoff = NULL,
+cindex = function(truth, crank, t_max = NULL,
   weight_meth = c("I", "G", "G2", "SG", "S"),
   tiex = 0.5, train = NULL, eps = 1e-3) {
 
@@ -32,12 +32,12 @@ cindex = function(truth, crank, cutoff = NULL,
     surv = matrix(ncol = 2)
   }
 
-  if (is.null(cutoff)) {
-    cutoff = max(time) + 1
+  if (is.null(t_max)) {
+    t_max = max(time) + 1
   }
 
   cens[cens[, 2] == 0, 2] = eps
   surv[surv[, 2] == 0, 2] = eps
 
-  c_concordance(time, status, crank[ord], cutoff, weight_meth, cens, surv, tiex)
+  c_concordance(time, status, crank[ord], t_max, weight_meth, cens, surv, tiex)
 }

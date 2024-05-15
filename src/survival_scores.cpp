@@ -149,7 +149,7 @@ NumericMatrix c_weight_survival_score(NumericMatrix score, NumericMatrix truth,
 
 // [[Rcpp::export]]
 float c_concordance(NumericVector time, NumericVector status, NumericVector crank,
-                    double cutoff, std::string weight_meth, NumericMatrix cens,
+                    double t_max, std::string weight_meth, NumericMatrix cens,
                     NumericMatrix surv, float tiex) {
   double num = 0;
   double den = 0;
@@ -178,7 +178,7 @@ float c_concordance(NumericVector time, NumericVector status, NumericVector cran
     weight = -1;
     if(status[i] == 1) {
       for (int j = i + 1; j < time.length(); j++) {
-        if (time[i] < time[j] && time[i] < cutoff) {
+        if (time[i] < time[j] && time[i] < t_max) {
           if (weight == -1) {
             if (weight_meth == "I") {
               weight = 1;

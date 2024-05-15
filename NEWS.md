@@ -1,3 +1,9 @@
+# mlr3proba 0.6.2
+
+* Updates in `surv.cindex` measure
+  * added `p_max` (same as `surv.graf`)
+  * refactor `cutoff` to `t_max`
+
 # mlr3proba 0.6.1
 
 * Compatibility with upcoming 'paradox' release.

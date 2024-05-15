@@ -17,8 +17,8 @@ c_score_graf_schmid <- function(truth, unique_times, cdf, power = 2L) {
     .Call(`_mlr3proba_c_weight_survival_score`, score, truth, unique_times, cens, proper, eps)
 }
 
-c_concordance <- function(time, status, crank, cutoff, weight_meth, cens, surv, tiex) {
-    .Call(`_mlr3proba_c_concordance`, time, status, crank, cutoff, weight_meth, cens, surv, tiex)
+c_concordance <- function(time, status, crank, t_max, weight_meth, cens, surv, tiex) {
+    .Call(`_mlr3proba_c_concordance`, time, status, crank, t_max, weight_meth, cens, surv, tiex)
 }
 
 c_gonen <- function(crank, tiex) {

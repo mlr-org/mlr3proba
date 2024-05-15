@@ -67,20 +67,20 @@ BEGIN_RCPP
 END_RCPP
 }
 // c_concordance
-float c_concordance(NumericVector time, NumericVector status, NumericVector crank, double cutoff, std::string weight_meth, NumericMatrix cens, NumericMatrix surv, float tiex);
-RcppExport SEXP _mlr3proba_c_concordance(SEXP timeSEXP, SEXP statusSEXP, SEXP crankSEXP, SEXP cutoffSEXP, SEXP weight_methSEXP, SEXP censSEXP, SEXP survSEXP, SEXP tiexSEXP) {
+float c_concordance(NumericVector time, NumericVector status, NumericVector crank, double t_max, std::string weight_meth, NumericMatrix cens, NumericMatrix surv, float tiex);
+RcppExport SEXP _mlr3proba_c_concordance(SEXP timeSEXP, SEXP statusSEXP, SEXP crankSEXP, SEXP t_maxSEXP, SEXP weight_methSEXP, SEXP censSEXP, SEXP survSEXP, SEXP tiexSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type time(timeSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type status(statusSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type crank(crankSEXP);
-    Rcpp::traits::input_parameter< double >::type cutoff(cutoffSEXP);
+    Rcpp::traits::input_parameter< double >::type t_max(t_maxSEXP);
     Rcpp::traits::input_parameter< std::string >::type weight_meth(weight_methSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type cens(censSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type surv(survSEXP);
     Rcpp::traits::input_parameter< float >::type tiex(tiexSEXP);
-    rcpp_result_gen = Rcpp::wrap(c_concordance(time, status, crank, cutoff, weight_meth, cens, surv, tiex));
+    rcpp_result_gen = Rcpp::wrap(c_concordance(time, status, crank, t_max, weight_meth, cens, surv, tiex));
     return rcpp_result_gen;
 END_RCPP
 }

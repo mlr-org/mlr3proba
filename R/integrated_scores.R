@@ -8,7 +8,6 @@ score_graf_schmid = function(true_times, unique_times, cdf, power = 2) {
   c_score_graf_schmid(true_times, unique_times, cdf, power)
 }
 
-
 weighted_survival_score = function(loss, truth, distribution, times = NULL,
   t_max = NULL, p_max = NULL, proper, train = NULL, eps, ...) {
   assert_surv(truth)
