@@ -638,7 +638,7 @@ bibentries = c( # nolint start
     number            = "4",
     pages             = "471-480",
     publisher         = "Springer",
-    doi               = "10.1007/S10985-007-9048-Y/METRICS"
+    doi               = "https://doi.org/10.1007/s10985-007-9048-y"
   ),
   avati_2020 = bibentry("article",
     author            = "Avati, Anand and Duan, Tony and Zhou, Sharon and Jung, Kenneth and Shah, Nigam H and Ng, Andrew Y",
