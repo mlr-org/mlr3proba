@@ -33,7 +33,7 @@ load_rats = function() {
 #' @templateVar type Surv
 #' @templateVar task_type survival
 #' @templateVar id unemployment
-#' @templateVar data UnempDur
+#' @templateVar data Ecdat::UnempDur
 #' @template task
 #' @template seealso_task
 #'
