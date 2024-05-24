@@ -67,7 +67,8 @@ Suggests:
     survAUC,
     testthat,
     vdiffr,
-    abind
+    abind,
+    Ecdat
 LinkingTo:
     Rcpp
 Remotes:
