@@ -14,8 +14,9 @@ load_rats = function() {
   data$sex = factor(data$sex, levels = c("f", "m"))
 
   b = as_data_backend(data)
-  b$hash = "_mlr3_survival_rats_"
-  TaskSurv$new("rats", b, time = "time", event = "status", label = "Rats")
+  task = TaskSurv$new("rats", b, time = "time", event = "status", label = "Rats")
+  b$hash = task$man = "mlr3proba::mlr_tasks_rats"
+  task
 }
 
 #' @title Unemployment Duration Survival Task
@@ -39,9 +40,11 @@ load_rats = function() {
 NULL
 load_unemployment = function() {
   path = file.path(system.file("extdata", package = "mlr3proba"), "unemployment.rds")
+
   b = as_data_backend(readRDS(path))
-  b$hash = "_mlr3_survival_unemployment_"
-  TaskSurv$new("unemployment", b, time = "spell", event = "censor1", label = "Unemployment Duration")
+  task = TaskSurv$new("unemployment", b, time = "spell", event = "censor1", label = "Unemployment Duration")
+  b$hash = task$man = "mlr3proba::mlr_tasks_unemployment"
+  task
 }
 
 #' @title Lung Cancer Survival Task
@@ -61,8 +64,9 @@ load_lung = function() {
   data$sex = factor(ifelse(data$sex == 1L, "m", "f"), levels = c("f", "m"))
 
   b = as_data_backend(data)
-  b$hash = "_mlr3_survival_lung_"
-  TaskSurv$new("lung", b, time = "time", event = "status", label = "Lung Cancer")
+  task = TaskSurv$new("lung", b, time = "time", event = "status", label = "Lung Cancer")
+  b$hash = task$man = "mlr3proba::mlr_tasks_lung"
+  task
 }
 
 #' @title ACTG 320 Survival Task
@@ -82,9 +86,12 @@ load_actg = function() {
   data[, c("id", "time_d", "censor_d")] = NULL
   colnames(data)[6] = "sexF"
   colnames(data)[2] = "status"
+
   b = as_data_backend(data)
-  b$hash = "_mlr3_survival_actg_"
-  TaskSurv$new("actg", b, time = "time", event = "status", label = "ACTG 320")
+  task = TaskSurv$new("actg", b, time = "time", event = "status", label = "ACTG 320")
+  b$hash = task$man = "mlr3proba::mlr_tasks_actg"
+
+  task
 }
 
 #' @title German Breast Cancer Study Survival Task
@@ -102,9 +109,11 @@ load_gbcs = function() {
   data = load_dataset("gbcs", "mlr3proba")
   data[, c("id", "diagdate", "recdate", "deathdate", "rectime", "censrec")] = NULL
   colnames(data)[9:10] = c("time", "status")
+
   b = as_data_backend(data)
-  b$hash = "_mlr3_survival_gbcs_"
-  TaskSurv$new("gbcs", b, time = "time", event = "status", label = "German Breast Cancer")
+  task = TaskSurv$new("gbcs", b, time = "time", event = "status", label = "German Breast Cancer")
+  b$hash = task$man = "mlr3proba::mlr_tasks_gbcs"
+  task
 }
 
 #' @title GRACE 1000 Survival Task
@@ -121,9 +130,12 @@ load_grace = function() {
   data = load_dataset("grace", "mlr3proba")
   data[, c("id")] = NULL
   colnames(data)[1:2] = c("time", "status")
+
   b = as_data_backend(data)
-  b$hash = "_mlr3_survival_grace_"
-  TaskSurv$new("grace", b, time = "time", event = "status", label = "GRACE 1000")
+  task = TaskSurv$new("grace", b, time = "time", event = "status", label = "GRACE 1000")
+  b$hash = task$man = "mlr3proba::mlr_tasks_grace"
+
+  task
 }
 
 #' @title Worcester Heart Attack Study (WHAS) Survival Task
@@ -142,9 +154,11 @@ load_whas = function() {
   data[, c("id", "yrgrp", "dstat")] = NULL
   colnames(data)[2] = "sexF"
   colnames(data)[10:11] = c("time", "status")
+
   b = as_data_backend(data)
-  b$hash = "_mlr3_survival_whas_"
-  TaskSurv$new("whas", b, time = "time", event = "status", label = "Worcester Heart Attack")
+  task = TaskSurv$new("whas", b, time = "time", event = "status", label = "Worcester Heart Attack")
+  b$hash = task$man = "mlr3proba::mlr_tasks_whas"
+  task
 }
 
 register_task("rats", load_rats)
