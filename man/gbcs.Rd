@@ -15,7 +15,7 @@
 \item{hormone}{Hormone therapy. 1 = Yes. 0 = No.}
 \item{size}{Tumor size (mm).}
 \item{grade}{Tumor grade (1-3).}
-\item{nodes}{Number of nodes.}
+\item{nodes}{Number of lymph nodes.}
 \item{prog_recp}{Number of progesterone receptors.}
 \item{estrg_recp}{Number of estrogen receptors.}
 \item{rectime}{Time to recurrence (days).}
@@ -25,13 +25,13 @@
 }
 }
 \source{
-\url{ftp://ftp.wiley.com/public/sci_tech_med/survival}
+\url{https://onlinelibrary.wiley.com/doi/book/10.1002/9780470258019}
 }
 \usage{
 gbcs
 }
 \description{
-gbcs dataset from Hosmer et al.
+gbcs dataset from Hosmer et al. (2008)
 }
 \references{
 Hosmer, D.W. and Lemeshow, S. and May, S. (2008)

@@ -23,13 +23,13 @@
 }
 }
 \source{
-\url{ftp://ftp.wiley.com/public/sci_tech_med/survival}
+\url{https://onlinelibrary.wiley.com/doi/book/10.1002/9780470258019}
 }
 \usage{
 whas
 }
 \description{
-whas dataset from Hosmer et al.
+whas dataset from Hosmer et al. (2008)
 }
 \references{
 Hosmer, D.W. and Lemeshow, S. and May, S. (2008)

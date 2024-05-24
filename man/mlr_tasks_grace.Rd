@@ -9,14 +9,53 @@
 \description{
 A survival task for the \link{grace} data set.
 }
-\details{
-Column "id" is removed. Columns "days" and "death" renamed to "time" and "status" resp.
-}
-\section{Construction}{
+\section{Dictionary}{
 
+This \link{Task} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks} or with the associated sugar function \code{\link[=tsk]{tsk()}}:
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr3::mlr_tasks$get("grace")
-mlr3::tsk("grace")
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_tasks$get("grace")
+tsk("grace")
 }\if{html}{\out{</div>}}
 }
 
+\section{Meta Information}{
+
+\itemize{
+\item Task type: \dQuote{surv}
+\item Dimensions: 1000x8
+\item Properties: -
+\item Has Missings: \code{FALSE}
+\item Target: \dQuote{time}, \dQuote{status}
+\item Features: \dQuote{age}, \dQuote{los}, \dQuote{revasc}, \dQuote{revascdays}, \dQuote{stchange}, \dQuote{sysbp}
+}
+}
+
+\section{Preprocessing}{
+
+\itemize{
+\item Column \code{id} is removed.
+\item Columns \code{days} and \code{death} are renamed to \code{time} and \code{status} respectively.
+}
+}
+
+\seealso{
+\itemize{
+\item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
+\url{https://mlr3book.mlr-org.com/chapters/chapter2/data_and_basic_modeling.html}
+\item \link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Task]{Tasks}: \link[mlr3:mlr_tasks]{mlr3::mlr_tasks}
+\item \code{as.data.table(mlr_tasks)} for a table of available \link[=Task]{Tasks} in the running session
+}
+
+Other Task: 
+\code{\link{TaskDens}},
+\code{\link{TaskSurv}},
+\code{\link{mlr_tasks_actg}},
+\code{\link{mlr_tasks_faithful}},
+\code{\link{mlr_tasks_gbcs}},
+\code{\link{mlr_tasks_lung}},
+\code{\link{mlr_tasks_precip}},
+\code{\link{mlr_tasks_rats}},
+\code{\link{mlr_tasks_unemployment}},
+\code{\link{mlr_tasks_whas}}
+}
+\concept{Task}

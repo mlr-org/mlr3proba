@@ -34,7 +34,16 @@ task$kaplan("sex")
 }
 \seealso{
 Other Task: 
-\code{\link{TaskDens}}
+\code{\link{TaskDens}},
+\code{\link{mlr_tasks_actg}},
+\code{\link{mlr_tasks_faithful}},
+\code{\link{mlr_tasks_gbcs}},
+\code{\link{mlr_tasks_grace}},
+\code{\link{mlr_tasks_lung}},
+\code{\link{mlr_tasks_precip}},
+\code{\link{mlr_tasks_rats}},
+\code{\link{mlr_tasks_unemployment}},
+\code{\link{mlr_tasks_whas}}
 }
 \concept{Task}
 \section{Super classes}{

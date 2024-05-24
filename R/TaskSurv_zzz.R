@@ -1,13 +1,19 @@
 #' @title Rats Survival Task
+#'
 #' @name mlr_tasks_rats
-#' @template task
 #' @templateVar type Surv
-#' @templateVar ftype survival
+#' @templateVar task_type survival
 #' @templateVar id rats
 #' @templateVar data rats
-#' @details
-#' Column "sex" has been converted to a factor, all others have been converted to integer.
+#' @template task
+#' @template seealso_task
+#'
+#' @section Pre-processing:
+#' - Column "sex" has been converted to a `factor`, all others have been
+#' converted to `integer`.
+#'
 NULL
+
 load_rats = function() {
   data = survival::rats
   data = map_at(data, c("rx", "time", "status"), as.integer)
@@ -16,47 +22,54 @@ load_rats = function() {
   b = as_data_backend(data)
   task = TaskSurv$new("rats", b, time = "time", event = "status", label = "Rats")
   b$hash = task$man = "mlr3proba::mlr_tasks_rats"
+
   task
 }
 
 #' @title Unemployment Duration Survival Task
+#'
 #' @name mlr_tasks_unemployment
-#' @description
-#' A survival task for the `UnempDur` data set.
 #'
-#' @format [R6::R6Class] inheriting from [TaskSurv].
-#'
-#' @section Construction:
-#' ```
-#' mlr3::mlr_tasks$get("unemployment")
-#' mlr3::tsk("unemployment")
-#' ```
+#' @templateVar type Surv
+#' @templateVar task_type survival
+#' @templateVar id unemployment
+#' @templateVar data UnempDur
+#' @template task
 #' @template seealso_task
 #'
-#' @details
-#' A survival task for the "UnempDur" data set in package \CRANpkg{Ecdat}.
-#' Contains the following columns of the original data set:
-#' "spell" (time), "censor1" (status), "age", "ui", "logwage", and "tenure".
+#' @section Preprocessing:
+#' - Only the columns `spell`, `censor1`, `age`, `logwage`, `tenure`, `ui` are
+#' kept in this task.
+#'
 NULL
+
 load_unemployment = function() {
   path = file.path(system.file("extdata", package = "mlr3proba"), "unemployment.rds")
 
   b = as_data_backend(readRDS(path))
   task = TaskSurv$new("unemployment", b, time = "spell", event = "censor1", label = "Unemployment Duration")
   b$hash = task$man = "mlr3proba::mlr_tasks_unemployment"
+
   task
 }
 
 #' @title Lung Cancer Survival Task
+#'
 #' @name mlr_tasks_lung
-#' @template task
+#'
 #' @templateVar type Surv
-#' @templateVar ftype survival
+#' @templateVar task_type survival
 #' @templateVar id lung
 #' @templateVar data lung
-#' @details
-#' Column "sex" has been converted to a factor, all others have been converted to integer.
+#' @template task
+#' @template seealso_task
+#'
+#' @section Pre-processing:
+#' - Column `sex` has been converted to a `factor`, all others have been
+#' converted to `integer`.
+#'
 NULL
+
 load_lung = function() {
   data = survival::lung
   data = map_dtc(data, as.integer)
@@ -66,21 +79,28 @@ load_lung = function() {
   b = as_data_backend(data)
   task = TaskSurv$new("lung", b, time = "time", event = "status", label = "Lung Cancer")
   b$hash = task$man = "mlr3proba::mlr_tasks_lung"
+
   task
 }
 
 #' @title ACTG 320 Survival Task
+#'
 #' @name mlr_tasks_actg
-#' @template task
+#'
 #' @templateVar type Surv
-#' @templateVar ftype survival
+#' @templateVar task_type survival
 #' @templateVar id actg
 #' @templateVar data actg
-#' @details
-#' Column "sex" has been renamed to "sexF" and "censor" has been renamed to "status".
-#' Columns "id", "time_d", and "censor_d" have been removed so target is time to AIDS diagnosis
-#' or death.
+#' @template task
+#' @template seealso_task
+#'
+#' @section Pre-processing:
+#' - Column `sex` has been renamed to `sexF` and `censor` has been renamed to `status`.
+#' - Columns `id`, `time_d`, and `censor_d` have been removed so target is `time`
+#' to AIDS diagnosis (in days).
+#'
 NULL
+
 load_actg = function() {
   data = load_dataset("actg", "mlr3proba")
   data[, c("id", "time_d", "censor_d")] = NULL
@@ -95,16 +115,23 @@ load_actg = function() {
 }
 
 #' @title German Breast Cancer Study Survival Task
+#'
 #' @name mlr_tasks_gbcs
-#' @template task
+#'
 #' @templateVar type Surv
-#' @templateVar ftype survival
+#' @templateVar task_type survival
 #' @templateVar id gbcs
 #' @templateVar data gbcs
-#' @details
-#' Column "id" and all date columns removed, as well as "rectime" and "censrec".
-#' Target is time to death.
+#' @template task
+#' @template seealso_task
+#'
+#' @section Preprocessing:
+#' - Column `id` and all date columns have been removed, as well as `rectime`
+#' and `censrec`.
+#' - Column `survtime` has been renamed to `time` and `censdead` to `status`.
+#'
 NULL
+
 load_gbcs = function() {
   data = load_dataset("gbcs", "mlr3proba")
   data[, c("id", "diagdate", "recdate", "deathdate", "rectime", "censrec")] = NULL
@@ -113,19 +140,27 @@ load_gbcs = function() {
   b = as_data_backend(data)
   task = TaskSurv$new("gbcs", b, time = "time", event = "status", label = "German Breast Cancer")
   b$hash = task$man = "mlr3proba::mlr_tasks_gbcs"
+
   task
 }
 
 #' @title GRACE 1000 Survival Task
+#'
 #' @name mlr_tasks_grace
-#' @template task
+#'
 #' @templateVar type Surv
-#' @templateVar ftype survival
+#' @templateVar task_type survival
 #' @templateVar id grace
 #' @templateVar data grace
-#' @details
-#' Column "id" is removed. Columns "days" and "death" renamed to "time" and "status" resp.
+#' @template task
+#' @template seealso_task
+#'
+#' @section Preprocessing:
+#' - Column `id` is removed.
+#' - Columns `days` and `death` are renamed to `time` and `status` respectively.
+#'
 NULL
+
 load_grace = function() {
   data = load_dataset("grace", "mlr3proba")
   data[, c("id")] = NULL
@@ -139,16 +174,23 @@ load_grace = function() {
 }
 
 #' @title Worcester Heart Attack Study (WHAS) Survival Task
+#'
 #' @name mlr_tasks_whas
-#' @template task
+#'
 #' @templateVar type Surv
-#' @templateVar ftype survival
+#' @templateVar task_type survival
 #' @templateVar id whas
 #' @templateVar data whas
-#' @details
-#' Columns "id", "yrgrp", and "dstat" are removed so target is status at last follow-up.
-#' Column "sex" renamed to "sexF", "lenfol" to "time", and "fstat" to "status".
+#' @template task
+#' @template seealso_task
+#'
+#' @section Preprocessing:
+#' - Columns `id`,  `yrgrp`, and `dstat` are removed
+#' - Column `sex` is renamed to `sexF`, `lenfol` to `time`, and `fstat` to `status`.
+#' - Target is total follow-up time from hospital admission
+#'
 NULL
+
 load_whas = function() {
   data = load_dataset("whas", "mlr3proba")
   data[, c("id", "yrgrp", "dstat")] = NULL
@@ -158,6 +200,7 @@ load_whas = function() {
   b = as_data_backend(data)
   task = TaskSurv$new("whas", b, time = "time", event = "status", label = "Worcester Heart Attack")
   b$hash = task$man = "mlr3proba::mlr_tasks_whas"
+
   task
 }
 

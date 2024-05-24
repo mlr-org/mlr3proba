@@ -7,21 +7,55 @@
 \link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskSurv}.
 }
 \description{
-A survival task for the \code{UnempDur} data set.
+A survival task for the \link{UnempDur} data set.
 }
-\details{
-A survival task for the "UnempDur" data set in package \CRANpkg{Ecdat}.
-Contains the following columns of the original data set:
-"spell" (time), "censor1" (status), "age", "ui", "logwage", and "tenure".
-}
-\section{Construction}{
+\section{Dictionary}{
 
+This \link{Task} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks} or with the associated sugar function \code{\link[=tsk]{tsk()}}:
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr3::mlr_tasks$get("unemployment")
-mlr3::tsk("unemployment")
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_tasks$get("unemployment")
+tsk("unemployment")
 }\if{html}{\out{</div>}}
 }
 
-\seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Task]{Tasks}: \link[mlr3:mlr_tasks]{mlr3::mlr_tasks}
+\section{Meta Information}{
+
+\itemize{
+\item Task type: \dQuote{surv}
+\item Dimensions: 3343x6
+\item Properties: -
+\item Has Missings: \code{FALSE}
+\item Target: \dQuote{spell}, \dQuote{censor1}
+\item Features: \dQuote{age}, \dQuote{logwage}, \dQuote{tenure}, \dQuote{ui}
 }
+}
+
+\section{Preprocessing}{
+
+\itemize{
+\item Only the columns \code{spell}, \code{censor1}, \code{age}, \code{logwage}, \code{tenure}, \code{ui} are
+kept in this task.
+}
+}
+
+\seealso{
+\itemize{
+\item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
+\url{https://mlr3book.mlr-org.com/chapters/chapter2/data_and_basic_modeling.html}
+\item \link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Task]{Tasks}: \link[mlr3:mlr_tasks]{mlr3::mlr_tasks}
+\item \code{as.data.table(mlr_tasks)} for a table of available \link[=Task]{Tasks} in the running session
+}
+
+Other Task: 
+\code{\link{TaskDens}},
+\code{\link{TaskSurv}},
+\code{\link{mlr_tasks_actg}},
+\code{\link{mlr_tasks_faithful}},
+\code{\link{mlr_tasks_gbcs}},
+\code{\link{mlr_tasks_grace}},
+\code{\link{mlr_tasks_lung}},
+\code{\link{mlr_tasks_precip}},
+\code{\link{mlr_tasks_rats}},
+\code{\link{mlr_tasks_whas}}
+}
+\concept{Task}
