@@ -15,7 +15,7 @@
 #' See [simsurv::simsurv()] for an explanation of the hyperparameters.
 #'
 #' @templateVar id simsurv
-#' @template section_dictionary_task_generator
+#' @template task_generator
 #'
 #' @template seealso_task_generator
 #' @export

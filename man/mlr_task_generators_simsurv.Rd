@@ -26,6 +26,16 @@ tgen("simsurv")
 }\if{html}{\out{</div>}}
 }
 
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Levels \tab Range \cr
+   dist \tab character \tab weibull \tab weibull, exponential, gompertz \tab - \cr
+   lambdas \tab numeric \tab - \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   gammas \tab numeric \tab - \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   maxt \tab numeric \tab - \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+}
+}
+
 \examples{
 if (requireNamespace("simsurv", quietly = TRUE)) {
   generator = mlr3::mlr_task_generators$get("simsurv")
@@ -34,8 +44,15 @@ if (requireNamespace("simsurv", quietly = TRUE)) {
 }
 }
 \seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:TaskGenerator]{TaskGenerators}: \link[mlr3:mlr_task_generators]{mlr3::mlr_task_generators}
+\itemize{
+\item \link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:TaskGenerator]{TaskGenerators}: \link[mlr3:mlr_task_generators]{mlr3::mlr_task_generators}
+\item \code{as.data.table(mlr_task_generators)}  for a table of available \link[=TaskGenerator]{TaskGenerators} in the running session
 }
+
+Other TaskGenerator: 
+\code{\link{mlr_task_generators_simdens}}
+}
+\concept{TaskGenerator}
 \section{Super class}{
 \code{\link[mlr3:TaskGenerator]{mlr3::TaskGenerator}} -> \code{TaskGeneratorSimsurv}
 }

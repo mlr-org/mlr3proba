@@ -7,6 +7,7 @@
 \description{
 A \link[mlr3:TaskGenerator]{mlr3::TaskGenerator} calling \code{\link[distr6:distrSimulate]{distr6::distrSimulate()}}.
 See \code{\link[distr6:distrSimulate]{distr6::distrSimulate()}} for an explanation of the hyperparameters.
+See \code{\link[distr6:listDistributions]{distr6::listDistributions()}} for the names of the available distributions.
 }
 \section{Dictionary}{
 
@@ -17,14 +18,37 @@ tgen("simdens")
 }\if{html}{\out{</div>}}
 }
 
+\section{Parameters}{
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Levels \cr
+   distribution \tab character \tab Normal \tab Arcsine, Arrdist, Bernoulli, Beta, BetaNoncentral, Binomial, Categorical, Cauchy, ChiSquared, ChiSquaredNoncentral, \link{...} \cr
+   pars \tab untyped \tab - \tab  \cr
+}
+}
+
 \examples{
-generator = mlr3::mlr_task_generators$get("simdens")
-task = generator$generate(20)
+# generate 20 samples from a standard Normal distribution
+dens_gen = tgen("simdens")
+dens_gen$param_set
+
+task = dens_gen$generate(20)
 head(task)
+
+# generate 50 samples from a Binomial distribution with specific parameters
+dens_gen = tgen("simdens", distribution = "Bernoulli", pars = list(prob = 0.8))
+task = dens_gen$generate(50)
+task$data()[["x"]]
 }
 \seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:TaskGenerator]{TaskGenerators}: \link[mlr3:mlr_task_generators]{mlr3::mlr_task_generators}
+\itemize{
+\item \link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:TaskGenerator]{TaskGenerators}: \link[mlr3:mlr_task_generators]{mlr3::mlr_task_generators}
+\item \code{as.data.table(mlr_task_generators)}  for a table of available \link[=TaskGenerator]{TaskGenerators} in the running session
 }
+
+Other TaskGenerator: 
+\code{\link{mlr_task_generators_simsurv}}
+}
+\concept{TaskGenerator}
 \section{Super class}{
 \code{\link[mlr3:TaskGenerator]{mlr3::TaskGenerator}} -> \code{TaskGeneratorSimdens}
 }
