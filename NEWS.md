@@ -1,3 +1,7 @@
+# mlr3proba 0.6.3
+
+* Refined doc for loaded tasks, `task$help()` works as it should now
+
 # mlr3proba 0.6.2
 
 * Updates in `surv.cindex` measure
@@ -12,7 +16,7 @@
 # mlr3proba 0.6.0
 
 * Optimized `surv.logloss` and `calib_alpha` measures (bypassing `distr6`)
-* Update/refine all measure docs (namign conventions from upcoming scoring rules paper) + doc templates
+* Update/refine all measure docs (naming conventions from upcoming scoring rules paper) + doc templates
 * fix very rare bugs in `calib_alpha`, `surv.logloss` and `surv.graf` (version with proper = FALSE)
 
 # mlr3proba 0.5.9
