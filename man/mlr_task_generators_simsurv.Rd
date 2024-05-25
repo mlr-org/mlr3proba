@@ -8,14 +8,16 @@
 A \link[mlr3:TaskGenerator]{mlr3::TaskGenerator} calling \code{\link[simsurv:simsurv]{simsurv::simsurv()}} from package \CRANpkg{simsurv}.
 
 This generator currently only exposes a small subset of the flexibility of \CRANpkg{simsurv},
-and just creates a small data set with the following numerical covariates:
+and just creates a small dataset with the following numerical covariates:
 \itemize{
-\item \code{treatment}: Bernoulli distributed with log hazard ratio \code{-0.5}.
-\item \code{height}: Normally distributed with log hazard ratio \code{1}.
-\item \code{weight}: normally distributed with log hazard ratio \code{0}.
+\item \code{treatment}: Bernoulli distributed with hazard ratio \code{0.5}.
+\item \code{height}: Normally distributed with hazard ratio \code{1}.
+\item \code{weight}: normally distributed with hazard ratio \code{1}.
 }
 
 See \code{\link[simsurv:simsurv]{simsurv::simsurv()}} for an explanation of the hyperparameters.
+Initial values for hyperparameters are \code{lambdas} = 0.1, \code{gammas} = 1.5 and \code{maxt} = 5.
+The last one, by default generates samples which are administratively censored at \eqn{\tau = 5}, so increase this value if you want to change this.
 }
 \section{Dictionary}{
 
@@ -38,8 +40,14 @@ tgen("simsurv")
 
 \examples{
 if (requireNamespace("simsurv", quietly = TRUE)) {
-  generator = mlr3::mlr_task_generators$get("simsurv")
-  task = generator$generate(20)
+  # generate 20 samples with Weibull survival distribution
+  gen = tgen("simsurv")
+  task = gen$generate(20)
+  head(task)
+
+  # generate 100 samples with exponential survival distribution and tau = 40
+  gen = tgen("simsurv", dist = "exponential", gammas = NULL, maxt = 40)
+  task = gen$generate(100)
   head(task)
 }
 }
