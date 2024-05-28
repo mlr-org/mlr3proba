@@ -46,8 +46,20 @@ TaskGeneratorSimsurv = R6Class("TaskGeneratorSimsurv",
       )
       ps$values = list(lambdas = 0.1, gammas = 1.5, maxt = 5)
 
-      super$initialize(id = "simsurv", task_type = "classif", packages = "mlbench", param_set = ps,
-        label = "Generator from package 'simsurv'", man = "mlr3::mlr_task_generators_simsurv")
+      super$initialize(
+        id = "simsurv",
+        task_type = "surv",
+        packages = "simsurv",
+        param_set = ps,
+        label = "Survival Data Generator from package 'simsurv'",
+        man = "mlr3proba::mlr_task_generators_simsurv"
+      )
+    },
+
+    #' @description
+    #' Opens the corresponding help page referenced by field `$man`.
+    help = function() {
+      open_help(self$man)
     }
   ),
 
@@ -65,7 +77,8 @@ TaskGeneratorSimsurv = R6Class("TaskGeneratorSimsurv",
 
       data = setDT(invoke(simsurv::simsurv, x = covs, betas = betas, .args = pv)) # nolint
       data = rcbind(data, covs)
-      TaskSurv$new("simsurv", remove_named(data, "id"), time = "eventtime", event = "status")
+      TaskSurv$new(id = "simsurv", backend = remove_named(data, "id"),
+                   time = "eventtime", event = "status")
     }
   )
 )

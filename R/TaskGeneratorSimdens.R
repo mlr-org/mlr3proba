@@ -39,15 +39,21 @@ TaskGeneratorSimdens = R6::R6Class("TaskGeneratorSimdens",
         packages = "distr6",
         param_set = param_set,
         label = "Density Generator for package 'distr6'",
-        man = "mlr3::mlr_task_generators_simdens"
+        man = "mlr3proba::mlr_task_generators_simdens"
       )
+    },
+
+    #' @description
+    #' Opens the corresponding help page referenced by field `$man`.
+    help = function() {
+      open_help(self$man)
     }
   ),
 
   private = list(
     .generate = function(n) {
       data = invoke(distr6::distrSimulate, n = n, .args = self$param_set$values)
-      TaskDens$new(sprintf("%s_%i", self$id, n), data)
+      TaskDens$new(self$id, backend = data)
     }
   )
 )
