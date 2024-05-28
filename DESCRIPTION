@@ -68,7 +68,8 @@ Suggests:
     testthat,
     vdiffr,
     abind,
-    Ecdat
+    Ecdat,
+    coxed
 LinkingTo:
     Rcpp
 Remotes:
@@ -137,6 +138,7 @@ Collate:
     'RcppExports.R'
     'TaskDens.R'
     'TaskDens_zzz.R'
+    'TaskGeneratorCoxed.R'
     'TaskGeneratorSimdens.R'
     'TaskGeneratorSimsurv.R'
     'TaskSurv.R'
