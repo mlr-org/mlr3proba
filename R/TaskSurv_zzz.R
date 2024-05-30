@@ -119,7 +119,7 @@ load_mgus = function() {
 #' - Columns `age`, `time`, `status`, `diagtime` and `karno` have been converted
 #' to `integer`.
 #' - Columns `trt`, `prior` have been converted to `factor`s. Prior therapy
-#' values are 'no' vs 'yes' instead of 0 vs 10.
+#' values are `no`/`yes` instead of 0/10.
 NULL
 
 load_veteran = function() {
@@ -149,7 +149,6 @@ load_veteran = function() {
 #' @section Pre-processing:
 #' - Column `sex` has been converted to a `factor`, all others have been
 #' converted to `integer`.
-#'
 NULL
 
 load_rats = function() {
@@ -178,14 +177,19 @@ load_rats = function() {
 #' @section Preprocessing:
 #' - Only the columns `spell`, `censor1`, `age`, `logwage`, `tenure`, `ui` are
 #' kept in this task.
-#'
+#' - Renamed target columns from (`spell`, `censor1`) to (`time`, `status`), so
+#' outcome is the duration until re-employment in a full-time job.
 NULL
 
 load_unemployment = function() {
   path = file.path(system.file("extdata", package = "mlr3proba"), "unemployment.rds")
+  data = readRDS(path)
+  colnames(data)[colnames(data) == "spell"] = "time"
+  colnames(data)[colnames(data) == "censor1"] = "status"
 
-  b = as_data_backend(readRDS(path))
-  task = TaskSurv$new("unemployment", b, time = "spell", event = "censor1", label = "Unemployment Duration")
+  b = as_data_backend(data)
+  task = TaskSurv$new("unemployment", b, time = "time", event = "status",
+                      label = "Unemployment Duration")
   b$hash = task$man = "mlr3proba::mlr_tasks_unemployment"
 
   task
@@ -203,16 +207,19 @@ load_unemployment = function() {
 #' @template seealso_task
 #'
 #' @section Pre-processing:
+#' - Column `inst` has been removed.
 #' - Column `sex` has been converted to a `factor`, all others have been
 #' converted to `integer`.
-#'
+#' - Kept only complete cases (no missing values).
 NULL
 
 load_lung = function() {
   data = survival::lung
+  data$inst = NULL
   data = map_dtc(data, as.integer)
   data$status = as.integer(data$status == 2L)
   data$sex = factor(ifelse(data$sex == 1L, "m", "f"), levels = c("f", "m"))
+  data = na.omit(data)
 
   b = as_data_backend(data)
   task = TaskSurv$new("lung", b, time = "time", event = "status", label = "Lung Cancer")
@@ -236,7 +243,6 @@ load_lung = function() {
 #' - Column `sex` has been renamed to `sexF` and `censor` has been renamed to `status`.
 #' - Columns `id`, `time_d`, and `censor_d` have been removed so target is `time`
 #' to AIDS diagnosis (in days).
-#'
 NULL
 
 load_actg = function() {
@@ -266,8 +272,7 @@ load_actg = function() {
 #' @section Preprocessing:
 #' - Column `id` and all date columns have been removed, as well as `rectime`
 #' and `censrec`.
-#' - Column `survtime` has been renamed to `time` and `censdead` to `status`.
-#'
+#' - Target columns (`survtime`, `censdead`) have been renamed to (`time`, `status`).
 NULL
 
 load_gbcs = function() {
@@ -295,8 +300,7 @@ load_gbcs = function() {
 #'
 #' @section Preprocessing:
 #' - Column `id` is removed.
-#' - Columns `days` and `death` are renamed to `time` and `status` respectively.
-#'
+#' - Target columns (`days`, `death`) have been renamed to (`time`, `status`).
 NULL
 
 load_grace = function() {
@@ -323,10 +327,9 @@ load_grace = function() {
 #' @template seealso_task
 #'
 #' @section Preprocessing:
-#' - Columns `id`,  `yrgrp`, and `dstat` are removed
+#' - Columns `id`, `yrgrp`, and `dstat` are removed.
 #' - Column `sex` is renamed to `sexF`, `lenfol` to `time`, and `fstat` to `status`.
-#' - Target is total follow-up time from hospital admission
-#'
+#' - Target is total follow-up time from hospital admission.
 NULL
 
 load_whas = function() {
