@@ -66,7 +66,12 @@ reference:
   - title: Survival Tasks
     contents:
       - mlr_task_generators_simsurv
+      - mlr_task_generators_coxed
       - mlr_tasks_actg
+      - mlr_tasks_gbsg
+      - mlr_tasks_mgus
+      - mlr_tasks_pbc
+      - mlr_tasks_veteran
       - mlr_tasks_gbcs
       - mlr_tasks_grace
       - mlr_tasks_lung
