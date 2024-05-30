@@ -1,6 +1,10 @@
 # mlr3proba 0.6.3
 
-* Refined doc for loaded tasks, `task$help()` works as it should now
+* Add new tasks from `survival` package: `veteran`, `pbc`, `mgus`, `gbsg`
+  * Refined docs for loaded tasks, `task$help()` works as it should now
+  * All loaded tasks have now **complete cases** (no features with missing values)
+* Refined docs for task generators
+* Added task generator from `coxed` package
 
 # mlr3proba 0.6.2
 
