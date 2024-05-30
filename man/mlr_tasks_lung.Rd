@@ -22,19 +22,21 @@ tsk("lung")
 
 \itemize{
 \item Task type: \dQuote{surv}
-\item Dimensions: 228x10
+\item Dimensions: 168x9
 \item Properties: -
-\item Has Missings: \code{TRUE}
+\item Has Missings: \code{FALSE}
 \item Target: \dQuote{time}, \dQuote{status}
-\item Features: \dQuote{age}, \dQuote{inst}, \dQuote{meal.cal}, \dQuote{pat.karno}, \dQuote{ph.ecog}, \dQuote{ph.karno}, \dQuote{sex}, \dQuote{wt.loss}
+\item Features: \dQuote{age}, \dQuote{meal.cal}, \dQuote{pat.karno}, \dQuote{ph.ecog}, \dQuote{ph.karno}, \dQuote{sex}, \dQuote{wt.loss}
 }
 }
 
 \section{Pre-processing}{
 
 \itemize{
+\item Column \code{inst} has been removed.
 \item Column \code{sex} has been converted to a \code{factor}, all others have been
 converted to \code{integer}.
+\item Kept only complete cases (no missing values).
 }
 }
 
@@ -52,10 +54,14 @@ Other Task:
 \code{\link{mlr_tasks_actg}},
 \code{\link{mlr_tasks_faithful}},
 \code{\link{mlr_tasks_gbcs}},
+\code{\link{mlr_tasks_gbsg}},
 \code{\link{mlr_tasks_grace}},
+\code{\link{mlr_tasks_mgus}},
+\code{\link{mlr_tasks_pbc}},
 \code{\link{mlr_tasks_precip}},
 \code{\link{mlr_tasks_rats}},
 \code{\link{mlr_tasks_unemployment}},
+\code{\link{mlr_tasks_veteran}},
 \code{\link{mlr_tasks_whas}}
 }
 \concept{Task}

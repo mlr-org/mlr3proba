@@ -33,9 +33,9 @@ tsk("whas")
 \section{Preprocessing}{
 
 \itemize{
-\item Columns \code{id},  \code{yrgrp}, and \code{dstat} are removed
+\item Columns \code{id}, \code{yrgrp}, and \code{dstat} are removed.
 \item Column \code{sex} is renamed to \code{sexF}, \code{lenfol} to \code{time}, and \code{fstat} to \code{status}.
-\item Target is total follow-up time from hospital admission
+\item Target is total follow-up time from hospital admission.
 }
 }
 
@@ -53,10 +53,14 @@ Other Task:
 \code{\link{mlr_tasks_actg}},
 \code{\link{mlr_tasks_faithful}},
 \code{\link{mlr_tasks_gbcs}},
+\code{\link{mlr_tasks_gbsg}},
 \code{\link{mlr_tasks_grace}},
 \code{\link{mlr_tasks_lung}},
+\code{\link{mlr_tasks_mgus}},
+\code{\link{mlr_tasks_pbc}},
 \code{\link{mlr_tasks_precip}},
 \code{\link{mlr_tasks_rats}},
-\code{\link{mlr_tasks_unemployment}}
+\code{\link{mlr_tasks_unemployment}},
+\code{\link{mlr_tasks_veteran}}
 }
 \concept{Task}

@@ -35,7 +35,7 @@ tsk("gbcs")
 \itemize{
 \item Column \code{id} and all date columns have been removed, as well as \code{rectime}
 and \code{censrec}.
-\item Column \code{survtime} has been renamed to \code{time} and \code{censdead} to \code{status}.
+\item Target columns (\code{survtime}, \code{censdead}) have been renamed to (\code{time}, \code{status}).
 }
 }
 
@@ -52,11 +52,15 @@ Other Task:
 \code{\link{TaskSurv}},
 \code{\link{mlr_tasks_actg}},
 \code{\link{mlr_tasks_faithful}},
+\code{\link{mlr_tasks_gbsg}},
 \code{\link{mlr_tasks_grace}},
 \code{\link{mlr_tasks_lung}},
+\code{\link{mlr_tasks_mgus}},
+\code{\link{mlr_tasks_pbc}},
 \code{\link{mlr_tasks_precip}},
 \code{\link{mlr_tasks_rats}},
 \code{\link{mlr_tasks_unemployment}},
+\code{\link{mlr_tasks_veteran}},
 \code{\link{mlr_tasks_whas}}
 }
 \concept{Task}

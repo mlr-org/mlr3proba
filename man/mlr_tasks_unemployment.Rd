@@ -25,7 +25,7 @@ tsk("unemployment")
 \item Dimensions: 3343x6
 \item Properties: -
 \item Has Missings: \code{FALSE}
-\item Target: \dQuote{spell}, \dQuote{censor1}
+\item Target: \dQuote{time}, \dQuote{status}
 \item Features: \dQuote{age}, \dQuote{logwage}, \dQuote{tenure}, \dQuote{ui}
 }
 }
@@ -35,6 +35,8 @@ tsk("unemployment")
 \itemize{
 \item Only the columns \code{spell}, \code{censor1}, \code{age}, \code{logwage}, \code{tenure}, \code{ui} are
 kept in this task.
+\item Renamed target columns from (\code{spell}, \code{censor1}) to (\code{time}, \code{status}), so
+outcome is the duration until re-employment in a full-time job.
 }
 }
 
@@ -52,10 +54,14 @@ Other Task:
 \code{\link{mlr_tasks_actg}},
 \code{\link{mlr_tasks_faithful}},
 \code{\link{mlr_tasks_gbcs}},
+\code{\link{mlr_tasks_gbsg}},
 \code{\link{mlr_tasks_grace}},
 \code{\link{mlr_tasks_lung}},
+\code{\link{mlr_tasks_mgus}},
+\code{\link{mlr_tasks_pbc}},
 \code{\link{mlr_tasks_precip}},
 \code{\link{mlr_tasks_rats}},
+\code{\link{mlr_tasks_veteran}},
 \code{\link{mlr_tasks_whas}}
 }
 \concept{Task}

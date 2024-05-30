@@ -46,6 +46,7 @@ task$data()[["x"]]
 }
 
 Other TaskGenerator: 
+\code{\link{mlr_task_generators_coxed}},
 \code{\link{mlr_task_generators_simsurv}}
 }
 \concept{TaskGenerator}
@@ -56,6 +57,7 @@ Other TaskGenerator:
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-TaskGeneratorSimdens-new}{\code{TaskGeneratorSimdens$new()}}
+\item \href{#method-TaskGeneratorSimdens-help}{\code{TaskGeneratorSimdens$help()}}
 \item \href{#method-TaskGeneratorSimdens-clone}{\code{TaskGeneratorSimdens$clone()}}
 }
 }
@@ -75,6 +77,16 @@ Other TaskGenerator:
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TaskGeneratorSimdens$new()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TaskGeneratorSimdens-help"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskGeneratorSimdens-help}{}}}
+\subsection{Method \code{help()}}{
+Opens the corresponding help page referenced by field \verb{$man}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TaskGeneratorSimdens$help()}\if{html}{\out{</div>}}
 }
 
 }
