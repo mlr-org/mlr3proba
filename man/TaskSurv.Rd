@@ -4,19 +4,16 @@
 \alias{TaskSurv}
 \title{Survival Task}
 \description{
-This task specializes \link[mlr3:Task]{mlr3::Task} and \link[mlr3:TaskSupervised]{mlr3::TaskSupervised} for possibly-censored survival
-problems. The target is comprised of survival times and an event indicator.
+This task specializes \link[mlr3:Task]{mlr3::Task} and \link[mlr3:TaskSupervised]{mlr3::TaskSupervised} for
+possibly-censored survival problems.
+The target is comprised of survival times and an event indicator.
 Predefined tasks are stored in \link[mlr3:mlr_tasks]{mlr3::mlr_tasks}.
 
 The \code{task_type} is set to \code{"surv"}.
 }
 \examples{
 library(mlr3)
-lung = survival::lung
-lung$status = (lung$status == 2L)
-task = TaskSurv$new("lung",
-  backend = lung, time = "time",
-  event = "status")
+task = tsk("lung")
 
 # meta data
 task$target_names
@@ -24,13 +21,14 @@ task$feature_names
 task$formula()
 
 # survival data
-task$truth()
-task$times()
-task$status()
-task$unique_times()
-task$unique_event_times()
-task$risk_set(time = 700)
-task$kaplan("sex")
+task$truth() # survival::Surv() object
+task$times() # (unsorted) times
+task$status() # event indicators (1 = death, 0 = censored)
+task$unique_times() # sorted unique times
+task$unique_event_times() # sorted unique event times
+task$risk_set(time = 700) # observation ids that are not censored or dead at t = 700
+task$kaplan(strata = "sex") # stratified Kaplan-Meier
+task$kaplan(reverse = TRUE) # Kaplan-Meier of the censoring distribution
 }
 \seealso{
 Other Task: 
@@ -57,7 +55,8 @@ Other Task:
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{censtype}}{\code{character(1)}\cr
-Returns the type of censoring, one of "right", "left", "counting", "interval", or "mstate".}
+Returns the type of censoring, one of \code{"right"}, \code{"left"}, \code{"counting"},
+\code{"interval"}, \code{"interval2"} or \code{"mstate"}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -154,8 +153,9 @@ Label for the new instance.}
 \if{html}{\out{<a id="method-TaskSurv-truth"></a>}}
 \if{latex}{\out{\hypertarget{method-TaskSurv-truth}{}}}
 \subsection{Method \code{truth()}}{
-True response for specified \code{row_ids}. Format depends on the task type.
-Defaults to all rows with role "use".
+True response for specified \code{row_ids}. This is the survival outcome
+using the \link[survival:Surv]{Surv} format and depends on the censoring
+type. Defaults to all rows with role \code{"use"}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TaskSurv$truth(rows = NULL)}\if{html}{\out{</div>}}
 }
@@ -169,14 +169,15 @@ Row indices.}
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-\code{numeric()}.
+\code{\link[survival:Surv]{survival::Surv()}}.
 }
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TaskSurv-formula"></a>}}
 \if{latex}{\out{\hypertarget{method-TaskSurv-formula}{}}}
 \subsection{Method \code{formula()}}{
-Creates a formula for survival models with \link[survival:Surv]{survival::Surv} on the LHS.
+Creates a formula for survival models with \code{\link[survival:Surv]{survival::Surv()}} on the LHS
+(left hand side).
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TaskSurv$formula(rhs = NULL, reverse = FALSE)}\if{html}{\out{</div>}}
 }
@@ -184,14 +185,14 @@ Creates a formula for survival models with \link[survival:Surv]{survival::Surv} 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{rhs}}{If \code{NULL} RHS is \code{.}, otherwise gives RHS of formula.}
+\item{\code{rhs}}{If \code{NULL}, RHS (right hand side) is \code{"."}, otherwise RHS is \code{"rhs"}.}
 
 \item{\code{reverse}}{If \code{TRUE} then formula calculated with 1 - status.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-\code{numeric()}.
+\code{\link[stats:formula]{stats::formula()}}.
 }
 }
 \if{html}{\out{<hr>}}
@@ -224,7 +225,7 @@ If \code{censtype} is \code{"right"} or \code{"left"} then \code{1} is event and
 If \code{censtype} is \code{"mstate"} then \code{0} is censored and all other values are different events.
 If \code{censtype} is \code{"interval"} then \code{0} is right-censored, \code{1} is event, \code{2} is left-censored,
 \code{3} is interval-censored.
-See \link[survival:Surv]{survival::Surv}.
+See \code{\link[survival:Surv]{survival::Surv()}}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TaskSurv$status(rows = NULL)}\if{html}{\out{</div>}}
 }
@@ -245,7 +246,8 @@ Row indices.}
 \if{html}{\out{<a id="method-TaskSurv-unique_times"></a>}}
 \if{latex}{\out{\hypertarget{method-TaskSurv-unique_times}{}}}
 \subsection{Method \code{unique_times()}}{
-Returns the sorted unique outcome times for 'right', 'left', and 'mcstate'.
+Returns the sorted unique outcome times for \code{"right"}, \code{"left"} and
+\code{"mstate"} types of censoring.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TaskSurv$unique_times(rows = NULL)}\if{html}{\out{</div>}}
 }
@@ -266,7 +268,8 @@ Row indices.}
 \if{html}{\out{<a id="method-TaskSurv-unique_event_times"></a>}}
 \if{latex}{\out{\hypertarget{method-TaskSurv-unique_event_times}{}}}
 \subsection{Method \code{unique_event_times()}}{
-Returns the sorted unique event (or failure) outcome times.
+Returns the sorted unique event (or failure) outcome times for \code{"right"},
+\code{"left"} and \code{"mstate"} types of censoring.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TaskSurv$unique_event_times(rows = NULL)}\if{html}{\out{</div>}}
 }
@@ -287,7 +290,10 @@ Row indices.}
 \if{html}{\out{<a id="method-TaskSurv-risk_set"></a>}}
 \if{latex}{\out{\hypertarget{method-TaskSurv-risk_set}{}}}
 \subsection{Method \code{risk_set()}}{
-Returns the \code{row_ids} of the observations 'at risk' (not dead or censored) at \code{time}.
+Returns the \code{row_ids} of the observations \strong{at risk} (not dead or censored
+or had other events in case of multi-state tasks) at the specified \code{time}.
+
+Only designed for \code{"right"}, \code{"left"} and \code{"mstate"} types of censoring.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TaskSurv$risk_set(time = NULL)}\if{html}{\out{</div>}}
 }
@@ -295,7 +301,8 @@ Returns the \code{row_ids} of the observations 'at risk' (not dead or censored) 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{time}}{(\code{numeric(1)}) \cr Time to return risk set for, if \code{NULL} returns all \code{row_ids}.}
+\item{\code{time}}{(\code{numeric(1)}) \cr Time to return risk set for, if \code{NULL}
+returns all \code{row_ids}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -338,7 +345,7 @@ Additional arguments passed down to \code{\link[survival:survfit.formula]{surviv
 \if{latex}{\out{\hypertarget{method-TaskSurv-reverse}{}}}
 \subsection{Method \code{reverse()}}{
 Returns the same task with the status variable reversed, i.e., 1 - status.
-Only designed for left and right censoring.
+Only designed for \code{"left"} and \code{"right"} censoring.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TaskSurv$reverse()}\if{html}{\out{</div>}}
 }
