@@ -112,5 +112,5 @@ Cox DR (1972).
 Lin, Y. D (2007).
 \dQuote{On the Breslow estimator.}
 \emph{Lifetime Data Analysis}, \bold{13}(4), 471-480.
-\doi{10.1007/S10985-007-9048-Y/METRICS}.
+\doi{10.1007/s10985-007-9048-y}.
 }
