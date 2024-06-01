@@ -29,6 +29,13 @@ task$unique_event_times() # sorted unique event times
 task$risk_set(time = 700) # observation ids that are not censored or dead at t = 700
 task$kaplan(strata = "sex") # stratified Kaplan-Meier
 task$kaplan(reverse = TRUE) # Kaplan-Meier of the censoring distribution
+
+# proportion of censored observations
+task$cens_prop()
+# proportion of censored observations at max time
+task$admin_cens_prop()
+# proportion of censored observations at or after the 90\% quantile of times
+task$admin_cens_prop(probs = 0.9)
 }
 \seealso{
 Other Task: 
@@ -73,6 +80,8 @@ Returns the type of censoring, one of \code{"right"}, \code{"left"}, \code{"coun
 \item \href{#method-TaskSurv-risk_set}{\code{TaskSurv$risk_set()}}
 \item \href{#method-TaskSurv-kaplan}{\code{TaskSurv$kaplan()}}
 \item \href{#method-TaskSurv-reverse}{\code{TaskSurv$reverse()}}
+\item \href{#method-TaskSurv-cens_prop}{\code{TaskSurv$cens_prop()}}
+\item \href{#method-TaskSurv-admin_cens_prop}{\code{TaskSurv$admin_cens_prop()}}
 \item \href{#method-TaskSurv-clone}{\code{TaskSurv$clone()}}
 }
 }
@@ -352,6 +361,72 @@ Only designed for \code{"left"} and \code{"right"} censoring.
 
 \subsection{Returns}{
 \link{TaskSurv}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TaskSurv-cens_prop"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskSurv-cens_prop}{}}}
+\subsection{Method \code{cens_prop()}}{
+Returns the \strong{proportion of censoring} for this survival task.
+By default, this is returned for all observations, otherwise only the
+specified ones (\code{rows}).
+
+Only designed for \code{"right"} and \code{"left"} censoring where there is 1-1
+correspondence between rows and observations.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TaskSurv$cens_prop(rows = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{rows}}{\code{integer()}\cr
+Row indices.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{numeric()}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TaskSurv-admin_cens_prop"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskSurv-admin_cens_prop}{}}}
+\subsection{Method \code{admin_cens_prop()}}{
+Returns an estimated proportion of \strong{administratively censored
+observations} (type I censoring).
+Our main assumption here is that in an administratively censored dataset,
+the maximum censoring time is likely close to the maximum event time and
+so we expect higher proportion of censored subjects near the study end date.
+
+Only designed for \code{"right"} and \code{"left"} censoring where there is 1-1
+correspondence between rows and observations.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TaskSurv$admin_cens_prop(rows = NULL, admin_time = NULL, probs = 0.99)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{rows}}{\code{integer()}\cr
+Row indices.}
+
+\item{\code{admin_time}}{(\code{numeric(1)}) \cr
+Administrative censoring time (in case it is known \emph{a priori}).}
+
+\item{\code{probs}}{(\code{numeric(1)}) \cr
+Quantile value with which we calculate the cutoff time for
+administrative censoring. Ignored, if \code{admin_time} is given.
+By default, \code{probs} is equal to \eqn{0.99}, which translates to a time point
+very close to the maximum outcome time in the dataset.
+A lower value will result in a smaller administriative time and therefore
+in a more \emph{relaxed} definition (i.e. higher proportion) of administrative
+censoring.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{numeric()}
 }
 }
 \if{html}{\out{<hr>}}
