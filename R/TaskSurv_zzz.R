@@ -58,7 +58,7 @@ NULL
 
 load_pbc = function() {
   data = survival::pbc
-  data = na.omit(data)
+  data = stats::na.omit(data)
   data$id = NULL
   data = map_at(data, c("age"), as.integer)
   data = map_at(data, c("spiders", "hepato", "edema", "ascites"), as.factor)
@@ -96,7 +96,7 @@ load_mgus = function() {
   data[, c("id", "pcdx", "pctime")] = NULL
   colnames(data)[colnames(data) == "futime"] = "time"
   colnames(data)[colnames(data) == "death"] = "status"
-  data = na.omit(data)
+  data = stats::na.omit(data)
 
   b = as_data_backend(data)
   task = TaskSurv$new("mgus", b, time = "time", event = "status", label = "MGUS")
@@ -219,7 +219,7 @@ load_lung = function() {
   data = map_dtc(data, as.integer)
   data$status = as.integer(data$status == 2L)
   data$sex = factor(ifelse(data$sex == 1L, "m", "f"), levels = c("f", "m"))
-  data = na.omit(data)
+  data = stats::na.omit(data)
 
   b = as_data_backend(data)
   task = TaskSurv$new("lung", b, time = "time", event = "status", label = "Lung Cancer")
