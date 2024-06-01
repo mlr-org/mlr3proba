@@ -32,6 +32,13 @@
 #' task$risk_set(time = 700) # observation ids that are not censored or dead at t = 700
 #' task$kaplan(strata = "sex") # stratified Kaplan-Meier
 #' task$kaplan(reverse = TRUE) # Kaplan-Meier of the censoring distribution
+#'
+#' # proportion of censored observations
+#' task$cens_prop()
+#' # proportion of censored observations at max time
+#' task$admin_cens_prop()
+#' # proportion of censored observations at or after the 90% quantile of times
+#' task$admin_cens_prop(probs = 0.9)
 TaskSurv = R6::R6Class("TaskSurv",
   inherit = TaskSupervised,
   public = list(
@@ -144,7 +151,7 @@ TaskSurv = R6::R6Class("TaskSurv",
       if (self$censtype %in% c("interval", "counting", "interval2")) {
         return(truth[, 1:2])
       } else {
-        return(truth[, 1L])
+        return(as.numeric(truth[, 1L]))
       }
     },
 
@@ -174,7 +181,7 @@ TaskSurv = R6::R6Class("TaskSurv",
     #'
     #' @return `numeric()`
     unique_times = function(rows = NULL) {
-      check_choice(self$censtype, choices = c("right", "left", "mstate"))
+      assert_choice(self$censtype, choices = c("right", "left", "mstate"))
 
       sort(unique(self$times(rows)))
     },
@@ -185,7 +192,7 @@ TaskSurv = R6::R6Class("TaskSurv",
     #'
     #' @return `numeric()`
     unique_event_times = function(rows = NULL) {
-      check_choice(self$censtype, choices = c("right", "left", "mstate"))
+      assert_choice(self$censtype, choices = c("right", "left", "mstate"))
 
       sort(unique(self$times(rows)[self$status(rows) != 0]))
     },
@@ -201,7 +208,7 @@ TaskSurv = R6::R6Class("TaskSurv",
     #'
     #' @return `integer()`
     risk_set = function(time = NULL) {
-      check_choice(self$censtype, choices = c("right", "left", "mstate"))
+      assert_choice(self$censtype, choices = c("right", "left", "mstate"))
 
       if (is.null(time)) {
         self$row_ids
@@ -236,7 +243,7 @@ TaskSurv = R6::R6Class("TaskSurv",
     #'
     #' @return [mlr3proba::TaskSurv].
     reverse = function() {
-      check_choice(self$censtype, choices = c("right", "left"))
+      assert_choice(self$censtype, choices = c("right", "left"))
 
       d = copy(self$data())
       d[, (self$target_names[2L]) := 1 - get(self$target_names[2L])]
@@ -244,6 +251,72 @@ TaskSurv = R6::R6Class("TaskSurv",
         self$target_names[2L],
         type = self$censtype, id = paste0(self$id, "_reverse")
       )
+    },
+
+    #' @description
+    #' Returns the **proportion of censoring** for this survival task.
+    #' By default, this is returned for all observations, otherwise only the
+    #' specified ones (`rows`).
+    #'
+    #' Only designed for `"right"` and `"left"` censoring where there is 1-1
+    #' correspondence between rows and observations.
+    #'
+    #' @return `numeric()`
+    cens_prop = function(rows = NULL) {
+      assert_choice(self$censtype, choices = c("right", "left"))
+
+      status = self$status(rows)
+      total_censored = sum(status == 0)
+      n_obs = length(status)
+      total_censored/n_obs
+    },
+
+    #' @description
+    #' Returns an estimated proportion of **administratively censored
+    #' observations** (type I censoring).
+    #' Our main assumption here is that in an administratively censored dataset,
+    #' the maximum censoring time is likely close to the maximum event time and
+    #' so we expect higher proportion of censored subjects near the study end date.
+    #'
+    #' Only designed for `"right"` and `"left"` censoring where there is 1-1
+    #' correspondence between rows and observations.
+    #'
+    #' @param admin_time (`numeric(1)`) \cr
+    #' Administrative censoring time (in case it is known *a priori*).
+    #' @param probs (`numeric(1)`) \cr
+    #' Quantile value with which we calculate the cutoff time for
+    #' administrative censoring. Ignored, if `admin_time` is given.
+    #' By default, `probs` is equal to \eqn{0.99}, which translates to a time point
+    #' very close to the maximum outcome time in the dataset.
+    #' A lower value will result in a smaller administriative time and therefore
+    #' in a more *relaxed* definition (i.e. higher proportion) of administrative
+    #' censoring.
+    #'
+    #' @return `numeric()`
+    admin_cens_prop = function(rows = NULL, admin_time = NULL, probs = 0.99) {
+      assert_choice(self$censtype, choices = c("right", "left"))
+      assert_number(probs, lower = 0.8, upper = 1, null.ok = FALSE)
+      assert_number(admin_time, lower = 0, null.ok = TRUE)
+
+      times  = self$times(rows)
+      status = self$status(rows)
+
+      # Get administrative time
+      if (is.null(admin_time)) {
+        t_max = unname(round(quantile(times, probs = probs)))
+      } else {
+        t_max = min(admin_time, max(times))
+      }
+
+      # Identify total censored observations
+      total_censored = sum(status == 0)
+      if (total_censored == 0) return(0)
+
+      # Count the number of observations censored at or after the max time
+      admin_censored = sum(status == 0 & times >= t_max)
+
+      # proportion of administrative censoring
+      admin_censored / total_censored
     }
   ),
 
