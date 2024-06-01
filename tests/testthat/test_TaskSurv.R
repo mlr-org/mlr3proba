@@ -53,17 +53,27 @@ test_that("interval2 censoring", {
 })
 
 test_that("surv methods", {
+  status = c(1, 1, 1, 0, 0, 0)
+  times  = c(1, 1, 2, 4, 4, 5)
   task = TaskSurv$new(
-    id = "test", backend = data.frame(event = c(1, 1, 1, 0, 0), time = c(1, 1, 2, 4, 4),
-      x1 = runif(5)))
-  expect_equal(task$times(), c(1, 1, 2, 4, 4))
-  expect_equal(task$unique_times(), c(1, 2, 4))
-  expect_equal(task$unique_event_times(), c(1, 2))
-  expect_equal(task$risk_set(2), c(3L, 4L, 5L))
-  expect_is(task$kaplan(), "survfit")
-  expect_is(task$kaplan(rows = 1:3), "survfit")
-})
+    id = "test",
+    backend = data.frame(event = status, time = times, x1 = runif(6))
+  )
 
+  expect_equal(task$times(), times)
+  expect_equal(task$status(), status)
+  expect_equal(task$unique_times(), c(1, 2, 4, 5))
+  expect_equal(task$unique_event_times(), c(1, 2))
+  expect_equal(task$risk_set(time = 2), c(3, 4, 5, 6))
+  expect_class(task$kaplan(), "survfit")
+  expect_class(task$kaplan(rows = 1:3), "survfit")
+  expect_equal(task$cens_prop(), 3/6)
+  expect_equal(task$admin_cens_prop(), 1/3)
+  expect_equal(task$admin_cens_prop(probs = 0.9), 1)
+  expect_equal(task$admin_cens_prop(admin_time = 5), 1/3)
+  expect_equal(task$admin_cens_prop(admin_time = 3), 1)
+  expect_equal(task$admin_cens_prop(rows = 1:3), 0) # only events
+})
 
 test_that("as_task_surv", {
   expect_task_surv(as_task_surv(data.frame(time = 1, event = 1)))
