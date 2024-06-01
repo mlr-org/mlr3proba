@@ -1,7 +1,7 @@
 expect_task_dens = function(task) {
-  expect_is(task, "TaskDens")
+  expect_class(task, "TaskDens")
   expect_task(task)
-  expect_is(task$data(), "data.table")
+  expect_class(task$data(), "data.table")
   expect_equal(task$ncol, 1L)
 
   f = task$formula()
@@ -10,19 +10,19 @@ expect_task_dens = function(task) {
 
 expect_prediction_dens = function(p) {
   expect_prediction(p)
-  expect_is(p, "PredictionDens")
+  expect_class(p, "PredictionDens")
 }
 
 expect_task_surv = function(task) {
-  expect_is(task, "TaskSurv")
+  expect_class(task, "TaskSurv")
   expect_task(task)
   expect_task_supervised(task)
-  expect_is(task$truth(), "Surv")
+  expect_class(task$truth(), "Surv")
 
   f = task$formula()
   expect_formula(f)
   expect_set_equal(mlr3misc::extract_vars(f)$lhs, task$target_names)
-  expect_is(task$kaplan(), "survfit")
+  expect_class(task$kaplan(), "survfit")
 }
 
 expect_prediction_surv = function(p) {
