@@ -269,7 +269,8 @@ TaskSurv = R6::R6Class("TaskSurv",
       status = self$status(rows)
       total_censored = sum(status == 0)
       n_obs = length(status)
-      total_censored/n_obs
+
+      total_censored / n_obs
     },
 
     #' @description
