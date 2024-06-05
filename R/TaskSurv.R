@@ -318,6 +318,45 @@ TaskSurv = R6::R6Class("TaskSurv",
 
       # proportion of administrative censoring
       admin_censored / total_censored
+    },
+
+    #' @description
+    #' Returns the proportion of covariates (task features) that are found to be
+    #' significantly associated with censoring.
+    #' This function fits a logistic regression model via [glm][stats::glm] with
+    #' the censoring status as the response and using all features as predictors.
+    #' If a covariate is significantly associated with the censoring status,
+    #' it suggests that censoring may be *informative* (dependent) rather than
+    #' *random* (non-informative).
+    #' This methodology is more suitable for **low-dimensional datasets** where
+    #' the number of features is relatively small compared to the number of
+    #' observations.
+    #'
+    #' Only designed for `"right"` and `"left"` censoring where there is 1-1
+    #' correspondence between rows and observations.
+    #'
+    #' @param sign_level (`numeric(1)`) \cr
+    #' Significance level for each coefficient's p-value from the logistic
+    #' regression model. Default is \eqn{0.05}.
+    #' @param method (`character(1)`) \cr
+    #' Method to adjust p-values for multiple comparisons, see [p.adjust.methods].
+    #' Default is `"holm"`.
+    #'
+    #' @return `numeric()`
+    dep_cens_prop = function(rows = NULL, method = "holm", sign_level = 0.05) {
+      assert_choice(self$censtype, choices = c("right", "left"))
+
+      status_var  = self$target_names[[2]]
+      glm_summary = glm(formula = mlr3misc::formulate(lhs = status_var, rhs = "."),
+                        data = self$data(cols = c(self$feature_names, status_var)),
+                        family = binomial(link = "logit")) |> summary()
+      # extract the p-values
+      p_values = glm_summary$coefficients[, "Pr(>|z|)"]
+      p_values_adj = p.adjust(p_values, method = method)
+      n_coefs = length(p_values_adj) - 1 # exclude the intercept, include dummy-encoded variables
+      n_signif = sum(p_values_adj[-1] <= sign_level)
+
+      n_signif / n_coefs
     }
   ),
 
