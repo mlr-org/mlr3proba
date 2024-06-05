@@ -37,6 +37,16 @@ task$admin_cens_prop(quantile_prob = 0.95)
 # proportion of variables that are significantly associated with the
 # censoring status via a logistic regression model
 task$dep_cens_prop() # 0 indicates independent censoring
+# data barely satisfies proportional hazards assumption (p > 0.05)
+task$prop_haz()
+# veteran data is definitely non-PH (p << 0.05)
+tsk("veteran")$prop_haz()
+}
+\references{
+Grambsch, Patricia, Therneau, Terry (1994).
+\dQuote{Proportional hazards tests and diagnostics based on weighted residuals.}
+\emph{Biometrika}, \bold{81}(3), 515--526.
+\doi{10.1093/biomet/81.3.515}, \url{https://doi.org/10.1093/biomet/81.3.515}.
 }
 \seealso{
 Other Task: 
@@ -84,6 +94,7 @@ Returns the type of censoring, one of \code{"right"}, \code{"left"}, \code{"coun
 \item \href{#method-TaskSurv-cens_prop}{\code{TaskSurv$cens_prop()}}
 \item \href{#method-TaskSurv-admin_cens_prop}{\code{TaskSurv$admin_cens_prop()}}
 \item \href{#method-TaskSurv-dep_cens_prop}{\code{TaskSurv$dep_cens_prop()}}
+\item \href{#method-TaskSurv-prop_haz}{\code{TaskSurv$prop_haz()}}
 \item \href{#method-TaskSurv-clone}{\code{TaskSurv$clone()}}
 }
 }
@@ -374,8 +385,7 @@ Returns the \strong{proportion of censoring} for this survival task.
 By default, this is returned for all observations, otherwise only the
 specified ones (\code{rows}).
 
-Only designed for \code{"right"} and \code{"left"} censoring where there is 1-1
-correspondence between rows and observations.
+Only designed for \code{"right"} and \code{"left"} censoring.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TaskSurv$cens_prop(rows = NULL)}\if{html}{\out{</div>}}
 }
@@ -402,8 +412,7 @@ Our main assumption here is that in an administratively censored dataset,
 the maximum censoring time is likely close to the maximum event time and
 so we expect higher proportion of censored subjects near the study end date.
 
-Only designed for \code{"right"} and \code{"left"} censoring where there is 1-1
-correspondence between rows and observations.
+Only designed for \code{"right"} and \code{"left"} censoring.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TaskSurv$admin_cens_prop(rows = NULL, admin_time = NULL, quantile_prob = 0.99)}\if{html}{\out{</div>}}
 }
@@ -446,8 +455,7 @@ This methodology is more suitable for \strong{low-dimensional datasets} where
 the number of features is relatively small compared to the number of
 observations.
 
-Only designed for \code{"right"} and \code{"left"} censoring where there is 1-1
-correspondence between rows and observations.
+Only designed for \code{"right"} and \code{"left"} censoring.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TaskSurv$dep_cens_prop(rows = NULL, method = "holm", sign_level = 0.05)}\if{html}{\out{</div>}}
 }
@@ -470,6 +478,28 @@ regression model. Default is \eqn{0.05}.}
 }
 \subsection{Returns}{
 \code{numeric()}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TaskSurv-prop_haz"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskSurv-prop_haz}{}}}
+\subsection{Method \code{prop_haz()}}{
+Checks if the data satisfy the \emph{proportional hazards (PH)} assumption using
+the Grambsch-Therneau test, Grambsch (1994).
+Uses \link[survival:cox.zph]{cox.zph}.
+This method should be used only for \strong{low-dimensional datasets} where
+the number of features is relatively small compared to the number of
+observations.
+
+Only designed for \code{"right"} and \code{"left"} censoring.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TaskSurv$prop_haz()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+\code{numeric()} \cr
+If no errors, the p-value of the global chi-square test.
+A p-value \eqn{< 0.05} is an indication of possible PH violation.
 }
 }
 \if{html}{\out{<hr>}}
