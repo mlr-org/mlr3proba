@@ -75,6 +75,8 @@ test_that("surv methods", {
   expect_equal(task$admin_cens_prop(admin_time = 3), 1)
   expect_equal(task$admin_cens_prop(rows = 1:3), 0) # only events
   expect_equal(task$dep_cens_prop(), 0)
+  expect_number(task$prop_haz(), finite = TRUE)
+  expect_true(tsk("veteran")$prop_haz() < 0.01) # non-PH
 
   # task with two features, one can predict status
   set.seed(42)
