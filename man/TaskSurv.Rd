@@ -30,12 +30,13 @@ task$risk_set(time = 700) # observation ids that are not censored or dead at t =
 task$kaplan(strata = "sex") # stratified Kaplan-Meier
 task$kaplan(reverse = TRUE) # Kaplan-Meier of the censoring distribution
 
-# proportion of censored observations
+# proportion of censored observations across all dataset
 task$cens_prop()
-# proportion of censored observations at max time
-task$admin_cens_prop()
-# proportion of censored observations at or after the 90\% quantile of times
-task$admin_cens_prop(probs = 0.9)
+# proportion of censored observations at or after the 95\% time quantile
+task$admin_cens_prop(quantile_prob = 0.95)
+# proportion of variables that are significantly associated with the
+# censoring status via a logistic regression model
+task$dep_cens_prop() # 0 indicates independent censoring
 }
 \seealso{
 Other Task: 
@@ -82,6 +83,7 @@ Returns the type of censoring, one of \code{"right"}, \code{"left"}, \code{"coun
 \item \href{#method-TaskSurv-reverse}{\code{TaskSurv$reverse()}}
 \item \href{#method-TaskSurv-cens_prop}{\code{TaskSurv$cens_prop()}}
 \item \href{#method-TaskSurv-admin_cens_prop}{\code{TaskSurv$admin_cens_prop()}}
+\item \href{#method-TaskSurv-dep_cens_prop}{\code{TaskSurv$dep_cens_prop()}}
 \item \href{#method-TaskSurv-clone}{\code{TaskSurv$clone()}}
 }
 }
@@ -147,7 +149,8 @@ If data is right censored then "0"/\code{FALSE} means alive (no event), "1"/\cod
 \code{event} is ignored.}
 
 \item{\code{time2}}{(\code{character(1)})\cr
-Name of the column for ending time for interval censored data, otherwise ignored.}
+Name of the column for ending time of the interval for interval censored or
+counting process data, otherwise ignored.}
 
 \item{\code{type}}{(\code{character(1)})\cr
 Name of the column giving the type of censoring. Default is 'right' censoring.}
@@ -394,7 +397,7 @@ Row indices.}
 \if{latex}{\out{\hypertarget{method-TaskSurv-admin_cens_prop}{}}}
 \subsection{Method \code{admin_cens_prop()}}{
 Returns an estimated proportion of \strong{administratively censored
-observations} (type I censoring).
+observations} (i.e. censored at or after a user-specified time point).
 Our main assumption here is that in an administratively censored dataset,
 the maximum censoring time is likely close to the maximum event time and
 so we expect higher proportion of censored subjects near the study end date.
@@ -402,7 +405,7 @@ so we expect higher proportion of censored subjects near the study end date.
 Only designed for \code{"right"} and \code{"left"} censoring where there is 1-1
 correspondence between rows and observations.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskSurv$admin_cens_prop(rows = NULL, admin_time = NULL, probs = 0.99)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TaskSurv$admin_cens_prop(rows = NULL, admin_time = NULL, quantile_prob = 0.99)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -414,14 +417,54 @@ Row indices.}
 \item{\code{admin_time}}{(\code{numeric(1)}) \cr
 Administrative censoring time (in case it is known \emph{a priori}).}
 
-\item{\code{probs}}{(\code{numeric(1)}) \cr
-Quantile value with which we calculate the cutoff time for
+\item{\code{quantile_prob}}{(\code{numeric(1)}) \cr
+Quantile probability value with which we calculate the cutoff time for
 administrative censoring. Ignored, if \code{admin_time} is given.
-By default, \code{probs} is equal to \eqn{0.99}, which translates to a time point
-very close to the maximum outcome time in the dataset.
-A lower value will result in a smaller administriative time and therefore
-in a more \emph{relaxed} definition (i.e. higher proportion) of administrative
-censoring.}
+By default, \code{quantile_prob} is equal to \eqn{0.99}, which translates to a
+time point very close to the maximum outcome time in the dataset.
+A lower value will result in an earlier time point and therefore in a more
+\emph{relaxed} definition (i.e. higher proportion) of administrative censoring.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{numeric()}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TaskSurv-dep_cens_prop"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskSurv-dep_cens_prop}{}}}
+\subsection{Method \code{dep_cens_prop()}}{
+Returns the proportion of covariates (task features) that are found to be
+significantly associated with censoring.
+This function fits a logistic regression model via \link[stats:glm]{glm} with
+the censoring status as the response and using all features as predictors.
+If a covariate is significantly associated with the censoring status,
+it suggests that censoring may be \emph{informative} (dependent) rather than
+\emph{random} (non-informative).
+This methodology is more suitable for \strong{low-dimensional datasets} where
+the number of features is relatively small compared to the number of
+observations.
+
+Only designed for \code{"right"} and \code{"left"} censoring where there is 1-1
+correspondence between rows and observations.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TaskSurv$dep_cens_prop(rows = NULL, method = "holm", sign_level = 0.05)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{rows}}{\code{integer()}\cr
+Row indices.}
+
+\item{\code{method}}{(\code{character(1)}) \cr
+Method to adjust p-values for multiple comparisons, see \link{p.adjust.methods}.
+Default is \code{"holm"}.}
+
+\item{\code{sign_level}}{(\code{numeric(1)}) \cr
+Significance level for each coefficient's p-value from the logistic
+regression model. Default is \eqn{0.05}.}
 }
 \if{html}{\out{</div>}}
 }
