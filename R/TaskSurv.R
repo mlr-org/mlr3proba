@@ -266,8 +266,7 @@ TaskSurv = R6::R6Class("TaskSurv",
     #' By default, this is returned for all observations, otherwise only the
     #' specified ones (`rows`).
     #'
-    #' Only designed for `"right"` and `"left"` censoring where there is 1-1
-    #' correspondence between rows and observations.
+    #' Only designed for `"right"` and `"left"` censoring.
     #'
     #' @return `numeric()`
     cens_prop = function(rows = NULL) {
@@ -287,8 +286,7 @@ TaskSurv = R6::R6Class("TaskSurv",
     #' the maximum censoring time is likely close to the maximum event time and
     #' so we expect higher proportion of censored subjects near the study end date.
     #'
-    #' Only designed for `"right"` and `"left"` censoring where there is 1-1
-    #' correspondence between rows and observations.
+    #' Only designed for `"right"` and `"left"` censoring.
     #'
     #' @param admin_time (`numeric(1)`) \cr
     #' Administrative censoring time (in case it is known *a priori*).
@@ -339,8 +337,7 @@ TaskSurv = R6::R6Class("TaskSurv",
     #' the number of features is relatively small compared to the number of
     #' observations.
     #'
-    #' Only designed for `"right"` and `"left"` censoring where there is 1-1
-    #' correspondence between rows and observations.
+    #' Only designed for `"right"` and `"left"` censoring.
     #'
     #' @param sign_level (`numeric(1)`) \cr
     #' Significance level for each coefficient's p-value from the logistic
