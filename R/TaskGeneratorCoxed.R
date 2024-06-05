@@ -28,7 +28,7 @@
 #'               mu = 1, sd = 2, censor.cond = FALSE)
 #'   gen$generate(50)
 #'
-#'   # same as above, but with time-varying coefficients (interval censoring data)
+#'   # same as above, but with time-varying coefficients (counting process format)
 #'   gen$param_set$set_values(type = "tvc")
 #'   gen$generate(50)
 #' }
@@ -77,9 +77,11 @@ TaskGeneratorCoxed = R6::R6Class("TaskGeneratorCoxed",
       if (is.null(pv$type) || pv$type != "tvc") {
         task = TaskSurv$new(id = self$id, backend = data, time = "y",
                             event = "failed", type = "right")
-      } else { # time-varying coefficients need interval type of censoring
+      } else {
+        # Counting Process format handles time-varying coefficients
+        # and multiple observation intervals for each individual
         task = TaskSurv$new(id = self$id, backend = data, time = "start",
-                            time2 = "end", event = "failed", type = "interval")
+                            time2 = "end", event = "failed", type = "counting")
       }
 
       task
