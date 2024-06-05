@@ -33,12 +33,13 @@
 #' task$kaplan(strata = "sex") # stratified Kaplan-Meier
 #' task$kaplan(reverse = TRUE) # Kaplan-Meier of the censoring distribution
 #'
-#' # proportion of censored observations
+#' # proportion of censored observations across all dataset
 #' task$cens_prop()
-#' # proportion of censored observations at max time
-#' task$admin_cens_prop()
-#' # proportion of censored observations at or after the 90% quantile of times
-#' task$admin_cens_prop(probs = 0.9)
+#' # proportion of censored observations at or after the 95% time quantile
+#' task$admin_cens_prop(quantile_prob = 0.95)
+#' # proportion of variables that are significantly associated with the
+#' # censoring status via a logistic regression model
+#' task$dep_cens_prop() # 0 indicates independent censoring
 TaskSurv = R6::R6Class("TaskSurv",
   inherit = TaskSupervised,
   public = list(
@@ -273,7 +274,7 @@ TaskSurv = R6::R6Class("TaskSurv",
 
     #' @description
     #' Returns an estimated proportion of **administratively censored
-    #' observations** (type I censoring).
+    #' observations** (i.e. censored at or after a user-specified time point).
     #' Our main assumption here is that in an administratively censored dataset,
     #' the maximum censoring time is likely close to the maximum event time and
     #' so we expect higher proportion of censored subjects near the study end date.
@@ -283,19 +284,18 @@ TaskSurv = R6::R6Class("TaskSurv",
     #'
     #' @param admin_time (`numeric(1)`) \cr
     #' Administrative censoring time (in case it is known *a priori*).
-    #' @param probs (`numeric(1)`) \cr
-    #' Quantile value with which we calculate the cutoff time for
+    #' @param quantile_prob (`numeric(1)`) \cr
+    #' Quantile probability value with which we calculate the cutoff time for
     #' administrative censoring. Ignored, if `admin_time` is given.
-    #' By default, `probs` is equal to \eqn{0.99}, which translates to a time point
-    #' very close to the maximum outcome time in the dataset.
-    #' A lower value will result in a smaller administriative time and therefore
-    #' in a more *relaxed* definition (i.e. higher proportion) of administrative
-    #' censoring.
+    #' By default, `quantile_prob` is equal to \eqn{0.99}, which translates to a
+    #' time point very close to the maximum outcome time in the dataset.
+    #' A lower value will result in an earlier time point and therefore in a more
+    #' *relaxed* definition (i.e. higher proportion) of administrative censoring.
     #'
     #' @return `numeric()`
-    admin_cens_prop = function(rows = NULL, admin_time = NULL, probs = 0.99) {
+    admin_cens_prop = function(rows = NULL, admin_time = NULL, quantile_prob = 0.99) {
       assert_choice(self$censtype, choices = c("right", "left"))
-      assert_number(probs, lower = 0.8, upper = 1, null.ok = FALSE)
+      assert_number(quantile_prob, lower = 0.8, upper = 1, null.ok = FALSE)
       assert_number(admin_time, lower = 0, null.ok = TRUE)
 
       times  = self$times(rows)
@@ -303,7 +303,7 @@ TaskSurv = R6::R6Class("TaskSurv",
 
       # Get administrative time
       if (is.null(admin_time)) {
-        t_max = unname(round(quantile(times, probs = probs)))
+        t_max = unname(round(quantile(times, probs = quantile_prob)))
       } else {
         t_max = min(admin_time, max(times))
       }
