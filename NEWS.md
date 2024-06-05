@@ -5,6 +5,7 @@
   * All loaded tasks have now **complete cases** (no features with missing values)
 * Refined docs for task generators
 * Added task generator from `coxed` package
+* Added new methods for `TaskSurv`: `cens_prop()`, `admin_cens_prop()`, `dep_cens_prop()` and `prop_haz()`
 
 # mlr3proba 0.6.2
 
