@@ -49,7 +49,7 @@ if (requireNamespace("coxed", quietly = TRUE)) {
               mu = 1, sd = 2, censor.cond = FALSE)
   gen$generate(50)
 
-  # same as above, but with time-varying coefficients (interval censoring data)
+  # same as above, but with time-varying coefficients (counting process format)
   gen$param_set$set_values(type = "tvc")
   gen$generate(50)
 }
