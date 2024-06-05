@@ -12,6 +12,9 @@
 #' @template param_id
 #' @template param_backend
 #'
+#' @references
+#' `r format_bib("grambsch_1994")`
+#'
 #' @family Task
 #' @export
 #' @examples
@@ -40,6 +43,10 @@
 #' # proportion of variables that are significantly associated with the
 #' # censoring status via a logistic regression model
 #' task$dep_cens_prop() # 0 indicates independent censoring
+#' # data barely satisfies proportional hazards assumption (p > 0.05)
+#' task$prop_haz()
+#' # veteran data is definitely non-PH (p << 0.05)
+#' tsk("veteran")$prop_haz()
 TaskSurv = R6::R6Class("TaskSurv",
   inherit = TaskSupervised,
   public = list(
@@ -357,6 +364,36 @@ TaskSurv = R6::R6Class("TaskSurv",
       n_signif = sum(p_values_adj[-1] <= sign_level)
 
       n_signif / n_coefs
+    },
+
+    #' @description
+    #' Checks if the data satisfy the *proportional hazards (PH)* assumption using
+    #' the Grambsch-Therneau test, `r mlr3misc::cite_bib("grambsch_1994")`.
+    #' Uses [cox.zph][survival::cox.zph()].
+    #' This method should be used only for **low-dimensional datasets** where
+    #' the number of features is relatively small compared to the number of
+    #' observations.
+    #'
+    #' Only designed for `"right"` and `"left"` censoring.
+    #'
+    #' @return `numeric()` \cr
+    #' If no errors, the p-value of the global chi-square test.
+    #' A p-value \eqn{< 0.05} is an indication of possible PH violation.
+    prop_haz = function() {
+      assert_choice(self$censtype, choices = c("right", "left"))
+
+      cox = lrn("surv.coxph")
+      cox$encapsulate = c(train = "evaluate", predict = "evaluate")
+      cox$train(self)
+      ok = (length(cox$errors) == 0) & (length(cox$warnings) == 0)
+
+      # cox model didn't converge, train didn't succeed, etc
+      if (!ok) stop("Error/warning during cox model fitting")
+
+      zph_test = survival::cox.zph(fit = cox$model)
+      p_value = zph_test$table["GLOBAL", "p"]
+
+      p_value
     }
   ),
 
