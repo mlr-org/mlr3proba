@@ -664,7 +664,7 @@ bibentries = c( # nolint start
     publisher         = "PMLR",
     url               = "https://proceedings.mlr.press/v151/rindt22a.html"
   ),
-  grambsch_2024 = bibentry("article",
+  grambsch_1994 = bibentry("article",
     author            = "Grambsch, Patricia and Therneau, Terry",
     title             = "Proportional hazards tests and diagnostics based on weighted residuals",
     journal           = "Biometrika",
