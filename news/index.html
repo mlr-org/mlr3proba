@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.6.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.6.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -79,6 +79,17 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.6.3" id="mlr3proba-063">mlr3proba 0.6.3<a class="anchor" aria-label="anchor" href="#mlr3proba-063"></a></h2>
+<ul><li>Add new tasks from <code>survival</code> package: <code>veteran</code>, <code>pbc</code>, <code>mgus</code>, <code>gbsg</code>
+<ul><li>Refined docs for loaded tasks, <code>task$help()</code> works as it should now</li>
+<li>All loaded tasks have now <strong>complete cases</strong> (no features with missing values)</li>
+</ul></li>
+<li>Refined docs for task generators</li>
+<li>Added task generator from <code>coxed</code> package</li>
+<li>Added new methods for <code>TaskSurv</code>: <code>cens_prop()</code>, <code>admin_cens_prop()</code>, <code>dep_cens_prop()</code> and <code>prop_haz()</code>
+</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.6.2" id="mlr3proba-062">mlr3proba 0.6.2<a class="anchor" aria-label="anchor" href="#mlr3proba-062"></a></h2>
 <ul><li>Updates in <code>surv.cindex</code> measure
 <ul><li>added <code>p_max</code> (same as <code>surv.graf</code>)</li>
@@ -94,7 +105,7 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.6.0" id="mlr3proba-060">mlr3proba 0.6.0<a class="anchor" aria-label="anchor" href="#mlr3proba-060"></a></h2>
 <ul><li>Optimized <code>surv.logloss</code> and <code>calib_alpha</code> measures (bypassing <code>distr6</code>)</li>
-<li>Update/refine all measure docs (namign conventions from upcoming scoring rules paper) + doc templates</li>
+<li>Update/refine all measure docs (naming conventions from upcoming scoring rules paper) + doc templates</li>
 <li>fix very rare bugs in <code>calib_alpha</code>, <code>surv.logloss</code> and <code>surv.graf</code> (version with proper = FALSE)</li>
 </ul></div>
     <div class="section level2">

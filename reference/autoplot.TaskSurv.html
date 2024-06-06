@@ -28,7 +28,7 @@ Color is set to target column.
     
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.6.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.6.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -166,14 +166,14 @@ functions.</p></dd>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">tsk</a></span><span class="op">(</span><span class="st">"lung"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/fortify.html" class="external-link">fortify</a></span><span class="op">(</span><span class="va">task</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     time status   age  inst meal.cal pat.karno ph.ecog ph.karno    sex wt.loss</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;int&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;     &lt;int&gt;   &lt;int&gt;    &lt;int&gt; &lt;fctr&gt;   &lt;int&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:   306      1    74     3     1175       100       1       90      m      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:   455      1    68     3     1225        90       0       90      m      15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  1010      0    56     3       NA        90       0       90      m      15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:   210      1    57     5     1150        60       1       90      m      11</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5:   883      1    60     1       NA        90       0      100      m       0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6:  1022      0    74    12      513        80       1       50      m       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     time status   age meal.cal pat.karno ph.ecog ph.karno    sex wt.loss</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;int&gt;  &lt;int&gt; &lt;int&gt;    &lt;int&gt;     &lt;int&gt;   &lt;int&gt;    &lt;int&gt; &lt;fctr&gt;   &lt;int&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:   455      1    68     1225        90       0       90      m      15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:   210      1    57     1150        60       1       90      m      11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  1022      0    74      513        80       1       50      m       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:   310      1    68      384        60       2       70      f      10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:   361      1    71      538        80       2       60      f       1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:   218      1    53      825        80       1       70      m      16</span>
 <span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">task</span><span class="op">)</span> <span class="co"># KM</span></span></span>
 <span class="r-plt img"><img src="autoplot.TaskSurv-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">task</span><span class="op">)</span> <span class="co"># KM of the censoring distribution</span></span></span>
@@ -189,10 +189,6 @@ functions.</p></dd>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>neighborhood radius 1.005</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  0</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There are other near singularities as well. 1.01</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 1 row containing non-finite outside the scale range (`stat_smooth()`).</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 1 row containing missing values or values outside the scale range</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> (`geom_point()`).</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 1 row containing non-finite outside the scale range (`stat_smooth()`).</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>pseudoinverse used at -0.005</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>neighborhood radius 1.005</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  0</span>
@@ -201,14 +197,6 @@ functions.</p></dd>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>neighborhood radius 1.005</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  0</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There are other near singularities as well. 1.01</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 1 row containing missing values or values outside the scale range</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> (`geom_point()`).</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 47 rows containing non-finite outside the scale range</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> (`stat_smooth()`).</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 47 rows containing missing values or values outside the scale range</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> (`geom_point()`).</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 47 rows containing non-finite outside the scale range</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> (`stat_smooth()`).</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>pseudoinverse used at -0.005</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>neighborhood radius 1.005</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  0</span>
@@ -217,12 +205,6 @@ functions.</p></dd>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>neighborhood radius 1.005</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  0</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There are other near singularities as well. 1.01</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 47 rows containing missing values or values outside the scale range</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> (`geom_point()`).</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 3 rows containing non-finite outside the scale range (`stat_smooth()`).</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 3 rows containing missing values or values outside the scale range</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> (`geom_point()`).</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 3 rows containing non-finite outside the scale range (`stat_smooth()`).</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>pseudoinverse used at -0.005</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>neighborhood radius 1.005</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  0</span>
@@ -231,12 +213,6 @@ functions.</p></dd>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>neighborhood radius 1.005</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  0</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There are other near singularities as well. 1.01</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 3 rows containing missing values or values outside the scale range</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> (`geom_point()`).</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 1 row containing non-finite outside the scale range (`stat_smooth()`).</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 1 row containing missing values or values outside the scale range</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> (`geom_point()`).</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 1 row containing non-finite outside the scale range (`stat_smooth()`).</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>pseudoinverse used at -0.005</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>neighborhood radius 1.005</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  0</span>
@@ -245,30 +221,8 @@ functions.</p></dd>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>neighborhood radius 1.005</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  0</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There are other near singularities as well. 1.01</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 1 row containing missing values or values outside the scale range</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> (`geom_point()`).</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 1 row containing non-finite outside the scale range (`stat_smooth()`).</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 1 row containing missing values or values outside the scale range</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> (`geom_point()`).</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 1 row containing non-finite outside the scale range (`stat_smooth()`).</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>pseudoinverse used at -0.005</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>neighborhood radius 1.005</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  0</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There are other near singularities as well. 1.01</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>pseudoinverse used at -0.005</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>neighborhood radius 1.005</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  0</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There are other near singularities as well. 1.01</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 1 row containing missing values or values outside the scale range</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> (`geom_point()`).</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 14 rows containing non-finite outside the scale range</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> (`stat_smooth()`).</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 14 rows containing missing values or values outside the scale range</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> (`geom_point()`).</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 14 rows containing non-finite outside the scale range</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> (`stat_smooth()`).</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>pseudoinverse used at -0.005</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>neighborhood radius 1.005</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  0</span>
@@ -277,8 +231,6 @@ functions.</p></dd>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>neighborhood radius 1.005</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  0</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There are other near singularities as well. 1.01</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 14 rows containing missing values or values outside the scale range</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> (`geom_point()`).</span>
 <span class="r-plt img"><img src="autoplot.TaskSurv-4.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>

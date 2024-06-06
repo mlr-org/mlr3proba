@@ -235,6 +235,9 @@
     <loc>https://mlr3proba.mlr-org.com/reference/mlr_pipeops_trafotask_survregr.html</loc>
   </url>
   <url>
+    <loc>https://mlr3proba.mlr-org.com/reference/mlr_task_generators_coxed.html</loc>
+  </url>
+  <url>
     <loc>https://mlr3proba.mlr-org.com/reference/mlr_task_generators_simdens.html</loc>
   </url>
   <url>
@@ -250,10 +253,19 @@
     <loc>https://mlr3proba.mlr-org.com/reference/mlr_tasks_gbcs.html</loc>
   </url>
   <url>
+    <loc>https://mlr3proba.mlr-org.com/reference/mlr_tasks_gbsg.html</loc>
+  </url>
+  <url>
     <loc>https://mlr3proba.mlr-org.com/reference/mlr_tasks_grace.html</loc>
   </url>
   <url>
     <loc>https://mlr3proba.mlr-org.com/reference/mlr_tasks_lung.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3proba.mlr-org.com/reference/mlr_tasks_mgus.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3proba.mlr-org.com/reference/mlr_tasks_pbc.html</loc>
   </url>
   <url>
     <loc>https://mlr3proba.mlr-org.com/reference/mlr_tasks_precip.html</loc>
@@ -263,6 +275,9 @@
   </url>
   <url>
     <loc>https://mlr3proba.mlr-org.com/reference/mlr_tasks_unemployment.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3proba.mlr-org.com/reference/mlr_tasks_veteran.html</loc>
   </url>
   <url>
     <loc>https://mlr3proba.mlr-org.com/reference/mlr_tasks_whas.html</loc>
