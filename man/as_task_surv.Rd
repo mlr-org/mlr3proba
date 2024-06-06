@@ -56,7 +56,8 @@ If data is right censored then "0"/\code{FALSE} means alive (no event), "1"/\cod
 \code{event} is ignored.}
 
 \item{time2}{(\code{character(1)})\cr
-Name of the column for ending time for interval censored data, otherwise ignored.}
+Name of the column for ending time of the interval for interval censored or
+counting process data, otherwise ignored.}
 
 \item{type}{(\code{character(1)})\cr
 Name of the column giving the type of censoring. Default is 'right' censoring.}

@@ -6,23 +6,31 @@
 #' A [mlr3::TaskGenerator] calling [simsurv::simsurv()] from package \CRANpkg{simsurv}.
 #'
 #' This generator currently only exposes a small subset of the flexibility of \CRANpkg{simsurv},
-#' and just creates a small data set with the following numerical covariates:
+#' and just creates a small dataset with the following numerical covariates:
 #'
-#' * `treatment`: Bernoulli distributed with log hazard ratio `-0.5`.
-#' * `height`: Normally distributed with log hazard ratio `1`.
-#' * `weight`: normally distributed with log hazard ratio `0`.
+#' - `treatment`: Bernoulli distributed with hazard ratio `0.5`.
+#' - `height`: Normally distributed with hazard ratio `1`.
+#' - `weight`: normally distributed with hazard ratio `1`.
 #'
 #' See [simsurv::simsurv()] for an explanation of the hyperparameters.
+#' Initial values for hyperparameters are `lambdas` = 0.1, `gammas` = 1.5 and `maxt` = 5.
+#' The last one, by default generates samples which are administratively censored at \eqn{\tau = 5}, so increase this value if you want to change this.
 #'
 #' @templateVar id simsurv
-#' @template section_dictionary_task_generator
+#' @template task_generator
 #'
 #' @template seealso_task_generator
 #' @export
 #' @examples
 #' if (requireNamespace("simsurv", quietly = TRUE)) {
-#'   generator = mlr3::mlr_task_generators$get("simsurv")
-#'   task = generator$generate(20)
+#'   # generate 20 samples with Weibull survival distribution
+#'   gen = tgen("simsurv")
+#'   task = gen$generate(20)
+#'   head(task)
+#'
+#'   # generate 100 samples with exponential survival distribution and tau = 40
+#'   gen = tgen("simsurv", dist = "exponential", gammas = NULL, maxt = 40)
+#'   task = gen$generate(100)
 #'   head(task)
 #' }
 TaskGeneratorSimsurv = R6Class("TaskGeneratorSimsurv",
@@ -32,14 +40,26 @@ TaskGeneratorSimsurv = R6Class("TaskGeneratorSimsurv",
     initialize = function() {
       ps = ps(
         dist = p_fct(levels = c("weibull", "exponential", "gompertz"), default = "weibull"),
-        lambdas = p_dbl(lower = 0, tags = "required"),
-        gammas = p_dbl(lower = 0, tags = "required"),
+        lambdas = p_dbl(lower = 0, special_vals = list(NULL), tags = "required"),
+        gammas = p_dbl(lower = 0, special_vals = list(NULL), tags = "required"),
         maxt = p_dbl(lower = 0, tags = "required")
       )
       ps$values = list(lambdas = 0.1, gammas = 1.5, maxt = 5)
 
-      super$initialize(id = "simsurv", task_type = "classif", packages = "mlbench", param_set = ps,
-        label = "Generator from package 'simsurv'", man = "mlr3::mlr_task_generators_simsurv")
+      super$initialize(
+        id = "simsurv",
+        task_type = "surv",
+        packages = "simsurv",
+        param_set = ps,
+        label = "Survival Data Generator from package 'simsurv'",
+        man = "mlr3proba::mlr_task_generators_simsurv"
+      )
+    },
+
+    #' @description
+    #' Opens the corresponding help page referenced by field `$man`.
+    help = function() {
+      open_help(self$man)
     }
   ),
 
@@ -57,7 +77,8 @@ TaskGeneratorSimsurv = R6Class("TaskGeneratorSimsurv",
 
       data = setDT(invoke(simsurv::simsurv, x = covs, betas = betas, .args = pv)) # nolint
       data = rcbind(data, covs)
-      TaskSurv$new("simsurv", remove_named(data, "id"), time = "eventtime", event = "status")
+      TaskSurv$new(id = "simsurv", backend = remove_named(data, "id"),
+                   time = "eventtime", event = "status")
     }
   )
 )

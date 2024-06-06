@@ -1,6 +1,6 @@
 Package: mlr3proba
 Title: Probabilistic Supervised Learning for 'mlr3'
-Version: 0.6.2
+Version: 0.6.3
 Authors@R:
     c(person(given = "Raphael",
              family = "Sonabend",
@@ -72,7 +72,9 @@ Suggests:
     survAUC,
     testthat,
     vdiffr,
-    abind
+    abind,
+    Ecdat,
+    coxed
 LinkingTo:
     Rcpp
 Remotes:
@@ -141,6 +143,7 @@ Collate:
     'RcppExports.R'
     'TaskDens.R'
     'TaskDens_zzz.R'
+    'TaskGeneratorCoxed.R'
     'TaskGeneratorSimdens.R'
     'TaskGeneratorSimsurv.R'
     'TaskSurv.R'

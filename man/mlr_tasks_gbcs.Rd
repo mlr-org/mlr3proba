@@ -9,15 +9,58 @@
 \description{
 A survival task for the \link{gbcs} data set.
 }
-\details{
-Column "id" and all date columns removed, as well as "rectime" and "censrec".
-Target is time to death.
-}
-\section{Construction}{
+\section{Dictionary}{
 
+This \link{Task} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks} or with the associated sugar function \code{\link[=tsk]{tsk()}}:
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr3::mlr_tasks$get("gbcs")
-mlr3::tsk("gbcs")
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_tasks$get("gbcs")
+tsk("gbcs")
 }\if{html}{\out{</div>}}
 }
 
+\section{Meta Information}{
+
+\itemize{
+\item Task type: \dQuote{surv}
+\item Dimensions: 686x10
+\item Properties: -
+\item Has Missings: \code{FALSE}
+\item Target: \dQuote{time}, \dQuote{status}
+\item Features: \dQuote{age}, \dQuote{estrg_recp}, \dQuote{grade}, \dQuote{hormone}, \dQuote{menopause}, \dQuote{nodes}, \dQuote{prog_recp}, \dQuote{size}
+}
+}
+
+\section{Preprocessing}{
+
+\itemize{
+\item Column \code{id} and all date columns have been removed, as well as \code{rectime}
+and \code{censrec}.
+\item Target columns (\code{survtime}, \code{censdead}) have been renamed to (\code{time}, \code{status}).
+}
+}
+
+\seealso{
+\itemize{
+\item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
+\url{https://mlr3book.mlr-org.com/chapters/chapter2/data_and_basic_modeling.html}
+\item \link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Task]{Tasks}: \link[mlr3:mlr_tasks]{mlr3::mlr_tasks}
+\item \code{as.data.table(mlr_tasks)} for a table of available \link[=Task]{Tasks} in the running session
+}
+
+Other Task: 
+\code{\link{TaskDens}},
+\code{\link{TaskSurv}},
+\code{\link{mlr_tasks_actg}},
+\code{\link{mlr_tasks_faithful}},
+\code{\link{mlr_tasks_gbsg}},
+\code{\link{mlr_tasks_grace}},
+\code{\link{mlr_tasks_lung}},
+\code{\link{mlr_tasks_mgus}},
+\code{\link{mlr_tasks_pbc}},
+\code{\link{mlr_tasks_precip}},
+\code{\link{mlr_tasks_rats}},
+\code{\link{mlr_tasks_unemployment}},
+\code{\link{mlr_tasks_veteran}},
+\code{\link{mlr_tasks_whas}}
+}
+\concept{Task}

@@ -1,4 +1,4 @@
-#' @description <%=id%> dataset from Hosmer et al.
+#' @description <%=id%> dataset from Hosmer et al. (2008)
 #'
 #' @docType data
 #'
@@ -9,4 +9,4 @@
 #' Applied Survival Analysis: Regression Modeling of Time to Event Data: Second
 #' Edition, John Wiley and Sons Inc., New York, NY
 #'
-#' @source \url{ftp://ftp.wiley.com/public/sci_tech_med/survival}
+#' @source \url{https://onlinelibrary.wiley.com/doi/book/10.1002/9780470258019}

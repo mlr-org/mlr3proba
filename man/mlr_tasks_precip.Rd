@@ -9,11 +9,56 @@
 \description{
 A density task for the \link{precip} data set.
 }
-\section{Construction}{
+\section{Dictionary}{
 
+This \link{Task} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks} or with the associated sugar function \code{\link[=tsk]{tsk()}}:
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr3::mlr_tasks$get("precip")
-mlr3::tsk("precip")
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_tasks$get("precip")
+tsk("precip")
 }\if{html}{\out{</div>}}
 }
 
+\section{Meta Information}{
+
+\itemize{
+\item Task type: \dQuote{dens}
+\item Dimensions: 70x1
+\item Properties: -
+\item Has Missings: \code{FALSE}
+\item Target: -
+\item Features: \dQuote{precip}
+}
+}
+
+\section{Preprocessing}{
+
+\itemize{
+\item Only the \code{precip} column is kept in this task.
+}
+}
+
+\seealso{
+\itemize{
+\item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
+\url{https://mlr3book.mlr-org.com/chapters/chapter2/data_and_basic_modeling.html}
+\item \link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Task]{Tasks}: \link[mlr3:mlr_tasks]{mlr3::mlr_tasks}
+\item \code{as.data.table(mlr_tasks)} for a table of available \link[=Task]{Tasks} in the running session
+}
+
+Other Task: 
+\code{\link{TaskDens}},
+\code{\link{TaskSurv}},
+\code{\link{mlr_tasks_actg}},
+\code{\link{mlr_tasks_faithful}},
+\code{\link{mlr_tasks_gbcs}},
+\code{\link{mlr_tasks_gbsg}},
+\code{\link{mlr_tasks_grace}},
+\code{\link{mlr_tasks_lung}},
+\code{\link{mlr_tasks_mgus}},
+\code{\link{mlr_tasks_pbc}},
+\code{\link{mlr_tasks_rats}},
+\code{\link{mlr_tasks_unemployment}},
+\code{\link{mlr_tasks_veteran}},
+\code{\link{mlr_tasks_whas}}
+}
+\concept{Task}
