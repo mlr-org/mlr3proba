@@ -16,7 +16,7 @@ library(mlr3)
 task = tsk("lung")
 
 # meta data
-task$target_names
+task$target_names # target is always (time, status) for right-censoring tasks
 task$feature_names
 task$formula()
 
@@ -74,7 +74,9 @@ Other Task:
 \describe{
 \item{\code{censtype}}{\code{character(1)}\cr
 Returns the type of censoring, one of \code{"right"}, \code{"left"}, \code{"counting"},
-\code{"interval"}, \code{"interval2"} or \code{"mstate"}.}
+\code{"interval"}, \code{"interval2"} or \code{"mstate"}.
+Currently, only the \code{"right"}-censoring type is fully supported, the rest
+are experimental and the API will change in the future.}
 }
 \if{html}{\out{</div>}}
 }
@@ -171,6 +173,18 @@ Label for the new instance.}
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Details}{
+Depending on the censoring type (\code{"type"}), the output of a survival
+task's \code{"$target_names"} is a \code{character()} vector with values the names
+of the columns given by the above initialization arguments.
+Specifically, the output is as follows (and in the specified order):
+\itemize{
+\item For \code{type} = \code{"right"}, \code{"left"} or \code{"mstate"}: (\code{"time"}, \code{"event"})
+\item For \code{type} = \code{"interval"} or \code{"counting"}: (\code{"time"}, \code{"time2"}, \code{"event"})
+\item For \code{type} = \code{"interval2"}: (\code{"time"}, \verb{"time2})
+}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TaskSurv-truth"></a>}}

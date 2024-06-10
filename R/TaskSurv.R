@@ -22,7 +22,7 @@
 #' task = tsk("lung")
 #'
 #' # meta data
-#' task$target_names
+#' task$target_names # target is always (time, status) for right-censoring tasks
 #' task$feature_names
 #' task$formula()
 #'
@@ -52,6 +52,16 @@ TaskSurv = R6::R6Class("TaskSurv",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @details
+    #' Depending on the censoring type (`"type"`), the output of a survival
+    #' task's `"$target_names"` is a `character()` vector with values the names
+    #' of the columns given by the above initialization arguments.
+    #' Specifically, the output is as follows (and in the specified order):
+    #'
+    #' - For `type` = `"right"`, `"left"` or `"mstate"`: (`"time"`, `"event"`)
+    #' - For `type` = `"interval"` or `"counting"`: (`"time"`, `"time2"`, `"event"`)
+    #' - For `type` = `"interval2"`: (`"time"`, `"time2`)
     #'
     #' @template param_time
     #' @template param_event
@@ -398,6 +408,8 @@ TaskSurv = R6::R6Class("TaskSurv",
     #' @field censtype `character(1)`\cr
     #' Returns the type of censoring, one of `"right"`, `"left"`, `"counting"`,
     #' `"interval"`, `"interval2"` or `"mstate"`.
+    #' Currently, only the `"right"`-censoring type is fully supported, the rest
+    #' are experimental and the API will change in the future.
     censtype = function() {
       return(private$.censtype)
     }
