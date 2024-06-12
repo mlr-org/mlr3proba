@@ -168,19 +168,11 @@ See <code><a href="https://xoopr.github.io/distr6/reference/listDistributions.ht
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># generate 20 samples from a standard Normal distribution</span></span></span>
 <span class="r-in"><span><span class="va">dens_gen</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">tgen</a></span><span class="op">(</span><span class="st">"simdens"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">dens_gen</span><span class="op">$</span><span class="va">param_set</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ParamSet&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              id    class lower upper nlevels</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          &lt;char&gt;   &lt;char&gt; &lt;num&gt; &lt;num&gt;   &lt;num&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: distribution ParamFct    NA    NA      47</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:         pars ParamUty    NA    NA     Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                      default</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                       &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:                                                                                    Normal</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;NoDefault&gt;\n  Public:\n    clone: function (deep = FALSE) \n    initialize: function () </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ParamSet(2)&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              id    class lower upper nlevels        default  value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          &lt;char&gt;   &lt;char&gt; &lt;num&gt; &lt;num&gt;   &lt;num&gt;         &lt;list&gt; &lt;list&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: distribution ParamFct    NA    NA      47         Normal       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:         pars ParamUty    NA    NA     Inf &lt;NoDefault[0]&gt;       </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="va">dens_gen</span><span class="op">$</span><span class="fu">generate</span><span class="op">(</span><span class="fl">20</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
