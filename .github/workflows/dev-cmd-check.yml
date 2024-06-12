@@ -25,7 +25,6 @@ jobs:
       matrix:
         config:
           - {os: ubuntu-latest, r: 'release', dev-package: 'mlr-org/mlr3'}
-          - {os: ubuntu-latest, r: 'release', dev-package: "mlr-org/mlr3viz', 'mlr-org/mlr3pipelines', 'mlr-org/paradox"}
 
     steps:
       - uses: actions/checkout@v4
