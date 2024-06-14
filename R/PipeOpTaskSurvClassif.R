@@ -35,11 +35,21 @@ PipeOpTaskSurvClassif = R6Class(
       ps = ps(
         cut = p_uty(default = NULL)
       )
-      super$initialize(id = id,
-                       param_set = ps,
-                       param_vals = param_vals,
-                       input = data.table::data.table(name = "input", train = "TaskSurv", predict = "TaskSurv"),
-                       output = data.table::data.table(name = c("output", "meta"), train = c("TaskClassif", "NULL"), predict = c("TaskClassif", "data.frame")))
+      super$initialize(
+        id = id,
+        param_set = ps,
+        param_vals = param_vals,
+        input = data.table::data.table(
+          name    = "input",
+          train   = "TaskSurv",
+          predict = "TaskSurv"
+        ),
+        output = data.table::data.table(
+          name    = c("output", "meta"),
+          train   = c("TaskClassif", "NULL"),
+          predict = c("TaskClassif", "data.frame")
+        )
+      )
     }
   ),
 
