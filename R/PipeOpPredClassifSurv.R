@@ -20,11 +20,17 @@
 #'   if (requireNamespace("mlr3learners", quietly = TRUE)) {
 #'     po_tasktoclassif = po("trafotask_survclassif")
 #'     po_tasktoclassif$train(list(task))
-#'     pred = po_tasktoclassif$predict(list(task))[[1]]
-#'     po_predtosurv = po("trafopred_classifsurv")
-#'     po_predtosurv$train(pred)
-#'     po_predtosurv$predict(pred)
+#'     task_classif = po_tasktoclassif$predict(list(task))[[1]]
+#'     trafo_data = po_tasktoclassif$predict(list(task))[[2]]
 #'
+#'     learner = lrn("classif.log_reg", predict_type = "prob")
+#'     pred = learner$train(task_classif)$predict_newdata(trafo_data)
+#'
+#'     po_predtosurv = po("trafopred_classifsurv")
+#'     po_predtosurv$train(list(pred, trafo_data))
+#'     po_predtosurv$predict(list(pred, trafo_data))
+#'
+#'   }
 #' }
 #' }
 #' @family PipeOps
@@ -36,27 +42,34 @@ PipeOpPredClassifSurv = R6Class(
   inherit = PipeOpPredTransformer,
 
   public = list(
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id = "trafopred_classifsurv") {
-      super$initialize(id = id,
-                       input = data.table::data.table(name = c("input", "meta"), train = c("NULL", "NULL"), predict = c("PredictionClassif", "data.frame")),
-                       output = data.table::data.table(name = "output", train = "NULL", predict = "PredictionSurv"))
+      super$initialize(
+        id = id,
+        input = data.table::data.table(
+          name = c("input", "transformed_data"),
+          train = c("NULL", "data.frame"),
+          predict = c("PredictionClassif", "data.frame")
+        ),
+        output = data.table::data.table(
+          name = "output",
+          train = "NULL",
+          predict = "PredictionSurv"
+        )
+      )
     }
   ),
 
   private = list(
-    .train = function(input) {
-      self$state = list()
-      list(input)
-    },
-
     .predict = function(input) {
       data = input[[2]]
       pred = input[[1]]
-      data = cbind(data, pred = pred$prob[, 2])
+      data = cbind(data, pred = pred$prob[, 1])
 
       ## convert hazards to surv as prod(1 - h(t))
       surv = t(vapply(unique(data$id), function(id) {
-        x = cumprod((1 - data[data$id == id, "pred"]))
+        x = cumprod((data[data$id == id, "pred"]))
         x
       }, numeric(sum(data$id == 1))))
 
@@ -80,6 +93,11 @@ PipeOpPredClassifSurv = R6Class(
         truth = Surv(real_tend, data[["ped_status"]]))
 
       list(p)
+    },
+
+    .train = function(input) {
+      self$state = list()
+      list(input)
     }
   )
 )
