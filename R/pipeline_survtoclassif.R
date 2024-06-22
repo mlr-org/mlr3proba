@@ -34,9 +34,9 @@
 #' }
 #' @export
 pipeline_survtoclassif = function(classif_learner, cut = NULL, max_time = NULL) {
-  gr = po("trafotask_survclassif", cut = cut, max_time = max_time) |>
+  gr = mlr3pipelines::po("trafotask_survclassif", cut = cut, max_time = max_time) |>
     mlr3pipelines::`%>>%`(list(mlr3pipelines::po("learner", classif_learner, predict_type = "prob"), mlr3pipelines::po("nop"))) |>
-    mlr3pipelines::`%>>%`(po("trafopred_classifsurv"))
+    mlr3pipelines::`%>>%`(mlr3pipelines::po("trafopred_classifsurv"))
 
   gr
 }

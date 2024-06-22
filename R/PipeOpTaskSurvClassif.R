@@ -19,6 +19,7 @@
 #' * `param max_time :: numeric(1)`\cr
 #' If cut is unspecified, this will be the last possible event time.
 #' All event times after max_time will be administratively censored at max_time.
+#' Needs to be greater than the minimum event time.
 #'
 #' @examples
 #' \dontrun{
@@ -46,6 +47,10 @@ PipeOpTaskSurvClassif = R6Class(
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
+    #' @param id (character(1))\cr
+    #' Identifier of the resulting object.
+    #' @param param_vals `(list())` \cr
+    #' Parameters, overwriting the defaults.
     initialize = function(id = "trafotask_survclassif", param_vals = list()) {
       ps = ps(
         cut = p_uty(default = NULL),
@@ -77,7 +82,10 @@ PipeOpTaskSurvClassif = R6Class(
 
       time = task$target_names[1]
       event = task$target_names[2]
-
+      if (!is.null(max_time)){
+        assert(self$param_set$values$max_time > task$data()[get(event) == 1, min(get(..time))],
+               "max_time must be greater than the minimum event time.")
+      }
 
       formula = mlr3misc::formulate(sprintf("Surv(%s, %s)", time, event), ".")
 
@@ -90,7 +98,7 @@ PipeOpTaskSurvClassif = R6Class(
       # remove offset, tstart, interval for dataframe long_data
       long_data[, c("offset", "tstart", "interval") := NULL]
 
-      task = TaskClassif$new(paste0(task$id, "_disc"), long_data, target = "ped_status")
+      task = TaskClassif$new(paste0(task$id, "_disc"), long_data, target = "ped_status", positive = "1")
       task$set_col_roles("id", roles = "name")
 
       list(task, data.frame())

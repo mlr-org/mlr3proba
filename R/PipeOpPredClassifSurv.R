@@ -44,6 +44,8 @@ PipeOpPredClassifSurv = R6Class(
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
+    #' @param id (character(1))\cr
+    #' Identifier of the resulting object.
     initialize = function(id = "trafopred_classifsurv") {
       super$initialize(
         id = id,
@@ -65,7 +67,7 @@ PipeOpPredClassifSurv = R6Class(
     .predict = function(input) {
       data = input[[2]]
       pred = input[[1]]
-      data = cbind(data, pred = pred$prob[, 1])
+      data = cbind(data, pred = pred$prob[, 2])
 
       ## convert hazards to surv as prod(1 - h(t))
       surv = t(vapply(unique(data$id), function(id) {
@@ -90,7 +92,7 @@ PipeOpPredClassifSurv = R6Class(
       p = PredictionSurv$new(
         row_ids = seq(nrow(data)),
         crank = pred_list$crank, distr = pred_list$distr,
-        truth = Surv(real_tend, data[["ped_status"]]))
+        truth = Surv(real_tend, data[["ped_status"]] |> as.numeric()))
 
       list(p)
     },
