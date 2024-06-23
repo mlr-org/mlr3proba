@@ -74,7 +74,8 @@ Suggests:
     vdiffr,
     abind,
     Ecdat,
-    coxed
+    coxed,
+    mlr3learners
 LinkingTo:
     Rcpp
 Remotes:
