@@ -75,7 +75,8 @@ Suggests:
     abind,
     Ecdat,
     coxed,
-    mlr3learners
+    mlr3learners,
+    pammtools
 LinkingTo:
     Rcpp
 Remotes:
