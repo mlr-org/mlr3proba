@@ -16,6 +16,8 @@
 #' * `cut :: numeric()`\cr
 #' Split points, used to partition the data into intervals.
 #' If unspecified, all unique event times will be used.
+#' If cut is a single integer, it will be interpreted as the number of equidistant
+#' intervals from 0 to the maximum event time.
 #' * `param max_time :: numeric(1)`\cr
 #' If cut is unspecified, this will be the last possible event time.
 #' All event times after max_time will be administratively censored at max_time.
@@ -80,10 +82,13 @@ PipeOpTaskSurvClassif = R6Class(
       cut = assert_numeric(self$param_set$values$cut, null.ok = TRUE, lower = 0)
       max_time = self$param_set$values$max_time
 
-      time = task$target_names[1]
-      event = task$target_names[2]
+      data_time = task$target_names[1]
+      data_event = task$target_names[2]
+      if (testInt(cut, lower = 1)) {
+        cut = seq(0, task$data()[get(data_event) == 1, max(get(data_time))], length.out = cut + 1)
+      }
       if (!is.null(max_time)){
-        assert(self$param_set$values$max_time > task$data()[get(event) == 1, min(get(..time))],
+        assert(self$param_set$values$max_time > task$data()[get(data_event) == 1, min(get(data_time))],
                "max_time must be greater than the minimum event time.")
       }
 
