@@ -92,7 +92,7 @@ PipeOpTaskSurvClassif = R6Class(
                "max_time must be greater than the minimum event time.")
       }
 
-      formula = mlr3misc::formulate(sprintf("Surv(%s, %s)", time, event), ".")
+      formula = mlr3misc::formulate(sprintf("Surv(%s, %s)", data_time, data_event), ".")
 
       # TODO: do without pammtools
       long_data = pammtools::as_ped(data = task$data(), formula = formula, cut = cut, max_time = max_time)
