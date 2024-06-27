@@ -43,8 +43,7 @@
 #' @family Transformation PipeOps
 #' @include PipeOpPredTransformer.R
 #' @export
-PipeOpTaskSurvClassif = R6Class(
-  "PipeOpTaskSurvClassif",
+PipeOpTaskSurvClassif = R6Class("PipeOpTaskSurvClassif",
   inherit = PipeOpTaskTransformer,
 
   public = list(
