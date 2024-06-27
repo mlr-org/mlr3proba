@@ -4,7 +4,7 @@
 \alias{PipeOpTaskTransformer}
 \title{PipeOpTaskTransformer}
 \description{
-Parent class for \link[mlr3pipelines:PipeOp]{PipeOp}s that transform task objects top different types.
+Parent class for \link[mlr3pipelines:PipeOp]{PipeOp}s that transform task objects to different types.
 }
 \section{Input and Output Channels}{
 
