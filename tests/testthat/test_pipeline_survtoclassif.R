@@ -3,7 +3,7 @@ skip_if_not_installed("mlr3learners")
 task = tsk("rats")$filter(sample(300, 50))
 
 test_that("survtoclassif", {
-  requireNamespace("mlr3fselect")
+  requireNamespace("mlr3learners")
 
   pipe = mlr3pipelines::ppl("survtoclassif", mlr3learners::LearnerClassifLogReg$new())
   expect_class(pipe, "Graph")
