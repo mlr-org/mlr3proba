@@ -168,7 +168,6 @@ Collate:
     'mlr3proba-package.R'
     'partition.R'
     'pecs.R'
-    'pipeline_survtoclassif.R'
     'pipelines.R'
     'plot.R'
     'plot_probregr.R'
