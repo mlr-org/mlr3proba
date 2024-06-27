@@ -68,6 +68,8 @@ utils::globalVariables(c(
   walk(names(mlr3proba_measures), function(nm) mlr_measures$remove(nm))
   walk(names(mlr3proba_task_gens), function(nm) mlr_task_generators$remove(nm))
   walk(names(mlr3proba_pipeops), function(nm) mlr3pipelines::mlr_pipeops$remove(nm))
+  # manually remove breslow pipeop
+  mlr3pipelines::mlr_pipeops$remove("breslowcompose")
   walk(names(mlr3proba_graphs), function(nm) mlr3pipelines::mlr_graphs$remove(nm))
 
   library.dynam.unload("mlr3proba", libpath)
