@@ -62,3 +62,11 @@ r6_private = function(x) {
 apply_theme = function(theme_object, default_object = NULL) {
   if (getOption("mlr3.theme", TRUE)) theme_object else default_object %??% geom_blank()
 }
+
+## from `mlr3extralearners`
+ordered_features = function(task, learner) {
+  # the data_prototype is not present when calling the workhorse function,
+  # as it can blow up memory usage
+  cols = names(learner$state$data_prototype) %??% learner$state$feature_names
+  task$data(cols = intersect(cols, task$feature_names))
+}
