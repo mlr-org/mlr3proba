@@ -114,10 +114,13 @@ PipeOpTaskSurvClassif = R6Class(
       data = task$data()
 
       max_time = max(self$state$attributes$cut)
-      time = data$time
+      # exctract time column name via formula
+      time = data[[self$state$attributes$formula[[2]][[2]]]]
       data$time = max_time
       data$time2 = time
 
+      # replace time column name with time in formula
+      self$state$attributes$formula[[2]][[2]] = quote(time)
       new_data = pammtools::as_ped(data, formula = self$state$attributes$formula, cut = self$state$attributes$cut)
       new_data$ped_status = factor(new_data$ped_status, levels = c("0", "1"))
 
