@@ -78,14 +78,15 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart",
         pv = insert_named(pv, list(weights = task$weights$weight))
       }
 
-      invoke(rpart::rpart,
-        formula = task$formula(), data = task$data(),
-        method = "exp", .args = pv)
+      invoke(rpart::rpart, formula = task$formula(), data = task$data(),
+             method = "exp", .args = pv)
     },
 
     .predict = function(task) {
-      preds = invoke(predict, object = self$model, newdata = task$data(cols = task$feature_names))
-      list(crank = preds)
+      newdata = ordered_features(task, self)
+      p = invoke(predict, object = self$model, newdata = newdata)
+
+      list(crank = p)
     }
   )
 )
