@@ -39,7 +39,7 @@
 #' @export
 PipeOpPredClassifSurv = R6Class(
   "PipeOpPredClassifSurv",
-  inherit = PipeOp,
+  inherit = mlr3pipelines::PipeOp,
 
   public = list(
     #' @description
@@ -65,8 +65,8 @@ PipeOpPredClassifSurv = R6Class(
 
   private = list(
     .predict = function(input) {
-      data = input[[2]]
       pred = input[[1]]
+      data = input[[2]]
       data = cbind(data, pred = pred$prob[, 2])
 
       ## convert hazards to surv as prod(1 - h(t))
@@ -86,7 +86,8 @@ PipeOpPredClassifSurv = R6Class(
 
       # select last row for every id
       data = as.data.table(data)
-      data = data[, .SD[.N, .(ped_status)], by = id]
+      id = NULL # to fix note
+      data = data[, .SD[.N, list(ped_status)], by = id]
 
       ## create prediction object
       p = PredictionSurv$new(

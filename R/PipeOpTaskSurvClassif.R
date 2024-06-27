@@ -44,7 +44,7 @@
 #' @include PipeOpPredTransformer.R
 #' @export
 PipeOpTaskSurvClassif = R6Class("PipeOpTaskSurvClassif",
-  inherit = PipeOp,
+  inherit = mlr3pipelines::PipeOp,
 
   public = list(
     #' @description
