@@ -298,7 +298,7 @@ pipeline_probregr = function(learner, learner_se = NULL, dist = "Uniform",
 #' @name mlr_graphs_survtoregr
 #' @title Survival to Regression Reduction Pipeline
 #' @description Wrapper around multiple [PipeOp][mlr3pipelines::PipeOp]s to help in creation
-#' of complex survival to reduction methods. Three reductions are currently implemented,
+#' of complex survival reduction methods. Three reductions are currently implemented,
 #' see details.
 #' @details
 #' Three reduction strategies are implemented, these are:
@@ -522,10 +522,11 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
 #' @name mlr_graphs_survtoclassif
 #' @title Survival to Classification Reduction Pipeline
 #' @description Wrapper around multiple [PipeOp][mlr3pipelines::PipeOp]s to help in creation
-#' of complex survival to reduction methods.
+#' of complex survival reduction methods.
 #'
 #' @param learner [LearnerClassif][mlr3::LearnerClassif]\cr
-#' Classification learner to fit to the transformed [TaskClassif][mlr3::TaskClassif]. `learner` must have `prob` predict_type.
+#' Classification learner to fit the transformed [TaskClassif][mlr3::TaskClassif].
+#' `learner` must have `predict_type` of type `"prob"`.
 #' @param cut `numeric()`\cr
 #' Split points, used to partition the data into intervals.
 #' If unspecified, all unique event times will be used.
