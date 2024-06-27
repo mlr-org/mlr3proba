@@ -86,7 +86,7 @@ PipeOpPredClassifSurv = R6Class(
 
       # select last row for every id
       data = as.data.table(data)
-      id = NULL # to fix note
+      id = ped_status = NULL # to fix note
       data = data[, .SD[.N, list(ped_status)], by = id]
 
       ## create prediction object
