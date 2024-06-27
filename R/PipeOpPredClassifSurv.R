@@ -39,7 +39,7 @@
 #' @export
 PipeOpPredClassifSurv = R6Class(
   "PipeOpPredClassifSurv",
-  inherit = PipeOpPredTransformer,
+  inherit = PipeOp,
 
   public = list(
     #' @description

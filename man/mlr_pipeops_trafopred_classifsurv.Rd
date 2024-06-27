@@ -60,8 +60,8 @@ Other Transformation PipeOps:
 }
 \concept{PipeOps}
 \concept{Transformation PipeOps}
-\section{Super classes}{
-\code{\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}} -> \code{\link[mlr3proba:PipeOpTransformer]{mlr3proba::PipeOpTransformer}} -> \code{\link[mlr3proba:PipeOpPredTransformer]{mlr3proba::PipeOpPredTransformer}} -> \code{PipeOpPredClassifSurv}
+\section{Super class}{
+\code{\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}} -> \code{PipeOpPredClassifSurv}
 }
 \section{Methods}{
 \subsection{Public methods}{

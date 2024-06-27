@@ -9,7 +9,8 @@ pipeline_survtoclassif(learner, cut = NULL, max_time = NULL)
 }
 \arguments{
 \item{learner}{\link[mlr3:LearnerClassif]{LearnerClassif}\cr
-Classification learner to fit to the transformed \link[mlr3:TaskClassif]{TaskClassif}. \code{learner} must have \code{prob} predict_type.}
+Classification learner to fit the transformed \link[mlr3:TaskClassif]{TaskClassif}.
+\code{learner} must have \code{predict_type} of type \code{"prob"}.}
 
 \item{cut}{\code{numeric()}\cr
 Split points, used to partition the data into intervals.
