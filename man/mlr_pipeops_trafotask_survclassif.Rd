@@ -5,14 +5,19 @@
 \alias{PipeOpTaskSurvClassif}
 \title{PipeOpTaskSurvClassif}
 \description{
-Transform \link{TaskSurv} to \link[mlr3:TaskClassif]{TaskClassif}.
+Transform \link{TaskSurv} to \link[mlr3:TaskClassif]{TaskClassif} by (describe the method, add one ref?)
 }
 \section{Input and Output Channels}{
 
 Input and output channels are inherited from \link{PipeOpTaskTransformer}.
 
 The output is the input \link{TaskSurv} transformed to a \link[mlr3:TaskClassif]{TaskClassif}
-aswell as the transformed data during prediction.
+as well as the transformed data during prediction.
+}
+
+\section{State}{
+
+The \verb{$state} is a ...
 }
 
 \section{Parameters}{
@@ -22,8 +27,8 @@ The parameters are
 \item \code{cut :: numeric()}\cr
 Split points, used to partition the data into intervals.
 If unspecified, all unique event times will be used.
-If cut is a single integer, it will be interpreted as the number of equidistant
-intervals from 0 to the maximum event time.
+If \code{cut} is a single integer, it will be interpreted as the number of equidistant
+intervals from 0 until the maximum event time.
 \item \verb{param max_time :: numeric(1)}\cr
 If cut is unspecified, this will be the last possible event time.
 All event times after max_time will be administratively censored at max_time.
@@ -38,12 +43,9 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   library(mlr3pipelines)
 
   task = tsk("lung")
-
-  if (requireNamespace("mlr3learners", quietly = TRUE)) {
-    po = po("trafotask_survclassif")
-    po$train(list(task))
-    po$predict(list(task))[[1]]
-  }
+  po = po("trafotask_survclassif")
+  po$train(list(task))
+  po$predict(list(task))[[1]]
 }
 }
 }
@@ -94,17 +96,14 @@ Other Transformation PipeOps:
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{PipeOpTaskSurvClassif$new(id = "trafotask_survclassif", param_vals = list())}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{PipeOpTaskSurvClassif$new(id = "trafotask_survclassif")}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{id}}{(character(1))\cr
-Identifier of the resulting object.}
-
-\item{\code{param_vals}}{\code{(list())} \cr
-Parameters, overwriting the defaults.}
+\item{\code{id}}{(\code{character(1)})\cr
+Identifier of the resulting  object.}
 }
 \if{html}{\out{</div>}}
 }
