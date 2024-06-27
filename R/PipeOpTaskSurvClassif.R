@@ -124,7 +124,7 @@ PipeOpTaskSurvClassif = R6Class(
       new_data = pammtools::as_ped(data, formula = self$state$attributes$formula, cut = self$state$attributes$cut)
       new_data$ped_status = factor(new_data$ped_status, levels = c("0", "1"))
 
-      list(TaskClassif$new(paste0(task$id, "_disc"), new_data, target = "ped_status"),
+      list(TaskClassif$new(paste0(task$id, "_disc"), new_data, target = "ped_status", positive = "1"),
            new_data)
     }
   )
