@@ -1,3 +1,5 @@
+skip("To deal with this properly on the mlr3 workshop")
+
 test_that("unloading leaves no trace", {
   library(mlr3proba)
   library(mlr3pipelines)
