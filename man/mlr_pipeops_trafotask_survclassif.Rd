@@ -5,7 +5,9 @@
 \alias{PipeOpTaskSurvClassif}
 \title{PipeOpTaskSurvClassif}
 \description{
-Transform \link{TaskSurv} to \link[mlr3:TaskClassif]{TaskClassif} by (describe the method, add one ref?)
+Transform \link{TaskSurv} to \link[mlr3:TaskClassif]{TaskClassif} by creating multiple
+interval observations for each subject based on \code{cut}, with a \code{ped_status} variable
+indicating whether an event occurred in each interval. (add one ref?)
 }
 \section{Input and Output Channels}{
 
@@ -17,7 +19,9 @@ as well as the transformed data during prediction.
 
 \section{State}{
 
-The \verb{$state} is a ...
+The \verb{$state} contains information about the \code{cut} parameter used
+as well as \code{time_var} and \code{event_var}, the names of the two target
+columns of the survival task.
 }
 
 \section{Parameters}{
@@ -29,7 +33,7 @@ Split points, used to partition the data into intervals.
 If unspecified, all unique event times will be used.
 If \code{cut} is a single integer, it will be interpreted as the number of equidistant
 intervals from 0 until the maximum event time.
-\item \verb{param max_time :: numeric(1)}\cr
+\item \code{max_time :: numeric(1)}\cr
 If cut is unspecified, this will be the last possible event time.
 All event times after max_time will be administratively censored at max_time.
 Needs to be greater than the minimum event time.

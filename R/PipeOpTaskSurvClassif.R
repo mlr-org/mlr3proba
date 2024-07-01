@@ -3,7 +3,9 @@
 #' @template param_pipelines
 #'
 #' @description
-#' Transform [TaskSurv] to [TaskClassif][mlr3::TaskClassif] by (describe the method, add one ref?)
+#' Transform [TaskSurv] to [TaskClassif][mlr3::TaskClassif] by creating multiple
+#' interval observations for each subject based on `cut`, with a `ped_status` variable
+#' indicating whether an event occurred in each interval. (add one ref?)
 #'
 #' @section Input and Output Channels:
 #' Input and output channels are inherited from [PipeOpTaskTransformer].
@@ -12,7 +14,9 @@
 #' as well as the transformed data during prediction.
 #'
 #' @section State:
-#' The `$state` is a ...
+#' The `$state` contains information about the `cut` parameter used
+#' as well as `time_var` and `event_var`, the names of the two target
+#' columns of the survival task.
 #'
 #' @section Parameters:
 #' The parameters are
@@ -22,7 +26,7 @@
 #' If unspecified, all unique event times will be used.
 #' If `cut` is a single integer, it will be interpreted as the number of equidistant
 #' intervals from 0 until the maximum event time.
-#' * `param max_time :: numeric(1)`\cr
+#' * `max_time :: numeric(1)`\cr
 #' If cut is unspecified, this will be the last possible event time.
 #' All event times after max_time will be administratively censored at max_time.
 #' Needs to be greater than the minimum event time.
@@ -74,24 +78,29 @@ PipeOpTaskSurvClassif = R6Class("PipeOpTaskSurvClassif",
   private = list(
     .train = function(input) {
       task = input[[1]]
+      data = task$data()
+      assert_true(task$censtype == "right")
+
       cut = assert_numeric(self$param_set$values$cut, null.ok = TRUE, lower = 0)
       max_time = self$param_set$values$max_time
 
       time_var = task$target_names[1]
       event_var = task$target_names[2]
       if (testInt(cut, lower = 1)) {
-        cut = seq(0, task$data()[get(event_var) == 1, max(get(time_var))], length.out = cut + 1)
+        cut = seq(0, data[get(event_var) == 1, max(get(time_var))], length.out = cut + 1)
       }
       if (!is.null(max_time)) {
-        assert(max_time > task$data()[get(event_var) == 1, min(get(time_var))],
+        assert(max_time > data[get(event_var) == 1, min(get(time_var))],
                "max_time must be greater than the minimum event time.")
       }
 
-      formula = mlr3misc::formulate(sprintf("Surv(%s, %s)", time_var, event_var), ".")
+      form = mlr3misc::formulate(sprintf("Surv(%s, %s)", time_var, event_var), ".")
 
       # TODO: do without pammtools
-      long_data = pammtools::as_ped(data = task$data(), formula = formula, cut = cut, max_time = max_time)
-      self$state$attributes = attributes(long_data)$trafo_args[c("formula","cut")]
+      long_data = pammtools::as_ped(data = data, formula = form, cut = cut, max_time = max_time)
+      self$state$cut = attributes(long_data)$trafo_args$cut
+      self$state$event_var = event_var
+      self$state$time_var = time_var
       long_data = as.data.table(long_data)
       long_data$ped_status = factor(long_data$ped_status, levels = c("0", "1"))
 
@@ -109,17 +118,18 @@ PipeOpTaskSurvClassif = R6Class("PipeOpTaskSurvClassif",
       data = task$data()
 
       # extract required data from `state`
-      cut = self$state$attributes$cut
-      form = self$state$attributes$formula
+      cut = self$state$cut
+      time_var = self$state$time_var
+      event_var = self$state$event_var
 
       max_time = max(cut)
-      # extract time column name via formula
-      time = data[[form[[2]][[2]]]]
+      time = data[[time_var]]
       data$time = max_time
       data$time2 = time
 
-      # replace time column name with time in formula
-      form[[2]][[2]] = quote(time)
+      # update form
+      form = mlr3misc::formulate(sprintf("Surv(%s, %s)", "time", event_var), ".")
+
       new_data = pammtools::as_ped(data, formula = form, cut = cut)
       new_data$ped_status = factor(new_data$ped_status, levels = c("0", "1"))
 
