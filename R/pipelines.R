@@ -533,6 +533,11 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
 #' @param max_time `numeric(1)`\cr
 #' If cut is unspecified, this will be the last possible event time.
 #' All event times after max_time will be administratively censored at max_time.
+#' @param rhs `character(1)`\cr
+#' Right-hand side of the formula to with the learner.
+#' All features of the task are available as well as `tend` the upper bounds
+#' of the intervals created by `cut`.
+#' If rhs is unspecified, the formula of the task will be used.
 #'
 #' @return [mlr3pipelines::Graph] or [mlr3pipelines::GraphLearner]
 #' @family pipelines
@@ -555,7 +560,16 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
 #' }
 #' }
 #' @export
-pipeline_survtoclassif = function(learner, cut = NULL, max_time = NULL) {
+pipeline_survtoclassif = function(learner, cut = NULL, max_time = NULL, rhs = NULL) {
+  if (!is.null(rhs)) {
+    gr = mlr3pipelines::po("trafotask_survclassif", cut = cut, max_time = max_time) |>
+      mlr3pipelines::`%>>%`(list(mlr3pipelines::po("modelmatrix", formula = as.formula(sprintf("~ %s", rhs))), mlr3pipelines::po("nop", id = "nop1"))) |>
+      mlr3pipelines::`%>>%`(list(mlr3pipelines::po("learner", learner, predict_type = "prob"), mlr3pipelines::po("nop"))) |>
+      mlr3pipelines::`%>>%`(mlr3pipelines::po("trafopred_classifsurv"))
+
+    return(gr)
+  }
+
   gr = mlr3pipelines::po("trafotask_survclassif", cut = cut, max_time = max_time) |>
     mlr3pipelines::`%>>%`(list(mlr3pipelines::po("learner", learner, predict_type = "prob"), mlr3pipelines::po("nop"))) |>
     mlr3pipelines::`%>>%`(mlr3pipelines::po("trafopred_classifsurv"))

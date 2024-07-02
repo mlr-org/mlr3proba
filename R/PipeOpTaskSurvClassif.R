@@ -125,16 +125,21 @@ PipeOpTaskSurvClassif = R6Class("PipeOpTaskSurvClassif",
       max_time = max(cut)
       time = data[[time_var]]
       data$time = max_time
-      data$time2 = time
 
       # update form
       form = mlr3misc::formulate(sprintf("Surv(%s, %s)", "time", event_var), ".")
 
       new_data = pammtools::as_ped(data, formula = form, cut = cut)
+      new_data = as.data.table(new_data)
       new_data$ped_status = factor(new_data$ped_status, levels = c("0", "1"))
 
-      list(TaskClassif$new(paste0(task$id, "_disc"), new_data, target = "ped_status", positive = "1"),
-           new_data)
+      # remove offset, tstart, interval for dataframe long_data
+      new_data[, c("offset", "tstart", "interval") := NULL]
+      task = TaskClassif$new(paste0(task$id, "_disc"), new_data, target = "ped_status", positive = "1")
+      task$set_col_roles("id", roles = "name")
+
+      new_data$time2 = rep(time, each = sum(new_data$id == 1))
+      list(task, new_data)
     }
   )
 )

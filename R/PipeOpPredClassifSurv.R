@@ -66,7 +66,7 @@ PipeOpPredClassifSurv = R6Class(
   private = list(
     .predict = function(input) {
       pred = input[[1]]
-      data = input[[2]]
+      data = as.data.frame(input[[2]])
       data = cbind(data, pred = pred$prob[, 2])
 
       ## convert hazards to surv as prod(1 - h(t))

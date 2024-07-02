@@ -5,7 +5,7 @@
 \alias{pipeline_survtoclassif}
 \title{Survival to Classification Reduction Pipeline}
 \usage{
-pipeline_survtoclassif(learner, cut = NULL, max_time = NULL)
+pipeline_survtoclassif(learner, cut = NULL, max_time = NULL, rhs = NULL)
 }
 \arguments{
 \item{learner}{\link[mlr3:LearnerClassif]{LearnerClassif}\cr
@@ -19,6 +19,12 @@ If unspecified, all unique event times will be used.}
 \item{max_time}{\code{numeric(1)}\cr
 If cut is unspecified, this will be the last possible event time.
 All event times after max_time will be administratively censored at max_time.}
+
+\item{rhs}{\code{character(1)}\cr
+Right-hand side of the formula to with the learner.
+All features of the task are available as well as \code{tend} the upper bounds
+of the intervals created by \code{cut}.
+If rhs is unspecified, the formula of the task will be used.}
 }
 \value{
 \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or \link[mlr3pipelines:mlr_learners_graph]{mlr3pipelines::GraphLearner}
