@@ -5,7 +5,13 @@
 \alias{pipeline_survtoclassif}
 \title{Survival to Classification Reduction Pipeline}
 \usage{
-pipeline_survtoclassif(learner, cut = NULL, max_time = NULL, rhs = NULL)
+pipeline_survtoclassif(
+  learner,
+  cut = NULL,
+  max_time = NULL,
+  rhs = NULL,
+  graph_learner = FALSE
+)
 }
 \arguments{
 \item{learner}{\link[mlr3:LearnerClassif]{LearnerClassif}\cr
@@ -25,6 +31,10 @@ Right-hand side of the formula to with the learner.
 All features of the task are available as well as \code{tend} the upper bounds
 of the intervals created by \code{cut}.
 If rhs is unspecified, the formula of the task will be used.}
+
+\item{graph_learner}{\code{logical(1)}\cr
+If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
+\link[mlr3pipelines:mlr_learners_graph]{GraphLearner} otherwise (default) returns as a \code{Graph}.}
 }
 \value{
 \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or \link[mlr3pipelines:mlr_learners_graph]{mlr3pipelines::GraphLearner}

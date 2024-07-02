@@ -143,4 +143,16 @@ test_that("survtoclassif", {
   pipe$train(task) |> suppressWarnings()
   p = pipe$predict(task)
   expect_prediction_surv(p[[1]])
+
+  # Test with rhs
+  pipe = ppl("survtoclassif", learner = lrn("classif.log_reg"), rhs = "1")
+  pipe$train(task)
+  pred = pipe$predict(task)
+
+  pipe = ppl("survtoclassif", learner = lrn("classif.featureless"))
+  pipe$train(task)
+  pred2 = pipe$predict(task)
+
+  expect_equal(pred$trafopred_classifsurv.output$data$distr,
+               pred2$trafopred_classifsurv.output$data$distr)
 })

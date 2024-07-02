@@ -5,11 +5,13 @@
 \alias{PipeOpPredClassifSurv}
 \title{PipeOpPredClassifSurv}
 \description{
-Transform \link{PredictionClassif} to \link{PredictionSurv}.
+Transform \link{PredictionClassif} to \link{PredictionSurv} by converting
+event probabilities of a pseudo status variable (discrete time hazards)
+to survival probabilities.
 }
 \section{Input and Output Channels}{
 
-Input and output channels are inherited from \link{PipeOp}.
+Input and output channels are inherited from \link[mlr3pipelines:PipeOp]{PipeOp}.
 
 The output is the input \link{PredictionClassif} transformed to a \link{PredictionSurv}.
 }

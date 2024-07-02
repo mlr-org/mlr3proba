@@ -538,6 +538,9 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
 #' All features of the task are available as well as `tend` the upper bounds
 #' of the intervals created by `cut`.
 #' If rhs is unspecified, the formula of the task will be used.
+#' @param graph_learner `logical(1)`\cr
+#' If `TRUE` returns wraps the [Graph][mlr3pipelines::Graph] as a
+#' [GraphLearner][mlr3pipelines::GraphLearner] otherwise (default) returns as a `Graph`.
 #'
 #' @return [mlr3pipelines::Graph] or [mlr3pipelines::GraphLearner]
 #' @family pipelines
@@ -560,10 +563,12 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
 #' }
 #' }
 #' @export
-pipeline_survtoclassif = function(learner, cut = NULL, max_time = NULL, rhs = NULL) {
+pipeline_survtoclassif = function(learner, cut = NULL, max_time = NULL,
+                                  rhs = NULL, graph_learner = FALSE) {
+  assert_true("prob" %in% learner$predict_types)
   if (!is.null(rhs)) {
     gr = mlr3pipelines::po("trafotask_survclassif", cut = cut, max_time = max_time) |>
-      mlr3pipelines::`%>>%`(list(mlr3pipelines::po("modelmatrix", formula = as.formula(sprintf("~ %s", rhs))), mlr3pipelines::po("nop", id = "nop1"))) |>
+      mlr3pipelines::`%>>%`(list(mlr3pipelines::po("modelmatrix", formula = mlr3misc::formulate(rhs = rhs, quote = "left")), mlr3pipelines::po("nop", id = "nop1"))) |>
       mlr3pipelines::`%>>%`(list(mlr3pipelines::po("learner", learner, predict_type = "prob"), mlr3pipelines::po("nop"))) |>
       mlr3pipelines::`%>>%`(mlr3pipelines::po("trafopred_classifsurv"))
 
@@ -573,6 +578,10 @@ pipeline_survtoclassif = function(learner, cut = NULL, max_time = NULL, rhs = NU
   gr = mlr3pipelines::po("trafotask_survclassif", cut = cut, max_time = max_time) |>
     mlr3pipelines::`%>>%`(list(mlr3pipelines::po("learner", learner, predict_type = "prob"), mlr3pipelines::po("nop"))) |>
     mlr3pipelines::`%>>%`(mlr3pipelines::po("trafopred_classifsurv"))
+
+  if (graph_learner) {
+    gr = mlr3pipelines::GraphLearner$new(gr)
+  }
 
   gr
 }

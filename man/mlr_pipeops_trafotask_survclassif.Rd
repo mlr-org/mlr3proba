@@ -11,7 +11,7 @@ indicating whether an event occurred in each interval. (add one ref?)
 }
 \section{Input and Output Channels}{
 
-Input and output channels are inherited from \link{PipeOp}.
+Input and output channels are inherited from \link[mlr3pipelines:PipeOp]{PipeOp}.
 
 The output is the input \link{TaskSurv} transformed to a \link[mlr3:TaskClassif]{TaskClassif}
 as well as the transformed data during prediction.

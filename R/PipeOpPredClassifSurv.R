@@ -2,10 +2,12 @@
 #' @name mlr_pipeops_trafopred_classifsurv
 #'
 #' @description
-#' Transform [PredictionClassif] to [PredictionSurv].
+#' Transform [PredictionClassif] to [PredictionSurv] by converting
+#' event probabilities of a pseudo status variable (discrete time hazards)
+#' to survival probabilities.
 #'
 #' @section Input and Output Channels:
-#' Input and output channels are inherited from [PipeOp].
+#' Input and output channels are inherited from [PipeOp][mlr3pipelines::PipeOp].
 #'
 #' The output is the input [PredictionClassif] transformed to a [PredictionSurv].
 #'
@@ -51,8 +53,8 @@ PipeOpPredClassifSurv = R6Class(
         id = id,
         input = data.table::data.table(
           name = c("input", "transformed_data"),
-          train = c("NULL", "data.frame"),
-          predict = c("PredictionClassif", "data.frame")
+          train = c("NULL", "data.table"),
+          predict = c("PredictionClassif", "data.table")
         ),
         output = data.table::data.table(
           name = "output",
@@ -66,12 +68,13 @@ PipeOpPredClassifSurv = R6Class(
   private = list(
     .predict = function(input) {
       pred = input[[1]]
-      data = as.data.frame(input[[2]])
-      data = cbind(data, pred = pred$prob[, 2])
+      data = input[[2]]
+      assert_true(!is.null(pred$prob))
+      data = cbind(data, pred = pred$prob[, "0"])
 
       ## convert hazards to surv as prod(1 - h(t))
-      surv = t(vapply(unique(data$id), function(id) {
-        x = cumprod((data[data$id == id, "pred"]))
+      surv = t(vapply(unique(data$id), function(unique_id) {
+        x = cumprod((data[data$id == unique_id, ][["pred"]]))
         x
       }, numeric(sum(data$id == 1))))
 
@@ -91,9 +94,9 @@ PipeOpPredClassifSurv = R6Class(
 
       ## create prediction object
       p = PredictionSurv$new(
-        row_ids = seq(nrow(data)),
+        row_ids = seq_row(data),
         crank = pred_list$crank, distr = pred_list$distr,
-        truth = Surv(real_tend, data[["ped_status"]] |> as.numeric()))
+        truth = Surv(real_tend, as.integer(as.character(data$ped_status))))
 
       list(p)
     },

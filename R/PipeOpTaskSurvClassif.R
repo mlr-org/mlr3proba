@@ -8,7 +8,7 @@
 #' indicating whether an event occurred in each interval. (add one ref?)
 #'
 #' @section Input and Output Channels:
-#' Input and output channels are inherited from [PipeOp].
+#' Input and output channels are inherited from [PipeOp][mlr3pipelines::PipeOp].
 #'
 #' The output is the input [TaskSurv] transformed to a [TaskClassif][mlr3::TaskClassif]
 #' as well as the transformed data during prediction.
@@ -67,8 +67,8 @@ PipeOpTaskSurvClassif = R6Class("PipeOpTaskSurvClassif",
         ),
         output = data.table::data.table(
           name    = c("output", "transformed_data"),
-          train   = c("TaskClassif", "data.frame"),
-          predict = c("TaskClassif", "data.frame")
+          train   = c("TaskClassif", "data.table"),
+          predict = c("TaskClassif", "data.table")
         )
       )
     }
@@ -109,7 +109,7 @@ PipeOpTaskSurvClassif = R6Class("PipeOpTaskSurvClassif",
       task = TaskClassif$new(paste0(task$id, "_disc"), long_data, target = "ped_status", positive = "1")
       task$set_col_roles("id", roles = "name")
 
-      list(task, data.frame())
+      list(task, data.table())
     },
 
     .predict = function(input) {
