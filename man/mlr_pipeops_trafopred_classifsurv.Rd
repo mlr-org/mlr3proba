@@ -9,7 +9,7 @@ Transform \link{PredictionClassif} to \link{PredictionSurv}.
 }
 \section{Input and Output Channels}{
 
-Input and output channels are inherited from \link{PipeOpPredTransformer}.
+Input and output channels are inherited from \link{PipeOp}.
 
 The output is the input \link{PredictionClassif} transformed to a \link{PredictionSurv}.
 }
@@ -23,6 +23,7 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   task = tsk("rats")
 
   if (requireNamespace("mlr3learners", quietly = TRUE)) {
+    library(mlr3learners)
     po_tasktoclassif = po("trafotask_survclassif")
     po_tasktoclassif$train(list(task))
     task_classif = po_tasktoclassif$predict(list(task))[[1]]

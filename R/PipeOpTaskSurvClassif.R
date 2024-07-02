@@ -8,7 +8,7 @@
 #' indicating whether an event occurred in each interval. (add one ref?)
 #'
 #' @section Input and Output Channels:
-#' Input and output channels are inherited from [PipeOpTaskTransformer].
+#' Input and output channels are inherited from [PipeOp].
 #'
 #' The output is the input [TaskSurv] transformed to a [TaskClassif][mlr3::TaskClassif]
 #' as well as the transformed data during prediction.
@@ -45,7 +45,6 @@
 #' }
 #' @family PipeOps
 #' @family Transformation PipeOps
-#' @include PipeOpPredTransformer.R
 #' @export
 PipeOpTaskSurvClassif = R6Class("PipeOpTaskSurvClassif",
   inherit = mlr3pipelines::PipeOp,

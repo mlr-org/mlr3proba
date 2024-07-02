@@ -5,7 +5,7 @@
 #' Transform [PredictionClassif] to [PredictionSurv].
 #'
 #' @section Input and Output Channels:
-#' Input and output channels are inherited from [PipeOpPredTransformer].
+#' Input and output channels are inherited from [PipeOp].
 #'
 #' The output is the input [PredictionClassif] transformed to a [PredictionSurv].
 #'
@@ -18,6 +18,7 @@
 #'   task = tsk("rats")
 #'
 #'   if (requireNamespace("mlr3learners", quietly = TRUE)) {
+#'     library(mlr3learners)
 #'     po_tasktoclassif = po("trafotask_survclassif")
 #'     po_tasktoclassif$train(list(task))
 #'     task_classif = po_tasktoclassif$predict(list(task))[[1]]
@@ -35,7 +36,6 @@
 #' }
 #' @family PipeOps
 #' @family Transformation PipeOps
-#' @include PipeOpPredTransformer.R
 #' @export
 PipeOpPredClassifSurv = R6Class(
   "PipeOpPredClassifSurv",
