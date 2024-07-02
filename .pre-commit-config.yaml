@@ -1,60 +1,57 @@
 # All available hooks: https://pre-commit.com/hooks.html
 # R specific hooks: https://github.com/lorenzwalthert/precommit
 repos:
--   repo: https://github.com/lorenzwalthert/precommit
-    rev: v0.3.2.9001
+  - repo: https://github.com/lorenzwalthert/precommit
+    rev: v0.4.2
     hooks:
-    -   id: style-files
+      - id: style-files
         args: [--style_pkg=styler.mlr, --style_fun=mlr_style]
-    -   id: roxygenize
-    # codemeta must be above use-tidy-description when both are used
-    # -   id: codemeta-description-updated
-    -   id: use-tidy-description
-    # -   id: spell-check
-    #     exclude: >
-    #       (?x)^(
-    #       .*\.[rR]|
-    #       .*\.feather|
-    #       .*\.jpeg|
-    #       .*\.pdf|
-    #       .*\.png|
-    #       .*\.py|
-    #       .*\.RData|
-    #       .*\.rds|
-    #       .*\.Rds|
-    #       .*\.Rproj|
-    #       .*\.sh|
-    #       (.*/|)\.gitignore|
-    #       (.*/|)\.pre-commit-.*|
-    #       (.*/|)\.Rbuildignore|
-    #       (.*/|)\.Renviron|
-    #       (.*/|)\.Rprofile|
-    #       (.*/|)\.travis\.yml|
-    #       (.*/|)appveyor\.yml|
-    #       (.*/|)NAMESPACE|
-    #       (.*/|)renv/settings\.dcf|
-    #       (.*/|)renv\.lock|
-    #       (.*/|)WORDLIST|
-    #       \.github/workflows/.*|
-    #       data/.*|
-    #       )$
-    # -   id: lintr
-    -   id: readme-rmd-rendered
-    -   id: parsable-R
-    -   id: no-browser-statement
-    -   id: deps-in-desc
--   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.3.0
+        additional_dependencies:
+          - mlr-org/styler.mlr
+      - id: roxygenize
+        additional_dependencies:
+          - Ecdat
+          - GGally
+          - R6
+          - Rcpp
+          - bujar
+          - checkmate
+          - coxed
+          - data.table
+          - ggplot2
+          - mlr3
+          - mlr3misc
+          - mlr3pipelines
+          - mlr3viz
+          - paradox
+          - simsurv
+          - survAUC
+          - survival
+          - survivalmodels
+          - xoopR/distr6
+      # codemeta must be above use-tidy-description when both are used
+      - id: use-tidy-description
+      - id: readme-rmd-rendered
+      - id: parsable-R
+      - id: no-browser-statement
+      - id: deps-in-desc
+        exclude: data-raw|inst
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
     hooks:
-    -   id: check-added-large-files
-        args: ['--maxkb=200']
-    -   id: end-of-file-fixer
+      - id: check-added-large-files
+        args: [--maxkb=200]
+      - id: file-contents-sorter
+        files: '^\.Rbuildignore$'
+      - id: end-of-file-fixer
         exclude: '\.Rd'
--   repo: local
+  - repo: local
     hooks:
-    -   id: forbid-to-commit
+      - id: forbid-to-commit
         name: Don't commit common R artifacts
         entry: Cannot commit .Rhistory, .RData, .Rds or .rds.
         language: fail
         files: '\.Rhistory|\.RData|\.Rds|\.rds$'
-        # `exclude: <regex>` to allow committing specific files.
+        exclude: 'inst/extdata/unemployment.rds'
+ci:
+  autoupdate_schedule: monthly
