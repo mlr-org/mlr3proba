@@ -290,7 +290,7 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
 
       x = data.frame(backend)[, colnames(backend) %nin% c(time, status), drop = FALSE]
       x = model.matrix(~., x)[, -1]
-      bj = mlr3misc::invoke(bujar::bujar,
+      bj = invoke(bujar::bujar,
         y = backend[[time]],
         cens = backend[[status]],
         x = x,

@@ -74,7 +74,9 @@ Suggests:
     vdiffr,
     abind,
     Ecdat,
-    coxed
+    coxed,
+    mlr3learners,
+    pammtools
 LinkingTo:
     Rcpp
 Remotes:
@@ -127,6 +129,7 @@ Collate:
     'PipeOpBreslow.R'
     'PipeOpCrankCompositor.R'
     'PipeOpDistrCompositor.R'
+    'PipeOpPredClassifSurv.R'
     'PipeOpTransformer.R'
     'PipeOpPredTransformer.R'
     'PipeOpPredRegrSurv.R'
@@ -134,6 +137,7 @@ Collate:
     'PipeOpProbregrCompositor.R'
     'PipeOpSurvAvg.R'
     'PipeOpTaskRegrSurv.R'
+    'PipeOpTaskSurvClassif.R'
     'PipeOpTaskSurvRegr.R'
     'PipeOpTaskTransformer.R'
     'PredictionDataDens.R'

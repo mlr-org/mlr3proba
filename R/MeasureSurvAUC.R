@@ -56,7 +56,7 @@ MeasureSurvAUC = R6Class("MeasureSurvAUC",
         args$Surv.rsp.new = prediction$truth # nolint
       }
 
-      auc = mlr3misc::invoke(FUN, lpnew = prediction$lp, .args = args)
+      auc = invoke(FUN, lpnew = prediction$lp, .args = args)
 
       if (is.null(ps$integrated) || !ps$integrated || grepl("tnr|tpr", self$id)) {
         auc

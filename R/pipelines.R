@@ -298,7 +298,7 @@ pipeline_probregr = function(learner, learner_se = NULL, dist = "Uniform",
 #' @name mlr_graphs_survtoregr
 #' @title Survival to Regression Reduction Pipeline
 #' @description Wrapper around multiple [PipeOp][mlr3pipelines::PipeOp]s to help in creation
-#' of complex survival to reduction methods. Three reductions are currently implemented,
+#' of complex survival reduction methods. Three reductions are currently implemented,
 #' see details.
 #' @details
 #' Three reduction strategies are implemented, these are:
@@ -519,9 +519,68 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
   gr
 }
 
+#' @name mlr_graphs_survtoclassif
+#' @title Survival to Classification Reduction Pipeline
+#' @description Wrapper around multiple [PipeOp][mlr3pipelines::PipeOp]s to help in creation
+#' of complex survival reduction methods.
+#'
+#' @param learner [LearnerClassif][mlr3::LearnerClassif]\cr
+#' Classification learner to fit the transformed [TaskClassif][mlr3::TaskClassif].
+#' `learner` must have `predict_type` of type `"prob"`.
+#' @param cut `numeric()`\cr
+#' Split points, used to partition the data into intervals.
+#' If unspecified, all unique event times will be used.
+#' @param max_time `numeric(1)`\cr
+#' If cut is unspecified, this will be the last possible event time.
+#' All event times after max_time will be administratively censored at max_time.
+#' @param rhs `character(1)`\cr
+#' Right-hand side of the formula to with the learner.
+#' All features of the task are available as well as `tend` the upper bounds
+#' of the intervals created by `cut`.
+#' If rhs is unspecified, the formula of the task will be used.
+#'
+#' @return [mlr3pipelines::Graph] or [mlr3pipelines::GraphLearner]
+#' @family pipelines
+#'
+#' @examples
+#' \dontrun{
+#' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
+#'   library("mlr3")
+#'   library("mlr3pipelines")
+#'
+#'   task = tsk("rats")
+#'
+#'   pipe = ppl(
+#'     "survtoclassif",
+#'     learner = lrn("classif.log_reg")
+#'   )
+#'   pipe$train(task)
+#'   pipe$predict(task)
+#'
+#' }
+#' }
+#' @export
+pipeline_survtoclassif = function(learner, cut = NULL, max_time = NULL, rhs = NULL) {
+  if (!is.null(rhs)) {
+    gr = mlr3pipelines::po("trafotask_survclassif", cut = cut, max_time = max_time) |>
+      mlr3pipelines::`%>>%`(list(mlr3pipelines::po("modelmatrix", formula = as.formula(sprintf("~ %s", rhs))), mlr3pipelines::po("nop", id = "nop1"))) |>
+      mlr3pipelines::`%>>%`(list(mlr3pipelines::po("learner", learner, predict_type = "prob"), mlr3pipelines::po("nop"))) |>
+      mlr3pipelines::`%>>%`(mlr3pipelines::po("trafopred_classifsurv"))
+
+    return(gr)
+  }
+
+  gr = mlr3pipelines::po("trafotask_survclassif", cut = cut, max_time = max_time) |>
+    mlr3pipelines::`%>>%`(list(mlr3pipelines::po("learner", learner, predict_type = "prob"), mlr3pipelines::po("nop"))) |>
+    mlr3pipelines::`%>>%`(mlr3pipelines::po("trafopred_classifsurv"))
+
+  gr
+}
+
 register_graph("survaverager", pipeline_survaverager)
 register_graph("survbagging", pipeline_survbagging)
 register_graph("crankcompositor", pipeline_crankcompositor)
 register_graph("distrcompositor", pipeline_distrcompositor)
 register_graph("probregr", pipeline_probregr)
 register_graph("survtoregr", pipeline_survtoregr)
+register_graph("survtoclassif", pipeline_survtoclassif)
