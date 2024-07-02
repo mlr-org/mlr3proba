@@ -30,12 +30,12 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
     trafo_data = po_tasktoclassif$predict(list(task))[[2]]
 
     learner = lrn("classif.log_reg", predict_type = "prob")
-    pred = learner$train(task_classif)$predict_newdata(trafo_data)
+    learner$train(task_classif)
+    pred = learner$predict_newdata(trafo_data)
 
     po_predtosurv = po("trafopred_classifsurv")
     po_predtosurv$train(list(pred, trafo_data))
     po_predtosurv$predict(list(pred, trafo_data))
-
   }
 }
 }
