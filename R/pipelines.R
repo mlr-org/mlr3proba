@@ -566,18 +566,24 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
 pipeline_survtoclassif = function(learner, cut = NULL, max_time = NULL,
                                   rhs = NULL, graph_learner = FALSE) {
   assert_true("prob" %in% learner$predict_types)
+
+  gr = mlr3pipelines::Graph$new()
+  gr$add_pipeop(mlr3pipelines::po("trafotask_survclassif", cut = cut, max_time = max_time))
+  gr$add_pipeop(mlr3pipelines::po("learner", learner, predict_type = "prob"))
+  gr$add_pipeop(mlr3pipelines::po("nop"))
+  gr$add_pipeop(mlr3pipelines::po("trafopred_classifsurv"))
+
+  gr$add_edge(src_id = "trafotask_survclassif", dst_id = learner$id, src_channel = "output", dst_channel = "input")
+  gr$add_edge(src_id = "trafotask_survclassif", dst_id = "nop", src_channel = "transformed_data", dst_channel = "input")
+  gr$add_edge(src_id = learner$id, dst_id = "trafopred_classifsurv", src_channel = "output", dst_channel = "input")
+  gr$add_edge(src_id = "nop", dst_id = "trafopred_classifsurv", src_channel = "output", dst_channel = "transformed_data")
+
   if (!is.null(rhs)) {
-    gr = mlr3pipelines::po("trafotask_survclassif", cut = cut, max_time = max_time) |>
-      mlr3pipelines::`%>>%`(list(mlr3pipelines::po("modelmatrix", formula = mlr3misc::formulate(rhs = rhs, quote = "left")), mlr3pipelines::po("nop", id = "nop1"))) |>
-      mlr3pipelines::`%>>%`(list(mlr3pipelines::po("learner", learner, predict_type = "prob"), mlr3pipelines::po("nop"))) |>
-      mlr3pipelines::`%>>%`(mlr3pipelines::po("trafopred_classifsurv"))
-
-    return(gr)
+    gr$edges = gr$edges[-1, ]
+    gr$add_pipeop(mlr3pipelines::po("modelmatrix", formula = mlr3misc::formulate(rhs = rhs, quote = "left")))
+    gr$add_edge(src_id = "trafotask_survclassif", dst_id = "modelmatrix", src_channel = "output")
+    gr$add_edge(src_id = "modelmatrix", dst_id = learner$id, src_channel = "output", dst_channel = "input")
   }
-
-  gr = mlr3pipelines::po("trafotask_survclassif", cut = cut, max_time = max_time) |>
-    mlr3pipelines::`%>>%`(list(mlr3pipelines::po("learner", learner, predict_type = "prob"), mlr3pipelines::po("nop"))) |>
-    mlr3pipelines::`%>>%`(mlr3pipelines::po("trafopred_classifsurv"))
 
   if (graph_learner) {
     gr = mlr3pipelines::GraphLearner$new(gr)
