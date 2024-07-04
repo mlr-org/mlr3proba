@@ -220,7 +220,7 @@ autoplot.PredictionSurv = function(object, type = "calib",
         pred_surv = rowMeans(1 - object$distr$cdf(times))
       }
 
-      km = mlr3::lrn("surv.kaplan")
+      km = lrn("surv.kaplan")
       km_pred = km$train(task, row_ids = row_ids)$predict(task, row_ids = row_ids)
       km_surv = rowMeans(1 - km_pred$distr$cdf(times))
 
