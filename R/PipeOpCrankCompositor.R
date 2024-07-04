@@ -79,7 +79,7 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
       param_set = ps(
         method = p_fct(default = "sum_haz", levels = c("sum_haz", "mean", "median", "mode"),
           tags = "predict"),
-        which = p_int(default = 1, lower = 1, tags = "predict"),
+        which = p_int(default = 1L, lower = 1L, tags = "predict"),
         response = p_lgl(default = FALSE, tags = "predict"),
         overwrite = p_lgl(default = FALSE, tags = "predict")
       )
@@ -105,7 +105,7 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
 
     .predict = function(inputs) {
 
-      inpred = inputs[[1]]
+      inpred = inputs[[1L]]
 
       response = self$param_set$values$response
       b_response = !anyMissing(inpred$response)
@@ -120,7 +120,7 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
       } else {
         assert("distr" %in% inpred$predict_types)
         method = self$param_set$values$method
-        if (length(method) == 0) method = "sum_haz"
+        if (length(method) == 0L) method = "sum_haz"
         if (method == "sum_haz") {
           if (inherits(inpred$data$distr, "matrix") ||
             !requireNamespace("survivalmodels", quietly = TRUE)) {

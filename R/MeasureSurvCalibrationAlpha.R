@@ -56,7 +56,7 @@ MeasureSurvCalibrationAlpha = R6Class("MeasureSurvCalibrationAlpha",
       )
       ps$values = list(eps = 1e-3, se = FALSE, method = method, truncate = Inf)
       range = if (method == "ratio") c(-Inf, Inf) else c(0, Inf)
-      minimize = ifelse(method == "ratio", FALSE, TRUE)
+      minimize = method != "ratio"
 
       super$initialize(
         id = "surv.calib_alpha",
@@ -103,7 +103,7 @@ MeasureSurvCalibrationAlpha = R6Class("MeasureSurvCalibrationAlpha",
         } else {
           if (inherits(distr, "VectorDistribution")) {
             cumhaz = as.numeric(
-              distr$cumHazard(data = matrix(all_times, nrow = 1))
+              distr$cumHazard(data = matrix(all_times, nrow = 1L))
             )
           } else {
             cumhaz = diag(as.matrix(distr$cumHazard(all_times)))

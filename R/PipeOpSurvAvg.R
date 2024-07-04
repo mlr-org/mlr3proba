@@ -92,7 +92,7 @@ PipeOpSurvAvg = R6Class("PipeOpSurvAvg",
         lp = c(simplify2array(lp_matrix) %*% weights)
       }
 
-      if (length(unique(weights)) == 1) {
+      if (length(unique(weights)) == 1L) {
         weights = "uniform"
       }
 

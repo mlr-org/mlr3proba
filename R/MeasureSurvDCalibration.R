@@ -58,7 +58,7 @@ MeasureSurvDCalibration = R6Class("MeasureSurvDCalibration",
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       ps = ps(
-        B = p_int(1, default = 10),
+        B = p_int(1L, default = 10L),
         chisq = p_lgl(default = FALSE),
         truncate = p_dbl(lower = 0, upper = Inf, default = Inf)
       )

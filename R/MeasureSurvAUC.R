@@ -48,7 +48,7 @@ MeasureSurvAUC = R6Class("MeasureSurvAUC",
       }
 
       args$times = ps$times
-      if (length(args$times) == 0) {
+      if (length(args$times) == 0L) {
         args$times = sort(unique(prediction$truth[, 1L]))
       }
 

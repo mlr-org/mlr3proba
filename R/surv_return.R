@@ -44,10 +44,8 @@
       # in case of a vector (one observation) convert to matrix
       surv = matrix(surv, nrow = 1L, dimnames = list(NULL, names(surv)))
     }
-    if (class(surv)[1L] == "array") {
-      if (length(dim(surv)) != 3L) {
-        stop("3D survival arrays supported only")
-      }
+    if (class(surv)[1L] == "array" && length(dim(surv)) != 3L) {
+      stop("3D survival arrays supported only")
     }
     times = times %||% colnames(surv)
     if (length(times) != ncol(surv)) {

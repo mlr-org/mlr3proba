@@ -129,9 +129,9 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
           tags = c("train", "bj")),
         center    = p_lgl(default = TRUE, tags = c("train", "bj")),
         mimpu     = p_lgl(default = NULL, special_vals = list(NULL), tags = c("train", "bj")),
-        iter.bj   = p_int(default = 20, lower = 2, tags = c("train", "bj")),
-        max.cycle = p_int(default = 5, lower = 1, tags = c("train", "bj")),
-        mstop     = p_int(default = 50, lower = 1, tags = c("train", "bj")),
+        iter.bj   = p_int(default = 20L, lower = 2L, tags = c("train", "bj")),
+        max.cycle = p_int(default = 5L, lower = 1L, tags = c("train", "bj")),
+        mstop     = p_int(default = 50L, lower = 1L, tags = c("train", "bj")),
         nu        = p_dbl(default = 0.1, lower = 0, tags = c("train", "bj"))
       )
       ps$add_dep("alpha", "method", CondEqual$new("ipcw"))
@@ -257,7 +257,7 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
       unique_times = sort(unique(backend[[time]]))
 
       if (estimator == "kaplan") {
-        est = LearnerSurvKaplan$new()$train(input)$predict(input, row_ids = 1)$distr[1]
+        est = LearnerSurvKaplan$new()$train(input)$predict(input, row_ids = 1)$distr[1L]
         den = est$survival(backend[[time]][cens])
         num = sapply(backend[[time]][cens], function(x) {
           est$survivalAntiDeriv(x)
@@ -271,7 +271,7 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
           est$param_set$values$lambda = self$param_set$values$lambda
           est = est$train(input)$predict(input)$distr
         }
-        den = as.numeric(est$survival(data = matrix(backend[[time]], nrow = 1)))[cens]
+        den = as.numeric(est$survival(data = matrix(backend[[time]], nrow = 1L)))[cens]
         mrl = numeric(sum(cens))
         for (i in seq_along(mrl)) {
           x = backend[cens, ][[time]][i]

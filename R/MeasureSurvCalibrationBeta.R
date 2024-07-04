@@ -47,7 +47,7 @@ MeasureSurvCalibrationBeta = R6Class("MeasureSurvCalibrationBeta",
       )
       ps$values = list(se = FALSE, method = method)
       range = if (method == "ratio") c(-Inf, Inf) else c(0, Inf)
-      minimize = ifelse(method == "ratio", FALSE, TRUE)
+      minimize = method != "ratio"
 
       super$initialize(
         id = "surv.calib_beta",
