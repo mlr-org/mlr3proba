@@ -319,7 +319,7 @@ TaskSurv = R6::R6Class("TaskSurv",
 
       # Get administrative time
       if (is.null(admin_time)) {
-        t_max = unname(round(quantile(times, probs = quantile_prob)))
+        t_max = unname(round(stats::quantile(times, probs = quantile_prob)))
       } else {
         t_max = min(admin_time, max(times))
       }
@@ -361,14 +361,14 @@ TaskSurv = R6::R6Class("TaskSurv",
       assert_choice(self$censtype, choices = c("right", "left"))
 
       status_var = self$target_names[[2L]]
-      glm_summary = summary(glm(
+      glm_summary = summary(stats::glm(
         formula = formulate(lhs = status_var, rhs = "."),
         data = self$data(cols = c(self$feature_names, status_var)),
-        family = binomial(link = "logit")
+        family = stats::binomial(link = "logit")
       ))
       # extract the p-values
       p_values = glm_summary$coefficients[, "Pr(>|z|)"]
-      p_values_adj = p.adjust(p_values, method = method)
+      p_values_adj = stats::p.adjust(p_values, method = method)
       n_coefs = length(p_values_adj) - 1 # exclude the intercept, include dummy-encoded variables
       n_signif = sum(p_values_adj[-1L] <= sign_level)
 
