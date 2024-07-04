@@ -28,7 +28,7 @@
 #'
 #'     learner = lrn("classif.log_reg", predict_type = "prob")
 #'     learner$train(task_classif)
-#'     pred = learner$predict_newdata(trafo_data)
+#'     pred = learner$predict(task_classif)
 #'
 #'     po_predtosurv = po("trafopred_classifsurv")
 #'     po_predtosurv$train(list(pred, trafo_data))
