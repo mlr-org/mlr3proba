@@ -115,44 +115,55 @@ test_that("survtoclassif", {
 
   pipe = mlr3pipelines::ppl("survtoclassif", mlr3learners::LearnerClassifLogReg$new())
   expect_class(pipe, "Graph")
+  pipe = mlr3pipelines::ppl("survtoclassif", mlr3learners::LearnerClassifLogReg$new(), graph_learner = TRUE)
+  expect_class(pipe, "GraphLearner")
   pipe$train(task)
   p = pipe$predict(task)
-  expect_prediction_surv(p[[1]])
+  expect_prediction_surv(p)
 
   cox = lrn("surv.coxph")
   cox$train(task) |> suppressWarnings()
   p2 = cox$predict(task)
 
-  expect_equal(p[[1]]$truth, p2$truth)
-  expect_equal(p[[1]]$score(), p2$score(), tolerance = 0.1)
+  expect_equal(p$truth, p2$truth)
+  expect_equal(p$score(), p2$score(), tolerance = 0.1)
 
   # Test with cut
-  pipe = mlr3pipelines::ppl("survtoclassif", mlr3learners::LearnerClassifLogReg$new(), cut = c(10, 30, 50))
-  expect_class(pipe, "Graph")
+  pipe = mlr3pipelines::ppl("survtoclassif", mlr3learners::LearnerClassifLogReg$new(), cut = c(10, 30, 50), graph_learner = TRUE)
+  expect_class(pipe, "GraphLearner")
   pipe$train(task) |> suppressWarnings()
   p = pipe$predict(task)
-  expect_prediction_surv(p[[1]])
+  expect_prediction_surv(p)
 
   # Test with max_time
   t = task$data()[status == 1, min(time)]
-  pipe = mlr3pipelines::ppl("survtoclassif", mlr3learners::LearnerClassifLogReg$new(), max_time = t)
-  expect_class(pipe, "Graph")
+  pipe = mlr3pipelines::ppl("survtoclassif", mlr3learners::LearnerClassifLogReg$new(), max_time = t, graph_learner = TRUE)
+  expect_class(pipe, "GraphLearner")
   expect_error(pipe$train(task))
 
-  pipe = mlr3pipelines::ppl("survtoclassif", mlr3learners::LearnerClassifLogReg$new(), max_time = t + 1)
+  pipe = mlr3pipelines::ppl("survtoclassif", mlr3learners::LearnerClassifLogReg$new(), max_time = t + 1, graph_learner = TRUE)
   pipe$train(task) |> suppressWarnings()
   p = pipe$predict(task)
-  expect_prediction_surv(p[[1]])
+  expect_prediction_surv(p)
 
   # Test with rhs
-  pipe = ppl("survtoclassif", learner = lrn("classif.log_reg"), rhs = "1")
+  pipe = ppl("survtoclassif", learner = lrn("classif.log_reg"), rhs = "1", graph_learner = TRUE)
   pipe$train(task)
   pred = pipe$predict(task)
 
-  pipe = ppl("survtoclassif", learner = lrn("classif.featureless"))
+  pipe = ppl("survtoclassif", learner = lrn("classif.featureless"), graph_learner = TRUE)
   pipe$train(task)
   pred2 = pipe$predict(task)
 
-  expect_equal(pred$trafopred_classifsurv.output$data$distr,
-               pred2$trafopred_classifsurv.output$data$distr)
+  expect_equal(pred$data$distr, pred2$data$distr)
+
+  pipe = ppl("survtoclassif", learner = lrn("classif.log_reg"), rhs = "rx + litter", graph_learner = TRUE)
+  pipe$train(task)
+  pred = pipe$predict(task)
+
+  pipe = ppl("survtoclassif", learner = lrn("classif.log_reg"), rhs = ".", graph_learner = TRUE)
+  pipe$train(task)
+  pred2 = pipe$predict(task) |> suppressWarnings()
+
+  expect_true(pred$score() < pred2$score())
 })
