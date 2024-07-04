@@ -55,13 +55,13 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH",
         stop(sprintf(
           "Learner %s on task %s failed to predict: Missing values in new data (line(s) %s)\n",
           self$id, task$id,
-          paste0(which(!complete.cases(newdata)), collapse = ", ")))
+          toString(which(!complete.cases(newdata)))))
       }
 
       pv = self$param_set$get_values(tags = "predict")
 
       # Get predicted values
-      fit = mlr3misc::invoke(survival::survfit, formula = self$model, newdata = newdata,
+      fit = invoke(survival::survfit, formula = self$model, newdata = newdata,
         se.fit = FALSE, .args = pv)
 
       lp = predict(self$model, type = "lp", newdata = newdata)

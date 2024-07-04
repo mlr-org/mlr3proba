@@ -66,15 +66,15 @@ MeasureSurvCalibrationBeta = R6Class("MeasureSurvCalibrationBeta",
       df = data.frame(truth = prediction$truth, lp = prediction$lp)
       fit = try(summary(survival::coxph(truth ~ lp, data = df)), silent = TRUE)
 
-      if (class(fit)[1] == "try-error") {
+      if (inherits(fit, "try-error")) {
         return(NA)
       } else {
         ps = self$param_set$values
 
         if (ps$se) {
-          return(fit$coefficients[,"se(coef)"])
+          return(fit$coefficients[, "se(coef)"])
         } else {
-          out = fit$coefficients[,"coef"]
+          out = fit$coefficients[, "coef"]
 
           if (ps$method == "diff") {
             out = abs(1 - out)

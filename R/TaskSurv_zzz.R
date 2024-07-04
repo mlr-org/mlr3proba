@@ -248,8 +248,8 @@ NULL
 load_actg = function() {
   data = load_dataset("actg", "mlr3proba")
   data[, c("id", "time_d", "censor_d")] = NULL
-  colnames(data)[6] = "sexF"
-  colnames(data)[2] = "status"
+  colnames(data)[6L] = "sexF"
+  colnames(data)[2L] = "status"
 
   b = as_data_backend(data)
   task = TaskSurv$new("actg", b, time = "time", event = "status", label = "ACTG 320")
@@ -305,7 +305,7 @@ NULL
 
 load_grace = function() {
   data = load_dataset("grace", "mlr3proba")
-  data[, c("id")] = NULL
+  data[, "id"] = NULL
   colnames(data)[1:2] = c("time", "status")
 
   b = as_data_backend(data)
@@ -335,7 +335,7 @@ NULL
 load_whas = function() {
   data = load_dataset("whas", "mlr3proba")
   data[, c("id", "yrgrp", "dstat")] = NULL
-  colnames(data)[2] = "sexF"
+  colnames(data)[2L] = "sexF"
   colnames(data)[10:11] = c("time", "status")
 
   b = as_data_backend(data)

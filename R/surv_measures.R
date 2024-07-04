@@ -1,12 +1,12 @@
 surv_logloss = function(truth, distr, eps = 1e-15, IPCW = TRUE, train = NULL, ...) {
-  event = truth[, 2] == 1
-  all_times = truth[, 1]
-  event_times = truth[event, 1]
+  event = truth[, 2L] == 1
+  all_times = truth[, 1L]
+  event_times = truth[event, 1L]
 
   # Bypass distr6 construction if underlying distr represented by array
   if (inherits(distr, "array")) {
     surv = distr
-    if (length(dim(surv)) == 3) {
+    if (length(dim(surv)) == 3L) {
       # survival 3d array, extract median
       surv = .ext_surv_mat(arr = surv, which.curve = 0.5)
     }
@@ -22,9 +22,9 @@ surv_logloss = function(truth, distr, eps = 1e-15, IPCW = TRUE, train = NULL, ..
     )
   } else {
     if (inherits(distr, c("Matdist", "Arrdist"))) {
-      pred = diag(distr$pdf(truth[, 1]))
+      pred = diag(distr$pdf(truth[, 1L]))
     } else {
-      pred = as.numeric(distr$pdf(data = matrix(truth[, 1], nrow = 1)))
+      pred = as.numeric(distr$pdf(data = matrix(truth[, 1L], nrow = 1L)))
     }
   }
 
@@ -47,10 +47,10 @@ surv_logloss = function(truth, distr, eps = 1e-15, IPCW = TRUE, train = NULL, ..
 
   # Get survival matrix from KM
   surv_km = matrix(rep(km_fit$surv, length(truth)), ncol = length(km_fit$time),
-                   nrow = length(truth), byrow = TRUE)
+    nrow = length(truth), byrow = TRUE)
 
   # Remove all censored observations
-  surv_km = surv_km[event,]
+  surv_km = surv_km[event, ]
 
   # calculate KM survival at event times
   extend_times_cdf = getFromNamespace("C_Vec_WeightedDiscreteCdf", ns = "distr6")
@@ -74,8 +74,8 @@ surv_logloss = function(truth, distr, eps = 1e-15, IPCW = TRUE, train = NULL, ..
 surv_mse = function(truth, response) {
   assert_surv(truth)
 
-  uncensored = truth[, 2] == 1
-  mse = (truth[uncensored, 1] - response[uncensored])^2
+  uncensored = truth[, 2L] == 1
+  mse = (truth[uncensored, 1L] - response[uncensored])^2
 
   list(
     mse = mse,
@@ -86,8 +86,8 @@ surv_mse = function(truth, response) {
 surv_mae = function(truth, response) {
   assert_surv(truth)
 
-  uncensored = truth[, 2] == 1
-  mae = abs(truth[uncensored, 1] - response[uncensored])
+  uncensored = truth[, 2L] == 1
+  mae = abs(truth[uncensored, 1L] - response[uncensored])
 
   list(
     mae = mae,

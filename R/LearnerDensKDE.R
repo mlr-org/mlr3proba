@@ -18,7 +18,7 @@ LearnerDensKDE = R6::R6Class("LearnerDensKDE",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       ps = ps(
-        kernel = p_fct(levels = subset(distr6::listKernels(), select = "ShortName")[[1]],
+        kernel = p_fct(levels = subset(distr6::listKernels(), select = "ShortName")[[1L]],
           default = "Epan", tags = "train"),
         bandwidth = p_dbl(lower = 0, tags = "train", special_vals = list("silver"))
       )

@@ -211,7 +211,7 @@ autoplot.PredictionSurv = function(object, type = "calib",
     "calib" = {
       assert_task(task)
       if (is.null(times)) {
-        times = sort(unique(task$truth()[, 1]))
+        times = sort(unique(task$truth()[, 1L]))
       }
 
       if (inherits(object$distr, "VectorDistribution")) {

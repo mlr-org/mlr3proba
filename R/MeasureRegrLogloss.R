@@ -45,7 +45,7 @@ MeasureRegrLogloss = R6::R6Class("MeasureRegrLogloss",
       if (inherits(distr, c("Matdist", "Arrdist"))) {
         pdf = diag(distr$pdf(truth))
       } else {
-        pdf = as.numeric(distr$pdf(data = matrix(truth, nrow = 1)))
+        pdf = as.numeric(distr$pdf(data = matrix(truth, nrow = 1L)))
       }
 
       pdf[pdf == 0] = self$param_set$values$eps

@@ -83,7 +83,7 @@
 #' learner = lrn("surv.coxph")
 #' learner$train(task, part$train)
 #' p_train = learner$predict(task, part$train)
-#' p_test  = learner$predict(task, part$test)
+#' p_test = learner$predict(task, part$test)
 #'
 #' surv = breslow(times = task$times(part$train), status = task$status(part$train),
 #'                lp_train = p_train$lp, lp_test = p_test$lp)
@@ -142,13 +142,13 @@ breslow = function(times, status, lp_train, lp_test, eval_times = NULL, type = "
   event_times = sort(unique(times[status == 1]))
 
   # baseline (non-cumulative) hazards are first evaluated on the specific `event_times`
-  bhaz = vapply(event_times, function(et) {
+  bhaz = map_dbl(event_times, function(et) {
     sum(times[status == 1] == et) / sum(exp(lp[times >= et]))
-  }, numeric(1))
+  })
 
   # `eval_times` will be the sorted unique times (not just events)
   eval_times = sort(unique(eval_times %||% times))
-  if (length(event_times) == 0) {
+  if (length(event_times) == 0L) {
     # 0 events (training data has only censored observations!)
     res = numeric(length(eval_times))
   } else {

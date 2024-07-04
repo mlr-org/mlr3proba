@@ -102,9 +102,9 @@ MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
       }
       if (!ps$integrated) {
         msg = "If `integrated=FALSE` then `times` should be a scalar numeric."
-        assert_numeric(ps$times, len = 1, .var.name = msg)
+        assert_numeric(ps$times, len = 1L, .var.name = msg)
       } else {
-        if (!is.null(ps$times) && length(ps$times) == 1) {
+        if (!is.null(ps$times) && length(ps$times) == 1L) {
           ps$integrated = FALSE
         }
       }

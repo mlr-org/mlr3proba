@@ -73,8 +73,8 @@ MeasureSurvCalibrationAlpha = R6Class("MeasureSurvCalibrationAlpha",
   private = list(
     .score = function(prediction, ...) {
       truth = prediction$truth
-      all_times = truth[, 1] # both event times and censoring times
-      status = truth[, 2]
+      all_times = truth[, 1L] # both event times and censoring times
+      status = truth[, 2L]
       deaths = sum(status)
 
       ps = self$param_set$values
@@ -86,7 +86,7 @@ MeasureSurvCalibrationAlpha = R6Class("MeasureSurvCalibrationAlpha",
         # Bypass distr6 construction if underlying distr represented by array
         if (inherits(distr, "array")) {
           surv = distr
-          if (length(dim(surv)) == 3) {
+          if (length(dim(surv)) == 3L) {
             # survival 3d array, extract median
             surv = .ext_surv_mat(arr = surv, which.curve = 0.5)
           }

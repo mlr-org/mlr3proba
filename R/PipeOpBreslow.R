@@ -49,7 +49,7 @@
 #'   task = tsk("rats")
 #'   part = partition(task, ratio = 0.8)
 #'   train_task = task$clone()$filter(part$train)
-#'   test_task  = task$clone()$filter(part$test)
+#'   test_task = task$clone()$filter(part$test)
 #'
 #'   learner = lrn("surv.coxph") # learner with lp predictions
 #'   b = po("breslowcompose", learner = learner, breslow.overwrite = TRUE)

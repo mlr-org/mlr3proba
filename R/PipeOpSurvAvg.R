@@ -96,24 +96,24 @@ PipeOpSurvAvg = R6Class("PipeOpSurvAvg",
         weights = "uniform"
       }
 
-    distr = map(inputs, "distr")
+      distr = map(inputs, "distr")
 
-    ok = mlr3misc::map_lgl(distr, function(.x) {
-      checkmate::test_class(.x, "Matdist") | checkmate::test_class(.x, "Arrdist")
-    })
-
-    if (all(ok)) {
-      distr = distr6::mixMatrix(distr, weights)
-    } else {
-      ok = mlr3misc::map_lgl(distr, function(.x) {
-        checkmate::test_class(.x, "VectorDistribution")
+      ok = map_lgl(distr, function(.x) {
+        test_class(.x, "Matdist") || test_class(.x, "Arrdist")
       })
+
       if (all(ok)) {
-        distr = distr6::mixturiseVector(distr, weights)
+        distr = distr6::mixMatrix(distr, weights)
       } else {
-        distr = NULL
+        ok = map_lgl(distr, function(.x) {
+          test_class(.x, "VectorDistribution")
+        })
+        if (all(ok)) {
+          distr = distr6::mixturiseVector(distr, weights)
+        } else {
+          distr = NULL
+        }
       }
-    }
 
       PredictionSurv$new(row_ids = row_ids, truth = truth,
         response = response, crank = crank,

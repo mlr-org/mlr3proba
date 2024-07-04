@@ -164,15 +164,15 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
       pv = self$param_set$values
       target = pv$target
       if (is.null(target)) {
-        target = inputs[[1]]$target_names[1L]
+        target = inputs[[1L]]$target_names[1L]
       }
-      backend = private$.reorder(copy(inputs[[1]]$data()), pv$features, target, inputs[[2]])
-      return(list(TaskRegr$new(id = inputs[[1]]$id, backend = backend, target = target)))
+      backend = private$.reorder(copy(inputs[[1L]]$data()), pv$features, target, inputs[[2L]])
+      return(list(TaskRegr$new(id = inputs[[1L]]$id, backend = backend, target = target)))
     },
 
     .transform = function(inputs) {
 
-      input = inputs[[1]]
+      input = inputs[[1L]]
       backend = copy(input$data())
       time = input$target_names[1L]
       status = input$target_names[2L]
@@ -229,9 +229,9 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
 
       est = est$train(task)$predict(task)$distr
       if (inherits(est, c("Matdist", "Arrdist"))) {
-        weights = diag(est$survival(task$truth()[, 1]))
+        weights = diag(est$survival(task$truth()[, 1L]))
       } else {
-        weights = as.numeric(est$survival(data = matrix(task$truth()[, 1], nrow = 1)))
+        weights = as.numeric(est$survival(data = matrix(task$truth()[, 1L], nrow = 1L)))
       }
       weights[weights == 0] = eps
       weights = 1 / weights
@@ -286,11 +286,11 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
     },
 
     .bj = function(backend, status, time) {
-      mlr3misc::require_namespaces("bujar")
+      require_namespaces("bujar")
 
       x = data.frame(backend)[, colnames(backend) %nin% c(time, status), drop = FALSE]
-      x = model.matrix(~., x)[, -1]
-      bj = mlr3misc::invoke(bujar::bujar,
+      x = model.matrix(~., x)[, -1L]
+      bj = invoke(bujar::bujar,
         y = backend[[time]],
         cens = backend[[status]],
         x = x,
