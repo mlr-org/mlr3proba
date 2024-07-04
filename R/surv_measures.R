@@ -47,7 +47,7 @@ surv_logloss = function(truth, distr, eps = 1e-15, IPCW = TRUE, train = NULL, ..
 
   # Get survival matrix from KM
   surv_km = matrix(rep(km_fit$surv, length(truth)), ncol = length(km_fit$time),
-    nrow = length(truth), byrow = TRUE)
+                   nrow = length(truth), byrow = TRUE)
 
   # Remove all censored observations
   surv_km = surv_km[event, ]
