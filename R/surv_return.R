@@ -47,7 +47,7 @@
     if (class(surv)[1L] == "array" && length(dim(surv)) != 3L) {
       stop("3D survival arrays supported only")
     }
-    times = times %||% colnames(surv)
+    times = times %??% colnames(surv)
     if (length(times) != ncol(surv)) {
       stop("'times' must have the same length as the 2nd dimension (columns of 'surv')")
     }

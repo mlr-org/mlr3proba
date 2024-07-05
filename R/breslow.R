@@ -147,7 +147,7 @@ breslow = function(times, status, lp_train, lp_test, eval_times = NULL, type = "
   })
 
   # `eval_times` will be the sorted unique times (not just events)
-  eval_times = sort(unique(eval_times %||% times))
+  eval_times = sort(unique(eval_times %??% times))
   if (length(event_times) == 0L) {
     # 0 events (training data has only censored observations!)
     res = numeric(length(eval_times))
