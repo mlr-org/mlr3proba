@@ -1,6 +1,6 @@
 Package: mlr3proba
 Title: Probabilistic Supervised Learning for 'mlr3'
-Version: 0.6.3
+Version: 0.6.4
 Authors@R:
     c(person(given = "Raphael",
              family = "Sonabend",
@@ -34,7 +34,11 @@ Authors@R:
              family = "Burk",
              email = "github@quantenbrot.de", 
              role = "ctb",
-             comment = c(ORCID = "0000-0001-7528-3795")))
+             comment = c(ORCID = "0000-0001-7528-3795")),
+      person(given = "Philip",
+             family = "Studener",
+             role = "aut",
+             email = "philip.studener@gmx.de"))
 Description: Provides extensions for probabilistic supervised learning for
     'mlr3'.  This includes extending the regression task to probabilistic
     and interval regression, adding a survival task, and other specialized

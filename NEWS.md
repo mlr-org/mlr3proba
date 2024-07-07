@@ -1,3 +1,7 @@
+# mlr3proba 0.6.4
+
+* Add `PipeTaskSurvClassif`, `PipeOpPredClassifSurv` and `pipeline_survtoclassif` to transform a survival task into a classification task by discretizing the status.
+
 # mlr3proba 0.6.3
 
 * Add new tasks from `survival` package: `veteran`, `pbc`, `mgus`, `gbsg`
