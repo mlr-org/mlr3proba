@@ -5,7 +5,7 @@
 #' @description
 #' Transform [TaskSurv] to [TaskClassif][mlr3::TaskClassif] by creating multiple
 #' interval observations for each subject based on `cut`, with a `ped_status` variable
-#' indicating whether an event occurred in each interval. (add one ref?)
+#' indicating whether an event occurred in each interval.
 #'
 #' @section Input and Output Channels:
 #' Input and output channels are inherited from [PipeOp][mlr3pipelines::PipeOp].
@@ -43,6 +43,10 @@
 #'   po$predict(list(task))[[1]]
 #' }
 #' }
+#'
+#' @references
+#' `r format_bib("tutz_2016")`
+#'
 #' @family PipeOps
 #' @family Transformation PipeOps
 #' @export

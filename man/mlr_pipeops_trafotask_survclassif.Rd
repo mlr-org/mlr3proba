@@ -7,7 +7,7 @@
 \description{
 Transform \link{TaskSurv} to \link[mlr3:TaskClassif]{TaskClassif} by creating multiple
 interval observations for each subject based on \code{cut}, with a \code{ped_status} variable
-indicating whether an event occurred in each interval. (add one ref?)
+indicating whether an event occurred in each interval.
 }
 \section{Input and Output Channels}{
 
@@ -52,6 +52,13 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   po$predict(list(task))[[1]]
 }
 }
+
+}
+\references{
+Tutz, Gerhard, Schmid, Matthias (2016).
+\emph{Modeling Discrete Time-to-Event Data},  series Springer Series in Statistics.
+Springer International Publishing.
+ISBN 978-3-319-28156-8 978-3-319-28158-2, \url{http://link.springer.com/10.1007/978-3-319-28158-2}.
 }
 \seealso{
 Other PipeOps: 
