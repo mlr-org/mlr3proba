@@ -32,6 +32,7 @@ Other contributors:
   \item Nurul Ain Toha \email{nurul.toha.15@ucl.ac.uk} [contributor]
   \item Andreas Bender \email{bender.at.R@gmail.com} (\href{https://orcid.org/0000-0001-5628-8611}{ORCID}) [contributor]
   \item Lukas Burk \email{github@quantenbrot.de} (\href{https://orcid.org/0000-0001-7528-3795}{ORCID}) [contributor]
+  \item Maximilian Muecke \email{muecke.maximilian@gmail.com} (\href{https://orcid.org/0009-0000-9432-9795}{ORCID}) [contributor]
 }
 
 }
