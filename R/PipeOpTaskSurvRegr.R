@@ -201,7 +201,7 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
         reorder = private$.reorder(backend, pv$features, pv$target, inputs[[2]])
       )
 
-      target = ifelse(method == "reorder", pv$target, time)
+      target = if (method == "reorder") pv$target else time
 
       new_task = TaskRegr$new(id = input$id, backend = backend, target = target)
 

@@ -76,7 +76,7 @@ pecs.list = function(x, measure = c("graf", "logloss"), times, n, eps = NULL, ta
   measure = match.arg(measure)
 
   if (is.null(eps)) {
-    eps = ifelse(measure == "graf", 1e-3, 1e-15)
+    eps = if (measure == "graf") 1e-3 else 1e-15
   } else {
     assertNumeric(eps, lower = -1, upper = 1)
   }
@@ -148,7 +148,7 @@ pecs.PredictionSurv = function(x, measure = c("graf", "logloss"), times, n, eps 
 
   measure = match.arg(measure)
   if (is.null(eps)) {
-    eps = ifelse(measure == "graf", 1e-3, 1e-15)
+    eps = if (measure == "graf") 1e-3 else 1e-15
   } else {
     assertNumeric(eps, lower = -1, upper = 1)
   }
