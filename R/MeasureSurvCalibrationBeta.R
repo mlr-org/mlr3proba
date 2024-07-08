@@ -45,7 +45,7 @@ MeasureSurvCalibrationBeta = R6Class("MeasureSurvCalibrationBeta",
         se = p_lgl(default = FALSE),
         method = p_fct(c("ratio", "diff"), default = "ratio")
       )
-      ps$values = list(se = FALSE, method = method)
+      ps$set_values(se = FALSE, method = method)
       range = if (method == "ratio") c(-Inf, Inf) else c(0, Inf)
       minimize = method != "ratio"
 

@@ -118,35 +118,24 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
     initialize = function(id = "trafotask_survregr", param_vals = list()) {
       ps = ps(
         method    = p_fct(default = "ipcw", levels = c("ipcw", "mrl", "bj", "delete", "omit", "reorder"), tags = "train"),
-        estimator = p_fct(default = "kaplan", levels = c("kaplan", "akritas", "cox"), tags = "train"),
-        alpha     = p_dbl(default = 1, lower = 0, upper = 1, tags = "train"),
-        lambda    = p_dbl(default = 0.5, lower = 0, upper = 1, tags = "train"),
-        eps       = p_dbl(default = 1e-15, lower = 0, upper = 1, tags = "train"),
-        features  = p_uty(tags = "train"),
-        target    = p_uty(tags = "train"),
+        estimator = p_fct(
+          default = "kaplan", levels = c("kaplan", "akritas", "cox"), tags = "train", depends = quote(method %in% c("ipcw", "mrl"))),
+        alpha     = p_dbl(0, 1, default = 1, tags = "train", depends = quote(method == "ipcw")),
+        lambda    = p_dbl(0, 1, default = 0.5, tags = "train", depends = quote(estimator == "akritas")),
+        eps       = p_dbl(0, 1, default = 1e-15, tags = "train", depends = quote(method == "ipcw")),
+        features  = p_uty(tags = "train", depends = quote(method == "reorder")),
+        target    = p_uty(tags = "train", depends = quote(method == "reorder")),
         learner   = p_fct(default = "linear.regression",
           levels = c("linear.regression", "mars", "pspline", "tree", "acosso", "enet", "enet2", "mnet", "snet"),
-          tags = c("train", "bj")),
-        center    = p_lgl(default = TRUE, tags = c("train", "bj")),
-        mimpu     = p_lgl(default = NULL, special_vals = list(NULL), tags = c("train", "bj")),
-        iter.bj   = p_int(default = 20L, lower = 2L, tags = c("train", "bj")),
-        max.cycle = p_int(default = 5L, lower = 1L, tags = c("train", "bj")),
-        mstop     = p_int(default = 50L, lower = 1L, tags = c("train", "bj")),
-        nu        = p_dbl(default = 0.1, lower = 0, tags = c("train", "bj"))
+          tags = c("train", "bj"),
+          depends = quote(method == "bj")),
+        center    = p_lgl(default = TRUE, tags = c("train", "bj"), depends = quote(method == "bj")),
+        mimpu     = p_lgl(default = NULL, special_vals = list(NULL), tags = c("train", "bj"), depends = quote(method == "bj")),
+        iter.bj   = p_int(2L, default = 20L, tags = c("train", "bj"), depends = quote(method == "bj")),
+        max.cycle = p_int(1L, default = 5L, tags = c("train", "bj")),
+        mstop     = p_int(1L, default = 50L, tags = c("train", "bj"), depends = quote(method == "bj")),
+        nu        = p_dbl(0, default = 0.1, tags = c("train", "bj"), depends = quote(method == "bj"))
       )
-      ps$add_dep("alpha", "method", CondEqual$new("ipcw"))
-      ps$add_dep("eps", "method", CondEqual$new("ipcw"))
-      ps$add_dep("estimator", "method", CondAnyOf$new(c("ipcw", "mrl")))
-      ps$add_dep("lambda", "estimator", CondEqual$new("akritas"))
-      ps$add_dep("features", "method", CondEqual$new("reorder"))
-      ps$add_dep("target", "method", CondEqual$new("reorder"))
-      ps$add_dep("center", "method", CondEqual$new("bj"))
-      ps$add_dep("mimpu", "method", CondEqual$new("bj"))
-      ps$add_dep("iter.bj", "method", CondEqual$new("bj"))
-      ps$add_dep("center", "method", CondEqual$new("bj"))
-      ps$add_dep("mstop", "method", CondEqual$new("bj"))
-      ps$add_dep("nu", "method", CondEqual$new("bj"))
-      ps$add_dep("learner", "method", CondEqual$new("bj"))
 
       super$initialize(id = id,
         param_set = ps,

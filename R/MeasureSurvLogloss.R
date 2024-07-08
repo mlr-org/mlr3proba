@@ -53,7 +53,7 @@ MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
         IPCW = p_lgl(default = TRUE),
         ERV = p_lgl(default = FALSE)
       )
-      ps$values = list(eps = 1e-15, se = FALSE, IPCW = TRUE, ERV = ERV)
+      ps$set_values(eps = 1e-15, se = FALSE, IPCW = TRUE, ERV = ERV)
 
       range = if (ERV) c(-Inf, 1) else c(0, Inf)
 

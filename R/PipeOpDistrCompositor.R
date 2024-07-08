@@ -85,7 +85,7 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
         form = p_fct(default = "aft", levels = c("aft", "ph", "po"), tags = "predict"),
         overwrite = p_lgl(default = FALSE, tags = "predict")
       )
-      param_set$values = list(form = "aft", overwrite = FALSE)
+      param_set$set_values(form = "aft", overwrite = FALSE)
 
       super$initialize(
         id = id,

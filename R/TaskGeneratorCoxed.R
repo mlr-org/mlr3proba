@@ -38,14 +38,14 @@ TaskGeneratorCoxed = R6::R6Class("TaskGeneratorCoxed",
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       param_set = ps(
-        T = p_dbl(lower = 1, default = 100), # time-horizon
+        T = p_dbl(1, default = 100), # time-horizon
         type = p_fct(default = "none", levels = c("none", "tvc", "tvbeta")), # time-varying effects
-        knots = p_int(lower = 1L, default = 8L), # for flexible-hazard method
+        knots = p_int(1L, default = 8L), # for flexible-hazard method
         spline = p_lgl(default = TRUE), # for flexible-hazard method
-        xvars = p_int(lower = 1L, default = 3L), # number of covariates to generate
+        xvars = p_int(1L, default = 3L), # number of covariates to generate
         mu = p_uty(default = 0), # mean for `xvars`
         sd = p_uty(default = 0.5), # sd for `xvars`
-        censor = p_dbl(lower = 0, upper = 1, default = 0.1), # censoring proportion
+        censor = p_dbl(0, 1, default = 0.1), # censoring proportion
         censor.cond = p_lgl(default = FALSE) # conditional censoring
       )
 

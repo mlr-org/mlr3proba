@@ -52,9 +52,9 @@ MeasureSurvCalibrationAlpha = R6Class("MeasureSurvCalibrationAlpha",
         eps = p_dbl(0, 1, default = 1e-3),
         se = p_lgl(default = FALSE),
         method = p_fct(c("ratio", "diff"), default = "ratio"),
-        truncate = p_dbl(lower = -Inf, upper = Inf, default = Inf)
+        truncate = p_dbl(default = Inf)
       )
-      ps$values = list(eps = 1e-3, se = FALSE, method = method, truncate = Inf)
+      ps$set_values(eps = 1e-3, se = FALSE, method = method, truncate = Inf)
       range = if (method == "ratio") c(-Inf, Inf) else c(0, Inf)
       minimize = method != "ratio"
 

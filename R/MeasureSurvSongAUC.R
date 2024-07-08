@@ -27,7 +27,7 @@ MeasureSurvSongAUC = R6Class("MeasureSurvSongAUC",
         integrated = p_lgl(default = TRUE),
         type = p_fct(c("incident", "cumulative"), default = "incident")
       )
-      ps$values = list(integrated = TRUE, type = "incident")
+      ps$set_values(integrated = TRUE, type = "incident")
 
       super$initialize(
         id = "surv.song_auc",
