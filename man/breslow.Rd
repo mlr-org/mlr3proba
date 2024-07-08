@@ -97,7 +97,7 @@ part = partition(task, ratio = 0.8)
 learner = lrn("surv.coxph")
 learner$train(task, part$train)
 p_train = learner$predict(task, part$train)
-p_test  = learner$predict(task, part$test)
+p_test = learner$predict(task, part$test)
 
 surv = breslow(times = task$times(part$train), status = task$status(part$train),
                lp_train = p_train$lp, lp_test = p_test$lp)

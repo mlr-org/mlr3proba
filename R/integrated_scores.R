@@ -23,13 +23,13 @@ weighted_survival_score = function(loss, truth, distribution, times = NULL,
     if (!is.null(p_max)) {
       surv = survival::survfit(truth ~ 1)
       indx = which(1 - (surv$n.risk / surv$n) > p_max)
-      if (length(indx) == 0) {
+      if (length(indx) == 0L) {
         # no indexes found, get last time point
-        t_max = tail(surv$time, n = 1)
+        t_max = tail(surv$time, n = 1L)
       } else {
         # first time point that surpasses the specified
         # `p_max` proportion of censoring
-        t_max = surv$time[indx[1]]
+        t_max = surv$time[indx[1L]]
       }
     } else if (is.null(t_max)) {
       t_max = max(unique_times)
@@ -43,7 +43,7 @@ weighted_survival_score = function(loss, truth, distribution, times = NULL,
   unique_times = unique_times[unique_times <= t_max]
 
   # keep all the test set time points for the censoring distr via KM if no train data
-  all_times  = truth[, "time"]
+  all_times = truth[, "time"]
   all_status = truth[, "status"]
 
   # get the cdf matrix (rows => times, cols => obs)
@@ -51,7 +51,7 @@ weighted_survival_score = function(loss, truth, distribution, times = NULL,
     cdf = as.matrix(distribution$cdf(unique_times))
   }
   else if (inherits(distribution, "array")) {
-    if (length(dim(distribution)) == 3) {
+    if (length(dim(distribution)) == 3L) {
       # survival 3d array, extract median
       surv_mat = .ext_surv_mat(arr = distribution, which.curve = 0.5)
     } else { # survival 2d array
@@ -70,14 +70,14 @@ weighted_survival_score = function(loss, truth, distribution, times = NULL,
   }
 
   # apply `t_max` cutoff to the test set's (time, status)
-  true_times  = all_times [all_times <= t_max]
+  true_times = all_times[all_times <= t_max]
   true_status = all_status[all_times <= t_max]
-  true_truth  = Surv(true_times, true_status)
+  true_truth = Surv(true_times, true_status)
 
   assert_numeric(true_times, any.missing = FALSE)
   assert_numeric(unique_times, any.missing = FALSE)
   assert_matrix(cdf, nrows = length(unique_times), ncols = length(true_times),
-                any.missing = FALSE)
+    any.missing = FALSE)
 
   # Note that whilst we calculate the score for censored here, they are then
   # corrected in the weighting function `.c_weight_survival_score()`
@@ -93,16 +93,16 @@ weighted_survival_score = function(loss, truth, distribution, times = NULL,
   if (is.null(train)) {
     cens = survival::survfit(Surv(all_times, 1 - all_status) ~ 1)
   } else {
-    train_times  = train[, "time"]
+    train_times = train[, "time"]
     train_status = train[, "status"]
     cens = survival::survfit(Surv(train_times, 1 - train_status) ~ 1)
   }
   # G(t): KM estimate of the censoring distr
-  cens = matrix(c(cens$time, cens$surv), ncol = 2)
+  cens = matrix(c(cens$time, cens$surv), ncol = 2L)
 
   # filter time points based on `t_max` cutoff
   if (tmax_apply) {
-    cens = cens[cens[,1] <= t_max, , drop = FALSE]
+    cens = cens[cens[, 1L] <= t_max, , drop = FALSE]
   }
 
   score = .c_weight_survival_score(score, true_truth, unique_times, cens, proper, eps)
@@ -114,16 +114,16 @@ weighted_survival_score = function(loss, truth, distribution, times = NULL,
 integrated_score = function(score, integrated, method = NULL) {
   # score is a matrix of BS(i,t) scores
   # rows => observations, cols => time points
-  if (ncol(score) == 1) {
+  if (ncol(score) == 1L) {
     integrated = FALSE
   }
 
   if (integrated) {
     # summary score (integrated across all time points)
-    if (method == 1) {
+    if (method == 1L) {
       score = as.numeric(score)
       return(mean(score[is.finite(score)], na.rm = TRUE)) # remove NAs and Infs
-    } else if (method == 2) {
+    } else if (method == 2L) {
       times = as.numeric(colnames(score))
       lt = ncol(score)
       score = col_sums(score) # score(t)
@@ -138,13 +138,13 @@ integrated_se = function(score, integrated) {
   if (integrated) {
     sqrt(sum(stats::cov(score), na.rm = TRUE) / (nrow(score) * ncol(score)^2))
   } else {
-    apply(score, 2, function(x) stats::sd(x) / sqrt(nrow(score)))
+    apply(score, 2L, function(x) stats::sd(x) / sqrt(nrow(score)))
   }
 }
 
 # like colMeans(), but removing Infs, NAs and NaNs
 col_sums = function(mat) {
-  apply(mat, 2, function(x) {
+  apply(mat, 2L, function(x) {
     x = x[is.finite(x)]
     mean(x, na.rm = TRUE)
   })

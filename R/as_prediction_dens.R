@@ -41,7 +41,7 @@ as_prediction_dens.data.frame = function(x, ...) { # nolint
   assert_names(names(x), subset.of = c(mandatory, optional))
 
   if ("distr" %in% names(x)) {
-    distr = x$distr[[1]]
+    distr = x$distr[[1L]]
   } else {
     distr = NULL
   }

@@ -40,16 +40,14 @@
   response = NULL, which.curve = NULL) {
 
   if (!is.null(surv)) {
-    if (class(surv)[1] == "numeric") {
+    if (class(surv)[1L] == "numeric") {
       # in case of a vector (one observation) convert to matrix
-      surv = matrix(surv, nrow = 1, dimnames = list(NULL, names(surv)))
+      surv = matrix(surv, nrow = 1L, dimnames = list(NULL, names(surv)))
     }
-    if (class(surv)[1] == "array") {
-      if (length(dim(surv)) != 3) {
-        stop("3D survival arrays supported only")
-      }
+    if (class(surv)[1L] == "array" && length(dim(surv)) != 3L) {
+      stop("3D survival arrays supported only")
     }
-    times = times %||% colnames(surv)
+    times = times %??% colnames(surv)
     if (length(times) != ncol(surv)) {
       stop("'times' must have the same length as the 2nd dimension (columns of 'surv')")
     }
@@ -87,12 +85,12 @@
 .ext_surv_mat = function(arr, which.curve) {
   # if NULL return the 'median' curve (default)
   if (is.null(which.curve)) {
-    return(array(apply(arr, c(1, 2), stats::quantile, 0.5), c(nrow(arr), ncol(arr)),
-      dimnames(arr)[c(1, 2)]))
+    return(array(apply(arr, 1:2, stats::quantile, 0.5), c(nrow(arr), ncol(arr)),
+      dimnames(arr)[1:2]))
   }
 
   # which.curve must be length 1 and either 'mean' or >0
-  ok = (length(which.curve) == 1) &&
+  ok = (length(which.curve) == 1L) &&
     ((is.character(which.curve) && which.curve == "mean") ||
       (is.numeric(which.curve) && which.curve > 0))
   if (!ok) {
@@ -107,13 +105,13 @@
 
   # mean
   if (which.curve == "mean") {
-    apply(arr, c(1, 2), mean)
-  # curve chosen based on quantile
+    apply(arr, 1:2, mean)
+    # curve chosen based on quantile
   } else if (which.curve < 1) {
-    array(apply(arr, c(1, 2), stats::quantile, which.curve), c(nrow(arr), ncol(arr)),
-      dimnames(arr)[c(1, 2)])
-  # curve chosen based on index
+    array(apply(arr, 1:2, stats::quantile, which.curve), c(nrow(arr), ncol(arr)),
+      dimnames(arr)[1:2])
+    # curve chosen based on index
   } else {
-    array(arr[, , which.curve], c(nrow(arr), ncol(arr)), dimnames(arr)[c(1, 2)])
+    array(arr[, , which.curve], c(nrow(arr), ncol(arr)), dimnames(arr)[1:2])
   }
 }

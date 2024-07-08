@@ -110,15 +110,15 @@ MeasureSurvCindex = R6Class("MeasureSurvCindex",
       # calculate t_max (cutoff time horizon)
       if (is.null(ps$t_max) && !is.null(ps$p_max)) {
         truth = prediction$truth
-        unique_times = unique(sort(truth[,"time"]))
+        unique_times = unique(sort(truth[, "time"]))
         surv = survival::survfit(truth ~ 1)
         indx = which(1 - (surv$n.risk / surv$n) > ps$p_max)
-        if (length(indx) == 0) {
+        if (length(indx) == 0L) {
           t_max = NULL # t_max calculated in `cindex()`
         } else {
           # first time point that surpasses the specified
           # `p_max` proportion of censoring
-          t_max = surv$time[indx[1]]
+          t_max = surv$time[indx[1L]]
         }
       } else {
         t_max = ps$t_max

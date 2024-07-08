@@ -129,9 +129,9 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
           tags = c("train", "bj")),
         center    = p_lgl(default = TRUE, tags = c("train", "bj")),
         mimpu     = p_lgl(default = NULL, special_vals = list(NULL), tags = c("train", "bj")),
-        iter.bj   = p_int(default = 20, lower = 2, tags = c("train", "bj")),
-        max.cycle = p_int(default = 5, lower = 1, tags = c("train", "bj")),
-        mstop     = p_int(default = 50, lower = 1, tags = c("train", "bj")),
+        iter.bj   = p_int(default = 20L, lower = 2L, tags = c("train", "bj")),
+        max.cycle = p_int(default = 5L, lower = 1L, tags = c("train", "bj")),
+        mstop     = p_int(default = 50L, lower = 1L, tags = c("train", "bj")),
         nu        = p_dbl(default = 0.1, lower = 0, tags = c("train", "bj"))
       )
       ps$add_dep("alpha", "method", CondEqual$new("ipcw"))
@@ -164,15 +164,15 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
       pv = self$param_set$values
       target = pv$target
       if (is.null(target)) {
-        target = inputs[[1]]$target_names[1L]
+        target = inputs[[1L]]$target_names[1L]
       }
-      backend = private$.reorder(copy(inputs[[1]]$data()), pv$features, target, inputs[[2]])
-      return(list(TaskRegr$new(id = inputs[[1]]$id, backend = backend, target = target)))
+      backend = private$.reorder(copy(inputs[[1L]]$data()), pv$features, target, inputs[[2L]])
+      return(list(TaskRegr$new(id = inputs[[1L]]$id, backend = backend, target = target)))
     },
 
     .transform = function(inputs) {
 
-      input = inputs[[1]]
+      input = inputs[[1L]]
       backend = copy(input$data())
       time = input$target_names[1L]
       status = input$target_names[2L]
@@ -201,7 +201,7 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
         reorder = private$.reorder(backend, pv$features, pv$target, inputs[[2]])
       )
 
-      target = ifelse(method == "reorder", pv$target, time)
+      target = if (method == "reorder") pv$target else time
 
       new_task = TaskRegr$new(id = input$id, backend = backend, target = target)
 
@@ -229,9 +229,9 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
 
       est = est$train(task)$predict(task)$distr
       if (inherits(est, c("Matdist", "Arrdist"))) {
-        weights = diag(est$survival(task$truth()[, 1]))
+        weights = diag(est$survival(task$truth()[, 1L]))
       } else {
-        weights = as.numeric(est$survival(data = matrix(task$truth()[, 1], nrow = 1)))
+        weights = as.numeric(est$survival(data = matrix(task$truth()[, 1L], nrow = 1L)))
       }
       weights[weights == 0] = eps
       weights = 1 / weights
@@ -257,7 +257,7 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
       unique_times = sort(unique(backend[[time]]))
 
       if (estimator == "kaplan") {
-        est = LearnerSurvKaplan$new()$train(input)$predict(input, row_ids = 1)$distr[1]
+        est = LearnerSurvKaplan$new()$train(input)$predict(input, row_ids = 1)$distr[1L]
         den = est$survival(backend[[time]][cens])
         num = sapply(backend[[time]][cens], function(x) {
           est$survivalAntiDeriv(x)
@@ -271,7 +271,7 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
           est$param_set$values$lambda = self$param_set$values$lambda
           est = est$train(input)$predict(input)$distr
         }
-        den = as.numeric(est$survival(data = matrix(backend[[time]], nrow = 1)))[cens]
+        den = as.numeric(est$survival(data = matrix(backend[[time]], nrow = 1L)))[cens]
         mrl = numeric(sum(cens))
         for (i in seq_along(mrl)) {
           x = backend[cens, ][[time]][i]
@@ -286,11 +286,11 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
     },
 
     .bj = function(backend, status, time) {
-      mlr3misc::require_namespaces("bujar")
+      require_namespaces("bujar")
 
       x = data.frame(backend)[, colnames(backend) %nin% c(time, status), drop = FALSE]
-      x = model.matrix(~., x)[, -1]
-      bj = mlr3misc::invoke(bujar::bujar,
+      x = model.matrix(~., x)[, -1L]
+      bj = invoke(bujar::bujar,
         y = backend[[time]],
         cens = backend[[status]],
         x = x,

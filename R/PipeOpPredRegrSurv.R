@@ -85,7 +85,7 @@ PipeOpPredRegrSurv = R6Class("PipeOpPredRegrSurv",
       }
 
       distr = try(input$distr, silent = TRUE)
-      if (class(distr)[1] == "try-error" || is.null(distr)) {
+      if (inherits(distr, "try-error") || is.null(distr)) {
         distr = NULL
       }
 

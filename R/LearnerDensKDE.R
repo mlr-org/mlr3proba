@@ -18,7 +18,7 @@ LearnerDensKDE = R6::R6Class("LearnerDensKDE",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       ps = ps(
-        kernel = p_fct(levels = subset(distr6::listKernels(), select = "ShortName")[[1]],
+        kernel = p_fct(levels = subset(distr6::listKernels(), select = "ShortName")[[1L]],
           default = "Epan", tags = "train"),
         bandwidth = p_dbl(lower = 0, tags = "train", special_vals = list("silver"))
       )
@@ -46,7 +46,7 @@ LearnerDensKDE = R6::R6Class("LearnerDensKDE",
         self$param_set$values$kernel == "Epan"
       }
 
-      data = task$data()[[1]]
+      data = task$data()[[1L]]
 
       kernel = get(as.character(subset(
         distr6::listKernels(),
@@ -54,20 +54,22 @@ LearnerDensKDE = R6::R6Class("LearnerDensKDE",
         ClassName)))$new()
 
 
-      bw = ifelse(self$param_set$values$bandwidth == "silver",
+      bw = if (isTRUE(self$param_set$values$bandwidth == "silver")) {
         0.9 * min(sd(data), stats::IQR(data, na.rm = TRUE) / 1.349, na.rm = TRUE) *
-          length(data)^-0.2,
-        self$param_set$values$bandwidth)
+          length(data)^-0.2
+      } else {
+        self$param_set$values$bandwidth
+      }
 
       pdf = function(x) {} # nolint
 
       body(pdf) = substitute({
-        if (length(x) == 1) {
+        if (length(x) == 1L) {
           return(1 / (rows * bw) * sum(kernel$pdf((x - train) / bw)))
         } else {
           x = matrix(x, nrow = length(x), ncol = rows)
           train_mat = matrix(train, nrow = nrow(x), ncol = rows, byrow = TRUE)
-          return(1 / (rows * bw) * colSums(apply((x - train_mat) / bw, 1, kernel$pdf)))
+          return(1 / (rows * bw) * colSums(apply((x - train_mat) / bw, 1L, kernel$pdf)))
         }
       }, list(
         rows = task$nrow,
@@ -83,7 +85,7 @@ LearnerDensKDE = R6::R6Class("LearnerDensKDE",
     },
 
     .predict = function(task) {
-      list(pdf = self$model$pdf(task$data()[[1]]),
+      list(pdf = self$model$pdf(task$data()[[1L]]),
         distr = self$model)
     }
   )

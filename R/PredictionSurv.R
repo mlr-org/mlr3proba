@@ -164,10 +164,10 @@ PredictionSurv = R6Class("PredictionSurv",
         }
 
         times = x$getParameterValue("x")
-        time1 = times[[1]]
+        time1 = times[[1L]]
 
         ## check all times equal - return x if not
-        if (!all(vapply(times, identical, logical(1), y = time1))) {
+        if (!all(map_lgl(times, identical, y = time1))) {
           return(x)
         }
 
@@ -178,7 +178,7 @@ PredictionSurv = R6Class("PredictionSurv",
       }
     },
     .distrify_survarray = function(x) {
-      if (inherits(x, "array") && nrow(x) > 0) { # can be matrix as well
+      if (inherits(x, "array") && nrow(x) > 0L) { # can be matrix as well
         # create Matdist or Arrdist (default => median curve)
         distr6::as.Distribution(1 - x, fun = "cdf",
           decorators = c("CoreStatistics", "ExoticStatistics"))
