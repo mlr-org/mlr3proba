@@ -55,10 +55,10 @@ LearnerDensKDE = R6::R6Class("LearnerDensKDE",
 
 
       bw = if (isTRUE(self$param_set$values$bandwidth == "silver")) {
-        "silver"
-      } else {
         0.9 * min(sd(data), stats::IQR(data, na.rm = TRUE) / 1.349, na.rm = TRUE) *
           length(data)^-0.2
+      } else {
+        "silver"
       }
 
       pdf = function(x) {} # nolint
