@@ -21,6 +21,8 @@ navbar:
     articles:
       text: Vignettes
       menu:
+        - text: userR! 2024 Tutorial
+          href: https://survival-org.github.io/user2024-survival-mlr3/
         - text: Survival Analysis (mlr3 book)
           href: https://mlr3book.mlr-org.com/chapters/chapter13/beyond_regression_and_classification.html#sec-survival
         - text: Density Estimation (mlr3 book)
