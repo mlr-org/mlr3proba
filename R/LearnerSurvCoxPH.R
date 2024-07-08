@@ -52,10 +52,11 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH",
       # We move the missingness checks here manually as if any NAs are made in predictions then the
       # distribution object cannot be create (initialization of distr6 objects does not handle NAs)
       if (anyMissing(newdata)) {
-        stop(sprintf(
+        stopf(
           "Learner %s on task %s failed to predict: Missing values in new data (line(s) %s)\n",
           self$id, task$id,
-          toString(which(!complete.cases(newdata)))))
+          toString(which(!complete.cases(newdata)))
+        )
       }
 
       pv = self$param_set$get_values(tags = "predict")

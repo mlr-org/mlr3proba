@@ -99,8 +99,11 @@
   }
 
   if (is.numeric(which.curve) && which.curve > dim(arr)[3L]) {
-    stop(sprintf("Length is %s on third dimension but curve '%s' requested,
-          change 'which.curve' parameter.", dim(arr)[3L], which.curve))
+    stopf(
+      "Length is %s on third dimension but curve '%s' requested, change 'which.curve' parameter.",
+      dim(arr)[3L],
+      which.curve
+    )
   }
 
   # mean

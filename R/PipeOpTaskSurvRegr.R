@@ -314,9 +314,8 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
       if (is.null(task)) {
         if (is.null(features)) {
           stop("One of 'features' or 'task' must be provided.")
-        } else {
-          features = subset(backend, select = features)
         }
+        features = subset(backend, select = features)
       } else {
         assertClass(task, "TaskSurv")
         features = copy(task$data(cols = task$feature_names))
