@@ -1,3 +1,8 @@
+# mlr3proba 0.6.4
+
+* Add useR! 2024 tutorial
+* Lots of refactoring, improve code quality (thanks to @m-muecke)
+
 # mlr3proba 0.6.3
 
 * Add new tasks from `survival` package: `veteran`, `pbc`, `mgus`, `gbsg`
