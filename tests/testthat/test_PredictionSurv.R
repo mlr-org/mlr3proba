@@ -1,5 +1,5 @@
-set.seed(1)
-task = tsk("rats")$filter(sample(300, 20))
+set.seed(1L)
+task = tsk("rats")$filter(sample(300, 20L))
 
 test_that("Construction", {
   p = PredictionSurv$new(row_ids = task$row_ids, truth = task$truth(), crank = runif(task$nrow))
@@ -18,16 +18,16 @@ test_that("Internally constructed Prediction", {
 lrn = lrn("surv.kaplan")
 
 test_that("c", {
-  set.seed(1)
-  resampling = rsmp("cv", folds = 2)
+  set.seed(1L)
+  resampling = rsmp("cv", folds = 2L)
   rr = resample(task, lrn, resampling)
 
   preds = rr$predictions()
 
   # combining survival matrices
   # same number of time points (columns) but different values
-  distr1 = preds[[1]]$data$distr
-  distr2 = preds[[2]]$data$distr
+  distr1 = preds[[1L]]$data$distr
+  distr2 = preds[[2L]]$data$distr
   times1 = as.integer(colnames(distr1))
   times2 = as.integer(colnames(distr2))
   expect_true(length(times1) == length(times2))
@@ -48,10 +48,10 @@ test_that("c", {
   # different number of time points
   # add extra time point on the 2nd prediction object
   preds2 = rr$predictions()
-  preds2[[2]]$data$distr = cbind(distr2,
-    matrix(data = rep(0.3, 10), ncol = 1, dimnames = list(NULL, 108)))
-  distr1 = preds2[[1]]$data$distr
-  distr2 = preds2[[2]]$data$distr
+  preds2[[2L]]$data$distr = cbind(distr2,
+    matrix(data = rep(0.3, 10), ncol = 1L, dimnames = list(NULL, 108)))
+  distr1 = preds2[[1L]]$data$distr
+  distr2 = preds2[[2L]]$data$distr
   times1 = as.integer(colnames(distr1))
   times2 = as.integer(colnames(distr2))
   expect_false(length(times1) == length(times2))
@@ -65,15 +65,15 @@ test_that("c", {
   expect_true(all(times == sort(union(times1, times2), decreasing = F)))
 
   # combining survival arrays
-  arr_preds = mlr3misc::map(preds2, reshape_distr_to_3d)
+  arr_preds = map(preds2, reshape_distr_to_3d)
   arr_pred = do.call(c, arr_preds)
   expect_prediction_surv(arr_pred)
   expect_class(arr_pred$data$distr, "array")
   expect_class(arr_pred$distr, "Arrdist")
   # check that time points are properly combined
-  times1 = as.integer(colnames(arr_preds[[1]]$data$distr))
-  times2 = as.integer(colnames(arr_preds[[2]]$data$distr))
-  times  = as.integer(colnames(arr_pred$data$distr))
+  times1 = as.integer(colnames(arr_preds[[1L]]$data$distr))
+  times2 = as.integer(colnames(arr_preds[[2L]]$data$distr))
+  times = as.integer(colnames(arr_pred$data$distr))
   expect_equal(as.integer(colnames(arr_pred$data$distr)),
     sort(union(times1, times2), decreasing = F))
 
@@ -84,8 +84,8 @@ test_that("c", {
   # combining predictions with exactly the same time points
   p1 = lrn("surv.kaplan")$train(task)$predict(task)
   p2 = p1$clone()
-  expect_equal(length(c(p1, p2, keep_duplicates = TRUE)$row_ids), 40)
-  expect_equal(length(c(p1, p2, keep_duplicates = FALSE)$row_ids), 20)
+  expect_length(c(p1, p2, keep_duplicates = TRUE)$row_ids, 40L)
+  expect_length(c(p1, p2, keep_duplicates = FALSE)$row_ids, 20L)
   preds = list(p1, p2)
   p12 = do.call(c, preds)
   expect_class(p12$data$distr, "matrix") # combination is a matrix
@@ -147,8 +147,8 @@ test_that("c", {
   expect_array(p2$data$distr, d = 3)
   # add extra time point in the survival matrix
   p1$data$distr = cbind(p1$data$distr,
-    matrix(data = rep(0.3, 20), ncol = 1, dimnames = list(NULL, 108)))
-  expect_matrix(p1$data$distr, nrows = 20)
+    matrix(data = rep(0.3, 20), ncol = 1L, dimnames = list(NULL, 108)))
+  expect_matrix(p1$data$distr, nrows = 20L)
   preds = list(p1, p2)
   pred = do.call(c, preds)
   expect_prediction_surv(pred)
@@ -196,19 +196,19 @@ test_that("filtering", {
   expect_set_equal(p2$data$row_ids, c(20, 37, 42))
   expect_set_equal(p3$data$row_ids, c(20, 37, 42))
   expect_set_equal(p4$data$row_ids, c(20, 37, 42))
-  expect_numeric(p$data$crank, any.missing = FALSE, len = 3)
-  expect_numeric(p2$data$crank, any.missing = FALSE, len = 3)
-  expect_numeric(p3$data$crank, any.missing = FALSE, len = 3)
-  expect_numeric(p4$data$crank, any.missing = FALSE, len = 3)
-  expect_numeric(p$data$lp, any.missing = FALSE, len = 3)
-  expect_numeric(p2$data$lp, any.missing = FALSE, len = 3)
-  expect_numeric(p3$data$lp, any.missing = FALSE, len = 3)
-  expect_numeric(p4$data$lp, any.missing = FALSE, len = 3)
-  expect_matrix(p$data$distr, nrows = 3)
+  expect_numeric(p$data$crank, any.missing = FALSE, len = 3L)
+  expect_numeric(p2$data$crank, any.missing = FALSE, len = 3L)
+  expect_numeric(p3$data$crank, any.missing = FALSE, len = 3L)
+  expect_numeric(p4$data$crank, any.missing = FALSE, len = 3L)
+  expect_numeric(p$data$lp, any.missing = FALSE, len = 3L)
+  expect_numeric(p2$data$lp, any.missing = FALSE, len = 3L)
+  expect_numeric(p3$data$lp, any.missing = FALSE, len = 3L)
+  expect_numeric(p4$data$lp, any.missing = FALSE, len = 3L)
+  expect_matrix(p$data$distr, nrows = 3L)
   expect_array(p2$data$distr, d = 3)
-  expect_equal(nrow(p2$data$distr), 3)
-  expect_true(inherits(p3$data$distr, "Matdist"))
-  expect_true(inherits(p4$data$distr, "Arrdist"))
+  expect_identical(nrow(p2$data$distr), 3L)
+  expect_s3_class(p3$data$distr, "Matdist")
+  expect_s3_class(p4$data$distr, "Arrdist")
 
   # edge case: filter to 1 observation
   p$filter(20)
@@ -219,11 +219,11 @@ test_that("filtering", {
   expect_prediction_surv(p2)
   expect_prediction_surv(p3)
   expect_prediction_surv(p4)
-  expect_matrix(p$data$distr, nrows = 1)
+  expect_matrix(p$data$distr, nrows = 1L)
   expect_array(p2$data$distr, d = 3)
-  expect_equal(nrow(p2$data$distr), 1)
-  expect_true(inherits(p3$data$distr, "WeightedDiscrete")) # from Matdist!
-  expect_true(inherits(p4$data$distr, "Arrdist")) # remains an Arrdist!
+  expect_identical(nrow(p2$data$distr), 1L)
+  expect_s3_class(p3$data$distr, "WeightedDiscrete") # from Matdist!
+  expect_s3_class(p4$data$distr, "Arrdist") # remains an Arrdist!
 
   # filter to 0 observations using non-existent (positive) id
   p$filter(42)

@@ -33,7 +33,7 @@ test_that("interval censoring", {
       time = "start", time2 = "stop", event = "status", type = "interval")
   })
   expect_equal(task$censtype, "interval")
-  expect_equal(ncol(task$truth()), 3)
+  expect_equal(ncol(task$truth()), 3L)
   expect_numeric(task$times())
   expect_integer(task$status())
   expect_equal(task$formula(), as.formula(Surv(start, stop, status, type = "interval") ~ .))
@@ -55,7 +55,7 @@ test_that("interval2 censoring", {
 
 test_that("surv methods", {
   status = c(1, 1, 1, 0, 0, 0)
-  times  = c(1, 1, 2, 4, 4, 5)
+  times = c(1, 1, 2, 4, 4, 5)
   task = TaskSurv$new(
     id = "test",
     backend = data.frame(event = status, time = times, x = runif(6))
@@ -68,9 +68,9 @@ test_that("surv methods", {
   expect_equal(task$risk_set(time = 2), c(3, 4, 5, 6))
   expect_class(task$kaplan(), "survfit")
   expect_class(task$kaplan(rows = 1:3), "survfit")
-  expect_equal(task$cens_prop(), 3/6)
-  expect_equal(task$admin_cens_prop(), 1/3) # t_max = 5
-  expect_equal(task$admin_cens_prop(admin_time = 5), 1/3)
+  expect_equal(task$cens_prop(), 3 / 6)
+  expect_equal(task$admin_cens_prop(), 1 / 3) # t_max = 5
+  expect_equal(task$admin_cens_prop(admin_time = 5), 1 / 3)
   expect_equal(task$admin_cens_prop(quantile_prob = 0.9), 1) # t_max = 4
   expect_equal(task$admin_cens_prop(admin_time = 3), 1)
   expect_equal(task$admin_cens_prop(rows = 1:3), 0) # only events
@@ -79,18 +79,18 @@ test_that("surv methods", {
   expect_true(tsk("veteran")$prop_haz() < 0.01) # non-PH
 
   # task with two features, one can predict status
-  set.seed(42)
-  n = 100
+  set.seed(42L)
+  n = 100L
   x1 = rnorm(n)
   x2 = rnorm(n)
-  event_time  = rexp(n, rate = 0.1)
+  event_time = rexp(n, rate = 0.1)
   censor_time = rexp(n, rate = 0.1)
   time = pmin(event_time, censor_time)
   status = as.numeric(event_time <= censor_time)
   data = data.frame(time = time, event = status, x1 = x1, x2 = x2)
   data$event[data$x1 > 1] = 0 # dependent censoring
   task2 = TaskSurv$new(id = "dep_censor", backend = data)
-  expect_equal(task2$dep_cens_prop(), 1/2)
+  expect_equal(task2$dep_cens_prop(), 1 / 2)
   expect_equal(task2$dep_cens_prop(sign_level = 0.5), 1)
 })
 

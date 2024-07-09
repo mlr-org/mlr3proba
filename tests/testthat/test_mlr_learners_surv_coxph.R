@@ -1,5 +1,5 @@
 test_that("autotest", {
-  set.seed(1)
+  set.seed(1L)
   learner = lrn("surv.coxph")
   expect_learner(learner)
   # no idea why weights check here fails
@@ -17,7 +17,7 @@ test_that("weights", {
 
 
 test_that("missing", {
-  set.seed(1)
+  set.seed(1L)
   learner = lrn("surv.coxph")
   expect_error(learner$predict(tsk("lung")))
 })

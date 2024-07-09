@@ -1,5 +1,5 @@
 test_that("autotest", {
-  set.seed(1)
+  set.seed(1L)
   learner = lrn("dens.hist")
   expect_learner(learner)
   result = run_autotest(learner, check_replicable = FALSE)

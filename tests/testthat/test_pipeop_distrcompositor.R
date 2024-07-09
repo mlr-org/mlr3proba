@@ -7,15 +7,15 @@ test_that("PipeOpDistrCompositor - basic properties", {
   expect_equal(values, values2)
 })
 
-set.seed(42)
-task = tsk("rats")$filter(sample(300, 110))
+set.seed(42L)
+task = tsk("rats")$filter(sample(300, 110L))
 cox_pred = lrn("surv.coxph")$train(task)$predict(task)
 
 test_that("PipeOpDistrCompositor - overwrite = FALSE", {
   gr = mlr3pipelines::ppl("distrcompositor", lrn("surv.kaplan", id = "k2"), overwrite = FALSE)
   expect_silent(gr$train(task))
   expect_equal(
-    gr$predict(task)[[1]]$data$distr,
+    gr$predict(task)[[1L]]$data$distr,
     lrn("surv.kaplan", id = "k2")$train(task)$predict(task)$data$distr
   )
 
@@ -23,13 +23,13 @@ test_that("PipeOpDistrCompositor - overwrite = FALSE", {
   gr = mlr3pipelines::ppl("distrcompositor", lrn("surv.coxph"),
     estimator = "breslow", overwrite = FALSE)
   expect_silent(gr$train(task))
-  expect_equal(gr$predict(task)[[1]]$data$distr, cox_pred$data$distr)
+  expect_equal(gr$predict(task)[[1L]]$data$distr, cox_pred$data$distr)
 })
 
 test_that("PipeOpDistrCompositor - overwrite = TRUE", {
   gr = mlr3pipelines::ppl("distrcompositor", lrn("surv.kaplan", id = "k2"), overwrite = TRUE, form = "ph")
   expect_silent(gr$train(task))
-  p = gr$predict(task)[[1]]
+  p = gr$predict(task)[[1L]]
   expect_prediction_surv(p)
   expect_true("distr" %in% p$predict_types)
 

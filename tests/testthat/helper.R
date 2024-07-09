@@ -1,5 +1,7 @@
-library(mlr3proba)
 library(checkmate)
+library(mlr3)
+library(mlr3misc)
+library(mlr3proba)
 library(testthat)
 
 # source helper files from mlr3 and mlr3proba
@@ -19,7 +21,7 @@ reshape_distr_to_3d = function(p, num_seq = seq(0.1, 0.2, 0.05)) {
   p2 = p$clone()
   surv_mat = p2$data$distr
   p2$data$distr = abind::abind(
-    sapply(num_seq, function(n) {surv_mat - n}, simplify = FALSE),
+    sapply(num_seq, function(n) surv_mat - n, simplify = FALSE),
     along = 3
   )
   p2

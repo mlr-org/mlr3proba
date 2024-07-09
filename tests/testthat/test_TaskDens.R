@@ -1,5 +1,3 @@
-context("TaskDens")
-
 test_that("Basic ops on BostonHousing task", {
   task = tsk("precip")
   expect_task(task)
@@ -26,13 +24,13 @@ test_that("as_task_dens", {
   t2 = as_task_dens(t1, clone = TRUE)
   expect_task_dens(t2)
   t1$filter(1:10)
-  expect_equal(t1$nrow, 10L)
-  expect_equal(t2$nrow, 70L)
+  expect_identical(t1$nrow, 10L)
+  expect_identical(t2$nrow, 70L)
 
   t1 = tsk("precip")
   t2 = as_task_dens(t1, clone = FALSE)
   expect_task_dens(t2)
   t1$filter(1:10)
-  expect_equal(t1$nrow, 10L)
-  expect_equal(t2$nrow, 10L)
+  expect_identical(t1$nrow, 10L)
+  expect_identical(t2$nrow, 10L)
 })

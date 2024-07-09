@@ -1,4 +1,3 @@
-
 test_that("autoplot.PredictionSurv", {
   skip_if_not_installed("mlr3proba")
   require_namespaces("mlr3proba")
