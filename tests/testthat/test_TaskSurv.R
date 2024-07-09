@@ -11,7 +11,10 @@ test_that("right censoring", {
   expect_equal(task$censtype, "right")
   expect_numeric(task$times())
   expect_integer(task$status())
-  expect_equal(task$formula(), as.formula(Surv(time, status, type = "right") ~ .))
+  expect_equal(
+    task$formula(), as.formula(Surv(time, status, type = "right") ~ .),
+    ignore_attr = TRUE
+  )
 })
 
 test_that("left censoring", {
@@ -22,7 +25,10 @@ test_that("left censoring", {
   expect_equal(task$censtype, "left")
   expect_numeric(task$times())
   expect_integer(task$status())
-  expect_equal(task$formula(), as.formula(Surv(time, status, type = "left") ~ .))
+  expect_equal(
+    task$formula(), as.formula(Surv(time, status, type = "left") ~ .),
+    ignore_attr = TRUE
+  )
 })
 
 test_that("interval censoring", {
@@ -36,7 +42,10 @@ test_that("interval censoring", {
   expect_equal(ncol(task$truth()), 3L)
   expect_numeric(task$times())
   expect_integer(task$status())
-  expect_equal(task$formula(), as.formula(Surv(start, stop, status, type = "interval") ~ .))
+  expect_equal(
+    task$formula(), as.formula(Surv(start, stop, status, type = "interval") ~ .),
+    ignore_attr = TRUE
+  )
 })
 
 test_that("interval2 censoring", {
@@ -50,7 +59,10 @@ test_that("interval2 censoring", {
   expect_identical(ncol(task$truth()), 3L)
   expect_numeric(task$times())
   expect_integer(task$status())
-  expect_equal(task$formula(), as.formula(Surv(start, stop, type = "interval2") ~ .))
+  expect_equal(
+    task$formula(), as.formula(Surv(start, stop, type = "interval2") ~ .),
+    ignore_attr = TRUE
+  )
 })
 
 test_that("surv methods", {
