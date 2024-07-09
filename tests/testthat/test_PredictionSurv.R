@@ -39,7 +39,7 @@ test_that("c", {
   expect_class(surv_mat, "matrix")
   # check that time points are properly combined
   times = as.integer(colnames(surv_mat))
-  expect_true(all(times == sort(union(times1, times2), decreasing = FALSE)))
+  expect_true(all(times == sort(union(times1, times2))))
 
   # data.table conversion
   dt = as.data.table(pred)
@@ -62,7 +62,7 @@ test_that("c", {
   expect_class(surv_mat2, "matrix")
   # check that time points are properly combined
   times = as.integer(colnames(surv_mat2))
-  expect_true(all(times == sort(union(times1, times2), decreasing = FALSE)))
+  expect_true(all(times == sort(union(times1, times2))))
 
   # combining survival arrays
   arr_preds = map(preds2, reshape_distr_to_3d)
@@ -75,7 +75,7 @@ test_that("c", {
   times2 = as.integer(colnames(arr_preds[[2L]]$data$distr))
   times = as.integer(colnames(arr_pred$data$distr))
   expect_equal(as.integer(colnames(arr_pred$data$distr)),
-    sort(union(times1, times2), decreasing = FALSE))
+    sort(union(times1, times2)))
 
   p1 = lrn("surv.kaplan")$train(task)$predict(task)
   p2 = suppressWarnings(lrn("surv.coxph")$train(task))$predict(task)
