@@ -467,13 +467,13 @@ test_that("logloss works", {
 test_that("distr measures work with 3d survival array", {
   learner = lrn("surv.kaplan")$train(task)
   p = learner$predict(task)
-  expect_class(p$data$distr, "matrix")
-  expect_class(p$distr, "Matdist")
+  expect_matrix(p$data$distr)
+  expect_r6(p$distr, "Matdist")
 
   # hack: substitute with 3d survival array
   p = reshape_distr_to_3d(p)
-  expect_class(p$data$distr, "array")
-  expect_class(p$distr, "Arrdist") # `distr6` interface class changed
+  expect_array(p$data$distr)
+  expect_r6(p$distr, "Arrdist") # `distr6` interface class changed
 
   distr_msrs = msrs(as.data.table(mlr_measures)[
     predict_type == "distr" & startsWith(key, "surv")

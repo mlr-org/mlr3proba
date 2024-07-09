@@ -4,7 +4,7 @@ test_that("Basic ops on BostonHousing task", {
   expect_task_dens(task)
 
   f = task$formula()
-  expect_class(f, "formula")
+  expect_formula(f)
 })
 
 test_that("TaskDens: 0 feature task", {
