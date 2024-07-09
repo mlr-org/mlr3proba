@@ -95,9 +95,10 @@ pecs.list = function(x, measure = c("graf", "logloss"), times, n, eps = NULL, ta
 
   times = .pec_times(true_times = true_times, times = times, n = n)
   if (length(times) <= 1L) {
-    stop(sprintf(
+    stopf(
       "Not enough `times` in the true observed times range: %s",
-      paste0("[", toString(round(range(true_times), 3)), "]")))
+      paste0("[", toString(round(range(true_times), 3)), "]")
+    )
   }
 
   n = as.integer(!is.null(train_task)) + as.integer(!is.null(train_set))
