@@ -82,6 +82,9 @@ pecs.list = function(x, measure = c("graf", "logloss"), times, n, eps = NULL, ta
   }
 
   assert_learners(x)
+  if (any(map_lgl(x, function(y) is.null(y$model)))) {
+    stopf("`x` must be a list of trained survival learners")
+  }
   assert_class(task, "TaskSurv")
 
   if (is.null(newdata)) {
