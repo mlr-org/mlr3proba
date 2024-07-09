@@ -11,12 +11,12 @@ test_that(".cbhaz_breslow works", {
   # one unique event
   cbh1 = .cbhaz_breslow(times, status = c(0, 0, 0, 0, 1), lp)
   expect_true(all(cbh1[1:4] == 0))
-  expect_true(cbh1[5L] > 0)
+  expect_gt(cbh1[5L], 0)
   expect_named(cbh1, as.character(times))
 
   cbh2 = .cbhaz_breslow(times, status = c(0, 0, 0, 0, 1), lp, eval_times = c(4.8, 5.1))
   expect_true(cbh2[1L] == 0)
-  expect_true(cbh2[2L] > 0)
+  expect_gt(cbh2[2L], 0)
   expect_named(cbh2, c("4.8", "5.1"))
 
   cbh3 = .cbhaz_breslow(times, status = c(0, 0, 1, 0, 0), lp)
@@ -28,7 +28,7 @@ test_that(".cbhaz_breslow works", {
   expect_true(all(cbh4 > 0)) # all > 0
   cbh5 = .cbhaz_breslow(times, status = c(1, 0, 0, 0, 0), lp, eval_times = c(0.8, 1))
   expect_equal(unname(cbh5[1L]), 0)
-  expect_true(cbh5[2L] > 0)
+  expect_gt(cbh5[2L], 0)
 
   # many events
   cbh6 = .cbhaz_breslow(times, status = c(0, 0, 0, 1, 1), lp)
@@ -52,7 +52,7 @@ test_that(".cbhaz_breslow works", {
     eval_times = c(0.9, 1.1))
   expect_numeric(cbh11, len = 2L)
   expect_equal(unname(cbh11[1L]), 0)
-  expect_true(cbh11[2L] > 0)
+  expect_gt(cbh11[2L], 0)
 
   # Inf lp predictions => cumulative baseline hazards are all zero
   cbh12 = .cbhaz_breslow(times = times, status = c(0, 1, 1, 0, 1), lp = rep(Inf, 5))

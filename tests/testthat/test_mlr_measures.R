@@ -59,8 +59,8 @@ test_that("integrated_prob_losses", {
 
   prediction$score(msr("surv.intlogloss", integrated = TRUE, proper = TRUE, times = 100:110))
   expect_silent(prediction$score(lapply(probs, msr, integrated = TRUE, proper = TRUE)))
-  expect_error(prediction$score(lapply(probs, msr, integrated = TRUE, times = c(34:38), proper = TRUE)), "Requested times")
-  expect_silent(prediction$score(lapply(probs, msr, integrated = TRUE, times = c(100:110), proper = TRUE)))
+  expect_error(prediction$score(lapply(probs, msr, integrated = TRUE, times = 34:38, proper = TRUE)), "Requested times")
+  expect_silent(prediction$score(lapply(probs, msr, integrated = TRUE, times = 100:110, proper = TRUE)))
   expect_silent(prediction$score(lapply(probs, msr, integrated = FALSE, times = 80, proper = TRUE)))
 })
 
@@ -81,7 +81,7 @@ test_that("calib_beta works", {
 
   m2 = msr("surv.calib_beta", method = "diff") # diff
   expect_equal(m2$range, c(0, Inf))
-  expect_equal(m2$minimize, TRUE)
+  expect_true(m2$minimize)
   expect_false(m2$param_set$values$se)
   expect_equal(m2$param_set$values$method, "diff")
   expect_numeric(pred$score(m2))
@@ -90,7 +90,7 @@ test_that("calib_beta works", {
 test_that("calib_alpha works", {
   m = msr("surv.calib_alpha") # ratio
   expect_equal(m$range, c(-Inf, Inf))
-  expect_equal(m$minimize, FALSE)
+  expect_false(m$minimize)
   expect_false(m$param_set$values$se)
   expect_false(is.finite(m$param_set$values$truncate))
   expect_equal(m$param_set$values$method, "ratio")
@@ -98,7 +98,7 @@ test_that("calib_alpha works", {
 
   m2 = msr("surv.calib_alpha", method = "diff") # diff
   expect_equal(m2$range, c(0, Inf))
-  expect_equal(m2$minimize, TRUE)
+  expect_true(m2$minimize)
   expect_false(m2$param_set$values$se)
   expect_false(is.finite(m2$param_set$values$truncate))
   expect_equal(m2$param_set$values$method, "diff")
@@ -250,7 +250,7 @@ test_that("rcll works", {
   KMscore2 = p2$score(m)
   expect_equal(KMscore, KMscore2)
 
-  status = t$truth()[, 2]
+  status = t$truth()[, 2L]
   row_ids = t$row_ids
   cens_ids = row_ids[status == 0]
   event_ids = row_ids[status == 1]
@@ -265,7 +265,7 @@ test_that("rcll works", {
   expect_equal(score, score2)
 
   # 1 censored test rat
-  p = p$filter(row_ids = cens_ids[1])
+  p = p$filter(row_ids = cens_ids[1L])
   score = p$score(m)
   expect_numeric(score)
   p2 = p$clone() # test score via distribution
@@ -283,11 +283,11 @@ test_that("rcll works", {
   expect_equal(score, score2)
 
   # 1 dead rat
-  p = p$filter(row_ids = event_ids[1])
+  p = p$filter(row_ids = event_ids[1L])
   score = p$score(m)
   expect_numeric(score)
   p2 = p$clone() # test score via distribution
-  p2$data$distr = p2$distr[1] # WeightDisc
+  p2$data$distr = p2$distr[1L] # WeightDisc
   score2 = p2$score(m)
   expect_equal(score, score2)
 
@@ -297,7 +297,7 @@ test_that("rcll works", {
   expect_lt(p2$score(m), KMscore)
 
   # Another edge case: some dead rats and 1 only censored
-  p3 = p2$filter(row_ids = c(event_ids, cens_ids[1]))
+  p3 = p2$filter(row_ids = c(event_ids, cens_ids[1L]))
   score = p3$score(m)
   expect_numeric(score)
   p3$data$distr = p3$distr
@@ -323,7 +323,7 @@ test_that("dcal works", {
   KMscore2 = p2$score(m)
   expect_equal(KMscore, KMscore2)
 
-  status = t$truth()[, 2]
+  status = t$truth()[, 2L]
   row_ids = t$row_ids
   cens_ids = row_ids[status == 0]
   event_ids = row_ids[status == 1]
@@ -397,7 +397,7 @@ test_that("logloss works", {
   KMscore2 = p2$score(m)
   expect_equal(KMscore, KMscore2)
 
-  status = t$truth()[, 2]
+  status = t$truth()[, 2L]
   row_ids = t$row_ids
   cens_ids = row_ids[status == 0]
   event_ids = row_ids[status == 1]
@@ -412,7 +412,7 @@ test_that("logloss works", {
   expect_false(is.nan(p2$score(m2)))
 
   # 1 censored test rat
-  p = p$filter(row_ids = cens_ids[1])
+  p = p$filter(row_ids = cens_ids[1L])
   expect_true(is.nan(p$score(m)))
   expect_false(is.nan(p$score(m2)))
   p2 = p$clone() # test score via distribution
@@ -431,12 +431,12 @@ test_that("logloss works", {
   expect_equal(score, score2)
 
   # 1 dead rat
-  p = p$filter(row_ids = event_ids[1])
+  p = p$filter(row_ids = event_ids[1L])
   score = p$score(m)
   expect_numeric(score)
   expect_equal(score, p$score(m2))
   p2 = p$clone() # test score via distribution
-  p2$data$distr = p2$distr[1] # WeightDisc
+  p2$data$distr = p2$distr[1L] # WeightDisc
   score2 = p2$score(m)
   expect_equal(score, score2)
 
@@ -446,7 +446,7 @@ test_that("logloss works", {
   expect_lt(p2$score(m), KMscore)
 
   # Another edge case: some dead rats and 1 only censored
-  p3 = p2$clone()$filter(row_ids = c(event_ids, cens_ids[1]))
+  p3 = p2$clone()$filter(row_ids = c(event_ids, cens_ids[1L]))
   score = p3$score(m)
   expect_numeric(score)
   expect_true(score != p3$score(m2)) # since dead rats are removed
@@ -455,7 +455,7 @@ test_that("logloss works", {
   expect_equal(score, score2)
 
   # Another edge case: some censored rats and 1 only dead
-  p4 = p2$clone()$filter(row_ids = c(cens_ids, event_ids[1]))
+  p4 = p2$clone()$filter(row_ids = c(cens_ids, event_ids[1L]))
   score = p4$score(m)
   expect_numeric(score)
   expect_true(score != p4$score(m2)) # since the dead rat is removed

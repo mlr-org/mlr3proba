@@ -47,7 +47,7 @@ test_that("interval2 censoring", {
       time = "start", time2 = "stop", type = "interval2")
   })
   expect_equal(task$censtype, "interval2")
-  expect_equal(ncol(task$truth()), 3)
+  expect_identical(ncol(task$truth()), 3L)
   expect_numeric(task$times())
   expect_integer(task$status())
   expect_equal(task$formula(), as.formula(Surv(start, stop, type = "interval2") ~ .))
@@ -76,7 +76,7 @@ test_that("surv methods", {
   expect_equal(task$admin_cens_prop(rows = 1:3), 0) # only events
   expect_equal(task$dep_cens_prop(), 0)
   expect_number(task$prop_haz(), finite = TRUE)
-  expect_true(tsk("veteran")$prop_haz() < 0.01) # non-PH
+  expect_lt(tsk("veteran")$prop_haz(), 0.01) # non-PH
 
   # task with two features, one can predict status
   set.seed(42L)
