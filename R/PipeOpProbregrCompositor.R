@@ -74,7 +74,7 @@ PipeOpProbregr = R6Class("PipeOpProbregr",
             distr6::listDistributions(filter = list(Tags = "locscale"), simplify = TRUE)),
           tags = "predict")
       )
-      param_set$values = list(dist = "Uniform")
+      param_set$set_values(dist = "Uniform")
 
       super$initialize(
         id = id,

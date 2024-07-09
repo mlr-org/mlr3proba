@@ -43,7 +43,7 @@ MeasureSurvRCLL = R6::R6Class("MeasureSurvRCLL",
         ERV = p_lgl(default = FALSE),
         na.rm = p_lgl(default = TRUE)
       )
-      ps$values = list(eps = 1e-15, se = FALSE, ERV = ERV, na.rm = TRUE)
+      ps$set_values(eps = 1e-15, se = FALSE, ERV = ERV, na.rm = TRUE)
 
       range = if (ERV) c(-Inf, 1) else c(0, Inf)
 

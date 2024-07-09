@@ -64,7 +64,7 @@ MeasureSurvIntLogloss = R6::R6Class("MeasureSurvIntLogloss",
         eps = p_dbl(0, 1, default = 1e-3),
         ERV = p_lgl(default = FALSE)
       )
-      ps$values = list(
+      ps$set_values(
         integrated = TRUE, method = 2L, se = FALSE,
         proper = FALSE, eps = 1e-3, ERV = ERV
       )

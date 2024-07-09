@@ -29,7 +29,7 @@ MeasureSurvSongTPR = R6Class("MeasureSurvSongTPR",
         lp_thresh = p_dbl(default = 0),
         type = p_fct(c("incident", "cumulative"), default = "incident")
       )
-      ps$values = list(lp_thresh = 0, type = "incident")
+      ps$set_values(lp_thresh = 0, type = "incident")
 
       super$initialize(
         id = "surv.song_tpr",

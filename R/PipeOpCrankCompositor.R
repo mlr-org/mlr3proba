@@ -79,12 +79,11 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
       param_set = ps(
         method = p_fct(default = "sum_haz", levels = c("sum_haz", "mean", "median", "mode"),
           tags = "predict"),
-        which = p_int(default = 1L, lower = 1L, tags = "predict"),
+        which = p_int(1L, default = 1L, tags = "predict", depends = quote(method == "mode")),
         response = p_lgl(default = FALSE, tags = "predict"),
         overwrite = p_lgl(default = FALSE, tags = "predict")
       )
-      param_set$add_dep("which", "method", CondEqual$new("mode"))
-      param_set$values = list(method = "sum_haz", response = FALSE, overwrite = FALSE)
+      param_set$set_values(method = "sum_haz", response = FALSE, overwrite = FALSE)
 
       super$initialize(
         id = id,

@@ -40,11 +40,11 @@ TaskGeneratorSimsurv = R6Class("TaskGeneratorSimsurv",
     initialize = function() {
       ps = ps(
         dist = p_fct(levels = c("weibull", "exponential", "gompertz"), default = "weibull"),
-        lambdas = p_dbl(lower = 0, special_vals = list(NULL), tags = "required"),
-        gammas = p_dbl(lower = 0, special_vals = list(NULL), tags = "required"),
-        maxt = p_dbl(lower = 0, tags = "required")
+        lambdas = p_dbl(0, special_vals = list(NULL), tags = "required"),
+        gammas = p_dbl(0, special_vals = list(NULL), tags = "required"),
+        maxt = p_dbl(0, tags = "required")
       )
-      ps$values = list(lambdas = 0.1, gammas = 1.5, maxt = 5)
+      ps$set_values(lambdas = 0.1, gammas = 1.5, maxt = 5)
 
       super$initialize(
         id = "simsurv",

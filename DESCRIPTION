@@ -57,7 +57,7 @@ Imports:
     ggplot2,
     mlr3misc (>= 0.7.0),
     mlr3viz,
-    paradox (>= 0.1.0),
+    paradox (>= 1.0.0),
     R6,
     Rcpp (>= 1.0.4),
     survival,
