@@ -14,29 +14,17 @@ format_range = function(range) {
 
 # used in roxygen templates
 format_types = function(types) {
-  if (length(types) == 0L) {
-    return("-")
-  } else {
-    return(toString(types))
-  }
-}
-
-toproper = function(str, split = " ", fixed = TRUE) {
-  str = strsplit(str, split, fixed)
-  str = lapply(str, function(x) {
-    paste0(toupper(substr(x, 1L, 1L)), tolower(substr(x, 2L, 1000)), collapse = split)
-  })
-  return(unlist(str))
+  if (length(types) == 0L) "-" else toString(types)
 }
 
 check_subsetpattern = function(x, choices, empty.ok = TRUE) { # nolint
   if (all(grepl(paste0(choices, collapse = "|"), x))) {
-    return(TRUE)
+    TRUE
   } else {
-    return(sprintf(
+    sprintf(
       "Must be a subset of %s, but is %s",
       paste0("{", toString(choices), "}"),
-      paste0("{", toString(x), "}")))
+      paste0("{", toString(x), "}"))
   }
 }
 
