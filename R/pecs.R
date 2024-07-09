@@ -61,8 +61,8 @@
 pecs = function(x, measure = c("graf", "logloss"), times, n, eps = NULL, ...) {
   require_namespaces("ggplot2")
 
-  if (!missing(times)) assertNumeric(times, min.len = 1L)
-  if (!missing(n)) assertIntegerish(n, len = 1L)
+  if (!missing(times)) assert_numeric(times, min.len = 1L)
+  if (!missing(n)) assert_integerish(n, len = 1L)
 
   UseMethod("pecs", x)
 }
@@ -78,12 +78,14 @@ pecs.list = function(x, measure = c("graf", "logloss"), times, n, eps = NULL, ta
   if (is.null(eps)) {
     eps = if (measure == "graf") 1e-3 else 1e-15
   } else {
-    assertNumeric(eps, lower = -1, upper = 1)
+    assert_numeric(eps, lower = -1, upper = 1)
   }
 
-  assert(all(sapply(x, function(y) !is.null(y$model))),
-    "x must be a list of trained survival learners")
-  assertClass(task, "TaskSurv")
+  assert_learners(x)
+  if (any(map_lgl(x, function(y) is.null(y$model)))) {
+    stopf("`x` must be a list of trained survival learners")
+  }
+  assert_class(task, "TaskSurv")
 
   if (is.null(newdata)) {
     p = lapply(x, function(y) y$predict(task = task, row_ids = row_ids))
@@ -133,7 +135,7 @@ pecs.list = function(x, measure = c("graf", "logloss"), times, n, eps = NULL, ta
 
   times = as.numeric(names(scores[[1L]]))
   scores = round(rbindlist(list(scores)), 4)
-  colnames(scores) = sapply(x, function(y) gsub("surv.", "", y$id, fixed = TRUE))
+  setnames(scores, map_chr(x, function(y) gsub("surv.", "", y$id, fixed = TRUE)))
   scores$time = times
   scores = melt(scores, "time", value.name = measure, variable.name = "learner")
 
@@ -151,7 +153,7 @@ pecs.PredictionSurv = function(x, measure = c("graf", "logloss"), times, n, eps 
   if (is.null(eps)) {
     eps = if (measure == "graf") 1e-3 else 1e-15
   } else {
-    assertNumeric(eps, lower = -1, upper = 1)
+    assert_numeric(eps, lower = -1, upper = 1)
   }
 
   true_times = sort(unique(x$truth[, 1L]))
