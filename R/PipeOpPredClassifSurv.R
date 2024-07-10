@@ -73,10 +73,11 @@ PipeOpPredClassifSurv = R6Class(
       data = cbind(data, pred = pred$prob[, "0"])
 
       ## convert hazards to surv as prod(1 - h(t))
+      rows_per_id = nrow(data)/length(unique(data$id))
       surv = t(vapply(unique(data$id), function(unique_id) {
         x = cumprod((data[data$id == unique_id, ][["pred"]]))
         x
-      }, numeric(sum(data$id == 1))))
+      }, numeric(rows_per_id)))
 
       pred_list = list()
       unique_end_times = sort(unique(data$tend))
@@ -85,7 +86,7 @@ PipeOpPredClassifSurv = R6Class(
 
       # select the real tend values by only selecting the last row of each id
       # basically a slightly more complex unique()
-      real_tend = data$time2[seq_len(nrow(data)) %% sum(data$id == 1) == 0]
+      real_tend = data$time2[seq_len(nrow(data)) %% rows_per_id == 0]
 
       # select last row for every id
       data = as.data.table(data)

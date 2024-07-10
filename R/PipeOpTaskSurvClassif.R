@@ -127,10 +127,10 @@ PipeOpTaskSurvClassif = R6Class("PipeOpTaskSurvClassif",
 
       max_time = max(cut)
       time = data[[time_var]]
-      data$time = max_time
+      data[[time_var]] = max_time
 
       # update form
-      form = mlr3misc::formulate(sprintf("Surv(%s, %s)", "time", event_var), ".")
+      form = mlr3misc::formulate(sprintf("Surv(%s, %s)", time_var, event_var), ".")
 
       new_data = pammtools::as_ped(data, formula = form, cut = cut)
       new_data = as.data.table(new_data)
