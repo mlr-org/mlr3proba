@@ -38,7 +38,7 @@ Authors@R:
       person(given = "Philip",
              family = "Studener",
              role = "aut",
-             email = "philip.studener@gmx.de")),
+             email = "philip.studener@gmx.de"),
       person(given = "Maximilian",
              family = "Muecke",
              email = "muecke.maximilian@gmail.com",
