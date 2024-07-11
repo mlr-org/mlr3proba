@@ -40,19 +40,19 @@ expect_pipeop = function(po) {
   expect_flag(po$is_trained, label = label)
   expect_output(print(po), "PipeOp:", label = label)
   expect_character(po$packages, any.missing = FALSE, unique = TRUE, label = label)
-  expect_function(po$train, nargs = 1)
-  expect_function(po$predict, nargs = 1)
-  expect_function(po$.__enclos_env__$private$.train, nargs = 1)
-  expect_function(po$predict, nargs = 1)
-  expect_function(po$.__enclos_env__$private$.predict, nargs = 1)
+  expect_function(po$train, nargs = 1L)
+  expect_function(po$predict, nargs = 1L)
+  expect_function(po$.__enclos_env__$private$.train, nargs = 1L)
+  expect_function(po$predict, nargs = 1L)
+  expect_function(po$.__enclos_env__$private$.predict, nargs = 1L)
   expect_data_table(po$input, any.missing = FALSE)
   expect_names(names(po$input), permutation.of = c("name", "train", "predict"))
   expect_data_table(po$output, any.missing = FALSE)
   expect_names(names(po$output), permutation.of = c("name", "train", "predict"))
-  expect_int(po$innum, lower = 1)
-  expect_int(po$outnum, lower = 1)
+  expect_int(po$innum, lower = 1L)
+  expect_int(po$outnum, lower = 1L)
   # at least one of "train" or "predict" must be in every parameter's tag
-  testthat::expect_true(every(po$param_set$tags, function(x) {
+  expect_true(every(po$param_set$tags, function(x) {
     length(intersect(c("train", "predict"), x)) > 0
   }))
 
@@ -130,7 +130,8 @@ expect_deep_clone = function(one, two) {
           sprintf(" '%s'", if (is.character(index)) i else objnames[[i]])
         } else {
           ""
-        })))
+        }
+      )))
     }
   }
   expect_references_differ(one, two, "ROOT")

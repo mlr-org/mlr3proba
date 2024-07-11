@@ -49,7 +49,7 @@
 #'   task = tsk("rats")
 #'   part = partition(task, ratio = 0.8)
 #'   train_task = task$clone()$filter(part$train)
-#'   test_task  = task$clone()$filter(part$test)
+#'   test_task = task$clone()$filter(part$test)
 #'
 #'   learner = lrn("surv.coxph") # learner with lp predictions
 #'   b = po("breslowcompose", learner = learner, breslow.overwrite = TRUE)
@@ -82,7 +82,7 @@ PipeOpBreslow = R6Class("PipeOpBreslow",
       private$.breslow_ps = ps(
         overwrite = p_lgl(tags = c("predict", "required"))
       )
-      private$.breslow_ps$values = list(overwrite = FALSE)
+      private$.breslow_ps$set_values(overwrite = FALSE)
       if ("set_id" %in% names(private$.learner$param_set)) {
         # old paradox
         private$.learner$param_set$set_id = ""

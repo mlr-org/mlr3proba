@@ -28,7 +28,7 @@ MeasureSurvSongTNR = R6Class("MeasureSurvSongTNR",
         times = p_dbl(0),
         lp_thresh = p_dbl(default = 0)
       )
-      ps$values = list(lp_thresh = 0)
+      ps$set_values(lp_thresh = 0)
 
       super$initialize(
         id = "surv.song_tnr",

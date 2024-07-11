@@ -3,7 +3,7 @@ test_that("basic properties", {
   expect_pipeop(PipeOpSurvAvg$new(param_vals = list()))
 })
 
-task = tsk("rats")$filter(sample(300, 5))
+task = tsk("rats")$filter(sample(300, 5L))
 p1 = lrn("surv.kaplan")$train(task)$predict(task)
 p2 = lrn("surv.kaplan")$train(task)$predict(task)
 
@@ -18,8 +18,8 @@ test_that("equal weights", {
   expect_equal(p$crank, (p1$crank + p2$crank) / 2)
   expect_equal(as.numeric(p$distr$cdf(100)),
     as.numeric((p1$distr$cdf(100) + p2$distr$cdf(100)) / 2))
-  expect_equal(p$lp, rep(NA_real_, 5))
-  expect_equal(p$response, rep(NA_real_, 5))
+  expect_equal(p$lp, rep(NA_real_, 5L))
+  expect_equal(p$response, rep(NA_real_, 5L))
 })
 
 test_that("unequal weights", {
@@ -54,7 +54,7 @@ test_that("response", {
 
 test_that("surv_averager", {
   poc = mlr3pipelines::po("survavg", weights = c(0.2, 0.8))
-  p = poc$predict(list(p1, p2))[[1]]
+  p = poc$predict(list(p1, p2))[[1L]]
 
   p2 = mlr3pipelines::ppl("survaverager", list(lrn("surv.kaplan"), lrn("surv.kaplan", id = "k2")),
     list(weights = c(0.2, 0.8)),

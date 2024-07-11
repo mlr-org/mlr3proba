@@ -1,4 +1,4 @@
-task = TaskGeneratorSimdens$new()$generate(20)
+task = TaskGeneratorSimdens$new()$generate(20L)
 
 test_that("mlr_measures", {
   keys = mlr_measures$keys("^dens")

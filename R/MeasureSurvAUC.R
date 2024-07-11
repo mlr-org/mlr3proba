@@ -16,7 +16,7 @@ MeasureSurvAUC = R6Class("MeasureSurvAUC",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id, properties = character(), label = NA_character_,
       man = NA_character_, param_set = ps()) {
-      if (class(self)[[1]] == "MeasureSurvAUC") {
+      if (class(self)[[1L]] == "MeasureSurvAUC") {
         stop("This is an abstract class that should not be constructed directly.")
       }
 
@@ -48,8 +48,8 @@ MeasureSurvAUC = R6Class("MeasureSurvAUC",
       }
 
       args$times = ps$times
-      if (length(args$times) == 0) {
-        args$times = sort(unique(prediction$truth[, 1]))
+      if (length(args$times) == 0L) {
+        args$times = sort(unique(prediction$truth[, 1L]))
       }
 
       if ("Surv.rsp.new" %in% names(formals(FUN))) {

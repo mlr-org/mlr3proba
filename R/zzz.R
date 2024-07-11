@@ -54,12 +54,12 @@ utils::globalVariables(c(
 .onUnload = function(libpath) {
   event = packageEvent("mlr3", "onLoad")
   hooks = getHook(event)
-  pkgname = vapply(hooks[-1], function(x) environment(x)$pkgname, NA_character_)
+  pkgname = map_chr(hooks[-1L], function(x) environment(x)$pkgname)
   setHook(event, hooks[pkgname != "mlr3proba"], action = "replace")
 
   event = packageEvent("mlr3pipelines", "onLoad")
   hooks = getHook(event)
-  pkgname = vapply(hooks[-1], function(x) environment(x)$pkgname, NA_character_)
+  pkgname = map_chr(hooks[-1L], function(x) environment(x)$pkgname)
   setHook(event, hooks[pkgname != "mlr3proba"], action = "replace")
 
   # unregister

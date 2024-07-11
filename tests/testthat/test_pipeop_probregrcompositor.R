@@ -8,7 +8,7 @@ test_that("PipeOpProbregr - basic properties", {
   expect_equal(values, values2)
 })
 
-task = tgen("friedman1")$generate(10)
+task = tgen("friedman1")$generate(10L)
 
 test_that("PipeOpProbregr", {
   gr = mlr3pipelines::ppl("probregr", lrn("regr.featureless", predict_type = "se"),

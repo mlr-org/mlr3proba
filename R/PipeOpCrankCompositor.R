@@ -79,12 +79,11 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
       param_set = ps(
         method = p_fct(default = "sum_haz", levels = c("sum_haz", "mean", "median", "mode"),
           tags = "predict"),
-        which = p_int(default = 1, lower = 1, tags = "predict"),
+        which = p_int(1L, default = 1L, tags = "predict", depends = quote(method == "mode")),
         response = p_lgl(default = FALSE, tags = "predict"),
         overwrite = p_lgl(default = FALSE, tags = "predict")
       )
-      param_set$add_dep("which", "method", CondEqual$new("mode"))
-      param_set$values = list(method = "sum_haz", response = FALSE, overwrite = FALSE)
+      param_set$set_values(method = "sum_haz", response = FALSE, overwrite = FALSE)
 
       super$initialize(
         id = id,
@@ -105,7 +104,7 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
 
     .predict = function(inputs) {
 
-      inpred = inputs[[1]]
+      inpred = inputs[[1L]]
 
       response = self$param_set$values$response
       b_response = !anyMissing(inpred$response)
@@ -120,7 +119,7 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
       } else {
         assert("distr" %in% inpred$predict_types)
         method = self$param_set$values$method
-        if (length(method) == 0) method = "sum_haz"
+        if (length(method) == 0L) method = "sum_haz"
         if (method == "sum_haz") {
           if (inherits(inpred$data$distr, "matrix") ||
             !requireNamespace("survivalmodels", quietly = TRUE)) {
@@ -132,11 +131,11 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
           }
         } else if (method == "mean") {
           comp = try(inpred$distr$mean(), silent = TRUE)
-          if (class(comp)[1] == "try-error") {
+          if (inherits(comp, "try-error")) {
             requireNamespace("cubature")
             comp = try(inpred$distr$mean(cubature = TRUE), silent = TRUE)
           }
-          if (class(comp)[1] == "try-error") {
+          if (inherits(comp, "try-error")) {
             comp = numeric(length(inpred$crank))
           }
         } else {

@@ -14,7 +14,7 @@ task = tgen("simsurv")$generate(20L)
 test_that("PipeOpCrankCompositor - estimate", {
   gr = mlr3pipelines::ppl("crankcompositor", lrn("surv.coxph"), method = "mode", which = 1)
   suppressWarnings(gr$train(task))
-  p = gr$predict(task)[[1]]
+  p = gr$predict(task)[[1L]]
   expect_prediction_surv(p)
   expect_true("crank" %in% p$predict_types)
 })
@@ -24,7 +24,7 @@ test_that("no params", {
   p = po$predict(
     list(lrn("surv.kaplan")$train(task)$predict(task)))$output
   expect_prediction_surv(p)
-  expect_equal(p$lp, rep(NA_real_, 20))
+  expect_equal(p$lp, rep(NA_real_, 20L))
 })
 
 test_that("response", {
@@ -67,12 +67,12 @@ test_that("overwrite response", {
   p = lrn("surv.kaplan")$train(task)$predict(task)
   p1 = PredictionSurv$new(task = task, crank = p$crank, distr = p$distr, response = rexp(20, 0.5))
   po = PipeOpCrankCompositor$new(param_vals = list(response = TRUE, overwrite = FALSE))
-  p2 = po$predict(list(p1))[[1]]
+  p2 = po$predict(list(p1))[[1L]]
   expect_true(all(p1$response == p2$response))
 
   p1 = PredictionSurv$new(task = task, crank = p$crank, distr = p$distr, response = rexp(20, 0.5))
   po = PipeOpCrankCompositor$new(param_vals = list(response = TRUE, overwrite = TRUE))
-  p2 = po$predict(list(p1))[[1]]
+  p2 = po$predict(list(p1))[[1L]]
   expect_false(all(p1$response == p2$response))
 })
 
@@ -84,5 +84,5 @@ test_that("neg crank", {
     overwrite = TRUE)
   p = pl$train(task)$predict(task)
   expect_true(all(p$crank < 0))
-  expect_true(p$score() >= 0.5)
+  expect_gte(p$score(), 0.5)
 })

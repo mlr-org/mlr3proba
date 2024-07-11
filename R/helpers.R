@@ -14,29 +14,17 @@ format_range = function(range) {
 
 # used in roxygen templates
 format_types = function(types) {
-  if (length(types) == 0) {
-    return("-")
-  } else {
-    return(paste0(types, collapse = ", "))
-  }
-}
-
-toproper = function(str, split = " ", fixed = TRUE) {
-  str = strsplit(str, split, fixed)
-  str = lapply(str, function(x) {
-    paste0(toupper(substr(x, 1, 1)), tolower(substr(x, 2, 1000)), collapse = split)
-  })
-  return(unlist(str))
+  if (length(types) == 0L) "-" else toString(types)
 }
 
 check_subsetpattern = function(x, choices, empty.ok = TRUE) { # nolint
   if (all(grepl(paste0(choices, collapse = "|"), x))) {
-    return(TRUE)
+    TRUE
   } else {
-    return(sprintf(
+    sprintf(
       "Must be a subset of %s, but is %s",
-      paste0("{", paste0(choices, collapse = ", "), "}"),
-      paste0("{", paste0(x, collapse = ", "), "}")))
+      paste0("{", toString(choices), "}"),
+      paste0("{", toString(x), "}"))
   }
 }
 
@@ -48,14 +36,6 @@ get_akritas_learner = function() {
 ## access private environment of r6 class
 r6_private = function(x) {
   x$.__enclos_env__$private
-}
-
-`%||%` = function(x, y) {
-  if (is.null(x)) {
-    y
-  } else {
-    x
-  }
 }
 
 ## used for plotting

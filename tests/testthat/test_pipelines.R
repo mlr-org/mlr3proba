@@ -1,5 +1,5 @@
-task = tsk("rats")$filter(sample(300, 50))
-task_regr = tgen("friedman1")$generate(20)
+task = tsk("rats")$filter(sample(300, 50L))
+task_regr = tgen("friedman1")$generate(20L)
 
 test_that("crankcompositor", {
   pipe = mlr3pipelines::ppl("crankcompositor", learner = lrn("surv.kaplan"))
@@ -49,7 +49,7 @@ test_that("survbagging", {
 
 test_that("resample survtoregr", {
   pipe = mlr3pipelines::ppl("survtoregr", method = 1, distrcompose = FALSE, graph_learner = TRUE)
-  rr = resample(task, pipe, rsmp("cv", folds = 2))
+  rr = resample(task, pipe, rsmp("cv", folds = 2L))
   expect_numeric(rr$aggregate())
 })
 

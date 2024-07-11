@@ -1,6 +1,8 @@
 # mlr3proba 0.6.4
 
 * Add `PipeTaskSurvClassif`, `PipeOpPredClassifSurv` and `pipeline_survtoclassif` to transform a survival task into a classification task by discretizing the status.
+* Add useR! 2024 tutorial
+* Lots of refactoring, improving code quality, migration to testthat v3, etc. (thanks to @m-muecke)
 
 # mlr3proba 0.6.3
 

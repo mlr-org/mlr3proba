@@ -79,13 +79,13 @@ MeasureSurvCindex = R6Class("MeasureSurvCindex",
     #' @description This is an abstract class that should not be constructed directly.
     initialize = function() {
       ps = ps(
-        t_max = p_dbl(lower = 0),
+        t_max = p_dbl(0),
         p_max = p_dbl(0, 1),
         weight_meth = p_fct(levels = c("I", "G", "G2", "SG", "S", "GH"), default = "I"),
         tiex = p_dbl(0, 1, default = 0.5),
         eps = p_dbl(0, 1, default = 1e-3)
       )
-      ps$values = list(weight_meth = "I", tiex = 0.5, eps = 1e-3)
+      ps$set_values(weight_meth = "I", tiex = 0.5, eps = 1e-3)
 
       super$initialize(
         id = "surv.cindex",
@@ -110,15 +110,15 @@ MeasureSurvCindex = R6Class("MeasureSurvCindex",
       # calculate t_max (cutoff time horizon)
       if (is.null(ps$t_max) && !is.null(ps$p_max)) {
         truth = prediction$truth
-        unique_times = unique(sort(truth[,"time"]))
+        unique_times = unique(sort(truth[, "time"]))
         surv = survival::survfit(truth ~ 1)
         indx = which(1 - (surv$n.risk / surv$n) > ps$p_max)
-        if (length(indx) == 0) {
+        if (length(indx) == 0L) {
           t_max = NULL # t_max calculated in `cindex()`
         } else {
           # first time point that surpasses the specified
           # `p_max` proportion of censoring
-          t_max = surv$time[indx[1]]
+          t_max = surv$time[indx[1L]]
         }
       } else {
         t_max = ps$t_max

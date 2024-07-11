@@ -43,7 +43,7 @@ MeasureSurvRCLL = R6::R6Class("MeasureSurvRCLL",
         ERV = p_lgl(default = FALSE),
         na.rm = p_lgl(default = TRUE)
       )
-      ps$values = list(eps = 1e-15, se = FALSE, ERV = ERV, na.rm = TRUE)
+      ps$set_values(eps = 1e-15, se = FALSE, ERV = ERV, na.rm = TRUE)
 
       range = if (ERV) c(-Inf, 1) else c(0, Inf)
 
@@ -69,14 +69,14 @@ MeasureSurvRCLL = R6::R6Class("MeasureSurvRCLL",
       }
       out = rep(-99L, length(prediction$row_ids))
       truth = prediction$truth
-      event = truth[, 2] == 1
-      event_times = truth[event, 1]
-      cens_times = truth[!event, 1]
+      event = truth[, 2L] == 1
+      event_times = truth[event, 1L]
+      cens_times = truth[!event, 1L]
 
       # Bypass distr6 construction if underlying distr represented by array
       if (inherits(prediction$data$distr, "array")) {
         surv = prediction$data$distr
-        if (length(dim(surv)) == 3) {
+        if (length(dim(surv)) == 3L) {
           # survival 3d array, extract median
           surv = .ext_surv_mat(arr = surv, which.curve = 0.5)
         }

@@ -78,13 +78,13 @@ TaskSurv = R6::R6Class("TaskSurv",
       backend = as_data_backend(backend)
 
       if (type != "interval2") {
-        c_ev = r6_private(backend)$.data[, event, with = FALSE][[1]]
+        c_ev = r6_private(backend)$.data[, event, with = FALSE][[1L]]
         if (type == "mstate") {
           assert_factor(c_ev)
         } else if (type == "interval") {
-          assert_integerish(c_ev, lower = 0, upper = 3)
+          assert_integerish(c_ev, lower = 0L, upper = 3L)
         } else if (!is.logical(c_ev)) {
-          assert_integerish(c_ev, lower = 0, upper = 2)
+          assert_integerish(c_ev, lower = 0L, upper = 2L)
         }
       }
 
@@ -149,7 +149,7 @@ TaskSurv = R6::R6Class("TaskSurv",
     formula = function(rhs = NULL, reverse = FALSE) {
       # formula appends the rhs argument to Surv(time, event)~
       tn = self$target_names
-      if (length(tn) == 2) {
+      if (length(tn) == 2L) {
         if (reverse) {
           lhs = sprintf("Surv(%s, 1 - %s, type = '%s')", tn[1L], tn[2L], self$censtype)
         } else {
@@ -314,7 +314,7 @@ TaskSurv = R6::R6Class("TaskSurv",
       assert_number(quantile_prob, lower = 0.8, upper = 1, null.ok = FALSE)
       assert_number(admin_time, lower = 0, null.ok = TRUE)
 
-      times  = self$times(rows)
+      times = self$times(rows)
       status = self$status(rows)
 
       # Get administrative time
@@ -360,16 +360,18 @@ TaskSurv = R6::R6Class("TaskSurv",
     dep_cens_prop = function(rows = NULL, method = "holm", sign_level = 0.05) {
       assert_choice(self$censtype, choices = c("right", "left"))
 
-      status_var  = self$target_names[[2]]
-      glm_summary = invoke(stats::glm,
-                           formula = mlr3misc::formulate(lhs = status_var, rhs = "."),
-                           data = self$data(cols = c(self$feature_names, status_var)),
-                           family = stats::binomial(link = "logit")) |> summary()
+      status_var = self$target_names[[2L]]
+      glm_summary = summary(stats::glm(
+        formula = formulate(lhs = status_var, rhs = "."),
+        data = self$data(cols = c(self$feature_names, status_var)),
+        family = stats::binomial(link = "logit")
+      ))
+
       # extract the p-values
       p_values = glm_summary$coefficients[, "Pr(>|z|)"]
       p_values_adj = stats::p.adjust(p_values, method = method)
       n_coefs = length(p_values_adj) - 1 # exclude the intercept, include dummy-encoded variables
-      n_signif = sum(p_values_adj[-1] <= sign_level)
+      n_signif = sum(p_values_adj[-1L] <= sign_level)
 
       n_signif / n_coefs
     },
@@ -393,7 +395,7 @@ TaskSurv = R6::R6Class("TaskSurv",
       cox = lrn("surv.coxph")
       cox$encapsulate = c(train = "evaluate", predict = "evaluate")
       cox$train(self)
-      ok = (length(cox$errors) == 0) & (length(cox$warnings) == 0)
+      ok = (length(cox$errors) == 0L) & (length(cox$warnings) == 0L)
 
       # cox model didn't converge, train didn't succeed, etc
       if (!ok) stop("Error/warning during cox model fitting")

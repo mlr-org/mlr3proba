@@ -9,6 +9,8 @@ Probabilistic Supervised Learning for
 <!-- badges: start -->
 
 [![r-cmd-check](https://github.com/mlr-org/mlr3proba/actions/workflows/r-cmd-check.yml/badge.svg)](https://github.com/mlr-org/mlr3proba/actions/workflows/r-cmd-check.yml)
+[![GitHub
+Discussions](https://img.shields.io/github/discussions/mlr-org/mlr3proba?logo=github&label=Discussions%20Q%26A&color=FFE600)](https://github.com/mlr-org/mlr3proba/discussions)
 [![Article](https://img.shields.io/badge/Article-10.1093%2Fbioinformatics%2Fbtab039-brightgreen)](https://doi.org/10.1093/bioinformatics/btab039)
 [![StackOverflow](https://img.shields.io/badge/stackoverflow-mlr3-orange.svg)](https://stackoverflow.com/questions/tagged/mlr3)
 [![Mattermost](https://img.shields.io/badge/chat-mattermost-orange.svg)](https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/)
@@ -96,7 +98,7 @@ remotes::install_github("mlr-org/mlr3proba")
 - In [mlr3extralearners](https://github.com/mlr-org/mlr3extralearners)
   we have interfaced several advanced ML survival learners. Use the
   [interactive search table](https://mlr-org.com/learners.html) to
-  search for THE available survival learners and see the [learner status
+  search for the available survival learners and see the [learner status
   page](https://mlr3extralearners.mlr-org.com/articles/learner_status.html)
   for their live status.
 

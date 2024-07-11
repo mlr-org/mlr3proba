@@ -118,35 +118,24 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
     initialize = function(id = "trafotask_survregr", param_vals = list()) {
       ps = ps(
         method    = p_fct(default = "ipcw", levels = c("ipcw", "mrl", "bj", "delete", "omit", "reorder"), tags = "train"),
-        estimator = p_fct(default = "kaplan", levels = c("kaplan", "akritas", "cox"), tags = "train"),
-        alpha     = p_dbl(default = 1, lower = 0, upper = 1, tags = "train"),
-        lambda    = p_dbl(default = 0.5, lower = 0, upper = 1, tags = "train"),
-        eps       = p_dbl(default = 1e-15, lower = 0, upper = 1, tags = "train"),
-        features  = p_uty(tags = "train"),
-        target    = p_uty(tags = "train"),
+        estimator = p_fct(
+          default = "kaplan", levels = c("kaplan", "akritas", "cox"), tags = "train", depends = quote(method %in% c("ipcw", "mrl"))),
+        alpha     = p_dbl(0, 1, default = 1, tags = "train", depends = quote(method == "ipcw")),
+        lambda    = p_dbl(0, 1, default = 0.5, tags = "train", depends = quote(estimator == "akritas")),
+        eps       = p_dbl(0, 1, default = 1e-15, tags = "train", depends = quote(method == "ipcw")),
+        features  = p_uty(tags = "train", depends = quote(method == "reorder")),
+        target    = p_uty(tags = "train", depends = quote(method == "reorder")),
         learner   = p_fct(default = "linear.regression",
           levels = c("linear.regression", "mars", "pspline", "tree", "acosso", "enet", "enet2", "mnet", "snet"),
-          tags = c("train", "bj")),
-        center    = p_lgl(default = TRUE, tags = c("train", "bj")),
-        mimpu     = p_lgl(default = NULL, special_vals = list(NULL), tags = c("train", "bj")),
-        iter.bj   = p_int(default = 20, lower = 2, tags = c("train", "bj")),
-        max.cycle = p_int(default = 5, lower = 1, tags = c("train", "bj")),
-        mstop     = p_int(default = 50, lower = 1, tags = c("train", "bj")),
-        nu        = p_dbl(default = 0.1, lower = 0, tags = c("train", "bj"))
+          tags = c("train", "bj"),
+          depends = quote(method == "bj")),
+        center    = p_lgl(default = TRUE, tags = c("train", "bj"), depends = quote(method == "bj")),
+        mimpu     = p_lgl(default = NULL, special_vals = list(NULL), tags = c("train", "bj"), depends = quote(method == "bj")),
+        iter.bj   = p_int(2L, default = 20L, tags = c("train", "bj"), depends = quote(method == "bj")),
+        max.cycle = p_int(1L, default = 5L, tags = c("train", "bj")),
+        mstop     = p_int(1L, default = 50L, tags = c("train", "bj"), depends = quote(method == "bj")),
+        nu        = p_dbl(0, default = 0.1, tags = c("train", "bj"), depends = quote(method == "bj"))
       )
-      ps$add_dep("alpha", "method", CondEqual$new("ipcw"))
-      ps$add_dep("eps", "method", CondEqual$new("ipcw"))
-      ps$add_dep("estimator", "method", CondAnyOf$new(c("ipcw", "mrl")))
-      ps$add_dep("lambda", "estimator", CondEqual$new("akritas"))
-      ps$add_dep("features", "method", CondEqual$new("reorder"))
-      ps$add_dep("target", "method", CondEqual$new("reorder"))
-      ps$add_dep("center", "method", CondEqual$new("bj"))
-      ps$add_dep("mimpu", "method", CondEqual$new("bj"))
-      ps$add_dep("iter.bj", "method", CondEqual$new("bj"))
-      ps$add_dep("center", "method", CondEqual$new("bj"))
-      ps$add_dep("mstop", "method", CondEqual$new("bj"))
-      ps$add_dep("nu", "method", CondEqual$new("bj"))
-      ps$add_dep("learner", "method", CondEqual$new("bj"))
 
       super$initialize(id = id,
         param_set = ps,
@@ -164,15 +153,15 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
       pv = self$param_set$values
       target = pv$target
       if (is.null(target)) {
-        target = inputs[[1]]$target_names[1L]
+        target = inputs[[1L]]$target_names[1L]
       }
-      backend = private$.reorder(copy(inputs[[1]]$data()), pv$features, target, inputs[[2]])
-      return(list(TaskRegr$new(id = inputs[[1]]$id, backend = backend, target = target)))
+      backend = private$.reorder(copy(inputs[[1L]]$data()), pv$features, target, inputs[[2L]])
+      return(list(TaskRegr$new(id = inputs[[1L]]$id, backend = backend, target = target)))
     },
 
     .transform = function(inputs) {
 
-      input = inputs[[1]]
+      input = inputs[[1L]]
       backend = copy(input$data())
       time = input$target_names[1L]
       status = input$target_names[2L]
@@ -201,7 +190,7 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
         reorder = private$.reorder(backend, pv$features, pv$target, inputs[[2]])
       )
 
-      target = ifelse(method == "reorder", pv$target, time)
+      target = if (method == "reorder") pv$target else time
 
       new_task = TaskRegr$new(id = input$id, backend = backend, target = target)
 
@@ -229,9 +218,9 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
 
       est = est$train(task)$predict(task)$distr
       if (inherits(est, c("Matdist", "Arrdist"))) {
-        weights = diag(est$survival(task$truth()[, 1]))
+        weights = diag(est$survival(task$truth()[, 1L]))
       } else {
-        weights = as.numeric(est$survival(data = matrix(task$truth()[, 1], nrow = 1)))
+        weights = as.numeric(est$survival(data = matrix(task$truth()[, 1L], nrow = 1L)))
       }
       weights[weights == 0] = eps
       weights = 1 / weights
@@ -257,7 +246,7 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
       unique_times = sort(unique(backend[[time]]))
 
       if (estimator == "kaplan") {
-        est = LearnerSurvKaplan$new()$train(input)$predict(input, row_ids = 1)$distr[1]
+        est = LearnerSurvKaplan$new()$train(input)$predict(input, row_ids = 1)$distr[1L]
         den = est$survival(backend[[time]][cens])
         num = sapply(backend[[time]][cens], function(x) {
           est$survivalAntiDeriv(x)
@@ -271,7 +260,7 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
           est$param_set$values$lambda = self$param_set$values$lambda
           est = est$train(input)$predict(input)$distr
         }
-        den = as.numeric(est$survival(data = matrix(backend[[time]], nrow = 1)))[cens]
+        den = as.numeric(est$survival(data = matrix(backend[[time]], nrow = 1L)))[cens]
         mrl = numeric(sum(cens))
         for (i in seq_along(mrl)) {
           x = backend[cens, ][[time]][i]
@@ -286,10 +275,11 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
     },
 
     .bj = function(backend, status, time) {
-      mlr3misc::require_namespaces("bujar")
+      require_namespaces("bujar")
 
       x = data.frame(backend)[, colnames(backend) %nin% c(time, status), drop = FALSE]
-      x = model.matrix(~., x)[, -1]
+      x = model.matrix(~., x)[, -1L]
+
       bj = invoke(bujar::bujar,
         y = backend[[time]],
         cens = backend[[status]],
@@ -314,11 +304,10 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
       if (is.null(task)) {
         if (is.null(features)) {
           stop("One of 'features' or 'task' must be provided.")
-        } else {
-          features = subset(backend, select = features)
         }
+        features = subset(backend, select = features)
       } else {
-        assertClass(task, "TaskSurv")
+        assert_class(task, "TaskSurv")
         features = copy(task$data(cols = task$feature_names))
       }
 

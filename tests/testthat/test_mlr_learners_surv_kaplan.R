@@ -1,5 +1,5 @@
 test_that("autotest", {
-  set.seed(1)
+  set.seed(1L)
   learner = mlr_learners$get("surv.kaplan")
   expect_learner(learner)
   # sanity requires c > 0.5, kaplan always = 0.5
@@ -8,10 +8,9 @@ test_that("autotest", {
 })
 
 test_that("single prediction", {
-  set.seed(1)
+  set.seed(1L)
   task = tsk("rats")$filter(sample(300, 20))
   learner = mlr_learners$get("surv.kaplan")
   learner$train(task)
   expect_prediction_surv(learner$predict(task, 1))
 })
-  

@@ -59,10 +59,10 @@
 #'
 #' @export
 pecs = function(x, measure = c("graf", "logloss"), times, n, eps = NULL, ...) {
-  mlr3misc::require_namespaces("ggplot2")
+  require_namespaces("ggplot2")
 
-  if (!missing(times)) assertNumeric(times, min.len = 1)
-  if (!missing(n)) assertIntegerish(n, len = 1)
+  if (!missing(times)) assert_numeric(times, min.len = 1L)
+  if (!missing(n)) assert_integerish(n, len = 1L)
 
   UseMethod("pecs", x)
 }
@@ -76,14 +76,16 @@ pecs.list = function(x, measure = c("graf", "logloss"), times, n, eps = NULL, ta
   measure = match.arg(measure)
 
   if (is.null(eps)) {
-    eps = ifelse(measure == "graf", 1e-3, 1e-15)
+    eps = if (measure == "graf") 1e-3 else 1e-15
   } else {
-    assertNumeric(eps, lower = -1, upper = 1)
+    assert_numeric(eps, lower = -1, upper = 1)
   }
 
-  assert(all(sapply(x, function(y) !is.null(y$model))),
-    "x must be a list of trained survival learners")
-  assertClass(task, "TaskSurv")
+  assert_learners(x)
+  if (any(map_lgl(x, function(y) is.null(y$model)))) {
+    stopf("`x` must be a list of trained survival learners")
+  }
+  assert_class(task, "TaskSurv")
 
   if (is.null(newdata)) {
     p = lapply(x, function(y) y$predict(task = task, row_ids = row_ids))
@@ -94,14 +96,15 @@ pecs.list = function(x, measure = c("graf", "logloss"), times, n, eps = NULL, ta
   true_times = sort(unique(task$truth()[, "time"]))
 
   times = .pec_times(true_times = true_times, times = times, n = n)
-  if (length(times) <= 1) {
-    stop(sprintf(
+  if (length(times) <= 1L) {
+    stopf(
       "Not enough `times` in the true observed times range: %s",
-      paste0("[", paste0(round(range(true_times), 3), collapse = ", "), "]")))
+      paste0("[", toString(round(range(true_times), 3)), "]")
+    )
   }
 
   n = as.integer(!is.null(train_task)) + as.integer(!is.null(train_set))
-  if (n == 1) {
+  if (n == 1L) {
     stop("Either 'train_task' and 'train_set' should be passed to measure or neither.")
   } else if (n) {
     train = train_task$truth(train_set)
@@ -130,9 +133,9 @@ pecs.list = function(x, measure = c("graf", "logloss"), times, n, eps = NULL, ta
     })
   }
 
-  times = as.numeric(names(scores[[1]]))
+  times = as.numeric(names(scores[[1L]]))
   scores = round(rbindlist(list(scores)), 4)
-  colnames(scores) = sapply(x, function(y) gsub("surv.", "", y$id, fixed = TRUE))
+  setnames(scores, map_chr(x, function(y) gsub("surv.", "", y$id, fixed = TRUE)))
   scores$time = times
   scores = melt(scores, "time", value.name = measure, variable.name = "learner")
 
@@ -148,16 +151,16 @@ pecs.PredictionSurv = function(x, measure = c("graf", "logloss"), times, n, eps 
 
   measure = match.arg(measure)
   if (is.null(eps)) {
-    eps = ifelse(measure == "graf", 1e-3, 1e-15)
+    eps = if (measure == "graf") 1e-3 else 1e-15
   } else {
-    assertNumeric(eps, lower = -1, upper = 1)
+    assert_numeric(eps, lower = -1, upper = 1)
   }
 
-  true_times = sort(unique(x$truth[, 1]))
+  true_times = sort(unique(x$truth[, 1L]))
   times = .pec_times(true_times = true_times, times = times, n = n)
 
   n = as.integer(!is.null(train_task)) + as.integer(!is.null(train_set))
-  if (n == 1) {
+  if (n == 1L) {
     stop("Either 'train_task' and 'train_set' should be passed to measure or neither.")
   } else if (n) {
     train = train_task$truth(train_set)
@@ -201,11 +204,11 @@ pecs.PredictionSurv = function(x, measure = c("graf", "logloss"), times, n, eps 
     times[times > max(true_times)] = max(true_times)
     times[times < min(true_times)] = min(true_times)
     times = sort(unique(times))
-    if (length(times) == 2) {
+    if (length(times) == 2L) {
       if (missing(n)) {
-        return(true_times[true_times >= times[1] & true_times <= times[2]])
+        return(true_times[true_times >= times[1L] & true_times <= times[2L]])
       } else {
-        return(seq(times[1], times[2], length.out = n))
+        return(seq(times[1L], times[2L], length.out = n))
       }
     } else {
       return(times)

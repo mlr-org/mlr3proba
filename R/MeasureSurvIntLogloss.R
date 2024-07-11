@@ -64,7 +64,7 @@ MeasureSurvIntLogloss = R6::R6Class("MeasureSurvIntLogloss",
         eps = p_dbl(0, 1, default = 1e-3),
         ERV = p_lgl(default = FALSE)
       )
-      ps$values = list(
+      ps$set_values(
         integrated = TRUE, method = 2L, se = FALSE,
         proper = FALSE, eps = 1e-3, ERV = ERV
       )
@@ -95,9 +95,9 @@ MeasureSurvIntLogloss = R6::R6Class("MeasureSurvIntLogloss",
       }
       if (!ps$integrated) {
         msg = "If `integrated=FALSE` then `times` should be a scalar numeric."
-        assert_numeric(ps$times, len = 1, .var.name = msg)
+        assert_numeric(ps$times, len = 1L, .var.name = msg)
       } else {
-        if (!is.null(ps$times) && length(ps$times) == 1) {
+        if (!is.null(ps$times) && length(ps$times) == 1L) {
           ps$integrated = FALSE
         }
       }

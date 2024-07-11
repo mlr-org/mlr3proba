@@ -30,15 +30,20 @@ Authors@R:
              role = c("cre", "aut"),
              email = "bblodfon@gmail.com",
              comment = c(ORCID = "0000-0002-3609-8674")),
-      person(given = "Lukas", 
+      person(given = "Lukas",
              family = "Burk",
-             email = "github@quantenbrot.de", 
+             email = "github@quantenbrot.de",
              role = "ctb",
              comment = c(ORCID = "0000-0001-7528-3795")),
       person(given = "Philip",
              family = "Studener",
              role = "aut",
-             email = "philip.studener@gmx.de"))
+             email = "philip.studener@gmx.de")),
+      person(given = "Maximilian",
+             family = "Muecke",
+             email = "muecke.maximilian@gmail.com",
+             role = "ctb",
+             comment = c(ORCID = "0009-0000-9432-9795")))
 Description: Provides extensions for probabilistic supervised learning for
     'mlr3'.  This includes extending the regression task to probabilistic
     and interval regression, adding a survival task, and other specialized
@@ -56,7 +61,7 @@ Imports:
     ggplot2,
     mlr3misc (>= 0.7.0),
     mlr3viz,
-    paradox (>= 0.1.0),
+    paradox (>= 1.0.0),
     R6,
     Rcpp (>= 1.0.4),
     survival,
@@ -74,7 +79,7 @@ Suggests:
     set6 (>= 0.2.6),
     simsurv,
     survAUC,
-    testthat,
+    testthat (>= 3.0.0),
     vdiffr,
     abind,
     Ecdat,
@@ -87,12 +92,13 @@ Remotes:
     xoopR/distr6,
     xoopR/param6,
     xoopR/set6
+Config/testthat/edition: 3
 ByteCompile: true
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
 Roxygen: list(markdown = TRUE, r6 = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Collate:
     'LearnerDens.R'
     'aaa.R'

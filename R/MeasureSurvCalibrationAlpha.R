@@ -52,11 +52,11 @@ MeasureSurvCalibrationAlpha = R6Class("MeasureSurvCalibrationAlpha",
         eps = p_dbl(0, 1, default = 1e-3),
         se = p_lgl(default = FALSE),
         method = p_fct(c("ratio", "diff"), default = "ratio"),
-        truncate = p_dbl(lower = -Inf, upper = Inf, default = Inf)
+        truncate = p_dbl(default = Inf)
       )
-      ps$values = list(eps = 1e-3, se = FALSE, method = method, truncate = Inf)
+      ps$set_values(eps = 1e-3, se = FALSE, method = method, truncate = Inf)
       range = if (method == "ratio") c(-Inf, Inf) else c(0, Inf)
-      minimize = ifelse(method == "ratio", FALSE, TRUE)
+      minimize = method != "ratio"
 
       super$initialize(
         id = "surv.calib_alpha",
@@ -73,8 +73,8 @@ MeasureSurvCalibrationAlpha = R6Class("MeasureSurvCalibrationAlpha",
   private = list(
     .score = function(prediction, ...) {
       truth = prediction$truth
-      all_times = truth[, 1] # both event times and censoring times
-      status = truth[, 2]
+      all_times = truth[, 1L] # both event times and censoring times
+      status = truth[, 2L]
       deaths = sum(status)
 
       ps = self$param_set$values
@@ -86,7 +86,7 @@ MeasureSurvCalibrationAlpha = R6Class("MeasureSurvCalibrationAlpha",
         # Bypass distr6 construction if underlying distr represented by array
         if (inherits(distr, "array")) {
           surv = distr
-          if (length(dim(surv)) == 3) {
+          if (length(dim(surv)) == 3L) {
             # survival 3d array, extract median
             surv = .ext_surv_mat(arr = surv, which.curve = 0.5)
           }
@@ -103,7 +103,7 @@ MeasureSurvCalibrationAlpha = R6Class("MeasureSurvCalibrationAlpha",
         } else {
           if (inherits(distr, "VectorDistribution")) {
             cumhaz = as.numeric(
-              distr$cumHazard(data = matrix(all_times, nrow = 1))
+              distr$cumHazard(data = matrix(all_times, nrow = 1L))
             )
           } else {
             cumhaz = diag(as.matrix(distr$cumHazard(all_times)))

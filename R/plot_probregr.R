@@ -57,7 +57,7 @@ plot_probregr = function(p, n, type = c("point", "line", "both", "none"),
   xmax = ceiling(max(truth) + 3 * max(d$stdev()))
   x = seq(xmin, xmax, length.out = 100)
 
-  data_pred = suppressWarnings(cbind(x, data.table::melt(d$pdf(x))))
+  data_pred = suppressWarnings(cbind(x, melt(d$pdf(x))))
   if (rm_zero) data_pred[round(data_pred$value, 6) == 0, ] = NA
   variable = factor(d$strprint(), levels = d$strprint())
   data_truth = data.frame(x = truth, variable = variable)

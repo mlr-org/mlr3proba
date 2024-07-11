@@ -82,10 +82,10 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id = "distrcompose", param_vals = list()) {
       param_set = ps(
-        form = p_fct(default = "aft", levels = c("aft", "ph", "po"), tags = c("predict")),
-        overwrite = p_lgl(default = FALSE, tags = c("predict"))
+        form = p_fct(default = "aft", levels = c("aft", "ph", "po"), tags = "predict"),
+        overwrite = p_lgl(default = FALSE, tags = "predict")
       )
-      param_set$values = list(form = "aft", overwrite = FALSE)
+      param_set$set_values(form = "aft", overwrite = FALSE)
 
       super$initialize(
         id = id,
@@ -119,10 +119,10 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
         row_ids = inpred$row_ids
         truth = inpred$truth
 
-        mlr3misc::map(inputs, function(x) checkmate::assert_true(identical(truth, x$truth)))
+        walk(inputs, function(x) assert_true(identical(truth, x$truth)))
 
         form = self$param_set$values$form
-        if (length(form) == 0) form = "aft"
+        if (length(form) == 0L) form = "aft"
         nr = length(inpred$data$row_ids)
 
         # assumes PH-style lp where high value = high risk
@@ -134,7 +134,7 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
 
         if (inherits(base$data$distr, "Distribution")) {
           base = distr6::as.MixtureDistribution(base$distr)
-          times = unlist(base[1]$properties$support$elements)
+          times = unlist(base[1L]$properties$support$elements)
           nc = length(times)
           survmat = matrix(1 - base$cdf(times), nrow = nr, ncol = nc, byrow = TRUE)
         } else {
@@ -147,17 +147,17 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
         timesmat = matrix(times, nrow = nr, ncol = nc, byrow = TRUE)
         lpmat = matrix(lp, nrow = nr, ncol = nc)
 
-      if (form == "ph") {
-        cdf = 1 - (survmat^exp(lpmat))
-      } else if (form == "aft") {
-        mtc = findInterval(timesmat / exp(lpmat), times)
-        mtc[mtc == 0] = NA
-        cdf = 1 - matrix(survmat[1, mtc], nr, nc, FALSE)
-        cdf[is.na(cdf)] = 0
-      } else if (form == "po") {
-        cdf = 1 - (survmat * ((exp(-lpmat) + ((1 - exp(-lpmat)) * survmat))^-1))
-        cdf[survmat == 1] = 0
-      }
+        if (form == "ph") {
+          cdf = 1 - (survmat^exp(lpmat))
+        } else if (form == "aft") {
+          mtc = findInterval(timesmat / exp(lpmat), times)
+          mtc[mtc == 0] = NA
+          cdf = 1 - matrix(survmat[1L, mtc], nr, nc, FALSE)
+          cdf[is.na(cdf)] = 0
+        } else if (form == "po") {
+          cdf = 1 - (survmat * ((exp(-lpmat) + ((1 - exp(-lpmat)) * survmat))^-1))
+          cdf[survmat == 1] = 0
+        }
 
         distr = .surv_return(times, 1 - cdf)$distr
 
