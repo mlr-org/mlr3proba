@@ -1,10 +1,10 @@
 test_that("autotest", {
-  with_seed(42, {
+  with_seed(42L, {
     learner = lrn("surv.coxph")
     expect_learner(learner)
     ## no idea why weights check here fails, we test the same task
     ## in the below test and it works!
-    result = run_autotest(learner, exclude = "weights", check_replicable = FALSE, N = 10)
+    result = run_autotest(learner, exclude = "weights", check_replicable = FALSE, N = 10L)
     expect_true(result, info = result$error)
   })
 })
