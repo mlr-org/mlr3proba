@@ -2,7 +2,7 @@ expect_task_dens = function(task) {
   expect_class(task, "TaskDens")
   expect_task(task)
   expect_class(task$data(), "data.table")
-  expect_equal(task$ncol, 1L)
+  expect_identical(task$ncol, 1L)
 
   f = task$formula()
   expect_formula(f)
@@ -31,7 +31,7 @@ expect_prediction_surv = function(p) {
   checkmate::expect_data_table(data.table::as.data.table(p), nrows  = length(p$row_ids))
   checkmate::expect_atomic_vector(p$missing)
   if ("distr" %in% p$predict_types && !is.null(p$distr)) {
-    expect_true(class(p$distr)[[1]] %in% c("VectorDistribution", "Matdist", "Arrdist", "WeightedDiscrete"))
+    expect_true(class(p$distr)[[1L]] %in% c("VectorDistribution", "Matdist", "Arrdist", "WeightedDiscrete"))
   }
   expect_true(inherits(p, "PredictionSurv"))
 }

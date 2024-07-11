@@ -1,5 +1,5 @@
-set.seed(1)
-task = tsk("rats")$filter(sample(300, 5))
+set.seed(1L)
+task = tsk("rats")$filter(sample(300, 5L))
 
 test_that("pecs.list", {
   skip_on_cran()
@@ -9,8 +9,8 @@ test_that("pecs.list", {
     lapply(learns, function(x) x$train(task))
   })
   expect_error(pecs(learns, meas = "sdsd"))
-  expect_silent(pecs(learns, task = task, meas = "logloss", n = 10))
-  expect_error(pecs(learns, times = 1))
+  expect_silent(pecs(learns, task = task, meas = "logloss", n = 10L))
+  expect_error(pecs(learns, times = 1L))
   expect_error(pecs(learns, times = -10:-5, task = task), "Not enough")
 })
 

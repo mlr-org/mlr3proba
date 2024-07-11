@@ -75,7 +75,7 @@ Suggests:
     set6 (>= 0.2.6),
     simsurv,
     survAUC,
-    testthat,
+    testthat (>= 3.0.0),
     vdiffr,
     abind,
     Ecdat,
@@ -86,6 +86,7 @@ Remotes:
     xoopR/distr6,
     xoopR/param6,
     xoopR/set6
+Config/testthat/edition: 3
 ByteCompile: true
 Encoding: UTF-8
 LazyData: true
