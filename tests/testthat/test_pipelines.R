@@ -155,9 +155,9 @@ test_that("survtoclassif", {
   grlrn$train(task)
   pred = grlrn$predict(task)
 
-  grlrn = ppl("survtoclassif", learner = lrn("classif.featureless"), graph_learner = TRUE)
-  grlrn$train(task)
-  pred2 = grlrn$predict(task)
+  grlrn2 = ppl("survtoclassif", learner = lrn("classif.featureless"), graph_learner = TRUE)
+  grlrn2$train(task)
+  pred2 = grlrn2$predict(task)
 
   expect_equal(pred$data$distr, pred2$data$distr)
 
