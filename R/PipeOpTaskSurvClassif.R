@@ -59,17 +59,17 @@ PipeOpTaskSurvClassif = R6Class("PipeOpTaskSurvClassif",
     initialize = function(id = "trafotask_survclassif") {
       param_set = ps(
         cut = p_uty(default = NULL),
-        max_time = p_dbl(default = NULL, special_vals = list(NULL))
+        max_time = p_dbl(0, default = NULL, special_vals = list(NULL))
       )
       super$initialize(
         id = id,
         param_set = param_set,
-        input = data.table::data.table(
+        input = data.table(
           name    = "input",
           train   = "TaskSurv",
           predict = "TaskSurv"
         ),
-        output = data.table::data.table(
+        output = data.table(
           name    = c("output", "transformed_data"),
           train   = c("TaskClassif", "data.table"),
           predict = c("TaskClassif", "data.table")
@@ -80,9 +80,9 @@ PipeOpTaskSurvClassif = R6Class("PipeOpTaskSurvClassif",
 
   private = list(
     .train = function(input) {
-      task = input[[1]]
-      data = task$data()
+      task = input[[1L]]
       assert_true(task$censtype == "right")
+      data = task$data()
 
       cut = assert_numeric(self$param_set$values$cut, null.ok = TRUE, lower = 0)
       max_time = self$param_set$values$max_time
@@ -97,9 +97,8 @@ PipeOpTaskSurvClassif = R6Class("PipeOpTaskSurvClassif",
                "max_time must be greater than the minimum event time.")
       }
 
-      form = mlr3misc::formulate(sprintf("Surv(%s, %s)", time_var, event_var), ".")
+      form = formulate(sprintf("Surv(%s, %s)", time_var, event_var), ".")
 
-      # TODO: do without pammtools
       long_data = pammtools::as_ped(data = data, formula = form, cut = cut, max_time = max_time)
       self$state$cut = attributes(long_data)$trafo_args$cut
       self$state$event_var = event_var
@@ -110,10 +109,11 @@ PipeOpTaskSurvClassif = R6Class("PipeOpTaskSurvClassif",
       # remove offset, tstart, interval for dataframe long_data
       long_data[, c("offset", "tstart", "interval") := NULL]
 
-      task = TaskClassif$new(paste0(task$id, "_disc"), long_data, target = "ped_status", positive = "1")
-      task$set_col_roles("id", roles = "name")
+      task_disc = TaskClassif$new(paste0(task$id, "_disc"), long_data,
+                                  target = "ped_status", positive = "1")
+      task_disc$set_col_roles("id", roles = "name")
 
-      list(task, data.table())
+      list(task_disc, data.table())
     },
 
     .predict = function(input) {
@@ -130,7 +130,7 @@ PipeOpTaskSurvClassif = R6Class("PipeOpTaskSurvClassif",
       data[[time_var]] = max_time
 
       # update form
-      form = mlr3misc::formulate(sprintf("Surv(%s, %s)", time_var, event_var), ".")
+      form = formulate(sprintf("Surv(%s, %s)", time_var, event_var), ".")
 
       new_data = pammtools::as_ped(data, formula = form, cut = cut)
       new_data = as.data.table(new_data)
@@ -138,11 +138,12 @@ PipeOpTaskSurvClassif = R6Class("PipeOpTaskSurvClassif",
 
       # remove offset, tstart, interval for dataframe long_data
       new_data[, c("offset", "tstart", "interval") := NULL]
-      task = TaskClassif$new(paste0(task$id, "_disc"), new_data, target = "ped_status", positive = "1")
-      task$set_col_roles("id", roles = "name")
+      task_disc = TaskClassif$new(paste0(task$id, "_disc"), new_data,
+                                  target = "ped_status", positive = "1")
+      task_disc$set_col_roles("id", roles = "name")
 
       new_data$time2 = rep(time, each = sum(new_data$id == 1))
-      list(task, new_data)
+      list(task_disc, new_data)
     }
   )
 )

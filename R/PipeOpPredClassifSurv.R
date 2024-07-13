@@ -51,12 +51,12 @@ PipeOpPredClassifSurv = R6Class(
     initialize = function(id = "trafopred_classifsurv") {
       super$initialize(
         id = id,
-        input = data.table::data.table(
+        input = data.table(
           name = c("input", "transformed_data"),
           train = c("NULL", "data.table"),
           predict = c("PredictionClassif", "data.table")
         ),
-        output = data.table::data.table(
+        output = data.table(
           name = "output",
           train = "NULL",
           predict = "PredictionSurv"
@@ -73,7 +73,7 @@ PipeOpPredClassifSurv = R6Class(
       data = cbind(data, pred = pred$prob[, "0"])
 
       ## convert hazards to surv as prod(1 - h(t))
-      rows_per_id = nrow(data)/length(unique(data$id))
+      rows_per_id = nrow(data) / length(unique(data$id))
       surv = t(vapply(unique(data$id), function(unique_id) {
         x = cumprod((data[data$id == unique_id, ][["pred"]]))
         x
