@@ -563,25 +563,25 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
 #' }
 #' }
 #' @export
-pipeline_survtoclassif = function(learner, cut = NULL, max_time = NULL,
+pipeline_survtoclassif_disctime = function(learner, cut = NULL, max_time = NULL,
                                   rhs = NULL, graph_learner = FALSE) {
   assert_true("prob" %in% learner$predict_types)
 
   gr = mlr3pipelines::Graph$new()
-  gr$add_pipeop(mlr3pipelines::po("trafotask_survclassif", cut = cut, max_time = max_time))
+  gr$add_pipeop(mlr3pipelines::po("trafotask_survclassif_disctime", cut = cut, max_time = max_time))
   gr$add_pipeop(mlr3pipelines::po("learner", learner, predict_type = "prob"))
   gr$add_pipeop(mlr3pipelines::po("nop"))
-  gr$add_pipeop(mlr3pipelines::po("trafopred_classifsurv"))
+  gr$add_pipeop(mlr3pipelines::po("trafopred_classifsurv_disctime"))
 
-  gr$add_edge(src_id = "trafotask_survclassif", dst_id = learner$id, src_channel = "output", dst_channel = "input")
-  gr$add_edge(src_id = "trafotask_survclassif", dst_id = "nop", src_channel = "transformed_data", dst_channel = "input")
-  gr$add_edge(src_id = learner$id, dst_id = "trafopred_classifsurv", src_channel = "output", dst_channel = "input")
-  gr$add_edge(src_id = "nop", dst_id = "trafopred_classifsurv", src_channel = "output", dst_channel = "transformed_data")
+  gr$add_edge(src_id = "trafotask_survclassif_disctime", dst_id = learner$id, src_channel = "output", dst_channel = "input")
+  gr$add_edge(src_id = "trafotask_survclassif_disctime", dst_id = "nop", src_channel = "transformed_data", dst_channel = "input")
+  gr$add_edge(src_id = learner$id, dst_id = "trafopred_classifsurv_disctime", src_channel = "output", dst_channel = "input")
+  gr$add_edge(src_id = "nop", dst_id = "trafopred_classifsurv_disctime", src_channel = "output", dst_channel = "transformed_data")
 
   if (!is.null(rhs)) {
     gr$edges = gr$edges[-1, ]
     gr$add_pipeop(mlr3pipelines::po("modelmatrix", formula = mlr3misc::formulate(rhs = rhs, quote = "left")))
-    gr$add_edge(src_id = "trafotask_survclassif", dst_id = "modelmatrix", src_channel = "output")
+    gr$add_edge(src_id = "trafotask_survclassif_disctime", dst_id = "modelmatrix", src_channel = "output")
     gr$add_edge(src_id = "modelmatrix", dst_id = learner$id, src_channel = "output", dst_channel = "input")
   }
 
@@ -598,4 +598,4 @@ register_graph("crankcompositor", pipeline_crankcompositor)
 register_graph("distrcompositor", pipeline_distrcompositor)
 register_graph("probregr", pipeline_probregr)
 register_graph("survtoregr", pipeline_survtoregr)
-register_graph("survtoclassif", pipeline_survtoclassif)
+register_graph("survtoclassif_disctime", pipeline_survtoclassif_disctime)

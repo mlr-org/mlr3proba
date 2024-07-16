@@ -1,17 +1,21 @@
-#' @title PipeOpTaskSurvClassif
-#' @name mlr_pipeops_trafotask_survclassif
+#' @title PipeOpTaskSurvClassifDiscTime
+#' @name mlr_pipeops_trafotask_survclassif_disctime
 #' @template param_pipelines
 #'
 #' @description
 #' Transform [TaskSurv] to [TaskClassif][mlr3::TaskClassif] by creating multiple
-#' interval observations for each subject based on `cut`, with a `ped_status` variable
+#' interval observations for each subject, with a `ped_status` variable
 #' indicating whether an event occurred in each interval.
 #'
 #' @section Input and Output Channels:
 #' Input and output channels are inherited from [PipeOp][mlr3pipelines::PipeOp].
 #'
 #' The output is the input [TaskSurv] transformed to a [TaskClassif][mlr3::TaskClassif]
-#' as well as the transformed data during prediction.
+#' as well as the transformed data during prediction which now has a column
+#' `ped_status` which indicates whether an event occurred in each interval
+#' as well as another column `time2` containing the original times.
+#' The column `tend` contains the end time of each interval.
+#' This output is only meant to be used with the [PipeOpPredClassifSurvDiscTime].
 #'
 #' @section State:
 #' The `$state` contains information about the `cut` parameter used
@@ -22,14 +26,14 @@
 #' The parameters are
 #'
 #' * `cut :: numeric()`\cr
-#' Split points, used to partition the data into intervals.
+#' Split points, used to partition the data into intervals based on the `time` column.
 #' If unspecified, all unique event times will be used.
 #' If `cut` is a single integer, it will be interpreted as the number of equidistant
 #' intervals from 0 until the maximum event time.
 #' * `max_time :: numeric(1)`\cr
-#' If cut is unspecified, this will be the last possible event time.
-#' All event times after max_time will be administratively censored at max_time.
-#' Needs to be greater than the minimum event time.
+#' If `cut` is unspecified, this will be the last possible event time.
+#' All event times after `max_time` will be administratively censored at `max_time.`
+#' Needs to be greater than the minimum event time in the given task.
 #'
 #' @examples
 #' \dontrun{
@@ -38,7 +42,7 @@
 #'   library(mlr3pipelines)
 #'
 #'   task = tsk("lung")
-#'   po = po("trafotask_survclassif")
+#'   po = po("trafotask_survclassif_disctime")
 #'   po$train(list(task))
 #'   po$predict(list(task))[[1]]
 #' }
@@ -50,13 +54,13 @@
 #' @family PipeOps
 #' @family Transformation PipeOps
 #' @export
-PipeOpTaskSurvClassif = R6Class("PipeOpTaskSurvClassif",
+PipeOpTaskSurvClassifDiscTime = R6Class("PipeOpTaskSurvClassifDiscTime",
   inherit = mlr3pipelines::PipeOp,
 
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id = "trafotask_survclassif") {
+    initialize = function(id = "trafotask_survclassif_disctime") {
       param_set = ps(
         cut = p_uty(default = NULL),
         max_time = p_dbl(0, default = NULL, special_vals = list(NULL))
@@ -148,4 +152,4 @@ PipeOpTaskSurvClassif = R6Class("PipeOpTaskSurvClassif",
   )
 )
 
-register_pipeop("trafotask_survclassif", PipeOpTaskSurvClassif)
+register_pipeop("trafotask_survclassif_disctime", PipeOpTaskSurvClassifDiscTime)

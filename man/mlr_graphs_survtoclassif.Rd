@@ -2,10 +2,10 @@
 % Please edit documentation in R/pipelines.R
 \name{mlr_graphs_survtoclassif}
 \alias{mlr_graphs_survtoclassif}
-\alias{pipeline_survtoclassif}
+\alias{pipeline_survtoclassif_disctime}
 \title{Survival to Classification Reduction Pipeline}
 \usage{
-pipeline_survtoclassif(
+pipeline_survtoclassif_disctime(
   learner,
   cut = NULL,
   max_time = NULL,
