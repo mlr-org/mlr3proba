@@ -133,11 +133,17 @@ PipeOpTaskSurvClassifDiscTime = R6Class("PipeOpTaskSurvClassifDiscTime",
       time = data[[time_var]]
       data[[time_var]] = max_time
 
+      status = data[[event_var]]
+      data[[event_var]] = 1
+
       # update form
       form = formulate(sprintf("Surv(%s, %s)", time_var, event_var), ".")
 
       new_data = pammtools::as_ped(data, formula = form, cut = cut)
       new_data = as.data.table(new_data)
+
+      new_data[, ped_status := 1]
+      new_data[new_data[, .I[.N], by = id]$V1, ped_status := status]
       new_data$ped_status = factor(new_data$ped_status, levels = c("0", "1"))
 
       # remove offset, tstart, interval for dataframe long_data
