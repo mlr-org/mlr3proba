@@ -3,19 +3,32 @@
 #' @template param_pipelines
 #'
 #' @description
-#' Transform [TaskSurv] to [TaskClassif][mlr3::TaskClassif] by creating multiple
-#' interval observations for each subject, with a `ped_status` variable
-#' indicating whether an event occurred in each interval.
+#' Transform [TaskSurv] to [TaskClassif][mlr3::TaskClassif] by dividing continuous
+#' time into multiple time intervals for each observation.
+#' This transformation creates a new target variable `ped_status` that indicates
+#' whether an event occurred within each time interval.
+#' This approach facilitates survival analysis within a classification framework
+#' using discrete time intervals (Tutz et al. 2016).
 #'
 #' @section Input and Output Channels:
-#' Input and output channels are inherited from [PipeOp][mlr3pipelines::PipeOp].
+#' [PipeOpTaskSurvClassifDiscTime] has one input channel named "input", and two
+#' output channels, one named "output" and the other "transformed_data".
 #'
-#' The output is the input [TaskSurv] transformed to a [TaskClassif][mlr3::TaskClassif]
-#' as well as the transformed data during prediction which now has a column
-#' `ped_status` which indicates whether an event occurred in each interval
-#' as well as another column `time2` containing the original times.
-#' The column `tend` contains the end time of each interval.
-#' This output is only meant to be used with the [PipeOpPredClassifSurvDiscTime].
+#' During training, the "output" is the "input" [TaskSurv] transformed to a
+#' [TaskClassif][mlr3::TaskClassif].
+#' The target column is named `ped_status` and indicates whether an event occurred
+#' in each time interval.
+#' An additional feature named `tend` is added to the ouput task, containing the
+#' end time of each interval.
+#' The "transformed_data" is an empty [data.table][data.table::data.table].
+#'
+#' During prediction, the "input" [TaskSurv] is transformed to the "output"
+#' [TaskClassif][mlr3::TaskClassif] with `ped_status` as target and the `tend`
+#' feature included.
+#' The "transformed_data" is a [data.table] which has all the features of the
+#' "output" task, including an additional column `time2` containing the
+#' original times.
+#' This "transformed_data" is only meant to be used with the [PipeOpPredClassifSurvDiscTime].
 #'
 #' @section State:
 #' The `$state` contains information about the `cut` parameter used
