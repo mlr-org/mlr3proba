@@ -122,12 +122,13 @@ test_that("survtoclassif_disctime", {
   p = grlrn$predict(task)
   expect_prediction_surv(p)
 
+  # compare with simple cox prediction
   cox = lrn("surv.coxph")
   suppressWarnings(cox$train(task))
   p2 = cox$predict(task)
 
   expect_equal(p$truth, p2$truth)
-  expect_equal(p$score(), p2$score(), tolerance = 0.1)
+  expect_equal(p$score(), p2$score(), tolerance = 0.01)
 
   # Test with cut
   grlrn = mlr3pipelines::ppl("survtoclassif_disctime", learner = lrn("classif.log_reg"),
@@ -137,7 +138,8 @@ test_that("survtoclassif_disctime", {
   p = grlrn$predict(task)
   expect_prediction_surv(p)
 
-  # Test with max event time
+  # `max_time` needs to be larger than the minimum event time so we choose
+  # the minimum event time in the data for testing
   max_time = task$data()[status == 1, min(time)]
   grlrn = mlr3pipelines::ppl("survtoclassif_disctime", learner = lrn("classif.log_reg"),
                              max_time = max_time, graph_learner = TRUE)
