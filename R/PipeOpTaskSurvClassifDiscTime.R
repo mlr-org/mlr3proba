@@ -142,6 +142,7 @@ PipeOpTaskSurvClassifDiscTime = R6Class("PipeOpTaskSurvClassifDiscTime",
       new_data = pammtools::as_ped(data, formula = form, cut = cut)
       new_data = as.data.table(new_data)
 
+      ped_status = id = NULL # fixing global binding notes of data.table
       new_data[, ped_status := 1]
       new_data[new_data[, .I[.N], by = id]$V1, ped_status := status]
       new_data$ped_status = factor(new_data$ped_status, levels = c("0", "1"))
