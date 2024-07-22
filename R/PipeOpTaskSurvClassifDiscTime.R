@@ -37,14 +37,25 @@
 #'
 #' @examples
 #' \dontrun{
-#' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
+#' if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
+#'     requireNamespace("mlr3learners", quietly = TRUE)) {
 #'   library(mlr3)
+#'   library(mlr3learners)
 #'   library(mlr3pipelines)
 #'
 #'   task = tsk("lung")
-#'   po = po("trafotask_survclassif_disctime")
-#'   po$train(list(task))
-#'   po$predict(list(task))[[1]]
+#'
+#'   # transform the survival task to a classification task
+#'   po_disc = po("trafotask_survclassif_disctime", cut = 4)
+#'   task_classif = po_disc$train(list(task))[[1L]]
+#'
+#'   # use a classification learner
+#'   learner = lrn("classif.log_reg", predict_type = "prob")
+#'   learner$train(task_classif)
+#'   learner$predict(task_classif) # does this make sense?
+#'
+#'   # predict makes sense?
+#'   po_disc$predict(list(task))[[1]]
 #' }
 #' }
 #'
