@@ -20,27 +20,26 @@ The output is the input \link{PredictionClassif} transformed to a \link{Predicti
 
 \examples{
 \dontrun{
-if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
+if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
+    requireNamespace("mlr3learners", quietly = TRUE)) {
   library(mlr3)
+  library(mlr3learners)
   library(mlr3pipelines)
 
-  task = tsk("rats")
+  task = tsk("lung")
 
-  if (requireNamespace("mlr3learners", quietly = TRUE)) {
-    library(mlr3learners)
-    po_tasktoclassif = po("trafotask_survclassif_disctime")
-    po_tasktoclassif$train(list(task))
-    task_classif = po_tasktoclassif$predict(list(task))[[1]]
-    trafo_data = po_tasktoclassif$predict(list(task))[[2]]
+  po_disc = po("trafotask_survclassif_disctime")
+  po_disc$train(list(task))
+  task_classif = po_disc$predict(list(task))[[1]]
+  trafo_data = po_disc$predict(list(task))[[2]]
 
-    learner = lrn("classif.log_reg", predict_type = "prob")
-    learner$train(task_classif)
-    pred = learner$predict(task_classif)
+  learner = lrn("classif.log_reg", predict_type = "prob")
+  learner$train(task_classif)
+  pred = learner$predict(task_classif)
 
-    po_predtosurv = po("trafopred_classifsurv_disctime")
-    po_predtosurv$train(list(pred, trafo_data))
-    po_predtosurv$predict(list(pred, trafo_data))
-  }
+  po_predtosurv = po("trafopred_classifsurv_disctime")
+  po_predtosurv$train(list(pred, trafo_data))
+  po_predtosurv$predict(list(pred, trafo_data))
 }
 }
 }

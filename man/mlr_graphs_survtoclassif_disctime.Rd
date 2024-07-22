@@ -20,7 +20,9 @@ Classification learner to fit the transformed \link[mlr3:TaskClassif]{TaskClassi
 
 \item{cut}{\code{numeric()}\cr
 Split points, used to partition the data into intervals.
-If unspecified, all unique event times will be used.}
+If unspecified, all unique event times will be used.
+If \code{cut} is a single integer, it will be interpreted as the number of equidistant
+intervals from 0 until the maximum event time.}
 
 \item{max_time}{\code{numeric(1)}\cr
 If cut is unspecified, this will be the last possible event time.
@@ -45,19 +47,24 @@ of complex survival reduction methods.
 }
 \examples{
 \dontrun{
-if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
-  library("mlr3")
-  library("mlr3pipelines")
+if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
+    requireNamespace("mlr3learners", quietly = TRUE)) {
 
-  task = tsk("rats")
+  library(mlr3)
+  library(mlr3learners)
+  library(mlr3pipelines)
 
-  pipe = ppl(
-    "survtoclassif",
-    learner = lrn("classif.log_reg")
+  task = tsk("lung")
+  part = partition(task)
+
+  grlrn = ppl(
+    "survtoclassif_disctime",
+    learner = lrn("classif.log_reg"),
+    cut = 4, # 4 equidistant time intervals
+    graph_learner = TRUE
   )
-  pipe$train(task)
-  pipe$predict(task)
-
+  grlrn$train(task, row_ids = part$train)
+  grlrn$predict(task, row_ids = part$test)
 }
 }
 }

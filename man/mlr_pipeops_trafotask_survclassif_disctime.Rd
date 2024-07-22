@@ -5,20 +5,33 @@
 \alias{PipeOpTaskSurvClassifDiscTime}
 \title{PipeOpTaskSurvClassifDiscTime}
 \description{
-Transform \link{TaskSurv} to \link[mlr3:TaskClassif]{TaskClassif} by creating multiple
-interval observations for each subject, with a \code{ped_status} variable
-indicating whether an event occurred in each interval.
+Transform \link{TaskSurv} to \link[mlr3:TaskClassif]{TaskClassif} by dividing continuous
+time into multiple time intervals for each observation.
+This transformation creates a new target variable \code{ped_status} that indicates
+whether an event occurred within each time interval.
+This approach facilitates survival analysis within a classification framework
+using discrete time intervals (Tutz et al. 2016).
 }
 \section{Input and Output Channels}{
 
-Input and output channels are inherited from \link[mlr3pipelines:PipeOp]{PipeOp}.
+\link{PipeOpTaskSurvClassifDiscTime} has one input channel named "input", and two
+output channels, one named "output" and the other "transformed_data".
 
-The output is the input \link{TaskSurv} transformed to a \link[mlr3:TaskClassif]{TaskClassif}
-as well as the transformed data during prediction which now has a column
-\code{ped_status} which indicates whether an event occurred in each interval
-as well as another column \code{time2} containing the original times.
-The column \code{tend} contains the end time of each interval.
-This output is only meant to be used with the \link{PipeOpPredClassifSurvDiscTime}.
+During training, the "output" is the "input" \link{TaskSurv} transformed to a
+\link[mlr3:TaskClassif]{TaskClassif}.
+The target column is named \code{ped_status} and indicates whether an event occurred
+in each time interval.
+An additional feature named \code{tend} is added to the ouput task, containing the
+end time of each interval.
+The "transformed_data" is an empty \link[data.table:data.table]{data.table}.
+
+During prediction, the "input" \link{TaskSurv} is transformed to the "output"
+\link[mlr3:TaskClassif]{TaskClassif} with \code{ped_status} as target and the \code{tend}
+feature included.
+The "transformed_data" is a \link{data.table} which has all the features of the
+"output" task, including an additional column \code{time2} containing the
+original times.
+This "transformed_data" is only meant to be used with the \link{PipeOpPredClassifSurvDiscTime}.
 }
 
 \section{State}{
@@ -46,14 +59,22 @@ Needs to be greater than the minimum event time in the given task.
 
 \examples{
 \dontrun{
-if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
+if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
+    requireNamespace("mlr3learners", quietly = TRUE)) {
   library(mlr3)
+  library(mlr3learners)
   library(mlr3pipelines)
 
   task = tsk("lung")
-  po = po("trafotask_survclassif_disctime")
-  po$train(list(task))
-  po$predict(list(task))[[1]]
+
+  # transform the survival task to a classification task
+  po_disc = po("trafotask_survclassif_disctime", cut = 4)
+  task_classif = po_disc$train(list(task))[[1L]]
+
+  # use a classification learner
+  learner = lrn("classif.log_reg", predict_type = "prob")
+  learner$train(task_classif)
+  learner$predict(task_classif)
 }
 }
 
