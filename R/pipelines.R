@@ -530,6 +530,8 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
 #' @param cut `numeric()`\cr
 #' Split points, used to partition the data into intervals.
 #' If unspecified, all unique event times will be used.
+#' If `cut` is a single integer, it will be interpreted as the number of equidistant
+#' intervals from 0 until the maximum event time.
 #' @param max_time `numeric(1)`\cr
 #' If cut is unspecified, this will be the last possible event time.
 #' All event times after max_time will be administratively censored at max_time.
