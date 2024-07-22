@@ -549,19 +549,24 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
 #'
 #' @examples
 #' \dontrun{
-#' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
-#'   library("mlr3")
-#'   library("mlr3pipelines")
+#' if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
+#'     requireNamespace("mlr3learners", quietly = TRUE)) {
 #'
-#'   task = tsk("rats")
+#'   library(mlr3)
+#'   library(mlr3learners)
+#'   library(mlr3pipelines)
 #'
-#'   pipe = ppl(
-#'     "survtoclassif",
-#'     learner = lrn("classif.log_reg")
+#'   task = tsk("lung")
+#'   part = partition(task)
+#'
+#'   grlrn = ppl(
+#'     "survtoclassif_disctime",
+#'     learner = lrn("classif.log_reg"),
+#'     cut = 4, # 4 equidistant time intervals
+#'     graph_learner = TRUE
 #'   )
-#'   pipe$train(task)
-#'   pipe$predict(task)
-#'
+#'   grlrn$train(task, row_ids = part$train)
+#'   grlrn$predict(task, row_ids = part$test)
 #' }
 #' }
 #' @export
