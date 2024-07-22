@@ -71,18 +71,19 @@ PipeOpPredClassifSurvDiscTime = R6Class(
       pred = input[[1]]
       data = input[[2]]
       assert_true(!is.null(pred$prob))
-      data = cbind(data, pred = pred$prob[, "0"])
+      # probability of having the event (1) in each respective interval
+      # is the discrete-time hazard
+      data = cbind(data, dt_hazard = pred$prob[, "1"])
 
-      ## convert hazards to surv as prod(1 - h(t))
+      # From theory, convert hazards to surv as prod(1 - h(t))
       rows_per_id = nrow(data) / length(unique(data$id))
       surv = t(vapply(unique(data$id), function(unique_id) {
-        x = cumprod((data[data$id == unique_id, ][["pred"]]))
-        x
-      }, numeric(rows_per_id)))
+        cumprod(1 - data[data$id == unique_id, ][["dt_hazard"]])
+      }, numeric()))
 
       pred_list = list()
       unique_end_times = sort(unique(data$tend))
-      ## coerce to distribution and crank
+      # coerce to distribution and crank
       pred_list = .surv_return(times = unique_end_times, surv = surv)
 
       # select the real tend values by only selecting the last row of each id
