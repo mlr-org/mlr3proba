@@ -110,7 +110,7 @@ test_that("survtoregr 3", {
 
 skip_if_not_installed("mlr3learners")
 
-test_that("survtoclassif", {
+test_that("survtoclassif_disctime", {
   requireNamespace("mlr3learners")
 
   pipe = mlr3pipelines::ppl("survtoclassif_disctime", learner = lrn("classif.log_reg"))

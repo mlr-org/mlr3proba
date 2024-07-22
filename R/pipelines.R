@@ -519,7 +519,7 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
   gr
 }
 
-#' @name mlr_graphs_survtoclassif
+#' @name mlr_graphs_survtoclassif_disctime
 #' @title Survival to Classification Reduction Pipeline
 #' @description Wrapper around multiple [PipeOp][mlr3pipelines::PipeOp]s to help in creation
 #' of complex survival reduction methods.
