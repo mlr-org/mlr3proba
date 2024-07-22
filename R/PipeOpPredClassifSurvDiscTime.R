@@ -79,7 +79,7 @@ PipeOpPredClassifSurvDiscTime = R6Class(
       rows_per_id = nrow(data) / length(unique(data$id))
       surv = t(vapply(unique(data$id), function(unique_id) {
         cumprod(1 - data[data$id == unique_id, ][["dt_hazard"]])
-      }, numeric()))
+      }, numeric(rows_per_id)))
 
       pred_list = list()
       unique_end_times = sort(unique(data$tend))
