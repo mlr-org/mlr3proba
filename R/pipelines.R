@@ -547,11 +547,11 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
 #' @details
 #' The pipeline consists of the following steps:
 #' \enumerate{
-#' \item [PipeOpTrafoTaskSurvClassifDisctime] Converts [TaskSurv] to a [TaskClassif].
+#' \item [PipeOpTaskSurvClassifDiscTime] Converts [TaskSurv] to a [TaskClassif][mlr3::TaskClassif].
 #' \item A [LearnerClassif] is fit and predicted on the new `TaskClassif`.
-#' \item [PipeOpTrafoPredClassifSurvDisctime] transforms the resulting [PredictionClassif]
+#' \item [PipeOpPredClassifSurvDiscTime] transforms the resulting [PredictionClassif][mlr3::PredictionClassif]
 #' to [PredictionSurv].
-#' \item Optionally: [PipeOpModelMatrix] is used to transform the formula of the task
+#' \item Optionally: [PipeOpModelMatrix][mlr3pipelines::PipeOpModelMatrix] is used to transform the formula of the task
 #' before fitting the learner.
 #' }
 #'
