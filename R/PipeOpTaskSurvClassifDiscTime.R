@@ -130,8 +130,6 @@ PipeOpTaskSurvClassifDiscTime = R6Class("PipeOpTaskSurvClassifDiscTime",
 
       long_data = pammtools::as_ped(data = data, formula = form, cut = cut, max_time = max_time)
       self$state$cut = attributes(long_data)$trafo_args$cut
-      self$state$event_var = event_var
-      self$state$time_var = time_var
       long_data = as.data.table(long_data)
       long_data$ped_status = factor(long_data$ped_status, levels = c("0", "1"))
 
@@ -149,10 +147,11 @@ PipeOpTaskSurvClassifDiscTime = R6Class("PipeOpTaskSurvClassifDiscTime",
       task = input[[1]]
       data = task$data()
 
-      # extract required data from `state`
+      # extract `cut` from `state`
       cut = self$state$cut
-      time_var = self$state$time_var
-      event_var = self$state$event_var
+
+      time_var = task$target_names[1]
+      event_var = task$target_names[2]
 
       max_time = max(cut)
       time = data[[time_var]]
@@ -168,7 +167,7 @@ PipeOpTaskSurvClassifDiscTime = R6Class("PipeOpTaskSurvClassifDiscTime",
       new_data = as.data.table(new_data)
 
       ped_status = id = NULL # fixing global binding notes of data.table
-      new_data[, ped_status := 1]
+      new_data[, ped_status := 0]
       new_data[new_data[, .I[.N], by = id]$V1, ped_status := status]
       new_data$ped_status = factor(new_data$ped_status, levels = c("0", "1"))
 
