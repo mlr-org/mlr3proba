@@ -45,6 +45,17 @@ If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
 Wrapper around multiple \link[mlr3pipelines:PipeOp]{PipeOp}s to help in creation
 of complex survival reduction methods.
 }
+\details{
+The pipeline consists of the following steps:
+\enumerate{
+\item \link{PipeOpTrafoTaskSurvClassifDisctime} Converts \link{TaskSurv} to a \link{TaskClassif}.
+\item A \link{LearnerClassif} is fit and predicted on the new \code{TaskClassif}.
+\item \link{PipeOpTrafoPredClassifSurvDisctime} transforms the resulting \link{PredictionClassif}
+to \link{PredictionSurv}.
+\item Optionally: \link{PipeOpModelMatrix} is used to transform the formula of the task
+before fitting the learner.
+}
+}
 \examples{
 \dontrun{
 if (requireNamespace("mlr3pipelines", quietly = TRUE) &&

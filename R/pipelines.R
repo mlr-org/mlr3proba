@@ -544,6 +544,17 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
 #' If `TRUE` returns wraps the [Graph][mlr3pipelines::Graph] as a
 #' [GraphLearner][mlr3pipelines::GraphLearner] otherwise (default) returns as a `Graph`.
 #'
+#' @details
+#' The pipeline consists of the following steps:
+#' \enumerate{
+#' \item [PipeOpTrafoTaskSurvClassifDisctime] Converts [TaskSurv] to a [TaskClassif].
+#' \item A [LearnerClassif] is fit and predicted on the new `TaskClassif`.
+#' \item [PipeOpTrafoPredClassifSurvDisctime] transforms the resulting [PredictionClassif]
+#' to [PredictionSurv].
+#' \item Optionally: [PipeOpModelMatrix] is used to transform the formula of the task
+#' before fitting the learner.
+#' }
+#'
 #' @return [mlr3pipelines::Graph] or [mlr3pipelines::GraphLearner]
 #' @family pipelines
 #'
