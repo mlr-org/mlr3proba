@@ -1,6 +1,11 @@
+# mlr3proba 0.6.5
+
+* Add support for discrete-time survival analysis
+* New `PipeOp`s: `PipeOpTaskSurvClassifDiscTime`, `PipeOpPredClassifSurvDiscTime`
+* New pipeline: `pipeline_survtoclassif`
+
 # mlr3proba 0.6.4
 
-* Add `PipeTaskSurvClassif`, `PipeOpPredClassifSurv` and `pipeline_survtoclassif` to transform a survival task into a classification task by discretizing the status.
 * Add useR! 2024 tutorial
 * Lots of refactoring, improving code quality, migration to testthat v3, etc. (thanks to @m-muecke)
 
