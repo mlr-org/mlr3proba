@@ -31,9 +31,7 @@
 #' This "transformed_data" is only meant to be used with the [PipeOpPredClassifSurvDiscTime].
 #'
 #' @section State:
-#' The `$state` contains information about the `cut` parameter used
-#' as well as `time_var` and `event_var`, the names of the two target
-#' columns of the survival task.
+#' The `$state` contains information about the `cut` parameter used.
 #'
 #' @section Parameters:
 #' The parameters are
@@ -59,16 +57,16 @@
 #'   task = tsk("lung")
 #'
 #'   # transform the survival task to a classification task
-#'   po_disc = po("trafotask_survclassif_disctime", cut = 4)
+#'   # all unique event times are used as cutpoints
+#'   po_disc = po("trafotask_survclassif_disctime")
 #'   task_classif = po_disc$train(list(task))[[1L]]
 #'
-#'   # use a classification learner
+#'   # the end time points of the discrete time intervals
+#'   unique(task_classif$data(cols = "tend"))[[1L]]
+#'
+#'   # train a classification learner
 #'   learner = lrn("classif.log_reg", predict_type = "prob")
 #'   learner$train(task_classif)
-#'   learner$predict(task_classif) # does this make sense?
-#'
-#'   # predict makes sense?
-#'   po_disc$predict(list(task))[[1]]
 #' }
 #' }
 #'
