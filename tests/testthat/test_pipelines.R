@@ -155,23 +155,27 @@ test_that("survtoclassif_disctime", {
   grlrn = ppl("survtoclassif_disctime", learner = lrn("classif.log_reg"), rhs = "1",
               graph_learner = TRUE)
   grlrn$train(task)
-  pred = grlrn$predict(task)
+  pred = suppressWarnings(grlrn$predict(task))
 
   grlrn2 = ppl("survtoclassif_disctime", learner = lrn("classif.featureless"), graph_learner = TRUE)
   grlrn2$train(task)
   pred2 = grlrn2$predict(task)
 
+  # featureless has random discrimination
+  expect_equal(unname(pred$score()), 0.5)
+  expect_equal(unname(pred2$score()), 0.5)
   expect_equal(pred$data$distr, pred2$data$distr)
 
   grlrn = ppl("survtoclassif_disctime", learner = lrn("classif.log_reg"), rhs = "rx + litter",
              graph_learner = TRUE)
   grlrn$train(task)
-  pred = grlrn$predict(task)
+  pred = suppressWarnings(grlrn$predict(task))
 
   grlrn2 = ppl("survtoclassif_disctime", learner = lrn("classif.log_reg"), rhs = ".",
                graph_learner = TRUE)
   grlrn2$train(task)
   pred2 = suppressWarnings(grlrn2$predict(task))
 
-  expect_lt(pred$score(), pred2$score())
+  # model with more covariates should have better c-index
+  expect_gt(pred2$score(), pred$score())
 })
