@@ -118,7 +118,7 @@ PipeOpTaskSurvClassifDiscTime = R6Class("PipeOpTaskSurvClassifDiscTime",
       time_var = task$target_names[1]
       event_var = task$target_names[2]
       if (testInt(cut, lower = 1)) {
-        cut = as.integer(seq(0, data[get(event_var) == 1, max(get(time_var))], length.out = cut + 1))
+        cut = seq(0, data[get(event_var) == 1, max(get(time_var))], length.out = cut + 1)
       }
 
       if (!is.null(max_time)) {
