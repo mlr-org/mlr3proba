@@ -36,9 +36,7 @@ This "transformed_data" is only meant to be used with the \link{PipeOpPredClassi
 
 \section{State}{
 
-The \verb{$state} contains information about the \code{cut} parameter used
-as well as \code{time_var} and \code{event_var}, the names of the two target
-columns of the survival task.
+The \verb{$state} contains information about the \code{cut} parameter used.
 }
 
 \section{Parameters}{
@@ -68,13 +66,16 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
   task = tsk("lung")
 
   # transform the survival task to a classification task
-  po_disc = po("trafotask_survclassif_disctime", cut = 4)
+  # all unique event times are used as cutpoints
+  po_disc = po("trafotask_survclassif_disctime")
   task_classif = po_disc$train(list(task))[[1L]]
 
-  # use a classification learner
+  # the end time points of the discrete time intervals
+  unique(task_classif$data(cols = "tend"))[[1L]]
+
+  # train a classification learner
   learner = lrn("classif.log_reg", predict_type = "prob")
   learner$train(task_classif)
-  learner$predict(task_classif)
 }
 }
 
