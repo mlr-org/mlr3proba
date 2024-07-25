@@ -366,6 +366,7 @@ TaskSurv = R6::R6Class("TaskSurv",
         data = self$data(cols = c(self$feature_names, status_var)),
         family = stats::binomial(link = "logit")
       ))
+
       # extract the p-values
       p_values = glm_summary$coefficients[, "Pr(>|z|)"]
       p_values_adj = stats::p.adjust(p_values, method = method)

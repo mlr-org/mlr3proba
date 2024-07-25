@@ -107,3 +107,75 @@ test_that("survtoregr 3", {
   expect_prediction_surv(p)
   expect_true("distr" %in% p$predict_types)
 })
+
+skip_if_not_installed("mlr3learners")
+
+test_that("survtoclassif_disctime", {
+  requireNamespace("mlr3learners")
+
+  pipe = mlr3pipelines::ppl("survtoclassif_disctime", learner = lrn("classif.log_reg"))
+  expect_class(pipe, "Graph")
+  grlrn = mlr3pipelines::ppl("survtoclassif_disctime", learner = lrn("classif.log_reg"),
+                             graph_learner = TRUE)
+  expect_class(grlrn, "GraphLearner")
+  grlrn$train(task)
+  p = grlrn$predict(task)
+  expect_prediction_surv(p)
+
+  # compare with simple cox prediction
+  cox = lrn("surv.coxph")
+  suppressWarnings(cox$train(task))
+  p2 = cox$predict(task)
+
+  expect_equal(p$truth, p2$truth)
+  expect_equal(p$score(), p2$score(), tolerance = 0.01)
+
+  # Test with cut
+  grlrn = mlr3pipelines::ppl("survtoclassif_disctime", learner = lrn("classif.log_reg"),
+                            cut = c(10, 30, 50), graph_learner = TRUE)
+  expect_class(grlrn, "GraphLearner")
+  suppressWarnings(grlrn$train(task))
+  p = grlrn$predict(task)
+  expect_prediction_surv(p)
+
+  # `max_time` needs to be larger than the minimum event time so we choose
+  # the minimum event time in the data for testing
+  max_time = task$data()[status == 1, min(time)]
+  grlrn = mlr3pipelines::ppl("survtoclassif_disctime", learner = lrn("classif.log_reg"),
+                             max_time = max_time, graph_learner = TRUE)
+  expect_error(grlrn$train(task))
+
+  grlrn = mlr3pipelines::ppl("survtoclassif_disctime", learner = lrn("classif.log_reg"),
+                             max_time = max_time + 1, graph_learner = TRUE)
+  suppressWarnings(grlrn$train(task))
+  p = grlrn$predict(task)
+  expect_prediction_surv(p)
+
+  # Test with rhs
+  grlrn = ppl("survtoclassif_disctime", learner = lrn("classif.log_reg"), rhs = "1",
+              graph_learner = TRUE)
+  grlrn$train(task)
+  pred = suppressWarnings(grlrn$predict(task))
+
+  grlrn2 = ppl("survtoclassif_disctime", learner = lrn("classif.featureless"), graph_learner = TRUE)
+  grlrn2$train(task)
+  pred2 = grlrn2$predict(task)
+
+  # featureless has random discrimination
+  expect_equal(unname(pred$score()), 0.5)
+  expect_equal(unname(pred2$score()), 0.5)
+  expect_equal(pred$data$distr, pred2$data$distr)
+
+  grlrn = ppl("survtoclassif_disctime", learner = lrn("classif.log_reg"), rhs = "rx + litter",
+             graph_learner = TRUE)
+  grlrn$train(task)
+  pred = suppressWarnings(grlrn$predict(task))
+
+  grlrn2 = ppl("survtoclassif_disctime", learner = lrn("classif.log_reg"), rhs = ".",
+               graph_learner = TRUE)
+  grlrn2$train(task)
+  pred2 = suppressWarnings(grlrn2$predict(task))
+
+  # model with more covariates should have better c-index
+  expect_gt(pred2$score(), pred$score())
+})

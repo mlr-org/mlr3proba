@@ -66,7 +66,7 @@ If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
 }
 \description{
 Wrapper around multiple \link[mlr3pipelines:PipeOp]{PipeOp}s to help in creation
-of complex survival to reduction methods. Three reductions are currently implemented,
+of complex survival reduction methods. Three reductions are currently implemented,
 see details.
 }
 \details{
@@ -170,6 +170,7 @@ Other pipelines:
 \code{\link{mlr_graphs_distrcompositor}},
 \code{\link{mlr_graphs_probregr}},
 \code{\link{mlr_graphs_survaverager}},
-\code{\link{mlr_graphs_survbagging}}
+\code{\link{mlr_graphs_survbagging}},
+\code{\link{mlr_graphs_survtoclassif_disctime}}
 }
 \concept{pipelines}

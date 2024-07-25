@@ -674,5 +674,14 @@ bibentries = c( # nolint start
     pages             = "515--526",
     doi               = "10.1093/biomet/81.3.515",
     url               = "https://doi.org/10.1093/biomet/81.3.515"
+  ),
+  tutz_2016 = bibentry("book",
+    author            = "Tutz, Gerhard and Schmid, Matthias",
+    title             = "Modeling Discrete Time-to-Event Data",
+    year              = "2016",
+    publisher         = "Springer International Publishing",
+    series            = "Springer Series in Statistics",
+    isbn              = "978-3-319-28156-8 978-3-319-28158-2",
+    url               = "http://link.springer.com/10.1007/978-3-319-28158-2"
   )
 ) # nolint end

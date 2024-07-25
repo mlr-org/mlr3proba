@@ -298,7 +298,7 @@ pipeline_probregr = function(learner, learner_se = NULL, dist = "Uniform",
 #' @name mlr_graphs_survtoregr
 #' @title Survival to Regression Reduction Pipeline
 #' @description Wrapper around multiple [PipeOp][mlr3pipelines::PipeOp]s to help in creation
-#' of complex survival to reduction methods. Three reductions are currently implemented,
+#' of complex survival reduction methods. Three reductions are currently implemented,
 #' see details.
 #' @details
 #' Three reduction strategies are implemented, these are:
@@ -519,9 +519,101 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
   gr
 }
 
+#' @name mlr_graphs_survtoclassif_disctime
+#' @title Survival to Classification Reduction Pipeline
+#' @description Wrapper around multiple [PipeOp][mlr3pipelines::PipeOp]s to help in creation
+#' of complex survival reduction methods.
+#'
+#' @param learner [LearnerClassif][mlr3::LearnerClassif]\cr
+#' Classification learner to fit the transformed [TaskClassif][mlr3::TaskClassif].
+#' `learner` must have `predict_type` of type `"prob"`.
+#' @param cut `numeric()`\cr
+#' Split points, used to partition the data into intervals.
+#' If unspecified, all unique event times will be used.
+#' If `cut` is a single integer, it will be interpreted as the number of equidistant
+#' intervals from 0 until the maximum event time.
+#' @param max_time `numeric(1)`\cr
+#' If cut is unspecified, this will be the last possible event time.
+#' All event times after max_time will be administratively censored at max_time.
+#' @param rhs `character(1)`\cr
+#' Right-hand side of the formula to with the learner.
+#' All features of the task are available as well as `tend` the upper bounds
+#' of the intervals created by `cut`.
+#' If rhs is unspecified, the formula of the task will be used.
+#' @param graph_learner `logical(1)`\cr
+#' If `TRUE` returns wraps the [Graph][mlr3pipelines::Graph] as a
+#' [GraphLearner][mlr3pipelines::GraphLearner] otherwise (default) returns as a `Graph`.
+#'
+#' @details
+#' The pipeline consists of the following steps:
+#' \enumerate{
+#' \item [PipeOpTaskSurvClassifDiscTime] Converts [TaskSurv] to a [TaskClassif][mlr3::TaskClassif].
+#' \item A [LearnerClassif] is fit and predicted on the new `TaskClassif`.
+#' \item [PipeOpPredClassifSurvDiscTime] transforms the resulting [PredictionClassif][mlr3::PredictionClassif]
+#' to [PredictionSurv].
+#' \item Optionally: [PipeOpModelMatrix][mlr3pipelines::PipeOpModelMatrix] is used to transform the formula of the task
+#' before fitting the learner.
+#' }
+#'
+#' @return [mlr3pipelines::Graph] or [mlr3pipelines::GraphLearner]
+#' @family pipelines
+#'
+#' @examples
+#' \dontrun{
+#' if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
+#'     requireNamespace("mlr3learners", quietly = TRUE)) {
+#'
+#'   library(mlr3)
+#'   library(mlr3learners)
+#'   library(mlr3pipelines)
+#'
+#'   task = tsk("lung")
+#'   part = partition(task)
+#'
+#'   grlrn = ppl(
+#'     "survtoclassif_disctime",
+#'     learner = lrn("classif.log_reg"),
+#'     cut = 4, # 4 equidistant time intervals
+#'     graph_learner = TRUE
+#'   )
+#'   grlrn$train(task, row_ids = part$train)
+#'   grlrn$predict(task, row_ids = part$test)
+#' }
+#' }
+#' @export
+pipeline_survtoclassif_disctime = function(learner, cut = NULL, max_time = NULL,
+                                  rhs = NULL, graph_learner = FALSE) {
+  assert_true("prob" %in% learner$predict_types)
+
+  gr = mlr3pipelines::Graph$new()
+  gr$add_pipeop(mlr3pipelines::po("trafotask_survclassif_disctime", cut = cut, max_time = max_time))
+  gr$add_pipeop(mlr3pipelines::po("learner", learner, predict_type = "prob"))
+  gr$add_pipeop(mlr3pipelines::po("nop"))
+  gr$add_pipeop(mlr3pipelines::po("trafopred_classifsurv_disctime"))
+
+  gr$add_edge(src_id = "trafotask_survclassif_disctime", dst_id = learner$id, src_channel = "output", dst_channel = "input")
+  gr$add_edge(src_id = "trafotask_survclassif_disctime", dst_id = "nop", src_channel = "transformed_data", dst_channel = "input")
+  gr$add_edge(src_id = learner$id, dst_id = "trafopred_classifsurv_disctime", src_channel = "output", dst_channel = "input")
+  gr$add_edge(src_id = "nop", dst_id = "trafopred_classifsurv_disctime", src_channel = "output", dst_channel = "transformed_data")
+
+  if (!is.null(rhs)) {
+    gr$edges = gr$edges[-1, ]
+    gr$add_pipeop(mlr3pipelines::po("modelmatrix", formula = mlr3misc::formulate(rhs = rhs, quote = "left")))
+    gr$add_edge(src_id = "trafotask_survclassif_disctime", dst_id = "modelmatrix", src_channel = "output")
+    gr$add_edge(src_id = "modelmatrix", dst_id = learner$id, src_channel = "output", dst_channel = "input")
+  }
+
+  if (graph_learner) {
+    gr = mlr3pipelines::GraphLearner$new(gr)
+  }
+
+  gr
+}
+
 register_graph("survaverager", pipeline_survaverager)
 register_graph("survbagging", pipeline_survbagging)
 register_graph("crankcompositor", pipeline_crankcompositor)
 register_graph("distrcompositor", pipeline_distrcompositor)
 register_graph("probregr", pipeline_probregr)
 register_graph("survtoregr", pipeline_survtoregr)
+register_graph("survtoclassif_disctime", pipeline_survtoclassif_disctime)

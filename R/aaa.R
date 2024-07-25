@@ -104,10 +104,11 @@ register_mlr3pipelines = function() {
   mlr_pipeops = utils::getFromNamespace("mlr_pipeops", ns = "mlr3pipelines")
   iwalk(as.list(mlr3proba_pipeops), function(obj, name) mlr_pipeops$add(name, obj)) # nolint
 
-  # Breslow needs another argument so we do it manually
-  mlr_pipeops$add("breslowcompose", PipeOpBreslow, list(R6Class("Learner",
-                                                                public = list(id = "breslowcompose", task_type = "surv", predict_types = "lp",
-                                                                              packages = c("mlr3", "mlr3proba"), param_set = ps()))$new()))
+  # Breslow PipeOp needs one more argument so we do it manually
+  mlr_pipeops$add("breslowcompose", PipeOpBreslow,
+                  list(R6Class("Learner", public = list(
+                    id = "breslowcompose", task_type = "surv", predict_types = "lp",
+                    packages = c("mlr3", "mlr3proba"), param_set = ps()))$new()))
 
   # graphs
   mlr_graphs = utils::getFromNamespace("mlr_graphs", ns = "mlr3pipelines")
