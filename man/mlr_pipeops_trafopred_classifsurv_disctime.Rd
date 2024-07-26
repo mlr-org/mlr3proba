@@ -21,6 +21,18 @@ conditional probability for an event in the \eqn{k}-interval.
 \item \eqn{p_k = 1 - h_k = P(T \ge t_k | T \ge t_{k-1})}
 }
 }
+\section{Dictionary}{
+
+This \link[mlr3pipelines:PipeOp]{PipeOp} can be instantiated via the
+\link[mlr3misc:Dictionary]{dictionary} \link[mlr3pipelines:mlr_pipeops]{mlr3pipelines::mlr_pipeops}
+or with the associated sugar function \code{\link[mlr3pipelines:po]{mlr3pipelines::po()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{PipeOpPredClassifSurvDiscTime$new()
+mlr_pipeops$get("trafopred_classifsurv_disctime")
+po("trafopred_classifsurv_disctime")
+}\if{html}{\out{</div>}}
+}
+
 \section{Input and Output Channels}{
 
 The input is a \link{PredictionClassif} and a \link[data.table:data.table]{data.table}
