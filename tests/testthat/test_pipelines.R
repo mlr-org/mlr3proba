@@ -127,6 +127,7 @@ test_that("survtoclassif_disctime", {
   suppressWarnings(cox$train(task))
   p2 = cox$predict(task)
 
+  expect_equal(p$row_ids, p2$row_ids)
   expect_equal(p$truth, p2$truth)
   expect_equal(p$score(), p2$score(), tolerance = 0.01)
 
