@@ -12,6 +12,18 @@ whether an event occurred within each time interval.
 This approach facilitates survival analysis within a classification framework
 using discrete time intervals (Tutz et al. 2016).
 }
+\section{Dictionary}{
+
+This \link[mlr3pipelines:PipeOp]{PipeOp} can be instantiated via the
+\link[mlr3misc:Dictionary]{dictionary} \link[mlr3pipelines:mlr_pipeops]{mlr3pipelines::mlr_pipeops}
+or with the associated sugar function \code{\link[mlr3pipelines:po]{mlr3pipelines::po()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{PipeOpTaskSurvClassifDiscTime$new()
+mlr_pipeops$get("trafotask_survclassif_disctime")
+po("trafotask_survclassif_disctime")
+}\if{html}{\out{</div>}}
+}
+
 \section{Input and Output Channels}{
 
 \link{PipeOpTaskSurvClassifDiscTime} has one input channel named "input", and two
@@ -30,7 +42,7 @@ During prediction, the "input" \link{TaskSurv} is transformed to the "output"
 feature included.
 The "transformed_data" is a \link{data.table} which has all the features of the
 "output" task, including an additional column \code{time2} containing the
-original times.
+original observed times.
 This "transformed_data" is only meant to be used with the \link{PipeOpPredClassifSurvDiscTime}.
 }
 
