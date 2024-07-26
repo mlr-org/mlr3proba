@@ -68,6 +68,7 @@ PipeOpPredClassifSurvDiscTime = R6Class(
         cumprod(1 - data[data$id == unique_id, ][["dt_hazard"]])
       }, numeric(rows_per_id)))
 
+      pred_list = list()
       unique_end_times = sort(unique(data$tend))
       # coerce to distribution and crank
       pred_list = .surv_return(times = unique_end_times, surv = surv)
@@ -76,7 +77,8 @@ PipeOpPredClassifSurvDiscTime = R6Class(
       # basically a slightly more complex unique()
       real_tend = data$time2[seq_len(nrow(data)) %% rows_per_id == 0]
 
-      # select last row for every id => observed times
+      # select last row for every id
+      data = as.data.table(data)
       id = ped_status = NULL # to fix note
       data = data[, .SD[.N, list(ped_status)], by = id]
 
