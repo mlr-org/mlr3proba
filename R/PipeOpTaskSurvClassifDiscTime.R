@@ -10,6 +10,16 @@
 #' This approach facilitates survival analysis within a classification framework
 #' using discrete time intervals (Tutz et al. 2016).
 #'
+#' @section Dictionary:
+#' This [PipeOp][mlr3pipelines::PipeOp] can be instantiated via the
+#' [dictionary][mlr3misc::Dictionary] [mlr3pipelines::mlr_pipeops]
+#' or with the associated sugar function [mlr3pipelines::po()]:
+#' ```
+#' PipeOpTaskSurvClassifDiscTime$new()
+#' mlr_pipeops$get("trafotask_survclassif_disctime")
+#' po("trafotask_survclassif_disctime")
+#' ```
+#'
 #' @section Input and Output Channels:
 #' [PipeOpTaskSurvClassifDiscTime] has one input channel named "input", and two
 #' output channels, one named "output" and the other "transformed_data".
@@ -27,7 +37,7 @@
 #' feature included.
 #' The "transformed_data" is a [data.table] which has all the features of the
 #' "output" task, including an additional column `time2` containing the
-#' original times.
+#' original observed times.
 #' This "transformed_data" is only meant to be used with the [PipeOpPredClassifSurvDiscTime].
 #'
 #' @section State:
