@@ -49,7 +49,7 @@ using discrete time intervals (Tutz et al. 2016)."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>PipeOpTaskSurvClassifDiscTime</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/v0.6.5/R/PipeOpTaskSurvClassifDiscTime.R" class="external-link"><code>R/PipeOpTaskSurvClassifDiscTime.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/main/R/PipeOpTaskSurvClassifDiscTime.R" class="external-link"><code>R/PipeOpTaskSurvClassifDiscTime.R</code></a></small>
       <div class="d-none name"><code>mlr_pipeops_trafotask_survclassif_disctime.Rd</code></div>
     </div>
 
@@ -63,6 +63,17 @@ using discrete time intervals (Tutz et al. 2016).</p>
     </div>
 
 
+    <div class="section level2">
+    <h2 id="dictionary">Dictionary<a class="anchor" aria-label="anchor" href="#dictionary"></a></h2>
+
+
+<p>This <a href="https://mlr3pipelines.mlr-org.com/reference/PipeOp.html" class="external-link">PipeOp</a> can be instantiated via the
+<a href="https://mlr3misc.mlr-org.com/reference/Dictionary.html" class="external-link">dictionary</a> <a href="https://mlr3pipelines.mlr-org.com/reference/mlr_pipeops.html" class="external-link">mlr3pipelines::mlr_pipeops</a>
+or with the associated sugar function <code><a href="https://mlr3pipelines.mlr-org.com/reference/po.html" class="external-link">mlr3pipelines::po()</a></code>:</p>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>PipeOpTaskSurvClassifDiscTime<span class="sc">$</span><span class="fu">new</span>()</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>mlr_pipeops<span class="sc">$</span><span class="fu">get</span>(<span class="st">"trafotask_survclassif_disctime"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">po</span>(<span class="st">"trafotask_survclassif_disctime"</span>)</span></code></pre><p></p></div>
+    </div>
     <div class="section level2">
     <h2 id="input-and-output-channels">Input and Output Channels<a class="anchor" aria-label="anchor" href="#input-and-output-channels"></a></h2>
 
@@ -81,7 +92,7 @@ The "transformed_data" is an empty <a href="https://rdatatable.gitlab.io/data.ta
 feature included.
 The "transformed_data" is a <a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a> which has all the features of the
 "output" task, including an additional column <code>time2</code> containing the
-original times.
+original observed times.
 This "transformed_data" is only meant to be used with the <a href="mlr_pipeops_trafopred_classifsurv_disctime.html">PipeOpPredClassifSurvDiscTime</a>.</p>
     </div>
     <div class="section level2">
