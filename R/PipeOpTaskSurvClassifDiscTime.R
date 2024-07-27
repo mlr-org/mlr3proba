@@ -177,15 +177,16 @@ PipeOpTaskSurvClassifDiscTime = R6Class("PipeOpTaskSurvClassifDiscTime",
       new_data = pammtools::as_ped(data, formula = form, cut = cut)
       new_data = as.data.table(new_data)
 
-      ped_status = id = NULL # fixing global binding notes of data.table
+      ped_status = id = tend = time2 = NULL # fixing global binding notes of data.table
       new_data[, ped_status := 0]
 
+      # set correct id
       rows_per_id = nrow(new_data) / length(unique(new_data$id))
       new_data$time2 = rep(time, each = rows_per_id)
       ids = rep(task$row_ids, each = rows_per_id)
       new_data[, id := ids]
 
-      # Set correct ped_status
+      # set correct ped_status
       reps = new_data[, .(count = sum(tend >= time2)), by = id]$count
       status = rep(status, times = reps)
       new_data[new_data[, .I[tend >= time2], by = id]$V1, ped_status := status]
