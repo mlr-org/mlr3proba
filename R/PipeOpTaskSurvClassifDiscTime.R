@@ -143,6 +143,9 @@ PipeOpTaskSurvClassifDiscTime = R6Class("PipeOpTaskSurvClassifDiscTime",
 
       # remove offset, tstart, interval for dataframe long_data
       long_data[, c("offset", "tstart", "interval") := NULL]
+      reps = table(long_data$id)
+      ids = rep(task$row_ids, times = reps)
+      long_data[, id := ids]
 
       task_disc = TaskClassif$new(paste0(task$id, "_disc"), long_data,
                                   target = "ped_status", positive = "1")
@@ -176,16 +179,26 @@ PipeOpTaskSurvClassifDiscTime = R6Class("PipeOpTaskSurvClassifDiscTime",
 
       ped_status = id = NULL # fixing global binding notes of data.table
       new_data[, ped_status := 0]
-      new_data[new_data[, .I[.N], by = id]$V1, ped_status := status]
+
+      rows_per_id = nrow(new_data) / length(unique(new_data$id))
+      new_data$time2 = rep(time, each = rows_per_id)
+      ids = rep(task$row_ids, each = rows_per_id)
+      new_data[, id := ids]
+
+      # Set correct ped_status
+      reps = new_data[, .(count = sum(tend >= time2)), by = id]$count
+      status = rep(status, times = reps)
+      new_data[new_data[, .I[tend >= time2], by = id]$V1, ped_status := status]
       new_data$ped_status = factor(new_data$ped_status, levels = c("0", "1"))
 
       # remove offset, tstart, interval for dataframe long_data
-      new_data[, c("offset", "tstart", "interval") := NULL]
+      new_data[, c("offset", "tstart", "interval", "time2") := NULL]
       task_disc = TaskClassif$new(paste0(task$id, "_disc"), new_data,
                                   target = "ped_status", positive = "1")
       task_disc$set_col_roles("id", roles = "name")
 
-      new_data$time2 = rep(time, each = sum(new_data$id == 1))
+      reps = table(new_data$id)
+      new_data$time2 = rep(time, each = rows_per_id)
       list(task_disc, new_data)
     }
   )

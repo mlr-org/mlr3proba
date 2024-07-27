@@ -86,13 +86,14 @@ PipeOpPredClassifSurvDiscTime = R6Class(
       # basically a slightly more complex unique()
       real_tend = data$time2[seq_len(nrow(data)) %% rows_per_id == 0]
 
+      ids = unique(data$id)
       # select last row for every id => observed times
       id = ped_status = NULL # to fix note
       data = data[, .SD[.N, list(ped_status)], by = id]
 
       # create prediction object
       p = PredictionSurv$new(
-        row_ids = seq_row(data),
+        row_ids = ids,
         crank = pred_list$crank, distr = pred_list$distr,
         truth = Surv(real_tend, as.integer(as.character(data$ped_status))))
 
