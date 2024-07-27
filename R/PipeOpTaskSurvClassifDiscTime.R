@@ -145,6 +145,7 @@ PipeOpTaskSurvClassifDiscTime = R6Class("PipeOpTaskSurvClassifDiscTime",
       long_data[, c("offset", "tstart", "interval") := NULL]
       reps = table(long_data$id)
       ids = rep(task$row_ids, times = reps)
+      id = NULL
       long_data[, id := ids]
 
       task_disc = TaskClassif$new(paste0(task$id, "_disc"), long_data,
@@ -187,7 +188,7 @@ PipeOpTaskSurvClassifDiscTime = R6Class("PipeOpTaskSurvClassifDiscTime",
       new_data[, id := ids]
 
       # set correct ped_status
-      reps = new_data[, .(count = sum(tend >= time2)), by = id]$count
+      reps = new_data[, data.table(count = sum(tend >= time2)), by = id]$count
       status = rep(status, times = reps)
       new_data[new_data[, .I[tend >= time2], by = id]$V1, ped_status := status]
       new_data$ped_status = factor(new_data$ped_status, levels = c("0", "1"))
