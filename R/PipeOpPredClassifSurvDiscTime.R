@@ -84,7 +84,7 @@ PipeOpPredClassifSurvDiscTime = R6Class(
 
       # select the real tend values by only selecting the last row of each id
       # basically a slightly more complex unique()
-      real_tend = data$time2[seq_len(nrow(data)) %% rows_per_id == 0]
+      real_tend = data$obs_times[seq_len(nrow(data)) %% rows_per_id == 0]
 
       ids = unique(data$id)
       # select last row for every id => observed times

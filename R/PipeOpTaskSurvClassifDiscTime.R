@@ -26,18 +26,19 @@
 #'
 #' During training, the "output" is the "input" [TaskSurv] transformed to a
 #' [TaskClassif][mlr3::TaskClassif].
-#' The target column is named `ped_status` and indicates whether an event occurred
+#' The target column is named `"ped_status"` and indicates whether an event occurred
 #' in each time interval.
-#' An additional feature named `tend` is added to the ouput task, containing the
-#' end time of each interval.
+#' An additional feature named `"tend"` contains the end time point of each interval.
+#' Lastly, the "output" task has a column with the original observation ids,
+#' under the role `"original_ids"`.
 #' The "transformed_data" is an empty [data.table][data.table::data.table].
 #'
 #' During prediction, the "input" [TaskSurv] is transformed to the "output"
-#' [TaskClassif][mlr3::TaskClassif] with `ped_status` as target and the `tend`
+#' [TaskClassif][mlr3::TaskClassif] with `"ped_status"` as target and the `"tend"`
 #' feature included.
-#' The "transformed_data" is a [data.table] which has all the features of the
-#' "output" task, including an additional column `time2` containing the
-#' original observed times.
+#' The "transformed_data" is a [data.table] which has as columns all the features
+#' of the "output" task and in addition the columns `"id"` (original observation ids),
+#' `"obs_times"` (observed times per `"id"`) and `"tend"` (end time of each interval).
 #' This "transformed_data" is only meant to be used with the [PipeOpPredClassifSurvDiscTime].
 #'
 #' @section State:
@@ -143,6 +144,7 @@ PipeOpTaskSurvClassifDiscTime = R6Class("PipeOpTaskSurvClassifDiscTime",
 
       # remove offset, tstart, interval for dataframe long_data
       long_data[, c("offset", "tstart", "interval") := NULL]
+      # keep id mapping
       reps = table(long_data$id)
       ids = rep(task$row_ids, times = reps)
       id = NULL
@@ -150,7 +152,7 @@ PipeOpTaskSurvClassifDiscTime = R6Class("PipeOpTaskSurvClassifDiscTime",
 
       task_disc = TaskClassif$new(paste0(task$id, "_disc"), long_data,
                                   target = "ped_status", positive = "1")
-      task_disc$set_col_roles("id", roles = "name")
+      task_disc$set_col_roles("id", roles = "original_ids")
 
       list(task_disc, data.table())
     },
@@ -175,33 +177,34 @@ PipeOpTaskSurvClassifDiscTime = R6Class("PipeOpTaskSurvClassifDiscTime",
       # update form
       form = formulate(sprintf("Surv(%s, %s)", time_var, event_var), ".")
 
-      new_data = pammtools::as_ped(data, formula = form, cut = cut)
-      new_data = as.data.table(new_data)
+      long_data = as.data.table(pammtools::as_ped(data, formula = form, cut = cut))
 
-      ped_status = id = tend = time2 = NULL # fixing global binding notes of data.table
-      new_data[, ped_status := 0]
+      ped_status = id = tend = obs_times = NULL # fixing global binding notes of data.table
+      long_data[, ped_status := 0]
 
       # set correct id
-      rows_per_id = nrow(new_data) / length(unique(new_data$id))
-      new_data$time2 = rep(time, each = rows_per_id)
+      rows_per_id = nrow(long_data) / length(unique(long_data$id))
+      long_data$obs_times = rep(time, each = rows_per_id)
       ids = rep(task$row_ids, each = rows_per_id)
-      new_data[, id := ids]
+      long_data[, id := ids]
 
       # set correct ped_status
-      reps = new_data[, data.table(count = sum(tend >= time2)), by = id]$count
+      reps = long_data[, data.table(count = sum(tend >= obs_times)), by = id]$count
       status = rep(status, times = reps)
-      new_data[new_data[, .I[tend >= time2], by = id]$V1, ped_status := status]
-      new_data$ped_status = factor(new_data$ped_status, levels = c("0", "1"))
+      long_data[long_data[, .I[tend >= obs_times], by = id]$V1, ped_status := status]
+      long_data$ped_status = factor(long_data$ped_status, levels = c("0", "1"))
 
       # remove offset, tstart, interval for dataframe long_data
-      new_data[, c("offset", "tstart", "interval", "time2") := NULL]
-      task_disc = TaskClassif$new(paste0(task$id, "_disc"), new_data,
+      long_data[, c("offset", "tstart", "interval", "obs_times") := NULL]
+      task_disc = TaskClassif$new(paste0(task$id, "_disc"), long_data,
                                   target = "ped_status", positive = "1")
-      task_disc$set_col_roles("id", roles = "name")
+      task_disc$set_col_roles("id", roles = "original_ids")
 
-      reps = table(new_data$id)
-      new_data$time2 = rep(time, each = rows_per_id)
-      list(task_disc, new_data)
+      # map observed times back
+      reps = table(long_data$id)
+      long_data$obs_times = rep(time, each = rows_per_id)
+
+      list(task_disc, long_data)
     }
   )
 )
