@@ -24,7 +24,7 @@ test_that("PipeOpTaskSurvClassifDiscTime", {
   expect_task_classif(output_task)
   expect_equal(output_task$col_roles$original_ids, "id")
   expect_equal(output_task$positive, "1")
-  expect_equal(output_task$target_names, "ped_status")
+  expect_equal(output_task$target_names, "disc_status")
   # new column added to the task
   expect_equal("tend", setdiff(output_task$feature_names, task$feature_names))
   # not all observations have events on the last (4th) interval
@@ -49,18 +49,18 @@ test_that("PipeOpTaskSurvClassifDiscTime", {
   # test rows ids are correct
   expect_equal(transformed_data$id, correct_ids)
   # check columns in the transformed data.table
-  expect_equal(sort(c("id", "ped_status", "obs_times", "tend")),
+  expect_equal(sort(c("id", "disc_status", "obs_times", "tend")),
                sort(colnames(transformed_data)))
 
-  # `ped_status` per interval and per observation is correct
-  # before observed time ("obs_times"), "ped_status" = 0
-  expect_equal(as.character(unique(transformed_data[tend < obs_times, ped_status])),
+  # `disc_status` per interval and per observation is correct
+  # before observed time ("obs_times"), "disc_status" = 0
+  expect_equal(as.character(unique(transformed_data[tend < obs_times, disc_status])),
                "0")
   times = test_task$times() # observed times
   status = as.character(test_task$status())
-  # after observed time, "ped_status" must be the same as "status"
+  # after observed time, "disc_status" must be the same as "status"
   td = transformed_data[tend > obs_times]
-  expect_equal(as.character(unique(td[id == test_ids[1], ped_status])), status[1])
-  expect_equal(as.character(unique(td[id == test_ids[2], ped_status])), status[2])
-  expect_equal(as.character(unique(td[id == test_ids[3], ped_status])), status[3])
+  expect_equal(as.character(unique(td[id == test_ids[1], disc_status])), status[1])
+  expect_equal(as.character(unique(td[id == test_ids[2], disc_status])), status[2])
+  expect_equal(as.character(unique(td[id == test_ids[3], disc_status])), status[3])
 })

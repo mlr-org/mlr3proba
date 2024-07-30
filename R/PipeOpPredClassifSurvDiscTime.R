@@ -88,14 +88,14 @@ PipeOpPredClassifSurvDiscTime = R6Class(
 
       ids = unique(data$id)
       # select last row for every id => observed times
-      id = ped_status = NULL # to fix note
-      data = data[, .SD[.N, list(ped_status)], by = id]
+      id = disc_status = NULL # to fix note
+      data = data[, .SD[.N, list(disc_status)], by = id]
 
       # create prediction object
       p = PredictionSurv$new(
         row_ids = ids,
         crank = pred_list$crank, distr = pred_list$distr,
-        truth = Surv(real_tend, as.integer(as.character(data$ped_status))))
+        truth = Surv(real_tend, as.integer(as.character(data$disc_status))))
 
       list(p)
     },
