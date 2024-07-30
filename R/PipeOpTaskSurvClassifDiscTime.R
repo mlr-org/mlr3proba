@@ -203,6 +203,7 @@ PipeOpTaskSurvClassifDiscTime = R6Class("PipeOpTaskSurvClassifDiscTime",
       # map observed times back
       reps = table(long_data$id)
       long_data$obs_times = rep(time, each = rows_per_id)
+      long_data = long_data[, .(id, obs_times, tend, ped_status)]
 
       list(task_disc, long_data)
     }

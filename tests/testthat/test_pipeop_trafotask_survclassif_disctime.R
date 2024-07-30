@@ -49,7 +49,7 @@ test_that("PipeOpTaskSurvClassifDiscTime", {
   # test rows ids are correct
   expect_equal(transformed_data$id, correct_ids)
   # check columns in the transformed data.table
-  expect_equal(sort(c("id", "ped_status", "obs_times", pred_task$feature_names)),
+  expect_equal(sort(c("id", "ped_status", "obs_times", "tend")),
                sort(colnames(transformed_data)))
 
   # `ped_status` per interval and per observation is correct
