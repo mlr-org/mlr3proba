@@ -121,6 +121,10 @@ PipeOpTaskSurvClassifDiscTime = R6Class("PipeOpTaskSurvClassifDiscTime",
       assert_true(task$censtype == "right")
       data = task$data()
 
+      if ("disc_status" %in% colnames(task$data())) {
+        stop("\"disc_status\" can not be a column in the input data.")
+      }
+
       cut = assert_numeric(self$param_set$values$cut, null.ok = TRUE, lower = 0)
       max_time = self$param_set$values$max_time
 
