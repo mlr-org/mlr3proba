@@ -7,7 +7,7 @@
 \description{
 Transform \link{TaskSurv} to \link[mlr3:TaskClassif]{TaskClassif} by dividing continuous
 time into multiple time intervals for each observation.
-This transformation creates a new target variable \code{ped_status} that indicates
+This transformation creates a new target variable \code{disc_status} that indicates
 whether an event occurred within each time interval.
 This approach facilitates survival analysis within a classification framework
 using discrete time intervals (Tutz et al. 2016).
@@ -31,7 +31,7 @@ output channels, one named "output" and the other "transformed_data".
 
 During training, the "output" is the "input" \link{TaskSurv} transformed to a
 \link[mlr3:TaskClassif]{TaskClassif}.
-The target column is named \code{"ped_status"} and indicates whether an event occurred
+The target column is named \code{"disc_status"} and indicates whether an event occurred
 in each time interval.
 An additional feature named \code{"tend"} contains the end time point of each interval.
 Lastly, the "output" task has a column with the original observation ids,
@@ -39,7 +39,7 @@ under the role \code{"original_ids"}.
 The "transformed_data" is an empty \link[data.table:data.table]{data.table}.
 
 During prediction, the "input" \link{TaskSurv} is transformed to the "output"
-\link[mlr3:TaskClassif]{TaskClassif} with \code{"ped_status"} as target and the \code{"tend"}
+\link[mlr3:TaskClassif]{TaskClassif} with \code{"disc_status"} as target and the \code{"tend"}
 feature included.
 The "transformed_data" is a \link{data.table} which has as columns all the features
 of the "output" task and in addition the columns \code{"id"} (original observation ids),
