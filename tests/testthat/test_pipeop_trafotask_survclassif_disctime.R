@@ -52,7 +52,8 @@ test_that("PipeOpTaskSurvClassifDiscTime", {
   # `id`s are correct
   expect_equal(transformed_data$id, correct_ids)
   # `disc_status` is the same
-  expect_equal(transformed_data$disc_status, pred_task$truth())
+  expect_equal(as.character(transformed_data$disc_status),
+               as.character(pred_task$truth()))
   # `obs_times` are correct
   times = test_task$times() # observed times
   expect_setequal(unique(transformed_data$obs_times), times)
