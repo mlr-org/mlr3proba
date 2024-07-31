@@ -127,6 +127,7 @@ test_that("survtoclassif_disctime", {
   suppressWarnings(cox$train(task))
   p2 = cox$predict(task)
 
+  expect_equal(p$row_ids, p2$row_ids)
   expect_equal(p$truth, p2$truth)
   expect_equal(p$score(), p2$score(), tolerance = 0.01)
 
@@ -152,12 +153,13 @@ test_that("survtoclassif_disctime", {
   expect_prediction_surv(p)
 
   # Test with rhs
-  grlrn = ppl("survtoclassif_disctime", learner = lrn("classif.log_reg"), rhs = "1",
-              graph_learner = TRUE)
+  grlrn = mlr3pipelines::ppl("survtoclassif_disctime", learner = lrn("classif.log_reg"),
+                             rhs = "1", graph_learner = TRUE)
   grlrn$train(task)
   pred = suppressWarnings(grlrn$predict(task))
 
-  grlrn2 = ppl("survtoclassif_disctime", learner = lrn("classif.featureless"), graph_learner = TRUE)
+  grlrn2 = mlr3pipelines::ppl("survtoclassif_disctime", learner = lrn("classif.featureless"),
+                              graph_learner = TRUE)
   grlrn2$train(task)
   pred2 = grlrn2$predict(task)
 
@@ -166,16 +168,16 @@ test_that("survtoclassif_disctime", {
   expect_equal(unname(pred2$score()), 0.5)
   expect_equal(pred$data$distr, pred2$data$distr)
 
-  grlrn = ppl("survtoclassif_disctime", learner = lrn("classif.log_reg"), rhs = "rx + litter",
-             graph_learner = TRUE)
+  grlrn = mlr3pipelines::ppl("survtoclassif_disctime", learner = lrn("classif.log_reg"),
+                             rhs = "rx + litter", graph_learner = TRUE)
   grlrn$train(task)
   pred = suppressWarnings(grlrn$predict(task))
 
-  grlrn2 = ppl("survtoclassif_disctime", learner = lrn("classif.log_reg"), rhs = ".",
-               graph_learner = TRUE)
+  grlrn2 = mlr3pipelines::ppl("survtoclassif_disctime", learner = lrn("classif.log_reg"),
+                              rhs = ".", graph_learner = TRUE)
   grlrn2$train(task)
   pred2 = suppressWarnings(grlrn2$predict(task))
 
-  # model with more covariates should have better c-index
+  # model with more covariates should have better C-index
   expect_gt(pred2$score(), pred$score())
 })

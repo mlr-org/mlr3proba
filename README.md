@@ -1,19 +1,19 @@
 
 # mlr3proba
 
-Package website: [release](https://mlr3proba.mlr-org.com/)
-
 Probabilistic Supervised Learning for
-**[mlr3](https://github.com/mlr-org/mlr3/)**.
+**[mlr3](https://github.com/mlr-org/mlr3/)**
+([website](https://mlr3proba.mlr-org.com/)).
 
 <!-- badges: start -->
 
-[![r-cmd-check](https://github.com/mlr-org/mlr3proba/actions/workflows/r-cmd-check.yml/badge.svg)](https://github.com/mlr-org/mlr3proba/actions/workflows/r-cmd-check.yml)
+[![R-CMD-check](https://github.com/mlr-org/mlr3proba/actions/workflows/r-cmd-check.yml/badge.svg)](https://github.com/mlr-org/mlr3proba/actions/workflows/r-cmd-check.yml)
+[![runiverse](https://mlr-org.r-universe.dev/badges/mlr3proba)](https://mlr-org.r-universe.dev/mlr3proba)
 [![GitHub
 Discussions](https://img.shields.io/github/discussions/mlr-org/mlr3proba?logo=github&label=Discussions%20Q%26A&color=FFE600)](https://github.com/mlr-org/mlr3proba/discussions)
 [![Article](https://img.shields.io/badge/Article-10.1093%2Fbioinformatics%2Fbtab039-brightgreen)](https://doi.org/10.1093/bioinformatics/btab039)
-[![StackOverflow](https://img.shields.io/badge/stackoverflow-mlr3-orange.svg)](https://stackoverflow.com/questions/tagged/mlr3)
-[![Mattermost](https://img.shields.io/badge/chat-mattermost-orange.svg)](https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/)
+[![StackOverflow](https://img.shields.io/badge/stackoverflow-mlr3-orange.svg?color=pink)](https://stackoverflow.com/questions/tagged/mlr3)
+[![Mattermost](https://img.shields.io/badge/chat-mattermost-orange.svg?color=pink)](https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/)
 <!-- badges: end -->
 
 ## What is mlr3proba?

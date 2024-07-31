@@ -9,7 +9,7 @@ on:
     branches:
       - main
 
-name: r-cmd-check
+name: R-CMD-check
 
 jobs:
   r-cmd-check:

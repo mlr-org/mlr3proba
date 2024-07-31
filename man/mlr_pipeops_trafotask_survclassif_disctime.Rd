@@ -7,11 +7,23 @@
 \description{
 Transform \link{TaskSurv} to \link[mlr3:TaskClassif]{TaskClassif} by dividing continuous
 time into multiple time intervals for each observation.
-This transformation creates a new target variable \code{ped_status} that indicates
+This transformation creates a new target variable \code{disc_status} that indicates
 whether an event occurred within each time interval.
 This approach facilitates survival analysis within a classification framework
 using discrete time intervals (Tutz et al. 2016).
 }
+\section{Dictionary}{
+
+This \link[mlr3pipelines:PipeOp]{PipeOp} can be instantiated via the
+\link[mlr3misc:Dictionary]{dictionary} \link[mlr3pipelines:mlr_pipeops]{mlr3pipelines::mlr_pipeops}
+or with the associated sugar function \code{\link[mlr3pipelines:po]{mlr3pipelines::po()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{PipeOpTaskSurvClassifDiscTime$new()
+mlr_pipeops$get("trafotask_survclassif_disctime")
+po("trafotask_survclassif_disctime")
+}\if{html}{\out{</div>}}
+}
+
 \section{Input and Output Channels}{
 
 \link{PipeOpTaskSurvClassifDiscTime} has one input channel named "input", and two
@@ -19,18 +31,19 @@ output channels, one named "output" and the other "transformed_data".
 
 During training, the "output" is the "input" \link{TaskSurv} transformed to a
 \link[mlr3:TaskClassif]{TaskClassif}.
-The target column is named \code{ped_status} and indicates whether an event occurred
+The target column is named \code{"disc_status"} and indicates whether an event occurred
 in each time interval.
-An additional feature named \code{tend} is added to the ouput task, containing the
-end time of each interval.
+An additional feature named \code{"tend"} contains the end time point of each interval.
+Lastly, the "output" task has a column with the original observation ids,
+under the role \code{"original_ids"}.
 The "transformed_data" is an empty \link[data.table:data.table]{data.table}.
 
 During prediction, the "input" \link{TaskSurv} is transformed to the "output"
-\link[mlr3:TaskClassif]{TaskClassif} with \code{ped_status} as target and the \code{tend}
+\link[mlr3:TaskClassif]{TaskClassif} with \code{"disc_status"} as target and the \code{"tend"}
 feature included.
-The "transformed_data" is a \link{data.table} which has all the features of the
-"output" task, including an additional column \code{time2} containing the
-original times.
+The "transformed_data" is a \link{data.table} with columns the \code{"disc_status"}
+target of the "output" task, the \code{"id"} (original observation ids),
+\code{"obs_times"} (observed times per \code{"id"}) and \code{"tend"} (end time of each interval).
 This "transformed_data" is only meant to be used with the \link{PipeOpPredClassifSurvDiscTime}.
 }
 

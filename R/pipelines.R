@@ -598,7 +598,7 @@ pipeline_survtoclassif_disctime = function(learner, cut = NULL, max_time = NULL,
 
   if (!is.null(rhs)) {
     gr$edges = gr$edges[-1, ]
-    gr$add_pipeop(mlr3pipelines::po("modelmatrix", formula = mlr3misc::formulate(rhs = rhs, quote = "left")))
+    gr$add_pipeop(mlr3pipelines::po("modelmatrix", formula = formulate(rhs = rhs, quote = "left")))
     gr$add_edge(src_id = "trafotask_survclassif_disctime", dst_id = "modelmatrix", src_channel = "output")
     gr$add_edge(src_id = "modelmatrix", dst_id = learner$id, src_channel = "output", dst_channel = "input")
   }
