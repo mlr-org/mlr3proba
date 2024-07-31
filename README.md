@@ -7,7 +7,7 @@ Probabilistic Supervised Learning for
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/mlr-org/mlr3proba/actions/workflows/R-CMD-check.yml/badge.svg)](https://github.com/mlr-org/mlr3proba/actions/workflows/R-CMD-check.yml)
+[![R-CMD-check](https://github.com/mlr-org/mlr3proba/actions/workflows/r-cmd-check.yml/badge.svg)](https://github.com/mlr-org/mlr3proba/actions/workflows/r-cmd-check.yml)
 [![runiverse](https://mlr-org.r-universe.dev/badges/mlr3proba)](https://mlr-org.r-universe.dev/mlr3proba)
 [![GitHub
 Discussions](https://img.shields.io/github/discussions/mlr-org/mlr3proba?logo=github&label=Discussions%20Q%26A&color=FFE600)](https://github.com/mlr-org/mlr3proba/discussions)
