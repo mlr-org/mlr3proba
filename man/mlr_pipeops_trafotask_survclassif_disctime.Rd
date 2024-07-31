@@ -41,8 +41,8 @@ The "transformed_data" is an empty \link[data.table:data.table]{data.table}.
 During prediction, the "input" \link{TaskSurv} is transformed to the "output"
 \link[mlr3:TaskClassif]{TaskClassif} with \code{"disc_status"} as target and the \code{"tend"}
 feature included.
-The "transformed_data" is a \link{data.table} which has as columns all the features
-of the "output" task and in addition the columns \code{"id"} (original observation ids),
+The "transformed_data" is a \link{data.table} with columns the \code{"disc_status"}
+target of the "output" task, the \code{"id"} (original observation ids),
 \code{"obs_times"} (observed times per \code{"id"}) and \code{"tend"} (end time of each interval).
 This "transformed_data" is only meant to be used with the \link{PipeOpPredClassifSurvDiscTime}.
 }
