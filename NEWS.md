@@ -1,3 +1,7 @@
+# mlr3proba 0.6.6
+
+- Small fixes and refactoring to the discrete-time pipeops
+
 # mlr3proba 0.6.5
 
 * Add support for discrete-time survival analysis
