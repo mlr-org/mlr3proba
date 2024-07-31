@@ -47,8 +47,8 @@ test_that("PipeOpTaskSurvClassifDiscTime", {
 
   transformed_data = res[["transformed_data"]]
   # check columns in the transformed data.table
-  expect_set_equal(colnames(transformed_data),
-                   c("id", "disc_status", "obs_times", "tend"))
+  expect_setequal(colnames(transformed_data),
+                  c("id", "disc_status", "obs_times", "tend"))
   # `id`s are correct
   expect_equal(transformed_data$id, correct_ids)
   # `disc_status` is the same

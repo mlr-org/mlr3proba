@@ -21,7 +21,7 @@ expect_task_surv = function(task) {
 
   f = task$formula()
   expect_formula(f)
-  expect_set_equal(mlr3misc::extract_vars(f)$lhs, task$target_names)
+  expect_setequal(extract_vars(f)$lhs, task$target_names)
   expect_class(task$kaplan(), "survfit")
 }
 
