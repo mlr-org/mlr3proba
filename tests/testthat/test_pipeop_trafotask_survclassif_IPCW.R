@@ -6,7 +6,7 @@ test_that("PipeOpTaskSurvClassifIPCW", {
   l = lrn("classif.gam")
 
   pipe = po %>>% l
-  pipe$train(task)
+  suppressWarnings(pipe$train(task))
   pred1 = pipe$predict(task)$classif.gam.output
   expect_prediction_classif(pred1)
 
@@ -14,7 +14,7 @@ test_that("PipeOpTaskSurvClassifIPCW", {
   po = po("trafotask_survclassif_IPCW", cutoff_time = 75)
 
   pipe2 = po %>>% l
-  pipe2$train(task)
+  suppressWarnings(pipe2$train(task))
   pred2 = pipe2$predict(task)$classif.gam.output
 
   testthat::expect_true(all(pred1$prob != pred2$prob))

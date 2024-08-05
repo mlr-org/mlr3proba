@@ -150,6 +150,7 @@ Collate:
     'PipeOpTaskSurvClassifDiscTime.R'
     'PipeOpTaskSurvRegr.R'
     'PipeOpTaskTransformer.R'
+    'PipeOpTaskfSurvClassifIPCW.R'
     'PredictionDataDens.R'
     'PredictionDataSurv.R'
     'PredictionDens.R'

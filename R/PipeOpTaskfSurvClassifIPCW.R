@@ -1,4 +1,32 @@
-
+#' @title PipeOpTaskSurvClassifIPCW
+#' @name mlr_pipeops_trafotask_survclassif_IPCW
+#' @template param_pipelines
+#'
+#' @description
+#' Transform [TaskSurv] to [TaskClassif][mlr3::TaskClassif] using IPCW (Vock et al., 2016).
+#'
+#' @section Dictionary:
+#' This [PipeOp][mlr3pipelines::PipeOp] can be instantiated via the
+#' [dictionary][mlr3misc::Dictionary] [mlr3pipelines::mlr_pipeops]
+#' or with the associated sugar function [mlr3pipelines::po()]:
+#' ```
+#' PipeOpTaskSurvClassifIPCW$new()
+#' mlr_pipeops$get("trafotask_survclassif_IPCW")
+#' po("trafotask_survclassif_IPCW")
+#' ```
+#'
+#' @section Parameters:
+#' The parameters are
+#'
+#' * `cutoff_time :: numeric()`\cr
+#' Cutoff time for IPCW. Observations with time larger than `cutoff_time` are censored.
+#'
+#' @references
+#' `r format_bib("vock_2016")`
+#'
+#' @family PipeOps
+#' @family Transformation PipeOps
+#' @export
 PipeOpTaskfSurvClassifIPCW = R6Class(
   "PipeOpTaskfSurvClassifIPCW",
   inherit = mlr3pipelines::PipeOp,

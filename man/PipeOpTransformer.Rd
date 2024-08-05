@@ -33,6 +33,7 @@ Other PipeOps:
 \code{\link{mlr_pipeops_trafopred_regrsurv}},
 \code{\link{mlr_pipeops_trafopred_survregr}},
 \code{\link{mlr_pipeops_trafotask_regrsurv}},
+\code{\link{mlr_pipeops_trafotask_survclassif_IPCW}},
 \code{\link{mlr_pipeops_trafotask_survclassif_disctime}},
 \code{\link{mlr_pipeops_trafotask_survregr}}
 
