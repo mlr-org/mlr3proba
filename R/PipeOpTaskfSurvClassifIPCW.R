@@ -39,7 +39,6 @@ PipeOpTaskfSurvClassifIPCW = R6Class(
     .train = function(input) {
       data_trafo = input[[1]]$data()
       cutoff_time = self$param_set$values$cutoff_time
-      cutoff_time = 5
 
       # transform data and calculate weights
       data_trafo$time[data_trafo$time > cutoff_time] = cutoff_time
