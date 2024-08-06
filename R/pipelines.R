@@ -647,9 +647,9 @@ pipeline_survtoclassif_IPCW = function(learner, cutoff_time = NULL, predict = "c
 
   gr$add_edge(src_id = "trafotask_survclassif_IPCW", dst_id = learner$id, src_channel = "output", dst_channel = "input")
 
-  if (predict != "classif") {
+  if (predict == "classif") {
     gr$add_pipeop(mlr3pipelines::po("trafopred_classifsurv_IPCW"))
-    gr$add_edge(src_id = learner$id, dst_id = "trafopred_classifsurv_ICPW", src_channel = "output", dst_channel = "input")
+    gr$add_edge(src_id = learner$id, dst_id = "trafopred_classifsurv_IPCW", src_channel = "output", dst_channel = "input")
   }
 
   if (graph_learner) {
