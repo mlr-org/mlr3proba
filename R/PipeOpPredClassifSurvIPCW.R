@@ -50,7 +50,12 @@ PipeOpPredClassifSurvIPCW = R6Class(
 
   private = list(
     .predict = function(input) {
-      p = PredictionSurv$new(row_ids = 1, truth = Surv(1,0), crank = 0.5)
+      pred = input[[1]]
+      # TODO: fix timepoints
+      p = PredictionSurv$new(row_ids = pred$row_ids,
+                             truth = Surv(time = rep(0, length(pred$row_ids)),
+                                          event = as.integer(pred$truth)),
+                             crank = pred$prob[, 2])
       list(p)
     },
 
