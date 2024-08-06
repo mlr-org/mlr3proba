@@ -78,6 +78,7 @@ PipeOpTaskfSurvClassifIPCW = R6Class(
       weights = 1 / pred$data$distr[1,]
 
       # add weights to original data
+      time = status = NULL
       data = input[[1]]$data()
       data[["ipc_weights"]] = weights[as.character(data_trafo$time)]
       data[status == 0 & time < cutoff_time, "ipc_weights" := 0]
