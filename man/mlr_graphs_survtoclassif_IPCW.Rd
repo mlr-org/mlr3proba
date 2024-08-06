@@ -8,7 +8,7 @@
 pipeline_survtoclassif_IPCW(
   learner,
   cutoff_time = NULL,
-  predict = "classif",
+  output = "classif",
   graph_learner = FALSE
 )
 }

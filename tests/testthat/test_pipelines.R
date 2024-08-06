@@ -181,3 +181,33 @@ test_that("survtoclassif_disctime", {
   # model with more covariates should have better C-index
   expect_gt(pred2$score(), pred$score())
 })
+
+test_that("survtoclassif_IPCW", {
+  requireNamespace("mlr3extralearners")
+
+  pipe = mlr3pipelines::ppl("survtoclassif_IPCW", learner = lrn("classif.gam"))
+  expect_class(pipe, "Graph")
+
+  ## This needs fixing
+  grlrn = mlr3pipelines::ppl("survtoclassif_IPCW", learner = lrn("classif.gam"),
+                             graph_learner = TRUE)
+  expect_class(grlrn, "GraphLearner")
+  grlrn$train(task)
+  p = grlrn$predict(task)
+  expect_prediction_surv(p)
+
+  # Test with cutoff_time
+  grlrn = mlr3pipelines::ppl("survtoclassif_IPCW", learner = lrn("classif.gam"),
+                             cutoff_time = 50)
+  expect_class(pipe, "Graph")
+  suppressWarnings(grlrn$train(task))
+  p1 = grlrn$predict(task)
+  expect_prediction_classif(p1$classif.gam.output)
+
+  grlrn = mlr3pipelines::ppl("survtoclassif_IPCW", learner = lrn("classif.gam"),
+                             cutoff_time = 75)
+  suppressWarnings(grlrn$train(task))
+  p2 = grlrn$predict(task)
+
+  expect_false(any(p1$classif.gam.output$data$prob == p2$classif.gam.output$data$prob))
+})

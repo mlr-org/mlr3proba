@@ -638,7 +638,7 @@ pipeline_survtoclassif_disctime = function(learner, cut = NULL, max_time = NULL,
 #' @family pipelines
 #'
 #' @export
-pipeline_survtoclassif_IPCW = function(learner, cutoff_time = NULL, predict = "classif", graph_learner = FALSE) {
+pipeline_survtoclassif_IPCW = function(learner, cutoff_time = NULL, output = "classif", graph_learner = FALSE) {
   assert_true("prob" %in% learner$predict_types)
 
   gr = mlr3pipelines::Graph$new()
@@ -647,7 +647,7 @@ pipeline_survtoclassif_IPCW = function(learner, cutoff_time = NULL, predict = "c
 
   gr$add_edge(src_id = "trafotask_survclassif_IPCW", dst_id = learner$id, src_channel = "output", dst_channel = "input")
 
-  if (predict == "classif") {
+  if (output != "classif") {
     gr$add_pipeop(mlr3pipelines::po("trafopred_classifsurv_IPCW"))
     gr$add_edge(src_id = learner$id, dst_id = "trafopred_classifsurv_IPCW", src_channel = "output", dst_channel = "input")
   }
