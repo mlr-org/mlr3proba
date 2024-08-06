@@ -619,7 +619,7 @@ pipeline_survtoclassif_disctime = function(learner, cut = NULL, max_time = NULL,
 #' Classification learner to fit the transformed [TaskClassif][mlr3::TaskClassif].
 #' @param cutoff_time `numeric()`\cr
 #' #' Cutoff time for IPCW. Observations with time larger than `cutoff_time` are censored.
-#' #' @param predict `numeric()`\cr
+#' #' @param output `numeric()`\cr
 #' #' If not set to "classif" (default) then the prediction is transformed to a crank.
 #' @param graph_learner `logical(1)`\cr
 #' If `TRUE` returns wraps the [Graph][mlr3pipelines::Graph] as a
