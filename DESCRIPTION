@@ -140,6 +140,7 @@ Collate:
     'PipeOpCrankCompositor.R'
     'PipeOpDistrCompositor.R'
     'PipeOpPredClassifSurvDiscTime.R'
+    'PipeOpPredClassifSurvIPCW.R'
     'PipeOpTransformer.R'
     'PipeOpPredTransformer.R'
     'PipeOpPredRegrSurv.R'
