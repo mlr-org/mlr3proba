@@ -610,6 +610,55 @@ pipeline_survtoclassif_disctime = function(learner, cut = NULL, max_time = NULL,
   gr
 }
 
+#' @name mlr_graphs_survtoclassif_IPCW
+#' @title Survival to Classification Reduction Pipeline using IPCW
+#' @description Wrapper around multiple [PipeOp][mlr3pipelines::PipeOp]s to help in creation
+#' of complex survival reduction methods.
+#'
+#' @param learner [LearnerClassif][mlr3::LearnerClassif]\cr
+#' Classification learner to fit the transformed [TaskClassif][mlr3::TaskClassif].
+#' @param cutoff_time `numeric()`\cr
+#' #' Cutoff time for IPCW. Observations with time larger than `cutoff_time` are censored.
+#' #' @param predict `numeric()`\cr
+#' #' If not set to "classif" (default) then the prediction is transformed to a crank.
+#' @param graph_learner `logical(1)`\cr
+#' If `TRUE` returns wraps the [Graph][mlr3pipelines::Graph] as a
+#' [GraphLearner][mlr3pipelines::GraphLearner] otherwise (default) returns as a `Graph`.
+#'
+#' @details
+#' The pipeline consists of the following steps:
+#' \enumerate{
+#' \item [PipeOpTaskSurvClassifIPCW] Converts [TaskSurv] to a [TaskClassif][mlr3::TaskClassif].
+#' \item A [LearnerClassif] is fit and predicted on the new `TaskClassif`.
+#' \item Optionally: [PipeOpPredClassifSurvIPCW] transforms the resulting [PredictionClassif][mlr3::PredictionClassif]
+#' to [PredictionSurv].
+#' }
+#'
+#' @return [mlr3pipelines::Graph] or [mlr3pipelines::GraphLearner]
+#' @family pipelines
+#'
+#' @export
+pipeline_survtoclassif_IPCW = function(learner, cutoff_time = NULL, predict = "classif", graph_learner = FALSE) {
+  assert_true("prob" %in% learner$predict_types)
+
+  gr = mlr3pipelines::Graph$new()
+  gr$add_pipeop(mlr3pipelines::po("trafotask_survclassif_IPCW", cutoff_time = cutoff_time))
+  gr$add_pipeop(mlr3pipelines::po("learner", learner, predict_type = "prob"))
+
+  gr$add_edge(src_id = "trafotask_survclassif_IPCW", dst_id = learner$id, src_channel = "output", dst_channel = "input")
+
+  if (predict != "classif") {
+    gr$add_pipeop(mlr3pipelines::po("trafopred_classifsurv_IPCW"))
+    gr$add_edge(src_id = learner$id, dst_id = "trafopred_classifsurv_ICPW", src_channel = "output", dst_channel = "input")
+  }
+
+  if (graph_learner) {
+    gr = mlr3pipelines::GraphLearner$new(gr)
+  }
+
+  gr
+}
+
 register_graph("survaverager", pipeline_survaverager)
 register_graph("survbagging", pipeline_survbagging)
 register_graph("crankcompositor", pipeline_crankcompositor)
@@ -617,3 +666,4 @@ register_graph("distrcompositor", pipeline_distrcompositor)
 register_graph("probregr", pipeline_probregr)
 register_graph("survtoregr", pipeline_survtoregr)
 register_graph("survtoclassif_disctime", pipeline_survtoclassif_disctime)
+register_graph("survtoclassif_IPCW", pipeline_survtoclassif_IPCW)
