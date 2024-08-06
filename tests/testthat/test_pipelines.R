@@ -182,6 +182,8 @@ test_that("survtoclassif_disctime", {
   expect_gt(pred2$score(), pred$score())
 })
 
+skip_if_not_installed("mlr3extralearners")
+
 test_that("survtoclassif_IPCW", {
   requireNamespace("mlr3extralearners")
 
