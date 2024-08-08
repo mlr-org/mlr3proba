@@ -17,9 +17,10 @@ pipeline_survtoclassif_IPCW(
 Classification learner to fit the transformed \link[mlr3:TaskClassif]{TaskClassif}.}
 
 \item{cutoff_time}{\code{numeric()}\cr
-#' Cutoff time for IPCW. Observations with time larger than \code{cutoff_time} are censored.
-#' @param output \code{numeric()}\cr
-#' If not set to "classif" (default) then the prediction is transformed to a crank.}
+#' Cutoff time for IPCW. Observations with time larger than \code{cutoff_time} are censored.}
+
+\item{output}{\code{numeric()}\cr
+If not set to "classif" (default) then the prediction is transformed to a crank.}
 
 \item{graph_learner}{\code{logical(1)}\cr
 If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a

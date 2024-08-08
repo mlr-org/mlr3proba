@@ -27,8 +27,8 @@
 #' @family PipeOps
 #' @family Transformation PipeOps
 #' @export
-PipeOpTaskfSurvClassifIPCW = R6Class(
-  "PipeOpTaskfSurvClassifIPCW",
+PipeOpTaskSurvClassifIPCW = R6Class(
+  "PipeOpTaskSurvClassifIPCW",
   inherit = mlr3pipelines::PipeOp,
 
   public = list(
@@ -96,4 +96,4 @@ PipeOpTaskfSurvClassifIPCW = R6Class(
   )
 )
 
-register_pipeop("trafotask_survclassif_IPCW", PipeOpTaskfSurvClassifIPCW)
+register_pipeop("trafotask_survclassif_IPCW", PipeOpTaskSurvClassifIPCW)
