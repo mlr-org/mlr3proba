@@ -86,6 +86,7 @@ Other pipelines:
 \code{\link{mlr_graphs_probregr}},
 \code{\link{mlr_graphs_survaverager}},
 \code{\link{mlr_graphs_survbagging}},
+\code{\link{mlr_graphs_survtoclassif_IPCW}},
 \code{\link{mlr_graphs_survtoregr}}
 }
 \concept{pipelines}

@@ -29,7 +29,7 @@ The parameters are
 \itemize{
 \item \verb{method::character(1))}\cr
 Method to use for dealing with censoring. Options are \code{"ipcw"} (Vock et al., 2016): censoring
-is column is removed and a \code{weights} column is added, weights are inverse estimated survival
+column is removed and a \code{weights} column is added, weights are inverse estimated survival
 probability of the censoring distribution evaluated at survival time;
 \code{"mrl"} (Klein and Moeschberger, 2003): survival time of censored
 observations is transformed to the observed time plus the mean residual life-time at the moment
@@ -136,17 +136,21 @@ Other PipeOps:
 \code{\link{PipeOpTaskTransformer}},
 \code{\link{PipeOpTransformer}},
 \code{\link{mlr_pipeops_survavg}},
+\code{\link{mlr_pipeops_trafopred_classifsurv_IPCW}},
 \code{\link{mlr_pipeops_trafopred_classifsurv_disctime}},
 \code{\link{mlr_pipeops_trafopred_regrsurv}},
 \code{\link{mlr_pipeops_trafopred_survregr}},
 \code{\link{mlr_pipeops_trafotask_regrsurv}},
+\code{\link{mlr_pipeops_trafotask_survclassif_IPCW}},
 \code{\link{mlr_pipeops_trafotask_survclassif_disctime}}
 
 Other Transformation PipeOps: 
+\code{\link{mlr_pipeops_trafopred_classifsurv_IPCW}},
 \code{\link{mlr_pipeops_trafopred_classifsurv_disctime}},
 \code{\link{mlr_pipeops_trafopred_regrsurv}},
 \code{\link{mlr_pipeops_trafopred_survregr}},
 \code{\link{mlr_pipeops_trafotask_regrsurv}},
+\code{\link{mlr_pipeops_trafotask_survclassif_IPCW}},
 \code{\link{mlr_pipeops_trafotask_survclassif_disctime}}
 }
 \concept{PipeOps}

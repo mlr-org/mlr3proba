@@ -21,7 +21,7 @@
 #'
 #' * `method::character(1))`\cr
 #' Method to use for dealing with censoring. Options are `"ipcw"` (Vock et al., 2016): censoring
-#' is column is removed and a `weights` column is added, weights are inverse estimated survival
+#' column is removed and a `weights` column is added, weights are inverse estimated survival
 #'  probability of the censoring distribution evaluated at survival time;
 #'  `"mrl"` (Klein and Moeschberger, 2003): survival time of censored
 #' observations is transformed to the observed time plus the mean residual life-time at the moment
