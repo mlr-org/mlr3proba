@@ -187,12 +187,13 @@ skip_if_not_installed("mlr3extralearners")
 test_that("survtoclassif_IPCW", {
   requireNamespace("mlr3extralearners")
 
-  pipe = mlr3pipelines::ppl("survtoclassif_IPCW", learner = lrn("classif.gam"))
+  pipe = mlr3pipelines::ppl("survtoclassif_IPCW", learner = lrn("classif.gam"),
+                            cutoff_time = 50)
   expect_class(pipe, "Graph")
 
   ## This needs fixing
   grlrn = mlr3pipelines::ppl("survtoclassif_IPCW", learner = lrn("classif.gam"),
-                             graph_learner = TRUE)
+                             cutoff_time = 50, graph_learner = TRUE)
   expect_class(grlrn, "GraphLearner")
   grlrn$train(task)
   p = grlrn$predict(task)
