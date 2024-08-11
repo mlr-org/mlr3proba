@@ -90,8 +90,8 @@ PredictionSurv = R6Class("PredictionSurv",
         distr = private$.simplify_distr(distr)
       }
 
-      pdata = list(row_ids = row_ids, truth = truth, crank = crank, distr = distr, lp = lp,
-        response = response)
+      pdata = list(row_ids = row_ids, truth = truth, crank = crank, distr = distr,
+                   lp = lp, response = response)
       pdata = discard(pdata, is.null)
       class(pdata) = c("PredictionDataSurv", "PredictionData")
 
@@ -108,7 +108,7 @@ PredictionSurv = R6Class("PredictionSurv",
 
   active = list(
     #' @field truth (`Surv`)\cr
-    #'   True (observed) outcome.
+    #' True (observed) outcome.
     truth = function() {
       self$data$truth
     },
@@ -126,19 +126,19 @@ PredictionSurv = R6Class("PredictionSurv",
         return(self$data$distr)
       }
 
-      private$.distrify_survarray(self$data$distr %??% NA_real_)
+      private$.distrify_survarray(self$data$distr)
     },
 
     #' @field lp (`numeric()`)\cr
     #' Access the stored predicted linear predictor.
     lp = function() {
-      self$data$lp %??% rep(NA_real_, length(self$data$row_ids))
+      self$data$lp
     },
 
     #' @field response (`numeric()`)\cr
     #' Access the stored predicted survival time.
     response = function() {
-      self$data$response %??% rep(NA_real_, length(self$data$row_ids))
+      self$data$response
     }
   ),
 
