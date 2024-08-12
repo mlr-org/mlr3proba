@@ -32,9 +32,8 @@
 #' risks / rankings if `crank` is NULL.
 #'
 #' @references
-#' Sonabend, R., Bender, A., & Vollmer, S. (2022). Avoiding C-hacking when
-#' evaluating survival distribution predictions with discrimination measures.
-#' Bioinformatics. https://doi.org/10.1093/BIOINFORMATICS/BTAC451
+#' `r format_bib("sonabend_2022")`
+#'
 #' @export
 .surv_return = function(times = NULL, surv = NULL, crank = NULL, lp = NULL,
   response = NULL, which.curve = NULL) {
@@ -117,4 +116,36 @@
   } else {
     array(arr[, , which.curve], c(nrow(arr), ncol(arr)), dimnames(arr)[1:2])
   }
+}
+
+#' @title Calculate the expected mortality risks from a survival matrix
+#'
+#' @description Many methods can be used to reduce a discrete survival
+#' distribution prediction (i.e. matrix) to a relative risk / ranking
+#' prediction, see Sonabend et al. (2022).
+#' This function calculates the predicted relative risk as the sum of the
+#' predicted cumulative hazard function (also called **expected mortality**)
+#' - which can be loosely interpreted as the expected number of deaths for
+#' patients with similar characteristics, see Ishwaran et al. (2008).
+#'
+#' @param x (`matrix()`) \cr A survival matrix where rows are the
+#' (predicted) observations and columns the time-points.
+#' Checked with [assert_surv_matrix].
+#'
+#' @return a `numeric` vector of the expected mortalities, one per row.
+#'
+#' @references
+#' `r format_bib("sonabend_2022", "ishwaran_2008")`
+#'
+#' @export
+get_mortality = function(x) {
+  assert_surv_matrix(x)
+
+  # H(t) = -log(S(t))
+  cumhaz = -log(x)
+
+  # Ignore S(t) = 0 => -log(S(t)) = Inf
+  cumhaz[is.infinite(cumhaz)] = 0
+
+  rowSums(cumhaz)
 }
