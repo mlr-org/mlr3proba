@@ -54,20 +54,13 @@ test_that("resample survtoregr", {
 })
 
 test_that("survtoregr 1", {
-  pipe = mlr3pipelines::ppl("survtoregr", method = 1, distrcompose = FALSE)
+  pipe = mlr3pipelines::ppl("survtoregr", method = 1)
   expect_class(pipe, "Graph")
-  pipe = mlr3pipelines::ppl("survtoregr", method = 1, distrcompose = FALSE, graph_learner = TRUE)
-  expect_class(pipe, "GraphLearner")
-  pipe$train(task)
-  p = pipe$predict(task)
+  grlrn = mlr3pipelines::ppl("survtoregr", method = 1, graph_learner = TRUE)
+  expect_class(grlrn, "GraphLearner")
+  p = grlrn$train(task)$predict(task)
   expect_prediction_surv(p)
-
-  pipe = mlr3pipelines::ppl("survtoregr", method = 1, distrcompose = TRUE, graph_learner = TRUE)
-  expect_class(pipe, "GraphLearner")
-  pipe$train(task)
-  p = pipe$predict(task)
-  expect_prediction_surv(p)
-  expect_true("distr" %in% p$predict_types)
+  expect_true("response" %in% p$predict_types)
 })
 
 test_that("survtoregr 2", {

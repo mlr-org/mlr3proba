@@ -311,8 +311,6 @@ pipeline_probregr = function(learner, learner_se = NULL, dist = "Uniform",
 #' \item A [LearnerRegr] is fit and predicted on the new `TaskRegr`.
 #' \item [PipeOpPredRegrSurv] transforms the resulting [PredictionRegr][mlr3::PredictionRegr]
 #' to [PredictionSurv].
-#' \item Optionally: [PipeOpDistrCompositor] is used to compose a `distr` predict_type from the
-#' predicted `response` predict_type.
 #' }
 #' \item Survival to Probabilistic Regression
 #' \enumerate{
@@ -358,7 +356,7 @@ pipeline_probregr = function(learner, learner_se = NULL, dist = "Uniform",
 #' Regression learner to fit to the transformed [TaskRegr][mlr3::TaskRegr]. If `regr_se_learner` is
 #' `NULL` in method `2`, then `regr_learner` must have `se` predict_type.
 #' @param distrcompose `logical(1)`\cr
-#' For methods `1` and `3` if `TRUE` (default) then [PipeOpDistrCompositor] is utilised to
+#' For method `3` if `TRUE` (default) then [PipeOpDistrCompositor] is utilised to
 #' transform the deterministic predictions to a survival distribution.
 #' @param distr_estimator [LearnerSurv]\cr
 #' For methods `1` and `3` if `distrcompose = TRUE` then specifies the learner to estimate the
@@ -399,7 +397,6 @@ pipeline_probregr = function(learner, learner_se = NULL, dist = "Uniform",
 #'     "survtoregr",
 #'     method = 1,
 #'     regr_learner = lrn("regr.featureless"),
-#'     distrcompose = TRUE,
 #'     survregr_params = list(method = "delete")
 #'   )
 #'   pipe$train(task)
@@ -449,16 +446,6 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
       add_edge("trafotask_survregr", "regr_learner")$
       add_edge("regr_learner", "trafopred_regrsurv", dst_channel = "pred")$
       add_edge("task_surv", "trafopred_regrsurv", dst_channel = "task")
-
-    if (distrcompose) {
-      assert("distr" %in% distr_estimator$predict_types)
-
-      gr$add_pipeop(mlr3pipelines::po("learner", distr_estimator, id = "distr_estimator"))$
-        add_pipeop(mlr3pipelines::po("distrcompose", param_vals = distrcompose_params))$
-        add_edge("trafopred_regrsurv", dst_id = "distrcompose", dst_channel = "pred")$
-        add_edge("distr_estimator", dst_id = "distrcompose", dst_channel = "base")
-    }
-
   } else if (method == 2) {
 
     gr = mlr3pipelines::Graph$new()$
@@ -486,7 +473,6 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
       add_edge("regr_learner", "compose_probregr", dst_channel = "input_response")
 
   } else if (method == 3) {
-
     assert("lp" %in% surv_learner$predict_types)
 
     gr = mlr3pipelines::Graph$new()$
