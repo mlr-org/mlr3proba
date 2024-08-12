@@ -5,18 +5,14 @@
 \alias{PipeOpDistrCompositor}
 \title{PipeOpDistrCompositor}
 \description{
-Estimates (or 'composes') a survival distribution from a predicted baseline \code{distr} and a
-\code{crank} or \code{lp} from two \link{PredictionSurv}s.
+Estimates (or 'composes') a survival distribution from a predicted baseline
+survival distribution (\code{distr}) and a linear predictor (\code{lp}) from two \link{PredictionSurv}s.
 
 Compositor Assumptions:
 \itemize{
 \item The baseline \code{distr} is a discrete estimator, e.g. \link[=LearnerSurvKaplan]{surv.kaplan}.
 \item The composed \code{distr} is of a linear form
-\item If \code{lp} is missing then \code{crank} is equivalent
 }
-
-These assumptions are strong and may not be reasonable. Future updates will upgrade this
-compositor to be more flexible.
 }
 \section{Dictionary}{
 
@@ -32,15 +28,16 @@ po("distrcompose")
 
 \section{Input and Output Channels}{
 
-\link{PipeOpDistrCompositor} has two input channels, "base" and "pred". Both input channels take
-\code{NULL} during training and \link{PredictionSurv} during prediction.
+\link{PipeOpDistrCompositor} has two input channels, \code{"base"} and \code{"pred"}.
+Both input channels take \code{NULL} during training and \link{PredictionSurv} during prediction.
 
-\link{PipeOpDistrCompositor} has one output channel named "output", producing \code{NULL} during training
-and a \link{PredictionSurv} during prediction.
+\link{PipeOpDistrCompositor} has one output channel named \code{"output"}, producing
+\code{NULL} during training and a \link{PredictionSurv} during prediction.
 
-The output during prediction is the \link{PredictionSurv} from the "pred" input but with an extra
-(or overwritten) column for \code{distr} predict type; which is composed from the \code{distr} of "base"
-and \code{lp} or \code{crank} of "pred".
+The output during prediction is the \link{PredictionSurv} from the \code{"pred"} input
+but with an extra (or overwritten) column for the \code{distr} predict type; which
+is composed from the \code{distr} of \code{"base"} and the \code{lp} of \code{"pred"}.
+If no \code{lp} predictions have been made, then the \code{"pred"} is returned unchanged.
 }
 
 \section{State}{
@@ -58,8 +55,8 @@ accelerated-failure time, \code{aft}, proportional hazards, \code{ph}, or propor
 Default \code{aft}.
 \item \code{overwrite} :: \code{logical(1)} \cr
 If \code{FALSE} (default) then if the "pred" input already has a \code{distr}, the compositor does
-nothing and returns the given \link{PredictionSurv}. If \code{TRUE} then the \code{distr} is overwritten
-with the \code{distr} composed from \code{lp}/\code{crank} - this is useful for changing the prediction
+nothing and returns the given \link{PredictionSurv}. If \code{TRUE}, then the \code{distr} is overwritten
+with the \code{distr} composed from \code{lp} - this is useful for changing the prediction
 \code{distr} from one model form to another.
 }
 }
@@ -71,8 +68,7 @@ The respective \code{form}s above have respective survival distributions:
 \deqn{ph: S(t) = S_0(t)^{exp(lp)}}{ph: S(t) = S0(t)^exp(lp)}
 \deqn{po: S(t) = \frac{S_0(t)}{exp(-lp) + (1-exp(-lp)) S_0(t)}}{po: S(t) = S0(t) / [exp(-lp) + S0(t) (1-exp(-lp))]} # nolint
 where \eqn{S_0}{S0} is the estimated baseline survival distribution, and \eqn{lp} is the
-predicted linear predictor. If the input model does not predict a linear predictor then \code{crank}
-is assumed to be the \code{lp} - \strong{this may be a strong and unreasonable assumption.}
+predicted linear predictor.
 }
 
 \examples{
@@ -84,6 +80,7 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 
   base = lrn("surv.kaplan")$train(task)$predict(task)
   pred = lrn("surv.coxph")$train(task)$predict(task)
+  # let's change the distribution prediction of Cox (Breslow-based) to an AFT form:
   pod = po("distrcompose", param_vals = list(form = "aft", overwrite = TRUE))
   pod$predict(list(base = base, pred = pred))[[1]]
 }
