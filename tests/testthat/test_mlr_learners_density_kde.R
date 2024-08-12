@@ -1,5 +1,5 @@
 test_that("autotest", {
-  set.seed(1)
+  set.seed(1L)
   learner = lrn("dens.kde")
   expect_learner(learner)
   # Skip due to long execution time (distr6 needs to be improved)
@@ -15,6 +15,6 @@ lrn$train(task)
 
 test_that("pdf", {
   d = stats::density(x, kernel = "epan", bw = 0.5)
-  task_test = TaskDens$new(id = "a", d$x[20])
-  expect_equal(round(d$y[20], 2), round(lrn$predict(task_test)$pdf, 2))
+  task_test = TaskDens$new(id = "a", d$x[20L])
+  expect_equal(round(d$y[20L], 2), round(lrn$predict(task_test)$pdf, 2))
 })

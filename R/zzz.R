@@ -63,14 +63,42 @@ utils::globalVariables(c(
   setHook(event, hooks[pkgname != "mlr3proba"], action = "replace")
 
   # unregister
+  unregister_reflections()
   walk(names(mlr3proba_learners), function(nm) mlr_learners$remove(nm))
   walk(names(mlr3proba_tasks), function(nm) mlr_tasks$remove(nm))
   walk(names(mlr3proba_measures), function(nm) mlr_measures$remove(nm))
   walk(names(mlr3proba_task_gens), function(nm) mlr_task_generators$remove(nm))
   walk(names(mlr3proba_pipeops), function(nm) mlr3pipelines::mlr_pipeops$remove(nm))
+  # manually remove breslow pipeop
+  mlr3pipelines::mlr_pipeops$remove("breslowcompose")
   walk(names(mlr3proba_graphs), function(nm) mlr3pipelines::mlr_graphs$remove(nm))
 
   library.dynam.unload("mlr3proba", libpath)
+}
+
+unregister_reflections = function() {
+  x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
+
+  # task
+  package = NULL # silence data.table notes
+  x$task_types[package != "mlr3proba"]
+  x$task_col_roles$surv = NULL
+  x$task_col_roles$dens = NULL
+  x$task_col_roles$classif = setdiff(x$task_col_roles$classif, "original_ids")
+  x$task_properties$surv = NULL
+  x$task_properties$dens = NULL
+
+  # learner
+  x$learner_properties$surv = NULL
+  x$learner_properties$dens = NULL
+  x$learner_predict_types$surv = NULL
+  x$learner_predict_types$dens = NULL
+
+  # measure
+  x$measure_properties$surv = NULL
+  x$measure_properties$dens = NULL
+  x$default_measures$surv = NULL
+  x$default_measures$dens = NULL
 }
 
 leanify_package()

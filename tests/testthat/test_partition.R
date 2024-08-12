@@ -4,7 +4,7 @@ test_that("partition w/ stratification works", {
 
   ratio = function(status) {
     tab = table(status)
-    unname(tab[1] / tab[2])
+    unname(tab[1L] / tab[2L])
   }
 
   all = ratio(task$status())

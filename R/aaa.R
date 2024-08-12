@@ -51,6 +51,7 @@ register_reflections = function() {
 
   x$task_col_roles$surv = x$task_col_roles$regr
   x$task_col_roles$dens = c("feature", "target", "label", "order", "group", "weight", "stratum")
+  x$task_col_roles$classif = unique(c(x$task_col_roles$classif, "original_ids")) # for discrete time
   x$task_properties$surv = x$task_properties$regr
   x$task_properties$dens = x$task_properties$regr
 
@@ -104,10 +105,11 @@ register_mlr3pipelines = function() {
   mlr_pipeops = utils::getFromNamespace("mlr_pipeops", ns = "mlr3pipelines")
   iwalk(as.list(mlr3proba_pipeops), function(obj, name) mlr_pipeops$add(name, obj)) # nolint
 
-  # Breslow needs another argument so we do it manually
-  mlr_pipeops$add("breslowcompose", PipeOpBreslow, list(R6Class("Learner",
-                                                                public = list(id = "breslowcompose", task_type = "surv", predict_types = "lp",
-                                                                              packages = c("mlr3", "mlr3proba"), param_set = ps()))$new()))
+  # Breslow PipeOp needs one more argument so we do it manually
+  mlr_pipeops$add("breslowcompose", PipeOpBreslow,
+                  list(R6Class("Learner", public = list(
+                    id = "breslowcompose", task_type = "surv", predict_types = "lp",
+                    packages = c("mlr3", "mlr3proba"), param_set = ps()))$new()))
 
   # graphs
   mlr_graphs = utils::getFromNamespace("mlr_graphs", ns = "mlr3pipelines")

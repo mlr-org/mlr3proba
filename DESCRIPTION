@@ -1,6 +1,6 @@
 Package: mlr3proba
 Title: Probabilistic Supervised Learning for 'mlr3'
-Version: 0.6.4
+Version: 0.6.6
 Authors@R:
     c(person(given = "Raphael",
              family = "Sonabend",
@@ -35,6 +35,10 @@ Authors@R:
              email = "github@quantenbrot.de",
              role = "ctb",
              comment = c(ORCID = "0000-0001-7528-3795")),
+      person(given = "Philip",
+             family = "Studener",
+             role = "aut",
+             email = "philip.studener@gmx.de"),
       person(given = "Maximilian",
              family = "Muecke",
              email = "muecke.maximilian@gmail.com",
@@ -75,17 +79,20 @@ Suggests:
     set6 (>= 0.2.6),
     simsurv,
     survAUC,
-    testthat,
+    testthat (>= 3.0.0),
     vdiffr,
     abind,
     Ecdat,
-    coxed
+    coxed,
+    mlr3learners,
+    pammtools
 LinkingTo:
     Rcpp
 Remotes:
     xoopR/distr6,
     xoopR/param6,
     xoopR/set6
+Config/testthat/edition: 3
 ByteCompile: true
 Encoding: UTF-8
 LazyData: true
@@ -132,6 +139,7 @@ Collate:
     'PipeOpBreslow.R'
     'PipeOpCrankCompositor.R'
     'PipeOpDistrCompositor.R'
+    'PipeOpPredClassifSurvDiscTime.R'
     'PipeOpTransformer.R'
     'PipeOpPredTransformer.R'
     'PipeOpPredRegrSurv.R'
@@ -139,6 +147,7 @@ Collate:
     'PipeOpProbregrCompositor.R'
     'PipeOpSurvAvg.R'
     'PipeOpTaskRegrSurv.R'
+    'PipeOpTaskSurvClassifDiscTime.R'
     'PipeOpTaskSurvRegr.R'
     'PipeOpTaskTransformer.R'
     'PredictionDataDens.R'

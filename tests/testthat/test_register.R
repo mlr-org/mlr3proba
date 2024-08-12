@@ -14,9 +14,9 @@ test_that("re-populate pipelines", {
 })
 
 test_that("re-populate reflections", {
-  mlr_reflections$task_types = mlr_reflections$task_types[!unlist(mlr_reflections$task_types[, 1])
+  mlr_reflections$task_types = mlr_reflections$task_types[!unlist(mlr_reflections$task_types[, 1L])
   %in% c("surv", "dens"), ]
-  expect_false(any(c("surv", "dens") %in% unlist(mlr_reflections$task_types[, 1])))
+  expect_false(any(c("surv", "dens") %in% unlist(mlr_reflections$task_types[, 1L])))
   register_mlr3()
-  expect_true(all(c("surv", "dens") %in% unlist(mlr_reflections$task_types[, 1])))
+  expect_true(all(c("surv", "dens") %in% unlist(mlr_reflections$task_types[, 1L])))
 })

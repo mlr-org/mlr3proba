@@ -279,6 +279,7 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
 
       x = data.frame(backend)[, colnames(backend) %nin% c(time, status), drop = FALSE]
       x = model.matrix(~., x)[, -1L]
+
       bj = invoke(bujar::bujar,
         y = backend[[time]],
         cens = backend[[status]],
@@ -306,7 +307,7 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
         }
         features = subset(backend, select = features)
       } else {
-        assertClass(task, "TaskSurv")
+        assert_class(task, "TaskSurv")
         features = copy(task$data(cols = task$feature_names))
       }
 

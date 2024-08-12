@@ -366,6 +366,7 @@ TaskSurv = R6::R6Class("TaskSurv",
         data = self$data(cols = c(self$feature_names, status_var)),
         family = stats::binomial(link = "logit")
       ))
+
       # extract the p-values
       p_values = glm_summary$coefficients[, "Pr(>|z|)"]
       p_values_adj = stats::p.adjust(p_values, method = method)
@@ -377,7 +378,7 @@ TaskSurv = R6::R6Class("TaskSurv",
 
     #' @description
     #' Checks if the data satisfy the *proportional hazards (PH)* assumption using
-    #' the Grambsch-Therneau test, `r mlr3misc::cite_bib("grambsch_1994")`.
+    #' the Grambsch-Therneau test, `r cite_bib("grambsch_1994")`.
     #' Uses [cox.zph][survival::cox.zph()].
     #' This method should be used only for **low-dimensional datasets** where
     #' the number of features is relatively small compared to the number of

@@ -42,30 +42,20 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH",
         pv$weights = task$weights$weight
       }
 
-      invoke(survival::coxph, formula = task$formula(), data = task$data(), .args = pv, x = TRUE)
+      invoke(survival::coxph, formula = task$formula(), data = task$data(),
+             .args = pv, x = TRUE)
     },
 
     .predict = function(task) {
-
-      newdata = task$data(cols = task$feature_names)
-
-      # We move the missingness checks here manually as if any NAs are made in predictions then the
-      # distribution object cannot be create (initialization of distr6 objects does not handle NAs)
-      if (anyMissing(newdata)) {
-        stopf(
-          "Learner %s on task %s failed to predict: Missing values in new data (line(s) %s)\n",
-          self$id, task$id,
-          toString(which(!complete.cases(newdata)))
-        )
-      }
-
+      newdata = ordered_features(task, self)
       pv = self$param_set$get_values(tags = "predict")
 
-      # Get predicted values
+      # Get survival predictions via `survfit`
       fit = invoke(survival::survfit, formula = self$model, newdata = newdata,
-        se.fit = FALSE, .args = pv)
+                   se.fit = FALSE, .args = pv)
 
-      lp = predict(self$model, type = "lp", newdata = newdata)
+      # Get linear predictors
+      lp = invoke(predict, self$model, type = "lp", newdata = newdata)
 
       .surv_return(times = fit$time, surv = t(fit$surv), lp = lp)
     }

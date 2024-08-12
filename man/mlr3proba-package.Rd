@@ -25,6 +25,7 @@ Authors:
   \item Raphael Sonabend \email{raphaelsonabend@gmail.com} (\href{https://orcid.org/0000-0001-9225-4654}{ORCID})
   \item Franz Kiraly \email{f.kiraly@ucl.ac.uk}
   \item Michel Lang \email{michellang@gmail.com} (\href{https://orcid.org/0000-0001-9754-0393}{ORCID})
+  \item Philip Studener \email{philip.studener@gmx.de}
 }
 
 Other contributors:

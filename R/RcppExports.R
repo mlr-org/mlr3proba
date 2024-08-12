@@ -28,4 +28,3 @@ c_concordance <- function(time, status, crank, t_max, weight_meth, cens, surv, t
 c_gonen <- function(crank, tiex) {
     .Call(`_mlr3proba_c_gonen`, crank, tiex)
 }
-

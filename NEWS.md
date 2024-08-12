@@ -1,7 +1,17 @@
+# mlr3proba 0.6.6
+
+- Small fixes and refactoring to the discrete-time pipeops
+
+# mlr3proba 0.6.5
+
+* Add support for discrete-time survival analysis
+* New `PipeOp`s: `PipeOpTaskSurvClassifDiscTime`, `PipeOpPredClassifSurvDiscTime`
+* New pipeline: `pipeline_survtoclassif`
+
 # mlr3proba 0.6.4
 
 * Add useR! 2024 tutorial
-* Lots of refactoring, improve code quality (thanks to @m-muecke)
+* Lots of refactoring, improving code quality, migration to testthat v3, etc. (thanks to @m-muecke)
 
 # mlr3proba 0.6.3
 
