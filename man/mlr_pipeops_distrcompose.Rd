@@ -37,7 +37,7 @@ Both input channels take \code{NULL} during training and \link{PredictionSurv} d
 The output during prediction is the \link{PredictionSurv} from the \code{"pred"} input
 but with an extra (or overwritten) column for the \code{distr} predict type; which
 is composed from the \code{distr} of \code{"base"} and the \code{lp} of \code{"pred"}.
-If no \code{lp} predictions have been made, then the \code{"pred"} is returned unchanged.
+If no \code{lp} predictions have been made or exist, then the \code{"pred"} is returned unchanged.
 }
 
 \section{State}{
