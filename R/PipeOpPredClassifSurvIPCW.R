@@ -35,9 +35,9 @@ PipeOpPredClassifSurvIPCW = R6Class(
       super$initialize(
         id = id,
         input = data.table(
-          name = "input",
-          train = "NULL",
-          predict = "PredictionClassif"
+          name = c("input", "data"),
+          train = c("NULL", "*"),
+          predict = c("PredictionClassif", "*")
         ),
         output = data.table(
           name = "output",
@@ -51,9 +51,10 @@ PipeOpPredClassifSurvIPCW = R6Class(
   private = list(
     .predict = function(input) {
       pred = input[[1]]
-      # TODO: fix timepoints
+      times = input[[2]]
+
       p = PredictionSurv$new(row_ids = pred$row_ids,
-                             truth = Surv(time = rep(0, length(pred$row_ids)),
+                             truth = Surv(time = times,
                                           event = as.integer(pred$truth)),
                              crank = pred$prob[, 2])
       list(p)

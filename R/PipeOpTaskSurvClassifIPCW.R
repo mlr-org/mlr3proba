@@ -48,9 +48,9 @@ PipeOpTaskSurvClassifIPCW = R6Class(
           predict = "TaskSurv"
         ),
         output = data.table(
-          name    = "output",
-          train   = "TaskClassif",
-          predict = "TaskClassif"
+          name    = c("output", "data"),
+          train   = c("TaskClassif", "NULL"),
+          predict = c("TaskClassif", "*")
         )
       )
     }
@@ -62,7 +62,9 @@ PipeOpTaskSurvClassifIPCW = R6Class(
       data$status = factor(data$status, levels = c("0", "1"))
       task = TaskClassif$new(id = input[[1]]$id, backend = data,
                              target = "status", positive = "1")
-      list(task)
+
+      time = data[[input[[1]]$target_names[1]]]
+      list(task, time)
     },
 
     .train = function(input) {
@@ -103,7 +105,7 @@ PipeOpTaskSurvClassifIPCW = R6Class(
       task$set_col_roles("ipc_weights", roles = "weight")
 
       self$state = list()
-      list(task)
+      list(task, NULL)
     }
   )
 )
