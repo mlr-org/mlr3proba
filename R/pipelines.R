@@ -185,20 +185,21 @@ pipeline_crankcompositor = function(learner,
 #' to another.
 #' @examples
 #' \dontrun{
-#' if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
-#'   requireNamespace("rpart", quietly = TRUE)) {
-#'   library("mlr3")
+#' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 #'   library("mlr3pipelines")
 #'
+#'   # let's change the distribution prediction of Cox (Breslow-based) to an AFT form:
 #'   task = tsk("rats")
-#'   pipe = ppl(
+#'   grlrn = ppl(
 #'     "distrcompositor",
-#'     learner = lrn("surv.rpart"),
+#'     learner = lrn("surv.coxph"),
 #'     estimator = "kaplan",
-#'     form = "ph"
+#'     form = "aft",
+#'     overwrite = TRUE,
+#'     graph_learner = TRUE
 #'   )
-#'   pipe$train(task)
-#'   pipe$predict(task)
+#'   grlrn$train(task)
+#'   grlrn$predict(task)
 #' }
 #' }
 pipeline_distrcompositor = function(learner, estimator = "kaplan", form = "aft",
