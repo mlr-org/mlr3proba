@@ -120,4 +120,5 @@ reference:
       - .surv_return
       - breslow
       - assert_surv
+      - assert_surv_matrix
       - MeasureSurvAUC
