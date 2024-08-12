@@ -91,14 +91,14 @@ PipeOpTaskSurvClassifIPCW = R6Class(
       weights = rep(1/cens$surv, table(times))
 
       # add weights to original data
-      time = status = NULL
       data[["ipc_weights"]] = weights
-      data[status == 0 & time < cutoff_time, "ipc_weights" := 0]
-      data$status = factor(data$status, levels = c("0", "1"))
+      data[status_var == 0 & time_var < cutoff_time, "ipc_weights" := 0]
+      data[[status_var]] = factor(data[[status_var]], levels = c("0", "1"))
+      data[[time_var]] = NULL
 
       # create new task
       task = TaskClassif$new(id = paste0(input[[1]]$id, "_IPCW"), backend = data,
-                             target = "status", positive = "1")
+                             target = status_var, positive = "1")
 
       task$set_col_roles("ipc_weights", roles = "weight")
 
