@@ -8,6 +8,7 @@
 pipeline_survtoclassif_IPCW(
   learner,
   cutoff_time = NULL,
+  eps = 1e-06,
   output = "classif",
   graph_learner = FALSE
 )
@@ -17,7 +18,10 @@ pipeline_survtoclassif_IPCW(
 Classification learner to fit the transformed \link[mlr3:TaskClassif]{TaskClassif}.}
 
 \item{cutoff_time}{\code{numeric()}\cr
-#' Cutoff time for IPCW. Observations with time larger than \code{cutoff_time} are censored.}
+Cutoff time for IPCW. Observations with time larger than \code{cutoff_time} are censored.}
+
+\item{eps}{\code{numeric()}\cr
+Small value to replace \code{0} survival probabilities with to prevent infinite weights.}
 
 \item{output}{\code{numeric()}\cr
 If not set to "classif" (default) then the prediction is transformed to a crank.}

@@ -19,12 +19,32 @@ po("trafotask_survclassif_IPCW")
 }\if{html}{\out{</div>}}
 }
 
+\section{Input and Output Channels}{
+
+\link{PipeOpTaskSurvIPCW} has one input channel named "input", and two
+output channels, one named "output" and the other "data".
+
+During training, the "output" is the "input" \link{TaskSurv} transformed to a
+\link[mlr3:TaskClassif]{TaskClassif}.
+The target column is named \code{"status"} and indicates whether an event occurred
+in each time interval.
+The transformed task now has the property "weights".
+The "data" is NULL.
+
+During prediction, the "input" \link{TaskSurv} is transformed to the "output"
+\link[mlr3:TaskClassif]{TaskClassif} with \code{"status"} as target.
+The "data" is a vector containing the time of each observation.
+This "data" is only meant to be used with the \link{PipeOpPredClassifSurvIPCW}.
+}
+
 \section{Parameters}{
 
 The parameters are
 \itemize{
 \item \code{cutoff_time :: numeric()}\cr
 Cutoff time for IPCW. Observations with time larger than \code{cutoff_time} are censored.
+\item \code{eps :: numeric()}\cr
+Small value to replace \code{0} survival probabilities with to prevent infinite weights.
 }
 }
 

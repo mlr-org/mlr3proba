@@ -15,11 +15,29 @@
 #' po("trafotask_survclassif_IPCW")
 #' ```
 #'
+#' @section Input and Output Channels:
+#' [PipeOpTaskSurvIPCW] has one input channel named "input", and two
+#' output channels, one named "output" and the other "data".
+#'
+#' During training, the "output" is the "input" [TaskSurv] transformed to a
+#' [TaskClassif][mlr3::TaskClassif].
+#' The target column is named `"status"` and indicates whether an event occurred
+#' in each time interval.
+#' The transformed task now has the property "weights".
+#' The "data" is NULL.
+#'
+#' During prediction, the "input" [TaskSurv] is transformed to the "output"
+#' [TaskClassif][mlr3::TaskClassif] with `"status"` as target.
+#' The "data" is a vector containing the time of each observation.
+#' This "data" is only meant to be used with the [PipeOpPredClassifSurvIPCW].
+#'
 #' @section Parameters:
 #' The parameters are
 #'
 #' * `cutoff_time :: numeric()`\cr
 #' Cutoff time for IPCW. Observations with time larger than `cutoff_time` are censored.
+#' * `eps :: numeric()`\cr
+#' Small value to replace `0` survival probabilities with to prevent infinite weights.
 #'
 #' @references
 #' `r format_bib("vock_2016")`
