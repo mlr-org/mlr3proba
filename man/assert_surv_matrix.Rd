@@ -8,7 +8,7 @@ assert_surv_matrix(x)
 }
 \arguments{
 \item{x}{(\code{matrix()})\cr
-A matrix of predicted survival probabilities.
+A matrix of (predicted) survival probabilities.
 Rows are observations, columns are (increasing) time points.}
 }
 \value{
@@ -17,7 +17,7 @@ invisibly.
 }
 \description{
 Asserts if the given input matrix is a (discrete) survival
-probabilities matrix.
+probabilities matrix using \link{Rcpp} code.
 The following checks are performed:
 \enumerate{
 \item All values are probabilities, i.e. \eqn{S(t) \in [0,1]}

@@ -52,7 +52,8 @@ Uses \link[survivalmodels:surv_to_risk]{survivalmodels::surv_to_risk} to reduce 
 risks / rankings if \code{crank} is NULL.
 }
 \references{
-Sonabend, R., Bender, A., & Vollmer, S. (2022). Avoiding C-hacking when
-evaluating survival distribution predictions with discrimination measures.
-Bioinformatics. https://doi.org/10.1093/BIOINFORMATICS/BTAC451
+Sonabend, Raphael, Bender, Andreas, Vollmer, Sebastian (2022).
+\dQuote{Avoiding C-hacking when evaluating survival distribution predictions with discrimination measures.}
+\emph{Bioinformatics}.
+ISSN 1367-4803, \doi{10.1093/BIOINFORMATICS/BTAC451}, \url{https://academic.oup.com/bioinformatics/advance-article/doi/10.1093/bioinformatics/btac451/6640155}.
 }
