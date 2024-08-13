@@ -187,30 +187,44 @@ skip_if_not_installed("mlr3extralearners")
 test_that("survtoclassif_IPCW", {
   requireNamespace("mlr3extralearners")
 
+  task = tsk("rats")
+  split = partition(task)
+  task_train = task$clone()$filter(split$train)
+  task_test = task$clone()$filter(split$test)
+
   pipe = mlr3pipelines::ppl("survtoclassif_IPCW", learner = lrn("classif.gam"),
                             cutoff_time = 50)
   expect_class(pipe, "Graph")
 
-  ## This needs fixing
+  # This needs fixing
   grlrn = mlr3pipelines::ppl("survtoclassif_IPCW", learner = lrn("classif.gam"),
                              cutoff_time = 50, graph_learner = TRUE)
   expect_class(grlrn, "GraphLearner")
-  grlrn$train(task)
-  p = grlrn$predict(task)
+  grlrn$train(task_train)
+  p = grlrn$predict(task_test)
   expect_prediction_surv(p)
+
+  # Test with output = "surv"
+  grlrn = mlr3pipelines::ppl("survtoclassif_IPCW", learner = lrn("classif.gam"),
+                             cutoff_time = 50, output = "surv")
+  expect_class(pipe, "Graph")
+  suppressWarnings(grlrn$train(task_train))
+  p = grlrn$predict(task_test)
+  expect_prediction_surv(p$trafopred_classifsurv_IPCW.output)
+
 
   # Test with cutoff_time
   grlrn = mlr3pipelines::ppl("survtoclassif_IPCW", learner = lrn("classif.gam"),
                              cutoff_time = 50)
   expect_class(pipe, "Graph")
-  suppressWarnings(grlrn$train(task))
-  p1 = grlrn$predict(task)
+  suppressWarnings(grlrn$train(task_train))
+  p1 = grlrn$predict(task_test)
   expect_prediction_classif(p1$classif.gam.output)
 
   grlrn = mlr3pipelines::ppl("survtoclassif_IPCW", learner = lrn("classif.gam"),
                              cutoff_time = 75)
-  suppressWarnings(grlrn$train(task))
-  p2 = grlrn$predict(task)
+  suppressWarnings(grlrn$train(task_train))
+  p2 = grlrn$predict(task_test)
 
   expect_false(any(p1$classif.gam.output$data$prob == p2$classif.gam.output$data$prob))
 })
