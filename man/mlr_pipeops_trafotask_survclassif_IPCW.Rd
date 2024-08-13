@@ -33,7 +33,8 @@ The "data" is NULL.
 
 During prediction, the "input" \link{TaskSurv} is transformed to the "output"
 \link[mlr3:TaskClassif]{TaskClassif} with \code{"status"} as target.
-The "data" is a vector containing the time of each observation.
+The "data" is a \link{data.table} containing the "time" of each subject as well
+as corresponding "row_ids".
 This "data" is only meant to be used with the \link{PipeOpPredClassifSurvIPCW}.
 }
 

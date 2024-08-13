@@ -28,7 +28,8 @@
 #'
 #' During prediction, the "input" [TaskSurv] is transformed to the "output"
 #' [TaskClassif][mlr3::TaskClassif] with `"status"` as target.
-#' The "data" is a vector containing the time of each observation.
+#' The "data" is a [data.table] containing the "time" of each subject as well
+#' as corresponding "row_ids".
 #' This "data" is only meant to be used with the [PipeOpPredClassifSurvIPCW].
 #'
 #' @section Parameters:
@@ -68,7 +69,7 @@ PipeOpTaskSurvClassifIPCW = R6Class(
         output = data.table(
           name    = c("output", "data"),
           train   = c("TaskClassif", "NULL"),
-          predict = c("TaskClassif", "*")
+          predict = c("TaskClassif", "data.table")
         )
       )
     }
@@ -82,7 +83,8 @@ PipeOpTaskSurvClassifIPCW = R6Class(
                              target = "status", positive = "1")
 
       time = data[[input[[1]]$target_names[1]]]
-      list(task, time)
+      data = data.table(ids = input[[1]]$row_ids, times = time)
+      list(task, data)
     },
 
     .train = function(input) {
