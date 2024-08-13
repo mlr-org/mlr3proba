@@ -3,33 +3,21 @@
 #' @description Internal helper function to easily return the correct survival predict types.
 #'
 #' @param times (`numeric()`) \cr Vector of survival times.
-#' @param surv (`matrix()|array()`)\cr Matrix or array of predicted survival
-#' probabilities, rows (1st dimension) are observations, columns (2nd dimension)
-#' are times and in the case of an array there should be one more dimension.
-#' Number of columns should be equal to length of `times`. In case a `numeric()`
-#' vector is provided, it is converted to a single row (one observation) matrix.
-#' @param crank (`numeric()`)\cr Relative risk/continuous ranking. Higher value is associated
-#' with higher risk. If `NULL` then either set as `-response` if available or
-#' `lp` if available (this assumes that the `lp` prediction comes from a PH type
-#' model - in case of an AFT model the user should provide `-lp`).
-#' In case neither `response` or `lp` are provided, then `crank` is calculated
-#' as the sum of the cumulative hazard function (expected mortality) derived from
-#' the predicted survival function (`surv`). In case `surv` is a 3d array, we use
-#' the `which.curve` parameter to decide which survival matrix (index in the 3rd
-#' dimension) will be chosen for the calculation of `crank`.
+#' @param surv (`matrix()|array()`)\cr Matrix or array of predicted survival probabilities, rows (1st dimension) are observations, columns (2nd dimension) are times and in the case of an array there should be one more dimension.
+#' Number of columns should be equal to length of `times`.
+#' In case a `numeric()` vector is provided, it is converted to a single row (one observation) matrix.
+#' @param crank (`numeric()`)\cr Relative risk/continuous ranking.
+#' Higher value is associated with higher risk.
+#' If `NULL` then either set as `-response` if available or `lp` if available (this assumes that the `lp` prediction comes from a PH type model - in case of an AFT model the user should provide `-lp`).
+#' In case neither `response` or `lp` are provided, then `crank` is calculated as the sum of the cumulative hazard function (**expected mortality**) derived from the predicted survival function (`surv`), see [get_mortality].
+#' In case `surv` is a 3d array, we use the `which.curve` parameter to decide which survival matrix (index in the 3rd dimension) will be chosen for the calculation of `crank`.
 #' @param lp (`numeric()`)\cr Predicted linear predictor, used to impute `crank` if `NULL`.
 #' @param response (`numeric()`)\cr Predicted survival time, passed through function without
 #' modification.
-#' @param which.curve Which curve (3rd dimension) should the `crank` be
-#' calculated for, in case `surv` is an `array`? If between (0,1) it is taken as
-#' the quantile of the curves otherwise if greater than 1 it is taken as the
-#' curve index. It can also be 'mean' and the survival probabilities are averaged
-#' across the 3rd dimension. Default value (`NULL`) is the **0.5 quantile** which
-#' is the median across the 3rd dimension of the survival array.
-#'
-#' @details
-#' Uses [survivalmodels::surv_to_risk] to reduce survival matrices to relative
-#' risks / rankings if `crank` is NULL.
+#' @param which.curve Which curve (3rd dimension) should the `crank` be calculated for, in case `surv` is an `array`?
+#' If between (0,1) it is taken as the quantile of the curves otherwise if greater than 1 it is taken as the  curve index.
+#' It can also be 'mean' and the survival probabilities are averaged across the 3rd dimension.
+#' Default value (`NULL`) is the **0.5 quantile** which is the median across the 3rd dimension of the survival array.
 #'
 #' @references
 #' `r format_bib("sonabend_2022")`
