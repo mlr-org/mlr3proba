@@ -21,7 +21,7 @@ po("trafotask_survclassif_IPCW")
 
 \section{Input and Output Channels}{
 
-\link{PipeOpTaskSurvIPCW} has one input channel named "input", and two
+\link{PipeOpTaskSurvClassifIPCW} has one input channel named "input", and two
 output channels, one named "output" and the other "data".
 
 During training, the "output" is the "input" \link{TaskSurv} transformed to a

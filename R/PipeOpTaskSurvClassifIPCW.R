@@ -16,7 +16,7 @@
 #' ```
 #'
 #' @section Input and Output Channels:
-#' [PipeOpTaskSurvIPCW] has one input channel named "input", and two
+#' [PipeOpTaskSurvClassifIPCW] has one input channel named "input", and two
 #' output channels, one named "output" and the other "data".
 #'
 #' During training, the "output" is the "input" [TaskSurv] transformed to a
