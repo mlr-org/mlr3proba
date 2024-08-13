@@ -695,5 +695,19 @@ bibentries = c( # nolint start
     title = "Avoiding C-hacking when evaluating survival distribution predictions with discrimination measures",
     url = "https://academic.oup.com/bioinformatics/advance-article/doi/10.1093/bioinformatics/btac451/6640155",
     year = "2022"
+  ),
+  zhao_2016 = bibentry("article",
+    author = "Zhao, Lihui and Claggett, Brian and Tian, Lu and Uno, Hajime and Pfeffer, Marc A. and Solomon, Scott D. and Trippa, Lorenzo and Wei, L. J.",
+    doi = "10.1111/BIOM.12384",
+    issn = "1541-0420",
+    journal = "Biometrics",
+    month = "mar",
+    number = "1",
+    pages = "215--221",
+    publisher = "John Wiley & Sons, Ltd",
+    title = "On the restricted mean survival time curve in survival analysis",
+    url = "https://onlinelibrary.wiley.com/doi/full/10.1111/biom.12384",
+    volume = "72",
+    year = "2016"
   )
 ) # nolint end
