@@ -123,19 +123,37 @@
 #' @description Many methods can be used to reduce a discrete survival
 #' distribution prediction (i.e. matrix) to a relative risk / ranking
 #' prediction, see Sonabend et al. (2022).
-#' This function calculates the predicted relative risk as the sum of the
-#' predicted cumulative hazard function (also called **expected mortality**)
-#' - which can be loosely interpreted as the expected number of deaths for
-#' patients with similar characteristics, see Ishwaran et al. (2008).
+#'
+#' This function calculates a relative risk score as the sum of the
+#' predicted cumulative hazard function, also called **ensemble/expected mortality**.
+#' This risk score can be loosely interpreted as the expected number of deaths for
+#' patients with similar characteristics, see Ishwaran et al. (2008) and has no
+#' model or survival distribution assumptions.
 #'
 #' @param x (`matrix()`) \cr A survival matrix where rows are the
 #' (predicted) observations and columns the time-points.
-#' Checked with [assert_surv_matrix].
+#' For more details, see [assert_surv_matrix].
 #'
-#' @return a `numeric` vector of the expected mortalities, one per row.
+#' @return a `numeric` vector of the mortality risk scores, one per row of the
+#' input survival matrix.
 #'
 #' @references
 #' `r format_bib("sonabend_2022", "ishwaran_2008")`
+#'
+#' @examples
+#' n = 10 # number of observations
+#' k = 50 # time points
+#'
+#' # Create the matrix with random values between 0 and 1
+#' mat = matrix(runif(n * k, min = 0, max = 1), nrow = n, ncol = k)
+#'
+#' # transform it to a survival matrix
+#' surv_mat = t(apply(mat, 1L, function(row) sort(row, decreasing = TRUE)))
+#' colnames(surv_mat) = 1:k # time points
+#'
+#' # get mortality scores (the larger, the more risk)
+#' mort = get_mortality(surv_mat)
+#' mort
 #'
 #' @export
 get_mortality = function(x) {
