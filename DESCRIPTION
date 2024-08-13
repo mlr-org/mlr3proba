@@ -67,7 +67,6 @@ Imports:
     survival
 Suggests:
     bujar,
-    cubature,
     GGally,
     knitr,
     lgr,
@@ -144,6 +143,7 @@ Collate:
     'PipeOpPredRegrSurv.R'
     'PipeOpPredSurvRegr.R'
     'PipeOpProbregrCompositor.R'
+    'PipeOpResponseCompositor.R'
     'PipeOpSurvAvg.R'
     'PipeOpTaskRegrSurv.R'
     'PipeOpTaskSurvClassifDiscTime.R'
