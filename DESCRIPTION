@@ -64,8 +64,7 @@ Imports:
     paradox (>= 1.0.0),
     R6,
     Rcpp (>= 1.0.4),
-    survival,
-    survivalmodels (>= 0.1.12)
+    survival
 Suggests:
     bujar,
     cubature,

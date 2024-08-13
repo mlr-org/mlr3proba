@@ -51,10 +51,10 @@
       crank = lp
     } else if (!is.null(surv)) {
       if (inherits(surv, "matrix")) {
-        crank = survivalmodels::surv_to_risk(surv)
+        crank = get_mortality(surv)
       } else { # array
         surv_mat = .ext_surv_mat(surv, which.curve)
-        crank = survivalmodels::surv_to_risk(surv_mat)
+        crank = get_mortality(surv_mat)
       }
     }
   }

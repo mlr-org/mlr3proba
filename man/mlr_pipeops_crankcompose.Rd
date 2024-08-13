@@ -45,7 +45,7 @@ One of \code{sum_haz}, \code{median}, \code{mode}, or \code{mean} corresponding 
 respective functions in the predicted survival distribution. Note that
 for models with a proportional hazards form, the ranking implied by
 \code{mean} and \code{median} will be identical (but not the value of \code{crank}
-itself). \code{sum_haz} (default) uses \code{\link[survivalmodels:surv_to_risk]{survivalmodels::surv_to_risk()}}.
+itself). \code{sum_haz} (default) uses \link{get_mortality}.
 \item \code{which} :: \code{numeric(1)}\cr
 If \code{method = "mode"} then specifies which mode to use if multi-modal, default is the first.
 \item \code{response} :: \code{logical(1)}\cr
