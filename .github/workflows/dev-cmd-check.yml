@@ -25,6 +25,7 @@ jobs:
       matrix:
         config:
           - {os: ubuntu-latest, r: 'release', dev-package: 'mlr-org/mlr3'}
+          - {os: ubuntu-latest,   r: 'release', dev-package: 'mlr-org/mlr3@weights_reworked'}
 
     steps:
       - uses: actions/checkout@v4
