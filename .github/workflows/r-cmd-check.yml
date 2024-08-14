@@ -26,6 +26,7 @@ jobs:
         config:
           - {os: ubuntu-latest,   r: 'devel'}
           - {os: ubuntu-latest,   r: 'release'}
+          - {os: ubuntu-latest,   r: 'release', dev-package: 'mlr-org/mlr3@weights_reworked'}
 
     steps:
       - uses: actions/checkout@v4
