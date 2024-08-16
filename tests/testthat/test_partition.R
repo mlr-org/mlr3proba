@@ -1,18 +1,21 @@
-test_that("partition w/ stratification works", {
+test_that("partition works", {
   with_seed(42, {
-    task = tsk("rats")
+    task = tsk("lung") # ~28% censored
+    # stratify
     part = partition(task, ratio = 0.8)
-
-    ratio = function(status) {
-      tab = table(status)
-      unname(tab[1L] / tab[2L])
-    }
-
     all = task$cens_prop()
     train = task$cens_prop(rows = part$train)
     test = task$cens_prop(rows = part$test)
 
-    expect_equal(all, train, tolerance = 0.01)
-    expect_equal(all, test, tolerance = 0.01)
+    expect_true(abs(all - train) < 0.01)
+    expect_true(abs(all - test) < 0.01)
+
+    # don't stratify
+    part = partition(task, ratio = 0.8, stratify = FALSE)
+    train = task$cens_prop(rows = part$train)
+    test = task$cens_prop(rows = part$test)
+
+    expect_true(abs(all - train) > 0.01)
+    expect_true(abs(all - test) > 0.01)
   })
 })
