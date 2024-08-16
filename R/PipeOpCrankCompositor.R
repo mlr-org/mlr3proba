@@ -29,7 +29,7 @@
 #' * `method` :: `character(1)` \cr
 #'    Determines what method should be used to produce a continuous ranking from the distribution.
 #'    Currently only `mort` is supported, which is the sum of the cumulative hazard, also called *expected/ensemble mortality*, see Ishwaran et al. (2008).
-#'    Internally, the [get_mortality] function is used.
+#'    For more details, see [get_mortality()].
 #' * `overwrite` :: `logical(1)` \cr
 #'    If `FALSE` (default) then the compositor returns the input prediction unchanged.
 #'    If `TRUE`, then the `crank` will be overwritten.
