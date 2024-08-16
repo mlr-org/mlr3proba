@@ -1,4 +1,4 @@
-skip("To deal with this properly on the mlr3 workshop")
+skip("Test manually it works and update as needed")
 
 test_that("unloading leaves no trace", {
   library(mlr3proba)
@@ -13,15 +13,27 @@ test_that("unloading leaves no trace", {
   proba_tgen_keys = tgen_dt[task_type %in% c("surv", "dens"), list(key)][[1]]
 
   # UPDATE below list when new pipeops are implemented
-  proba_pipeops = c("survavg", "trafopred_classifsurv", "trafopred_survregr",
-                     "trafotask_regrsurv", "crankcompose", "compose_probregr",
-                     "distrcompose", "trafopred_regrsurv", "trafotask_survregr",
-                     "trafotask_survclassif", "breslowcompose")
+  proba_pipeops = c(
+    # miscellaneous
+    "survavg", "compose_probregr",
+    # compose prediction types
+    "crankcompose", "distrcompose", "responsecompose", "breslowcompose",
+    # transform prediction type
+    "trafopred_classifsurv_disctime", "trafopred_survregr", "trafopred_regrsurv",
+    # transform task type
+    "trafotask_regrsurv", "trafotask_survregr", "trafotask_survclassif_disctime"
+  )
   expect_in(proba_pipeops, mlr_pipeops$keys())
 
   # UPDATE below list when new pipelines are implemented
-  proba_graphs = c("survaverager", "survbagging", "crankcompositor",
-                   "distrcompositor", "probregr", "survtoregr", "survtoclassif")
+  proba_graphs = c(
+    # miscellaneous
+    "survaverager", "survbagging", "probregr",
+    # compose prediction types
+    "crankcompositor", "distrcompositor", "responsecompositor",
+    # transform surv to other tasks
+    "survtoregr", "survtoclassif_disctime"
+  )
   expect_in(proba_graphs, mlr_graphs$keys())
 
   unloadNamespace("mlr3proba")
