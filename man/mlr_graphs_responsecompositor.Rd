@@ -28,17 +28,17 @@ Available methods are \code{"rmst"} and \code{"median"}, corresponding to the \e
 Determines the time point up to which we calculate the restricted mean survival time (works only for the \code{"rmst"} method).
 If \code{NULL} (default), all the available time points in the predicted survival distribution will be used.}
 
-\item{graph_learner}{\code{logical(1)}\cr
-If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
-\link[mlr3pipelines:mlr_learners_graph]{GraphLearner} otherwise (default) returns as a \code{Graph}.}
-
-\item{`add_crank`}{(\code{logical(1)})\cr
+\item{add_crank}{(\code{logical(1)})\cr
 If \code{TRUE} then \code{crank} predict type will be set as \code{-response} (as higher survival times correspond to lower risk).
 Works only if \code{overwrite} is \code{TRUE}.}
 
-\item{`overwrite`}{(\code{logical(1)})\cr
+\item{overwrite}{(\code{logical(1)})\cr
 If \code{FALSE} (default) and the prediction already has a \code{response} prediction, then the compositor returns the input prediction unchanged.
 If \code{TRUE}, then the \code{response} (and the \code{crank}, if \code{add_crank} is \code{TRUE}) will be overwritten.}
+
+\item{graph_learner}{\code{logical(1)}\cr
+If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
+\link[mlr3pipelines:mlr_learners_graph]{GraphLearner} otherwise (default) returns as a \code{Graph}.}
 }
 \value{
 \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or \link[mlr3pipelines:mlr_learners_graph]{mlr3pipelines::GraphLearner}

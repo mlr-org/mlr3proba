@@ -79,7 +79,9 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   # Median survival time as response
   pred = lrn("surv.coxph")$train(task)$predict(task)
   por = po("responsecompose", param_vals = list(method = "median", overwrite = TRUE))
-  por$predict(list(pred))[[1L]] # mostly improper survival distributions, we set survival time to the last time point
+  por$predict(list(pred))[[1L]]
+  # mostly improper survival distributions, "median" sets the survival time
+  # to the last time point
 
   # RMST (default) as response, while also changing the crank = -response
   por = po("responsecompose", param_vals = list(overwrite = TRUE, add_crank = TRUE))
