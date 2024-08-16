@@ -21,14 +21,11 @@ po("crankcompose")
 
 \section{Input and Output Channels}{
 
-\link{PipeOpCrankCompositor} has one input channel named "input", which takes
-\code{NULL} during training and \link{PredictionSurv} during prediction.
+\link{PipeOpCrankCompositor} has one input channel named \code{"input"}, which takes \code{NULL} during training and \link{PredictionSurv} during prediction.
 
-\link{PipeOpCrankCompositor} has one output channel named "output", producing \code{NULL} during training
-and a \link{PredictionSurv} during prediction.
+\link{PipeOpCrankCompositor} has one output channel named \code{"output"}, producing \code{NULL} during training and a \link{PredictionSurv} during prediction.
 
-The output during prediction is the \link{PredictionSurv} from the "pred" input but with the \code{crank}
-predict type overwritten by the given estimation method.
+The output during prediction is the \link{PredictionSurv} from the input but with the \code{crank} predict type overwritten by the given estimation method.
 }
 
 \section{State}{
@@ -41,44 +38,24 @@ The \verb{$state} is left empty (\code{list()}).
 \itemize{
 \item \code{method} :: \code{character(1)} \cr
 Determines what method should be used to produce a continuous ranking from the distribution.
-One of \code{sum_haz}, \code{median}, \code{mode}, or \code{mean} corresponding to the
-respective functions in the predicted survival distribution. Note that
-for models with a proportional hazards form, the ranking implied by
-\code{mean} and \code{median} will be identical (but not the value of \code{crank}
-itself). \code{sum_haz} (default) uses \link{get_mortality}.
-\item \code{which} :: \code{numeric(1)}\cr
-If \code{method = "mode"} then specifies which mode to use if multi-modal, default is the first.
-\item \code{response} :: \code{logical(1)}\cr
-If \code{TRUE} then the \code{response} predict type is estimated with the same values as \code{crank}.
+Currently only \code{mort} is supported, which is the sum of the cumulative hazard, also called \emph{expected/ensemble mortality}, see Ishwaran et al. (2008).
+For more details, see \code{\link[=get_mortality]{get_mortality()}}.
 \item \code{overwrite} :: \code{logical(1)} \cr
-If \code{FALSE} (default) then if the "pred" input already has a \code{crank}, the compositor only
-composes a \code{response} type if \code{response = TRUE} and does not already exist. If \code{TRUE} then
-both the \code{crank} and \code{response} are overwritten.
+If \code{FALSE} (default) then the compositor returns the input prediction unchanged.
+If \code{TRUE}, then the \code{crank} will be overwritten.
 }
-}
-
-\section{Internals}{
-
-The \code{median}, \code{mode}, or \code{mean} will use analytical expressions if possible but if not they are
-calculated using methods from \link{distr6}. \code{mean} requires \CRANpkg{cubature}.
 }
 
 \examples{
 \dontrun{
 if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
-  library(mlr3)
   library(mlr3pipelines)
   task = tsk("rats")
 
-  learn = lrn("surv.coxph")$train(task)$predict(task)
-  poc = po("crankcompose", param_vals = list(method = "sum_haz"))
-  poc$predict(list(learn))[[1]]
-
-  if (requireNamespace("cubature", quietly = TRUE)) {
-    learn = lrn("surv.coxph")$train(task)$predict(task)
-    poc = po("crankcompose", param_vals = list(method = "sum_haz"))
-    poc$predict(list(learn))[[1]]
-  }
+  # change the crank prediction type of a Cox's model predictions
+  pred = lrn("surv.coxph")$train(task)$predict(task)
+  poc = po("crankcompose", param_vals = list(overwrite = TRUE))
+  poc$predict(list(pred))[[1L]]
 }
 }
 }
@@ -87,7 +64,8 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 
 Other survival compositors: 
 \code{\link{mlr_pipeops_compose_breslow_distr}},
-\code{\link{mlr_pipeops_distrcompose}}
+\code{\link{mlr_pipeops_distrcompose}},
+\code{\link{mlr_pipeops_responsecompose}}
 }
 \concept{survival compositors}
 \section{Super class}{
