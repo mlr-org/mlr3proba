@@ -171,10 +171,10 @@ pipeline_crankcompositor = function(learner, method = c("mort"),
 #' @param cutoff_time (`numeric(1)`)\cr
 #' Determines the time point up to which we calculate the restricted mean survival time (works only for the `"rmst"` method).
 #' If `NULL` (default), all the available time points in the predicted survival distribution will be used.
-#' @param `add_crank` (`logical(1)`)\cr
+#' @param add_crank (`logical(1)`)\cr
 #' If `TRUE` then `crank` predict type will be set as `-response` (as higher survival times correspond to lower risk).
 #' Works only if `overwrite` is `TRUE`.
-#' @param `overwrite` (`logical(1)`)\cr
+#' @param overwrite (`logical(1)`)\cr
 #' If `FALSE` (default) and the prediction already has a `response` prediction, then the compositor returns the input prediction unchanged.
 #' If `TRUE`, then the `response` (and the `crank`, if `add_crank` is `TRUE`) will be overwritten.
 #'
