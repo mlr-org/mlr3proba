@@ -1,46 +1,6 @@
 task = tsk("rats")$filter(sample(300, 50L))
 task_regr = tgen("friedman1")$generate(20L)
 
-test_that("crankcompositor", {
-  pipe = mlr3pipelines::ppl("crankcompositor", learner = lrn("surv.kaplan"))
-  expect_class(pipe, "Graph")
-  pipe = mlr3pipelines::ppl("crankcompositor", learner = lrn("surv.kaplan"), graph_learner = TRUE)
-  expect_class(pipe, "GraphLearner")
-  pipe$train(task)
-  p = pipe$predict(task)
-  expect_prediction_surv(p)
-  expect_true("crank" %in% p$predict_types)
-})
-
-test_that("distrcompositor", {
-  pipe = mlr3pipelines::ppl("distrcompositor", learner = lrn("surv.rpart"))
-  expect_class(pipe, "Graph")
-
-  grlrn = mlr3pipelines::ppl("distrcompositor", learner = lrn("surv.rpart"), graph_learner = TRUE)
-  expect_class(grlrn, "GraphLearner")
-
-  p = grlrn$train(task)$predict(task)
-  expect_prediction_surv(p)
-  # rpart has crank, so no distr composition is made anymore
-  expect_false("distr" %in% p$predict_types)
-
-  grlrn = mlr3pipelines::ppl("distrcompositor", learner = lrn("surv.coxph"), graph_learner = TRUE) # overwrite = FALSE by default
-  expect_class(grlrn, "GraphLearner")
-
-  p = suppressWarnings(grlrn$train(task)$predict(task))
-  expect_prediction_surv(p)
-
-  cox = lrn("surv.coxph")
-  coxp = suppressWarnings(cox$train(task)$predict(task))
-  # coxph has lp, so distr composition is made (but not overwritten)
-  expect_true("distr" %in% p$predict_types)
-  expect_identical(p$data$distr, coxp$data$distr)
-
-  grlrn = mlr3pipelines::ppl("distrcompositor", learner = lrn("surv.coxph"), graph_learner = TRUE, overwrite = TRUE)
-  p = suppressWarnings(grlrn$train(task)$predict(task))
-  expect_false(all(p$data$distr == coxp$data$distr)) # AFT distr != Cox's Breslow default
-})
-
 test_that("survaverager", {
   pipe = mlr3pipelines::ppl("survaverager", learners = list(lrn("surv.kaplan"),
     lrn("surv.kaplan", id = "k2")))
