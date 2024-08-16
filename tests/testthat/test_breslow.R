@@ -127,19 +127,19 @@ test_that("breslow() works", {
 
 test_that("breslowcompose PipeOp works", {
   # learner is needed
-  expect_error(po("breslowcompose"), "is missing")
+  expect_error(mlr3pipelines::po("breslowcompose"), "is missing")
 
   # learner needs to be of survival type
-  expect_error(po("breslowcompose", learner = lrn("classif.featureless")),
+  expect_error(mlr3pipelines::po("breslowcompose", learner = lrn("classif.featureless")),
                "must have task type")
   # learner needs to have lp predictions
-  expect_error(po("breslowcompose", learner = lrn("surv.kaplan")),
+  expect_error(mlr3pipelines::po("breslowcompose", learner = lrn("surv.kaplan")),
                "must provide lp")
 
   # learner with lp predictions
   learner = lrn("surv.coxph")
-  b1 = po("breslowcompose", learner = learner, breslow.overwrite = TRUE)
-  b2 = po("breslowcompose", learner = learner)
+  b1 = mlr3pipelines::po("breslowcompose", learner = learner, breslow.overwrite = TRUE)
+  b2 = mlr3pipelines::po("breslowcompose", learner = learner)
 
   expect_pipeop(b1)
   expect_pipeop(b2)
