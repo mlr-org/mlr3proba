@@ -41,15 +41,15 @@ test_that("lp", {
   expect_equal(p$lp, unname((p2$lp + p2$lp) / 2))
 })
 
-skip("Fix after implementing responsecompositor")
 test_that("response", {
   poc = mlr3pipelines::po("survavg")
-  p3 = mlr3pipelines::ppl("crankcompositor", lrn("surv.kaplan"),
-    response = TRUE, graph_learner = TRUE)$train(task)$predict(task)
+  por = mlr3pipelines::ppl("responsecompositor", learner = lrn("surv.coxph"),
+                           graph_learner = TRUE)
+  p3 = por$train(task)$predict(task)
   expect_silent({
     p = poc$predict(list(p3, p3))[[1L]]
   })
-  expect_equal(p$response, (p3$response + p3$response) / 2)
+  expect_equal(p$response, unname((p3$response + p3$response) / 2))
 })
 
 test_that("pipeline surv_averager", {
