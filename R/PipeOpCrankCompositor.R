@@ -83,7 +83,7 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
       overwrite = self$param_set$values$overwrite
       # it's impossible for a learner not to predict crank in mlr3proba,
       # but let's check either way:
-      has_crank = !all(is.na(p1$crank))
+      has_crank = !all(is.na(pred$crank))
 
       if (!overwrite & has_crank) {
         # return prediction as is
