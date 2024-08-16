@@ -31,7 +31,7 @@
 #'    Currently only `mort` is supported, which is the sum of the cumulative hazard, also called *expected/ensemble mortality*, see Ishwaran et al. (2008).
 #'    For more details, see [get_mortality()].
 #' * `overwrite` :: `logical(1)` \cr
-#'    If `FALSE` (default) then the compositor returns the input prediction unchanged.
+#'    If `FALSE` (default) and the prediction already has a `crank` prediction, then the compositor returns the input prediction unchanged.
 #'    If `TRUE`, then the `crank` will be overwritten.
 #'
 #' @seealso [pipeline_crankcompositor]
@@ -80,11 +80,12 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
 
     .predict = function(inputs) {
       pred = inputs[[1L]]
-
       overwrite = self$param_set$values$overwrite
+      # it's impossible for a learner not to predict crank in mlr3proba,
+      # but let's check either way:
+      has_crank = !all(is.na(p1$crank))
 
-      # if crank and response already exist and not overwriting then return prediction
-      if (!overwrite) {
+      if (!overwrite & has_crank) {
         # return prediction as is
         return(list(pred))
       } else {

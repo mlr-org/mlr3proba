@@ -114,7 +114,7 @@ pipeline_survbagging = function(learner, iterations = 10, frac = 0.7, avg = TRUE
 #' Currently only `mort` is supported, which is the sum of the cumulative hazard, also called *expected/ensemble mortality*, see Ishwaran et al. (2008).
 #' For more details, see [get_mortality()].
 #' @param overwrite `logical(1)`\cr
-#' If `FALSE` (default) then the compositor returns the input prediction unchanged.
+#' If `FALSE` (default) and the prediction already has a `crank` prediction, then the compositor returns the input prediction unchanged.
 #' If `TRUE`, then the `crank` will be overwritten.
 #'
 #' @examples

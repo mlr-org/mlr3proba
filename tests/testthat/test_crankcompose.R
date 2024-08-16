@@ -8,8 +8,9 @@ test_that("basic properties", {
   expect_equal(values, values2)
 })
 
-set.seed(2218L)
+set.seed(42)
 task = tgen("simsurv")$generate(20L)
+pcox = lrn("surv.coxph")$train(task)$predict(task)
 
 test_that("no params", {
   po = PipeOpCrankCompositor$new(param_vals = list())
@@ -18,6 +19,25 @@ test_that("no params", {
   expect_prediction_surv(p)
   # by default, no overwrite happens
   expect_identical(p$crank, pred_km$crank)
+})
+
+test_that("overwrite crank", {
+  # no overwrite
+  poc = mlr3pipelines::po("crankcompose")
+  p1 = poc$predict(list(pcox))[[1L]]
+  expect_identical(p1$crank, pcox$crank)
+
+  # overwrite crank
+  poc = mlr3pipelines::po("crankcompose", param_vals = list(overwrite = TRUE))
+  p2 = poc$predict(list(pcox))[[1L]]
+  expect_false(all(p2$crank == pcox$crank))
+
+  # even if prediction doesn't have crank somehow, pipeop will add it even if no overwrite
+  por = mlr3pipelines::po("crankcompose", param_vals = list(overwrite = FALSE))
+  p2$data$crank = NULL
+  expect_true(all(is.na(p2$crank))) # NAs produce so that c-index can be calculated
+  p3 = poc$predict(list(p2))[[1L]]
+  expect_false(any(is.na(p3$crank)))
 })
 
 test_that("pipeline works", {
@@ -29,19 +49,4 @@ test_that("pipeline works", {
   p = grlrn$train(task)$predict(task)
   expect_prediction_surv(p)
   expect_true("crank" %in% p$predict_types)
-})
-
-test_that("overwrite crank", {
-  # no overwrite
-  grlrn = mlr3pipelines::ppl("crankcompositor", lrn("surv.coxph"), graph_learner = TRUE)
-  p1 = grlrn$train(task)$predict(task)
-  p2 = lrn("surv.coxph")$train(task)$predict(task)
-  expect_identical(p1$crank, p2$crank)
-
-  # overwrite crank
-  grlrn = mlr3pipelines::ppl("crankcompositor", lrn("surv.coxph"), graph_learner = TRUE,
-                             overwrite = TRUE)
-  p1 = grlrn$train(task)$predict(task)
-  p2 = lrn("surv.coxph")$train(task)$predict(task)
-  expect_false(all(p1$crank == p2$crank))
 })

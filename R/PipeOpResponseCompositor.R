@@ -35,11 +35,12 @@
 #'    Available methods are `"rmst"` and `"median"`, corresponding to the *restricted mean survival time* and the *median survival time* respectively.
 #' - `cutoff_time` :: `numeric(1)` \cr
 #'    Determines the time point up to which we calculate the restricted mean survival time (works only for the `"rmst"` method).
+#'    If `NULL` (default), all the available time points in the predicted survival distribution will be used.
 #' * `add_crank` :: `logical(1)` \cr
-#'    If `TRUE` then `crank` predict type will be set as `-response` predict type to reflect that higher survival times correspond to lower risk.
+#'    If `TRUE` then `crank` predict type will be set as `-response` (as higher survival times correspond to lower risk).
 #'    Works only if `overwrite` is `TRUE`.
 #' * `overwrite` :: `logical(1)` \cr
-#'    If `FALSE` (default) then the compositor returns the input prediction unchanged.
+#'    If `FALSE` (default) and the prediction already has a `response` prediction, then the compositor returns the input prediction unchanged.
 #'    If `TRUE`, then the `response` (and the `crank`, if `add_crank` is `TRUE`) will be overwritten.
 #'
 #' @section Internals:
@@ -83,7 +84,7 @@ PipeOpResponseCompositor = R6Class("PipeOpResponseCompositor",
     initialize = function(id = "responsecompose", param_vals = list()) {
       param_set = ps(
         method = p_fct(default = "rmst", levels = c("rmst", "median"), tags = "predict"),
-        cutoff_time = p_dbl(0, default = NULL, special_vals = list(NULL)),
+        cutoff_time = p_dbl(0, default = NULL, special_vals = list(NULL), tags = "predict"),
         add_crank = p_lgl(default = FALSE, tags = "predict"),
         overwrite = p_lgl(default = FALSE, tags = "predict")
       )
@@ -110,8 +111,9 @@ PipeOpResponseCompositor = R6Class("PipeOpResponseCompositor",
     .predict = function(inputs) {
       pred = inputs[[1L]]
       overwrite = self$param_set$values$overwrite
+      has_response = !is.null(pred$response)
 
-      if (!overwrite) {
+      if (!overwrite & has_response) {
         # return prediction as is
         return(list(pred))
       } else {
@@ -141,7 +143,7 @@ PipeOpResponseCompositor = R6Class("PipeOpResponseCompositor",
                          cutoff_time >= min(times)
           if (within_range) {
             # subset survival matrix and times
-            surv = surv[,times <= cutoff_time, drop = FALSE]
+            surv = surv[, times <= cutoff_time, drop = FALSE]
             times = times[times <= cutoff_time]
           }
 
