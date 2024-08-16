@@ -32,7 +32,8 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart",
         surrogatestyle = p_int(0L, 1L, default = 0L, tags = "train"),
         xval           = p_int(0L, default = 10L, tags = "train"),
         cost           = p_uty(tags = "train"),
-        keep_model     = p_lgl(default = FALSE, tags = "train")
+        keep_model     = p_lgl(default = FALSE, tags = "train"),
+        use_weights = p_lgl(default = FALSE, tags = "train")
       )
 
       ps$set_values(xval = 0L)
@@ -75,12 +76,13 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart",
     .train = function(task) {
       pv = self$param_set$get_values(tags = "train")
       names(pv) = replace(names(pv), names(pv) == "keep_model", "model")
-      if ("weights" %in% task$properties) {
-        pv = insert_named(pv, list(weights = task$weights$weight))
-      }
 
-      invoke(rpart::rpart, formula = task$formula(), data = task$data(),
-             method = "exp", .args = pv)
+      if (isTRUE(pv$use_weights)) {
+        pv$weights = task$weights_learner$weight
+      }
+      pv$use_weights = NULL
+
+      invoke(rpart::rpart, formula = task$formula(), data = task$data(), method = "exp", .args = pv)
     },
 
     .predict = function(task) {

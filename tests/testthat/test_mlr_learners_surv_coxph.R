@@ -10,10 +10,10 @@ test_that("autotest", {
 })
 
 test_that("weights", {
-  learner = lrn("surv.coxph")
+  learner = lrn("surv.coxph", use_weights = TRUE)
   task = generate_tasks.LearnerSurv(learner)$weights
-  learner$train(task)
-  expect_equal(learner$model$weights, task$weights$weight)
+  suppressWarnings({learner$train(task)})
+  expect_equal(learner$model$weights, task$weights_learner$weight)
 })
 
 test_that("missing", {

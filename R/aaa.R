@@ -50,7 +50,7 @@ register_reflections = function() {
   )), "type")
 
   x$task_col_roles$surv = x$task_col_roles$regr
-  x$task_col_roles$dens = c("feature", "target", "label", "order", "group", "weight", "stratum")
+  x$task_col_roles$dens = c("feature", "target", "label", "order", "group", "weights_learner", "stratum")
   x$task_col_roles$classif = unique(c(x$task_col_roles$classif, "original_ids")) # for discrete time
   x$task_properties$surv = x$task_properties$regr
   x$task_properties$dens = x$task_properties$regr

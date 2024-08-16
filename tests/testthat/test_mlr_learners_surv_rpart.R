@@ -9,7 +9,6 @@ test_that("autotest", {
   expect_true(result, info = result$error)
 })
 
-
 test_that("importance/selected", {
   learner = lrn("surv.rpart")
   expect_error(learner$importance(), "No model stored")

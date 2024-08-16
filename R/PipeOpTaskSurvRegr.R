@@ -195,7 +195,7 @@ PipeOpTaskSurvRegr = R6Class("PipeOpTaskSurvRegr",
       new_task = TaskRegr$new(id = input$id, backend = backend, target = target)
 
       if (method == "ipcw") {
-        new_task$col_roles$weight = "ipc_weights"
+        new_task$col_roles$weights_learner = "ipc_weights"
       }
 
       return(new_task)
