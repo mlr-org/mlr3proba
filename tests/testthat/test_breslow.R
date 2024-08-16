@@ -150,6 +150,9 @@ test_that("breslowcompose PipeOp works", {
   expect_learner(b1$learner)
   expect_error({b1$learner = lrn("surv.kaplan")}) # read-only
 
+  task = tsk("lung")
+  cox_pred = lrn("surv.coxph")$train(task)$predict(task)
+
   expect_silent(b1$train(list(task)))
   expect_silent(b2$train(list(task)))
   p1 = b1$predict(list(task))[[1L]]
