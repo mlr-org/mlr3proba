@@ -84,6 +84,7 @@ Other pipelines:
 \code{\link{mlr_graphs_crankcompositor}},
 \code{\link{mlr_graphs_distrcompositor}},
 \code{\link{mlr_graphs_probregr}},
+\code{\link{mlr_graphs_responsecompositor}},
 \code{\link{mlr_graphs_survaverager}},
 \code{\link{mlr_graphs_survbagging}},
 \code{\link{mlr_graphs_survtoregr}}

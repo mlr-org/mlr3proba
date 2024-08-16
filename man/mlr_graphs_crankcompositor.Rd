@@ -24,7 +24,7 @@ Currently only \code{mort} is supported, which is the sum of the cumulative haza
 For more details, see \code{\link[=get_mortality]{get_mortality()}}.}
 
 \item{overwrite}{\code{logical(1)}\cr
-If \code{FALSE} (default) then the compositor returns the input prediction unchanged.
+If \code{FALSE} (default) and the prediction already has a \code{crank} prediction, then the compositor returns the input prediction unchanged.
 If \code{TRUE}, then the \code{crank} will be overwritten.}
 
 \item{graph_learner}{\code{logical(1)}\cr
@@ -63,6 +63,7 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 Other pipelines: 
 \code{\link{mlr_graphs_distrcompositor}},
 \code{\link{mlr_graphs_probregr}},
+\code{\link{mlr_graphs_responsecompositor}},
 \code{\link{mlr_graphs_survaverager}},
 \code{\link{mlr_graphs_survbagging}},
 \code{\link{mlr_graphs_survtoclassif_disctime}},

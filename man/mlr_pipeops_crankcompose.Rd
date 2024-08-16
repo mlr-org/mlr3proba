@@ -41,7 +41,7 @@ Determines what method should be used to produce a continuous ranking from the d
 Currently only \code{mort} is supported, which is the sum of the cumulative hazard, also called \emph{expected/ensemble mortality}, see Ishwaran et al. (2008).
 For more details, see \code{\link[=get_mortality]{get_mortality()}}.
 \item \code{overwrite} :: \code{logical(1)} \cr
-If \code{FALSE} (default) then the compositor returns the input prediction unchanged.
+If \code{FALSE} (default) and the prediction already has a \code{crank} prediction, then the compositor returns the input prediction unchanged.
 If \code{TRUE}, then the \code{crank} will be overwritten.
 }
 }
