@@ -161,7 +161,7 @@ pipeline_crankcompositor = function(learner, method = c("mort"),
 
 #' @template pipeline
 #' @templateVar title Estimate Survival Time/Response Predict Type
-#' @templateVar pipeop [PipeOpResposeCompositor]
+#' @templateVar pipeop [PipeOpResponseCompositor]
 #' @templateVar id responsecompositor
 #' @template param_pipeline_learner
 #'

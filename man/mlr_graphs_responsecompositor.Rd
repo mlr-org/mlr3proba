@@ -44,7 +44,7 @@ If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
 \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or \link[mlr3pipelines:mlr_learners_graph]{mlr3pipelines::GraphLearner}
 }
 \description{
-Wrapper around \link{PipeOpResposeCompositor} to simplify \link[mlr3pipelines:Graph]{Graph} creation.
+Wrapper around \link{PipeOpResponseCompositor} to simplify \link[mlr3pipelines:Graph]{Graph} creation.
 }
 \examples{
 \dontrun{
