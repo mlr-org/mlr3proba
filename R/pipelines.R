@@ -108,49 +108,46 @@ pipeline_survbagging = function(learner, iterations = 10, frac = 0.7, avg = TRUE
 #' @templateVar pipeop [PipeOpCrankCompositor]
 #' @templateVar id crankcompositor
 #' @template param_pipeline_learner
+#'
 #' @param method `character(1)`\cr
-#' One of `sum_haz` (default), `mean`, `mode`, or `median`;
-#' abbreviations allowed. Used to determine how `crank` is estimated from
-#' the predicted `distr`.
-#' @param which `integer(1)`\cr
-#' If `method = "mode"` then specifies which mode to use if multi-modal, default
-#' is the first.
-#' @param response `logical(1)`\cr
-#' If `TRUE` then the `response` predict type is also estimated with the same values as `crank`.
+#' Determines what method should be used to produce a continuous ranking from the distribution.
+#' Currently only `mort` is supported, which is the sum of the cumulative hazard, also called *expected/ensemble mortality*, see Ishwaran et al. (2008).
+#' For more details, see [get_mortality()].
 #' @param overwrite `logical(1)`\cr
-#' If `TRUE` then existing `response` and `crank` predict types are overwritten.
+#' If `FALSE` (default) then the compositor returns the input prediction unchanged.
+#' If `TRUE`, then the `crank` will be overwritten.
+#'
 #' @examples
 #' \dontrun{
 #' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 #'   library("mlr3")
 #'   library("mlr3pipelines")
 #'
-#'   task = tsk("rats")
-#'   pipe = ppl(
+#'   task = tsk("lung")
+#'   part = partition(task)
+#'
+#'   # change the crank prediction type of a Cox's model predictions
+#'   grlrn = ppl(
 #'     "crankcompositor",
 #'     learner = lrn("surv.coxph"),
-#'     method = "sum_haz"
+#'     method = "mort",
+#'     overwrite = TRUE,
+#'     graph_learner = TRUE
 #'   )
-#'   pipe$train(task)
-#'   pipe$predict(task)
+#'   grlrn$train(task, part$train)
+#'   grlrn$predict(task, part$test)
 #' }
 #' }
-pipeline_crankcompositor = function(learner,
-  method = c("sum_haz", "mean", "median", "mode"), which = NULL,
-  response = FALSE, overwrite = FALSE, graph_learner = FALSE) {
-
-  if (testCharacter(learner)) {
-    warning("Passing a learner id is now deprecated. In the future please pass a constructed
-            learner or graph instead.")
-    learner = lrn(learner)
-  }
+pipeline_crankcompositor = function(learner, method = c("mort"),
+                                    overwrite = FALSE, graph_learner = FALSE) {
+  assert_learner(learner, task_type = "surv")
+  assert_choice(method, choices = c("mort"))
+  assert_logical(overwrite)
+  assert_logical(graph_learner)
 
   pred = mlr3pipelines::as_graph(learner)
 
-  pv = list(method = match.arg(method), response = response, overwrite = overwrite)
-  if (!is.null(which)) {
-    pv$which = which
-  }
+  pv = list(method = method, overwrite = overwrite)
   compositor = mlr3pipelines::po("crankcompose", param_vals = pv)
 
   gr = mlr3pipelines::`%>>%`(pred, compositor)
