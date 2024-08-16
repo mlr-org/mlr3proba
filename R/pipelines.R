@@ -160,6 +160,71 @@ pipeline_crankcompositor = function(learner, method = c("mort"),
 }
 
 #' @template pipeline
+#' @templateVar title Estimate Survival Time/Response Predict Type
+#' @templateVar pipeop [PipeOpResposeCompositor]
+#' @templateVar id responsecompositor
+#' @template param_pipeline_learner
+#'
+#' @param method (`character(1)`)\cr
+#' Determines what method should be used to produce a survival time (response) from the survival distribution.
+#' Available methods are `"rmst"` and `"median"`, corresponding to the *restricted mean survival time* and the *median survival time* respectively.
+#' @param cutoff_time (`numeric(1)`)\cr
+#' Determines the time point up to which we calculate the restricted mean survival time (works only for the `"rmst"` method).
+#' If `NULL` (default), all the available time points in the predicted survival distribution will be used.
+#' @param `add_crank` (`logical(1)`)\cr
+#' If `TRUE` then `crank` predict type will be set as `-response` (as higher survival times correspond to lower risk).
+#' Works only if `overwrite` is `TRUE`.
+#' @param `overwrite` (`logical(1)`)\cr
+#' If `FALSE` (default) and the prediction already has a `response` prediction, then the compositor returns the input prediction unchanged.
+#' If `TRUE`, then the `response` (and the `crank`, if `add_crank` is `TRUE`) will be overwritten.
+#'
+#' @examples
+#' \dontrun{
+#' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
+#'   library("mlr3")
+#'   library("mlr3pipelines")
+#'
+#'   task = tsk("lung")
+#'   part = partition(task)
+#'
+#'   # add survival time prediction type to the predictions of a Cox model
+#'   grlrn = ppl(
+#'     "responsecompositor",
+#'     learner = lrn("surv.coxph"),
+#'     method = "rmst",
+#'     overwrite = TRUE,
+#'     graph_learner = TRUE
+#'   )
+#'   grlrn$train(task, part$train)
+#'   grlrn$predict(task, part$test)
+#' }
+#' }
+pipeline_responsecompositor = function(learner, method = "rmst", cutoff_time = NULL,
+                                       add_crank = FALSE, overwrite = FALSE,
+                                       graph_learner = FALSE) {
+  assert_learner(learner, task_type = "surv")
+  assert_choice(method, choices = c("rmst", "median"))
+  assert_number(cutoff_time, null.ok = TRUE, lower = 0)
+  assert_logical(add_crank)
+  assert_logical(overwrite)
+  assert_logical(graph_learner)
+
+  pred = mlr3pipelines::as_graph(learner)
+
+  pv = list(method = method, cutoff_time = cutoff_time, add_crank = add_crank,
+            overwrite = overwrite)
+  compositor = mlr3pipelines::po("responsecompose", param_vals = pv)
+
+  gr = mlr3pipelines::`%>>%`(pred, compositor)
+
+  if (graph_learner) {
+    gr = mlr3pipelines::GraphLearner$new(gr)
+  }
+
+  gr
+}
+
+#' @template pipeline
 #' @templateVar title Estimate Survival distr Predict Type
 #' @templateVar pipeop [PipeOpDistrCompositor] or [PipeOpBreslow]
 #' @templateVar id distrcompositor
@@ -598,6 +663,7 @@ register_graph("survaverager", pipeline_survaverager)
 register_graph("survbagging", pipeline_survbagging)
 register_graph("crankcompositor", pipeline_crankcompositor)
 register_graph("distrcompositor", pipeline_distrcompositor)
+register_graph("responsecompositor", pipeline_responsecompositor)
 register_graph("probregr", pipeline_probregr)
 register_graph("survtoregr", pipeline_survtoregr)
 register_graph("survtoclassif_disctime", pipeline_survtoclassif_disctime)
