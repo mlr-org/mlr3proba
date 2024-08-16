@@ -63,6 +63,9 @@ $$L(f, t, \Delta) = -log(\Delta f(t) + (1 - \Delta) S(t))$$
 where \(\Delta\) is the censoring indicator, \(f\) the probability
 density function and \(S\) the survival function.
 RCLL is proper given that censoring and survival distribution are independent, see Rindt et al. (2022).</p>
+<p><strong>Note</strong>: Even though RCLL is a proper scoring rule, the calculation of \(f(t)\) (which in our case is discrete, i.e. it is a <em>probability mass function</em>) for time points in the test set that don't exist in the predicted survival matrix (<code>distr</code>), results in 0 values, which are substituted by <code>"eps"</code> in our implementation, therefore skewing the result towards \(-log(eps)\).
+This is the intractable likelihood problem discussed in Rindt et al. (2022), where the authors perform interpolation to get non-zero values for the \(f(t)\).
+Until this is handled in <code>mlr3proba</code> some way, we advise against using this measure for model evaluation.</p>
     </div>
     <div class="section level2">
     <h2 id="dictionary">Dictionary<a class="anchor" aria-label="anchor" href="#dictionary"></a></h2>
