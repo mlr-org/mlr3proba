@@ -72,21 +72,22 @@ PipeOpSurvAvg = R6Class("PipeOpSurvAvg",
   private = list(
     weighted_avg_predictions = function(inputs, weights, row_ids, truth) {
       response_matrix = map(inputs, "response")
-      if (some(response_matrix, anyMissing)) {
+
+      if (some(response_matrix, is.null)) {
         response = NULL
       } else {
         response = c(simplify2array(response_matrix) %*% weights)
       }
 
       crank_matrix = map(inputs, "crank")
-      if (some(crank_matrix, anyMissing)) {
+      if (some(crank_matrix, is.null)) {
         crank = NULL
       } else {
         crank = c(simplify2array(crank_matrix) %*% weights)
       }
 
       lp_matrix = map(inputs, "lp")
-      if (some(lp_matrix, anyMissing)) {
+      if (some(lp_matrix, is.null)) {
         lp = NULL
       } else {
         lp = c(simplify2array(lp_matrix) %*% weights)

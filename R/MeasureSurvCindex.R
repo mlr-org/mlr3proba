@@ -56,7 +56,7 @@
 #' library(mlr3)
 #' task = tsk("rats")
 #' learner = lrn("surv.coxph")
-#' part = partition(task) # train/test split, stratified on `status` by default
+#' part = partition(task) # train/test split
 #' learner$train(task, part$train)
 #' p = learner$predict(task, part$test)
 #'

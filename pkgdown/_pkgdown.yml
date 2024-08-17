@@ -122,4 +122,6 @@ reference:
       - .surv_return
       - breslow
       - assert_surv
+      - assert_surv_matrix
+      - get_mortality
       - MeasureSurvAUC

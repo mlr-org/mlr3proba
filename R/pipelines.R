@@ -108,50 +108,112 @@ pipeline_survbagging = function(learner, iterations = 10, frac = 0.7, avg = TRUE
 #' @templateVar pipeop [PipeOpCrankCompositor]
 #' @templateVar id crankcompositor
 #' @template param_pipeline_learner
+#'
 #' @param method `character(1)`\cr
-#' One of `sum_haz` (default), `mean`, `mode`, or `median`;
-#' abbreviations allowed. Used to determine how `crank` is estimated from
-#' the predicted `distr`.
-#' @param which `integer(1)`\cr
-#' If `method = "mode"` then specifies which mode to use if multi-modal, default
-#' is the first.
-#' @param response `logical(1)`\cr
-#' If `TRUE` then the `response` predict type is also estimated with the same values as `crank`.
+#' Determines what method should be used to produce a continuous ranking from the distribution.
+#' Currently only `mort` is supported, which is the sum of the cumulative hazard, also called *expected/ensemble mortality*, see Ishwaran et al. (2008).
+#' For more details, see [get_mortality()].
 #' @param overwrite `logical(1)`\cr
-#' If `TRUE` then existing `response` and `crank` predict types are overwritten.
+#' If `FALSE` (default) and the prediction already has a `crank` prediction, then the compositor returns the input prediction unchanged.
+#' If `TRUE`, then the `crank` will be overwritten.
+#'
 #' @examples
 #' \dontrun{
 #' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 #'   library("mlr3")
 #'   library("mlr3pipelines")
 #'
-#'   task = tsk("rats")
-#'   pipe = ppl(
+#'   task = tsk("lung")
+#'   part = partition(task)
+#'
+#'   # change the crank prediction type of a Cox's model predictions
+#'   grlrn = ppl(
 #'     "crankcompositor",
 #'     learner = lrn("surv.coxph"),
-#'     method = "sum_haz"
+#'     method = "mort",
+#'     overwrite = TRUE,
+#'     graph_learner = TRUE
 #'   )
-#'   pipe$train(task)
-#'   pipe$predict(task)
+#'   grlrn$train(task, part$train)
+#'   grlrn$predict(task, part$test)
 #' }
 #' }
-pipeline_crankcompositor = function(learner,
-  method = c("sum_haz", "mean", "median", "mode"), which = NULL,
-  response = FALSE, overwrite = FALSE, graph_learner = FALSE) {
-
-  if (testCharacter(learner)) {
-    warning("Passing a learner id is now deprecated. In the future please pass a constructed
-            learner or graph instead.")
-    learner = lrn(learner)
-  }
+pipeline_crankcompositor = function(learner, method = c("mort"),
+                                    overwrite = FALSE, graph_learner = FALSE) {
+  assert_learner(learner, task_type = "surv")
+  assert_choice(method, choices = c("mort"))
+  assert_logical(overwrite)
+  assert_logical(graph_learner)
 
   pred = mlr3pipelines::as_graph(learner)
 
-  pv = list(method = match.arg(method), response = response, overwrite = overwrite)
-  if (!is.null(which)) {
-    pv$which = which
-  }
+  pv = list(method = method, overwrite = overwrite)
   compositor = mlr3pipelines::po("crankcompose", param_vals = pv)
+
+  gr = mlr3pipelines::`%>>%`(pred, compositor)
+
+  if (graph_learner) {
+    gr = mlr3pipelines::GraphLearner$new(gr)
+  }
+
+  gr
+}
+
+#' @template pipeline
+#' @templateVar title Estimate Survival Time/Response Predict Type
+#' @templateVar pipeop [PipeOpResponseCompositor]
+#' @templateVar id responsecompositor
+#' @template param_pipeline_learner
+#'
+#' @param method (`character(1)`)\cr
+#' Determines what method should be used to produce a survival time (response) from the survival distribution.
+#' Available methods are `"rmst"` and `"median"`, corresponding to the *restricted mean survival time* and the *median survival time* respectively.
+#' @param cutoff_time (`numeric(1)`)\cr
+#' Determines the time point up to which we calculate the restricted mean survival time (works only for the `"rmst"` method).
+#' If `NULL` (default), all the available time points in the predicted survival distribution will be used.
+#' @param add_crank (`logical(1)`)\cr
+#' If `TRUE` then `crank` predict type will be set as `-response` (as higher survival times correspond to lower risk).
+#' Works only if `overwrite` is `TRUE`.
+#' @param overwrite (`logical(1)`)\cr
+#' If `FALSE` (default) and the prediction already has a `response` prediction, then the compositor returns the input prediction unchanged.
+#' If `TRUE`, then the `response` (and the `crank`, if `add_crank` is `TRUE`) will be overwritten.
+#'
+#' @examples
+#' \dontrun{
+#' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
+#'   library("mlr3")
+#'   library("mlr3pipelines")
+#'
+#'   task = tsk("lung")
+#'   part = partition(task)
+#'
+#'   # add survival time prediction type to the predictions of a Cox model
+#'   grlrn = ppl(
+#'     "responsecompositor",
+#'     learner = lrn("surv.coxph"),
+#'     method = "rmst",
+#'     overwrite = TRUE,
+#'     graph_learner = TRUE
+#'   )
+#'   grlrn$train(task, part$train)
+#'   grlrn$predict(task, part$test)
+#' }
+#' }
+pipeline_responsecompositor = function(learner, method = "rmst", cutoff_time = NULL,
+                                       add_crank = FALSE, overwrite = FALSE,
+                                       graph_learner = FALSE) {
+  assert_learner(learner, task_type = "surv")
+  assert_choice(method, choices = c("rmst", "median"))
+  assert_number(cutoff_time, null.ok = TRUE, lower = 0)
+  assert_logical(add_crank)
+  assert_logical(overwrite)
+  assert_logical(graph_learner)
+
+  pred = mlr3pipelines::as_graph(learner)
+
+  pv = list(method = method, cutoff_time = cutoff_time, add_crank = add_crank,
+            overwrite = overwrite)
+  compositor = mlr3pipelines::po("responsecompose", param_vals = pv)
 
   gr = mlr3pipelines::`%>>%`(pred, compositor)
 
@@ -185,20 +247,21 @@ pipeline_crankcompositor = function(learner,
 #' to another.
 #' @examples
 #' \dontrun{
-#' if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
-#'   requireNamespace("rpart", quietly = TRUE)) {
-#'   library("mlr3")
+#' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 #'   library("mlr3pipelines")
 #'
+#'   # let's change the distribution prediction of Cox (Breslow-based) to an AFT form:
 #'   task = tsk("rats")
-#'   pipe = ppl(
+#'   grlrn = ppl(
 #'     "distrcompositor",
-#'     learner = lrn("surv.rpart"),
+#'     learner = lrn("surv.coxph"),
 #'     estimator = "kaplan",
-#'     form = "ph"
+#'     form = "aft",
+#'     overwrite = TRUE,
+#'     graph_learner = TRUE
 #'   )
-#'   pipe$train(task)
-#'   pipe$predict(task)
+#'   grlrn$train(task)
+#'   grlrn$predict(task)
 #' }
 #' }
 pipeline_distrcompositor = function(learner, estimator = "kaplan", form = "aft",
@@ -310,8 +373,6 @@ pipeline_probregr = function(learner, learner_se = NULL, dist = "Uniform",
 #' \item A [LearnerRegr] is fit and predicted on the new `TaskRegr`.
 #' \item [PipeOpPredRegrSurv] transforms the resulting [PredictionRegr][mlr3::PredictionRegr]
 #' to [PredictionSurv].
-#' \item Optionally: [PipeOpDistrCompositor] is used to compose a `distr` predict_type from the
-#' predicted `response` predict_type.
 #' }
 #' \item Survival to Probabilistic Regression
 #' \enumerate{
@@ -357,7 +418,7 @@ pipeline_probregr = function(learner, learner_se = NULL, dist = "Uniform",
 #' Regression learner to fit to the transformed [TaskRegr][mlr3::TaskRegr]. If `regr_se_learner` is
 #' `NULL` in method `2`, then `regr_learner` must have `se` predict_type.
 #' @param distrcompose `logical(1)`\cr
-#' For methods `1` and `3` if `TRUE` (default) then [PipeOpDistrCompositor] is utilised to
+#' For method `3` if `TRUE` (default) then [PipeOpDistrCompositor] is utilised to
 #' transform the deterministic predictions to a survival distribution.
 #' @param distr_estimator [LearnerSurv]\cr
 #' For methods `1` and `3` if `distrcompose = TRUE` then specifies the learner to estimate the
@@ -398,7 +459,6 @@ pipeline_probregr = function(learner, learner_se = NULL, dist = "Uniform",
 #'     "survtoregr",
 #'     method = 1,
 #'     regr_learner = lrn("regr.featureless"),
-#'     distrcompose = TRUE,
 #'     survregr_params = list(method = "delete")
 #'   )
 #'   pipe$train(task)
@@ -448,16 +508,6 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
       add_edge("trafotask_survregr", "regr_learner")$
       add_edge("regr_learner", "trafopred_regrsurv", dst_channel = "pred")$
       add_edge("task_surv", "trafopred_regrsurv", dst_channel = "task")
-
-    if (distrcompose) {
-      assert("distr" %in% distr_estimator$predict_types)
-
-      gr$add_pipeop(mlr3pipelines::po("learner", distr_estimator, id = "distr_estimator"))$
-        add_pipeop(mlr3pipelines::po("distrcompose", param_vals = distrcompose_params))$
-        add_edge("trafopred_regrsurv", dst_id = "distrcompose", dst_channel = "pred")$
-        add_edge("distr_estimator", dst_id = "distrcompose", dst_channel = "base")
-    }
-
   } else if (method == 2) {
 
     gr = mlr3pipelines::Graph$new()$
@@ -485,7 +535,6 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
       add_edge("regr_learner", "compose_probregr", dst_channel = "input_response")
 
   } else if (method == 3) {
-
     assert("lp" %in% surv_learner$predict_types)
 
     gr = mlr3pipelines::Graph$new()$
@@ -614,6 +663,7 @@ register_graph("survaverager", pipeline_survaverager)
 register_graph("survbagging", pipeline_survbagging)
 register_graph("crankcompositor", pipeline_crankcompositor)
 register_graph("distrcompositor", pipeline_distrcompositor)
+register_graph("responsecompositor", pipeline_responsecompositor)
 register_graph("probregr", pipeline_probregr)
 register_graph("survtoregr", pipeline_survtoregr)
 register_graph("survtoclassif_disctime", pipeline_survtoclassif_disctime)
