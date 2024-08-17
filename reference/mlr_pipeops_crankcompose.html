@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.6.6</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.6.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,12 +71,9 @@ function <code><a href="https://mlr3pipelines.mlr-org.com/reference/po.html" cla
     <h2 id="input-and-output-channels">Input and Output Channels<a class="anchor" aria-label="anchor" href="#input-and-output-channels"></a></h2>
 
 
-<p>PipeOpCrankCompositor has one input channel named "input", which takes
-<code>NULL</code> during training and <a href="PredictionSurv.html">PredictionSurv</a> during prediction.</p>
-<p>PipeOpCrankCompositor has one output channel named "output", producing <code>NULL</code> during training
-and a <a href="PredictionSurv.html">PredictionSurv</a> during prediction.</p>
-<p>The output during prediction is the <a href="PredictionSurv.html">PredictionSurv</a> from the "pred" input but with the <code>crank</code>
-predict type overwritten by the given estimation method.</p>
+<p>PipeOpCrankCompositor has one input channel named <code>"input"</code>, which takes <code>NULL</code> during training and <a href="PredictionSurv.html">PredictionSurv</a> during prediction.</p>
+<p>PipeOpCrankCompositor has one output channel named <code>"output"</code>, producing <code>NULL</code> during training and a <a href="PredictionSurv.html">PredictionSurv</a> during prediction.</p>
+<p>The output during prediction is the <a href="PredictionSurv.html">PredictionSurv</a> from the input but with the <code>crank</code> predict type overwritten by the given estimation method.</p>
     </div>
     <div class="section level2">
     <h2 id="state">State<a class="anchor" aria-label="anchor" href="#state"></a></h2>
@@ -90,33 +87,19 @@ predict type overwritten by the given estimation method.</p>
 
 <ul><li><p><code>method</code> :: <code>character(1)</code> <br>
 Determines what method should be used to produce a continuous ranking from the distribution.
-One of <code>sum_haz</code>, <code>median</code>, <code>mode</code>, or <code>mean</code> corresponding to the
-respective functions in the predicted survival distribution. Note that
-for models with a proportional hazards form, the ranking implied by
-<code>mean</code> and <code>median</code> will be identical (but not the value of <code>crank</code>
-itself). <code>sum_haz</code> (default) uses <code><a href="https://rdrr.io/pkg/survivalmodels/man/surv_to_risk.html" class="external-link">survivalmodels::surv_to_risk()</a></code>.</p></li>
-<li><p><code>which</code> :: <code>numeric(1)</code><br>
-If <code>method = "mode"</code> then specifies which mode to use if multi-modal, default is the first.</p></li>
-<li><p><code>response</code> :: <code>logical(1)</code><br>
-If <code>TRUE</code> then the <code>response</code> predict type is estimated with the same values as <code>crank</code>.</p></li>
+Currently only <code>mort</code> is supported, which is the sum of the cumulative hazard, also called <em>expected/ensemble mortality</em>, see Ishwaran et al. (2008).
+For more details, see <code><a href="get_mortality.html">get_mortality()</a></code>.</p></li>
 <li><p><code>overwrite</code> :: <code>logical(1)</code> <br>
-If <code>FALSE</code> (default) then if the "pred" input already has a <code>crank</code>, the compositor only
-composes a <code>response</code> type if <code>response = TRUE</code> and does not already exist. If <code>TRUE</code> then
-both the <code>crank</code> and <code>response</code> are overwritten.</p></li>
+If <code>FALSE</code> (default) and the prediction already has a <code>crank</code> prediction, then the compositor returns the input prediction unchanged.
+If <code>TRUE</code>, then the <code>crank</code> will be overwritten.</p></li>
 </ul></div>
-    <div class="section level2">
-    <h2 id="internals">Internals<a class="anchor" aria-label="anchor" href="#internals"></a></h2>
-
-
-<p>The <code>median</code>, <code>mode</code>, or <code>mean</code> will use analytical expressions if possible but if not they are
-calculated using methods from distr6. <code>mean</code> requires <a href="https://CRAN.R-project.org/package=cubature" class="external-link"><span class="pkg">cubature</span></a>.</p>
-    </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><a href="mlr_graphs_crankcompositor.html">pipeline_crankcompositor</a></p>
 <p>Other survival compositors:
 <code><a href="mlr_pipeops_compose_breslow_distr.html">mlr_pipeops_compose_breslow_distr</a></code>,
-<code><a href="mlr_pipeops_distrcompose.html">mlr_pipeops_distrcompose</a></code></p></div>
+<code><a href="mlr_pipeops_distrcompose.html">mlr_pipeops_distrcompose</a></code>,
+<code><a href="mlr_pipeops_responsecompose.html">mlr_pipeops_responsecompose</a></code></p></div>
     </div>
     <div class="section level2">
     <h2 id="super-class">Super class<a class="anchor" aria-label="anchor" href="#super-class"></a></h2>
@@ -181,19 +164,13 @@ otherwise be set during construction.</p></dd>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"mlr3pipelines"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mlr3.mlr-org.com" class="external-link">mlr3</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mlr3pipelines.mlr-org.com" class="external-link">mlr3pipelines</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">tsk</a></span><span class="op">(</span><span class="st">"rats"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="va">learn</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"surv.coxph"</span><span class="op">)</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="va">poc</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3pipelines.mlr-org.com/reference/po.html" class="external-link">po</a></span><span class="op">(</span><span class="st">"crankcompose"</span>, param_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"sum_haz"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="va">poc</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">learn</span><span class="op">)</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"cubature"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>    <span class="va">learn</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"surv.coxph"</span><span class="op">)</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
-<span class="r-in"><span>    <span class="va">poc</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3pipelines.mlr-org.com/reference/po.html" class="external-link">po</a></span><span class="op">(</span><span class="st">"crankcompose"</span>, param_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"sum_haz"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span>    <span class="va">poc</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">learn</span><span class="op">)</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
-<span class="r-in"><span>  <span class="op">}</span></span></span>
+<span class="r-in"><span>  <span class="co"># change the crank prediction type of a Cox's model predictions</span></span></span>
+<span class="r-in"><span>  <span class="va">pred</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"surv.coxph"</span><span class="op">)</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">poc</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3pipelines.mlr-org.com/reference/po.html" class="external-link">po</a></span><span class="op">(</span><span class="st">"crankcompose"</span>, param_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">poc</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">pred</span><span class="op">)</span><span class="op">)</span><span class="op">[[</span><span class="fl">1L</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>

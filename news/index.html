@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.6.6</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.6.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,6 +50,17 @@
       <small>Source: <a href="https://github.com/mlr-org/mlr3proba/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.6.7" id="mlr3proba-067">mlr3proba 0.6.7<a class="anchor" aria-label="anchor" href="#mlr3proba-067"></a></h2>
+<ul><li>Deprecate <code>crank</code> to <code>distr</code> composition in <code>distrcompose</code> pipeop (only from <code>lp</code> =&gt; <code>distr</code> works now)</li>
+<li>Add <code><a href="../reference/get_mortality.html">get_mortality()</a></code> function (from <code><a href="https://rdrr.io/pkg/survivalmodels/man/surv_to_risk.html" class="external-link">survivalmodels::surv_to_risk()</a></code>
+</li>
+<li>Add Rcpp function <code><a href="../reference/assert_surv_matrix.html">assert_surv_matrix()</a></code>
+</li>
+<li>Update and simplify <code>crankcompose</code> pipeop and respective pipeline (no <code>response</code> is created anymore)</li>
+<li>Add <code>responsecompositor</code> pipeline with <code>rmst</code> and <code>median</code>
+</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.6.6" id="mlr3proba-066">mlr3proba 0.6.6<a class="anchor" aria-label="anchor" href="#mlr3proba-066"></a></h2>
 <ul><li>Small fixes and refactoring to the discrete-time pipeops</li>

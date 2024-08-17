@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.6.6</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.6.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,23 +76,17 @@
 
 
 <dt id="arg-surv">surv<a class="anchor" aria-label="anchor" href="#arg-surv"></a></dt>
-<dd><p>(<code>matrix()|array()</code>)<br> Matrix or array of predicted survival
-probabilities, rows (1st dimension) are observations, columns (2nd dimension)
-are times and in the case of an array there should be one more dimension.
-Number of columns should be equal to length of <code>times</code>. In case a <code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>
-vector is provided, it is converted to a single row (one observation) matrix.</p></dd>
+<dd><p>(<code>matrix()|array()</code>)<br> Matrix or array of predicted survival probabilities, rows (1st dimension) are observations, columns (2nd dimension) are times and in the case of an array there should be one more dimension.
+Number of columns should be equal to length of <code>times</code>.
+In case a <code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code> vector is provided, it is converted to a single row (one observation) matrix.</p></dd>
 
 
 <dt id="arg-crank">crank<a class="anchor" aria-label="anchor" href="#arg-crank"></a></dt>
-<dd><p>(<code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>)<br> Relative risk/continuous ranking. Higher value is associated
-with higher risk. If <code>NULL</code> then either set as <code>-response</code> if available or
-<code>lp</code> if available (this assumes that the <code>lp</code> prediction comes from a PH type
-model - in case of an AFT model the user should provide <code>-lp</code>).
-In case neither <code>response</code> or <code>lp</code> are provided, then <code>crank</code> is calculated
-as the sum of the cumulative hazard function (expected mortality) derived from
-the predicted survival function (<code>surv</code>). In case <code>surv</code> is a 3d array, we use
-the <code>which.curve</code> parameter to decide which survival matrix (index in the 3rd
-dimension) will be chosen for the calculation of <code>crank</code>.</p></dd>
+<dd><p>(<code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>)<br> Relative risk/continuous ranking.
+Higher value is associated with higher risk.
+If <code>NULL</code> then either set as <code>-response</code> if available or <code>lp</code> if available (this assumes that the <code>lp</code> prediction comes from a PH type model - in case of an AFT model the user should provide <code>-lp</code>).
+In case neither <code>response</code> or <code>lp</code> are provided, then <code>crank</code> is calculated as the sum of the cumulative hazard function (<strong>expected mortality</strong>) derived from the predicted survival function (<code>surv</code>), see <a href="get_mortality.html">get_mortality</a>.
+In case <code>surv</code> is a 3d array, we use the <code>which.curve</code> parameter to decide which survival matrix (index in the 3rd dimension) will be chosen for the calculation of <code>crank</code>.</p></dd>
 
 
 <dt id="arg-lp">lp<a class="anchor" aria-label="anchor" href="#arg-lp"></a></dt>
@@ -105,24 +99,19 @@ modification.</p></dd>
 
 
 <dt id="arg-which-curve">which.curve<a class="anchor" aria-label="anchor" href="#arg-which-curve"></a></dt>
-<dd><p>Which curve (3rd dimension) should the <code>crank</code> be
-calculated for, in case <code>surv</code> is an <code>array</code>? If between (0,1) it is taken as
-the quantile of the curves otherwise if greater than 1 it is taken as the
-curve index. It can also be 'mean' and the survival probabilities are averaged
-across the 3rd dimension. Default value (<code>NULL</code>) is the <strong>0.5 quantile</strong> which
-is the median across the 3rd dimension of the survival array.</p></dd>
+<dd><p>Which curve (3rd dimension) should the <code>crank</code> be calculated for, in case <code>surv</code> is an <code>array</code>?
+If between (0,1) it is taken as the quantile of the curves otherwise if greater than 1 it is taken as the  curve index.
+It can also be 'mean' and the survival probabilities are averaged across the 3rd dimension.
+Default value (<code>NULL</code>) is the <strong>0.5 quantile</strong> which is the median across the 3rd dimension of the survival array.</p></dd>
 
 </dl></div>
     <div class="section level2">
-    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Uses <a href="https://rdrr.io/pkg/survivalmodels/man/surv_to_risk.html" class="external-link">survivalmodels::surv_to_risk</a> to reduce survival matrices to relative
-risks / rankings if <code>crank</code> is NULL.</p>
-    </div>
-    <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
-    <p>Sonabend, R., Bender, A., &amp; Vollmer, S. (2022). Avoiding C-hacking when
-evaluating survival distribution predictions with discrimination measures.
-Bioinformatics. https://doi.org/10.1093/BIOINFORMATICS/BTAC451</p>
+    <p>Sonabend, Raphael, Bender, Andreas, Vollmer, Sebastian (2022).
+“Avoiding C-hacking when evaluating survival distribution predictions with discrimination measures.”
+<em>Bioinformatics</em>.
+ISSN 1367-4803, <a href="https://doi.org/10.1093/BIOINFORMATICS/BTAC451" class="external-link">doi:10.1093/BIOINFORMATICS/BTAC451</a>
+, <a href="https://academic.oup.com/bioinformatics/advance-article/doi/10.1093/bioinformatics/btac451/6640155" class="external-link">https://academic.oup.com/bioinformatics/advance-article/doi/10.1093/bioinformatics/btac451/6640155</a>.</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

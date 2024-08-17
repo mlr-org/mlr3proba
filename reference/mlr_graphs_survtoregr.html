@@ -11,7 +11,7 @@ see details."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.6.6</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.6.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -95,7 +95,7 @@ Regression learner to fit to the transformed <a href="https://mlr3.mlr-org.com/r
 
 <dt id="arg-distrcompose">distrcompose<a class="anchor" aria-label="anchor" href="#arg-distrcompose"></a></dt>
 <dd><p><code>logical(1)</code><br>
-For methods <code>1</code> and <code>3</code> if <code>TRUE</code> (default) then <a href="mlr_pipeops_distrcompose.html">PipeOpDistrCompositor</a> is utilised to
+For method <code>3</code> if <code>TRUE</code> (default) then <a href="mlr_pipeops_distrcompose.html">PipeOpDistrCompositor</a> is utilised to
 transform the deterministic predictions to a survival distribution.</p></dd>
 
 
@@ -156,8 +156,6 @@ If <code>TRUE</code> returns wraps the <a href="https://mlr3pipelines.mlr-org.co
 <li><p>A <a href="https://mlr3.mlr-org.com/reference/LearnerRegr.html" class="external-link">LearnerRegr</a> is fit and predicted on the new <code>TaskRegr</code>.</p></li>
 <li><p><a href="mlr_pipeops_trafopred_regrsurv.html">PipeOpPredRegrSurv</a> transforms the resulting <a href="https://mlr3.mlr-org.com/reference/PredictionRegr.html" class="external-link">PredictionRegr</a>
 to <a href="PredictionSurv.html">PredictionSurv</a>.</p></li>
-<li><p>Optionally: <a href="mlr_pipeops_distrcompose.html">PipeOpDistrCompositor</a> is used to compose a <code>distr</code> predict_type from the
-predicted <code>response</code> predict_type.</p></li>
 </ol></li>
 <li><p>Survival to Probabilistic Regression</p><ol><li><p><a href="mlr_pipeops_trafotask_survregr.html">PipeOpTaskSurvRegr</a> Converts <a href="TaskSurv.html">TaskSurv</a> to <a href="https://mlr3.mlr-org.com/reference/TaskRegr.html" class="external-link">TaskRegr</a>.</p></li>
 <li><p>A <a href="https://mlr3.mlr-org.com/reference/LearnerRegr.html" class="external-link">LearnerRegr</a> is fit on the new <code>TaskRegr</code> to predict <code>response</code>, optionally a second
@@ -195,6 +193,7 @@ predictors of the new data, which can ultimately be composed to a distribution.<
 <code><a href="mlr_graphs_crankcompositor.html">mlr_graphs_crankcompositor</a></code>,
 <code><a href="mlr_graphs_distrcompositor.html">mlr_graphs_distrcompositor</a></code>,
 <code><a href="mlr_graphs_probregr.html">mlr_graphs_probregr</a></code>,
+<code><a href="mlr_graphs_responsecompositor.html">mlr_graphs_responsecompositor</a></code>,
 <code><a href="mlr_graphs_survaverager.html">mlr_graphs_survaverager</a></code>,
 <code><a href="mlr_graphs_survbagging.html">mlr_graphs_survbagging</a></code>,
 <code><a href="mlr_graphs_survtoclassif_disctime.html">mlr_graphs_survtoclassif_disctime</a></code></p></div>
@@ -214,7 +213,6 @@ predictors of the new data, which can ultimately be composed to a distribution.<
 <span class="r-in"><span>    <span class="st">"survtoregr"</span>,</span></span>
 <span class="r-in"><span>    method <span class="op">=</span> <span class="fl">1</span>,</span></span>
 <span class="r-in"><span>    regr_learner <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"regr.featureless"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    distrcompose <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>    survregr_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"delete"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="va">pipe</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
