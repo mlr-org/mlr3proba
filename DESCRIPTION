@@ -175,7 +175,6 @@ Collate:
     'histogram.R'
     'integrated_scores.R'
     'mlr3proba-package.R'
-    'partition.R'
     'pecs.R'
     'pipelines.R'
     'plot.R'
