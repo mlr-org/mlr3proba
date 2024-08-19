@@ -17,7 +17,7 @@
 #' RCLL is proper given that censoring and survival distribution are independent, see Rindt et al. (2022).
 #'
 #' **Note**: Even though RCLL is a proper scoring rule, the calculation of \eqn{f(t)} (which in our case is discrete, i.e. it is a *probability mass function*) for time points in the test set that don't exist in the predicted survival matrix (`distr`), results in 0 values, which are substituted by `"eps"` in our implementation, therefore skewing the result towards \eqn{-log(eps)}.
-#' This is the intractable likelihood problem discussed in Rindt et al. (2022), where the authors perform interpolation to get non-zero values for the \eqn{f(t)}.
+#' This problem is also discussed in Rindt et al. (2022), where the authors perform interpolation to get non-zero values for the \eqn{f(t)}.
 #' Until this is handled in `mlr3proba` some way, we advise against using this measure for model evaluation.
 #'
 #' @section Parameter details:
