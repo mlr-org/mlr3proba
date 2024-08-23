@@ -45,19 +45,19 @@ NumericVector c_get_unique_times(NumericVector true_times, NumericVector req_tim
 }
 
 // [[Rcpp::export]]
-NumericMatrix c_score_intslogloss(NumericVector truth, NumericVector unique_times, NumericMatrix cdf, double eps) {
-  const int nr_obs = truth.length();
-  const int nc_times = unique_times.length();
-  NumericMatrix ll(nr_obs, nc_times);
+NumericMatrix c_score_intslogloss(NumericVector& truth, NumericVector& unique_times, NumericMatrix& cdf, double eps) {
+    const int nr_obs = truth.length();
+    const int nc_times = unique_times.length();
+    NumericMatrix ll(nr_obs, nc_times);
 
-  for (int i = 0; i < nr_obs; i++) {
-    for (int j = 0; j < nc_times; j++) {
-        double tmp = (truth[i] > unique_times[j]) ? 1 - cdf(j, i) : cdf(j, i);
-        ll(i, j) = -log(max(tmp, eps));
+    for (int i = 0; i < nr_obs; i++) {
+        for (int j = 0; j < nc_times; j++) {
+            const double tmp = (truth[i] > unique_times[j]) ? 1 - cdf(j, i) : cdf(j, i);
+            ll(i, j) = -log(max(tmp, eps));
+        }
     }
-  }
 
-  return ll;
+    return ll;
 }
 
 // [[Rcpp::export]]
