@@ -36,7 +36,7 @@ LearnerDens = R6::R6Class("LearnerDens",
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id, param_set = ps(),
       predict_types = "cdf", feature_types = character(),
-      properties = character(), data_formats = "data.table",
+      properties = character(), data_formats,
       packages = character(),
       label = NA_character_,
       man = NA_character_) {
