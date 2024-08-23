@@ -11,12 +11,12 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // c_assert_surv
-bool c_assert_surv(NumericMatrix mat);
+bool c_assert_surv(const NumericMatrix& mat);
 RcppExport SEXP _mlr3proba_c_assert_surv(SEXP matSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type mat(matSEXP);
+    Rcpp::traits::input_parameter< const NumericMatrix& >::type mat(matSEXP);
     rcpp_result_gen = Rcpp::wrap(c_assert_surv(mat));
     return rcpp_result_gen;
 END_RCPP
