@@ -229,15 +229,15 @@ float c_concordance(NumericVector time, NumericVector status, NumericVector cran
 }
 
 // [[Rcpp::export]]
-double c_gonen(NumericVector crank, float tiex) {
-    // NOTE: we assume crank to be sorted!
+double c_gonen(const NumericVector& crank, float tiex) {
+  // NOTE: we assume crank to be sorted!
     const int n = crank.length();
     double ghci = 0.0;
 
     for (int i = 0; i < n - 1; i++) {
-        double ci = crank[i];
+        const double ci = crank[i];
         for (int j = i + 1; j < n; j++) {
-            double cj = crank[j];
+            const double cj = crank[j];
             ghci += ((ci < cj) ? 1 : tiex) / (1 + exp(ci - cj));
         }
     }
