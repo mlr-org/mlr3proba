@@ -24,8 +24,8 @@ po("trafotask_survclassif_IPCW")
 \link{PipeOpTaskSurvClassifIPCW} has one input channel named "input", and two
 output channels, one named "output" and the other "data".
 
-During training, the "output" is the "input" \link{TaskSurv} transformed to a
-\link[mlr3:TaskClassif]{TaskClassif}.
+Training transforms the "input" \link{TaskSurv} to a \link[mlr3:TaskClassif]{TaskClassif},
+which is the "output".
 The target column is named \code{"status"} and indicates whether an event occurred
 in each time interval.
 The transformed task now has the property "weights".

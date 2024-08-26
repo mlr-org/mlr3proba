@@ -19,8 +19,8 @@
 #' [PipeOpTaskSurvClassifIPCW] has one input channel named "input", and two
 #' output channels, one named "output" and the other "data".
 #'
-#' During training, the "output" is the "input" [TaskSurv] transformed to a
-#' [TaskClassif][mlr3::TaskClassif].
+#' Training transforms the "input" [TaskSurv] to a [TaskClassif][mlr3::TaskClassif],
+#' which is the "output".
 #' The target column is named `"status"` and indicates whether an event occurred
 #' in each time interval.
 #' The transformed task now has the property "weights".
@@ -95,8 +95,11 @@ PipeOpTaskSurvClassifIPCW = R6Class(
       cutoff_time = self$param_set$values$cutoff_time
       eps = self$param_set$values$eps
 
-      if (cutoff_time >= max(data[[time_var]])) {
+      if (cutoff_time >= max(data[get(status_var) == 1, get(time_var)])) {
         stop("Cutoff time must be smaller than the maximum event time.")
+      }
+      if (!all(data[[status_var]] %in% c(0,1))) {
+        stop("Event column of data must only contain 0 and 1.")
       }
 
       # transform data and calculate weights

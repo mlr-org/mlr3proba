@@ -9,7 +9,6 @@ pipeline_survtoclassif_IPCW(
   learner,
   cutoff_time = NULL,
   eps = 1e-06,
-  output = "classif",
   graph_learner = FALSE
 )
 }
@@ -22,9 +21,6 @@ Cutoff time for IPCW. Observations with time larger than \code{cutoff_time} are 
 
 \item{eps}{\code{numeric()}\cr
 Small value to replace \code{0} survival probabilities with to prevent infinite weights.}
-
-\item{output}{\code{numeric()}\cr
-If not set to "classif" (default) then the prediction is transformed to a crank.}
 
 \item{graph_learner}{\code{logical(1)}\cr
 If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
@@ -42,7 +38,7 @@ The pipeline consists of the following steps:
 \enumerate{
 \item \link{PipeOpTaskSurvClassifIPCW} Converts \link{TaskSurv} to a \link[mlr3:TaskClassif]{TaskClassif}.
 \item A \link{LearnerClassif} is fit and predicted on the new \code{TaskClassif}.
-\item Optionally: \link{PipeOpPredClassifSurvIPCW} transforms the resulting \link[mlr3:PredictionClassif]{PredictionClassif}
+\item \link{PipeOpPredClassifSurvIPCW} transforms the resulting \link[mlr3:PredictionClassif]{PredictionClassif}
 to \link{PredictionSurv}.
 }
 }
