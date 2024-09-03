@@ -668,6 +668,7 @@ pipeline_survtoclassif_disctime = function(learner, cut = NULL, max_time = NULL,
 #' Classification learner to fit the transformed [TaskClassif][mlr3::TaskClassif].
 #' @param cutoff_time `numeric()`\cr
 #' Cutoff time for IPCW. Observations with time larger than `cutoff_time` are censored.
+#' Should be reasonably smaller than the maximum event time to avoid enormous weights.
 #' @param eps `numeric()`\cr
 #' Small value to replace `0` survival probabilities with to prevent infinite weights.
 #' @param graph_learner `logical(1)`\cr

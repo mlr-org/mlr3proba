@@ -37,6 +37,7 @@
 #'
 #' * `cutoff_time :: numeric()`\cr
 #' Cutoff time for IPCW. Observations with time larger than `cutoff_time` are censored.
+#' Should be reasonably smaller than the maximum event time to avoid enormous weights.
 #' * `eps :: numeric()`\cr
 #' Small value to replace `0` survival probabilities with to prevent infinite weights.
 #'

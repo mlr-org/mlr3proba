@@ -44,6 +44,7 @@ The parameters are
 \itemize{
 \item \code{cutoff_time :: numeric()}\cr
 Cutoff time for IPCW. Observations with time larger than \code{cutoff_time} are censored.
+Should be reasonably smaller than the maximum event time to avoid enormous weights.
 \item \code{eps :: numeric()}\cr
 Small value to replace \code{0} survival probabilities with to prevent infinite weights.
 }

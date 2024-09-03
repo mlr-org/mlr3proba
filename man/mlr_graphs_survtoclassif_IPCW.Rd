@@ -17,7 +17,8 @@ pipeline_survtoclassif_IPCW(
 Classification learner to fit the transformed \link[mlr3:TaskClassif]{TaskClassif}.}
 
 \item{cutoff_time}{\code{numeric()}\cr
-Cutoff time for IPCW. Observations with time larger than \code{cutoff_time} are censored.}
+Cutoff time for IPCW. Observations with time larger than \code{cutoff_time} are censored.
+Should be reasonably smaller than the maximum event time to avoid enormous weights.}
 
 \item{eps}{\code{numeric()}\cr
 Small value to replace \code{0} survival probabilities with to prevent infinite weights.}
@@ -47,6 +48,7 @@ Other pipelines:
 \code{\link{mlr_graphs_crankcompositor}},
 \code{\link{mlr_graphs_distrcompositor}},
 \code{\link{mlr_graphs_probregr}},
+\code{\link{mlr_graphs_responsecompositor}},
 \code{\link{mlr_graphs_survaverager}},
 \code{\link{mlr_graphs_survbagging}},
 \code{\link{mlr_graphs_survtoclassif_disctime}},
