@@ -80,7 +80,8 @@ unregister_reflections = function() {
   x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
 
   # task
-  x$task_types[package != "mlr3proba"]
+  package = NULL # silence data.table notes
+  x$task_types = x$task_types[package != "mlr3proba"]
   x$task_col_roles$surv = NULL
   x$task_col_roles$dens = NULL
   x$task_col_roles$classif = setdiff(x$task_col_roles$classif, "original_ids")

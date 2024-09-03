@@ -10,6 +10,17 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// c_assert_surv
+bool c_assert_surv(NumericMatrix mat);
+RcppExport SEXP _mlr3proba_c_assert_surv(SEXP matSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type mat(matSEXP);
+    rcpp_result_gen = Rcpp::wrap(c_assert_surv(mat));
+    return rcpp_result_gen;
+END_RCPP
+}
 // c_get_unique_times
 NumericVector c_get_unique_times(NumericVector true_times, NumericVector req_times);
 RcppExport SEXP _mlr3proba_c_get_unique_times(SEXP true_timesSEXP, SEXP req_timesSEXP) {
@@ -98,6 +109,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_mlr3proba_c_assert_surv", (DL_FUNC) &_mlr3proba_c_assert_surv, 1},
     {"_mlr3proba_c_get_unique_times", (DL_FUNC) &_mlr3proba_c_get_unique_times, 2},
     {"_mlr3proba_c_score_intslogloss", (DL_FUNC) &_mlr3proba_c_score_intslogloss, 4},
     {"_mlr3proba_c_score_graf_schmid", (DL_FUNC) &_mlr3proba_c_score_graf_schmid, 4},

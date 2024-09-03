@@ -1,6 +1,6 @@
 Package: mlr3proba
 Title: Probabilistic Supervised Learning for 'mlr3'
-Version: 0.6.5
+Version: 0.6.7
 Authors@R:
     c(person(given = "Raphael",
              family = "Sonabend",
@@ -64,11 +64,9 @@ Imports:
     paradox (>= 1.0.0),
     R6,
     Rcpp (>= 1.0.4),
-    survival,
-    survivalmodels (>= 0.1.12)
+    survival
 Suggests:
     bujar,
-    cubature,
     GGally,
     knitr,
     lgr,
@@ -146,6 +144,7 @@ Collate:
     'PipeOpPredRegrSurv.R'
     'PipeOpPredSurvRegr.R'
     'PipeOpProbregrCompositor.R'
+    'PipeOpResponseCompositor.R'
     'PipeOpSurvAvg.R'
     'PipeOpTaskRegrSurv.R'
     'PipeOpTaskSurvClassifDiscTime.R'
@@ -178,7 +177,6 @@ Collate:
     'histogram.R'
     'integrated_scores.R'
     'mlr3proba-package.R'
-    'partition.R'
     'pecs.R'
     'pipelines.R'
     'plot.R'

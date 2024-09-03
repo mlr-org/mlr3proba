@@ -7,9 +7,7 @@
 \usage{
 pipeline_crankcompositor(
   learner,
-  method = c("sum_haz", "mean", "median", "mode"),
-  which = NULL,
-  response = FALSE,
+  method = c("mort"),
   overwrite = FALSE,
   graph_learner = FALSE
 )
@@ -21,19 +19,13 @@ be wrapped in \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or a \code{Graph}
 \link{LearnerSurv}.}
 
 \item{method}{\code{character(1)}\cr
-One of \code{sum_haz} (default), \code{mean}, \code{mode}, or \code{median};
-abbreviations allowed. Used to determine how \code{crank} is estimated from
-the predicted \code{distr}.}
-
-\item{which}{\code{integer(1)}\cr
-If \code{method = "mode"} then specifies which mode to use if multi-modal, default
-is the first.}
-
-\item{response}{\code{logical(1)}\cr
-If \code{TRUE} then the \code{response} predict type is also estimated with the same values as \code{crank}.}
+Determines what method should be used to produce a continuous ranking from the distribution.
+Currently only \code{mort} is supported, which is the sum of the cumulative hazard, also called \emph{expected/ensemble mortality}, see Ishwaran et al. (2008).
+For more details, see \code{\link[=get_mortality]{get_mortality()}}.}
 
 \item{overwrite}{\code{logical(1)}\cr
-If \code{TRUE} then existing \code{response} and \code{crank} predict types are overwritten.}
+If \code{FALSE} (default) and the prediction already has a \code{crank} prediction, then the compositor returns the input prediction unchanged.
+If \code{TRUE}, then the \code{crank} will be overwritten.}
 
 \item{graph_learner}{\code{logical(1)}\cr
 If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
@@ -51,14 +43,19 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   library("mlr3")
   library("mlr3pipelines")
 
-  task = tsk("rats")
-  pipe = ppl(
+  task = tsk("lung")
+  part = partition(task)
+
+  # change the crank prediction type of a Cox's model predictions
+  grlrn = ppl(
     "crankcompositor",
     learner = lrn("surv.coxph"),
-    method = "sum_haz"
+    method = "mort",
+    overwrite = TRUE,
+    graph_learner = TRUE
   )
-  pipe$train(task)
-  pipe$predict(task)
+  grlrn$train(task, part$train)
+  grlrn$predict(task, part$test)
 }
 }
 }
@@ -66,6 +63,7 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 Other pipelines: 
 \code{\link{mlr_graphs_distrcompositor}},
 \code{\link{mlr_graphs_probregr}},
+\code{\link{mlr_graphs_responsecompositor}},
 \code{\link{mlr_graphs_survaverager}},
 \code{\link{mlr_graphs_survbagging}},
 \code{\link{mlr_graphs_survtoclassif_IPCW}},

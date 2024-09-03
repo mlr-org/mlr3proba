@@ -38,27 +38,34 @@ test_that("PipeOpTaskSurvClassifDiscTime", {
   expect_equal(pred_task$nrow, test_task$nrow * 4)
   # `tend` matches the cut time points (excluding 0 time point)
   tends = pred_task$data(cols = "tend")[[1L]]
-  expect_equal(sort(unique(tends)), time_cuts[2:5])
-  # test row ids are correct
+  expect_setequal(unique(tends), time_cuts[2:5])
+  # original row ids are correct
   expect_equal(pred_task$col_roles$original_ids, "id")
   original_ids = pred_task$data(cols = "id")[[1L]]
   correct_ids = rep(test_ids, each = 4)
   expect_equal(original_ids, correct_ids)
 
   transformed_data = res[["transformed_data"]]
-  # test rows ids are correct
-  expect_equal(transformed_data$id, correct_ids)
   # check columns in the transformed data.table
-  expect_equal(sort(c("id", "disc_status", "obs_times", "tend")),
-               sort(colnames(transformed_data)))
+  expect_setequal(colnames(transformed_data),
+                  c("id", "disc_status", "obs_times", "tend"))
+  # `id`s are correct
+  expect_equal(transformed_data$id, correct_ids)
+  # `disc_status` is the same
+  expect_equal(as.character(transformed_data$disc_status),
+               as.character(pred_task$truth()))
+  # `obs_times` are correct
+  times = test_task$times() # observed times
+  expect_setequal(unique(transformed_data$obs_times), times)
+  # `tends` are correct
+  expect_setequal(unique(transformed_data$tend), time_cuts[2:5])
 
   # `disc_status` per interval and per observation is correct
   # before observed time ("obs_times"), "disc_status" = 0
-  expect_equal(as.character(unique(transformed_data[tend < obs_times, disc_status])),
-               "0")
-  times = test_task$times() # observed times
-  status = as.character(test_task$status())
+  expect_equal(as.character(unique(transformed_data[tend < obs_times, disc_status])), "0")
+
   # after observed time, "disc_status" must be the same as "status"
+  status = as.character(test_task$status())
   td = transformed_data[tend > obs_times]
   expect_equal(as.character(unique(td[id == test_ids[1], disc_status])), status[1])
   expect_equal(as.character(unique(td[id == test_ids[2], disc_status])), status[2])

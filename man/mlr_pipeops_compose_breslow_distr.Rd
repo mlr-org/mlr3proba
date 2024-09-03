@@ -75,7 +75,8 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 
 Other survival compositors: 
 \code{\link{mlr_pipeops_crankcompose}},
-\code{\link{mlr_pipeops_distrcompose}}
+\code{\link{mlr_pipeops_distrcompose}},
+\code{\link{mlr_pipeops_responsecompose}}
 }
 \concept{survival compositors}
 \section{Super class}{

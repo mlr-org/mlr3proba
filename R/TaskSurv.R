@@ -378,7 +378,7 @@ TaskSurv = R6::R6Class("TaskSurv",
 
     #' @description
     #' Checks if the data satisfy the *proportional hazards (PH)* assumption using
-    #' the Grambsch-Therneau test, `r mlr3misc::cite_bib("grambsch_1994")`.
+    #' the Grambsch-Therneau test, `r cite_bib("grambsch_1994")`.
     #' Uses [cox.zph][survival::cox.zph()].
     #' This method should be used only for **low-dimensional datasets** where
     #' the number of features is relatively small compared to the number of
