@@ -163,22 +163,21 @@ test_that("t_max, p_max", {
 
 test_that("ERV works as expected", {
   set.seed(1L)
-  t = tsk("rats")$filter(sample(1:300, 50))
+  t = tsk("rats")
+  part = partition(t, 0.8)
   l = lrn("surv.kaplan")
-  p = l$train(t)$predict(t)
+  p = l$train(t, part$train)$predict(t, part$test)
   m = msr("surv.graf", ERV = TRUE)
-  expect_equal(as.numeric(p$score(m, task = t, train_set = t$row_ids)), 0)
-  expect_equal(as.numeric(resample(t, l, rsmp("holdout"))$aggregate(m)), 0)
+  # KM is the baseline score, so ERV score = 0
+  expect_equal(as.numeric(p$score(m, task = t, train_set = part$train)), 0)
 
-  set.seed(1L)
-  t = tsk("rats")$filter(sample(1:300, 100))
   l = lrn("surv.coxph")
-  p = suppressWarnings(l$train(t)$predict(t))
+  p = l$train(t, part$train)$predict(t, part$test)
   m = msr("surv.graf", ERV = TRUE)
-  expect_gt(as.numeric(p$score(m, task = t, train_set = t$row_ids)), 0)
-  expect_gt(suppressWarnings(as.numeric(resample(t, l, rsmp("holdout"))$
-    aggregate(m))), 0)
+  # Cox should do a little better than the KM baseline (ERV score > 0)
+  expect_gt(as.numeric(p$score(m, task = t, train_set = part$train)), 0)
 
+  # some checks
   set.seed(1L)
   t = tsk("rats")$filter(sample(1:300, 50))
   l = lrn("surv.kaplan")
