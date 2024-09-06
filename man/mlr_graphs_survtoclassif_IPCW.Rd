@@ -8,7 +8,7 @@
 pipeline_survtoclassif_IPCW(
   learner,
   cutoff_time = NULL,
-  eps = 1e-06,
+  eps = 0.001,
   graph_learner = FALSE
 )
 }
@@ -21,7 +21,7 @@ Cutoff time for IPCW. Observations with time larger than \code{cutoff_time} are 
 Should be reasonably smaller than the maximum event time to avoid enormous weights.}
 
 \item{eps}{\code{numeric()}\cr
-Small value to replace \code{0} survival probabilities with to prevent infinite weights.}
+Small value to replace \eqn{G(t) = 0} censoring probabilities to prevent infinite weights.}
 
 \item{graph_learner}{\code{logical(1)}\cr
 If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a

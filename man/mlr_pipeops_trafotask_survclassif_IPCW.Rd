@@ -5,7 +5,20 @@
 \alias{PipeOpTaskSurvClassifIPCW}
 \title{PipeOpTaskSurvClassifIPCW}
 \description{
-Transform \link{TaskSurv} to \link[mlr3:TaskClassif]{TaskClassif} using IPCW (Vock et al., 2016).
+Transform \link{TaskSurv} to \link[mlr3:TaskClassif]{TaskClassif} using the \strong{I}nverse
+\strong{P}robability of \strong{C}ensoring \strong{W}eights (IPCW) method by Vock et al. (2016).
+
+Let \eqn{T_i} be the observed times (event or censoring) and \eqn{\delta_i}
+the censoring indicators for each observation \eqn{i} in the training set.
+The IPCW technique consists of two steps: first we estimate the censoring
+distribution \eqn{\hat{G}(t)} using the Kaplan-Meier estimator from the
+training data. Then we calculate the observation weights given a cutoff time
+\eqn{\tau} as:
+
+\deqn{\omega_i = 1/\hat{G}_{min(T_i,\tau)}}
+
+Observations that are censored prior to \eqn{\tau} get zero weights, i.e.
+\eqn{\omega_i = 0}.
 }
 \section{Dictionary}{
 
@@ -27,14 +40,17 @@ output channels, one named "output" and the other "data".
 Training transforms the "input" \link{TaskSurv} to a \link[mlr3:TaskClassif]{TaskClassif},
 which is the "output".
 The target column is named \code{"status"} and indicates whether an event occurred
-in each time interval.
-The transformed task now has the property "weights".
-The "data" is NULL.
+before the cutoff time \eqn{\tau}.
+The observed times column is removed from the "output" task.
+The transformed task has the property \code{"weights"} (the \eqn{\omega_i}).
+The "data" is \code{NULL}.
 
 During prediction, the "input" \link{TaskSurv} is transformed to the "output"
-\link[mlr3:TaskClassif]{TaskClassif} with \code{"status"} as target.
-The "data" is a \link{data.table} containing the "time" of each subject as well
-as corresponding "row_ids".
+\link[mlr3:TaskClassif]{TaskClassif} with \code{"status"} as target (again indicating
+if the event occurred before the cutoff time).
+The "data" is a \link{data.table} containing the observed \code{times} \eqn{T_i} and
+censoring indicators/\code{status} \eqn{\delta_i} of each subject as well as the corresponding
+\code{row_ids}.
 This "data" is only meant to be used with the \link{PipeOpPredClassifSurvIPCW}.
 }
 
@@ -46,7 +62,7 @@ The parameters are
 Cutoff time for IPCW. Observations with time larger than \code{cutoff_time} are censored.
 Should be reasonably smaller than the maximum event time to avoid enormous weights.
 \item \code{eps :: numeric()}\cr
-Small value to replace \code{0} survival probabilities with to prevent infinite weights.
+Small value to replace \eqn{G(t) = 0} censoring probabilities to prevent infinite weights.
 }
 }
 
