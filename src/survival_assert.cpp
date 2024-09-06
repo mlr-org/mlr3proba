@@ -2,10 +2,10 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-bool c_assert_surv(NumericMatrix mat) {
+bool c_assert_surv(const NumericMatrix& mat) {
   for (int i = 0; i < mat.nrow(); i++) {
-    // check first element
     if (mat(i, 0) < 0 || mat(i, 0) > 1) {
+      // check first element
       return false;
     }
 
@@ -24,4 +24,3 @@ bool c_assert_surv(NumericMatrix mat) {
 
   return true;
 }
-
