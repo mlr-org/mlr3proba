@@ -61,7 +61,7 @@ test_that(".cbhaz_breslow works", {
   expect_numeric(cbh13, len = 5L, lower = 0, upper = Inf, sorted = TRUE)
 })
 
-test_that("breslow works", {
+test_that("breslow() works", {
   set.seed(42L)
   t = tsk("rats")$filter(sample(50))
   p = partition(t, ratio = 0.8)
@@ -123,4 +123,44 @@ test_that("breslow works", {
   surv = breslow(times, status = st, lp_train = lp, lp_test = lp_test)
   expect_matrix(surv, nrows = length(lp_test), ncols = length(cbhaz))
   expect_true(all(surv >= 0, surv <= 1))
+})
+
+test_that("breslowcompose PipeOp works", {
+  # learner is needed
+  expect_error(mlr3pipelines::po("breslowcompose"), "is missing")
+
+  # learner needs to be of survival type
+  expect_error(mlr3pipelines::po("breslowcompose", learner = lrn("classif.featureless")),
+               "must have task type")
+  # learner needs to have lp predictions
+  expect_error(mlr3pipelines::po("breslowcompose", learner = lrn("surv.kaplan")),
+               "must provide lp")
+
+  # learner with lp predictions
+  learner = lrn("surv.coxph")
+  b1 = mlr3pipelines::po("breslowcompose", learner = learner, breslow.overwrite = TRUE)
+  b2 = mlr3pipelines::po("breslowcompose", learner = learner)
+
+  expect_pipeop(b1)
+  expect_pipeop(b2)
+  expect_equal(b1$id, learner$id)
+  expect_equal(b2$id, learner$id)
+  expect_true(b1$param_set$values$breslow.overwrite)
+  expect_false(b2$param_set$values$breslow.overwrite)
+  expect_learner(b1$learner)
+  expect_error({b1$learner = lrn("surv.kaplan")}) # read-only
+
+  task = tsk("lung")
+  cox_pred = lrn("surv.coxph")$train(task)$predict(task)
+
+  expect_silent(b1$train(list(task)))
+  expect_silent(b2$train(list(task)))
+  p1 = b1$predict(list(task))[[1L]]
+  p2 = b2$predict(list(task))[[1L]]
+
+  expect_equal(p1$lp, p2$lp)
+  surv_mat1 = p1$data$distr
+  surv_mat2 = p2$data$distr
+  expect_false(all(surv_mat1 == surv_mat2)) # distr predictions changed (a bit)
+  expect_true(all(surv_mat2 == cox_pred$data$distr)) # distr was not overwritten
 })

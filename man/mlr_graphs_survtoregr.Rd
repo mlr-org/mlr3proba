@@ -28,7 +28,7 @@ Regression learner to fit to the transformed \link[mlr3:TaskRegr]{TaskRegr}. If 
 \code{NULL} in method \code{2}, then \code{regr_learner} must have \code{se} predict_type.}
 
 \item{distrcompose}{\code{logical(1)}\cr
-For methods \code{1} and \code{3} if \code{TRUE} (default) then \link{PipeOpDistrCompositor} is utilised to
+For method \code{3} if \code{TRUE} (default) then \link{PipeOpDistrCompositor} is utilised to
 transform the deterministic predictions to a survival distribution.}
 
 \item{distr_estimator}{\link{LearnerSurv}\cr
@@ -79,8 +79,6 @@ Three reduction strategies are implemented, these are:
 \item A \link{LearnerRegr} is fit and predicted on the new \code{TaskRegr}.
 \item \link{PipeOpPredRegrSurv} transforms the resulting \link[mlr3:PredictionRegr]{PredictionRegr}
 to \link{PredictionSurv}.
-\item Optionally: \link{PipeOpDistrCompositor} is used to compose a \code{distr} predict_type from the
-predicted \code{response} predict_type.
 }
 \item Survival to Probabilistic Regression
 \enumerate{
@@ -134,7 +132,6 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
     "survtoregr",
     method = 1,
     regr_learner = lrn("regr.featureless"),
-    distrcompose = TRUE,
     survregr_params = list(method = "delete")
   )
   pipe$train(task)
@@ -169,6 +166,7 @@ Other pipelines:
 \code{\link{mlr_graphs_crankcompositor}},
 \code{\link{mlr_graphs_distrcompositor}},
 \code{\link{mlr_graphs_probregr}},
+\code{\link{mlr_graphs_responsecompositor}},
 \code{\link{mlr_graphs_survaverager}},
 \code{\link{mlr_graphs_survbagging}},
 \code{\link{mlr_graphs_survtoclassif_disctime}}

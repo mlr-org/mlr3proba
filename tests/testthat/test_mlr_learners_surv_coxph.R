@@ -4,7 +4,9 @@ test_that("autotest", {
     expect_learner(learner)
     ## no idea why weights check here fails, we test the same task
     ## in the below test and it works!
-    result = run_autotest(learner, exclude = "weights", check_replicable = FALSE, N = 10L)
+    result = suppressWarnings(
+      run_autotest(learner, exclude = "weights", check_replicable = FALSE, N = 10L)
+    )
     expect_true(result, info = result$error)
   })
 })
