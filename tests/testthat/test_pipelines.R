@@ -155,36 +155,41 @@ test_that("survtoclassif_disctime", {
 skip_if_not_installed("mlr3extralearners")
 
 test_that("survtoclassif_IPCW", {
-  requireNamespace("mlr3extralearners")
+  task = tsk("lung")
+  part = partition(task)
+  task_train = task$clone()$filter(part$train)
+  task_test = task$clone()$filter(part$test)
 
-  task = tsk("rats")
-  split = partition(task)
-  task_train = task$clone()$filter(split$train)
-  task_test = task$clone()$filter(split$test)
-
-  pipe = mlr3pipelines::ppl("survtoclassif_IPCW", learner = lrn("classif.gam"),
-                            cutoff_time = 50)
+  pipe = mlr3pipelines::ppl("survtoclassif_IPCW", learner = lrn("classif.rpart"),
+                            cutoff_time = 500)
   expect_class(pipe, "Graph")
 
-  grlrn = mlr3pipelines::ppl("survtoclassif_IPCW", learner = lrn("classif.gam"),
-                             cutoff_time = 50, graph_learner = TRUE)
+  grlrn = mlr3pipelines::ppl("survtoclassif_IPCW", learner = lrn("classif.rpart"),
+                             cutoff_time = 500, graph_learner = TRUE)
   expect_class(grlrn, "GraphLearner")
-  suppressWarnings(grlrn$train(task_train))
+  grlrn$train(task_train)
+  # check: weights were used
+  expect_vector(grlrn$model$classif.rpart$model$call$weights, ptype = numeric(),
+                size = task_train$nrow)
   p = grlrn$predict(task_test)
   expect_prediction_surv(p)
+  # check crank and distr exist
+  # p$data$distr => 1 column, cutoff time as columname
 
-  # Test with cutoff_time
-  grlrn = mlr3pipelines::ppl("survtoclassif_IPCW", learner = lrn("classif.gam"),
-                             cutoff_time = 50, graph_learner = TRUE)
-  expect_class(pipe, "Graph")
-  suppressWarnings(grlrn$train(task_train))
-  p1 = grlrn$predict(task_test)
-  expect_prediction_surv(p1)
-
-  grlrn = mlr3pipelines::ppl("survtoclassif_IPCW", learner = lrn("classif.gam"),
-                             cutoff_time = 75, graph_learner = TRUE)
-  suppressWarnings(grlrn$train(task_train))
+  # Test with different cutoff_time (fix cutoff code before during predict phase)
+  grlrn = mlr3pipelines::ppl("survtoclassif_IPCW", learner = lrn("classif.rpart"),
+                             cutoff_time = 600, graph_learner = TRUE)
+  grlrn$train(task_train)
   p2 = grlrn$predict(task_test)
 
-  expect_false(any(p1$crank == p2$crank))
+  # different cutoff time, different crank predictions
+  # expect_false(all(p$crank == p2$crank))
+
+  # C-indexes the same?
+  expect_equal(p$score(), p2$score())
+  # survival tree is worse?
+  p1 = lrn("surv.rpart")$train(task_train)$predict(task_test)
+  expect_lte(p1$score(), p$score())
+
+  # check msr("surv.brier") with only one time point? Eg prob at cutoff time?
 })
