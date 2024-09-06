@@ -3,7 +3,20 @@
 #' @template param_pipelines
 #'
 #' @description
-#' Transform [TaskSurv] to [TaskClassif][mlr3::TaskClassif] using IPCW (Vock et al., 2016).
+#' Transform [TaskSurv] to [TaskClassif][mlr3::TaskClassif] using the **I**nverse
+#' **P**robability of **C**ensoring **W**eights (IPCW) method by Vock et al. (2016).
+#'
+#' Let \eqn{T_i} be the observed times (event or censoring) and \eqn{\delta_i}
+#' the censoring indicators for each observation \eqn{i} in the training set.
+#' The IPCW technique consists of two steps: first we estimate the censoring
+#' distribution \eqn{\hat{G}(t)} using the Kaplan-Meier estimator from the
+#' training data. Then we calculate the observation weights given a cutoff time
+#' \eqn{\tau} as:
+#'
+#' \deqn{\omega_i = 1/\hat{G}_{min(T_i,\tau)}}
+#'
+#' Observations that are censored prior to \eqn{\tau} get zero weights, i.e.
+#' \eqn{\omega_i = 0}.
 #'
 #' @section Dictionary:
 #' This [PipeOp][mlr3pipelines::PipeOp] can be instantiated via the
@@ -22,14 +35,17 @@
 #' Training transforms the "input" [TaskSurv] to a [TaskClassif][mlr3::TaskClassif],
 #' which is the "output".
 #' The target column is named `"status"` and indicates whether an event occurred
-#' in each time interval.
-#' The transformed task now has the property "weights".
-#' The "data" is NULL.
+#' before the cutoff time \eqn{\tau}.
+#' The observed times column is removed from the "output" task.
+#' The transformed task has the property `"weights"` (the \eqn{\omega_i}).
+#' The "data" is `NULL`.
 #'
 #' During prediction, the "input" [TaskSurv] is transformed to the "output"
-#' [TaskClassif][mlr3::TaskClassif] with `"status"` as target.
-#' The "data" is a [data.table] containing the "time" of each subject as well
-#' as corresponding "row_ids".
+#' [TaskClassif][mlr3::TaskClassif] with `"status"` as target (again indicating
+#' if the event occurred before the cutoff time).
+#' The "data" is a [data.table] containing the observed `times` \eqn{T_i} and
+#' censoring indicators/`status` \eqn{\delta_i} of each subject as well as the corresponding
+#' `row_ids`.
 #' This "data" is only meant to be used with the [PipeOpPredClassifSurvIPCW].
 #'
 #' @section Parameters:
@@ -39,7 +55,7 @@
 #' Cutoff time for IPCW. Observations with time larger than `cutoff_time` are censored.
 #' Should be reasonably smaller than the maximum event time to avoid enormous weights.
 #' * `eps :: numeric()`\cr
-#' Small value to replace `0` survival probabilities with to prevent infinite weights.
+#' Small value to replace \eqn{G(t) = 0} censoring probabilities to prevent infinite weights.
 #'
 #' @references
 #' `r format_bib("vock_2016")`
@@ -56,8 +72,8 @@ PipeOpTaskSurvClassifIPCW = R6Class(
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id = "trafotask_survclassif_IPCW") {
       param_set = ps(
-        cutoff_time = p_dbl(lower = 0, special_vals = list()),
-        eps = p_dbl(lower = 0, default = 1e-6)
+        cutoff_time = p_dbl(0),
+        eps = p_dbl(0, default = 1e-3)
       )
       super$initialize(
         id = id,
@@ -77,59 +93,82 @@ PipeOpTaskSurvClassifIPCW = R6Class(
   ),
 
   private = list(
-    .predict = function(input) {
-      data = input[[1]]$data()
-      data$status = factor(data$status, levels = c("0", "1"))
-      task = TaskClassif$new(id = input[[1]]$id, backend = data,
-                             target = "status", positive = "1")
-
-      time = data[[input[[1]]$target_names[1]]]
-      data = data.table(ids = input[[1]]$row_ids, times = time)
-      list(task, data)
-    },
-
     .train = function(input) {
-      data = input[[1]]$data()
-      time_var = input[[1]]$target_names[1]
-      status_var = input[[1]]$target_names[2]
+      task = input[[1]]
 
-      cutoff_time = self$param_set$values$cutoff_time
-      eps = self$param_set$values$eps
+      # checks
+      assert_true(task$censtype == "right")
+      cutoff_time = assert_numeric(self$param_set$values$cutoff_time, null.ok = FALSE)
+      max_event_time = max(task$unique_event_times())
+      stopifnot(cutoff_time < max_event_time)
 
-      if (cutoff_time >= max(data[get(status_var) == 1, get(time_var)])) {
-        stop("Cutoff time must be smaller than the maximum event time.")
+      # G(t): KM estimate of the censoring distribution
+      times = task$times()
+      status = task$status()
+      cens_fit = survival::survfit(Surv(times, 1 - status) ~ 1)
+      # make a G(t) one-column matrix => to use in `distr6` function later
+      cens_surv = matrix(cens_fit$surv, ncol = 1) # rows => times
+
+      # apply the cutoff to `times`
+      cut_times = times
+      cut_times[cut_times > cutoff_time] = cutoff_time
+      # get G(t) at the observed cutoff'ed times efficiently
+      extend_times = getFromNamespace("C_Vec_WeightedDiscreteCdf", ns = "distr6")
+      cens_probs = extend_times(cut_times, cens_fit$time, cdf = 1 - cens_surv, FALSE, FALSE)[,1]
+      # substitute `eps` for observations: G(t) = 0
+      if (any(cens_probs == 0)) {
+        warning("At least one t: G(t) = 0, will substitute with eps to avoid very large weights")
+        cens_probs[cens_probs == 0] = self$param_set$values$eps
       }
-      if (!all(data[[status_var]] %in% c(0,1))) {
-        stop("Event column of data must only contain 0 and 1.")
-      }
 
-      # transform data and calculate weights
-      times = data[[time_var]]
-      times[times > cutoff_time] = cutoff_time
-
-      status = data[[status_var]]
-      status[times == cutoff_time] = 0
-
-      cens = survival::survfit(Surv(times, 1 - status) ~ 1)
-      cens$surv[length(cens$surv)] = cens$surv[length(cens$surv)-1]
-      cens$surv[cens$surv == 0] = eps
-
-      weights = rep(1/cens$surv, table(times))
+      # calculate the IPC weights
+      ipc_weights = 1 / cens_probs
 
       # add weights to original data
-      data[["ipc_weights"]] = weights
-      data[status_var == 0 & time_var < cutoff_time, "ipc_weights" := 0]
-      data[[status_var]] = factor(data[[status_var]], levels = c("0", "1"))
+      data = task$data()
+      time_var = task$target_names[1]
+      status_var = task$target_names[2]
+
+      # browser()
+      data[["ipc_weights"]] = ipc_weights
+      # zero weights for censored observations before the cutoff time
+      ids = status == 0 & times <= cutoff_time
+      data[ids, "ipc_weights" := 0]
+      # update target: status = 0 after cutoff (remains the same before cutoff)
+      status[times > cutoff_time] = 0
+      data[[status_var]] = factor(status, levels = c("0", "1"))
+      # remove target time variable
       data[[time_var]] = NULL
 
-      # create new task
-      task = TaskClassif$new(id = paste0(input[[1]]$id, "_IPCW"), backend = data,
-                             target = status_var, positive = "1")
+      # create classification task
+      task_ipcw = TaskClassif$new(id = paste0(task$id, "_IPCW"), backend = data,
+                                  target = status_var, positive = "1")
+      task_ipcw$set_col_roles("ipc_weights", roles = "weight")
 
-      task$set_col_roles("ipc_weights", roles = "weight")
+      list(task_ipcw, NULL)
+    },
 
-      self$state = list()
-      list(task, NULL)
+    .predict = function(input) {
+      task = input[[1]]
+      times = task$times()
+      status = task$status()
+      data = task$data()
+      time_var = task$target_names[1]
+      status_var = task$target_names[2]
+      cutoff_time = assert_numeric(self$param_set$values$cutoff_time, null.ok = FALSE)
+
+      # update target: status = 0 after cutoff (remains the same before cutoff)
+      status[times > cutoff_time] = 0
+      data[[status_var]] = factor(status, levels = c("0", "1"))
+      # remove target time variable
+      data[[time_var]] = NULL
+      # create classification task
+      task_classif = TaskClassif$new(id = task$id, backend = data,
+                                     target = "status", positive = "1")
+
+      # keep original row_ids, times and status
+      data = data.table(row_ids = task$row_ids, times = task$times(), status = task$status())
+      list(task_classif, data)
     }
   )
 )

@@ -670,7 +670,7 @@ pipeline_survtoclassif_disctime = function(learner, cut = NULL, max_time = NULL,
 #' Cutoff time for IPCW. Observations with time larger than `cutoff_time` are censored.
 #' Should be reasonably smaller than the maximum event time to avoid enormous weights.
 #' @param eps `numeric()`\cr
-#' Small value to replace `0` survival probabilities with to prevent infinite weights.
+#' Small value to replace \eqn{G(t) = 0} censoring probabilities to prevent infinite weights.
 #' @param graph_learner `logical(1)`\cr
 #' If `TRUE` returns wraps the [Graph][mlr3pipelines::Graph] as a
 #' [GraphLearner][mlr3pipelines::GraphLearner] otherwise (default) returns as a `Graph`.
@@ -688,7 +688,7 @@ pipeline_survtoclassif_disctime = function(learner, cut = NULL, max_time = NULL,
 #' @family pipelines
 #'
 #' @export
-pipeline_survtoclassif_IPCW = function(learner, cutoff_time = NULL, eps = 1e-6, graph_learner = FALSE) {
+pipeline_survtoclassif_IPCW = function(learner, cutoff_time = NULL, eps = 1e-3, graph_learner = FALSE) {
   assert_true("prob" %in% learner$predict_types)
 
   gr = mlr3pipelines::Graph$new()
