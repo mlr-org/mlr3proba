@@ -687,6 +687,28 @@ pipeline_survtoclassif_disctime = function(learner, cut = NULL, max_time = NULL,
 #' @return [mlr3pipelines::Graph] or [mlr3pipelines::GraphLearner]
 #' @family pipelines
 #'
+#' @examples
+#' \dontrun{
+#' if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
+#'     requireNamespace("mlr3learners", quietly = TRUE)) {
+#'
+#'   library(mlr3)
+#'   library(mlr3learners)
+#'   library(mlr3pipelines)
+#'
+#'   task = tsk("lung")
+#'   part = partition(task)
+#'
+#'   grlrn = ppl(
+#'     "survtoclassif_IPCW",
+#'     learner = lrn("classif.rpart"),
+#'     cutoff_time = 500, # Observations after 500 days are censored
+#'     graph_learner = TRUE
+#'   )
+#'   grlrn$train(task, row_ids = part$train)
+#'   grlrn$predict(task, row_ids = part$test)
+#' }
+#' }
 #' @export
 pipeline_survtoclassif_IPCW = function(learner, cutoff_time = NULL, eps = 1e-3, graph_learner = FALSE) {
   assert_true("prob" %in% learner$predict_types)

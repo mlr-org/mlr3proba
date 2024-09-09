@@ -62,6 +62,22 @@
 #'
 #' @family PipeOps
 #' @family Transformation PipeOps
+#' @examples
+#' \dontrun{
+#' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
+#'
+#'   library(mlr3)
+#'   library(mlr3pipelines)
+#'
+#' task = tsk("lung")
+#' part = partition(task)
+#' task_train = task$clone()$filter(part$train)
+#' task_test = task$clone()$filter(part$test)
+#' pipe_op = po("trafotask_survclassif_IPCW", cutoff_time = 500)
+#' pipe_op$train(list(task_train))
+#' pipe_op$predict(list(task_test))
+#' }
+#' }
 #' @export
 PipeOpTaskSurvClassifIPCW = R6Class(
   "PipeOpTaskSurvClassifIPCW",

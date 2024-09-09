@@ -43,6 +43,29 @@ The pipeline consists of the following steps:
 to \link{PredictionSurv}.
 }
 }
+\examples{
+\dontrun{
+if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
+    requireNamespace("mlr3learners", quietly = TRUE)) {
+
+  library(mlr3)
+  library(mlr3learners)
+  library(mlr3pipelines)
+
+  task = tsk("lung")
+  part = partition(task)
+
+  grlrn = ppl(
+    "survtoclassif_IPCW",
+    learner = lrn("classif.rpart"),
+    cutoff_time = 500, # Observations after 500 days are censored
+    graph_learner = TRUE
+  )
+  grlrn$train(task, row_ids = part$train)
+  grlrn$predict(task, row_ids = part$test)
+}
+}
+}
 \seealso{
 Other pipelines: 
 \code{\link{mlr_graphs_crankcompositor}},

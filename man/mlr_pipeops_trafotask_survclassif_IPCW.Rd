@@ -66,6 +66,23 @@ Small value to replace \eqn{G(t) = 0} censoring probabilities to prevent infinit
 }
 }
 
+\examples{
+\dontrun{
+if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
+
+  library(mlr3)
+  library(mlr3pipelines)
+
+task = tsk("lung")
+part = partition(task)
+task_train = task$clone()$filter(part$train)
+task_test = task$clone()$filter(part$test)
+pipe_op = po("trafotask_survclassif_IPCW", cutoff_time = 500)
+pipe_op$train(list(task_train))
+pipe_op$predict(list(task_test))
+}
+}
+}
 \references{
 Vock, M D, Wolfson, Julian, Bandyopadhyay, Sunayan, Adomavicius, Gediminas, Johnson, E P, Vazquez-Benitez, Gabriela, O'Connor, J P (2016).
 \dQuote{Adapting machine learning techniques to censored time-to-event health record data: A general-purpose approach using inverse probability of censoring weighting.}

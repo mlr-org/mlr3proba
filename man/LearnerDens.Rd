@@ -66,7 +66,6 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   predict_types = "cdf",
   feature_types = character(),
   properties = character(),
-  data_formats = "data.table",
   packages = character(),
   label = NA_character_,
   man = NA_character_
@@ -99,10 +98,6 @@ The following properties are currently standardized and understood by learners i
 \item \code{"selected_features"}: The learner supports extraction of the set of selected features, i.e. comes with a \verb{$selected_features()} extractor function (see section on optional extractors in \link{Learner}).
 \item \code{"oob_error"}: The learner supports extraction of estimated out of bag error, i.e. comes with a \code{oob_error()} extractor function (see section on optional extractors in \link{Learner}).
 }}
-
-\item{\code{data_formats}}{(\code{character()})\cr
-Set of supported data formats which can be processed during \verb{$train()} and \verb{$predict()},
-e.g. \code{"data.table"}.}
 
 \item{\code{packages}}{(\code{character()})\cr
 Set of required packages.
