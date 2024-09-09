@@ -52,7 +52,7 @@ PipeOpPredClassifSurvIPCW = R6Class(
         input = data.table(
           name = c("input", "data"),
           train = c("NULL", "NULL"),
-          predict = c("PredictionClassif", "data.table")
+          predict = c("PredictionClassif", "list")
         ),
         output = data.table(
           name = "output",
@@ -71,7 +71,7 @@ PipeOpPredClassifSurvIPCW = R6Class(
       # risk => prob of having the event up until the cutoff time
       risk = pred$prob[, "1"]
       surv = matrix(data = 1 - risk, ncol = 1)
-      colnames(surv) = 500 # need the cutoff time here, add new input[[3]] to pass it on?
+      colnames(surv) = data$cutoff_time
 
       p = PredictionSurv$new(
         # the original row ids

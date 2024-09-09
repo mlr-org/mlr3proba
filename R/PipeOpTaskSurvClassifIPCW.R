@@ -102,7 +102,7 @@ PipeOpTaskSurvClassifIPCW = R6Class(
         output = data.table(
           name    = c("output", "data"),
           train   = c("TaskClassif", "NULL"),
-          predict = c("TaskClassif", "data.table")
+          predict = c("TaskClassif", "list")
         )
       )
     }
@@ -140,12 +140,11 @@ PipeOpTaskSurvClassifIPCW = R6Class(
       # calculate the IPC weights
       ipc_weights = 1 / cens_probs
 
-      # add weights to original data
       data = task$data()
       time_var = task$target_names[1]
       status_var = task$target_names[2]
 
-      # browser()
+      # add weights to original data
       data[["ipc_weights"]] = ipc_weights
       # zero weights for censored observations before the cutoff time
       ids = status == 0 & times <= cutoff_time
@@ -179,11 +178,12 @@ PipeOpTaskSurvClassifIPCW = R6Class(
       # remove target time variable
       data[[time_var]] = NULL
       # create classification task
-      task_classif = TaskClassif$new(id = task$id, backend = data,
+      task_classif = TaskClassif$new(id = paste0(task$id, "_IPCW"), backend = data,
                                      target = "status", positive = "1")
 
       # keep original row_ids, times and status
-      data = data.table(row_ids = task$row_ids, times = task$times(), status = task$status())
+      data = list(row_ids = task$row_ids, times = task$times(), status = task$status(),
+                  cutoff_time = cutoff_time)
       list(task_classif, data)
     }
   )

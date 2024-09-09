@@ -39,12 +39,9 @@ test_that("PipeOpTaskSurvClassifIPCW", {
   expect_task_classif(pred_task)
   # check status?
 
-  # (row_ids, times, status) are correct?
+  # (row_ids, times, status, cutoff_time) are correct?
   data = res[[2L]]
-  expect_data_table(data, nrows = length(test_ids), ncols = 3)
-  expect_equal(names(data), c("row_ids", "times", "status"))
-
-  # create dataset (filter rats) with one event for training the pipeop and set
-  # the cutoff time 1 time unit just before that.
-  # Can we trigger the warning for the eps? is it even possible in general now to trigger that code?
+  expect_list(data, len = 4)
+  expect_true(length(data$row_ids) == length(test_ids))
+  expect_equal(names(data), c("row_ids", "times", "status", "cutoff_time"))
 })

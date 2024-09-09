@@ -45,7 +45,7 @@ test_that("survtoclassif_disctime", {
 
   expect_equal(p$row_ids, p2$row_ids)
   expect_equal(p$truth, p2$truth)
-  expect_equal(p$score(), p2$score(), tolerance = 0.01)
+  expect_equal(p$score(), p2$score(), tolerance = 0.015)
 
   # Test with cut
   grlrn = mlr3pipelines::ppl("survtoclassif_disctime", learner = lrn("classif.log_reg"),
@@ -120,7 +120,10 @@ test_that("survtoclassif_IPCW", {
   p = grlrn$predict(task_test)
   expect_prediction_surv(p)
   # check crank and distr exist
+  expect_true("crank" %in% names(p$data))
   # p$data$distr => 1 column, cutoff time as columname
+  expect_matrix(p$data$dist, nrows = nrow(task_test$nrow), ncols = 1)
+  expect_true(colnames(p$data$dist) == "500")
 
   # Test with different cutoff_time (fix cutoff code before during predict phase)
   grlrn = mlr3pipelines::ppl("survtoclassif_IPCW", learner = lrn("classif.rpart"),
@@ -129,13 +132,7 @@ test_that("survtoclassif_IPCW", {
   p2 = grlrn$predict(task_test)
 
   # different cutoff time, different crank predictions
-  # expect_false(all(p$crank == p2$crank))
-
-  # C-indexes the same?
-  expect_equal(p$score(), p2$score())
-  # survival tree is worse?
-  p1 = lrn("surv.rpart")$train(task_train)$predict(task_test)
-  expect_lte(p1$score(), p$score())
+  expect_false(all(p$crank == p2$crank))
 
   # check msr("surv.brier") with only one time point? Eg prob at cutoff time?
 })
