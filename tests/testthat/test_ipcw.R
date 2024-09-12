@@ -26,18 +26,21 @@ test_that("PipeOpTaskSurvClassifIPCW", {
   output_task = res[[1L]]
   expect_task_classif(output_task)
   expect_equal(output_task$col_roles$weight, "ipc_weights")
+  expect_equal(sum(output_task$weights$weight), output_task$nrow)
   expect_equal(output_task$positive, "1")
   expect_equal(output_task$target_names, "status")
   expect_equal(output_task$nrow, train_task$nrow) # same observations
 
-  # check: is status target correct? (0 before cutoff)
   # check: do `output_task$weights` make sense? are 0 the ones that should be 0?
+  zero_weight_rows = train_task$status() == 0 & train_task$times() < 300
+  expect_true(all(output_task$weights$weight[zero_weight_rows] == 0))
 
   res = po_ipcw$predict(list(test_task))
   pred_task = res[[1L]]
 
   expect_task_classif(pred_task)
-  # check status?
+  # check status == 0 for time > cutoff time
+  expect_true(all(pred_task$data(,"status")[res$data$times > 300] == 0))
 
   # (row_ids, times, status, cutoff_time) are correct?
   data = res[[2L]]

@@ -125,7 +125,7 @@ test_that("survtoclassif_IPCW", {
   expect_matrix(p$data$dist, nrows = nrow(task_test$nrow), ncols = 1)
   expect_true(colnames(p$data$dist) == "500")
 
-  # Test with different cutoff_time (fix cutoff code before during predict phase)
+  # Test with different cutoff_time
   grlrn = mlr3pipelines::ppl("survtoclassif_IPCW", learner = lrn("classif.rpart"),
                              cutoff_time = 600, graph_learner = TRUE)
   grlrn$train(task_train)
@@ -135,4 +135,5 @@ test_that("survtoclassif_IPCW", {
   expect_false(all(p$crank == p2$crank))
 
   # check msr("surv.brier") with only one time point? Eg prob at cutoff time?
+  expect_numeric(p2$score(msr("surv.graf", times = 600)), any.missing = FALSE)
 })
