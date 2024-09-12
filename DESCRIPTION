@@ -89,7 +89,8 @@ LinkingTo:
 Remotes:
     xoopR/distr6,
     xoopR/param6,
-    xoopR/set6
+    xoopR/set6,
+    mlr-org/mlr3
 Config/testthat/edition: 3
 ByteCompile: true
 Encoding: UTF-8
