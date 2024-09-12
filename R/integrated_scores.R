@@ -57,7 +57,7 @@ weighted_survival_score = function(loss, truth, distribution, times = NULL,
     } else { # survival 2d array
       surv_mat = distribution
     }
-    surv_mat = surv_mat[, as.numeric(colnames(surv_mat)) <= t_max]
+    surv_mat = surv_mat[, as.numeric(colnames(surv_mat)) <= t_max, drop = FALSE]
     mtc = findInterval(unique_times, as.numeric(colnames(surv_mat)))
     cdf = 1 - surv_mat[, mtc, drop = FALSE]
     if (any(mtc == 0)) {
