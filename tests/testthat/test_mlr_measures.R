@@ -130,6 +130,13 @@ test_that("graf proper option", {
   expect_gt(s2, s1)
 })
 
+test_that("graf with 1 time point", {
+  data = data.frame(time = c(1,1), status = c(1,0), f1 = c(5,3))
+  task = as_task_surv(x = data, event = "status", time = "time")
+  res = suppressWarnings(lrn("surv.coxph")$train(task)$predict(task))
+  expect_number(res$score(msr("surv.graf", times = 1)))
+})
+
 test_that("t_max, p_max", {
   set.seed(1L)
   t = tsk("rats")$filter(sample(1:300, 50))
