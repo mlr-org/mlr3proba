@@ -393,7 +393,7 @@ TaskSurv = R6::R6Class("TaskSurv",
       assert_choice(self$censtype, choices = c("right", "left"))
 
       cox = lrn("surv.coxph")
-      cox$encapsulate = c(train = "evaluate", predict = "evaluate")
+      cox$encapsulate("evaluate", fallback = lrn("surv.kaplan"))
       cox$train(self)
       ok = (length(cox$errors) == 0L) & (length(cox$warnings) == 0L)
 
