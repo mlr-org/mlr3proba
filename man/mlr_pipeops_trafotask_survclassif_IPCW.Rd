@@ -15,9 +15,9 @@ distribution \eqn{\hat{G}(t)} using the Kaplan-Meier estimator from the
 training data. Then we calculate the observation weights given a cutoff time
 \eqn{\tau} as:
 
-\deqn{\omega_i = 1/\hat{G}_{min(T_i,\tau)}}
+\deqn{\omega_i = 1/\hat{G}{(min(T_i,\tau))}}
 
-Observations that are censored prior to \eqn{\tau} get zero weights, i.e.
+Observations that are censored prior to \eqn{\tau} are assigned zero weights, i.e.
 \eqn{\omega_i = 0}.
 }
 \section{Dictionary}{
@@ -39,8 +39,8 @@ output channels, one named "output" and the other "data".
 
 Training transforms the "input" \link{TaskSurv} to a \link[mlr3:TaskClassif]{TaskClassif},
 which is the "output".
-The target column is named \code{"status"} and indicates whether an event occurred
-before the cutoff time \eqn{\tau}.
+The target column is named \code{"status"} and indicates whether \strong{an event occurred}
+\strong{before the cutoff time} \eqn{\tau} (\code{1} = yes, \code{0} = no).
 The observed times column is removed from the "output" task.
 The transformed task has the property \code{"weights"} (the \eqn{\omega_i}).
 The "data" is \code{NULL}.
@@ -69,17 +69,26 @@ Small value to replace \eqn{G(t) = 0} censoring probabilities to prevent infinit
 \examples{
 \dontrun{
 if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
-
   library(mlr3)
   library(mlr3pipelines)
 
-task = tsk("lung")
-part = partition(task)
-task_train = task$clone()$filter(part$train)
-task_test = task$clone()$filter(part$test)
-pipe_op = po("trafotask_survclassif_IPCW", cutoff_time = 500)
-pipe_op$train(list(task_train))
-pipe_op$predict(list(task_test))
+  task = tsk("lung")
+
+  # split task to train and test subtasks
+  part = partition(task)
+  task_train = task$clone()$filter(part$train)
+  task_test = task$clone()$filter(part$test)
+
+  # define IPCW pipeop
+  po_ipcw = po("trafotask_survclassif_IPCW", cutoff_time = 500)
+
+  # during training, output is a classification task with weights
+  task_classif_train = po_ipcw$train(list(task_train))[[1]]
+  task_classif_train
+
+  # during prediction, output is a classification task (no weights)
+  task_classif_test = po_ipcw$predict(list(task_test))[[1]]
+  task_classif_test
 }
 }
 }

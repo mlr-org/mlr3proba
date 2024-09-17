@@ -13,9 +13,9 @@
 #' training data. Then we calculate the observation weights given a cutoff time
 #' \eqn{\tau} as:
 #'
-#' \deqn{\omega_i = 1/\hat{G}_{min(T_i,\tau)}}
+#' \deqn{\omega_i = 1/\hat{G}{(min(T_i,\tau))}}
 #'
-#' Observations that are censored prior to \eqn{\tau} get zero weights, i.e.
+#' Observations that are censored prior to \eqn{\tau} are assigned zero weights, i.e.
 #' \eqn{\omega_i = 0}.
 #'
 #' @section Dictionary:
@@ -34,8 +34,8 @@
 #'
 #' Training transforms the "input" [TaskSurv] to a [TaskClassif][mlr3::TaskClassif],
 #' which is the "output".
-#' The target column is named `"status"` and indicates whether an event occurred
-#' before the cutoff time \eqn{\tau}.
+#' The target column is named `"status"` and indicates whether **an event occurred**
+#' **before the cutoff time** \eqn{\tau} (`1` = yes, `0` = no).
 #' The observed times column is removed from the "output" task.
 #' The transformed task has the property `"weights"` (the \eqn{\omega_i}).
 #' The "data" is `NULL`.
@@ -65,17 +65,26 @@
 #' @examples
 #' \dontrun{
 #' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
-#'
 #'   library(mlr3)
 #'   library(mlr3pipelines)
 #'
-#' task = tsk("lung")
-#' part = partition(task)
-#' task_train = task$clone()$filter(part$train)
-#' task_test = task$clone()$filter(part$test)
-#' pipe_op = po("trafotask_survclassif_IPCW", cutoff_time = 500)
-#' pipe_op$train(list(task_train))
-#' pipe_op$predict(list(task_test))
+#'   task = tsk("lung")
+#'
+#'   # split task to train and test subtasks
+#'   part = partition(task)
+#'   task_train = task$clone()$filter(part$train)
+#'   task_test = task$clone()$filter(part$test)
+#'
+#'   # define IPCW pipeop
+#'   po_ipcw = po("trafotask_survclassif_IPCW", cutoff_time = 500)
+#'
+#'   # during training, output is a classification task with weights
+#'   task_classif_train = po_ipcw$train(list(task_train))[[1]]
+#'   task_classif_train
+#'
+#'   # during prediction, output is a classification task (no weights)
+#'   task_classif_test = po_ipcw$predict(list(task_test))[[1]]
+#'   task_classif_test
 #' }
 #' }
 #' @export
@@ -181,7 +190,7 @@ PipeOpTaskSurvClassifIPCW = R6Class(
       task_classif = TaskClassif$new(id = paste0(task$id, "_IPCW"), backend = data,
                                      target = "status", positive = "1")
 
-      # keep original row_ids, times and status
+      # keep original row_ids, times and status as well the cutoff time
       data = list(row_ids = task$row_ids, times = task$times(), status = task$status(),
                   cutoff_time = cutoff_time)
       list(task_classif, data)
