@@ -55,7 +55,8 @@
 #' Cutoff time for IPCW. Observations with time larger than `cutoff_time` are censored.
 #' Should be reasonably smaller than the maximum event time to avoid enormous weights.
 #' * `eps :: numeric()`\cr
-#' Small value to replace \eqn{G(t) = 0} censoring probabilities to prevent infinite weights.
+#' Small value to replace \eqn{G(t) = 0} censoring probabilities to prevent
+#' infinite weights (a warning is triggered if this happens).
 #'
 #' @references
 #' `r format_bib("vock_2016")`
@@ -100,6 +101,8 @@ PipeOpTaskSurvClassifIPCW = R6Class(
         cutoff_time = p_dbl(0),
         eps = p_dbl(0, default = 1e-3)
       )
+      param_set$set_values(eps = 1e-3)
+
       super$initialize(
         id = id,
         param_set = param_set,
@@ -125,7 +128,7 @@ PipeOpTaskSurvClassifIPCW = R6Class(
       assert_true(task$censtype == "right")
       cutoff_time = assert_numeric(self$param_set$values$cutoff_time, null.ok = FALSE)
       max_event_time = max(task$unique_event_times())
-      stopifnot(cutoff_time < max_event_time)
+      stopifnot(cutoff_time <= max_event_time)
 
       # G(t): KM estimate of the censoring distribution
       times = task$times()
@@ -140,7 +143,8 @@ PipeOpTaskSurvClassifIPCW = R6Class(
       # get G(t) at the observed cutoff'ed times efficiently
       extend_times = getFromNamespace("C_Vec_WeightedDiscreteCdf", ns = "distr6")
       cens_probs = extend_times(cut_times, cens_fit$time, cdf = 1 - cens_surv, FALSE, FALSE)[,1]
-      # substitute `eps` for observations: G(t) = 0
+
+      # substitute `eps` for observations: G(t) = 0 (this should never happen though!)
       if (any(cens_probs == 0)) {
         warning("At least one t: G(t) = 0, will substitute with eps to avoid very large weights")
         cens_probs[cens_probs == 0] = self$param_set$values$eps
