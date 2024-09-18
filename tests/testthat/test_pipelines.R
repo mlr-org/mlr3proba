@@ -103,8 +103,6 @@ skip_if_not_installed("mlr3extralearners")
 test_that("survtoclassif_IPCW", {
   task = tsk("lung")
   part = partition(task)
-  task_train = task$clone()$filter(part$train)
-  task_test = task$clone()$filter(part$test)
 
   pipe = mlr3pipelines::ppl("survtoclassif_IPCW", learner = lrn("classif.rpart"),
                             cutoff_time = 500)
@@ -113,27 +111,35 @@ test_that("survtoclassif_IPCW", {
   grlrn = mlr3pipelines::ppl("survtoclassif_IPCW", learner = lrn("classif.rpart"),
                              cutoff_time = 500, graph_learner = TRUE)
   expect_class(grlrn, "GraphLearner")
-  grlrn$train(task_train)
-  # check: weights were used
-  expect_vector(grlrn$model$classif.rpart$model$call$weights, ptype = numeric(),
-                size = task_train$nrow)
-  p = grlrn$predict(task_test)
+  grlrn$train(task, row_ids = part$train)
+  # check that the weights were used for classif learner
+  expect_numeric(grlrn$model$classif.rpart$model$call$weights, any.missing = FALSE,
+                 len = length(part$train))
+  p = grlrn$predict(task, row_ids = part$test)
   expect_prediction_surv(p)
-  # check crank and distr exist
-  expect_true("crank" %in% names(p$data))
-  # p$data$distr => 1 column, cutoff time as columname
-  expect_matrix(p$data$dist, nrows = nrow(task_test$nrow), ncols = 1)
-  expect_true(colnames(p$data$dist) == "500")
+  # crank is like risk => prob of having the event up to cutoff time
+  expect_numeric(p$crank, len = length(part$test), lower = 0, upper = 1)
+  # p$data$distr => 1 column, cutoff time as column name
+  expect_matrix(p$data$distr, nrows = length(part$test), ncols = 1)
+  expect_true(colnames(p$data$distr) == "500")
+  # crank = risk = 1 - surv at cutoff time
+  expect_equal(p$crank, 1 - p$data$distr[,"500"])
+  # brier score at the cutoff time works
+  expect_number(p$score(msr("surv.brier", times = 500)), finite = TRUE)
+  # also in other points
+  expect_number(p$score(msr("surv.brier", times = 100)), finite = TRUE)
+  expect_number(p$score(msr("surv.brier", times = 600)), finite = TRUE)
 
   # Test with different cutoff_time
   grlrn = mlr3pipelines::ppl("survtoclassif_IPCW", learner = lrn("classif.rpart"),
                              cutoff_time = 600, graph_learner = TRUE)
-  grlrn$train(task_train)
-  p2 = grlrn$predict(task_test)
+  grlrn$train(task, part$train)
+  p2 = grlrn$predict(task, part$test)
 
-  # different cutoff time, different crank predictions
+  # check predictions
+  expect_numeric(p2$crank, len = length(part$test), lower = 0, upper = 1)
+  expect_number(p2$score(msr("surv.brier", times = 600)), finite = TRUE)
+
+  # different cutoff time, different (crank) predictions
   expect_false(all(p$crank == p2$crank))
-
-  # check msr("surv.brier") with only one time point? Eg prob at cutoff time?
-  expect_numeric(p2$score(msr("surv.graf", times = 600)), any.missing = FALSE)
 })
