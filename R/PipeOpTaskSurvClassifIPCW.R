@@ -173,6 +173,9 @@ PipeOpTaskSurvClassifIPCW = R6Class(
                                   target = status_var, positive = "1")
       task_ipcw$set_col_roles("ipc_weights", roles = "weight")
 
+      # keep this in the state just in case
+      self$state = list()
+      # pass on classif task
       list(task_ipcw, NULL)
     },
 
