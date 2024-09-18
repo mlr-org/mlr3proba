@@ -1,26 +1,32 @@
+# mlr3proba 0.6.9
+
+* New `PipeOp`s: `PipeOpTaskSurvClassifIPCW`, `PipeOpPredClassifSurvIPCW`
+* New pipeline (**reduction method**): `pipeline_survtoclassif_IPCW`
+* Fixed a rare bug in Brier score when the survival matrix had one time point/column only.
+
 # mlr3proba 0.6.8
 
-- `Rcpp` code optimizations
-- Fixed ERV scoring to comply with `mlr3` dev version (no bugs before)
-- Skipping `survtoregr` pipelines due to bugs (to be refactored in the future)
+* `Rcpp` code optimizations
+* Fixed ERV scoring to comply with `mlr3` dev version (no bugs before)
+* Skipping `survtoregr` pipelines due to bugs (to be refactored in the future)
 
 # mlr3proba 0.6.7
 
-- Deprecate `crank` to `distr` composition in `distrcompose` pipeop (only from `lp` => `distr` works now)
-- Add `get_mortality()` function (from `survivalmodels::surv_to_risk()`
-- Add Rcpp function `assert_surv_matrix()`
-- Update and simplify `crankcompose` pipeop and respective pipeline (no `response` is created anymore)
-- Add `responsecompositor` pipeline with `rmst` and `median`
+* Deprecate `crank` to `distr` composition in `distrcompose` pipeop (only from `lp` => `distr` works now)
+* Add `get_mortality()` function (from `survivalmodels::surv_to_risk()`
+* Add Rcpp function `assert_surv_matrix()`
+* Update and simplify `crankcompose` pipeop and respective pipeline (no `response` is created anymore)
+* Add `responsecompositor` pipeline with `rmst` and `median`
 
 # mlr3proba 0.6.6
 
-- Small fixes and refactoring to the discrete-time pipeops
+* Small fixes and refactoring to the discrete-time pipeops
 
 # mlr3proba 0.6.5
 
 * Add support for discrete-time survival analysis
 * New `PipeOp`s: `PipeOpTaskSurvClassifDiscTime`, `PipeOpPredClassifSurvDiscTime`
-* New pipeline: `pipeline_survtoclassif`
+* New pipeline (**reduction method**): `pipeline_survtoclassif_disctime`
 
 # mlr3proba 0.6.4
 
