@@ -21,7 +21,8 @@ Cutoff time for IPCW. Observations with time larger than \code{cutoff_time} are 
 Should be reasonably smaller than the maximum event time to avoid enormous weights.}
 
 \item{eps}{\code{numeric()}\cr
-Small value to replace \eqn{G(t) = 0} censoring probabilities to prevent infinite weights.}
+Small value to replace \eqn{G(t) = 0} censoring probabilities to prevent infinite
+weights (a warning is triggered if this happens).}
 
 \item{graph_learner}{\code{logical(1)}\cr
 If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
@@ -44,10 +45,8 @@ to \link{PredictionSurv}.
 }
 }
 \examples{
+\dontshow{if (mlr3misc::require_namespaces(c("mlr3pipelines", "mlr3learners"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \dontrun{
-if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
-    requireNamespace("mlr3learners", quietly = TRUE)) {
-
   library(mlr3)
   library(mlr3learners)
   library(mlr3pipelines)
@@ -62,9 +61,14 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
     graph_learner = TRUE
   )
   grlrn$train(task, row_ids = part$train)
-  grlrn$predict(task, row_ids = part$test)
+  pred = grlrn$predict(task, row_ids = part$test)
+  pred # crank and distr at the cutoff time point included
+
+  # score predictions
+  pred$score() # C-index
+  pred$score(msr("surv.brier", times = 500)) # Brier
 }
-}
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 Other pipelines: 
