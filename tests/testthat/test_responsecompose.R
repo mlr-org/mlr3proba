@@ -50,11 +50,11 @@ test_that("different methods, different responses", {
 test_that("different cutoffs, different rmst", {
   por1 = mlr3pipelines::po("responsecompose", overwrite = TRUE, method = "rmst")
   por2 = mlr3pipelines::po("responsecompose", overwrite = TRUE, method = "rmst",
-                           cutoff_time = 100) # t_max = 99 in the generated data
+                           tau = 100) # t_max = 99 in the generated data
   por3 = mlr3pipelines::po("responsecompose", overwrite = TRUE, method = "rmst",
-                           cutoff_time = 65)
+                           tau = 65)
   por4 = mlr3pipelines::po("responsecompose", overwrite = TRUE, method = "rmst",
-                           cutoff_time = 25)
+                           tau = 25)
   p1 = por1$predict(list(pcox))[[1L]]
   p2 = por2$predict(list(pcox))[[1L]]
   p3 = por3$predict(list(pcox))[[1L]]
