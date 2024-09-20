@@ -11,13 +11,13 @@ test_that("PipeOpTaskSurvClassifIPCW", {
 
   po_ipcw = mlr3pipelines::po("trafotask_survclassif_IPCW")
   expect_class(po_ipcw, c("PipeOp", "PipeOpTaskSurvClassifIPCW"))
-  # don't allow NULL `cutoff_time`
+  # don't allow NULL `tau`
   expect_error(po_ipcw$train(list(train_task)), "not 'NULL'")
-  # `cutoff_time` should be less than the max event time
-  po_ipcw$param_set$set_values(cutoff_time = 3000)
-  expect_error(po_ipcw$train(list(train_task)), "cutoff_time <= max_event_time is not TRUE")
+  # `tau` should be less than the max event time
+  po_ipcw$param_set$set_values(tau = 3000)
+  expect_error(po_ipcw$train(list(train_task)), "tau <= max_event_time is not TRUE")
   cutoff = 300
-  po_ipcw$param_set$set_values(cutoff_time = cutoff)
+  po_ipcw$param_set$set_values(tau = cutoff)
 
   res = po_ipcw$train(list(train_task))
 
@@ -44,12 +44,12 @@ test_that("PipeOpTaskSurvClassifIPCW", {
   # check status == 0 for time > cutoff time
   expect_true(all(pred_task$truth()[res$data$times > cutoff] == 0))
 
-  # (row_ids, times, status, cutoff_time) are correct?
+  # check that (row_ids, times, status, tau) are correct
   data = res[[2L]]
   expect_list(data, len = 4)
-  expect_equal(names(data), c("row_ids", "times", "status", "cutoff_time"))
+  expect_equal(names(data), c("row_ids", "times", "status", "tau"))
   expect_equal(data$row_ids, test_ids)
   expect_equal(data$times, test_task$times())
   expect_equal(data$status, test_task$status())
-  expect_equal(data$cutoff_time, cutoff)
+  expect_equal(data$tau, cutoff)
 })

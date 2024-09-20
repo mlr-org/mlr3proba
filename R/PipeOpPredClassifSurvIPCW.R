@@ -66,12 +66,12 @@ PipeOpPredClassifSurvIPCW = R6Class(
   private = list(
     .predict = function(input) {
       pred = input[[1]] # classification predictions
-      data = input[[2]] # row_ids, times, status, cutoff_time
+      data = input[[2]] # row_ids, times, status, tau
 
       # risk => prob of having the event up until the cutoff time
       risk = pred$prob[, "1"]
       surv = matrix(data = 1 - risk, ncol = 1)
-      colnames(surv) = data$cutoff_time
+      colnames(surv) = data$tau
 
       p = PredictionSurv$new(
         # the original row ids

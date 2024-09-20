@@ -168,7 +168,7 @@ pipeline_crankcompositor = function(learner, method = c("mort"),
 #' @param method (`character(1)`)\cr
 #' Determines what method should be used to produce a survival time (response) from the survival distribution.
 #' Available methods are `"rmst"` and `"median"`, corresponding to the *restricted mean survival time* and the *median survival time* respectively.
-#' @param cutoff_time (`numeric(1)`)\cr
+#' @param tau (`numeric(1)`)\cr
 #' Determines the time point up to which we calculate the restricted mean survival time (works only for the `"rmst"` method).
 #' If `NULL` (default), all the available time points in the predicted survival distribution will be used.
 #' @param add_crank (`logical(1)`)\cr
@@ -199,19 +199,19 @@ pipeline_crankcompositor = function(learner, method = c("mort"),
 #'   grlrn$predict(task, part$test)
 #' }
 #' }
-pipeline_responsecompositor = function(learner, method = "rmst", cutoff_time = NULL,
+pipeline_responsecompositor = function(learner, method = "rmst", tau = NULL,
                                        add_crank = FALSE, overwrite = FALSE,
                                        graph_learner = FALSE) {
   assert_learner(learner, task_type = "surv")
   assert_choice(method, choices = c("rmst", "median"))
-  assert_number(cutoff_time, null.ok = TRUE, lower = 0)
+  assert_number(tau, null.ok = TRUE, lower = 0)
   assert_logical(add_crank)
   assert_logical(overwrite)
   assert_logical(graph_learner)
 
   pred = mlr3pipelines::as_graph(learner)
 
-  pv = list(method = method, cutoff_time = cutoff_time, add_crank = add_crank,
+  pv = list(method = method, tau = tau, add_crank = add_crank,
             overwrite = overwrite)
   compositor = mlr3pipelines::po("responsecompose", param_vals = pv)
 
@@ -666,24 +666,23 @@ pipeline_survtoclassif_disctime = function(learner, cut = NULL, max_time = NULL,
 #'
 #' @param learner [LearnerClassif][mlr3::LearnerClassif]\cr
 #' Classification learner to fit the transformed [TaskClassif][mlr3::TaskClassif].
-#' @param cutoff_time `numeric()`\cr
-#' Cutoff time for IPCW. Observations with time larger than `cutoff_time` are censored.
-#' Should be reasonably smaller than the maximum event time to avoid enormous weights.
-#' @param eps `numeric()`\cr
+#' @param tau (`numeric()`)\cr
+#' Predefined time point for IPCW. Observations with time larger than \eqn{\tau} are censored.
+#' Must be less or equal to the maximum event time.
+#' @param eps (`numeric()`)\cr
 #' Small value to replace \eqn{G(t) = 0} censoring probabilities to prevent infinite
 #' weights (a warning is triggered if this happens).
-#' @param graph_learner `logical(1)`\cr
+#' @param graph_learner (`logical(1)`)\cr
 #' If `TRUE` returns wraps the [Graph][mlr3pipelines::Graph] as a
 #' [GraphLearner][mlr3pipelines::GraphLearner] otherwise (default) returns as a `Graph`.
 #'
 #' @details
 #' The pipeline consists of the following steps:
-#' \enumerate{
-#' \item [PipeOpTaskSurvClassifIPCW] Converts [TaskSurv] to a [TaskClassif][mlr3::TaskClassif].
-#' \item A [LearnerClassif] is fit and predicted on the new `TaskClassif`.
-#' \item [PipeOpPredClassifSurvIPCW] transforms the resulting [PredictionClassif][mlr3::PredictionClassif]
+#'
+#' 1. [PipeOpTaskSurvClassifIPCW] Converts [TaskSurv] to a [TaskClassif][mlr3::TaskClassif].
+#' 2. A [LearnerClassif] is fit and predicted on the new `TaskClassif`.
+#' 3. [PipeOpPredClassifSurvIPCW] transforms the resulting [PredictionClassif][mlr3::PredictionClassif]
 #' to [PredictionSurv].
-#' }
 #'
 #' @return [mlr3pipelines::Graph] or [mlr3pipelines::GraphLearner]
 #' @family pipelines
@@ -700,7 +699,7 @@ pipeline_survtoclassif_disctime = function(learner, cut = NULL, max_time = NULL,
 #'   grlrn = ppl(
 #'     "survtoclassif_IPCW",
 #'     learner = lrn("classif.rpart"),
-#'     cutoff_time = 500, # Observations after 500 days are censored
+#'     tau = 500, # Observations after 500 days are censored
 #'     graph_learner = TRUE
 #'   )
 #'   grlrn$train(task, row_ids = part$train)
@@ -709,14 +708,14 @@ pipeline_survtoclassif_disctime = function(learner, cut = NULL, max_time = NULL,
 #'
 #'   # score predictions
 #'   pred$score() # C-index
-#'   pred$score(msr("surv.brier", times = 500)) # Brier
+#'   pred$score(msr("surv.brier", times = 500)) # Brier score at tau
 #' }
 #' @export
-pipeline_survtoclassif_IPCW = function(learner, cutoff_time = NULL, eps = 1e-3, graph_learner = FALSE) {
+pipeline_survtoclassif_IPCW = function(learner, tau = NULL, eps = 1e-3, graph_learner = FALSE) {
   assert_true("prob" %in% learner$predict_types)
 
   gr = mlr3pipelines::Graph$new()
-  gr$add_pipeop(mlr3pipelines::po("trafotask_survclassif_IPCW", cutoff_time = cutoff_time, eps = eps))
+  gr$add_pipeop(mlr3pipelines::po("trafotask_survclassif_IPCW", tau = tau, eps = eps))
   gr$add_pipeop(mlr3pipelines::po("learner", learner, predict_type = "prob"))
   gr$add_pipeop(mlr3pipelines::po("trafopred_classifsurv_IPCW"))
   gr$add_pipeop(mlr3pipelines::po("nop"))

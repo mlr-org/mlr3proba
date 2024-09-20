@@ -51,9 +51,9 @@
 #' @section Parameters:
 #' The parameters are
 #'
-#' * `cutoff_time :: numeric()`\cr
-#' Cutoff time for IPCW. Observations with time larger than `cutoff_time` are censored.
-#' Should be reasonably smaller than the maximum event time to avoid enormous weights.
+#' * `tau :: numeric()`\cr
+#' Predefined time point for IPCW. Observations with time larger than \eqn{\tau} are censored.
+#' Must be less or equal to the maximum event time.
 #' * `eps :: numeric()`\cr
 #' Small value to replace \eqn{G(t) = 0} censoring probabilities to prevent
 #' infinite weights (a warning is triggered if this happens).
@@ -77,7 +77,7 @@
 #'   task_test = task$clone()$filter(part$test)
 #'
 #'   # define IPCW pipeop
-#'   po_ipcw = po("trafotask_survclassif_IPCW", cutoff_time = 500)
+#'   po_ipcw = po("trafotask_survclassif_IPCW", tau = 365)
 #'
 #'   # during training, output is a classification task with weights
 #'   task_classif_train = po_ipcw$train(list(task_train))[[1]]
@@ -109,7 +109,7 @@ PipeOpTaskSurvClassifIPCW = R6Class(
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id = "trafotask_survclassif_IPCW") {
       param_set = ps(
-        cutoff_time = p_dbl(0),
+        tau = p_dbl(0),
         eps = p_dbl(0, default = 1e-3)
       )
       param_set$set_values(eps = 1e-3)
@@ -137,9 +137,9 @@ PipeOpTaskSurvClassifIPCW = R6Class(
 
       # checks
       assert_true(task$censtype == "right")
-      cutoff_time = assert_numeric(self$param_set$values$cutoff_time, null.ok = FALSE)
+      tau = assert_numeric(self$param_set$values$tau, null.ok = FALSE)
       max_event_time = max(task$unique_event_times())
-      stopifnot(cutoff_time <= max_event_time)
+      stopifnot(tau <= max_event_time)
 
       # G(t): KM estimate of the censoring distribution
       times = task$times()
@@ -150,7 +150,7 @@ PipeOpTaskSurvClassifIPCW = R6Class(
 
       # apply the cutoff to `times`
       cut_times = times
-      cut_times[cut_times > cutoff_time] = cutoff_time
+      cut_times[cut_times > tau] = tau
       # get G(t) at the observed cutoff'ed times efficiently
       extend_times = getFromNamespace("C_Vec_WeightedDiscreteCdf", ns = "distr6")
       cens_probs = extend_times(cut_times, cens_fit$time, cdf = 1 - cens_surv, FALSE, FALSE)[,1]
@@ -171,10 +171,10 @@ PipeOpTaskSurvClassifIPCW = R6Class(
       # add weights to original data
       data[["ipc_weights"]] = ipc_weights
       # zero weights for censored observations before the cutoff time
-      ids = status == 0 & times <= cutoff_time
+      ids = status == 0 & times <= tau
       data[ids, "ipc_weights" := 0]
       # update target: status = 0 after cutoff (remains the same before cutoff)
-      status[times > cutoff_time] = 0
+      status[times > tau] = 0
       data[[status_var]] = factor(status, levels = c("0", "1"))
       # remove target time variable
       data[[time_var]] = NULL
@@ -197,10 +197,10 @@ PipeOpTaskSurvClassifIPCW = R6Class(
       data = task$data()
       time_var = task$target_names[1]
       status_var = task$target_names[2]
-      cutoff_time = assert_numeric(self$param_set$values$cutoff_time, null.ok = FALSE)
+      tau = assert_numeric(self$param_set$values$tau, null.ok = FALSE)
 
       # update target: status = 0 after cutoff (remains the same before cutoff)
-      status[times > cutoff_time] = 0
+      status[times > tau] = 0
       data[[status_var]] = factor(status, levels = c("0", "1"))
       # remove target time variable
       data[[time_var]] = NULL
@@ -208,9 +208,13 @@ PipeOpTaskSurvClassifIPCW = R6Class(
       task_classif = TaskClassif$new(id = paste0(task$id, "_IPCW"), backend = data,
                                      target = "status", positive = "1")
 
-      # keep original row_ids, times and status as well the cutoff time
-      data = list(row_ids = task$row_ids, times = task$times(), status = task$status(),
-                  cutoff_time = cutoff_time)
+      # keep original row_ids, times and status as well the tau time point
+      data = list(
+        row_ids = task$row_ids,
+        times = task$times(),
+        status = task$status(),
+        tau = tau
+      )
       list(task_classif, data)
     }
   )

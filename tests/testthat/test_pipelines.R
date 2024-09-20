@@ -105,11 +105,11 @@ test_that("survtoclassif_IPCW", {
   part = partition(task)
 
   pipe = mlr3pipelines::ppl("survtoclassif_IPCW", learner = lrn("classif.rpart"),
-                            cutoff_time = 500)
+                            tau = 500)
   expect_class(pipe, "Graph")
 
   grlrn = mlr3pipelines::ppl("survtoclassif_IPCW", learner = lrn("classif.rpart"),
-                             cutoff_time = 500, graph_learner = TRUE)
+                             tau = 500, graph_learner = TRUE)
   expect_class(grlrn, "GraphLearner")
   grlrn$train(task, row_ids = part$train)
   # check that the weights were used for classif learner
@@ -130,9 +130,9 @@ test_that("survtoclassif_IPCW", {
   expect_number(p$score(msr("surv.brier", times = 100)), finite = TRUE)
   expect_number(p$score(msr("surv.brier", times = 600)), finite = TRUE)
 
-  # Test with different cutoff_time
+  # Test with different tau
   grlrn = mlr3pipelines::ppl("survtoclassif_IPCW", learner = lrn("classif.rpart"),
-                             cutoff_time = 600, graph_learner = TRUE)
+                             tau = 600, graph_learner = TRUE)
   grlrn$train(task, part$train)
   p2 = grlrn$predict(task, part$test)
 
