@@ -3,6 +3,7 @@
 * New `PipeOp`s: `PipeOpTaskSurvClassifIPCW`, `PipeOpPredClassifSurvIPCW`
 * New pipeline (**reduction method**): `pipeline_survtoclassif_IPCW`
 * Fixed a rare bug in Brier score when the survival matrix had one time point/column only.
+* Temp fix of math-rendering issue in package website
 
 # mlr3proba 0.6.8
 

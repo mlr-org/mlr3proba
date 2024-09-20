@@ -23,3 +23,4 @@ README.html
 ^\.vscode$
 ^\.lintr$
 ^\.pre-commit-config\.yaml$
+^pkgdown/_pkgdown\.yml$
