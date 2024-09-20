@@ -72,7 +72,7 @@
 #'   # mostly improper survival distributions, "median" sets the survival time
 #'   # to the last time point
 #'
-#'   # RMST (default) as response, while also changing the crank = -response
+#'   # RMST (default) as response, while also changing the `crank` to `-response`
 #'   por = po("responsecompose", param_vals = list(overwrite = TRUE, add_crank = TRUE))
 #'   por$predict(list(pred))[[1L]]
 #' }

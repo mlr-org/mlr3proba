@@ -28,8 +28,10 @@
 #' Therefore, these predictions serve as **continuous risk scores** that can be
 #' directly interpreted as `crank` predictions in the right-censored survival
 #' setting. We also map them to the survival distribution prediction `distr`,
-#' at the specified cutoff time point, i.e. as
+#' at the specified cutoff time point \eqn{\tau}, i.e. as
 #' \eqn{S_i(\tau) = 1 - \hat{\pi}(\bold{X}_i)}.
+#' Survival measures that use the survival distribution (eg [ISBS][mlr_measures_surv.brier])
+#' should be evaluated exactly at the cutoff time point \eqn{\tau}, see example.
 #'
 #' @references
 #' `r format_bib("vock_2016")`
