@@ -63,10 +63,10 @@
 #'
 #' @family PipeOps
 #' @family Transformation PipeOps
-#' @examples
+#' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines", "mlr3learners"), quietly = TRUE)
 #' \dontrun{
-#' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 #'   library(mlr3)
+#'   library(mlr3learners)
 #'   library(mlr3pipelines)
 #'
 #'   task = tsk("lung")
@@ -86,7 +86,18 @@
 #'   # during prediction, output is a classification task (no weights)
 #'   task_classif_test = po_ipcw$predict(list(task_test))[[1]]
 #'   task_classif_test
-#' }
+#'
+#'   # train classif learner on the train task with weights
+#'   learner = lrn("classif.rpart", predict_type = "prob")
+#'   learner$train(task_classif_train)
+#'
+#'   # predict using the test output task
+#'   p = learner$predict(task_classif_test)
+#'
+#'   # use classif measures for evaluation
+#'   p$confusion
+#'   p$score()
+#'   p$score(msr("classif.auc"))
 #' }
 #' @export
 PipeOpTaskSurvClassifIPCW = R6Class(
