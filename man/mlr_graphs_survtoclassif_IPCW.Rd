@@ -7,7 +7,7 @@
 \usage{
 pipeline_survtoclassif_IPCW(
   learner,
-  cutoff_time = NULL,
+  tau = NULL,
   eps = 0.001,
   graph_learner = FALSE
 )
@@ -16,15 +16,15 @@ pipeline_survtoclassif_IPCW(
 \item{learner}{\link[mlr3:LearnerClassif]{LearnerClassif}\cr
 Classification learner to fit the transformed \link[mlr3:TaskClassif]{TaskClassif}.}
 
-\item{cutoff_time}{\code{numeric()}\cr
-Cutoff time for IPCW. Observations with time larger than \code{cutoff_time} are censored.
-Should be reasonably smaller than the maximum event time to avoid enormous weights.}
+\item{tau}{(\code{numeric()})\cr
+Predefined time point for IPCW. Observations with time larger than \eqn{\tau} are censored.
+Must be less or equal to the maximum event time.}
 
-\item{eps}{\code{numeric()}\cr
+\item{eps}{(\code{numeric()})\cr
 Small value to replace \eqn{G(t) = 0} censoring probabilities to prevent infinite
 weights (a warning is triggered if this happens).}
 
-\item{graph_learner}{\code{logical(1)}\cr
+\item{graph_learner}{(\code{logical(1)})\cr
 If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
 \link[mlr3pipelines:mlr_learners_graph]{GraphLearner} otherwise (default) returns as a \code{Graph}.}
 }
@@ -57,7 +57,7 @@ to \link{PredictionSurv}.
   grlrn = ppl(
     "survtoclassif_IPCW",
     learner = lrn("classif.rpart"),
-    cutoff_time = 500, # Observations after 500 days are censored
+    tau = 500, # Observations after 500 days are censored
     graph_learner = TRUE
   )
   grlrn$train(task, row_ids = part$train)
@@ -66,7 +66,7 @@ to \link{PredictionSurv}.
 
   # score predictions
   pred$score() # C-index
-  pred$score(msr("surv.brier", times = 500)) # Brier
+  pred$score(msr("surv.brier", times = 500)) # Brier score at tau
 }
 \dontshow{\}) # examplesIf}
 }

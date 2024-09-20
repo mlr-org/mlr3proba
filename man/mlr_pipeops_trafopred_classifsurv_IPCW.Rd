@@ -34,8 +34,10 @@ see Vock et al. (2016) and \link{PipeOpTaskSurvClassifIPCW}.
 Therefore, these predictions serve as \strong{continuous risk scores} that can be
 directly interpreted as \code{crank} predictions in the right-censored survival
 setting. We also map them to the survival distribution prediction \code{distr},
-at the specified cutoff time point, i.e. as
+at the specified cutoff time point \eqn{\tau}, i.e. as
 \eqn{S_i(\tau) = 1 - \hat{\pi}(\bold{X}_i)}.
+Survival measures that use the survival distribution (eg \link[=mlr_measures_surv.brier]{ISBS})
+should be evaluated exactly at the cutoff time point \eqn{\tau}, see example.
 }
 
 \references{

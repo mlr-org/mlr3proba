@@ -58,9 +58,9 @@ This "data" is only meant to be used with the \link{PipeOpPredClassifSurvIPCW}.
 
 The parameters are
 \itemize{
-\item \code{cutoff_time :: numeric()}\cr
-Cutoff time for IPCW. Observations with time larger than \code{cutoff_time} are censored.
-Should be reasonably smaller than the maximum event time to avoid enormous weights.
+\item \code{tau :: numeric()}\cr
+Predefined time point for IPCW. Observations with time larger than \eqn{\tau} are censored.
+Must be less or equal to the maximum event time.
 \item \code{eps :: numeric()}\cr
 Small value to replace \eqn{G(t) = 0} censoring probabilities to prevent
 infinite weights (a warning is triggered if this happens).
@@ -68,9 +68,10 @@ infinite weights (a warning is triggered if this happens).
 }
 
 \examples{
+\dontshow{if (mlr3misc::require_namespaces(c("mlr3pipelines", "mlr3learners"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \dontrun{
-if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   library(mlr3)
+  library(mlr3learners)
   library(mlr3pipelines)
 
   task = tsk("lung")
@@ -81,7 +82,7 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   task_test = task$clone()$filter(part$test)
 
   # define IPCW pipeop
-  po_ipcw = po("trafotask_survclassif_IPCW", cutoff_time = 500)
+  po_ipcw = po("trafotask_survclassif_IPCW", tau = 365)
 
   # during training, output is a classification task with weights
   task_classif_train = po_ipcw$train(list(task_train))[[1]]
@@ -90,8 +91,20 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   # during prediction, output is a classification task (no weights)
   task_classif_test = po_ipcw$predict(list(task_test))[[1]]
   task_classif_test
+
+  # train classif learner on the train task with weights
+  learner = lrn("classif.rpart", predict_type = "prob")
+  learner$train(task_classif_train)
+
+  # predict using the test output task
+  p = learner$predict(task_classif_test)
+
+  # use classif measures for evaluation
+  p$confusion
+  p$score()
+  p$score(msr("classif.auc"))
 }
-}
+\dontshow{\}) # examplesIf}
 }
 \references{
 Vock, M D, Wolfson, Julian, Bandyopadhyay, Sunayan, Adomavicius, Gediminas, Johnson, E P, Vazquez-Benitez, Gabriela, O'Connor, J P (2016).

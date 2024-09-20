@@ -8,7 +8,7 @@
 pipeline_responsecompositor(
   learner,
   method = "rmst",
-  cutoff_time = NULL,
+  tau = NULL,
   add_crank = FALSE,
   overwrite = FALSE,
   graph_learner = FALSE
@@ -24,7 +24,7 @@ be wrapped in \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or a \code{Graph}
 Determines what method should be used to produce a survival time (response) from the survival distribution.
 Available methods are \code{"rmst"} and \code{"median"}, corresponding to the \emph{restricted mean survival time} and the \emph{median survival time} respectively.}
 
-\item{cutoff_time}{(\code{numeric(1)})\cr
+\item{tau}{(\code{numeric(1)})\cr
 Determines the time point up to which we calculate the restricted mean survival time (works only for the \code{"rmst"} method).
 If \code{NULL} (default), all the available time points in the predicted survival distribution will be used.}
 
