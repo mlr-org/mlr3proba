@@ -94,8 +94,8 @@ If \code{integrate == FALSE} then a single time point at which to return the sco
 \item \code{t_max} (\code{numeric(1)})\cr
 Cutoff time (i.e. time horizon) to evaluate the measure up to.
 Mutually exclusive with \code{p_max} or \code{times}.
-This will effectively remove test observations for which the time
-(event or censoring) is less than \code{t_max}.
+This will effectively remove test observations for which the observed time
+(event or censoring) is strictly more than \code{t_max}.
 It's recommended to set \code{t_max} to avoid division by \code{eps}, see Details.
 }
 
