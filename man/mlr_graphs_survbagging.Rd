@@ -20,22 +20,22 @@ Either a \code{Learner} which will be wrapped in \link[mlr3pipelines:mlr_pipeops
 be wrapped in \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or a \code{Graph} itself. Underlying \code{Learner} should be
 \link{LearnerSurv}.}
 
-\item{iterations}{\code{integer(1)}\cr
+\item{iterations}{(\code{integer(1)})\cr
 Number of bagging iterations. Defaults to 10.}
 
-\item{frac}{\code{numeric(1)}\cr
+\item{frac}{(\code{numeric(1)})\cr
 Percentage of rows to keep during subsampling. See
 \link[mlr3pipelines:mlr_pipeops_subsample]{PipeOpSubsample} for more information. Defaults to 0.7.}
 
-\item{avg}{\code{logical(1)}\cr
+\item{avg}{(\code{logical(1)})\cr
 If \code{TRUE} (default) predictions are aggregated with \link{PipeOpSurvAvg}, otherwise returned
 as multiple predictions. Can only be \code{FALSE} if \code{graph_learner = FALSE}.}
 
-\item{weights}{\code{numeric()} \cr
+\item{weights}{(\code{numeric()})\cr
 Weights for model avering, ignored if \code{avg = FALSE}. Default is uniform weighting,
 see \link{PipeOpSurvAvg}.}
 
-\item{graph_learner}{\code{logical(1)}\cr
+\item{graph_learner}{(\code{logical(1)})\cr
 If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
 \link[mlr3pipelines:mlr_learners_graph]{GraphLearner} otherwise (default) returns as a \code{Graph}.}
 }

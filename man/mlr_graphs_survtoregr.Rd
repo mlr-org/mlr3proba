@@ -20,14 +20,14 @@ pipeline_survtoregr(
 )
 }
 \arguments{
-\item{method}{\code{integer(1)}\cr
+\item{method}{(\code{integer(1)})\cr
 Reduction method to use, corresponds to those in \code{details}. Default is \code{1}.}
 
 \item{regr_learner}{\link[mlr3:LearnerRegr]{LearnerRegr}\cr
 Regression learner to fit to the transformed \link[mlr3:TaskRegr]{TaskRegr}. If \code{regr_se_learner} is
 \code{NULL} in method \code{2}, then \code{regr_learner} must have \code{se} predict_type.}
 
-\item{distrcompose}{\code{logical(1)}\cr
+\item{distrcompose}{(\code{logical(1)})\cr
 For method \code{3} if \code{TRUE} (default) then \link{PipeOpDistrCompositor} is utilised to
 transform the deterministic predictions to a survival distribution.}
 
@@ -42,22 +42,22 @@ predict_type must be provided.}
 \item{surv_learner}{\link{LearnerSurv}\cr
 For method \code{3}, a \link{LearnerSurv} with \code{lp} predict type to estimate linear predictors.}
 
-\item{survregr_params}{\code{list()}\cr
+\item{survregr_params}{(\code{list()})\cr
 Parameters passed to \link{PipeOpTaskSurvRegr}, default are survival to regression transformation
 via \code{ipcw}, with weighting determined by Kaplan-Meier and no additional penalty for censoring.}
 
-\item{distrcompose_params}{\code{list()}\cr
+\item{distrcompose_params}{(\code{list()})\cr
 Parameters passed to \link{PipeOpDistrCompositor}, default is accelerated failure time model form.}
 
-\item{probregr_params}{\code{list()}\cr
+\item{probregr_params}{(\code{list()})\cr
 Parameters passed to \link{PipeOpProbregr}, default is \link[distr6:Uniform]{Uniform}
 distribution for composition.}
 
-\item{learnercv_params}{\code{list()}\cr
+\item{learnercv_params}{(\code{list()})\cr
 Parameters passed to \link[mlr3pipelines:mlr_pipeops_learner_cv]{PipeOpLearnerCV}, default is to use
 insampling.}
 
-\item{graph_learner}{\code{logical(1)}\cr
+\item{graph_learner}{(\code{logical(1)})\cr
 If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
 \link[mlr3pipelines:mlr_learners_graph]{GraphLearner} otherwise (default) returns as a \code{Graph}.}
 }

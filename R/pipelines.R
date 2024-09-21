@@ -42,15 +42,15 @@ pipeline_survaverager = function(learners, param_vals = list(), graph_learner = 
 #' @templateVar pipeop [PipeOpSubsample][mlr3pipelines::PipeOpSubsample] and [PipeOpSurvAvg]
 #' @templateVar id survbagging
 #' @template param_pipeline_learner
-#' @param iterations `integer(1)`\cr
+#' @param iterations (`integer(1)`)\cr
 #' Number of bagging iterations. Defaults to 10.
-#' @param frac `numeric(1)`\cr
+#' @param frac (`numeric(1)`)\cr
 #' Percentage of rows to keep during subsampling. See
 #' [PipeOpSubsample][mlr3pipelines::PipeOpSubsample] for more information. Defaults to 0.7.
-#' @param avg `logical(1)`\cr
+#' @param avg (`logical(1)`)\cr
 #' If `TRUE` (default) predictions are aggregated with [PipeOpSurvAvg], otherwise returned
 #' as multiple predictions. Can only be `FALSE` if `graph_learner = FALSE`.
-#' @param weights `numeric()` \cr
+#' @param weights (`numeric()`)\cr
 #' Weights for model avering, ignored if `avg = FALSE`. Default is uniform weighting,
 #' see [PipeOpSurvAvg].
 #' @details Bagging (Bootstrap AGGregatING) is the process of bootstrapping data and aggregating
@@ -109,11 +109,11 @@ pipeline_survbagging = function(learner, iterations = 10, frac = 0.7, avg = TRUE
 #' @templateVar id crankcompositor
 #' @template param_pipeline_learner
 #'
-#' @param method `character(1)`\cr
+#' @param method (`character(1)`)\cr
 #' Determines what method should be used to produce a continuous ranking from the distribution.
 #' Currently only `mort` is supported, which is the sum of the cumulative hazard, also called *expected/ensemble mortality*, see Ishwaran et al. (2008).
 #' For more details, see [get_mortality()].
-#' @param overwrite `logical(1)`\cr
+#' @param overwrite (`logical(1)`)\cr
 #' If `FALSE` (default) and the prediction already has a `crank` prediction, then the compositor returns the input prediction unchanged.
 #' If `TRUE`, then the `crank` will be overwritten.
 #'
@@ -231,16 +231,16 @@ pipeline_responsecompositor = function(learner, method = "rmst", tau = NULL,
 #' @template param_pipeline_learner
 #' @param learner [LearnerSurv]\cr
 #' Survival learner.
-#' @param estimator `character(1)`\cr
+#' @param estimator (`character(1)`)\cr
 #' One of `kaplan` (default), `nelson` or `breslow`, corresponding to the Kaplan-Meier,
 #' Nelson-Aalen and [Breslow][breslow] estimators respectively.
 #' Used to estimate the baseline survival distribution.
-#' @param form `character(1)`\cr
+#' @param form (`character(1)`)\cr
 #' One of `aft` (default), `ph`, or `po`, corresponding to accelerated failure time,
 #' proportional hazards, and proportional odds respectively.
 #' Used to determine the form of the composed survival distribution.
 #' Ignored if estimator is `breslow`.
-#' @param overwrite `logical(1)`\cr
+#' @param overwrite (`logical(1)`)\cr
 #' If `FALSE` (default) then if the `learner` already has a `distr`, the compositor does nothing.
 #' If `TRUE` then the `distr` is overwritten by the compositor if
 #' already present, which may be required for changing the prediction `distr` from one model form
@@ -301,7 +301,7 @@ pipeline_distrcompositor = function(learner, estimator = "kaplan", form = "aft",
 #' @param learner_se `[mlr3::Learner]|[mlr3pipelines::PipeOp]` \cr
 #' Optional [LearnerRegr][mlr3::LearnerRegr] with predict_type `se` to estimate the standard
 #' error. If left `NULL` then `learner` must have `se` in predict_types.
-#' @param dist `character(1)`\cr
+#' @param dist (`character(1)`)\cr
 #' Location-scale distribution to use for composition.
 #' Current possibilities are' `"Cauchy", "Gumbel", "Laplace", "Logistic", "Normal", "Uniform"`. Default is `"Uniform"`.
 #' @examples
@@ -412,12 +412,12 @@ pipeline_probregr = function(learner, learner_se = NULL, dist = "Uniform",
 #' model on these predictions. The resulting regression predictions can then be viewed as the linear
 #' predictors of the new data, which can ultimately be composed to a distribution.
 #'
-#' @param method `integer(1)`\cr
+#' @param method (`integer(1)`)\cr
 #' Reduction method to use, corresponds to those in `details`. Default is `1`.
 #' @param regr_learner [LearnerRegr][mlr3::LearnerRegr]\cr
 #' Regression learner to fit to the transformed [TaskRegr][mlr3::TaskRegr]. If `regr_se_learner` is
 #' `NULL` in method `2`, then `regr_learner` must have `se` predict_type.
-#' @param distrcompose `logical(1)`\cr
+#' @param distrcompose (`logical(1)`)\cr
 #' For method `3` if `TRUE` (default) then [PipeOpDistrCompositor] is utilised to
 #' transform the deterministic predictions to a survival distribution.
 #' @param distr_estimator [LearnerSurv]\cr
@@ -428,18 +428,18 @@ pipeline_probregr = function(learner, learner_se = NULL, dist = "Uniform",
 #' predict_type must be provided.
 #' @param surv_learner [LearnerSurv]\cr
 #' For method `3`, a [LearnerSurv] with `lp` predict type to estimate linear predictors.
-#' @param survregr_params `list()`\cr
+#' @param survregr_params (`list()`)\cr
 #' Parameters passed to [PipeOpTaskSurvRegr], default are survival to regression transformation
 #' via `ipcw`, with weighting determined by Kaplan-Meier and no additional penalty for censoring.
-#' @param distrcompose_params `list()`\cr
+#' @param distrcompose_params (`list()`)\cr
 #' Parameters passed to [PipeOpDistrCompositor], default is accelerated failure time model form.
-#' @param probregr_params `list()`\cr
+#' @param probregr_params (`list()`)\cr
 #' Parameters passed to [PipeOpProbregr], default is [Uniform][distr6::Uniform]
 #' distribution for composition.
-#' @param learnercv_params `list()`\cr
+#' @param learnercv_params (`list()`)\cr
 #' Parameters passed to [PipeOpLearnerCV][mlr3pipelines::PipeOpLearnerCV], default is to use
 #' insampling.
-#' @param graph_learner `logical(1)`\cr
+#' @param graph_learner (`logical(1)`)\cr
 #' If `TRUE` returns wraps the [Graph][mlr3pipelines::Graph] as a
 #' [GraphLearner][mlr3pipelines::GraphLearner] otherwise (default) returns as a `Graph`.
 #'
@@ -576,20 +576,20 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
 #' @param learner [LearnerClassif][mlr3::LearnerClassif]\cr
 #' Classification learner to fit the transformed [TaskClassif][mlr3::TaskClassif].
 #' `learner` must have `predict_type` of type `"prob"`.
-#' @param cut `numeric()`\cr
+#' @param cut (`numeric()`)\cr
 #' Split points, used to partition the data into intervals.
 #' If unspecified, all unique event times will be used.
 #' If `cut` is a single integer, it will be interpreted as the number of equidistant
 #' intervals from 0 until the maximum event time.
-#' @param max_time `numeric(1)`\cr
+#' @param max_time (`numeric(1)`)\cr
 #' If cut is unspecified, this will be the last possible event time.
 #' All event times after max_time will be administratively censored at max_time.
-#' @param rhs `character(1)`\cr
+#' @param rhs (`character(1)`)\cr
 #' Right-hand side of the formula to with the learner.
 #' All features of the task are available as well as `tend` the upper bounds
 #' of the intervals created by `cut`.
 #' If rhs is unspecified, the formula of the task will be used.
-#' @param graph_learner `logical(1)`\cr
+#' @param graph_learner (`logical(1)`)\cr
 #' If `TRUE` returns wraps the [Graph][mlr3pipelines::Graph] as a
 #' [GraphLearner][mlr3pipelines::GraphLearner] otherwise (default) returns as a `Graph`.
 #'

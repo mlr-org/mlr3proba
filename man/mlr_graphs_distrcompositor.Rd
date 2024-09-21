@@ -17,24 +17,24 @@ pipeline_distrcompositor(
 \item{learner}{\link{LearnerSurv}\cr
 Survival learner.}
 
-\item{estimator}{\code{character(1)}\cr
+\item{estimator}{(\code{character(1)})\cr
 One of \code{kaplan} (default), \code{nelson} or \code{breslow}, corresponding to the Kaplan-Meier,
 Nelson-Aalen and \link[=breslow]{Breslow} estimators respectively.
 Used to estimate the baseline survival distribution.}
 
-\item{form}{\code{character(1)}\cr
+\item{form}{(\code{character(1)})\cr
 One of \code{aft} (default), \code{ph}, or \code{po}, corresponding to accelerated failure time,
 proportional hazards, and proportional odds respectively.
 Used to determine the form of the composed survival distribution.
 Ignored if estimator is \code{breslow}.}
 
-\item{overwrite}{\code{logical(1)}\cr
+\item{overwrite}{(\code{logical(1)})\cr
 If \code{FALSE} (default) then if the \code{learner} already has a \code{distr}, the compositor does nothing.
 If \code{TRUE} then the \code{distr} is overwritten by the compositor if
 already present, which may be required for changing the prediction \code{distr} from one model form
 to another.}
 
-\item{graph_learner}{\code{logical(1)}\cr
+\item{graph_learner}{(\code{logical(1)})\cr
 If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
 \link[mlr3pipelines:mlr_learners_graph]{GraphLearner} otherwise (default) returns as a \code{Graph}.}
 }

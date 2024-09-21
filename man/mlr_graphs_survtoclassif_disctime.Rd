@@ -18,23 +18,23 @@ pipeline_survtoclassif_disctime(
 Classification learner to fit the transformed \link[mlr3:TaskClassif]{TaskClassif}.
 \code{learner} must have \code{predict_type} of type \code{"prob"}.}
 
-\item{cut}{\code{numeric()}\cr
+\item{cut}{(\code{numeric()})\cr
 Split points, used to partition the data into intervals.
 If unspecified, all unique event times will be used.
 If \code{cut} is a single integer, it will be interpreted as the number of equidistant
 intervals from 0 until the maximum event time.}
 
-\item{max_time}{\code{numeric(1)}\cr
+\item{max_time}{(\code{numeric(1)})\cr
 If cut is unspecified, this will be the last possible event time.
 All event times after max_time will be administratively censored at max_time.}
 
-\item{rhs}{\code{character(1)}\cr
+\item{rhs}{(\code{character(1)})\cr
 Right-hand side of the formula to with the learner.
 All features of the task are available as well as \code{tend} the upper bounds
 of the intervals created by \code{cut}.
 If rhs is unspecified, the formula of the task will be used.}
 
-\item{graph_learner}{\code{logical(1)}\cr
+\item{graph_learner}{(\code{logical(1)})\cr
 If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
 \link[mlr3pipelines:mlr_learners_graph]{GraphLearner} otherwise (default) returns as a \code{Graph}.}
 }

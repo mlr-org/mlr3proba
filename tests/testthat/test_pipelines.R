@@ -140,6 +140,6 @@ test_that("survtoclassif_IPCW", {
   expect_numeric(p2$crank, len = length(part$test), lower = 0, upper = 1)
   expect_number(p2$score(msr("surv.brier", times = 600)), finite = TRUE)
 
-  # different cutoff time, different (crank) predictions
+  # different cutoff times, different (crank) predictions
   expect_false(all(p$crank == p2$crank))
 })

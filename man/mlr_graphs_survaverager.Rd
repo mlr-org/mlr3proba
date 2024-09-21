@@ -14,7 +14,7 @@ List of \link{LearnerSurv}s to average.}
 \item{param_vals}{\code{(list())} \cr
 Parameters, including weights, to pass to \link{PipeOpSurvAvg}.}
 
-\item{graph_learner}{\code{logical(1)}\cr
+\item{graph_learner}{(\code{logical(1)})\cr
 If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
 \link[mlr3pipelines:mlr_learners_graph]{GraphLearner} otherwise (default) returns as a \code{Graph}.}
 }

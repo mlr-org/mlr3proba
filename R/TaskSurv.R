@@ -408,7 +408,7 @@ TaskSurv = R6::R6Class("TaskSurv",
   ),
 
   active = list(
-    #' @field censtype `character(1)`\cr
+    #' @field censtype (`character(1)`)\cr
     #' Returns the type of censoring, one of `"right"`, `"left"`, `"counting"`,
     #' `"interval"`, `"interval2"` or `"mstate"`.
     #' Currently, only the `"right"`-censoring type is fully supported, the rest

@@ -22,11 +22,11 @@ be wrapped in \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or a \code{Graph}
 Optional \link[mlr3:LearnerRegr]{LearnerRegr} with predict_type \code{se} to estimate the standard
 error. If left \code{NULL} then \code{learner} must have \code{se} in predict_types.}
 
-\item{dist}{\code{character(1)}\cr
+\item{dist}{(\code{character(1)})\cr
 Location-scale distribution to use for composition.
 Current possibilities are' \verb{"Cauchy", "Gumbel", "Laplace", "Logistic", "Normal", "Uniform"}. Default is \code{"Uniform"}.}
 
-\item{graph_learner}{\code{logical(1)}\cr
+\item{graph_learner}{(\code{logical(1)})\cr
 If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
 \link[mlr3pipelines:mlr_learners_graph]{GraphLearner} otherwise (default) returns as a \code{Graph}.}
 }

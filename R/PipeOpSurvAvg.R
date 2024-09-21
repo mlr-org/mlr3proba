@@ -53,11 +53,11 @@ PipeOpSurvAvg = R6Class("PipeOpSurvAvg",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
-    #' @param innum `(numeric(1))`\cr
+    #' @param innum (`numeric(1)`)\cr
     #'   Determines the number of input channels.
     #'   If `innum` is 0 (default), a vararg input channel is created that can take an arbitrary
     #'   number of inputs.
-    #' @param ... `ANY`\cr
+    #' @param ... (`ANY`)\cr
     #' Additional arguments passed to [mlr3pipelines::PipeOpEnsemble].
     initialize = function(innum = 0, id = "survavg",
       param_vals = list(), ...) {

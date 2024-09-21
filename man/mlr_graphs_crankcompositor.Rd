@@ -18,16 +18,16 @@ Either a \code{Learner} which will be wrapped in \link[mlr3pipelines:mlr_pipeops
 be wrapped in \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or a \code{Graph} itself. Underlying \code{Learner} should be
 \link{LearnerSurv}.}
 
-\item{method}{\code{character(1)}\cr
+\item{method}{(\code{character(1)})\cr
 Determines what method should be used to produce a continuous ranking from the distribution.
 Currently only \code{mort} is supported, which is the sum of the cumulative hazard, also called \emph{expected/ensemble mortality}, see Ishwaran et al. (2008).
 For more details, see \code{\link[=get_mortality]{get_mortality()}}.}
 
-\item{overwrite}{\code{logical(1)}\cr
+\item{overwrite}{(\code{logical(1)})\cr
 If \code{FALSE} (default) and the prediction already has a \code{crank} prediction, then the compositor returns the input prediction unchanged.
 If \code{TRUE}, then the \code{crank} will be overwritten.}
 
-\item{graph_learner}{\code{logical(1)}\cr
+\item{graph_learner}{(\code{logical(1)})\cr
 If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
 \link[mlr3pipelines:mlr_learners_graph]{GraphLearner} otherwise (default) returns as a \code{Graph}.}
 }

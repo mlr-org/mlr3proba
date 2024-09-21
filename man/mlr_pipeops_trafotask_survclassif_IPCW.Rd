@@ -58,10 +58,10 @@ This "data" is only meant to be used with the \link{PipeOpPredClassifSurvIPCW}.
 
 The parameters are
 \itemize{
-\item \code{tau :: numeric()}\cr
+\item \code{tau} :: \code{numeric()}\cr
 Predefined time point for IPCW. Observations with time larger than \eqn{\tau} are censored.
 Must be less or equal to the maximum event time.
-\item \code{eps :: numeric()}\cr
+\item \code{eps} :: \code{numeric()}\cr
 Small value to replace \eqn{G(t) = 0} censoring probabilities to prevent
 infinite weights (a warning is triggered if this happens).
 }

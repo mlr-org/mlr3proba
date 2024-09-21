@@ -19,7 +19,7 @@
 #' @section Parameters:
 #' The parameters are
 #'
-#' * `method::character(1))`\cr
+#' * `method` :: `character(1)`\cr
 #' Method to use for dealing with censoring. Options are `"ipcw"` (Vock et al., 2016): censoring
 #' column is removed and a `weights` column is added, weights are inverse estimated survival
 #'  probability of the censoring distribution evaluated at survival time;
@@ -31,21 +31,21 @@
 #' status column is deleted - again should be used with caution; `"reorder"`: selects features and
 #' targets and sets the target in the new task object. Note that `"mrl"` and `"ipcw"` will perform
 #' worse with Type I censoring.
-#' * `estimator::(character(1))`\cr
+#' * `estimator` :: `character(1)`\cr
 #' Method for calculating censoring weights or mean residual lifetime in `"mrl"`,
 #' current options are: `"kaplan"`: unconditional Kaplan-Meier estimator;
 #'  `"akritas"`: conditional non-parameteric nearest-neighbours estimator;
 #' `"cox"`.
-#' * `alpha::(numeric(1))`\cr
+#' * `alpha` :: `numeric(1)`\cr
 #' When `ipcw` is used, optional hyper-parameter that adds an extra penalty to the weighting for
 #' censored observations. If set to `0` then censored observations are given zero weight and
 #' deleted, weighting only the non-censored observations. A weight for an observation is then
 #' \eqn{(\delta + \alpha(1-\delta))/G(t)} where \eqn{\delta} is the censoring indicator.
-#' * `eps::numeric(1)`\cr
+#' * `eps` :: `numeric(1)`\cr
 #' Small value to replace `0` survival probabilities with in IPCW to prevent infinite weights.
-#' * `lambda::(numeric(1))`\cr
+#' * `lambda` :: `numeric(1)`\cr
 #' Nearest neighbours parameter for the `"akritas"` estimator in the [mlr3extralearners package](https://mlr3extralearners.mlr-org.com/), default `0.5`.
-#' * `features, target :: character())`\cr
+#' * `features, target` :: `character()`\cr
 #' For `"reorder"` method, specify which columns become features and targets.
 #' * `learner cneter, mimpu, iter.bj, max.cycle, mstop, nu`\cr
 #' Passed to [bujar::bujar].

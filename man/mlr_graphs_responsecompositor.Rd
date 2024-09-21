@@ -36,7 +36,7 @@ Works only if \code{overwrite} is \code{TRUE}.}
 If \code{FALSE} (default) and the prediction already has a \code{response} prediction, then the compositor returns the input prediction unchanged.
 If \code{TRUE}, then the \code{response} (and the \code{crank}, if \code{add_crank} is \code{TRUE}) will be overwritten.}
 
-\item{graph_learner}{\code{logical(1)}\cr
+\item{graph_learner}{(\code{logical(1)})\cr
 If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
 \link[mlr3pipelines:mlr_learners_graph]{GraphLearner} otherwise (default) returns as a \code{Graph}.}
 }
