@@ -585,7 +585,7 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
 #' If cut is unspecified, this will be the last possible event time.
 #' All event times after max_time will be administratively censored at max_time.
 #' @param rhs `character(1)`\cr
-#' Right-hand side of the formula to with the learner.
+#' Right-hand side of the formula to use with the learner.
 #' All features of the task are available as well as `tend` the upper bounds
 #' of the intervals created by `cut`.
 #' If rhs is unspecified, the formula of the task will be used.
