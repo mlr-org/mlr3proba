@@ -659,6 +659,81 @@ pipeline_survtoclassif_disctime = function(learner, cut = NULL, max_time = NULL,
   gr
 }
 
+#' @name mlr_graphs_survtoregr_PEM
+#' @title Survival to Poisson Regression Reduction Pipeline
+#' @description Wrapper around multiple [PipeOp][mlr3pipelines::PipeOp]s to help in creation
+#' of complex survival reduction methods.
+#'
+#' @param learner [LearnerRegr][mlr3::LearnerRegr]\cr
+#' Regression learner to fit the transformed [TaskRegr][mlr3::TaskRegr].
+#' `learner` must be able to handle `offset`.
+#' @param cut `numeric()`\cr
+#' Split points, used to partition the data into intervals.
+#' If unspecified, all unique event times will be used.
+#' If `cut` is a single integer, it will be interpreted as the number of equidistant
+#' intervals from 0 until the maximum event time.
+#' @param max_time `numeric(1)`\cr
+#' If cut is unspecified, this will be the last possible event time.
+#' All event times after max_time will be administratively censored at max_time.
+#' @param graph_learner `logical(1)`\cr
+#' If `TRUE` returns wraps the [Graph][mlr3pipelines::Graph] as a
+#' [GraphLearner][mlr3pipelines::GraphLearner] otherwise (default) returns as a `Graph`.
+#'
+#' @details
+#' The pipeline consists of the following steps:
+#' \enumerate{
+#' \item [PipeOpTaskSurvRegrPEM] Converts [TaskSurv] to a [TaskRegr][mlr3::TaskRegr].
+#' \item A [LearnerRegr] is fit and predicted on the new `TaskRegr`.
+#' \item [PipeOpPredRegrSurvPEM] transforms the resulting [PredictionRegr][mlr3::PredictionRegr]
+#' to [PredictionSurv].
+#' }
+#'
+#' @return [mlr3pipelines::Graph] or [mlr3pipelines::GraphLearner]
+#' @family pipelines
+#'
+#' @examples
+#' \dontrun{
+#' if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
+#'     requireNamespace("mlr3learners", quietly = TRUE)) {
+#'
+#'   library(mlr3)
+#'   library(mlr3learners)
+#'   library(mlr3pipelines)
+#'
+#'   task = tsk("lung")
+#'   part = partition(task)
+#'
+#'   grlrn = ppl(
+#'     "survtoregr_PEM",
+#'     learner = lrn("regr.xgboost")
+#'   )
+#'   grlrn$train(task, row_ids = part$train)
+#'   grlrn$predict(task, row_ids = part$test)
+#' }
+#' }
+#' @export
+pipeline_survtoregr_PEM = function(learner, cut = NULL, max_time = NULL,
+                                           rhs = NULL, graph_learner = FALSE) {
+  # TODO: add assertions
+
+  gr = mlr3pipelines::Graph$new()
+  gr$add_pipeop(mlr3pipelines::po("trafotask_survregr_PEM", cut = cut, max_time = max_time))
+  gr$add_pipeop(mlr3pipelines::po("learner", learner))
+  gr$add_pipeop(mlr3pipelines::po("nop"))
+  gr$add_pipeop(mlr3pipelines::po("trafopred_regrsurv_PEM"))
+
+  gr$add_edge(src_id = "trafotask_survregr_PEM", dst_id = learner$id, src_channel = "output", dst_channel = "input")
+  gr$add_edge(src_id = "trafotask_survregr_PEM", dst_id = "nop", src_channel = "transformed_data", dst_channel = "input")
+  gr$add_edge(src_id = learner$id, dst_id = "trafopred_regrsurv_PEM", src_channel = "output", dst_channel = "input")
+  gr$add_edge(src_id = "nop", dst_id = "trafopred_regrsurv_PEM", src_channel = "output", dst_channel = "transformed_data")
+
+  if (graph_learner) {
+    gr = mlr3pipelines::GraphLearner$new(gr)
+  }
+
+  gr
+}
+
 register_graph("survaverager", pipeline_survaverager)
 register_graph("survbagging", pipeline_survbagging)
 register_graph("crankcompositor", pipeline_crankcompositor)
@@ -667,3 +742,4 @@ register_graph("responsecompositor", pipeline_responsecompositor)
 register_graph("probregr", pipeline_probregr)
 register_graph("survtoregr", pipeline_survtoregr)
 register_graph("survtoclassif_disctime", pipeline_survtoclassif_disctime)
+register_graph("survregr_PEM", pipeline_survtoregr_PEM)
