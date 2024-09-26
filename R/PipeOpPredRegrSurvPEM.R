@@ -61,7 +61,7 @@ PipeOpPredRegrSurvPEM = R6Class(
       # From theory, convert hazards to surv as prod(1 - h(t))
       rows_per_id = nrow(data) / length(unique(data$id))
       surv = t(vapply(unique(data$id), function(unique_id) {
-        1 - cumsum(data[data$id == unique_id, ][["dt_hazard"]] * exp(data[data$id == unique_id, ][["offset"]]))
+        exp(-cumsum(data[data$id == unique_id, ][["dt_hazard"]] * exp(data[data$id == unique_id, ][["offset"]])))
       }, numeric(rows_per_id)))
 
       unique_end_times = sort(unique(data$tend))
