@@ -95,16 +95,22 @@ MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
   private = list(
     .score = function(prediction, task, train_set, ...) {
       ps = self$param_set$values
+      # times must be unique, sorted and positive numbers
+      times = assert_numeric(ps$times, lower = 0, any.missing = FALSE,
+                             unique = TRUE, sorted = TRUE, null.ok = TRUE)
+      # ERV score
       if (ps$ERV) return(.scoring_rule_erv(self, prediction, task, train_set))
-      nok = sum(!is.null(ps$times), !is.null(ps$t_max), !is.null(ps$p_max)) > 1
+
+      nok = sum(!is.null(times), !is.null(ps$t_max), !is.null(ps$p_max)) > 1
       if (nok) {
         stop("Only one of `times`, `t_max`, and `p_max` should be provided")
       }
+
       if (!ps$integrated) {
         msg = "If `integrated=FALSE` then `times` should be a scalar numeric."
-        assert_numeric(ps$times, len = 1L, .var.name = msg)
+        assert_numeric(times, len = 1L, .var.name = msg)
       } else {
-        if (!is.null(ps$times) && length(ps$times) == 1L) {
+        if (!is.null(times) && length(times) == 1L) {
           ps$integrated = FALSE
         }
       }
@@ -118,9 +124,10 @@ MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
         train = NULL
       }
 
+      # `score` is a matrix, IBS(i,j) => n_test_obs x times
       score = weighted_survival_score("graf",
         truth = prediction$truth,
-        distribution = prediction$data$distr, times = ps$times,
+        distribution = prediction$data$distr, times = times,
         t_max = ps$t_max, p_max = ps$p_max, proper = ps$proper, train = train,
         eps = ps$eps
       )
