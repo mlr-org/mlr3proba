@@ -28,16 +28,11 @@ intervals from 0 until the maximum event time.}
 If cut is unspecified, this will be the last possible event time.
 All event times after max_time will be administratively censored at max_time.}
 
-<<<<<<< HEAD
 \item{rhs}{(\code{character(1)})\cr
-Right-hand side of the formula to with the learner.
-=======
-\item{rhs}{\code{character(1)}\cr
 Right-hand side of the formula to use with the learner.
->>>>>>> 069414161bb95f07ff4300278b99b07eef8f543d
 All features of the task are available as well as \code{tend} the upper bounds
 of the intervals created by \code{cut}.
-If rhs is unspecified, the formula of the task will be used.}
+If \code{rhs} is unspecified, the formula of the task will be used.}
 
 \item{graph_learner}{(\code{logical(1)})\cr
 If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a

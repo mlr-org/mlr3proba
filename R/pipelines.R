@@ -584,16 +584,11 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
 #' @param max_time (`numeric(1)`)\cr
 #' If cut is unspecified, this will be the last possible event time.
 #' All event times after max_time will be administratively censored at max_time.
-<<<<<<< HEAD
 #' @param rhs (`character(1)`)\cr
-#' Right-hand side of the formula to with the learner.
-=======
-#' @param rhs `character(1)`\cr
 #' Right-hand side of the formula to use with the learner.
->>>>>>> 069414161bb95f07ff4300278b99b07eef8f543d
 #' All features of the task are available as well as `tend` the upper bounds
 #' of the intervals created by `cut`.
-#' If rhs is unspecified, the formula of the task will be used.
+#' If `rhs` is unspecified, the formula of the task will be used.
 #' @param graph_learner (`logical(1)`)\cr
 #' If `TRUE` returns wraps the [Graph][mlr3pipelines::Graph] as a
 #' [GraphLearner][mlr3pipelines::GraphLearner] otherwise (default) returns as a `Graph`.
