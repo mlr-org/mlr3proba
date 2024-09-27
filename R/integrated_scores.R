@@ -8,13 +8,23 @@ score_graf_schmid = function(true_times, unique_times, cdf, power = 2) {
   c_score_graf_schmid(true_times, unique_times, cdf, power)
 }
 
+# Notes:
+#' - Either all of `times`, `t_max`, `p_max` are NULL, or only one of them is not
+#' - `times` is sorted (increasing), unique, positive time points
+#' - `t_max` > 0
+#' - `p_max` in [0,1]
 weighted_survival_score = function(loss, truth, distribution, times = NULL,
   t_max = NULL, p_max = NULL, proper, train = NULL, eps, ...) {
   assert_surv(truth)
+  # test set's (times, status)
+  test_times = truth[, "time"]
+  test_status = truth[, "status"]
 
-  # if `tmax_apply` = TRUE, the t_max cutoff will be applied to both train
-  # (if provided) and test data. For this at least one of `t_max` or `p_max`
-  # should be given
+  #' - `tmax_apply` = TRUE => one of `t_max`, `p_max` is given
+  #' - `tmax_apply` = FALSE => `times` is given or all of `times`, `p_max` and `t_max` are NULL
+  #' The `t_max` cutoff will be applied later in the predicted survival matrix
+  #' to filter observations (rows) and time points (columns) + filter the
+  #' (time, status) target on both train (if provided) and test data
   tmax_apply = !(is.null(t_max) && is.null(p_max))
 
   # calculate `t_max` (time horizon)
@@ -69,18 +79,24 @@ weighted_survival_score = function(loss, truth, distribution, times = NULL,
     cdf = t(cdf)
   }
 
-  # apply `t_max` cutoff to the test set's (time, status)
-  true_times = all_times[all_times <= t_max]
-  true_status = all_status[all_times <= t_max]
+  # apply `t_max` cutoff to remove observations
+  if (tmax_apply) {
+    true_times = test_times[test_times <= t_max]
+    true_status = test_status[test_times <= t_max]
+    cdf = cdf[, test_times <= t_max, drop = FALSE]
+  } else {
+    true_times = test_times
+    true_status = test_status
+  }
   true_truth = Surv(true_times, true_status)
 
   assert_numeric(true_times, any.missing = FALSE)
   assert_numeric(unique_times, any.missing = FALSE)
   assert_matrix(cdf, nrows = length(unique_times), ncols = length(true_times),
-    any.missing = FALSE)
+                any.missing = FALSE)
 
-  # Note that whilst we calculate the score for censored here, they are then
-  # corrected in the weighting function `.c_weight_survival_score()`
+  # Note that whilst we calculate the score for censored observations here,
+  # they are then corrected in the weighting function `.c_weight_survival_score()`
   if (loss == "graf") {
     score = score_graf_schmid(true_times, unique_times, cdf, power = 2)
   } else if (loss == "schmid") {
@@ -89,18 +105,19 @@ weighted_survival_score = function(loss, truth, distribution, times = NULL,
     score = score_intslogloss(true_times, unique_times, cdf, eps = eps)
   }
 
-  # use all (time, status) information from train or test set
+  # use the `truth` (time, status) information from the train or test set
   if (is.null(train)) {
-    cens = survival::survfit(Surv(all_times, 1 - all_status) ~ 1)
+    cens = survival::survfit(Surv(test_times, 1 - test_status) ~ 1)
   } else {
+    # no filtering of observations from train data: use ALL
     train_times = train[, "time"]
     train_status = train[, "status"]
     cens = survival::survfit(Surv(train_times, 1 - train_status) ~ 1)
   }
-  # G(t): KM estimate of the censoring distr
+  # G(t): KM estimate of the censoring distribution
   cens = matrix(c(cens$time, cens$surv), ncol = 2L)
 
-  # filter time points based on `t_max` cutoff
+  # filter G(t) time points based on `t_max` cutoff
   if (tmax_apply) {
     cens = cens[cens[, 1L] <= t_max, , drop = FALSE]
   }
