@@ -143,7 +143,7 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
 
         # compose survival distribution
         if (form == "ph") {
-          cdf = 1 - (survmat^exp(lpmat))
+          cdf = 1 - (survmat ^ exp(lpmat))
         } else if (form == "aft") {
           mtc = findInterval(timesmat / exp(lpmat), times)
           mtc[mtc == 0] = NA
@@ -161,6 +161,7 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
           truth = pred$truth,
           crank = pred$crank,
           lp = pred$lp,
+          response = pred$response,
           distr = distr # overwrite only the distribution
         )
 
