@@ -109,11 +109,10 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
           crank = get_mortality(surv)
         }
 
-        # update only `crank`
         p = PredictionSurv$new(
           row_ids = pred$row_ids,
           truth = pred$truth,
-          crank = crank,
+          crank = crank, # update only `crank`
           distr = pred$distr,
           lp = pred$lp,
           response = pred$response
