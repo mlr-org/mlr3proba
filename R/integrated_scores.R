@@ -9,10 +9,10 @@ score_graf_schmid = function(true_times, unique_times, cdf, power = 2) {
 }
 
 # Notes:
-#' - Either all of `times`, `t_max`, `p_max` are NULL, or only one of them is not
-#' - `times` is sorted (increasing), unique, positive time points
-#' - `t_max` > 0
-#' - `p_max` in [0,1]
+# - Either all of `times`, `t_max`, `p_max` are NULL, or only one of them is not
+# - `times` is sorted (increasing), unique, positive time points
+# - `t_max` > 0
+# - `p_max` in [0,1]
 weighted_survival_score = function(loss, truth, distribution, times = NULL,
   t_max = NULL, p_max = NULL, proper, train = NULL, eps, ...) {
   assert_surv(truth)
@@ -20,20 +20,20 @@ weighted_survival_score = function(loss, truth, distribution, times = NULL,
   test_times = truth[, "time"]
   test_status = truth[, "status"]
 
-  #' - `tmax_apply` = TRUE => one of `t_max`, `p_max` is given
-  #' - `tmax_apply` = FALSE => `times` is given or all of `times`, `p_max` and `t_max` are NULL
-  #' The `t_max` cutoff will be applied later in the predicted survival matrix
-  #' to filter observations (rows) and time points (columns) + filter the
-  #' (time, status) target on both train (if provided) and test data
+  # - `tmax_apply` = TRUE => one of `t_max`, `p_max` is given
+  # - `tmax_apply` = FALSE => `times` is given or all of `times`, `p_max` and `t_max` are NULL
+  # The `t_max` cutoff will be applied later in the predicted survival matrix
+  # to filter observations (rows) and time points (columns) + filter the
+  # (time, status) target on both train (if provided) and test data
   tmax_apply = !(is.null(t_max) && is.null(p_max))
 
-  #' **IMPORTANT**: times to calculate the score at => evaluation times
-  #' We start with the unique, sorted, test set time points
+  # **IMPORTANT**: times to calculate the score at => evaluation times
+  # We start with the unique, sorted, test set time points
   unique_times = unique(sort(test_times))
 
   if (tmax_apply) {
-    #' one of `t_max`, `p_max` is given
-    #' calculate `t_max` (time horizon) if `p_max` is given
+    # one of `t_max`, `p_max` is given
+    # calculate `t_max` (time horizon) if `p_max` is given
     if (!is.null(p_max)) {
       surv = survival::survfit(truth ~ 1)
       indx = which(1 - (surv$n.risk / surv$n) > p_max)
@@ -47,7 +47,7 @@ weighted_survival_score = function(loss, truth, distribution, times = NULL,
       }
     }
 
-    #' check that `t_max` is within evaluation time range
+    # check that `t_max` is within evaluation time range
     if (t_max < min(unique_times)) {
       stop("`t_max` is smaller than the minimum test time. Please increase value!")
     }
@@ -55,7 +55,7 @@ weighted_survival_score = function(loss, truth, distribution, times = NULL,
     # filter `unique_times` in the test set up to `t_max`
     unique_times = unique_times[unique_times <= t_max]
   } else {
-    #' `times` is given or it is `NULL`
+    # `times` is given or it is `NULL`
     # We keep compatibility with previous code here and return an error if
     # the requested `times` are ALL outside the considered evaluation test times.
     # We do not prune these requested times at all (we assume that times are
@@ -65,7 +65,7 @@ weighted_survival_score = function(loss, truth, distribution, times = NULL,
     if (outside_range) {
       stop("Requested times are all outside the considered evaluation range.")
     }
-    #' is `times = NULL`, use the `unique_times`
+    # is `times = NULL`, use the `unique_times`
     unique_times = times %??% unique_times
   }
 
