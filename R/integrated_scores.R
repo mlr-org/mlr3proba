@@ -27,9 +27,13 @@ weighted_survival_score = function(loss, truth, distribution, times = NULL,
   #' (time, status) target on both train (if provided) and test data
   tmax_apply = !(is.null(t_max) && is.null(p_max))
 
-  # calculate `t_max` (time horizon)
-  if (is.null(times) || !length(times)) {
-    unique_times = unique(sort(truth[, "time"]))
+  #' **IMPORTANT**: times to calculate the score at => evaluation times
+  #' We start with the unique, sorted, test set time points
+  unique_times = unique(sort(test_times))
+
+  if (tmax_apply) {
+    #' one of `t_max`, `p_max` is given
+    #' calculate `t_max` (time horizon) if `p_max` is given
     if (!is.null(p_max)) {
       surv = survival::survfit(truth ~ 1)
       indx = which(1 - (surv$n.risk / surv$n) > p_max)
@@ -41,20 +45,29 @@ weighted_survival_score = function(loss, truth, distribution, times = NULL,
         # `p_max` proportion of censoring
         t_max = surv$time[indx[1L]]
       }
-    } else if (is.null(t_max)) {
-      t_max = max(unique_times)
     }
+
+    #' check that `t_max` is within evaluation time range
+    if (t_max < min(unique_times)) {
+      stop("`t_max` is smaller than the minimum test time. Please increase value!")
+    }
+
+    # filter `unique_times` in the test set up to `t_max`
+    unique_times = unique_times[unique_times <= t_max]
   } else {
-    unique_times = .c_get_unique_times(truth[, "time"], times)
-    t_max = max(unique_times)
+    #' `times` is given or it is `NULL`
+    # We keep compatibility with previous code here and return an error if
+    # the requested `times` are ALL outside the considered evaluation test times.
+    # We do not prune these requested times at all (we assume that times are
+    # positive, unique and sorted).
+    # Constant interpolation is used later to get S(t) for these time points
+    outside_range = !is.null(times) && all(times < min(unique_times) | times > max(unique_times))
+    if (outside_range) {
+      stop("Requested times are all outside the considered evaluation range.")
+    }
+    #' is `times = NULL`, use the `unique_times`
+    unique_times = times %??% unique_times
   }
-
-  # subset `unique_times` in the test set up to `t_max`
-  unique_times = unique_times[unique_times <= t_max]
-
-  # keep all the test set time points for the censoring distr via KM if no train data
-  all_times = truth[, "time"]
-  all_status = truth[, "status"]
 
   # get the cdf matrix (rows => times, cols => obs)
   if (inherits(distribution, "Distribution")) {
