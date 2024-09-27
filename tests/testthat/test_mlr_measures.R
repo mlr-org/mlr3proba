@@ -9,12 +9,14 @@ test_that("mlr_measures", {
   skip_if_not_installed("survAUC")
 
   keys = mlr_measures$keys("^surv")
+  # remove alias for brier
+  keys = keys[keys != "surv.graf"]
 
   for (key in keys) {
     if (grepl("TNR|TPR|tpr|tnr", key)) {
       m = msr(key, times = 60L)
     } else {
-      if (key %in% c("surv.graf", "surv.intlogloss", "surv.schmid", "surv.brier")) {
+      if (key %in% c("surv.intlogloss", "surv.schmid", "surv.brier")) {
         m = msr(key, proper = TRUE)
       } else {
         m = msr(key)
@@ -50,18 +52,17 @@ test_that("integrated_prob_losses", {
   set.seed(1L)
   t = tsk("rats")$filter(sample(300, 50L))
   p = lrn("surv.kaplan")$train(t)$predict(t)
-  probs = paste0("surv.", c("graf", "intlogloss", "schmid"))
-  lapply(
-    probs,
-    function(x) expect_error(p$score(msr(x, times = 39:80, integrated = FALSE,
-      proper = TRUE)), "scalar numeric")
-  )
+  losses = paste0("surv.", c("graf", "intlogloss", "schmid"))
+  for (loss in losses) {
+    m = msr(loss, times = 39:80, integrated = FALSE, proper = TRUE)
+    expect_error(p$score(m), "scalar numeric")
+  }
 
-  prediction$score(msr("surv.intlogloss", integrated = TRUE, proper = TRUE, times = 100:110))
-  expect_silent(prediction$score(lapply(probs, msr, integrated = TRUE, proper = TRUE)))
-  expect_error(prediction$score(lapply(probs, msr, integrated = TRUE, times = 34:38, proper = TRUE)), "Requested times")
-  expect_silent(prediction$score(lapply(probs, msr, integrated = TRUE, times = 100:110, proper = TRUE)))
-  expect_silent(prediction$score(lapply(probs, msr, integrated = FALSE, times = 80, proper = TRUE)))
+  expect_silent(prediction$score(msr("surv.intlogloss", integrated = TRUE, proper = TRUE, times = 100:110)))
+  expect_silent(prediction$score(lapply(losses, msr, integrated = TRUE, proper = TRUE)))
+  expect_error(prediction$score(lapply(losses, msr, integrated = TRUE, times = 34:38, proper = TRUE)), "Requested times")
+  expect_silent(prediction$score(lapply(losses, msr, integrated = TRUE, times = 100:110, proper = TRUE)))
+  expect_silent(prediction$score(lapply(losses, msr, integrated = FALSE, times = 80, proper = TRUE)))
 })
 
 test_that("dcalib works", {
@@ -137,7 +138,7 @@ test_that("graf with 1 time point", {
   expect_number(res$score(msr("surv.graf", times = 1)))
 })
 
-test_that("t_max, p_max", {
+test_that("graf: t_max, p_max, times", {
   set.seed(1L)
   t = tsk("rats")$filter(sample(1:300, 50))
   p = lrn("surv.kaplan")$train(t)$predict(t)
@@ -146,9 +147,23 @@ test_that("t_max, p_max", {
   expect_error(p$score(msr("surv.graf", integrated = FALSE)))
   expect_error(p$score(msr("surv.graf", times = 1:2, t_max = 3)))
 
-  m1 = p$score(msr("surv.graf", times = seq(100)))
-  m2 = p$score(msr("surv.graf", t_max = 100))
-  expect_equal(m1, m2)
+  times = sort(unique(p$truth[,1])) # test time points
+  t_max = 100
+  times_flt = times[times <= t_max] # keep only times until the `t_max`
+  m0 = p$score(msr("surv.graf")) # uses all test time points
+  m1 = p$score(msr("surv.graf", times = times_flt)) # uses times_flt
+  m2 = p$score(msr("surv.graf", t_max = t_max)) # 100
+  m3 = p$score(msr("surv.graf", t_max = max(times))) # 104
+  m4 = p$score(msr("surv.graf", t_max = max(times) + 1)) # 105
+
+  # different time points considered
+  expect_true(m0 != m1)
+  # same time points are used, but `t_max` also removes observations
+  expect_true(m1 != m2)
+  # different `t_max` => different time points used
+  expect_true(m2 != m3)
+  # different `t_max` but after the max evaluation time point, so result stays the same
+  expect_equal(m3, m4)
 
   s = t$kaplan() # KM
   t_max = s$time[which(1 - s$n.risk / s$n > 0.3)[1]] # t_max for up to 30% cens
@@ -160,6 +175,27 @@ test_that("t_max, p_max", {
   expect_equal(m1, m2)
   expect_true(m1 != m3)
 
+  # times is not necessarily decomposable, due to the `method` that performs integration
+  p_cox = suppressWarnings(lrn("surv.coxph")$train(t)$predict(t))
+  s1 = p_cox$score(msr("surv.graf", times = 68))
+  s2 = p_cox$score(msr("surv.graf", times = 92))
+  s3 = p_cox$score(msr("surv.graf", times = 102))
+  mean_score = (s1 + s2 + s3) / 3
+  # simple mean
+  s_all1 = p_cox$score(msr("surv.graf", method = 1, times = c(68, 92, 102)))
+  # mean weighted by the difference between time-points
+  s_all2 = p_cox$score(msr("surv.graf", method = 2, times = c(68, 92, 102)))
+  expect_equal(s_all1, mean_score)
+  expect_true(s_all2 != mean_score)
+})
+
+test_that("cindex: t_max, p_max", {
+  set.seed(1L)
+  t = tsk("rats")$filter(sample(1:300, 50))
+  s = t$kaplan() # KM
+  t_max = s$time[which(1 - s$n.risk / s$n > 0.3)[1]] # t_max for up to 30% cens
+
+  # t_max and p_max are the same
   p_cox = suppressWarnings(lrn("surv.coxph")$train(t)$predict(t))
   c1 = p_cox$score(msr("surv.cindex", t_max = t_max))
   c2 = p_cox$score(msr("surv.cindex", p_max = 0.3))
