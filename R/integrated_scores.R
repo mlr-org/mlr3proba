@@ -67,16 +67,13 @@ weighted_survival_score = function(loss, truth, distribution, times = NULL,
     } else { # survival 2d array
       surv_mat = distribution
     }
-    surv_mat = surv_mat[, as.numeric(colnames(surv_mat)) <= t_max, drop = FALSE]
-    mtc = findInterval(unique_times, as.numeric(colnames(surv_mat)))
-    cdf = 1 - surv_mat[, mtc, drop = FALSE]
-    if (any(mtc == 0)) {
-      cdf = cbind(matrix(0, nrow(cdf), sum(mtc == 0)), cdf)
-    }
-    # apply `t_max` cutoff to remove observations in the test predictions
-    cdf = cdf[all_times <= t_max, , drop = FALSE]
-    colnames(cdf) = unique_times
-    cdf = t(cdf)
+
+    # `pred_times`: time points for which we have S(t)
+    pred_times = as.numeric(colnames(surv_mat))
+    extend_times = getFromNamespace("C_Vec_WeightedDiscreteCdf", ns = "distr6")
+    # `unique_times`: time points for which we want S(t)
+    cdf = extend_times(unique_times, pred_times, cdf = t(1 - surv_mat), TRUE, FALSE)
+    rownames(cdf) = unique_times # times x obs
   }
 
   # apply `t_max` cutoff to remove observations
