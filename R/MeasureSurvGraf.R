@@ -19,28 +19,29 @@
 #' or squared survival loss.
 #'
 #' @details
-#' For an individual who dies at time \eqn{t}, with predicted Survival function, \eqn{S}, the
-#' Graf Score at time \eqn{t^*}{t*} is given by
-#' \deqn{L_{ISBS}(S,t|t^*) = [(S(t^*)^2)I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*))^2)I(t > t^*)(1/G(t^*))]}
+#' This measure has two dimensions: (test set) observations and time points.
+#' For a specific individual \eqn{i}, with observed survival outcome \eqn{(t_i, \delta_i)}
+#' (time and censoring indicator) and predicted survival function \eqn{S_i(t)}, the
+#' *observation-wise* loss integrated across the time dimension up to the
+#' time cutoff \eqn{\tau^*}, is:
+#'
+#' \deqn{L_{ISBS}(S_i, t_i, \delta_i) = \text{I}(t_i \leq \tau^*) \int^{\tau^*}_0  \frac{S_i^2(\tau) \text{I}(t_i \leq \tau, \delta=1)}{G(t_i)} + \frac{(1-S_i(\tau))^2 \text{I}(t_i > \tau)}{G(\tau)} \ d\tau}
+#'
 #' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
 #'
-#' The re-weighted ISBS (RISBS) is given by
-#' \deqn{L_{RISBS}(S,t|t^*) = [(S(t^*)^2)I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*))^2)I(t > t^*)(1/G(t))]}
-#' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution, i.e. always
-#' weighted by \eqn{G(t)}.
+#' The **re-weighted ISBS** (RISBS) is:
+#'
+#' \deqn{L_{RISBS}(S_i, t_i, \delta_i) = \delta_i \text{I}(t_i \leq \tau^*) \int^{\tau^*}_0  \frac{S_i^2(\tau) \text{I}(t_i \leq \tau) + (1-S_i(\tau))^2 \text{I}(t_i > \tau)}{G(t_i)} \ d\tau}
+#'
+#' which is always weighted by \eqn{G(t_i)} and removes the censored observations.
+#'
 #' RISBS is strictly proper when the censoring distribution is independent
-#' of the survival distribution and when G is fit on a sufficiently large dataset.
+#' of the survival distribution and when \eqn{G(t)} is fit on a sufficiently large dataset.
 #' ISBS is never proper. Use `proper = FALSE` for ISBS and `proper = TRUE` for RISBS.
 #' Results may be very different if many observations are
-#' censored at the last observed time due to division by 1/`eps` in `proper = TRUE`.
+#' censored at the last observed time due to division by \eqn{1/eps} in `proper = TRUE`.
 #'
-#' **Note**: If comparing the integrated graf score to other packages, e.g.
-#' \CRANpkg{pec}, then `method = 2` should be used. However the results may
-#' still be very slightly different as this package uses `survfit` to estimate
-#' the censoring distribution, in line with the Graf 1999 paper; whereas some
-#' other packages use `prodlim` with `reverse = TRUE` (meaning Kaplan-Meier is
-#' not used).
-#'
+#' @template details_method
 #' @template details_trainG
 #' @template details_tmax
 #'

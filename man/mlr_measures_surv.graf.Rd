@@ -11,40 +11,27 @@ Calculates the \strong{Integrated Survival Brier Score} (ISBS), Integrated Graf 
 or squared survival loss.
 }
 \details{
-For an individual who dies at time \eqn{t}, with predicted Survival function, \eqn{S}, the
-Graf Score at time \eqn{t^*}{t*} is given by
-\deqn{L_{ISBS}(S,t|t^*) = [(S(t^*)^2)I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*))^2)I(t > t^*)(1/G(t^*))]}
+This measure has two dimensions: (test set) observations and time points.
+For a specific individual \eqn{i}, with observed survival outcome \eqn{(t_i, \delta_i)}
+(time and censoring indicator) and predicted survival function \eqn{S_i(t)}, the
+\emph{observation-wise} loss integrated across the time dimension up to the
+time cutoff \eqn{\tau^*}, is:
+
+\deqn{L_{ISBS}(S_i, t_i, \delta_i) = \text{I}(t_i \leq \tau^*) \int^{\tau^*}_0  \frac{S_i^2(\tau) \text{I}(t_i \leq \tau, \delta=1)}{G(t_i)} + \frac{(1-S_i(\tau))^2 \text{I}(t_i > \tau)}{G(\tau)} \ d\tau}
+
 where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
 
-The re-weighted ISBS (RISBS) is given by
-\deqn{L_{RISBS}(S,t|t^*) = [(S(t^*)^2)I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*))^2)I(t > t^*)(1/G(t))]}
-where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution, i.e. always
-weighted by \eqn{G(t)}.
+The \strong{re-weighted ISBS} (RISBS) is:
+
+\deqn{L_{RISBS}(S_i, t_i, \delta_i) = \delta_i \text{I}(t_i \leq \tau^*) \int^{\tau^*}_0  \frac{S_i^2(\tau) \text{I}(t_i \leq \tau) + (1-S_i(\tau))^2 \text{I}(t_i > \tau)}{G(t_i)} \ d\tau}
+
+which is always weighted by \eqn{G(t_i)} and removes the censored observations.
+
 RISBS is strictly proper when the censoring distribution is independent
-of the survival distribution and when G is fit on a sufficiently large dataset.
+of the survival distribution and when \eqn{G(t)} is fit on a sufficiently large dataset.
 ISBS is never proper. Use \code{proper = FALSE} for ISBS and \code{proper = TRUE} for RISBS.
 Results may be very different if many observations are
-censored at the last observed time due to division by 1/\code{eps} in \code{proper = TRUE}.
-
-\strong{Note}: If comparing the integrated graf score to other packages, e.g.
-\CRANpkg{pec}, then \code{method = 2} should be used. However the results may
-still be very slightly different as this package uses \code{survfit} to estimate
-the censoring distribution, in line with the Graf 1999 paper; whereas some
-other packages use \code{prodlim} with \code{reverse = TRUE} (meaning Kaplan-Meier is
-not used).
-
-If \code{task} and \code{train_set} are passed to \verb{$score} then \eqn{G(t)} is fit on training data,
-otherwise testing data. The first is likely to reduce any bias caused by calculating
-parts of the measure on the test data it is evaluating. The training data is automatically
-used in scoring resamplings.
-
-If \code{t_max} or \code{p_max} is given, then \eqn{G(t)} will be fitted using \strong{all observations} from the
-train set (or test set) and only then the cutoff time will be applied.
-This is to ensure that more data is used for fitting the censoring distribution via the
-Kaplan-Meier.
-Setting the \code{t_max} can help alleviate inflation of the score when \code{proper} is \code{TRUE},
-in cases where an observation is censored at the last observed time point.
-This results in \eqn{G(t_{max}) = 0} and the use of \code{eps} instead (when \code{t_max} is \code{NULL}).
+censored at the last observed time due to division by \eqn{1/eps} in \code{proper = TRUE}.
 }
 \section{Dictionary}{
 
@@ -160,6 +147,38 @@ If \code{TRUE} then the Explained Residual Variation method is applied, which
 means the score is standardized against a Kaplan-Meier baseline.
 Default is \code{FALSE}.
 }
+}
+
+\section{Implementation differences (time-integration)}{
+
+
+If comparing the integrated graf score to other packages, e.g.
+\CRANpkg{pec}, then \code{method = 2} should be used. However the results may
+still be very slightly different as this package uses \code{survfit} to estimate
+the censoring distribution, in line with the Graf 1999 paper; whereas some
+other packages use \code{prodlim} with \code{reverse = TRUE} (meaning Kaplan-Meier is
+not used).
+}
+
+\section{Data used for Estimating Censoring Distribution}{
+
+
+If \code{task} and \code{train_set} are passed to \verb{$score} then \eqn{G(t)} is fit on training data,
+otherwise testing data. The first is likely to reduce any bias caused by calculating
+parts of the measure on the test data it is evaluating. The training data is automatically
+used in scoring resamplings.
+}
+
+\section{Time Cutoff Details}{
+
+
+If \code{t_max} or \code{p_max} is given, then \eqn{G(t)} will be fitted using \strong{all observations} from the
+train set (or test set) and only then the cutoff time will be applied.
+This is to ensure that more data is used for fitting the censoring distribution via the
+Kaplan-Meier.
+Setting the \code{t_max} can help alleviate inflation of the score when \code{proper} is \code{TRUE},
+in cases where an observation is censored at the last observed time point.
+This results in \eqn{G(t_{max}) = 0} and the use of \code{eps} instead (when \code{t_max} is \code{NULL}).
 }
 
 \references{
