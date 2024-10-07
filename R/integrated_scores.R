@@ -61,9 +61,10 @@ weighted_survival_score = function(loss, truth, distribution, times = NULL,
     # We do not prune these requested times at all (we assume that times are
     # positive, unique and sorted).
     # Constant interpolation is used later to get S(t) for these time points
-    outside_range = !is.null(times) && all(times < min(unique_times) | times > max(unique_times))
+    outside_range = !is.null(times) && any(times < min(unique_times) | times > max(unique_times))
     if (outside_range) {
-      stop("Requested times are all outside the considered evaluation range.")
+      warning("Some requested times are outside the considered evaluation range
+              (unique, sorted, test set's time points).")
     }
     # is `times = NULL`, use the `unique_times`
     unique_times = times %??% unique_times
