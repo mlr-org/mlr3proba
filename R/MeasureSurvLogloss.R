@@ -16,7 +16,7 @@
 #' The Log Loss, in the context of probabilistic predictions, is defined as the
 #' negative log probability density function, \eqn{f}, evaluated at the
 #' observation time (event or censoring), \eqn{t},
-#' \deqn{L_{NLL}(f, t) = -log(f(t))}
+#' \deqn{L_{NLL}(f, t) = -\log[f(t)]}
 #'
 #' The standard error of the Log Loss, L, is approximated via,
 #' \deqn{se(L) = sd(L)/\sqrt{N}}{se(L) = sd(L)/\sqrt N}

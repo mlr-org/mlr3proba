@@ -8,32 +8,31 @@
 Calculates the \strong{Integrated Schmid Score} (ISS), aka integrated absolute loss.
 }
 \details{
-For an individual who dies at time \eqn{t}, with predicted Survival function, \eqn{S}, the
-Schmid Score at time \eqn{t^*}{t*} is given by
+This measure has two dimensions: (test set) observations and time points.
+For a specific individual \eqn{i} from the test set, with observed survival
+outcome \eqn{(t_i, \delta_i)} (time and censoring indicator) and predicted
+survival function \eqn{S_i(t)}, the \emph{observation-wise} loss integrated across
+the time dimension up to the time cutoff \eqn{\tau^*}, is:
+
+\deqn{L_{ISS}(S_i, t_i, \delta_i) = \text{I}(t_i \leq \tau^*) \int^{\tau^*}_0  \frac{S_i(\tau) \text{I}(t_i \leq \tau, \delta=1)}{G(t_i)} + \frac{(1-S_i(\tau)) \text{I}(t_i > \tau)}{G(\tau)} \ d\tau}
+
+where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
+
+The \strong{re-weighted ISS} (RISS) is:
+
+\deqn{L_{RISS}(S_i, t_i, \delta_i) = \delta_i \text{I}(t_i \leq \tau^*) \int^{\tau^*}_0  \frac{S_i(\tau) \text{I}(t_i \leq \tau) + (1-S_i(\tau)) \text{I}(t_i > \tau)}{G(t_i)} \ d\tau}
+
+which is always weighted by \eqn{G(t_i)} and is equal to zero for a censored subject.
+
+To get a single score across all \eqn{N} observations of the test set, we
+return the average of the time-integrated observation-wise scores:
+\deqn{\sum_{i=1}^N L(S_i, t_i, \delta_i) / N}
+
 \deqn{L_{ISS}(S,t|t^*) = [(S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*)))I(t > t^*)(1/G(t^*))]}
 where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
 
 The re-weighted ISS, RISS is given by
 \deqn{L_{RISS}(S,t|t^*) = [(S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*)))I(t > t^*)(1/G(t))]}
-where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution, i.e. always
-weighted by \eqn{G(t)}. RISS is strictly proper when the censoring distribution is independent
-of the survival distribution and when G is fit on a sufficiently large dataset. ISS is never
-proper. Use \code{proper = FALSE} for ISS and \code{proper = TRUE} for RISS.
-Results may be very different if many observations are censored at the last
-observed time due to division by 1/\code{eps} in \code{proper = TRUE}.
-
-If \code{task} and \code{train_set} are passed to \verb{$score} then \eqn{G(t)} is fit on training data,
-otherwise testing data. The first is likely to reduce any bias caused by calculating
-parts of the measure on the test data it is evaluating. The training data is automatically
-used in scoring resamplings.
-
-If \code{t_max} or \code{p_max} is given, then \eqn{G(t)} will be fitted using \strong{all observations} from the
-train set (or test set) and only then the cutoff time will be applied.
-This is to ensure that more data is used for fitting the censoring distribution via the
-Kaplan-Meier.
-Setting the \code{t_max} can help alleviate inflation of the score when \code{proper} is \code{TRUE},
-in cases where an observation is censored at the last observed time point.
-This results in \eqn{G(t_{max}) = 0} and the use of \code{eps} instead (when \code{t_max} is \code{NULL}).
 }
 \section{Dictionary}{
 
@@ -89,11 +88,12 @@ If \code{integrated == FALSE} then a single time point at which to return the sc
 
 \itemize{
 \item \code{t_max} (\code{numeric(1)})\cr
-Cutoff time (i.e. time horizon) to evaluate the measure up to.
+Cutoff time \eqn{\tau^*} (i.e. time horizon) to evaluate the measure up to.
 Mutually exclusive with \code{p_max} or \code{times}.
 This will effectively remove test observations for which the observed time
 (event or censoring) is strictly more than \code{t_max}.
 It's recommended to set \code{t_max} to avoid division by \code{eps}, see Details.
+If \code{t_max} is not specified, an \code{Inf} time horizon is assumed.
 }
 
 
@@ -149,6 +149,72 @@ If \code{TRUE} then the Explained Residual Variation method is applied, which
 means the score is standardized against a Kaplan-Meier baseline.
 Default is \code{FALSE}.
 }
+}
+
+\section{Properness}{
+
+
+RISS is strictly proper when the censoring distribution is independent
+of the survival distribution and when \eqn{G(t)} is fit on a sufficiently large dataset.
+ISS is never proper. Use \code{proper = FALSE} for ISS and
+\code{proper = TRUE} for RISS.
+Results may be very different if many observations are censored at the last
+observed time due to division by \eqn{1/eps} in \code{proper = TRUE}.
+}
+
+\section{Time points used for evaluation}{
+
+If the \code{times} argument is not specified (\code{NULL}), then the unique (and
+sorted) time points from the \strong{test set} are used for evaluation of the
+time-integrated score.
+This was a design decision due to the fact that different predicted survival
+distributions \eqn{S(t)} usually have a \strong{discretized time domain} which may
+differ, i.e. in the case the survival predictions come from different survival
+learners.
+Essentially, using the same set of time points for the calculation of the score
+minimizes the bias that would come from using different time points.
+We note that \eqn{S(t)} is by default constantly interpolated for time points that fall
+outside its discretized time domain.
+
+Naturally, if the \code{times} argument is specified, then exactly these time
+points are used for evaluation.
+A warning is given to the user in case some of the specified \code{times} fall outside
+of the time point range of the test set.
+The assumption here is that if the test set is large enough, it should have a
+time domain/range similar to the one from the train set, and therefore time
+points outside that domain might lead to interpolation or extrapolation of \eqn{S(t)}.
+}
+
+\section{Implementation differences}{
+
+
+If comparing the integrated graf score to other packages, e.g.
+\CRANpkg{pec}, then \code{method = 2} should be used. However the results may
+still be very slightly different as this package uses \code{survfit} to estimate
+the censoring distribution, in line with the Graf 1999 paper; whereas some
+other packages use \code{prodlim} with \code{reverse = TRUE} (meaning Kaplan-Meier is
+not used).
+}
+
+\section{Data used for Estimating Censoring Distribution}{
+
+
+If \code{task} and \code{train_set} are passed to \verb{$score} then \eqn{G(t)} is fit on training data,
+otherwise testing data. The first is likely to reduce any bias caused by calculating
+parts of the measure on the test data it is evaluating. The training data is automatically
+used in scoring resamplings.
+}
+
+\section{Time Cutoff Details}{
+
+
+If \code{t_max} or \code{p_max} is given, then \eqn{G(t)} will be fitted using \strong{all observations} from the
+train set (or test set) and only then the cutoff time will be applied.
+This is to ensure that more data is used for fitting the censoring distribution via the
+Kaplan-Meier.
+Setting the \code{t_max} can help alleviate inflation of the score when \code{proper} is \code{TRUE},
+in cases where an observation is censored at the last observed time point.
+This results in \eqn{G(t_{max}) = 0} and the use of \code{eps} instead (when \code{t_max} is \code{NULL}).
 }
 
 \references{

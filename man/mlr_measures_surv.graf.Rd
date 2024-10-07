@@ -12,10 +12,10 @@ or squared survival loss.
 }
 \details{
 This measure has two dimensions: (test set) observations and time points.
-For a specific individual \eqn{i}, with observed survival outcome \eqn{(t_i, \delta_i)}
-(time and censoring indicator) and predicted survival function \eqn{S_i(t)}, the
-\emph{observation-wise} loss integrated across the time dimension up to the
-time cutoff \eqn{\tau^*}, is:
+For a specific individual \eqn{i} from the test set, with observed survival
+outcome \eqn{(t_i, \delta_i)} (time and censoring indicator) and predicted
+survival function \eqn{S_i(t)}, the \emph{observation-wise} loss integrated across
+the time dimension up to the time cutoff \eqn{\tau^*}, is:
 
 \deqn{L_{ISBS}(S_i, t_i, \delta_i) = \text{I}(t_i \leq \tau^*) \int^{\tau^*}_0  \frac{S_i^2(\tau) \text{I}(t_i \leq \tau, \delta=1)}{G(t_i)} + \frac{(1-S_i(\tau))^2 \text{I}(t_i > \tau)}{G(\tau)} \ d\tau}
 
@@ -25,13 +25,11 @@ The \strong{re-weighted ISBS} (RISBS) is:
 
 \deqn{L_{RISBS}(S_i, t_i, \delta_i) = \delta_i \text{I}(t_i \leq \tau^*) \int^{\tau^*}_0  \frac{S_i^2(\tau) \text{I}(t_i \leq \tau) + (1-S_i(\tau))^2 \text{I}(t_i > \tau)}{G(t_i)} \ d\tau}
 
-which is always weighted by \eqn{G(t_i)} and removes the censored observations.
+which is always weighted by \eqn{G(t_i)} and is equal to zero for a censored subject.
 
-RISBS is strictly proper when the censoring distribution is independent
-of the survival distribution and when \eqn{G(t)} is fit on a sufficiently large dataset.
-ISBS is never proper. Use \code{proper = FALSE} for ISBS and \code{proper = TRUE} for RISBS.
-Results may be very different if many observations are
-censored at the last observed time due to division by \eqn{1/eps} in \code{proper = TRUE}.
+To get a single score across all \eqn{N} observations of the test set, we
+return the average of the time-integrated observation-wise scores:
+\deqn{\sum_{i=1}^N L(S_i, t_i, \delta_i) / N}
 }
 \section{Dictionary}{
 
@@ -87,11 +85,12 @@ If \code{integrated == FALSE} then a single time point at which to return the sc
 
 \itemize{
 \item \code{t_max} (\code{numeric(1)})\cr
-Cutoff time (i.e. time horizon) to evaluate the measure up to.
+Cutoff time \eqn{\tau^*} (i.e. time horizon) to evaluate the measure up to.
 Mutually exclusive with \code{p_max} or \code{times}.
 This will effectively remove test observations for which the observed time
 (event or censoring) is strictly more than \code{t_max}.
 It's recommended to set \code{t_max} to avoid division by \code{eps}, see Details.
+If \code{t_max} is not specified, an \code{Inf} time horizon is assumed.
 }
 
 
@@ -149,7 +148,41 @@ Default is \code{FALSE}.
 }
 }
 
-\section{Implementation differences (time-integration)}{
+\section{Properness}{
+
+
+RISBS is strictly proper when the censoring distribution is independent
+of the survival distribution and when \eqn{G(t)} is fit on a sufficiently large dataset.
+ISBS is never proper. Use \code{proper = FALSE} for ISBS and
+\code{proper = TRUE} for RISBS.
+Results may be very different if many observations are censored at the last
+observed time due to division by \eqn{1/eps} in \code{proper = TRUE}.
+}
+
+\section{Time points used for evaluation}{
+
+If the \code{times} argument is not specified (\code{NULL}), then the unique (and
+sorted) time points from the \strong{test set} are used for evaluation of the
+time-integrated score.
+This was a design decision due to the fact that different predicted survival
+distributions \eqn{S(t)} usually have a \strong{discretized time domain} which may
+differ, i.e. in the case the survival predictions come from different survival
+learners.
+Essentially, using the same set of time points for the calculation of the score
+minimizes the bias that would come from using different time points.
+We note that \eqn{S(t)} is by default constantly interpolated for time points that fall
+outside its discretized time domain.
+
+Naturally, if the \code{times} argument is specified, then exactly these time
+points are used for evaluation.
+A warning is given to the user in case some of the specified \code{times} fall outside
+of the time point range of the test set.
+The assumption here is that if the test set is large enough, it should have a
+time domain/range similar to the one from the train set, and therefore time
+points outside that domain might lead to interpolation or extrapolation of \eqn{S(t)}.
+}
+
+\section{Implementation differences}{
 
 
 If comparing the integrated graf score to other packages, e.g.

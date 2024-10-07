@@ -16,20 +16,38 @@
 #' Calculates the **Integrated Schmid Score** (ISS), aka integrated absolute loss.
 #'
 #' @details
-#' For an individual who dies at time \eqn{t}, with predicted Survival function, \eqn{S}, the
-#' Schmid Score at time \eqn{t^*}{t*} is given by
+#' This measure has two dimensions: (test set) observations and time points.
+#' For a specific individual \eqn{i} from the test set, with observed survival
+#' outcome \eqn{(t_i, \delta_i)} (time and censoring indicator) and predicted
+#' survival function \eqn{S_i(t)}, the *observation-wise* loss integrated across
+#' the time dimension up to the time cutoff \eqn{\tau^*}, is:
+#'
+#' \deqn{L_{ISS}(S_i, t_i, \delta_i) = \text{I}(t_i \leq \tau^*) \int^{\tau^*}_0  \frac{S_i(\tau) \text{I}(t_i \leq \tau, \delta=1)}{G(t_i)} + \frac{(1-S_i(\tau)) \text{I}(t_i > \tau)}{G(\tau)} \ d\tau}
+#'
+#' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
+#'
+#' The **re-weighted ISS** (RISS) is:
+#'
+#' \deqn{L_{RISS}(S_i, t_i, \delta_i) = \delta_i \text{I}(t_i \leq \tau^*) \int^{\tau^*}_0  \frac{S_i(\tau) \text{I}(t_i \leq \tau) + (1-S_i(\tau)) \text{I}(t_i > \tau)}{G(t_i)} \ d\tau}
+#'
+#' which is always weighted by \eqn{G(t_i)} and is equal to zero for a censored subject.
+#'
+#' To get a single score across all \eqn{N} observations of the test set, we
+#' return the average of the time-integrated observation-wise scores:
+#' \deqn{\sum_{i=1}^N L(S_i, t_i, \delta_i) / N}
+#'
+#'
 #' \deqn{L_{ISS}(S,t|t^*) = [(S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*)))I(t > t^*)(1/G(t^*))]}
 #' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
 #'
 #' The re-weighted ISS, RISS is given by
 #' \deqn{L_{RISS}(S,t|t^*) = [(S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*)))I(t > t^*)(1/G(t))]}
-#' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution, i.e. always
-#' weighted by \eqn{G(t)}. RISS is strictly proper when the censoring distribution is independent
-#' of the survival distribution and when G is fit on a sufficiently large dataset. ISS is never
-#' proper. Use `proper = FALSE` for ISS and `proper = TRUE` for RISS.
-#' Results may be very different if many observations are censored at the last
-#' observed time due to division by 1/`eps` in `proper = TRUE`.
 #'
+#' @template properness
+#' @templateVar improper_id ISS
+#' @templateVar proper_id RISS
+#' @template which_times
+#' @template details_method
 #' @template details_trainG
 #' @template details_tmax
 #'

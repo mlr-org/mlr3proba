@@ -17,22 +17,31 @@
 #' Logarithmic (log) Loss, aka integrated cross entropy.
 #'
 #' @details
-#' For an individual who dies at time \eqn{t}, with predicted Survival function, \eqn{S}, the
-#' probabilistic log loss at time \eqn{t^*}{t*} is given by
-#' \deqn{L_{ISLL}(S,t|t^*) = - [log(1 - S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] - [log(S(t^*))I(t > t^*)(1/G(t^*))]}
+#' This measure has two dimensions: (test set) observations and time points.
+#' For a specific individual \eqn{i} from the test set, with observed survival
+#' outcome \eqn{(t_i, \delta_i)} (time and censoring indicator) and predicted
+#' survival function \eqn{S_i(t)}, the *observation-wise* loss integrated across
+#' the time dimension up to the time cutoff \eqn{\tau^*}, is:
+#'
+#' \deqn{L_{ISLL}(S_i, t_i, \delta_i) = -\text{I}(t_i \leq \tau^*) \int^{\tau^*}_0  \frac{log[1-S_i(\tau)] \text{I}(t_i \leq \tau, \delta=1)}{G(t_i)} + \frac{\log[S_i(\tau)] \text{I}(t_i > \tau)}{G(\tau)} \ d\tau}
+#'
 #' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
 #'
-#' The re-weighted ISLL, RISLL is given by
-#' \deqn{L_{RISLL}(S,t|t^*) = - [log(1 - S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] - [log(S(t^*))I(t > t^*)(1/G(t))]}
-#' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution, i.e. always
-#' weighted by \eqn{G(t)}.
-#' RISLL is strictly proper when the censoring distribution is independent
-#' of the survival distribution and when G is fit on a sufficiently large dataset.
-#' ISLL is never proper.
-#' Use `proper = FALSE` for ISLL and `proper = TRUE` for RISLL.
-#' Results may be very different if many observations are censored at the last
-#' observed time due to division by 1/`eps` in `proper = TRUE`.
+#' The **re-weighted ISLL** (RISLL) is:
 #'
+#' \deqn{L_{RISLL}(S_i, t_i, \delta_i) = -\delta_i \text{I}(t_i \leq \tau^*) \int^{\tau^*}_0  \frac{\log[1-S_i(\tau)]) \text{I}(t_i \leq \tau) + \log[S_i(\tau)] \text{I}(t_i > \tau)}{G(t_i)} \ d\tau}
+#'
+#' which is always weighted by \eqn{G(t_i)} and is equal to zero for a censored subject.
+#'
+#' To get a single score across all \eqn{N} observations of the test set, we
+#' return the average of the time-integrated observation-wise scores:
+#' \deqn{\sum_{i=1}^N L(S_i, t_i, \delta_i) / N}
+#'
+#' @template properness
+#' @templateVar improper_id ISLL
+#' @templateVar proper_id RISLL
+#' @template which_times
+#' @template details_method
 #' @template details_trainG
 #' @template details_tmax
 #'

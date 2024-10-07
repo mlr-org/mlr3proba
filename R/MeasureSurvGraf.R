@@ -20,10 +20,10 @@
 #'
 #' @details
 #' This measure has two dimensions: (test set) observations and time points.
-#' For a specific individual \eqn{i}, with observed survival outcome \eqn{(t_i, \delta_i)}
-#' (time and censoring indicator) and predicted survival function \eqn{S_i(t)}, the
-#' *observation-wise* loss integrated across the time dimension up to the
-#' time cutoff \eqn{\tau^*}, is:
+#' For a specific individual \eqn{i} from the test set, with observed survival
+#' outcome \eqn{(t_i, \delta_i)} (time and censoring indicator) and predicted
+#' survival function \eqn{S_i(t)}, the *observation-wise* loss integrated across
+#' the time dimension up to the time cutoff \eqn{\tau^*}, is:
 #'
 #' \deqn{L_{ISBS}(S_i, t_i, \delta_i) = \text{I}(t_i \leq \tau^*) \int^{\tau^*}_0  \frac{S_i^2(\tau) \text{I}(t_i \leq \tau, \delta=1)}{G(t_i)} + \frac{(1-S_i(\tau))^2 \text{I}(t_i > \tau)}{G(\tau)} \ d\tau}
 #'
@@ -33,14 +33,16 @@
 #'
 #' \deqn{L_{RISBS}(S_i, t_i, \delta_i) = \delta_i \text{I}(t_i \leq \tau^*) \int^{\tau^*}_0  \frac{S_i^2(\tau) \text{I}(t_i \leq \tau) + (1-S_i(\tau))^2 \text{I}(t_i > \tau)}{G(t_i)} \ d\tau}
 #'
-#' which is always weighted by \eqn{G(t_i)} and removes the censored observations.
+#' which is always weighted by \eqn{G(t_i)} and is equal to zero for a censored subject.
 #'
-#' RISBS is strictly proper when the censoring distribution is independent
-#' of the survival distribution and when \eqn{G(t)} is fit on a sufficiently large dataset.
-#' ISBS is never proper. Use `proper = FALSE` for ISBS and `proper = TRUE` for RISBS.
-#' Results may be very different if many observations are
-#' censored at the last observed time due to division by \eqn{1/eps} in `proper = TRUE`.
+#' To get a single score across all \eqn{N} observations of the test set, we
+#' return the average of the time-integrated observation-wise scores:
+#' \deqn{\sum_{i=1}^N L(S_i, t_i, \delta_i) / N}
 #'
+#' @template properness
+#' @templateVar improper_id ISBS
+#' @templateVar proper_id RISBS
+#' @template which_times
 #' @template details_method
 #' @template details_trainG
 #' @template details_tmax
