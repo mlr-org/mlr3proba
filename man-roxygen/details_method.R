@@ -1,4 +1,4 @@
-#' @section Implementation differences (time-integration):
+#' @section Implementation differences:
 #'
 #' If comparing the integrated graf score to other packages, e.g.
 #' \CRANpkg{pec}, then `method = 2` should be used. However the results may
