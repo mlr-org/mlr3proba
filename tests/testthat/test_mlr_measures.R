@@ -48,7 +48,7 @@ test_that("unintegrated_prob_losses", {
   expect_silent(prediction$score(msr))
 })
 
-test_that("integrated_prob_losses", {
+test_that("integrated losses with use of times", {
   set.seed(1L)
   t = tsk("rats")$filter(sample(300, 50L))
   p = lrn("surv.kaplan")$train(t)$predict(t)
@@ -58,11 +58,23 @@ test_that("integrated_prob_losses", {
     expect_error(p$score(m), "scalar numeric")
   }
 
-  expect_silent(prediction$score(msr("surv.intlogloss", integrated = TRUE, proper = TRUE, times = 100:110)))
+  # between 64 and 104
+  test_unique_times = sort(unique(prediction$truth[,1]))
+  expect_true(all(test_unique_times > 63))
+  expect_true(all(test_unique_times < 105))
+
+  # no `times` => use test set's unique time points
   expect_silent(prediction$score(lapply(losses, msr, integrated = TRUE, proper = TRUE)))
-  expect_error(prediction$score(lapply(losses, msr, integrated = TRUE, times = 34:38, proper = TRUE)), "Requested times")
-  expect_silent(prediction$score(lapply(losses, msr, integrated = TRUE, times = 100:110, proper = TRUE)))
-  expect_silent(prediction$score(lapply(losses, msr, integrated = FALSE, times = 80, proper = TRUE)))
+  # all `times` outside the test set range
+  for (loss in losses) {
+    expect_warning(prediction$score(msr(loss, integrated = TRUE, proper = TRUE, times = 34:38)), "requested times")
+  }
+  # some `times` outside the test set range
+  for (loss in losses) {
+    expect_warning(prediction$score(msr(loss, integrated = TRUE, proper = TRUE, times = 100:110)), "requested times")
+  }
+  # one time point, inside the range, no warnings
+  expect_silent(prediction$score(lapply(losses, msr, integrated = FALSE, proper = TRUE, times = 80)))
 })
 
 test_that("dcalib works", {
