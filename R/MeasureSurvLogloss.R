@@ -23,12 +23,12 @@
 #' where \eqn{N} are the number of observations in the test set, and \eqn{sd} is the standard
 #' deviation.
 #'
-#' The **Re-weighted Negative Log-Likelihood** (RNLL) or IPCW Log Loss is defined by
-#' \deqn{L_{RNLL}(f, t, \Delta) = -\Delta log(f(t))/G(t)}
-#' where \eqn{\Delta} is the censoring indicator and G is the Kaplan-Meier estimator of the
+#' The **Re-weighted Negative Log-Likelihood** (RNLL) or IPCW (Inverse Probability Censoring Weighted) Log Loss is defined by
+#' \deqn{L_{RNLL}(f, t, \delta) = - \frac{\delta \log[f(t)]}{G(t)}}
+#' where \eqn{\delta} is the censoring indicator and \eqn{G(t)} is the Kaplan-Meier estimator of the
 #' censoring distribution.
 #' So only observations that have experienced the event are taking into account
-#' for RNLL and both \eqn{f(t), G(t)} are calculated only at the event times.
+#' for RNLL (i.e. \eqn{\delta = 1}) and both \eqn{f(t), G(t)} are calculated only at the event times.
 #' If only censored observations exist in the test set, `NaN` is returned.
 #'
 #' @template details_trainG
