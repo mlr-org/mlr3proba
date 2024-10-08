@@ -19,7 +19,7 @@ weight: normally distributed with hazard ratio 1.
 
 See simsurv::simsurv() for an explanation of the hyperparameters.
 Initial values for hyperparameters are lambdas = 0.1, gammas = 1.5 and maxt = 5.
-The last one, by default generates samples which are administratively censored at \(\tau = 5\), so increase this value if you want to change this."></head><body>
+The last one, by default generates samples which are administratively censored at \(\tau = 5\), so increase this value if you want to change this."><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous"><script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -27,7 +27,7 @@ The last one, by default generates samples which are administratively censored a
 
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.6.8</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.6.9</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,13 +45,13 @@ The last one, by default generates samples which are administratively censored a
   </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://mlr3book.mlr-org.com"><span class="fa fa-link"></span> mlr3book</a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://mlr3book.mlr-org.com"><span class="fa fa-book"></span> mlr3book</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/mlr-org/mlr3proba/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/"><span class="fa fa-comments"></span></a></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://stackoverflow.com/questions/tagged/mlr3"><span class="fa fab fa-stack-overflow"></span></a></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://mlr-org.com/"><span class="fa fa-rss"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/" aria-label="Mattermost"><span class="fa fa-comments"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://stackoverflow.com/questions/tagged/mlr3" aria-label="Stack Overflow"><span class="fa fab fa-stack-overflow"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://mlr-org.com/" aria-label="mlr3 website"><span class="fa fa-link"></span></a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch"><li><button class="dropdown-item" data-bs-theme-value="light"><span class="fa fa-sun"></span> Light</button></li>
@@ -67,7 +67,7 @@ The last one, by default generates samples which are administratively censored a
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Survival Task Generator for Package 'simsurv'</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/v0.6.8/R/TaskGeneratorSimsurv.R" class="external-link"><code>R/TaskGeneratorSimsurv.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/main/R/TaskGeneratorSimsurv.R" class="external-link"><code>R/TaskGeneratorSimsurv.R</code></a></small>
       <div class="d-none name"><code>mlr_task_generators_simsurv.Rd</code></div>
     </div>
 
@@ -169,14 +169,14 @@ The last one, by default generates samples which are administratively censored a
 <span class="r-in"><span>  <span class="va">task</span> <span class="op">=</span> <span class="va">gen</span><span class="op">$</span><span class="fu">generate</span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    eventtime status   height treatment   weight</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        &lt;num&gt;  &lt;int&gt;    &lt;num&gt;     &lt;int&gt;    &lt;num&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 22.005239      1 179.0330         1 84.89331</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 18.163877      1 188.1818         1 85.36058</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  5.660542      1 162.3345         0 94.56819</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:  3.168900      1 167.4808         0 82.36814</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 18.902288      1 161.4914         1 80.53364</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 11.206606      1 156.0540         0 72.07708</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     eventtime status   height treatment   weight</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;num&gt;  &lt;int&gt;    &lt;num&gt;     &lt;int&gt;    &lt;num&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:  0.2338561      1 160.2120         1 77.05489</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:  1.6145257      1 156.3155         1 78.82685</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  9.7225216      1 163.9447         1 95.23024</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:  6.1843654      1 167.8000         0 79.68708</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 26.8635658      1 165.9662         0 67.97511</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 18.0514515      1 175.5753         0 70.80285</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -188,7 +188,7 @@ The last one, by default generates samples which are administratively censored a
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>

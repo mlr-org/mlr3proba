@@ -40,6 +40,7 @@
 <url><loc>https://mlr3proba.mlr-org.com/reference/mlr_graphs_responsecompositor.html</loc></url>
 <url><loc>https://mlr3proba.mlr-org.com/reference/mlr_graphs_survaverager.html</loc></url>
 <url><loc>https://mlr3proba.mlr-org.com/reference/mlr_graphs_survbagging.html</loc></url>
+<url><loc>https://mlr3proba.mlr-org.com/reference/mlr_graphs_survtoclassif_IPCW.html</loc></url>
 <url><loc>https://mlr3proba.mlr-org.com/reference/mlr_graphs_survtoclassif_disctime.html</loc></url>
 <url><loc>https://mlr3proba.mlr-org.com/reference/mlr_graphs_survtoregr.html</loc></url>
 <url><loc>https://mlr3proba.mlr-org.com/reference/mlr_learners_dens.hist.html</loc></url>
@@ -78,10 +79,12 @@
 <url><loc>https://mlr3proba.mlr-org.com/reference/mlr_pipeops_distrcompose.html</loc></url>
 <url><loc>https://mlr3proba.mlr-org.com/reference/mlr_pipeops_responsecompose.html</loc></url>
 <url><loc>https://mlr3proba.mlr-org.com/reference/mlr_pipeops_survavg.html</loc></url>
+<url><loc>https://mlr3proba.mlr-org.com/reference/mlr_pipeops_trafopred_classifsurv_IPCW.html</loc></url>
 <url><loc>https://mlr3proba.mlr-org.com/reference/mlr_pipeops_trafopred_classifsurv_disctime.html</loc></url>
 <url><loc>https://mlr3proba.mlr-org.com/reference/mlr_pipeops_trafopred_regrsurv.html</loc></url>
 <url><loc>https://mlr3proba.mlr-org.com/reference/mlr_pipeops_trafopred_survregr.html</loc></url>
 <url><loc>https://mlr3proba.mlr-org.com/reference/mlr_pipeops_trafotask_regrsurv.html</loc></url>
+<url><loc>https://mlr3proba.mlr-org.com/reference/mlr_pipeops_trafotask_survclassif_IPCW.html</loc></url>
 <url><loc>https://mlr3proba.mlr-org.com/reference/mlr_pipeops_trafotask_survclassif_disctime.html</loc></url>
 <url><loc>https://mlr3proba.mlr-org.com/reference/mlr_pipeops_trafotask_survregr.html</loc></url>
 <url><loc>https://mlr3proba.mlr-org.com/reference/mlr_task_generators_coxed.html</loc></url>
