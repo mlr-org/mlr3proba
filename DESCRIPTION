@@ -70,6 +70,7 @@ Suggests:
     GGally,
     knitr,
     lgr,
+    lifecycle,
     mlr3pipelines (>= 0.3.4),
     param6 (>= 0.2.4),
     pracma,

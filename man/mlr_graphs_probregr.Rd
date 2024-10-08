@@ -35,6 +35,8 @@ If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
 }
 \description{
 Wrapper around \link{PipeOpProbregr} to simplify \link[mlr3pipelines:Graph]{Graph} creation.
+
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 }
 \section{Dictionary}{
 

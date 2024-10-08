@@ -36,7 +36,6 @@ pipeline_survaverager = function(learners, param_vals = list(), graph_learner = 
   gr
 }
 
-
 #' @template pipeline
 #' @templateVar title Survival Prediction Averaging
 #' @templateVar pipeop [PipeOpSubsample][mlr3pipelines::PipeOpSubsample] and [PipeOpSurvAvg]
@@ -225,6 +224,8 @@ pipeline_responsecompositor = function(learner, method = "rmst", tau = NULL,
 #' @templateVar pipeop [PipeOpDistrCompositor] or [PipeOpBreslow]
 #' @templateVar id distrcompositor
 #' @template param_pipeline_learner
+#' @description
+#' `r lifecycle::badge("experimental")`
 #'
 #' @param estimator (`character(1)`)\cr
 #' One of `kaplan` (default), `nelson` or `breslow`, corresponding to the Kaplan-Meier,
@@ -292,6 +293,9 @@ pipeline_distrcompositor = function(learner, estimator = "kaplan", form = "aft",
 #' @templateVar pipeop [PipeOpProbregr]
 #' @templateVar id probregr
 #' @template param_pipeline_learner_regr
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' @param learner_se `[mlr3::Learner]|[mlr3pipelines::PipeOp]` \cr
 #' Optional [LearnerRegr][mlr3::LearnerRegr] with predict_type `se` to estimate the standard
 #' error. If left `NULL` then `learner` must have `se` in predict_types.
@@ -354,6 +358,8 @@ pipeline_probregr = function(learner, learner_se = NULL, dist = "Uniform",
 #' @description Wrapper around multiple [PipeOp][mlr3pipelines::PipeOp]s to help in creation
 #' of complex survival reduction methods. Three reductions are currently implemented,
 #' see details.
+#' `r lifecycle::badge("experimental")`
+#'
 #' @details
 #' Three reduction strategies are implemented, these are:
 #'

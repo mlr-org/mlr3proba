@@ -65,6 +65,7 @@ If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
 Wrapper around multiple \link[mlr3pipelines:PipeOp]{PipeOp}s to help in creation
 of complex survival reduction methods. Three reductions are currently implemented,
 see details.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 }
 \details{
 Three reduction strategies are implemented, these are:
