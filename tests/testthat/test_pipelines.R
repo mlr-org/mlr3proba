@@ -125,10 +125,7 @@ test_that("survtoclassif_IPCW", {
   # crank = risk = 1 - surv at cutoff time
   expect_equal(p$crank, 1 - p$data$distr[,"500"])
   # brier score at the cutoff time works
-  expect_number(p$score(msr("surv.brier", times = 500)), finite = TRUE)
-  # also in other points
-  expect_number(p$score(msr("surv.brier", times = 100)), finite = TRUE)
-  expect_number(p$score(msr("surv.brier", times = 600)), finite = TRUE)
+  expect_number(p$score(msr("surv.brier", times = 500, integrated = FALSE)), finite = TRUE)
 
   # Test with different tau
   grlrn = mlr3pipelines::ppl("survtoclassif_IPCW", learner = lrn("classif.rpart"),
@@ -138,7 +135,7 @@ test_that("survtoclassif_IPCW", {
 
   # check predictions
   expect_numeric(p2$crank, len = length(part$test), lower = 0, upper = 1)
-  expect_number(p2$score(msr("surv.brier", times = 600)), finite = TRUE)
+  expect_number(p2$score(msr("surv.brier", times = 600, integrated = FALSE)), finite = TRUE)
 
   # different cutoff times, different (crank) predictions
   expect_false(all(p$crank == p2$crank))

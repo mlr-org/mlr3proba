@@ -708,7 +708,7 @@ pipeline_survtoclassif_disctime = function(learner, cut = NULL, max_time = NULL,
 #'
 #'   # score predictions
 #'   pred$score() # C-index
-#'   pred$score(msr("surv.brier", times = 500)) # Brier score at tau
+#'   pred$score(msr("surv.brier", times = 500, integrated = FALSE)) # Brier score at tau
 #' }
 #' @export
 pipeline_survtoclassif_IPCW = function(learner, tau = NULL, eps = 1e-3, graph_learner = FALSE) {

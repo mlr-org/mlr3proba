@@ -66,7 +66,7 @@ to \link{PredictionSurv}.
 
   # score predictions
   pred$score() # C-index
-  pred$score(msr("surv.brier", times = 500)) # Brier score at tau
+  pred$score(msr("surv.brier", times = 500, integrated = FALSE)) # Brier score at tau
 }
 \dontshow{\}) # examplesIf}
 }
