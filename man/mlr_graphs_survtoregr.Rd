@@ -61,9 +61,6 @@ insampling.}
 If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
 \link[mlr3pipelines:mlr_learners_graph]{GraphLearner} otherwise (default) returns as a \code{Graph}.}
 }
-\value{
-\link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or \link[mlr3pipelines:mlr_learners_graph]{mlr3pipelines::GraphLearner}
-}
 \description{
 Wrapper around multiple \link[mlr3pipelines:PipeOp]{PipeOp}s to help in creation
 of complex survival reduction methods. Three reductions are currently implemented,
@@ -120,8 +117,8 @@ predictors of the new data, which can ultimately be composed to a distribution.
 }
 }
 \examples{
+\dontshow{if (mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \dontrun{
-if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   library("mlr3")
   library("mlr3pipelines")
 
@@ -159,17 +156,5 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   pipe$train(task)
   pipe$predict(task)
 }
+\dontshow{\}) # examplesIf}
 }
-}
-\seealso{
-Other pipelines: 
-\code{\link{mlr_graphs_crankcompositor}},
-\code{\link{mlr_graphs_distrcompositor}},
-\code{\link{mlr_graphs_probregr}},
-\code{\link{mlr_graphs_responsecompositor}},
-\code{\link{mlr_graphs_survaverager}},
-\code{\link{mlr_graphs_survbagging}},
-\code{\link{mlr_graphs_survtoclassif_IPCW}},
-\code{\link{mlr_graphs_survtoclassif_disctime}}
-}
-\concept{pipelines}

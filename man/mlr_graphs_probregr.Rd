@@ -36,10 +36,19 @@ If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
 \description{
 Wrapper around \link{PipeOpProbregr} to simplify \link[mlr3pipelines:Graph]{Graph} creation.
 }
+\section{Dictionary}{
+
+This \link[mlr3pipelines:Graph]{Graph} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3pipelines:mlr_graphs]{mlr_graphs} or with the associated sugar function \link[mlr3pipelines:ppl]{ppl()}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_graphs$get("probregr")
+ppl("probregr")
+}\if{html}{\out{</div>}}
+}
+
 \examples{
+\dontshow{if (mlr3misc::require_namespaces(c("mlr3pipelines", "rpart"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \dontrun{
-if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
-  requireNamespace("rpart", quietly = TRUE)) {
   library("mlr3")
   library("mlr3pipelines")
 
@@ -64,7 +73,7 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
   pipe$train(task)
   pipe$predict(task)
 }
-}
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 Other pipelines: 
@@ -74,7 +83,6 @@ Other pipelines:
 \code{\link{mlr_graphs_survaverager}},
 \code{\link{mlr_graphs_survbagging}},
 \code{\link{mlr_graphs_survtoclassif_IPCW}},
-\code{\link{mlr_graphs_survtoclassif_disctime}},
-\code{\link{mlr_graphs_survtoregr}}
+\code{\link{mlr_graphs_survtoclassif_disctime}}
 }
 \concept{pipelines}

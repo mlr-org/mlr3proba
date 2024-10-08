@@ -46,9 +46,19 @@ If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
 \description{
 Wrapper around \link{PipeOpResponseCompositor} to simplify \link[mlr3pipelines:Graph]{Graph} creation.
 }
+\section{Dictionary}{
+
+This \link[mlr3pipelines:Graph]{Graph} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3pipelines:mlr_graphs]{mlr_graphs} or with the associated sugar function \link[mlr3pipelines:ppl]{ppl()}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_graphs$get("responsecompositor")
+ppl("responsecompositor")
+}\if{html}{\out{</div>}}
+}
+
 \examples{
+\dontshow{if (mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \dontrun{
-if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   library("mlr3")
   library("mlr3pipelines")
 
@@ -66,7 +76,7 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   grlrn$train(task, part$train)
   grlrn$predict(task, part$test)
 }
-}
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 Other pipelines: 
@@ -76,7 +86,6 @@ Other pipelines:
 \code{\link{mlr_graphs_survaverager}},
 \code{\link{mlr_graphs_survbagging}},
 \code{\link{mlr_graphs_survtoclassif_IPCW}},
-\code{\link{mlr_graphs_survtoclassif_disctime}},
-\code{\link{mlr_graphs_survtoregr}}
+\code{\link{mlr_graphs_survtoclassif_disctime}}
 }
 \concept{pipelines}

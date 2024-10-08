@@ -41,8 +41,6 @@ If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
 }
 \value{
 \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or \link[mlr3pipelines:mlr_learners_graph]{mlr3pipelines::GraphLearner}
-
-\link[mlr3pipelines:mlr_learners_graph]{mlr3pipelines::GraphLearner}
 }
 \description{
 Wrapper around \link[mlr3pipelines:mlr_pipeops_subsample]{PipeOpSubsample} and \link{PipeOpSurvAvg} to simplify \link[mlr3pipelines:Graph]{Graph} creation.
@@ -55,9 +53,19 @@ the sample mean of deterministic predictions and a
 \link[distr6:MixtureDistribution]{MixtureDistribution} of distribution predictions. This can be
 further enhanced by using a weighted average by supplying \code{weights}.
 }
+\section{Dictionary}{
+
+This \link[mlr3pipelines:Graph]{Graph} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3pipelines:mlr_graphs]{mlr_graphs} or with the associated sugar function \link[mlr3pipelines:ppl]{ppl()}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_graphs$get("survbagging")
+ppl("survbagging")
+}\if{html}{\out{</div>}}
+}
+
 \examples{
+\dontshow{if (mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \dontrun{
-if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   library("mlr3")
   library("mlr3pipelines")
 
@@ -71,7 +79,7 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   pipe$train(task)
   pipe$predict(task)
 }
-}
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 Other pipelines: 
@@ -81,7 +89,6 @@ Other pipelines:
 \code{\link{mlr_graphs_responsecompositor}},
 \code{\link{mlr_graphs_survaverager}},
 \code{\link{mlr_graphs_survtoclassif_IPCW}},
-\code{\link{mlr_graphs_survtoclassif_disctime}},
-\code{\link{mlr_graphs_survtoregr}}
+\code{\link{mlr_graphs_survtoclassif_disctime}}
 }
 \concept{pipelines}

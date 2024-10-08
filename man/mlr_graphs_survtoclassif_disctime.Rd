@@ -3,7 +3,7 @@
 \name{mlr_graphs_survtoclassif_disctime}
 \alias{mlr_graphs_survtoclassif_disctime}
 \alias{pipeline_survtoclassif_disctime}
-\title{Survival to Classification Reduction Pipeline}
+\title{Survival to Classification Reduction using Discrete Time Pipeline}
 \usage{
 pipeline_survtoclassif_disctime(
   learner,
@@ -42,25 +42,31 @@ If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
 \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or \link[mlr3pipelines:mlr_learners_graph]{mlr3pipelines::GraphLearner}
 }
 \description{
-Wrapper around multiple \link[mlr3pipelines:PipeOp]{PipeOp}s to help in creation
-of complex survival reduction methods.
+Wrapper around \link{PipeOpTaskSurvClassifDiscTime} and \link{PipeOpPredClassifSurvDiscTime} to simplify \link[mlr3pipelines:Graph]{Graph} creation.
 }
 \details{
 The pipeline consists of the following steps:
 \enumerate{
 \item \link{PipeOpTaskSurvClassifDiscTime} Converts \link{TaskSurv} to a \link[mlr3:TaskClassif]{TaskClassif}.
 \item A \link{LearnerClassif} is fit and predicted on the new \code{TaskClassif}.
-\item \link{PipeOpPredClassifSurvDiscTime} transforms the resulting \link[mlr3:PredictionClassif]{PredictionClassif}
-to \link{PredictionSurv}.
+\item \link{PipeOpPredClassifSurvDiscTime} transforms the resulting \link[mlr3:PredictionClassif]{PredictionClassif} to \link{PredictionSurv}.
 \item Optionally: \link[mlr3pipelines:mlr_pipeops_modelmatrix]{PipeOpModelMatrix} is used to transform the formula of the task
 before fitting the learner.
 }
 }
-\examples{
-\dontrun{
-if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
-    requireNamespace("mlr3learners", quietly = TRUE)) {
+\section{Dictionary}{
 
+This \link[mlr3pipelines:Graph]{Graph} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3pipelines:mlr_graphs]{mlr_graphs} or with the associated sugar function \link[mlr3pipelines:ppl]{ppl()}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_graphs$get("survtoclassif_disctime")
+ppl("survtoclassif_disctime")
+}\if{html}{\out{</div>}}
+}
+
+\examples{
+\dontshow{if (mlr3misc::require_namespaces(c("mlr3pipelines", "mlr3learners"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontrun{
   library(mlr3)
   library(mlr3learners)
   library(mlr3pipelines)
@@ -77,7 +83,7 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
   grlrn$train(task, row_ids = part$train)
   grlrn$predict(task, row_ids = part$test)
 }
-}
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 Other pipelines: 
@@ -87,7 +93,6 @@ Other pipelines:
 \code{\link{mlr_graphs_responsecompositor}},
 \code{\link{mlr_graphs_survaverager}},
 \code{\link{mlr_graphs_survbagging}},
-\code{\link{mlr_graphs_survtoclassif_IPCW}},
-\code{\link{mlr_graphs_survtoregr}}
+\code{\link{mlr_graphs_survtoclassif_IPCW}}
 }
 \concept{pipelines}

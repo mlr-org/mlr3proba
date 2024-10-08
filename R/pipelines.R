@@ -2,13 +2,14 @@
 #' @templateVar title Survival Prediction Averaging
 #' @templateVar pipeop [PipeOpSurvAvg]
 #' @templateVar id survaverager
+#'
 #' @param learners `(list())` \cr
 #' List of [LearnerSurv]s to average.
 #' @param param_vals `(list())` \cr
 #' Parameters, including weights, to pass to [PipeOpSurvAvg].
-#' @examples
+#'
+#' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)
 #' \dontrun{
-#' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 #'   library("mlr3")
 #'   library("mlr3pipelines")
 #'
@@ -21,7 +22,6 @@
 #'   )
 #'   pipe$train(task)
 #'   pipe$predict(task)
-#' }
 #' }
 pipeline_survaverager = function(learners, param_vals = list(), graph_learner = FALSE) {
   learners = mlr3pipelines::gunion(map(learners, mlr3pipelines::as_graph))
@@ -42,6 +42,7 @@ pipeline_survaverager = function(learners, param_vals = list(), graph_learner = 
 #' @templateVar pipeop [PipeOpSubsample][mlr3pipelines::PipeOpSubsample] and [PipeOpSurvAvg]
 #' @templateVar id survbagging
 #' @template param_pipeline_learner
+#'
 #' @param iterations (`integer(1)`)\cr
 #' Number of bagging iterations. Defaults to 10.
 #' @param frac (`numeric(1)`)\cr
@@ -53,16 +54,16 @@ pipeline_survaverager = function(learners, param_vals = list(), graph_learner = 
 #' @param weights (`numeric()`)\cr
 #' Weights for model avering, ignored if `avg = FALSE`. Default is uniform weighting,
 #' see [PipeOpSurvAvg].
+#'
 #' @details Bagging (Bootstrap AGGregatING) is the process of bootstrapping data and aggregating
 #' the final predictions. Bootstrapping splits the data into `B` smaller datasets of a given size
 #' and is performed with [PipeOpSubsample][mlr3pipelines::PipeOpSubsample]. Aggregation is
 #' the sample mean of deterministic predictions and a
 #' [MixtureDistribution][distr6::MixtureDistribution] of distribution predictions. This can be
 #' further enhanced by using a weighted average by supplying `weights`.
-#' @return [mlr3pipelines::GraphLearner]
-#' @examples
+#'
+#' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)
 #' \dontrun{
-#' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 #'   library("mlr3")
 #'   library("mlr3pipelines")
 #'
@@ -75,7 +76,6 @@ pipeline_survaverager = function(learners, param_vals = list(), graph_learner = 
 #'   )
 #'   pipe$train(task)
 #'   pipe$predict(task)
-#' }
 #' }
 pipeline_survbagging = function(learner, iterations = 10, frac = 0.7, avg = TRUE, weights = 1,
   graph_learner = FALSE) {
@@ -117,9 +117,8 @@ pipeline_survbagging = function(learner, iterations = 10, frac = 0.7, avg = TRUE
 #' If `FALSE` (default) and the prediction already has a `crank` prediction, then the compositor returns the input prediction unchanged.
 #' If `TRUE`, then the `crank` will be overwritten.
 #'
-#' @examples
+#' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)
 #' \dontrun{
-#' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 #'   library("mlr3")
 #'   library("mlr3pipelines")
 #'
@@ -136,7 +135,6 @@ pipeline_survbagging = function(learner, iterations = 10, frac = 0.7, avg = TRUE
 #'   )
 #'   grlrn$train(task, part$train)
 #'   grlrn$predict(task, part$test)
-#' }
 #' }
 pipeline_crankcompositor = function(learner, method = c("mort"),
                                     overwrite = FALSE, graph_learner = FALSE) {
@@ -178,9 +176,8 @@ pipeline_crankcompositor = function(learner, method = c("mort"),
 #' If `FALSE` (default) and the prediction already has a `response` prediction, then the compositor returns the input prediction unchanged.
 #' If `TRUE`, then the `response` (and the `crank`, if `add_crank` is `TRUE`) will be overwritten.
 #'
-#' @examples
+#' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)
 #' \dontrun{
-#' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 #'   library("mlr3")
 #'   library("mlr3pipelines")
 #'
@@ -197,7 +194,6 @@ pipeline_crankcompositor = function(learner, method = c("mort"),
 #'   )
 #'   grlrn$train(task, part$train)
 #'   grlrn$predict(task, part$test)
-#' }
 #' }
 pipeline_responsecompositor = function(learner, method = "rmst", tau = NULL,
                                        add_crank = FALSE, overwrite = FALSE,
@@ -229,8 +225,7 @@ pipeline_responsecompositor = function(learner, method = "rmst", tau = NULL,
 #' @templateVar pipeop [PipeOpDistrCompositor] or [PipeOpBreslow]
 #' @templateVar id distrcompositor
 #' @template param_pipeline_learner
-#' @param learner [LearnerSurv]\cr
-#' Survival learner.
+#'
 #' @param estimator (`character(1)`)\cr
 #' One of `kaplan` (default), `nelson` or `breslow`, corresponding to the Kaplan-Meier,
 #' Nelson-Aalen and [Breslow][breslow] estimators respectively.
@@ -245,9 +240,9 @@ pipeline_responsecompositor = function(learner, method = "rmst", tau = NULL,
 #' If `TRUE` then the `distr` is overwritten by the compositor if
 #' already present, which may be required for changing the prediction `distr` from one model form
 #' to another.
-#' @examples
+#'
+#' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)
 #' \dontrun{
-#' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 #'   library("mlr3pipelines")
 #'
 #'   # let's change the distribution prediction of Cox (Breslow-based) to an AFT form:
@@ -262,7 +257,6 @@ pipeline_responsecompositor = function(learner, method = "rmst", tau = NULL,
 #'   )
 #'   grlrn$train(task)
 #'   grlrn$predict(task)
-#' }
 #' }
 pipeline_distrcompositor = function(learner, estimator = "kaplan", form = "aft",
   overwrite = FALSE, graph_learner = FALSE) {
@@ -304,10 +298,8 @@ pipeline_distrcompositor = function(learner, estimator = "kaplan", form = "aft",
 #' @param dist (`character(1)`)\cr
 #' Location-scale distribution to use for composition.
 #' Current possibilities are' `"Cauchy", "Gumbel", "Laplace", "Logistic", "Normal", "Uniform"`. Default is `"Uniform"`.
-#' @examples
+#' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines", "rpart"), quietly = TRUE)
 #' \dontrun{
-#' if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
-#'   requireNamespace("rpart", quietly = TRUE)) {
 #'   library("mlr3")
 #'   library("mlr3pipelines")
 #'
@@ -331,7 +323,6 @@ pipeline_distrcompositor = function(learner, estimator = "kaplan", form = "aft",
 #'   )
 #'   pipe$train(task)
 #'   pipe$predict(task)
-#' }
 #' }
 pipeline_probregr = function(learner, learner_se = NULL, dist = "Uniform",
   graph_learner = FALSE) {
@@ -443,12 +434,8 @@ pipeline_probregr = function(learner, learner_se = NULL, dist = "Uniform",
 #' If `TRUE` returns wraps the [Graph][mlr3pipelines::Graph] as a
 #' [GraphLearner][mlr3pipelines::GraphLearner] otherwise (default) returns as a `Graph`.
 #'
-#' @return [mlr3pipelines::Graph] or [mlr3pipelines::GraphLearner]
-#' @family pipelines
-#'
-#' @examples
+#' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)
 #' \dontrun{
-#' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 #'   library("mlr3")
 #'   library("mlr3pipelines")
 #'
@@ -485,7 +472,6 @@ pipeline_probregr = function(learner, learner_se = NULL, dist = "Uniform",
 #'   )
 #'   pipe$train(task)
 #'   pipe$predict(task)
-#' }
 #' }
 #' @export
 pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"),
@@ -568,10 +554,10 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
   gr
 }
 
-#' @name mlr_graphs_survtoclassif_disctime
-#' @title Survival to Classification Reduction Pipeline
-#' @description Wrapper around multiple [PipeOp][mlr3pipelines::PipeOp]s to help in creation
-#' of complex survival reduction methods.
+#' @template pipeline
+#' @templateVar pipeop [PipeOpTaskSurvClassifDiscTime] and [PipeOpPredClassifSurvDiscTime]
+#' @templateVar id survtoclassif_disctime
+#' @templateVar title Survival to Classification Reduction using Discrete Time
 #'
 #' @param learner [LearnerClassif][mlr3::LearnerClassif]\cr
 #' Classification learner to fit the transformed [TaskClassif][mlr3::TaskClassif].
@@ -589,29 +575,18 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
 #' All features of the task are available as well as `tend` the upper bounds
 #' of the intervals created by `cut`.
 #' If `rhs` is unspecified, the formula of the task will be used.
-#' @param graph_learner (`logical(1)`)\cr
-#' If `TRUE` returns wraps the [Graph][mlr3pipelines::Graph] as a
-#' [GraphLearner][mlr3pipelines::GraphLearner] otherwise (default) returns as a `Graph`.
 #'
 #' @details
 #' The pipeline consists of the following steps:
-#' \enumerate{
-#' \item [PipeOpTaskSurvClassifDiscTime] Converts [TaskSurv] to a [TaskClassif][mlr3::TaskClassif].
-#' \item A [LearnerClassif] is fit and predicted on the new `TaskClassif`.
-#' \item [PipeOpPredClassifSurvDiscTime] transforms the resulting [PredictionClassif][mlr3::PredictionClassif]
-#' to [PredictionSurv].
-#' \item Optionally: [PipeOpModelMatrix][mlr3pipelines::PipeOpModelMatrix] is used to transform the formula of the task
+#'
+#' 1. [PipeOpTaskSurvClassifDiscTime] Converts [TaskSurv] to a [TaskClassif][mlr3::TaskClassif].
+#' 2. A [LearnerClassif] is fit and predicted on the new `TaskClassif`.
+#' 3. [PipeOpPredClassifSurvDiscTime] transforms the resulting [PredictionClassif][mlr3::PredictionClassif] to [PredictionSurv].
+#' 4. Optionally: [PipeOpModelMatrix][mlr3pipelines::PipeOpModelMatrix] is used to transform the formula of the task
 #' before fitting the learner.
-#' }
 #'
-#' @return [mlr3pipelines::Graph] or [mlr3pipelines::GraphLearner]
-#' @family pipelines
-#'
-#' @examples
+#' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines", "mlr3learners"), quietly = TRUE)
 #' \dontrun{
-#' if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
-#'     requireNamespace("mlr3learners", quietly = TRUE)) {
-#'
 #'   library(mlr3)
 #'   library(mlr3learners)
 #'   library(mlr3pipelines)
@@ -627,7 +602,6 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
 #'   )
 #'   grlrn$train(task, row_ids = part$train)
 #'   grlrn$predict(task, row_ids = part$test)
-#' }
 #' }
 #' @export
 pipeline_survtoclassif_disctime = function(learner, cut = NULL, max_time = NULL,
@@ -659,10 +633,15 @@ pipeline_survtoclassif_disctime = function(learner, cut = NULL, max_time = NULL,
   gr
 }
 
-#' @name mlr_graphs_survtoclassif_IPCW
-#' @title Survival to Classification Reduction Pipeline using IPCW
-#' @description Wrapper around multiple [PipeOp][mlr3pipelines::PipeOp]s to help in creation
-#' of complex survival reduction methods.
+#' @template pipeline
+#' @templateVar pipeop [PipeOpTaskSurvClassifIPCW] and [PipeOpPredClassifSurvIPCW]
+#' @templateVar id survtoclassif_IPCW
+#' @templateVar title Survival to Classification Reduction using IPCW
+#' @section Dictionary:
+#' Additional alias id for pipeline construction:
+#' ```
+#' ppl("survtoclassif_vock")
+#' ```
 #'
 #' @param learner [LearnerClassif][mlr3::LearnerClassif]\cr
 #' Classification learner to fit the transformed [TaskClassif][mlr3::TaskClassif].
@@ -683,9 +662,6 @@ pipeline_survtoclassif_disctime = function(learner, cut = NULL, max_time = NULL,
 #' 2. A [LearnerClassif] is fit and predicted on the new `TaskClassif`.
 #' 3. [PipeOpPredClassifSurvIPCW] transforms the resulting [PredictionClassif][mlr3::PredictionClassif]
 #' to [PredictionSurv].
-#'
-#' @return [mlr3pipelines::Graph] or [mlr3pipelines::GraphLearner]
-#' @family pipelines
 #'
 #' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines", "mlr3learners"), quietly = TRUE)
 #' \dontrun{

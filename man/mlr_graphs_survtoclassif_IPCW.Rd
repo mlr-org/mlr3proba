@@ -3,7 +3,7 @@
 \name{mlr_graphs_survtoclassif_IPCW}
 \alias{mlr_graphs_survtoclassif_IPCW}
 \alias{pipeline_survtoclassif_IPCW}
-\title{Survival to Classification Reduction Pipeline using IPCW}
+\title{Survival to Classification Reduction using IPCW Pipeline}
 \usage{
 pipeline_survtoclassif_IPCW(
   learner,
@@ -32,8 +32,7 @@ If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
 \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or \link[mlr3pipelines:mlr_learners_graph]{mlr3pipelines::GraphLearner}
 }
 \description{
-Wrapper around multiple \link[mlr3pipelines:PipeOp]{PipeOp}s to help in creation
-of complex survival reduction methods.
+Wrapper around \link{PipeOpTaskSurvClassifIPCW} and \link{PipeOpPredClassifSurvIPCW} to simplify \link[mlr3pipelines:Graph]{Graph} creation.
 }
 \details{
 The pipeline consists of the following steps:
@@ -44,6 +43,22 @@ The pipeline consists of the following steps:
 to \link{PredictionSurv}.
 }
 }
+\section{Dictionary}{
+
+This \link[mlr3pipelines:Graph]{Graph} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3pipelines:mlr_graphs]{mlr_graphs} or with the associated sugar function \link[mlr3pipelines:ppl]{ppl()}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_graphs$get("survtoclassif_IPCW")
+ppl("survtoclassif_IPCW")
+}\if{html}{\out{</div>}}
+
+
+Additional alias id for pipeline construction:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{ppl("survtoclassif_vock")
+}\if{html}{\out{</div>}}
+}
+
 \examples{
 \dontshow{if (mlr3misc::require_namespaces(c("mlr3pipelines", "mlr3learners"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \dontrun{
@@ -78,7 +93,6 @@ Other pipelines:
 \code{\link{mlr_graphs_responsecompositor}},
 \code{\link{mlr_graphs_survaverager}},
 \code{\link{mlr_graphs_survbagging}},
-\code{\link{mlr_graphs_survtoclassif_disctime}},
-\code{\link{mlr_graphs_survtoregr}}
+\code{\link{mlr_graphs_survtoclassif_disctime}}
 }
 \concept{pipelines}

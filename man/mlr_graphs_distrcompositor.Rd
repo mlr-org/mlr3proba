@@ -14,8 +14,10 @@ pipeline_distrcompositor(
 )
 }
 \arguments{
-\item{learner}{\link{LearnerSurv}\cr
-Survival learner.}
+\item{learner}{\verb{[mlr3::Learner]|[mlr3pipelines::PipeOp]|[mlr3pipelines::Graph]} \cr
+Either a \code{Learner} which will be wrapped in \link[mlr3pipelines:mlr_pipeops_learner]{mlr3pipelines::PipeOpLearner}, a \code{PipeOp} which will
+be wrapped in \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or a \code{Graph} itself. Underlying \code{Learner} should be
+\link{LearnerSurv}.}
 
 \item{estimator}{(\code{character(1)})\cr
 One of \code{kaplan} (default), \code{nelson} or \code{breslow}, corresponding to the Kaplan-Meier,
@@ -44,9 +46,19 @@ If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
 \description{
 Wrapper around \link{PipeOpDistrCompositor} or \link{PipeOpBreslow} to simplify \link[mlr3pipelines:Graph]{Graph} creation.
 }
+\section{Dictionary}{
+
+This \link[mlr3pipelines:Graph]{Graph} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3pipelines:mlr_graphs]{mlr_graphs} or with the associated sugar function \link[mlr3pipelines:ppl]{ppl()}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_graphs$get("distrcompositor")
+ppl("distrcompositor")
+}\if{html}{\out{</div>}}
+}
+
 \examples{
+\dontshow{if (mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \dontrun{
-if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   library("mlr3pipelines")
 
   # let's change the distribution prediction of Cox (Breslow-based) to an AFT form:
@@ -62,7 +74,7 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   grlrn$train(task)
   grlrn$predict(task)
 }
-}
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 Other pipelines: 
@@ -72,7 +84,6 @@ Other pipelines:
 \code{\link{mlr_graphs_survaverager}},
 \code{\link{mlr_graphs_survbagging}},
 \code{\link{mlr_graphs_survtoclassif_IPCW}},
-\code{\link{mlr_graphs_survtoclassif_disctime}},
-\code{\link{mlr_graphs_survtoregr}}
+\code{\link{mlr_graphs_survtoclassif_disctime}}
 }
 \concept{pipelines}
