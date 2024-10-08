@@ -3,6 +3,9 @@
 using namespace Rcpp;
 using namespace std;
 
+// This function essentially finds and returns the subset of `true_times` that
+// align with the requested times (`req_times`), after cleaning up the invalid
+// `req_times` (outside of the `true_times` range or duplicate consecutive elements)
 // [[Rcpp::export(.c_get_unique_times)]]
 NumericVector c_get_unique_times(NumericVector true_times, NumericVector req_times) {
   if (req_times.length() == 0) {

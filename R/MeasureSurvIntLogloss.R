@@ -17,22 +17,31 @@
 #' Logarithmic (log) Loss, aka integrated cross entropy.
 #'
 #' @details
-#' For an individual who dies at time \eqn{t}, with predicted Survival function, \eqn{S}, the
-#' probabilistic log loss at time \eqn{t^*}{t*} is given by
-#' \deqn{L_{ISLL}(S,t|t^*) = - [log(1 - S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] - [log(S(t^*))I(t > t^*)(1/G(t^*))]}
+#' This measure has two dimensions: (test set) observations and time points.
+#' For a specific individual \eqn{i} from the test set, with observed survival
+#' outcome \eqn{(t_i, \delta_i)} (time and censoring indicator) and predicted
+#' survival function \eqn{S_i(t)}, the *observation-wise* loss integrated across
+#' the time dimension up to the time cutoff \eqn{\tau^*}, is:
+#'
+#' \deqn{L_{ISLL}(S_i, t_i, \delta_i) = -\text{I}(t_i \leq \tau^*) \int^{\tau^*}_0  \frac{log[1-S_i(\tau)] \text{I}(t_i \leq \tau, \delta=1)}{G(t_i)} + \frac{\log[S_i(\tau)] \text{I}(t_i > \tau)}{G(\tau)} \ d\tau}
+#'
 #' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
 #'
-#' The re-weighted ISLL, RISLL is given by
-#' \deqn{L_{RISLL}(S,t|t^*) = - [log(1 - S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] - [log(S(t^*))I(t > t^*)(1/G(t))]}
-#' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution, i.e. always
-#' weighted by \eqn{G(t)}.
-#' RISLL is strictly proper when the censoring distribution is independent
-#' of the survival distribution and when G is fit on a sufficiently large dataset.
-#' ISLL is never proper.
-#' Use `proper = FALSE` for ISLL and `proper = TRUE` for RISLL.
-#' Results may be very different if many observations are censored at the last
-#' observed time due to division by 1/`eps` in `proper = TRUE`.
+#' The **re-weighted ISLL** (RISLL) is:
 #'
+#' \deqn{L_{RISLL}(S_i, t_i, \delta_i) = -\delta_i \text{I}(t_i \leq \tau^*) \int^{\tau^*}_0  \frac{\log[1-S_i(\tau)]) \text{I}(t_i \leq \tau) + \log[S_i(\tau)] \text{I}(t_i > \tau)}{G(t_i)} \ d\tau}
+#'
+#' which is always weighted by \eqn{G(t_i)} and is equal to zero for a censored subject.
+#'
+#' To get a single score across all \eqn{N} observations of the test set, we
+#' return the average of the time-integrated observation-wise scores:
+#' \deqn{\sum_{i=1}^N L(S_i, t_i, \delta_i) / N}
+#'
+#' @template properness
+#' @templateVar improper_id ISLL
+#' @templateVar proper_id RISLL
+#' @template which_times
+#' @template details_method
 #' @template details_trainG
 #' @template details_tmax
 #'
@@ -87,17 +96,22 @@ MeasureSurvIntLogloss = R6::R6Class("MeasureSurvIntLogloss",
   private = list(
     .score = function(prediction, task, train_set, ...) {
       ps = self$param_set$values
-
+      # times must be unique, sorted and positive numbers
+      times = assert_numeric(ps$times, lower = 0, any.missing = FALSE,
+                             unique = TRUE, sorted = TRUE, null.ok = TRUE)
+      # ERV score
       if (ps$ERV) return(.scoring_rule_erv(self, prediction, task, train_set))
-      nok = sum(!is.null(ps$times), !is.null(ps$t_max), !is.null(ps$p_max)) > 1
+
+      nok = sum(!is.null(times), !is.null(ps$t_max), !is.null(ps$p_max)) > 1
       if (nok) {
         stop("Only one of `times`, `t_max`, and `p_max` should be provided")
       }
+
       if (!ps$integrated) {
         msg = "If `integrated=FALSE` then `times` should be a scalar numeric."
-        assert_numeric(ps$times, len = 1L, .var.name = msg)
+        assert_numeric(times, len = 1L, .var.name = msg)
       } else {
-        if (!is.null(ps$times) && length(ps$times) == 1L) {
+        if (!is.null(times) && length(times) == 1L) {
           ps$integrated = FALSE
         }
       }
@@ -111,9 +125,13 @@ MeasureSurvIntLogloss = R6::R6Class("MeasureSurvIntLogloss",
         train = NULL
       }
 
-      score = weighted_survival_score("intslogloss", truth = prediction$truth,
-        distribution = prediction$data$distr, times = ps$times, t_max = ps$t_max,
-        p_max = ps$p_max, proper = ps$proper, train = train, eps = ps$eps)
+      # `score` is a matrix, IBS(i,j) => n_test_obs x times
+      score = weighted_survival_score("intslogloss",
+        truth = prediction$truth,
+        distribution = prediction$data$distr, times = times,
+        t_max = ps$t_max, p_max = ps$p_max, proper = ps$proper, train = train,
+        eps = ps$eps
+      )
 
       if (ps$se) {
         integrated_se(score, ps$integrated)

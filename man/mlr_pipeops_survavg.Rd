@@ -61,10 +61,12 @@ Other PipeOps:
 \code{\link{PipeOpPredTransformer}},
 \code{\link{PipeOpTaskTransformer}},
 \code{\link{PipeOpTransformer}},
+\code{\link{mlr_pipeops_trafopred_classifsurv_IPCW}},
 \code{\link{mlr_pipeops_trafopred_classifsurv_disctime}},
 \code{\link{mlr_pipeops_trafopred_regrsurv}},
 \code{\link{mlr_pipeops_trafopred_survregr}},
 \code{\link{mlr_pipeops_trafotask_regrsurv}},
+\code{\link{mlr_pipeops_trafotask_survclassif_IPCW}},
 \code{\link{mlr_pipeops_trafotask_survclassif_disctime}},
 \code{\link{mlr_pipeops_trafotask_survregr}}
 }
@@ -102,7 +104,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{innum}}{\code{(numeric(1))}\cr
+\item{\code{innum}}{(\code{numeric(1)})\cr
 Determines the number of input channels.
 If \code{innum} is 0 (default), a vararg input channel is created that can take an arbitrary
 number of inputs.}
@@ -114,7 +116,7 @@ Identifier of the resulting  object.}
 List of hyperparameter settings, overwriting the hyperparameter settings that would
 otherwise be set during construction.}
 
-\item{\code{...}}{\code{ANY}\cr
+\item{\code{...}}{(\code{ANY})\cr
 Additional arguments passed to \link[mlr3pipelines:PipeOpEnsemble]{mlr3pipelines::PipeOpEnsemble}.}
 }
 \if{html}{\out{</div>}}

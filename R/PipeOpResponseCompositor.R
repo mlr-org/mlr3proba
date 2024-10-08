@@ -33,7 +33,7 @@
 #' - `method` :: `character(1)` \cr
 #'    Determines what method should be used to produce a survival time (response) from the survival distribution.
 #'    Available methods are `"rmst"` and `"median"`, corresponding to the *restricted mean survival time* and the *median survival time* respectively.
-#' - `cutoff_time` :: `numeric(1)` \cr
+#' - `tau` :: `numeric(1)` \cr
 #'    Determines the time point up to which we calculate the restricted mean survival time (works only for the `"rmst"` method).
 #'    If `NULL` (default), all the available time points in the predicted survival distribution will be used.
 #' * `add_crank` :: `logical(1)` \cr
@@ -47,7 +47,7 @@
 #' The restricted mean survival time is the default/preferred method and is calculated as follows:
 #' \deqn{T_{i,rmst} \approx \sum_{t_j \in [0,\tau]} (t_j - t_{j-1}) S_i(t_j)}
 #'
-#' where \eqn{T} is the expected survival time, \eqn{\tau} is the time cutoff and \eqn{S_i(t_j)} are the predicted survival probabilities of observation \eqn{i} for all the \eqn{t_j} time points.
+#' where \eqn{T} is the expected survival time, \eqn{\tau} is the time cutoff/horizon and \eqn{S_i(t_j)} are the predicted survival probabilities of observation \eqn{i} for all the \eqn{t_j} time points.
 #'
 #' The \eqn{T_{i,median}} survival time is just the first time point for which the survival probability is less than \eqn{0.5}.
 #' If no such time point exists (e.g. when the survival distribution is not proper due to high censoring) we return the last time point.
@@ -72,7 +72,7 @@
 #'   # mostly improper survival distributions, "median" sets the survival time
 #'   # to the last time point
 #'
-#'   # RMST (default) as response, while also changing the crank = -response
+#'   # RMST (default) as response, while also changing the `crank` to `-response`
 #'   por = po("responsecompose", param_vals = list(overwrite = TRUE, add_crank = TRUE))
 #'   por$predict(list(pred))[[1L]]
 #' }
@@ -86,7 +86,7 @@ PipeOpResponseCompositor = R6Class("PipeOpResponseCompositor",
     initialize = function(id = "responsecompose", param_vals = list()) {
       param_set = ps(
         method = p_fct(default = "rmst", levels = c("rmst", "median"), tags = "predict"),
-        cutoff_time = p_dbl(0, default = NULL, special_vals = list(NULL), tags = "predict"),
+        tau = p_dbl(0, default = NULL, special_vals = list(NULL), tags = "predict"),
         add_crank = p_lgl(default = FALSE, tags = "predict"),
         overwrite = p_lgl(default = FALSE, tags = "predict")
       )
@@ -139,14 +139,12 @@ PipeOpResponseCompositor = R6Class("PipeOpResponseCompositor",
 
         method = self$param_set$values$method
         if (method == "rmst") {
-          cutoff_time = self$param_set$values$cutoff_time
-          within_range = !is.null(cutoff_time) &&
-                         cutoff_time <= max(times) &&
-                         cutoff_time >= min(times)
+          tau = self$param_set$values$tau
+          within_range = !is.null(tau) && tau <= max(times) && tau >= min(times)
           if (within_range) {
             # subset survival matrix and times
-            surv = surv[, times <= cutoff_time, drop = FALSE]
-            times = times[times <= cutoff_time]
+            surv = surv[, times <= tau, drop = FALSE]
+            times = times[times <= tau]
           }
 
           # calculate the restricted mean survival time

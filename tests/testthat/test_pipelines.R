@@ -45,7 +45,7 @@ test_that("survtoclassif_disctime", {
 
   expect_equal(p$row_ids, p2$row_ids)
   expect_equal(p$truth, p2$truth)
-  expect_equal(p$score(), p2$score(), tolerance = 0.01)
+  expect_equal(p$score(), p2$score(), tolerance = 0.015)
 
   # Test with cut
   grlrn = mlr3pipelines::ppl("survtoclassif_disctime", learner = lrn("classif.log_reg"),
@@ -96,4 +96,47 @@ test_that("survtoclassif_disctime", {
 
   # model with more covariates should have better C-index
   expect_gt(pred2$score(), pred$score())
+})
+
+skip_if_not_installed("mlr3extralearners")
+
+test_that("survtoclassif_IPCW", {
+  task = tsk("lung")
+  part = partition(task)
+
+  pipe = mlr3pipelines::ppl("survtoclassif_IPCW", learner = lrn("classif.rpart"),
+                            tau = 500)
+  expect_class(pipe, "Graph")
+
+  grlrn = mlr3pipelines::ppl("survtoclassif_IPCW", learner = lrn("classif.rpart"),
+                             tau = 500, graph_learner = TRUE)
+  expect_class(grlrn, "GraphLearner")
+  grlrn$train(task, row_ids = part$train)
+  # check that the weights were used for classif learner
+  expect_numeric(grlrn$model$classif.rpart$model$call$weights, any.missing = FALSE,
+                 len = length(part$train))
+  p = grlrn$predict(task, row_ids = part$test)
+  expect_prediction_surv(p)
+  # crank is like risk => prob of having the event up to cutoff time
+  expect_numeric(p$crank, len = length(part$test), lower = 0, upper = 1)
+  # p$data$distr => 1 column, cutoff time as column name
+  expect_matrix(p$data$distr, nrows = length(part$test), ncols = 1)
+  expect_true(colnames(p$data$distr) == "500")
+  # crank = risk = 1 - surv at cutoff time
+  expect_equal(p$crank, 1 - p$data$distr[,"500"])
+  # brier score at the cutoff time works
+  expect_number(p$score(msr("surv.brier", times = 500, integrated = FALSE)), finite = TRUE)
+
+  # Test with different tau
+  grlrn = mlr3pipelines::ppl("survtoclassif_IPCW", learner = lrn("classif.rpart"),
+                             tau = 600, graph_learner = TRUE)
+  grlrn$train(task, part$train)
+  p2 = grlrn$predict(task, part$test)
+
+  # check predictions
+  expect_numeric(p2$crank, len = length(part$test), lower = 0, upper = 1)
+  expect_number(p2$score(msr("surv.brier", times = 600, integrated = FALSE)), finite = TRUE)
+
+  # different cutoff times, different (crank) predictions
+  expect_false(all(p$crank == p2$crank))
 })

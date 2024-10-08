@@ -72,7 +72,7 @@ Other Task:
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{censtype}}{\code{character(1)}\cr
+\item{\code{censtype}}{(\code{character(1)})\cr
 Returns the type of censoring, one of \code{"right"}, \code{"left"}, \code{"counting"},
 \code{"interval"}, \code{"interval2"} or \code{"mstate"}.
 Currently, only the \code{"right"}-censoring type is fully supported, the rest
@@ -201,7 +201,7 @@ type. Defaults to all rows with role \code{"use"}.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{rows}}{\code{integer()}\cr
+\item{\code{rows}}{(\code{integer()})\cr
 Row indices.}
 }
 \if{html}{\out{</div>}}
@@ -245,7 +245,7 @@ Returns the (unsorted) outcome times.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{rows}}{\code{integer()}\cr
+\item{\code{rows}}{(\code{integer()})\cr
 Row indices.}
 }
 \if{html}{\out{</div>}}
@@ -271,7 +271,7 @@ See \code{\link[survival:Surv]{survival::Surv()}}.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{rows}}{\code{integer()}\cr
+\item{\code{rows}}{(\code{integer()})\cr
 Row indices.}
 }
 \if{html}{\out{</div>}}
@@ -293,7 +293,7 @@ Returns the sorted unique outcome times for \code{"right"}, \code{"left"} and
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{rows}}{\code{integer()}\cr
+\item{\code{rows}}{(\code{integer()})\cr
 Row indices.}
 }
 \if{html}{\out{</div>}}
@@ -315,7 +315,7 @@ Returns the sorted unique event (or failure) outcome times for \code{"right"},
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{rows}}{\code{integer()}\cr
+\item{\code{rows}}{(\code{integer()})\cr
 Row indices.}
 }
 \if{html}{\out{</div>}}
@@ -408,7 +408,7 @@ Only designed for \code{"right"} and \code{"left"} censoring.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{rows}}{\code{integer()}\cr
+\item{\code{rows}}{(\code{integer()})\cr
 Row indices.}
 }
 \if{html}{\out{</div>}}
@@ -435,7 +435,7 @@ Only designed for \code{"right"} and \code{"left"} censoring.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{rows}}{\code{integer()}\cr
+\item{\code{rows}}{(\code{integer()})\cr
 Row indices.}
 
 \item{\code{admin_time}}{(\code{numeric(1)}) \cr
@@ -478,7 +478,7 @@ Only designed for \code{"right"} and \code{"left"} censoring.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{rows}}{\code{integer()}\cr
+\item{\code{rows}}{(\code{integer()})\cr
 Row indices.}
 
 \item{\code{method}}{(\code{character(1)}) \cr

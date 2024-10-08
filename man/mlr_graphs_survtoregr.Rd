@@ -20,14 +20,14 @@ pipeline_survtoregr(
 )
 }
 \arguments{
-\item{method}{\code{integer(1)}\cr
+\item{method}{(\code{integer(1)})\cr
 Reduction method to use, corresponds to those in \code{details}. Default is \code{1}.}
 
 \item{regr_learner}{\link[mlr3:LearnerRegr]{LearnerRegr}\cr
 Regression learner to fit to the transformed \link[mlr3:TaskRegr]{TaskRegr}. If \code{regr_se_learner} is
 \code{NULL} in method \code{2}, then \code{regr_learner} must have \code{se} predict_type.}
 
-\item{distrcompose}{\code{logical(1)}\cr
+\item{distrcompose}{(\code{logical(1)})\cr
 For method \code{3} if \code{TRUE} (default) then \link{PipeOpDistrCompositor} is utilised to
 transform the deterministic predictions to a survival distribution.}
 
@@ -42,32 +42,30 @@ predict_type must be provided.}
 \item{surv_learner}{\link{LearnerSurv}\cr
 For method \code{3}, a \link{LearnerSurv} with \code{lp} predict type to estimate linear predictors.}
 
-\item{survregr_params}{\code{list()}\cr
+\item{survregr_params}{(\code{list()})\cr
 Parameters passed to \link{PipeOpTaskSurvRegr}, default are survival to regression transformation
 via \code{ipcw}, with weighting determined by Kaplan-Meier and no additional penalty for censoring.}
 
-\item{distrcompose_params}{\code{list()}\cr
+\item{distrcompose_params}{(\code{list()})\cr
 Parameters passed to \link{PipeOpDistrCompositor}, default is accelerated failure time model form.}
 
-\item{probregr_params}{\code{list()}\cr
+\item{probregr_params}{(\code{list()})\cr
 Parameters passed to \link{PipeOpProbregr}, default is \link[distr6:Uniform]{Uniform}
 distribution for composition.}
 
-\item{learnercv_params}{\code{list()}\cr
+\item{learnercv_params}{(\code{list()})\cr
 Parameters passed to \link[mlr3pipelines:mlr_pipeops_learner_cv]{PipeOpLearnerCV}, default is to use
 insampling.}
 
-\item{graph_learner}{\code{logical(1)}\cr
+\item{graph_learner}{(\code{logical(1)})\cr
 If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
 \link[mlr3pipelines:mlr_learners_graph]{GraphLearner} otherwise (default) returns as a \code{Graph}.}
-}
-\value{
-\link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or \link[mlr3pipelines:mlr_learners_graph]{mlr3pipelines::GraphLearner}
 }
 \description{
 Wrapper around multiple \link[mlr3pipelines:PipeOp]{PipeOp}s to help in creation
 of complex survival reduction methods. Three reductions are currently implemented,
 see details.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 }
 \details{
 Three reduction strategies are implemented, these are:
@@ -120,8 +118,8 @@ predictors of the new data, which can ultimately be composed to a distribution.
 }
 }
 \examples{
+\dontshow{if (mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \dontrun{
-if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   library("mlr3")
   library("mlr3pipelines")
 
@@ -159,16 +157,5 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   pipe$train(task)
   pipe$predict(task)
 }
+\dontshow{\}) # examplesIf}
 }
-}
-\seealso{
-Other pipelines: 
-\code{\link{mlr_graphs_crankcompositor}},
-\code{\link{mlr_graphs_distrcompositor}},
-\code{\link{mlr_graphs_probregr}},
-\code{\link{mlr_graphs_responsecompositor}},
-\code{\link{mlr_graphs_survaverager}},
-\code{\link{mlr_graphs_survbagging}},
-\code{\link{mlr_graphs_survtoclassif_disctime}}
-}
-\concept{pipelines}

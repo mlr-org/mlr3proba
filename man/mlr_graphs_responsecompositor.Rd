@@ -8,7 +8,7 @@
 pipeline_responsecompositor(
   learner,
   method = "rmst",
-  cutoff_time = NULL,
+  tau = NULL,
   add_crank = FALSE,
   overwrite = FALSE,
   graph_learner = FALSE
@@ -24,7 +24,7 @@ be wrapped in \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or a \code{Graph}
 Determines what method should be used to produce a survival time (response) from the survival distribution.
 Available methods are \code{"rmst"} and \code{"median"}, corresponding to the \emph{restricted mean survival time} and the \emph{median survival time} respectively.}
 
-\item{cutoff_time}{(\code{numeric(1)})\cr
+\item{tau}{(\code{numeric(1)})\cr
 Determines the time point up to which we calculate the restricted mean survival time (works only for the \code{"rmst"} method).
 If \code{NULL} (default), all the available time points in the predicted survival distribution will be used.}
 
@@ -36,7 +36,7 @@ Works only if \code{overwrite} is \code{TRUE}.}
 If \code{FALSE} (default) and the prediction already has a \code{response} prediction, then the compositor returns the input prediction unchanged.
 If \code{TRUE}, then the \code{response} (and the \code{crank}, if \code{add_crank} is \code{TRUE}) will be overwritten.}
 
-\item{graph_learner}{\code{logical(1)}\cr
+\item{graph_learner}{(\code{logical(1)})\cr
 If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
 \link[mlr3pipelines:mlr_learners_graph]{GraphLearner} otherwise (default) returns as a \code{Graph}.}
 }
@@ -46,9 +46,19 @@ If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
 \description{
 Wrapper around \link{PipeOpResponseCompositor} to simplify \link[mlr3pipelines:Graph]{Graph} creation.
 }
+\section{Dictionary}{
+
+This \link[mlr3pipelines:Graph]{Graph} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3pipelines:mlr_graphs]{mlr_graphs} or with the associated sugar function \link[mlr3pipelines:ppl]{ppl()}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_graphs$get("responsecompositor")
+ppl("responsecompositor")
+}\if{html}{\out{</div>}}
+}
+
 \examples{
+\dontshow{if (mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \dontrun{
-if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   library("mlr3")
   library("mlr3pipelines")
 
@@ -66,7 +76,7 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   grlrn$train(task, part$train)
   grlrn$predict(task, part$test)
 }
-}
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 Other pipelines: 
@@ -75,7 +85,7 @@ Other pipelines:
 \code{\link{mlr_graphs_probregr}},
 \code{\link{mlr_graphs_survaverager}},
 \code{\link{mlr_graphs_survbagging}},
-\code{\link{mlr_graphs_survtoclassif_disctime}},
-\code{\link{mlr_graphs_survtoregr}}
+\code{\link{mlr_graphs_survtoclassif_IPCW}},
+\code{\link{mlr_graphs_survtoclassif_disctime}}
 }
 \concept{pipelines}

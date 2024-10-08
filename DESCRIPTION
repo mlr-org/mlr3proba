@@ -1,6 +1,6 @@
 Package: mlr3proba
 Title: Probabilistic Supervised Learning for 'mlr3'
-Version: 0.6.8
+Version: 0.6.9
 Authors@R:
     c(person(given = "Raphael",
              family = "Sonabend",
@@ -70,6 +70,7 @@ Suggests:
     GGally,
     knitr,
     lgr,
+    lifecycle,
     mlr3pipelines (>= 0.3.4),
     param6 (>= 0.2.4),
     pracma,
@@ -138,6 +139,7 @@ Collate:
     'PipeOpCrankCompositor.R'
     'PipeOpDistrCompositor.R'
     'PipeOpPredClassifSurvDiscTime.R'
+    'PipeOpPredClassifSurvIPCW.R'
     'PipeOpTransformer.R'
     'PipeOpPredTransformer.R'
     'PipeOpPredRegrSurv.R'
@@ -147,6 +149,7 @@ Collate:
     'PipeOpSurvAvg.R'
     'PipeOpTaskRegrSurv.R'
     'PipeOpTaskSurvClassifDiscTime.R'
+    'PipeOpTaskSurvClassifIPCW.R'
     'PipeOpTaskSurvRegr.R'
     'PipeOpTaskTransformer.R'
     'PredictionDataDens.R'

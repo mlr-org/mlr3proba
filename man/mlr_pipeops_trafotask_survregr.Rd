@@ -27,9 +27,9 @@ The \verb{$state} is a named \code{list} with the \verb{$state} elements
 
 The parameters are
 \itemize{
-\item \verb{method::character(1))}\cr
+\item \code{method} :: \code{character(1)}\cr
 Method to use for dealing with censoring. Options are \code{"ipcw"} (Vock et al., 2016): censoring
-is column is removed and a \code{weights} column is added, weights are inverse estimated survival
+column is removed and a \code{weights} column is added, weights are inverse estimated survival
 probability of the censoring distribution evaluated at survival time;
 \code{"mrl"} (Klein and Moeschberger, 2003): survival time of censored
 observations is transformed to the observed time plus the mean residual life-time at the moment
@@ -39,21 +39,21 @@ data-set - should be used with caution if censoring is informative; \code{"omit"
 status column is deleted - again should be used with caution; \code{"reorder"}: selects features and
 targets and sets the target in the new task object. Note that \code{"mrl"} and \code{"ipcw"} will perform
 worse with Type I censoring.
-\item \verb{estimator::(character(1))}\cr
+\item \code{estimator} :: \code{character(1)}\cr
 Method for calculating censoring weights or mean residual lifetime in \code{"mrl"},
 current options are: \code{"kaplan"}: unconditional Kaplan-Meier estimator;
 \code{"akritas"}: conditional non-parameteric nearest-neighbours estimator;
 \code{"cox"}.
-\item \verb{alpha::(numeric(1))}\cr
+\item \code{alpha} :: \code{numeric(1)}\cr
 When \code{ipcw} is used, optional hyper-parameter that adds an extra penalty to the weighting for
 censored observations. If set to \code{0} then censored observations are given zero weight and
 deleted, weighting only the non-censored observations. A weight for an observation is then
 \eqn{(\delta + \alpha(1-\delta))/G(t)} where \eqn{\delta} is the censoring indicator.
-\item \code{eps::numeric(1)}\cr
+\item \code{eps} :: \code{numeric(1)}\cr
 Small value to replace \code{0} survival probabilities with in IPCW to prevent infinite weights.
-\item \verb{lambda::(numeric(1))}\cr
+\item \code{lambda} :: \code{numeric(1)}\cr
 Nearest neighbours parameter for the \code{"akritas"} estimator in the \href{https://mlr3extralearners.mlr-org.com/}{mlr3extralearners package}, default \code{0.5}.
-\item \verb{features, target :: character())}\cr
+\item \verb{features, target} :: \code{character()}\cr
 For \code{"reorder"} method, specify which columns become features and targets.
 \item \verb{learner cneter, mimpu, iter.bj, max.cycle, mstop, nu}\cr
 Passed to \link[bujar:bujar]{bujar::bujar}.
@@ -136,17 +136,21 @@ Other PipeOps:
 \code{\link{PipeOpTaskTransformer}},
 \code{\link{PipeOpTransformer}},
 \code{\link{mlr_pipeops_survavg}},
+\code{\link{mlr_pipeops_trafopred_classifsurv_IPCW}},
 \code{\link{mlr_pipeops_trafopred_classifsurv_disctime}},
 \code{\link{mlr_pipeops_trafopred_regrsurv}},
 \code{\link{mlr_pipeops_trafopred_survregr}},
 \code{\link{mlr_pipeops_trafotask_regrsurv}},
+\code{\link{mlr_pipeops_trafotask_survclassif_IPCW}},
 \code{\link{mlr_pipeops_trafotask_survclassif_disctime}}
 
 Other Transformation PipeOps: 
+\code{\link{mlr_pipeops_trafopred_classifsurv_IPCW}},
 \code{\link{mlr_pipeops_trafopred_classifsurv_disctime}},
 \code{\link{mlr_pipeops_trafopred_regrsurv}},
 \code{\link{mlr_pipeops_trafopred_survregr}},
 \code{\link{mlr_pipeops_trafotask_regrsurv}},
+\code{\link{mlr_pipeops_trafotask_survclassif_IPCW}},
 \code{\link{mlr_pipeops_trafotask_survclassif_disctime}}
 }
 \concept{PipeOps}
