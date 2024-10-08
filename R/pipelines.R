@@ -606,6 +606,7 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
 #' @export
 pipeline_survtoclassif_disctime = function(learner, cut = NULL, max_time = NULL,
                                   rhs = NULL, graph_learner = FALSE) {
+  assert_learner(learner, task_type = "classif")
   assert_true("prob" %in% learner$predict_types)
 
   gr = mlr3pipelines::Graph$new()
@@ -688,6 +689,7 @@ pipeline_survtoclassif_disctime = function(learner, cut = NULL, max_time = NULL,
 #' }
 #' @export
 pipeline_survtoclassif_IPCW = function(learner, tau = NULL, eps = 1e-3, graph_learner = FALSE) {
+  assert_learner(learner, task_type = "classif")
   assert_true("prob" %in% learner$predict_types)
 
   gr = mlr3pipelines::Graph$new()
