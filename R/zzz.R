@@ -28,10 +28,11 @@ NULL
 #' @import paradox
 #' @importFrom R6 R6Class
 #' @importFrom utils data head tail
-#' @importFrom stats reformulate model.matrix model.frame sd predict complete.cases density
+#' @importFrom stats model.matrix model.frame sd predict density
 #' @importFrom survival Surv
 #' @importFrom mlr3viz fortify
 #' @importFrom utils getFromNamespace
+#' @importFrom mlr3pipelines po as_graph %>>% pipeline_greplicate gunion Graph ppl
 "_PACKAGE"
 # nolint end
 
