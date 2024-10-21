@@ -10,8 +10,8 @@
 #'
 #' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)
 #' \dontrun{
-#'   library("mlr3")
-#'   library("mlr3pipelines")
+#'   library(mlr3)
+#'   library(mlr3pipelines)
 #'
 #'   task = tsk("rats")
 #'   pipe = ppl(
@@ -24,16 +24,11 @@
 #'   pipe$predict(task)
 #' }
 pipeline_survaverager = function(learners, param_vals = list(), graph_learner = FALSE) {
-  learners = mlr3pipelines::gunion(map(learners, mlr3pipelines::as_graph))
-  po = mlr3pipelines::po("survavg", param_vals = param_vals)
+  learners = gunion(map(learners, as_graph))
+  po_survavg = po("survavg", param_vals = param_vals)
 
-  gr = mlr3pipelines::`%>>%`(learners, po)
-
-  if (graph_learner) {
-    gr = mlr3pipelines::GraphLearner$new(gr)
-  }
-
-  gr
+  gr = learners %>>% po_survavg
+  create_grlrn(gr, graph_learner)
 }
 
 #' @template pipeline
@@ -63,8 +58,8 @@ pipeline_survaverager = function(learners, param_vals = list(), graph_learner = 
 #'
 #' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)
 #' \dontrun{
-#'   library("mlr3")
-#'   library("mlr3pipelines")
+#'   library(mlr3)
+#'   library(mlr3pipelines)
 #'
 #'   task = tsk("rats")
 #'   pipe = ppl(
@@ -82,23 +77,16 @@ pipeline_survbagging = function(learner, iterations = 10, frac = 0.7, avg = TRUE
   assert_count(iterations)
   assert_number(frac, lower = 0, upper = 1)
 
-  graph = mlr3pipelines::as_graph(learner)
-  subs = mlr3pipelines::`%>>%`(mlr3pipelines::po("subsample", param_vals = list(frac = frac)),
-    graph)
-  subs_repls = mlr3pipelines::pipeline_greplicate(subs, iterations)
+  graph = as_graph(learner)
+  subs = po("subsample", param_vals = list(frac = frac)) %>>% graph
+  subs_repls = pipeline_greplicate(subs, iterations)
 
   if (!avg) {
     return(subs_repls)
   } else {
-    po = mlr3pipelines::po("survavg", param_vals = list(weights = weights))
-
-    gr = mlr3pipelines::`%>>%`(subs_repls, po)
-
-    if (graph_learner) {
-      gr = mlr3pipelines::GraphLearner$new(gr)
-    }
-
-    gr
+    po_survavg = po("survavg", param_vals = list(weights = weights))
+    gr = subs_repls %>>% po_survavg
+    create_grlrn(gr, graph_learner)
   }
 }
 
@@ -118,8 +106,8 @@ pipeline_survbagging = function(learner, iterations = 10, frac = 0.7, avg = TRUE
 #'
 #' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)
 #' \dontrun{
-#'   library("mlr3")
-#'   library("mlr3pipelines")
+#'   library(mlr3)
+#'   library(mlr3pipelines)
 #'
 #'   task = tsk("lung")
 #'   part = partition(task)
@@ -142,18 +130,13 @@ pipeline_crankcompositor = function(learner, method = c("mort"),
   assert_logical(overwrite)
   assert_logical(graph_learner)
 
-  pred = mlr3pipelines::as_graph(learner)
+  pred = as_graph(learner)
 
   pv = list(method = method, overwrite = overwrite)
-  compositor = mlr3pipelines::po("crankcompose", param_vals = pv)
+  compositor = po("crankcompose", param_vals = pv)
 
-  gr = mlr3pipelines::`%>>%`(pred, compositor)
-
-  if (graph_learner) {
-    gr = mlr3pipelines::GraphLearner$new(gr)
-  }
-
-  gr
+  gr = pred %>>% compositor
+  create_grlrn(gr, graph_learner)
 }
 
 #' @template pipeline
@@ -177,8 +160,8 @@ pipeline_crankcompositor = function(learner, method = c("mort"),
 #'
 #' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)
 #' \dontrun{
-#'   library("mlr3")
-#'   library("mlr3pipelines")
+#'   library(mlr3)
+#'   library(mlr3pipelines)
 #'
 #'   task = tsk("lung")
 #'   part = partition(task)
@@ -204,19 +187,14 @@ pipeline_responsecompositor = function(learner, method = "rmst", tau = NULL,
   assert_logical(overwrite)
   assert_logical(graph_learner)
 
-  pred = mlr3pipelines::as_graph(learner)
+  pred = as_graph(learner)
 
   pv = list(method = method, tau = tau, add_crank = add_crank,
             overwrite = overwrite)
-  compositor = mlr3pipelines::po("responsecompose", param_vals = pv)
+  compositor = po("responsecompose", param_vals = pv)
 
-  gr = mlr3pipelines::`%>>%`(pred, compositor)
-
-  if (graph_learner) {
-    gr = mlr3pipelines::GraphLearner$new(gr)
-  }
-
-  gr
+  gr = pred %>>% compositor
+  create_grlrn(gr, graph_learner)
 }
 
 #' @template pipeline
@@ -244,7 +222,7 @@ pipeline_responsecompositor = function(learner, method = "rmst", tau = NULL,
 #'
 #' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)
 #' \dontrun{
-#'   library("mlr3pipelines")
+#'   library(mlr3pipelines)
 #'
 #'   # let's change the distribution prediction of Cox (Breslow-based) to an AFT form:
 #'   task = tsk("rats")
@@ -268,24 +246,19 @@ pipeline_distrcompositor = function(learner, estimator = "kaplan", form = "aft",
 
   # make the pipeline Graph object
   if (estimator == "breslow") {
-    gr = mlr3pipelines::as_graph(
-      mlr3pipelines::po("breslowcompose", learner = learner, breslow.overwrite = overwrite)
-    )
+    gr = as_graph(po("breslowcompose", learner = learner, breslow.overwrite = overwrite))
   } else {
-    pred = mlr3pipelines::as_graph(learner)
-    base = mlr3pipelines::po("learner",
-      lrn(paste0("surv.", estimator), id = paste0("distrcompositor.", estimator)))
+    pred = as_graph(learner)
+    learner_key = paste0("surv.", estimator)
+    learner_id = paste0("distrcompositor.", estimator)
+    base = po("learner", lrn(learner_key, id = learner_id))
 
-    compositor = mlr3pipelines::po("distrcompose", param_vals = list(form = form, overwrite = overwrite))
+    compositor = po("distrcompose", param_vals = list(form = form, overwrite = overwrite))
 
-    gr = mlr3pipelines::`%>>%`(mlr3pipelines::gunion(list(base, pred)), compositor)
+    gr = gunion(list(base, pred)) %>>% compositor
   }
 
-  if (graph_learner) {
-    gr = mlr3pipelines::GraphLearner$new(gr)
-  }
-
-  gr
+  create_grlrn(gr, graph_learner)
 }
 
 #' @template pipeline
@@ -304,8 +277,8 @@ pipeline_distrcompositor = function(learner, estimator = "kaplan", form = "aft",
 #' Current possibilities are' `"Cauchy", "Gumbel", "Laplace", "Logistic", "Normal", "Uniform"`. Default is `"Uniform"`.
 #' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines", "rpart"), quietly = TRUE)
 #' \dontrun{
-#'   library("mlr3")
-#'   library("mlr3pipelines")
+#'   library(mlr3)
+#'   library(mlr3pipelines)
 #'
 #'   task = tsk("boston_housing")
 #'
@@ -331,26 +304,23 @@ pipeline_distrcompositor = function(learner, estimator = "kaplan", form = "aft",
 pipeline_probregr = function(learner, learner_se = NULL, dist = "Uniform",
   graph_learner = FALSE) {
 
-  gr = mlr3pipelines::Graph$new()$add_pipeop(mlr3pipelines::po("compose_probregr", param_vals = list(dist = dist)))
+  gr = Graph$new()$
+    add_pipeop(po("compose_probregr", param_vals = list(dist = dist)))
 
   if (is.null(learner_se)) {
     learner$predict_type = "se"
-    gr$add_pipeop(mlr3pipelines::po("learner", learner, id = "response_learner"))$
+    gr$add_pipeop(po("learner", learner, id = "response_learner"))$
       add_edge("response_learner", "compose_probregr", dst_channel = "input_response")$
       add_edge("response_learner", "compose_probregr", dst_channel = "input_se")
   } else {
     learner_se$predict_type = "se"
-    gr$add_pipeop(mlr3pipelines::po("learner", learner, id = "response_learner"))$
-      add_pipeop(mlr3pipelines::po("learner", learner_se, id = "se_learner"))$
+    gr$add_pipeop(po("learner", learner, id = "response_learner"))$
+      add_pipeop(po("learner", learner_se, id = "se_learner"))$
       add_edge("response_learner", "compose_probregr", dst_channel = "input_response")$
       add_edge("se_learner", "compose_probregr", dst_channel = "input_se")
   }
 
-  if (graph_learner) {
-    gr = mlr3pipelines::GraphLearner$new(gr)
-  }
-
-  gr
+  create_grlrn(gr, graph_learner)
 }
 
 #' @name mlr_graphs_survtoregr
@@ -442,8 +412,8 @@ pipeline_probregr = function(learner, learner_se = NULL, dist = "Uniform",
 #'
 #' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)
 #' \dontrun{
-#'   library("mlr3")
-#'   library("mlr3pipelines")
+#'   library(mlr3)
+#'   library(mlr3pipelines)
 #'
 #'   task = tsk("rats")
 #'
@@ -491,35 +461,34 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
   graph_learner = FALSE) {
 
   if (method == 1) {
-    gr = mlr3pipelines::Graph$new()$
-      add_pipeop(mlr3pipelines::po("nop", id = "task_surv"))$
-      add_pipeop(mlr3pipelines::po("trafotask_survregr", param_vals = survregr_params))$
-      add_pipeop(mlr3pipelines::po("learner", regr_learner, id = "regr_learner"))$
-      add_pipeop(mlr3pipelines::po("trafopred_regrsurv"))$
+    gr = Graph$new()$
+      add_pipeop(po("nop", id = "task_surv"))$
+      add_pipeop(po("trafotask_survregr", param_vals = survregr_params))$
+      add_pipeop(po("learner", regr_learner, id = "regr_learner"))$
+      add_pipeop(po("trafopred_regrsurv"))$
       add_edge("task_surv", "trafotask_survregr", dst_channel = "input")$
       add_edge("trafotask_survregr", "regr_learner")$
       add_edge("regr_learner", "trafopred_regrsurv", dst_channel = "pred")$
       add_edge("task_surv", "trafopred_regrsurv", dst_channel = "task")
   } else if (method == 2) {
-
-    gr = mlr3pipelines::Graph$new()$
-      add_pipeop(mlr3pipelines::po("nop", id = "task_surv"))$
-      add_pipeop(mlr3pipelines::po("trafotask_survregr", param_vals = survregr_params))$
-      add_pipeop(mlr3pipelines::po("compose_probregr", param_vals = probregr_params))$
-      add_pipeop(mlr3pipelines::po("trafopred_regrsurv"))$
+    gr = Graph$new()$
+      add_pipeop(po("nop", id = "task_surv"))$
+      add_pipeop(po("trafotask_survregr", param_vals = survregr_params))$
+      add_pipeop(po("compose_probregr", param_vals = probregr_params))$
+      add_pipeop(po("trafopred_regrsurv"))$
       add_edge("compose_probregr", "trafopred_regrsurv", dst_channel = "pred")$
       add_edge("task_surv", "trafopred_regrsurv", dst_channel = "task")
 
     if (!is.null(regr_se_learner)) {
       regr_se_learner$predict_type = "se"
 
-      gr$add_pipeop(mlr3pipelines::po("learner", regr_learner, id = "regr_learner"))$
-        add_pipeop(mlr3pipelines::po("learner", regr_se_learner, id = "regr_se_learner"))$
+      gr$add_pipeop(po("learner", regr_learner, id = "regr_learner"))$
+        add_pipeop(po("learner", regr_se_learner, id = "regr_se_learner"))$
         add_edge("trafotask_survregr", "regr_se_learner")$
         add_edge("regr_se_learner", "compose_probregr", dst_channel = "input_se")
     } else {
       regr_learner$predict_type = "se"
-      gr$add_pipeop(mlr3pipelines::po("learner", regr_learner, id = "regr_learner"))$
+      gr$add_pipeop(po("learner", regr_learner, id = "regr_learner"))$
         add_edge("regr_learner", "compose_probregr", dst_channel = "input_se")
     }
 
@@ -529,14 +498,13 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
   } else if (method == 3) {
     assert("lp" %in% surv_learner$predict_types)
 
-    gr = mlr3pipelines::Graph$new()$
-      add_pipeop(mlr3pipelines::po("nop", id = "task_surv_train"))$
-      add_pipeop(mlr3pipelines::po("nop", id = "task_surv_predict"))$
-      add_pipeop(mlr3pipelines::po("learner_cv", surv_learner, id = "surv_learner",
-      param_vals = learnercv_params))$
-      add_pipeop(mlr3pipelines::po("trafotask_survregr", method = "reorder", target = "surv_learner.lp"))$
-      add_pipeop(mlr3pipelines::po("learner", regr_learner, id = "regr_learner"))$
-      add_pipeop(mlr3pipelines::po("trafopred_regrsurv", target_type = "lp"))$
+    gr = Graph$new()$
+      add_pipeop(po("nop", id = "task_surv_train"))$
+      add_pipeop(po("nop", id = "task_surv_predict"))$
+      add_pipeop(po("learner_cv", surv_learner, id = "surv_learner", param_vals = learnercv_params))$
+      add_pipeop(po("trafotask_survregr", method = "reorder", target = "surv_learner.lp"))$
+      add_pipeop(po("learner", regr_learner, id = "regr_learner"))$
+      add_pipeop(po("trafopred_regrsurv", target_type = "lp"))$
       add_edge("surv_learner", "trafotask_survregr", dst_channel = "input")$
       add_edge("task_surv_train", "trafotask_survregr", dst_channel = "input_features")$
       add_edge("trafotask_survregr", "regr_learner")$
@@ -546,18 +514,14 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
     if (distrcompose) {
       assert("distr" %in% distr_estimator$predict_types)
 
-      gr$add_pipeop(mlr3pipelines::po("learner", distr_estimator, id = "distr_estimator"))$
-        add_pipeop(mlr3pipelines::po("distrcompose", param_vals = distrcompose_params))$
+      gr$add_pipeop(po("learner", distr_estimator, id = "distr_estimator"))$
+        add_pipeop(po("distrcompose", param_vals = distrcompose_params))$
         add_edge("trafopred_regrsurv", dst_id = "distrcompose", dst_channel = "pred")$
         add_edge("distr_estimator", dst_id = "distrcompose", dst_channel = "base")
     }
   }
 
-  if (graph_learner) {
-    gr = mlr3pipelines::GraphLearner$new(gr)
-  }
-
-  gr
+  create_grlrn(gr, graph_learner)
 }
 
 #' @template pipeline
@@ -615,29 +579,24 @@ pipeline_survtoclassif_disctime = function(learner, cut = NULL, max_time = NULL,
   assert_learner(learner, task_type = "classif")
   assert_true("prob" %in% learner$predict_types)
 
-  gr = mlr3pipelines::Graph$new()
-  gr$add_pipeop(mlr3pipelines::po("trafotask_survclassif_disctime", cut = cut, max_time = max_time))
-  gr$add_pipeop(mlr3pipelines::po("learner", learner, predict_type = "prob"))
-  gr$add_pipeop(mlr3pipelines::po("nop"))
-  gr$add_pipeop(mlr3pipelines::po("trafopred_classifsurv_disctime"))
-
-  gr$add_edge(src_id = "trafotask_survclassif_disctime", dst_id = learner$id, src_channel = "output", dst_channel = "input")
-  gr$add_edge(src_id = "trafotask_survclassif_disctime", dst_id = "nop", src_channel = "transformed_data", dst_channel = "input")
-  gr$add_edge(src_id = learner$id, dst_id = "trafopred_classifsurv_disctime", src_channel = "output", dst_channel = "input")
-  gr$add_edge(src_id = "nop", dst_id = "trafopred_classifsurv_disctime", src_channel = "output", dst_channel = "transformed_data")
+  gr = Graph$new()$
+    add_pipeop(po("trafotask_survclassif_disctime", cut = cut, max_time = max_time))$
+    add_pipeop(po("learner", learner, predict_type = "prob"))$
+    add_pipeop(po("nop"))$
+    add_pipeop(po("trafopred_classifsurv_disctime"))$
+    add_edge(src_id = "trafotask_survclassif_disctime", dst_id = learner$id, src_channel = "output", dst_channel = "input")$
+    add_edge(src_id = "trafotask_survclassif_disctime", dst_id = "nop", src_channel = "transformed_data", dst_channel = "input")$
+    add_edge(src_id = learner$id, dst_id = "trafopred_classifsurv_disctime", src_channel = "output", dst_channel = "input")$
+    add_edge(src_id = "nop", dst_id = "trafopred_classifsurv_disctime", src_channel = "output", dst_channel = "transformed_data")
 
   if (!is.null(rhs)) {
     gr$edges = gr$edges[-1, ]
-    gr$add_pipeop(mlr3pipelines::po("modelmatrix", formula = formulate(rhs = rhs, quote = "left")))
-    gr$add_edge(src_id = "trafotask_survclassif_disctime", dst_id = "modelmatrix", src_channel = "output")
-    gr$add_edge(src_id = "modelmatrix", dst_id = learner$id, src_channel = "output", dst_channel = "input")
+    gr$add_pipeop(po("modelmatrix", formula = formulate(rhs = rhs, quote = "left")))$
+      add_edge(src_id = "trafotask_survclassif_disctime", dst_id = "modelmatrix", src_channel = "output")$
+      add_edge(src_id = "modelmatrix", dst_id = learner$id, src_channel = "output", dst_channel = "input")
   }
 
-  if (graph_learner) {
-    gr = mlr3pipelines::GraphLearner$new(gr)
-  }
-
-  gr
+  create_grlrn(gr, graph_learner)
 }
 
 #' @template pipeline
@@ -698,22 +657,17 @@ pipeline_survtoclassif_IPCW = function(learner, tau = NULL, eps = 1e-3, graph_le
   assert_learner(learner, task_type = "classif")
   assert_true("prob" %in% learner$predict_types)
 
-  gr = mlr3pipelines::Graph$new()
-  gr$add_pipeop(mlr3pipelines::po("trafotask_survclassif_IPCW", tau = tau, eps = eps))
-  gr$add_pipeop(mlr3pipelines::po("learner", learner, predict_type = "prob"))
-  gr$add_pipeop(mlr3pipelines::po("trafopred_classifsurv_IPCW"))
-  gr$add_pipeop(mlr3pipelines::po("nop"))
+  gr = Graph$new()$
+    add_pipeop(po("trafotask_survclassif_IPCW", tau = tau, eps = eps))$
+    add_pipeop(po("learner", learner, predict_type = "prob"))$
+    add_pipeop(po("trafopred_classifsurv_IPCW"))$
+    add_pipeop(po("nop"))$
+    add_edge(src_id = "trafotask_survclassif_IPCW", dst_id = learner$id, src_channel = "output", dst_channel = "input")$
+    add_edge(src_id = learner$id, dst_id = "trafopred_classifsurv_IPCW", src_channel = "output", dst_channel = "input")$
+    add_edge(src_id = "trafotask_survclassif_IPCW", dst_id = "nop", src_channel = "data", dst_channel = "input")$
+    add_edge(src_id = "nop", dst_id = "trafopred_classifsurv_IPCW", src_channel = "output", dst_channel = "data")
 
-  gr$add_edge(src_id = "trafotask_survclassif_IPCW", dst_id = learner$id, src_channel = "output", dst_channel = "input")
-  gr$add_edge(src_id = learner$id, dst_id = "trafopred_classifsurv_IPCW", src_channel = "output", dst_channel = "input")
-  gr$add_edge(src_id = "trafotask_survclassif_IPCW", dst_id = "nop", src_channel = "data", dst_channel = "input")
-  gr$add_edge(src_id = "nop", dst_id = "trafopred_classifsurv_IPCW", src_channel = "output", dst_channel = "data")
-
-  if (graph_learner) {
-    gr = mlr3pipelines::GraphLearner$new(gr)
-  }
-
-  gr
+  create_grlrn(gr, graph_learner)
 }
 
 register_graph("survaverager", pipeline_survaverager)
