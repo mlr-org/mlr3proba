@@ -9,7 +9,7 @@ test_that("PipeOpTaskSurvClassifDiscTime", {
   expect_equal(test_task$row_ids, test_ids)
   expect_equal(train_task$row_ids, train_ids)
 
-  po_disc = mlr3pipelines::po("trafotask_survclassif_disctime", cut = 4)
+  po_disc = po("trafotask_survclassif_disctime", cut = 4)
   expect_class(po_disc, c("PipeOp", "PipeOpTaskSurvClassifDiscTime"))
 
   res = po_disc$train(list(train_task))
