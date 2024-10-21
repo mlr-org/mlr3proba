@@ -61,7 +61,7 @@ ppl("distrcompositor")
 \examples{
 \dontshow{if (mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \dontrun{
-  library("mlr3pipelines")
+  library(mlr3pipelines)
 
   # let's change the distribution prediction of Cox (Breslow-based) to an AFT form:
   task = tsk("rats")
