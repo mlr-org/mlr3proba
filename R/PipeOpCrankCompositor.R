@@ -36,9 +36,8 @@
 #'
 #' @seealso [pipeline_crankcompositor]
 #' @family survival compositors
-#' @examples
+#' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)
 #' \dontrun{
-#' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 #'   library(mlr3pipelines)
 #'   task = tsk("rats")
 #'
@@ -46,7 +45,6 @@
 #'   pred = lrn("surv.coxph")$train(task)$predict(task)
 #'   poc = po("crankcompose", param_vals = list(overwrite = TRUE))
 #'   poc$predict(list(pred))[[1L]]
-#' }
 #' }
 #' @export
 PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",

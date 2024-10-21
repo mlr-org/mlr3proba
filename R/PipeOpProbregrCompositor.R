@@ -38,10 +38,8 @@
 #' distribution location and scale parameters respectively.
 #'
 #' @export
-#' @examples
+#' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines", "rpart"), quietly = TRUE)
 #' \dontrun{
-#' if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
-#'   requireNamespace("rpart", quietly = TRUE)) {
 #'   library(mlr3)
 #'   library(mlr3pipelines)
 #'   set.seed(1)
@@ -60,7 +58,6 @@
 #'   pred_se = learn_se$train(task)$predict(task)
 #'   poc = po("compose_probregr")
 #'   poc$predict(list(pred_response, pred_se))[[1]]
-#' }
 #' }
 PipeOpProbregr = R6Class("PipeOpProbregr",
   inherit = mlr3pipelines::PipeOp,

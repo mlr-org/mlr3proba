@@ -23,13 +23,11 @@ as_prediction_dens = function(x, ...) {
   UseMethod("as_prediction_dens")
 }
 
-
 #' @rdname as_prediction_dens
 #' @export
 as_prediction_dens.PredictionDens = function(x, ...) { # nolint
   x
 }
-
 
 #' @rdname as_prediction_dens
 #' @export

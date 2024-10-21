@@ -20,9 +20,7 @@
 #' @template task_generator
 #'
 #' @template seealso_task_generator
-#' @export
-#' @examples
-#' if (requireNamespace("simsurv", quietly = TRUE)) {
+#' @examplesIf mlr3misc::require_namespaces(c("simsurv"), quietly = TRUE)
 #'   # generate 20 samples with Weibull survival distribution
 #'   gen = tgen("simsurv")
 #'   task = gen$generate(20)
@@ -32,7 +30,7 @@
 #'   gen = tgen("simsurv", dist = "exponential", gammas = NULL, maxt = 40)
 #'   task = gen$generate(100)
 #'   head(task)
-#' }
+#' @export
 TaskGeneratorSimsurv = R6Class("TaskGeneratorSimsurv",
   inherit = TaskGenerator,
   public = list(

@@ -14,10 +14,8 @@
 #' @section State:
 #' The `$state` is a named `list` with the `$state` elements inherited from [PipeOpPredTransformer].
 #'
-#'
-#' @examples
+#' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)
 #' \dontrun{
-#' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 #'   library(mlr3)
 #'   library(mlr3pipelines)
 #'   library(survival)
@@ -28,7 +26,6 @@
 #'   po = po("trafopred_survregr")
 #'   new_pred = po$predict(list(pred = pred))[[1]]
 #'   print(new_pred)
-#' }
 #' }
 #' @family PipeOps
 #' @family Transformation PipeOps

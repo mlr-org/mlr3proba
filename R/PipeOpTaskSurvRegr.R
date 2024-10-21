@@ -53,9 +53,8 @@
 #' @references
 #' `r format_bib("buckley_1979", "klein_2003", "vock_2016")`
 #'
-#' @examples
+#' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)
 #' \dontrun{
-#' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 #'   library(mlr3)
 #'   library(mlr3pipelines)
 #'
@@ -104,7 +103,6 @@
 #'   po = po("trafotask_survregr", method = "reorder", target = "litter")
 #'   new_task = po$train(list(task, task))[[1]]
 #'   print(new_task)
-#' }
 #' }
 #' @family PipeOps
 #' @family Transformation PipeOps

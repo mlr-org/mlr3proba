@@ -16,9 +16,7 @@
 #' @template task_generator
 #'
 #' @template seealso_task_generator
-#' @export
-#' @examples
-#' if (requireNamespace("coxed", quietly = TRUE)) {
+#' @examplesIf mlr3misc::require_namespaces(c("coxed"), quietly = TRUE)
 #'   library(mlr3)
 #'
 #'   # time horizon = 365 days, censoring proportion = 60%, 6 covariates normally
@@ -31,7 +29,7 @@
 #'   # same as above, but with time-varying coefficients (counting process format)
 #'   gen$param_set$set_values(type = "tvc")
 #'   gen$generate(50)
-#' }
+#' @export
 TaskGeneratorCoxed = R6Class("TaskGeneratorCoxed",
   inherit = TaskGenerator,
   public = list(

@@ -61,8 +61,8 @@ Passed to \link[bujar:bujar]{bujar::bujar}.
 }
 
 \examples{
+\dontshow{if (mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \dontrun{
-if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   library(mlr3)
   library(mlr3pipelines)
 
@@ -112,7 +112,7 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   new_task = po$train(list(task, task))[[1]]
   print(new_task)
 }
-}
+\dontshow{\}) # examplesIf}
 }
 \references{
 Buckley, Jonathan, James, Ian (1979).

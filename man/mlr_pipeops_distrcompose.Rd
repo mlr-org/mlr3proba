@@ -72,8 +72,8 @@ predicted linear predictor.
 }
 
 \examples{
+\dontshow{if (mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \dontrun{
-if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   library(mlr3)
   library(mlr3pipelines)
   task = tsk("rats")
@@ -84,7 +84,7 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   pod = po("distrcompose", param_vals = list(form = "aft", overwrite = TRUE))
   pod$predict(list(base = base, pred = pred))[[1]]
 }
-}
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \link{pipeline_distrcompositor}

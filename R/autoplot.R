@@ -27,8 +27,7 @@
 #'
 #' @template section_theme
 #'
-#' @export
-#' @examples
+#' @examplesIf mlr3misc::require_namespaces(c("mlr3viz", "ggplot2"), quietly = TRUE)
 #' library(mlr3)
 #' library(mlr3viz)
 #' library(mlr3proba)
@@ -41,6 +40,7 @@
 #' autoplot(task) # KM of the censoring distribution
 #' autoplot(task, rhs = "sex")
 #' autoplot(task, type = "duo")
+#' @export
 autoplot.TaskSurv = function(object, type = "target", theme = theme_minimal(), reverse = FALSE, ...) { # nolint
   assert_string(type)
   require_namespaces(c("survival", "GGally"))
@@ -99,8 +99,7 @@ plot.TaskSurv = function(x, ...) {
 #'
 #' @template section_theme
 #'
-#' @export
-#' @examples
+#' @examplesIf mlr3misc::require_namespaces(c("mlr3viz", "ggplot2"), quietly = TRUE)
 #' library(mlr3)
 #' library(mlr3proba)
 #' library(mlr3viz)
@@ -112,6 +111,7 @@ plot.TaskSurv = function(x, ...) {
 #' autoplot(task, type = "freq", bins = 15)
 #' autoplot(task, type = "overlay", bins = 15)
 #' autoplot(task, type = "freqpoly", bins = 15)
+#' @export
 autoplot.TaskDens = function(object, type = "dens", theme = theme_minimal(), ...) { # nolint
   assert_choice(type, c("dens", "freq", "overlay", "freqpoly"))
 
@@ -183,8 +183,7 @@ plot.TaskDens = function(x, ...) {
 #' @references
 #' `r format_bib("dcalib")`
 #'
-#' @export
-#' @examples
+#' @examplesIf mlr3misc::require_namespaces(c("mlr3viz", "ggplot2"), quietly = TRUE)
 #' library(mlr3)
 #' library(mlr3proba)
 #' library(mlr3viz)
@@ -201,6 +200,7 @@ plot.TaskDens = function(x, ...) {
 #'
 #' # Predictions
 #' autoplot(p, type = "preds")
+#' @export
 autoplot.PredictionSurv = function(object, type = "calib",
   task = NULL, row_ids = NULL, times = NULL, xyline = TRUE,
   cuts = 11L, theme = theme_minimal(), extend_quantile = FALSE, ...) {

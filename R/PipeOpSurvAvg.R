@@ -33,9 +33,8 @@
 #' @family PipeOps
 #' @family Ensembles
 #' @export
-#' @examples
+#' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)
 #' \dontrun{
-#' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 #'   library(mlr3)
 #'   library(mlr3pipelines)
 #'
@@ -44,7 +43,6 @@
 #'   p2 = lrn("surv.kaplan")$train(task)$predict(task)
 #'   poc = po("survavg", param_vals = list(weights = c(0.2, 0.8)))
 #'   poc$predict(list(p1, p2))
-#' }
 #' }
 PipeOpSurvAvg = R6Class("PipeOpSurvAvg",
   inherit = mlr3pipelines::PipeOpEnsemble,

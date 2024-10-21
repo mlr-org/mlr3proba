@@ -47,6 +47,7 @@ Color is set to target column.
 }
 }
 \examples{
+\dontshow{if (mlr3misc::require_namespaces(c("mlr3viz", "ggplot2"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(mlr3)
 library(mlr3viz)
 library(mlr3proba)
@@ -59,4 +60,5 @@ autoplot(task) # KM
 autoplot(task) # KM of the censoring distribution
 autoplot(task, rhs = "sex")
 autoplot(task, type = "duo")
+\dontshow{\}) # examplesIf}
 }

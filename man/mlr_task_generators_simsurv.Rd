@@ -39,7 +39,7 @@ tgen("simsurv")
 }
 
 \examples{
-if (requireNamespace("simsurv", quietly = TRUE)) {
+\dontshow{if (mlr3misc::require_namespaces(c("simsurv"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
   # generate 20 samples with Weibull survival distribution
   gen = tgen("simsurv")
   task = gen$generate(20)
@@ -49,7 +49,7 @@ if (requireNamespace("simsurv", quietly = TRUE)) {
   gen = tgen("simsurv", dist = "exponential", gammas = NULL, maxt = 40)
   task = gen$generate(100)
   head(task)
-}
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \itemize{

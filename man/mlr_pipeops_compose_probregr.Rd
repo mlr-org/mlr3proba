@@ -52,9 +52,8 @@ distribution location and scale parameters respectively.
 }
 
 \examples{
+\dontshow{if (mlr3misc::require_namespaces(c("mlr3pipelines", "rpart"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \dontrun{
-if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
-  requireNamespace("rpart", quietly = TRUE)) {
   library(mlr3)
   library(mlr3pipelines)
   set.seed(1)
@@ -74,7 +73,7 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
   poc = po("compose_probregr")
   poc$predict(list(pred_response, pred_se))[[1]]
 }
-}
+\dontshow{\}) # examplesIf}
 }
 \section{Super class}{
 \code{\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}} -> \code{PipeOpProbregr}
