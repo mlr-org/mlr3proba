@@ -51,7 +51,7 @@
 #' @family Probabilistic survival measures
 #' @family distr survival measures
 #' @export
-MeasureSurvIntLogloss = R6::R6Class("MeasureSurvIntLogloss",
+MeasureSurvIntLogloss = R6Class("MeasureSurvIntLogloss",
   inherit = MeasureSurv,
   public = list(
     #' @description

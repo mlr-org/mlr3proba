@@ -47,7 +47,7 @@
 #' task$prop_haz()
 #' # veteran data is definitely non-PH (p << 0.05)
 #' tsk("veteran")$prop_haz()
-TaskSurv = R6::R6Class("TaskSurv",
+TaskSurv = R6Class("TaskSurv",
   inherit = TaskSupervised,
   public = list(
     #' @description

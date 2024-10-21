@@ -15,7 +15,7 @@
 #'
 #' @family Density estimation measures
 #' @export
-MeasureDensLogloss = R6::R6Class("MeasureDensLogloss",
+MeasureDensLogloss = R6Class("MeasureDensLogloss",
   inherit = MeasureDens,
   public = list(
     #' @description

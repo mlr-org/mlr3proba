@@ -53,7 +53,7 @@
 #' @family Probabilistic survival measures
 #' @family distr survival measures
 #' @export
-MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
+MeasureSurvGraf = R6Class("MeasureSurvGraf",
   inherit = MeasureSurv,
   public = list(
     #' @description

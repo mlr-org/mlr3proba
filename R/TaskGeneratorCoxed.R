@@ -32,7 +32,7 @@
 #'   gen$param_set$set_values(type = "tvc")
 #'   gen$generate(50)
 #' }
-TaskGeneratorCoxed = R6::R6Class("TaskGeneratorCoxed",
+TaskGeneratorCoxed = R6Class("TaskGeneratorCoxed",
   inherit = TaskGenerator,
   public = list(
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
