@@ -100,8 +100,7 @@
 #'   p$score(msr("classif.auc"))
 #' }
 #' @export
-PipeOpTaskSurvClassifIPCW = R6Class(
-  "PipeOpTaskSurvClassifIPCW",
+PipeOpTaskSurvClassifIPCW = R6Class("PipeOpTaskSurvClassifIPCW",
   inherit = mlr3pipelines::PipeOp,
 
   public = list(

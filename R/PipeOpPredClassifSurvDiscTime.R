@@ -37,8 +37,7 @@
 #' @family PipeOps
 #' @family Transformation PipeOps
 #' @export
-PipeOpPredClassifSurvDiscTime = R6Class(
-  "PipeOpPredClassifSurvDiscTime",
+PipeOpPredClassifSurvDiscTime = R6Class("PipeOpPredClassifSurvDiscTime",
   inherit = mlr3pipelines::PipeOp,
 
   public = list(
