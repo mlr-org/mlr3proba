@@ -85,6 +85,12 @@ ppl("survtoclassif_disctime")
 }
 \dontshow{\}) # examplesIf}
 }
+\references{
+Tutz, Gerhard, Schmid, Matthias (2016).
+\emph{Modeling Discrete Time-to-Event Data},  series Springer Series in Statistics.
+Springer International Publishing.
+ISBN 978-3-319-28156-8 978-3-319-28158-2, \url{http://link.springer.com/10.1007/978-3-319-28158-2}.
+}
 \seealso{
 Other pipelines: 
 \code{\link{mlr_graphs_crankcompositor}},

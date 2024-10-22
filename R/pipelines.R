@@ -562,6 +562,8 @@ pipeline_survtoregr = function(method = 1, regr_learner = lrn("regr.featureless"
 #' 4. Optionally: [PipeOpModelMatrix][mlr3pipelines::PipeOpModelMatrix] is used to transform the formula of the task
 #' before fitting the learner.
 #'
+#' @references
+#' `r format_bib("tutz_2016")`
 #' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines", "mlr3learners"), quietly = TRUE)
 #' \dontrun{
 #'   library(mlr3)
@@ -635,6 +637,9 @@ pipeline_survtoclassif_disctime = function(learner, cut = NULL, max_time = NULL,
 #' 2. A [LearnerClassif] is fit and predicted on the new `TaskClassif`.
 #' 3. [PipeOpPredClassifSurvIPCW] transforms the resulting [PredictionClassif][mlr3::PredictionClassif]
 #' to [PredictionSurv].
+#'
+#' @references
+#' `r format_bib("vock_2016")`
 #'
 #' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines", "mlr3learners"), quietly = TRUE)
 #' \dontrun{

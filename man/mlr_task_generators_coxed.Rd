@@ -54,6 +54,12 @@ tgen("coxed")
   gen$generate(50)
 \dontshow{\}) # examplesIf}
 }
+\references{
+Harden, J. J, Kropko, Jonathan (2019).
+\dQuote{Simulating Duration Data for the Cox Model.}
+\emph{Political Science Research and Methods}, \bold{7}(4), 921--928.
+\doi{10.1017/PSRM.2018.19}.
+}
 \seealso{
 \itemize{
 \item \link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:TaskGenerator]{TaskGenerators}: \link[mlr3:mlr_task_generators]{mlr3::mlr_task_generators}

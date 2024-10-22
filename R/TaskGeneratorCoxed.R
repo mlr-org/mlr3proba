@@ -16,6 +16,8 @@
 #' @template task_generator
 #'
 #' @template seealso_task_generator
+#' @references
+#' `r format_bib("harden_2019")`
 #' @examplesIf mlr3misc::require_namespaces(c("coxed"), quietly = TRUE)
 #'   library(mlr3)
 #'

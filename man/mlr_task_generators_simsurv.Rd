@@ -51,6 +51,12 @@ tgen("simsurv")
   head(task)
 \dontshow{\}) # examplesIf}
 }
+\references{
+Brilleman, L. S, Wolfe, Rory, Moreno-Betancur, Margarita, Crowther, J. M (2021).
+\dQuote{Simulating Survival Data Using the simsurv R Package.}
+\emph{Journal of Statistical Software}, \bold{97}(3), 1--27.
+\doi{10.18637/JSS.V097.I03}.
+}
 \seealso{
 \itemize{
 \item \link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:TaskGenerator]{TaskGenerators}: \link[mlr3:mlr_task_generators]{mlr3::mlr_task_generators}

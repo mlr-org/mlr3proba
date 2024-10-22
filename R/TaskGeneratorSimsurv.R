@@ -20,6 +20,8 @@
 #' @template task_generator
 #'
 #' @template seealso_task_generator
+#' @references
+#' `r format_bib("brilleman_2021")`
 #' @examplesIf mlr3misc::require_namespaces(c("simsurv"), quietly = TRUE)
 #'   # generate 20 samples with Weibull survival distribution
 #'   gen = tgen("simsurv")

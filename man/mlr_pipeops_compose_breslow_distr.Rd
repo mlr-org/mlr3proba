@@ -70,6 +70,17 @@ another.
 }
 \dontshow{\}) # examplesIf}
 }
+\references{
+Cox DR (1972).
+\dQuote{Regression Models and Life-Tables.}
+\emph{Journal of the Royal Statistical Society: Series B (Methodological)}, \bold{34}(2), 187--202.
+\doi{10.1111/j.2517-6161.1972.tb00899.x}.
+
+Lin, Y. D (2007).
+\dQuote{On the Breslow estimator.}
+\emph{Lifetime Data Analysis}, \bold{13}(4), 471-480.
+\doi{10.1007/s10985-007-9048-y}.
+}
 \seealso{
 \link{pipeline_distrcompositor}
 

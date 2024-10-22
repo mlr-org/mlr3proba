@@ -85,6 +85,12 @@ Additional alias id for pipeline construction:
 }
 \dontshow{\}) # examplesIf}
 }
+\references{
+Vock, M D, Wolfson, Julian, Bandyopadhyay, Sunayan, Adomavicius, Gediminas, Johnson, E P, Vazquez-Benitez, Gabriela, O'Connor, J P (2016).
+\dQuote{Adapting machine learning techniques to censored time-to-event health record data: A general-purpose approach using inverse probability of censoring weighting.}
+\emph{Journal of Biomedical Informatics}, \bold{61}, 119--131.
+\doi{https://doi.org/10.1016/j.jbi.2016.03.009}, \url{https://www.sciencedirect.com/science/article/pii/S1532046416000496}.
+}
 \seealso{
 Other pipelines: 
 \code{\link{mlr_graphs_crankcompositor}},

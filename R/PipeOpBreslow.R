@@ -39,6 +39,8 @@
 #'    This is useful for changing the prediction `distr` from one model form to
 #'    another.
 #' @seealso [pipeline_distrcompositor]
+#' @references
+#' `r format_bib("cox_1972", "lin_2007")`
 #' @export
 #' @family survival compositors
 #' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)
