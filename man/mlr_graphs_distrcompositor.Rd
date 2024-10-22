@@ -10,6 +10,7 @@ pipeline_distrcompositor(
   estimator = "kaplan",
   form = "aft",
   overwrite = FALSE,
+  scale_lp = FALSE,
   graph_learner = FALSE
 )
 }
@@ -35,6 +36,11 @@ If \code{FALSE} (default) then if the \code{learner} already has a \code{distr},
 If \code{TRUE} then the \code{distr} is overwritten by the compositor if
 already present, which may be required for changing the prediction \code{distr} from one model form
 to another.}
+
+\item{scale_lp}{(\code{logical(1)})\cr
+If \code{TRUE} and \code{form} is \code{"aft"}, the linear predictor scores are scaled before
+the composition. Experimental option, see more details on \link{PipeOpDistrCompositor}.
+Default is \code{FALSE}.}
 
 \item{graph_learner}{(\code{logical(1)})\cr
 If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a

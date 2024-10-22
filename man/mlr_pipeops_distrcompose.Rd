@@ -5,6 +5,8 @@
 \alias{PipeOpDistrCompositor}
 \title{PipeOpDistrCompositor}
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 Estimates (or 'composes') a survival distribution from a predicted baseline
 survival distribution (\code{distr}) and a linear predictor (\code{lp}) from two \link{PredictionSurv}s.
 
@@ -58,17 +60,32 @@ If \code{FALSE} (default) then if the "pred" input already has a \code{distr}, t
 nothing and returns the given \link{PredictionSurv}. If \code{TRUE}, then the \code{distr} is overwritten
 with the \code{distr} composed from \code{lp} - this is useful for changing the prediction
 \code{distr} from one model form to another.
+\item \code{scale_lp} :: \code{logical(1)} \cr
+This option is only applicable to \code{form} equal to \code{"aft"}. If \code{TRUE}, it
+min-max scales the linear prediction scores to be in the interval \eqn{[0,1]},
+avoiding extrapolation of the baseline \eqn{S_0(t)} on the transformed time
+points \eqn{\frac{t}{\exp(lp)}}, as these will be \eqn{\in [\frac{t}{e}, t]},
+and so always smaller than the maximum time point for which we have estimated
+\eqn{S_0(t)}.
+Note that this is just a \strong{heuristic} to get reasonable results in the
+case you observe survival predictions to be e.g. constant after the AFT
+composition and it definitely provides no guarantee for creating calibrated
+distribution predictions (as none of these methods do). Therefore, it is
+set to \code{FALSE} by default.
 }
 }
 
 \section{Internals}{
 
 The respective \code{form}s above have respective survival distributions:
-\deqn{aft: S(t) = S_0(\frac{t}{exp(lp)})}{aft: S(t) = S0(t/exp(lp))}
-\deqn{ph: S(t) = S_0(t)^{exp(lp)}}{ph: S(t) = S0(t)^exp(lp)}
-\deqn{po: S(t) = \frac{S_0(t)}{exp(-lp) + (1-exp(-lp)) S_0(t)}}{po: S(t) = S0(t) / [exp(-lp) + S0(t) (1-exp(-lp))]} # nolint
-where \eqn{S_0}{S0} is the estimated baseline survival distribution, and \eqn{lp} is the
+\deqn{aft: S(t) = S_0(\frac{t}{\exp(lp)})}
+\deqn{ph: S(t) = S_0(t)^{\exp(lp)}}
+\deqn{po: S(t) = \frac{S_0(t)}{\exp(-lp) + (1-\exp(-lp)) S_0(t)}}
+where \eqn{S_0} is the estimated baseline survival distribution, and \eqn{lp} is the
 predicted linear predictor.
+
+For an example use of the \code{"aft"} composition using Kaplan-Meier as a baseline
+distribution, see Norman et al. (2024).
 }
 
 \examples{
@@ -85,6 +102,12 @@ predicted linear predictor.
   pod$predict(list(base = base, pred = pred))[[1]]
 }
 \dontshow{\}) # examplesIf}
+}
+\references{
+Norman, A P, Li, Wanlu, Jiang, Wenyu, Chen, E B (2024).
+\dQuote{deepAFT: A nonlinear accelerated failure time model with artificial neural network.}
+\emph{Statistics in Medicine}.
+\doi{10.1002/sim.10152}.
 }
 \seealso{
 \link{pipeline_distrcompositor}

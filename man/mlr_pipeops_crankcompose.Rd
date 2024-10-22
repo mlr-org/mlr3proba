@@ -59,6 +59,16 @@ If \code{TRUE}, then the \code{crank} will be overwritten.
 }
 \dontshow{\}) # examplesIf}
 }
+\references{
+Sonabend, Raphael, Bender, Andreas, Vollmer, Sebastian (2022).
+\dQuote{Avoiding C-hacking when evaluating survival distribution predictions with discrimination measures.}
+\emph{Bioinformatics}.
+ISSN 1367-4803, \doi{10.1093/BIOINFORMATICS/BTAC451}, \url{https://academic.oup.com/bioinformatics/advance-article/doi/10.1093/bioinformatics/btac451/6640155}.
+
+Ishwaran, Hemant, Kogalur, B U, Blackstone, H E, Lauer, S M, others (2008).
+\dQuote{Random survival forests.}
+\emph{The Annals of applied statistics}, \bold{2}(3), 841--860.
+}
 \seealso{
 \link{pipeline_crankcompositor}
 

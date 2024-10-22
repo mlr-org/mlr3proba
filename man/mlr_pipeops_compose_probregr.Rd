@@ -5,7 +5,9 @@
 \alias{PipeOpProbregr}
 \title{PipeOpProbregr}
 \description{
-Combines a predicted \code{reponse} and \code{se} from \link{PredictionRegr} with a specified probability
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
+Combines a predicted \code{response} and \code{se} from \link{PredictionRegr} with a specified probability
 distribution to estimate (or 'compose') a \code{distr} prediction.
 }
 \section{Dictionary}{
