@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.6.9</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.7.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -94,6 +94,17 @@ If <code>FALSE</code> (default) and the prediction already has a <code>crank</co
 If <code>TRUE</code>, then the <code>crank</code> will be overwritten.</p></li>
 </ul></div>
     <div class="section level2">
+    <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
+    <p>Sonabend, Raphael, Bender, Andreas, Vollmer, Sebastian (2022).
+“Avoiding C-hacking when evaluating survival distribution predictions with discrimination measures.”
+<em>Bioinformatics</em>.
+ISSN 1367-4803, <a href="https://doi.org/10.1093/BIOINFORMATICS/BTAC451" class="external-link">doi:10.1093/BIOINFORMATICS/BTAC451</a>
+, <a href="https://academic.oup.com/bioinformatics/advance-article/doi/10.1093/bioinformatics/btac451/6640155" class="external-link">https://academic.oup.com/bioinformatics/advance-article/doi/10.1093/bioinformatics/btac451/6640155</a>.</p>
+<p>Ishwaran, Hemant, Kogalur, B U, Blackstone, H E, Lauer, S M, others (2008).
+“Random survival forests.”
+<em>The Annals of applied statistics</em>, <b>2</b>(3), 841–860.</p>
+    </div>
+    <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><a href="mlr_graphs_crankcompositor.html">pipeline_crankcompositor</a></p>
 <p>Other survival compositors:
@@ -163,7 +174,6 @@ otherwise be set during construction.</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"mlr3pipelines"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mlr3pipelines.mlr-org.com" class="external-link">mlr3pipelines</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">tsk</a></span><span class="op">(</span><span class="st">"rats"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
@@ -171,7 +181,6 @@ otherwise be set during construction.</p></dd>
 <span class="r-in"><span>  <span class="va">pred</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"surv.coxph"</span><span class="op">)</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="va">poc</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3pipelines.mlr-org.com/reference/po.html" class="external-link">po</a></span><span class="op">(</span><span class="st">"crankcompose"</span>, param_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="va">poc</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">pred</span><span class="op">)</span><span class="op">)</span><span class="op">[[</span><span class="fl">1L</span><span class="op">]</span><span class="op">]</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
