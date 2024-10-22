@@ -3,7 +3,9 @@
 #' @template param_pipelines
 #'
 #' @description
-#' Combines a predicted `reponse` and `se` from [PredictionRegr] with a specified probability
+#' `r lifecycle::badge("experimental")`
+#'
+#' Combines a predicted `response` and `se` from [PredictionRegr] with a specified probability
 #' distribution to estimate (or 'compose') a `distr` prediction.
 #'
 #' @section Dictionary:
