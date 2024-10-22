@@ -35,6 +35,8 @@
 #'    If `TRUE`, then the `crank` will be overwritten.
 #'
 #' @seealso [pipeline_crankcompositor]
+#' @references
+#' `r format_bib("sonabend_2022", "ishwaran_2008")`
 #' @family survival compositors
 #' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)
 #' \dontrun{
