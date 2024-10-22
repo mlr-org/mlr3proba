@@ -56,7 +56,7 @@
 #' @references
 #' `r format_bib("zhao_2016")`
 #'
-#' @seealso [pipeline_crankcompositor]
+#' @seealso [pipeline_responsecompositor]
 #' @family survival compositors
 #' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)
 #' \dontrun{

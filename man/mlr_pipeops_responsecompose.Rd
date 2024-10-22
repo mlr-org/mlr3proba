@@ -96,7 +96,7 @@ Zhao, Lihui, Claggett, Brian, Tian, Lu, Uno, Hajime, Pfeffer, A. M, Solomon, D. 
 ISSN 1541-0420, \doi{10.1111/BIOM.12384}, \url{https://onlinelibrary.wiley.com/doi/full/10.1111/biom.12384}.
 }
 \seealso{
-\link{pipeline_crankcompositor}
+\link{pipeline_responsecompositor}
 
 Other survival compositors: 
 \code{\link{mlr_pipeops_compose_breslow_distr}},
