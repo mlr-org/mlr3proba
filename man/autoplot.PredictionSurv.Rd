@@ -63,6 +63,7 @@ predicted median survival time. A model is D-calibrated if the resulting plot li
 }
 }
 \examples{
+\dontshow{if (mlr3misc::require_namespaces(c("mlr3viz", "ggplot2"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(mlr3)
 library(mlr3proba)
 library(mlr3viz)
@@ -79,6 +80,7 @@ autoplot(p, type = "dcalib")
 
 # Predictions
 autoplot(p, type = "preds")
+\dontshow{\}) # examplesIf}
 }
 \references{
 Haider H, Hoehn B, Davis S, Greiner R (2020).

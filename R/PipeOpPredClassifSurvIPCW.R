@@ -39,8 +39,7 @@
 #' @family PipeOps
 #' @family Transformation PipeOps
 #' @export
-PipeOpPredClassifSurvIPCW = R6Class(
-  "PipeOpPredClassifSurvIPCW",
+PipeOpPredClassifSurvIPCW = R6Class("PipeOpPredClassifSurvIPCW",
   inherit = mlr3pipelines::PipeOp,
 
   public = list(

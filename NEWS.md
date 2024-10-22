@@ -1,3 +1,10 @@
+# mlr3proba 0.7.0
+
+* Add `mlr3pipelines` to `Imports` and set minimum latest version from CRAN (`0.7.0`)
+* Refactor code to minimize namespace calling and imports such as `mlr3pipelines::` or `R6::`
+* Add experimental badge in the documentation of a few more PipeOps
+* Add argument `scale_lp` for AFT `distrcompose` pipeop + respective pipeline
+
 # mlr3proba 0.6.9
 
 * New `PipeOp`s: `PipeOpTaskSurvClassifIPCW`, `PipeOpPredClassifSurvIPCW`

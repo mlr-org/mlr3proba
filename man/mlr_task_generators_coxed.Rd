@@ -39,7 +39,7 @@ tgen("coxed")
 }
 
 \examples{
-if (requireNamespace("coxed", quietly = TRUE)) {
+\dontshow{if (mlr3misc::require_namespaces(c("coxed"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
   library(mlr3)
 
   # time horizon = 365 days, censoring proportion = 60\%, 6 covariates normally
@@ -52,7 +52,7 @@ if (requireNamespace("coxed", quietly = TRUE)) {
   # same as above, but with time-varying coefficients (counting process format)
   gen$param_set$set_values(type = "tvc")
   gen$generate(50)
-}
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \itemize{

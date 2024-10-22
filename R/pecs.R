@@ -32,9 +32,8 @@
 #' from the [PredictionSurv] or [TaskSurv] object. If a range is provided for `times` without `n`,
 #' then all time-points between the range are returned.
 #'
-#' @examples
+#' @examplesIf mlr3misc::require_namespaces(c("ggplot2"), quietly = TRUE)
 #' \dontrun{
-#' if (requireNamespace("ggplot2", quietly = TRUE)) {
 #'   #' library(mlr3)
 #'   task = tsk("rats")
 #'
@@ -54,7 +53,6 @@
 #'   learns = lrns(c("surv.kaplan", "surv.coxph"))
 #'   lapply(learns, function(x) x$train(task))
 #'   pecs(learns, task = task, measure = "logloss", times = c(20, 90), n = 10)
-#' }
 #' }
 #'
 #' @export

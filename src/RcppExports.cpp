@@ -21,18 +21,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// c_get_unique_times
-NumericVector c_get_unique_times(NumericVector true_times, NumericVector req_times);
-RcppExport SEXP _mlr3proba_c_get_unique_times(SEXP true_timesSEXP, SEXP req_timesSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type true_times(true_timesSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type req_times(req_timesSEXP);
-    rcpp_result_gen = Rcpp::wrap(c_get_unique_times(true_times, req_times));
-    return rcpp_result_gen;
-END_RCPP
-}
 // c_score_intslogloss
 NumericMatrix c_score_intslogloss(const NumericVector& truth, const NumericVector& unique_times, const NumericMatrix& cdf, double eps);
 RcppExport SEXP _mlr3proba_c_score_intslogloss(SEXP truthSEXP, SEXP unique_timesSEXP, SEXP cdfSEXP, SEXP epsSEXP) {
@@ -110,7 +98,6 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_mlr3proba_c_assert_surv", (DL_FUNC) &_mlr3proba_c_assert_surv, 1},
-    {"_mlr3proba_c_get_unique_times", (DL_FUNC) &_mlr3proba_c_get_unique_times, 2},
     {"_mlr3proba_c_score_intslogloss", (DL_FUNC) &_mlr3proba_c_score_intslogloss, 4},
     {"_mlr3proba_c_score_graf_schmid", (DL_FUNC) &_mlr3proba_c_score_graf_schmid, 4},
     {"_mlr3proba_c_weight_survival_score", (DL_FUNC) &_mlr3proba_c_weight_survival_score, 6},

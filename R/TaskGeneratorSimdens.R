@@ -24,7 +24,7 @@
 #' dens_gen = tgen("simdens", distribution = "Bernoulli", pars = list(prob = 0.8))
 #' task = dens_gen$generate(50)
 #' task$data()[["x"]]
-TaskGeneratorSimdens = R6::R6Class("TaskGeneratorSimdens",
+TaskGeneratorSimdens = R6Class("TaskGeneratorSimdens",
   inherit = TaskGenerator,
   public = list(
     #' @description Creates a new instance of this [R6][R6::R6Class] class.

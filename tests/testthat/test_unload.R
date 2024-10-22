@@ -34,7 +34,7 @@ test_that("unloading leaves no trace", {
     # compose prediction types
     "crankcompositor", "distrcompositor", "responsecompositor",
     # transform surv to other tasks
-    "survtoregr", "survtoclassif_disctime", "survtoclassif_IPCW"
+    "survtoregr", "survtoclassif_disctime", "survtoclassif_IPCW", "survtoclassif_vock"
   )
   expect_in(proba_graphs, mlr_graphs$keys())
 

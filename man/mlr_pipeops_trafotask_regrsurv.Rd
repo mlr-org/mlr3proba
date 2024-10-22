@@ -30,8 +30,8 @@ of same length as the prediction object, where \code{1} is dead and \code{0} cen
 }
 
 \examples{
+\dontshow{if (mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \dontrun{
-if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   library(mlr3)
   library(mlr3pipelines)
 
@@ -50,7 +50,7 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   new_task$truth()
   task_surv$truth()
 }
-}
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 Other PipeOps: 

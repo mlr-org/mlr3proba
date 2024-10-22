@@ -70,8 +70,8 @@ This is \strong{not a good estimate to use in general}, only a reasonable substi
 }
 
 \examples{
+\dontshow{if (mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \dontrun{
-if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   library(mlr3pipelines)
   task = tsk("rats")
 
@@ -87,7 +87,7 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   por = po("responsecompose", param_vals = list(overwrite = TRUE, add_crank = TRUE))
   por$predict(list(pred))[[1L]]
 }
-}
+\dontshow{\}) # examplesIf}
 }
 \references{
 Zhao, Lihui, Claggett, Brian, Tian, Lu, Uno, Hajime, Pfeffer, A. M, Solomon, D. S, Trippa, Lorenzo, Wei, J. L (2016).

@@ -21,8 +21,8 @@ The \verb{$state} is a named \code{list} with the \verb{$state} elements inherit
 }
 
 \examples{
+\dontshow{if (mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \dontrun{
-if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   library(mlr3)
   library(mlr3pipelines)
   library(survival)
@@ -34,7 +34,7 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   new_pred = po$predict(list(pred = pred))[[1]]
   print(new_pred)
 }
-}
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 Other PipeOps: 

@@ -9,7 +9,7 @@ test_that("PipeOpTaskSurvClassifIPCW", {
   expect_equal(test_task$row_ids, test_ids)
   expect_equal(train_task$row_ids, train_ids)
 
-  po_ipcw = mlr3pipelines::po("trafotask_survclassif_IPCW")
+  po_ipcw = po("trafotask_survclassif_IPCW")
   expect_class(po_ipcw, c("PipeOp", "PipeOpTaskSurvClassifIPCW"))
   # don't allow NULL `tau`
   expect_error(po_ipcw$train(list(train_task)), "not 'NULL'")

@@ -57,7 +57,7 @@
 #' @family Probabilistic survival measures
 #' @family distr survival measures
 #' @export
-MeasureSurvSchmid = R6::R6Class("MeasureSurvSchmid",
+MeasureSurvSchmid = R6Class("MeasureSurvSchmid",
   inherit = MeasureSurv,
   public = list(
     #' @description

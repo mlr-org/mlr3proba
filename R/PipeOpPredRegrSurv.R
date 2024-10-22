@@ -21,9 +21,8 @@
 #' If `NULL` then assumed no censoring in the dataset. Otherwise should be a vector of `0/1`s
 #' of same length as the prediction object, where `1` is dead and `0` censored.
 #'
-#' @examples
+#' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)
 #' \dontrun{
-#' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 #'   library(mlr3)
 #'   library(mlr3pipelines)
 #'
@@ -44,7 +43,6 @@
 #'   po = po("trafopred_regrsurv")
 #'   new_pred = po$predict(list(pred = pred, task = task_surv))[[1]]
 #'   all.equal(new_pred$truth, task_surv$truth())
-#' }
 #' }
 #' @family PipeOps
 #' @family Transformation PipeOps

@@ -32,6 +32,7 @@ Additional arguments, possibly passed down to the underlying plot functions.}
 Generates plots for \link{TaskDens}.
 }
 \examples{
+\dontshow{if (mlr3misc::require_namespaces(c("mlr3viz", "ggplot2"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(mlr3)
 library(mlr3proba)
 library(mlr3viz)
@@ -43,4 +44,5 @@ autoplot(task, bins = 15)
 autoplot(task, type = "freq", bins = 15)
 autoplot(task, type = "overlay", bins = 15)
 autoplot(task, type = "freqpoly", bins = 15)
+\dontshow{\}) # examplesIf}
 }

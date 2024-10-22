@@ -47,8 +47,8 @@ If \code{TRUE}, then the \code{crank} will be overwritten.
 }
 
 \examples{
+\dontshow{if (mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \dontrun{
-if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   library(mlr3pipelines)
   task = tsk("rats")
 
@@ -57,7 +57,17 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   poc = po("crankcompose", param_vals = list(overwrite = TRUE))
   poc$predict(list(pred))[[1L]]
 }
+\dontshow{\}) # examplesIf}
 }
+\references{
+Sonabend, Raphael, Bender, Andreas, Vollmer, Sebastian (2022).
+\dQuote{Avoiding C-hacking when evaluating survival distribution predictions with discrimination measures.}
+\emph{Bioinformatics}.
+ISSN 1367-4803, \doi{10.1093/BIOINFORMATICS/BTAC451}, \url{https://academic.oup.com/bioinformatics/advance-article/doi/10.1093/bioinformatics/btac451/6640155}.
+
+Ishwaran, Hemant, Kogalur, B U, Blackstone, H E, Lauer, S M, others (2008).
+\dQuote{Random survival forests.}
+\emph{The Annals of applied statistics}, \bold{2}(3), 841--860.
 }
 \seealso{
 \link{pipeline_crankcompositor}

@@ -58,9 +58,8 @@
 #'
 #' @seealso [pipeline_crankcompositor]
 #' @family survival compositors
-#' @examples
+#' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)
 #' \dontrun{
-#' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 #'   library(mlr3pipelines)
 #'   task = tsk("rats")
 #'
@@ -75,7 +74,6 @@
 #'   # RMST (default) as response, while also changing the `crank` to `-response`
 #'   por = po("responsecompose", param_vals = list(overwrite = TRUE, add_crank = TRUE))
 #'   por$predict(list(pred))[[1L]]
-#' }
 #' }
 #' @export
 PipeOpResponseCompositor = R6Class("PipeOpResponseCompositor",

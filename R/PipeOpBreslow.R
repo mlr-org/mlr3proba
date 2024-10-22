@@ -41,9 +41,8 @@
 #' @seealso [pipeline_distrcompositor]
 #' @export
 #' @family survival compositors
-#' @examples
+#' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)
 #' \dontrun{
-#' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 #'   library(mlr3)
 #'   library(mlr3pipelines)
 #'   task = tsk("rats")
@@ -56,7 +55,6 @@
 #'
 #'   b$train(list(train_task))
 #'   p = b$predict(list(test_task))[[1L]]
-#' }
 #' }
 PipeOpBreslow = R6Class("PipeOpBreslow",
   inherit = mlr3pipelines::PipeOp,

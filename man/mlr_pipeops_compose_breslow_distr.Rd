@@ -53,8 +53,8 @@ another.
 }
 
 \examples{
+\dontshow{if (mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \dontrun{
-if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   library(mlr3)
   library(mlr3pipelines)
   task = tsk("rats")
@@ -68,7 +68,7 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   b$train(list(train_task))
   p = b$predict(list(test_task))[[1L]]
 }
-}
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \link{pipeline_distrcompositor}

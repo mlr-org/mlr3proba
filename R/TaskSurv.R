@@ -16,7 +16,6 @@
 #' `r format_bib("grambsch_1994")`
 #'
 #' @family Task
-#' @export
 #' @examples
 #' library(mlr3)
 #' task = tsk("lung")
@@ -47,7 +46,8 @@
 #' task$prop_haz()
 #' # veteran data is definitely non-PH (p << 0.05)
 #' tsk("veteran")$prop_haz()
-TaskSurv = R6::R6Class("TaskSurv",
+#' @export
+TaskSurv = R6Class("TaskSurv",
   inherit = TaskSupervised,
   public = list(
     #' @description

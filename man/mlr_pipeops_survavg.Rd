@@ -43,8 +43,8 @@ Inherits from \link[mlr3pipelines:PipeOpEnsemble]{PipeOpEnsemble} by implementin
 }
 
 \examples{
+\dontshow{if (mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \dontrun{
-if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   library(mlr3)
   library(mlr3pipelines)
 
@@ -54,7 +54,7 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   poc = po("survavg", param_vals = list(weights = c(0.2, 0.8)))
   poc$predict(list(p1, p2))
 }
-}
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 Other PipeOps: 

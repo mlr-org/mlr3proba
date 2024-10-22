@@ -1,6 +1,6 @@
 Package: mlr3proba
 Title: Probabilistic Supervised Learning for 'mlr3'
-Version: 0.6.9
+Version: 0.7.0
 Authors@R:
     c(person(given = "Raphael",
              family = "Sonabend",
@@ -60,6 +60,7 @@ Imports:
     distr6 (>= 1.8.4),
     ggplot2,
     mlr3misc (>= 0.7.0),
+    mlr3pipelines (>= 0.7.0),
     mlr3viz,
     paradox (>= 1.0.0),
     R6,
@@ -71,7 +72,6 @@ Suggests:
     knitr,
     lgr,
     lifecycle,
-    mlr3pipelines (>= 0.3.4),
     param6 (>= 0.2.4),
     pracma,
     rpart,

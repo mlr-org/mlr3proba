@@ -11,7 +11,7 @@
 #' `r format_bib("silverman_1986")`
 #'
 #' @export
-LearnerDensKDE = R6::R6Class("LearnerDensKDE",
+LearnerDensKDE = R6Class("LearnerDensKDE",
   inherit = LearnerDens,
   public = list(
     #' @description
