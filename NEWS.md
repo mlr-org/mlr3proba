@@ -2,7 +2,7 @@
 
 * Add `mlr3pipelines` to `Imports` and set minimum latest version from CRAN (`0.7.0`)
 * Refactor code to minimize namespace calling and imports such as `mlr3pipelines::` or `R6::`
-* Add experimental badge in the documentation of a few more PipeOps
+* Doc updates: add experimental badge in a some PipeOps + add references in others
 * Add argument `scale_lp` for AFT `distrcompose` pipeop + respective pipeline
 
 # mlr3proba 0.6.9
