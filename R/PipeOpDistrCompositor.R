@@ -3,6 +3,8 @@
 #' @template param_pipelines
 #'
 #' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' Estimates (or 'composes') a survival distribution from a predicted baseline
 #' survival distribution (`distr`) and a linear predictor (`lp`) from two [PredictionSurv]s.
 #'
@@ -46,16 +48,33 @@
 #'    nothing and returns the given [PredictionSurv]. If `TRUE`, then the `distr` is overwritten
 #'    with the `distr` composed from `lp` - this is useful for changing the prediction
 #'    `distr` from one model form to another.
+#' * `scale_lp` :: `logical(1)` \cr
+#'    This option is only applicable to `form` equal to `"aft"`. If `TRUE`, it
+#'    min-max scales the linear prediction scores to be in the interval \eqn{[0,1]},
+#'    avoiding extrapolation of the baseline \eqn{S_0(t)} on the transformed time
+#'    points \eqn{\frac{t}{\exp(lp)}}, as these will be \eqn{\in [\frac{t}{e}, t]},
+#'    and so always smaller than the maximum time point for which we have estimated
+#'    \eqn{S_0(t)}.
+#'    Note that this is just a **heuristic** to get reasonable results in the
+#'    case you observe survival predictions to be e.g. constant after the AFT
+#'    composition and it definitely provides no guarantee for creating calibrated
+#'    distribution predictions (as none of these methods do). Therefore, it is
+#'    set to `FALSE` by default.
 #'
 #' @section Internals:
 #' The respective `form`s above have respective survival distributions:
-#'    \deqn{aft: S(t) = S_0(\frac{t}{exp(lp)})}{aft: S(t) = S0(t/exp(lp))}
-#'    \deqn{ph: S(t) = S_0(t)^{exp(lp)}}{ph: S(t) = S0(t)^exp(lp)}
-#'    \deqn{po: S(t) = \frac{S_0(t)}{exp(-lp) + (1-exp(-lp)) S_0(t)}}{po: S(t) = S0(t) / [exp(-lp) + S0(t) (1-exp(-lp))]} # nolint
-#' where \eqn{S_0}{S0} is the estimated baseline survival distribution, and \eqn{lp} is the
+#'    \deqn{aft: S(t) = S_0(\frac{t}{\exp(lp)})}
+#'    \deqn{ph: S(t) = S_0(t)^{\exp(lp)}}
+#'    \deqn{po: S(t) = \frac{S_0(t)}{\exp(-lp) + (1-\exp(-lp)) S_0(t)}}
+#' where \eqn{S_0} is the estimated baseline survival distribution, and \eqn{lp} is the
 #' predicted linear predictor.
 #'
+#' For an example use of the `"aft"` composition using Kaplan-Meier as a baseline
+#' distribution, see Norman et al. (2024).
+#'
 #' @seealso [pipeline_distrcompositor]
+#' @references
+#' `r format_bib("norman_2024")`
 #' @export
 #' @family survival compositors
 #' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)
@@ -78,9 +97,10 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
     initialize = function(id = "distrcompose", param_vals = list()) {
       param_set = ps(
         form = p_fct(default = "aft", levels = c("aft", "ph", "po"), tags = "predict"),
-        overwrite = p_lgl(default = FALSE, tags = "predict")
+        overwrite = p_lgl(default = FALSE, tags = "predict"),
+        scale_lp = p_lgl(default = FALSE, tags = "predict")
       )
-      param_set$set_values(form = "aft", overwrite = FALSE)
+      param_set$set_values(form = "aft", overwrite = FALSE, scale_lp = FALSE)
 
       super$initialize(
         id = id,
@@ -143,6 +163,12 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
         if (form == "ph") {
           cdf = 1 - (survmat ^ exp(lpmat))
         } else if (form == "aft") {
+          # add heuristic to keep the transformed t/exp(lp) time points within
+          # the domain of S_0(t)
+          if (self$param_set$values$scale_lp) {
+            lpmat = (lpmat - min(lpmat)) / (max(lpmat) - min(lpmat))
+          }
+          # calculate cdf = 1 - S_0(t) on the time points t/exp(lp)
           mtc = findInterval(timesmat / exp(lpmat), times)
           mtc[mtc == 0] = NA
           cdf = 1 - matrix(survmat[1L, mtc], nr, nc, FALSE)

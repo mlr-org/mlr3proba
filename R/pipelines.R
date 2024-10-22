@@ -219,6 +219,10 @@ pipeline_responsecompositor = function(learner, method = "rmst", tau = NULL,
 #' If `TRUE` then the `distr` is overwritten by the compositor if
 #' already present, which may be required for changing the prediction `distr` from one model form
 #' to another.
+#' @param scale_lp (`logical(1)`)\cr
+#' If `TRUE` and `form` is `"aft"`, the linear predictor scores are scaled before
+#' the composition. Experimental option, see more details on [PipeOpDistrCompositor].
+#' Default is `FALSE`.
 #'
 #' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)
 #' \dontrun{
@@ -238,11 +242,12 @@ pipeline_responsecompositor = function(learner, method = "rmst", tau = NULL,
 #'   grlrn$predict(task)
 #' }
 pipeline_distrcompositor = function(learner, estimator = "kaplan", form = "aft",
-  overwrite = FALSE, graph_learner = FALSE) {
+  overwrite = FALSE, scale_lp = FALSE, graph_learner = FALSE) {
   # some checks
   assert_choice(estimator, choices = c("kaplan", "nelson", "breslow"), null.ok = FALSE)
   assert_choice(form, choices = c("aft", "ph", "po"), null.ok = FALSE)
   assert_learner(learner, task_type = "surv")
+  assert_logical(scale_lp, len = 1)
 
   # make the pipeline Graph object
   if (estimator == "breslow") {
@@ -253,7 +258,9 @@ pipeline_distrcompositor = function(learner, estimator = "kaplan", form = "aft",
     learner_id = paste0("distrcompositor.", estimator)
     base = po("learner", lrn(learner_key, id = learner_id))
 
-    compositor = po("distrcompose", param_vals = list(form = form, overwrite = overwrite))
+    compositor = po("distrcompose", param_vals = list(
+      form = form, overwrite = overwrite, scale_lp = scale_lp
+    ))
 
     gr = gunion(list(base, pred)) %>>% compositor
   }
