@@ -709,5 +709,13 @@ bibentries = c( # nolint start
     url = "https://onlinelibrary.wiley.com/doi/full/10.1111/biom.12384",
     volume = "72",
     year = "2016"
+  ),
+  norman_2024 = bibentry("article",
+    author = "Norman, Patrick A and Li, Wanlu and Jiang, Wenyu and Chen, Bingshu E",
+    title = "deepAFT: A nonlinear accelerated failure time model with artificial neural network",
+    journal = "Statistics in Medicine",
+    year = "2024",
+    publisher = "Wiley Online Library",
+    doi = "10.1002/sim.10152"
   )
-) # nolint end
+)
