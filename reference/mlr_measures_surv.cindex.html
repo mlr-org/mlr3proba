@@ -231,22 +231,22 @@ Weighting applied to tied rankings, default is to give them half (0.5) weighting
 <span class="r-in"><span><span class="co"># Harrell's C-index</span></span></span>
 <span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.cindex"</span><span class="op">)</span><span class="op">)</span> <span class="co"># same as `p$score()`</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surv.cindex </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.8055556 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0.775 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Uno's C-index</span></span></span>
 <span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.cindex"</span>, weight_meth <span class="op">=</span> <span class="st">"G2"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>        task <span class="op">=</span> <span class="va">task</span>, train_set <span class="op">=</span> <span class="va">part</span><span class="op">$</span><span class="va">train</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surv.cindex </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.8353841 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.7766333 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Harrell's C-index evaluated up to a specific time horizon</span></span></span>
 <span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.cindex"</span>, t_max <span class="op">=</span> <span class="fl">97</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surv.cindex </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.8055556 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.7730956 </span>
 <span class="r-in"><span><span class="co"># Harrell's C-index evaluated up to the time corresponding to 30% of censoring</span></span></span>
 <span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.cindex"</span>, p_max <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surv.cindex </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.7965475 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0.762 </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

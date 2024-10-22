@@ -87,6 +87,14 @@ generated datasets always use the <em>flexible-hazard</em> method from the packa
 
 <table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Levels</td><td>Range</td></tr><tr><td>T</td><td>numeric</td><td>100</td><td></td><td>\([1, \infty)\)</td></tr><tr><td>type</td><td>character</td><td>none</td><td>none, tvc, tvbeta</td><td>-</td></tr><tr><td>knots</td><td>integer</td><td>8</td><td></td><td>\([1, \infty)\)</td></tr><tr><td>spline</td><td>logical</td><td>TRUE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>xvars</td><td>integer</td><td>3</td><td></td><td>\([1, \infty)\)</td></tr><tr><td>mu</td><td>untyped</td><td>0</td><td></td><td>-</td></tr><tr><td>sd</td><td>untyped</td><td>0.5</td><td></td><td>-</td></tr><tr><td>censor</td><td>numeric</td><td>0.1</td><td></td><td>\([0, 1]\)</td></tr><tr><td>censor.cond</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr></table></div>
     <div class="section level2">
+    <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
+    <p>Harden, J. J, Kropko, Jonathan (2019).
+“Simulating Duration Data for the Cox Model.”
+<em>Political Science Research and Methods</em>, <b>7</b>(4), 921–928.
+<a href="https://doi.org/10.1017/PSRM.2018.19" class="external-link">doi:10.1017/PSRM.2018.19</a>
+.</p>
+    </div>
+    <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index">
 <ul><li><p><a href="https://mlr3misc.mlr-org.com/reference/Dictionary.html" class="external-link">Dictionary</a> of <a href="https://mlr3.mlr-org.com/reference/TaskGenerator.html" class="external-link">TaskGenerators</a>: <a href="https://mlr3.mlr-org.com/reference/mlr_task_generators.html" class="external-link">mlr3::mlr_task_generators</a></p></li>
@@ -166,7 +174,7 @@ generated datasets always use the <em>flexible-hazard</em> method from the packa
 <span class="r-in"><span>  <span class="co"># same as above, but with time-varying coefficients (counting process format)</span></span></span>
 <span class="r-in"><span>  <span class="va">gen</span><span class="op">$</span><span class="va">param_set</span><span class="op">$</span><span class="fu">set_values</span><span class="op">(</span>type <span class="op">=</span> <span class="st">"tvc"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="va">gen</span><span class="op">$</span><span class="fu">generate</span><span class="op">(</span><span class="fl">50</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;TaskSurv:coxed&gt; (7453 x 10)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;TaskSurv:coxed&gt; (5319 x 10)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Target: start, end, failed</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Properties: -</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Features (7):</span>
