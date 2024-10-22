@@ -18,6 +18,22 @@ test_that("no params", {
   expect_silent(pod$predict(list(base = base, pred = pred)))
 })
 
+test_that("scale_lp = TRUE", {
+  base = lrn("surv.kaplan")$train(task)$predict(task)
+  pod1 = po("distrcompose", param_vals = list(overwrite = TRUE, scale_lp = FALSE))
+  pod2 = po("distrcompose", param_vals = list(overwrite = TRUE, scale_lp = TRUE))
+
+  p1 = pod1$predict(list(base = base, pred = cox_pred))[[1L]]
+  p2 = pod2$predict(list(base = base, pred = cox_pred))[[1L]]
+
+  # same lp scores
+  expect_equal(p1$lp, p2$lp)
+  # same time points
+  expect_equal(colnames(p1$data$distr), colnames(p2$data$distr))
+  # different survival distributions
+  expect_false(all(p1$data$distr == p2$data$distr))
+})
+
 test_that("overwrite = FALSE", {
   gr = ppl("distrcompositor", lrn("surv.kaplan"), overwrite = FALSE)
   expect_class(gr, "Graph")
