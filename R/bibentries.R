@@ -717,5 +717,29 @@ bibentries = c( # nolint start
     year = "2024",
     publisher = "Wiley Online Library",
     doi = "10.1002/sim.10152"
+  ),
+  harden_2019 = bibentry("article",
+    author = "Harden, Jeffrey J. and Kropko, Jonathan",
+    doi = "10.1017/PSRM.2018.19",
+    journal = "Political Science Research and Methods",
+    month = "oct",
+    number = "4",
+    pages = "921--928",
+    publisher = "Cambridge University Press",
+    title = "Simulating Duration Data for the Cox Model",
+    volume = "7",
+    year = "2019"
+  ),
+  brilleman_2021 = bibentry("article",
+    author = "Brilleman, Samuel L. and Wolfe, Rory and Moreno-Betancur, Margarita and Crowther, Michael J.",
+    doi = "10.18637/JSS.V097.I03",
+    journal = "Journal of Statistical Software",
+    month = "jan",
+    number = "3",
+    pages = "1--27",
+    publisher = "American Statistical Association",
+    title = "Simulating Survival Data Using the simsurv R Package",
+    volume = "97",
+    year = "2021"
   )
 )
