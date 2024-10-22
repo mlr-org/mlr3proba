@@ -3,7 +3,6 @@
 \name{cpp}
 \alias{cpp}
 \alias{.c_weight_survival_score}
-\alias{.c_get_unique_times}
 \title{Cpp functions}
 \description{
 Exported internal cpp functions for developers

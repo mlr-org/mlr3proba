@@ -13,11 +13,6 @@ NULL
 #' @export
 NULL
 
-#' @name .c_get_unique_times
-#' @rdname cpp
-#' @export
-NULL
-
 # nolint start
 #' @import checkmate
 #' @import data.table
