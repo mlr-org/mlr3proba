@@ -99,26 +99,15 @@ ISBN 978-3-319-28156-8 978-3-319-28158-2, \url{http://link.springer.com/10.1007/
 }
 \seealso{
 Other PipeOps: 
-\code{\link{PipeOpPredTransformer}},
-\code{\link{PipeOpTaskTransformer}},
-\code{\link{PipeOpTransformer}},
 \code{\link{mlr_pipeops_survavg}},
 \code{\link{mlr_pipeops_trafopred_classifsurv_IPCW}},
 \code{\link{mlr_pipeops_trafopred_classifsurv_disctime}},
-\code{\link{mlr_pipeops_trafopred_regrsurv}},
-\code{\link{mlr_pipeops_trafopred_survregr}},
-\code{\link{mlr_pipeops_trafotask_regrsurv}},
-\code{\link{mlr_pipeops_trafotask_survclassif_IPCW}},
-\code{\link{mlr_pipeops_trafotask_survregr}}
+\code{\link{mlr_pipeops_trafotask_survclassif_IPCW}}
 
 Other Transformation PipeOps: 
 \code{\link{mlr_pipeops_trafopred_classifsurv_IPCW}},
 \code{\link{mlr_pipeops_trafopred_classifsurv_disctime}},
-\code{\link{mlr_pipeops_trafopred_regrsurv}},
-\code{\link{mlr_pipeops_trafopred_survregr}},
-\code{\link{mlr_pipeops_trafotask_regrsurv}},
-\code{\link{mlr_pipeops_trafotask_survclassif_IPCW}},
-\code{\link{mlr_pipeops_trafotask_survregr}}
+\code{\link{mlr_pipeops_trafotask_survclassif_IPCW}}
 }
 \concept{PipeOps}
 \concept{Transformation PipeOps}

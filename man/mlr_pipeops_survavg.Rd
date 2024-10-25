@@ -58,17 +58,10 @@ Inherits from \link[mlr3pipelines:PipeOpEnsemble]{PipeOpEnsemble} by implementin
 }
 \seealso{
 Other PipeOps: 
-\code{\link{PipeOpPredTransformer}},
-\code{\link{PipeOpTaskTransformer}},
-\code{\link{PipeOpTransformer}},
 \code{\link{mlr_pipeops_trafopred_classifsurv_IPCW}},
 \code{\link{mlr_pipeops_trafopred_classifsurv_disctime}},
-\code{\link{mlr_pipeops_trafopred_regrsurv}},
-\code{\link{mlr_pipeops_trafopred_survregr}},
-\code{\link{mlr_pipeops_trafotask_regrsurv}},
 \code{\link{mlr_pipeops_trafotask_survclassif_IPCW}},
-\code{\link{mlr_pipeops_trafotask_survclassif_disctime}},
-\code{\link{mlr_pipeops_trafotask_survregr}}
+\code{\link{mlr_pipeops_trafotask_survclassif_disctime}}
 }
 \concept{Ensembles}
 \concept{PipeOps}

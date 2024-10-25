@@ -19,11 +19,9 @@ test_that("unloading leaves no trace", {
     # compose prediction types
     "crankcompose", "distrcompose", "responsecompose", "breslowcompose",
     # transform prediction type
-    "trafopred_classifsurv_disctime", "trafopred_survregr", "trafopred_regrsurv",
-    "trafopred_classifsurv_IPCW",
+    "trafopred_classifsurv_disctime", "trafopred_classifsurv_IPCW",
     # transform task type
-    "trafotask_regrsurv", "trafotask_survregr", "trafotask_survclassif_disctime",
-    "trafotask_survclassif_IPCW"
+    "trafotask_survclassif_disctime", "trafotask_survclassif_IPCW"
   )
   expect_in(proba_pipeops, mlr_pipeops$keys())
 
@@ -34,7 +32,7 @@ test_that("unloading leaves no trace", {
     # compose prediction types
     "crankcompositor", "distrcompositor", "responsecompositor",
     # transform surv to other tasks
-    "survtoregr", "survtoclassif_disctime", "survtoclassif_IPCW", "survtoclassif_vock"
+    "survtoclassif_disctime", "survtoclassif_IPCW", "survtoclassif_vock"
   )
   expect_in(proba_graphs, mlr_graphs$keys())
 
