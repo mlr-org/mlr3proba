@@ -81,7 +81,7 @@
 #' @references
 #' `r format_bib("tutz_2016")`
 #'
-#' @family PipeOps
+#' @seealso [pipeline_survtoclassif_disctime]
 #' @family Transformation PipeOps
 #' @export
 PipeOpTaskSurvClassifDiscTime = R6Class("PipeOpTaskSurvClassifDiscTime",

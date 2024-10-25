@@ -30,6 +30,7 @@
 #' Inherits from [PipeOpEnsemble][mlr3pipelines::PipeOpEnsemble] by implementing the
 #' `private$weighted_avg_predictions()` method.
 #'
+#' @seealso [pipeline_survaverager]
 #' @family PipeOps
 #' @family Ensembles
 #' @export

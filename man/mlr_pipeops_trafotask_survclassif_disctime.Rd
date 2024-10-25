@@ -98,18 +98,13 @@ Springer International Publishing.
 ISBN 978-3-319-28156-8 978-3-319-28158-2, \url{http://link.springer.com/10.1007/978-3-319-28158-2}.
 }
 \seealso{
-Other PipeOps: 
-\code{\link{mlr_pipeops_survavg}},
-\code{\link{mlr_pipeops_trafopred_classifsurv_IPCW}},
-\code{\link{mlr_pipeops_trafopred_classifsurv_disctime}},
-\code{\link{mlr_pipeops_trafotask_survclassif_IPCW}}
+\link{pipeline_survtoclassif_disctime}
 
 Other Transformation PipeOps: 
 \code{\link{mlr_pipeops_trafopred_classifsurv_IPCW}},
 \code{\link{mlr_pipeops_trafopred_classifsurv_disctime}},
 \code{\link{mlr_pipeops_trafotask_survclassif_IPCW}}
 }
-\concept{PipeOps}
 \concept{Transformation PipeOps}
 \section{Super class}{
 \code{\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}} -> \code{PipeOpTaskSurvClassifDiscTime}

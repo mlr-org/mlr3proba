@@ -57,11 +57,7 @@ Inherits from \link[mlr3pipelines:PipeOpEnsemble]{PipeOpEnsemble} by implementin
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-Other PipeOps: 
-\code{\link{mlr_pipeops_trafopred_classifsurv_IPCW}},
-\code{\link{mlr_pipeops_trafopred_classifsurv_disctime}},
-\code{\link{mlr_pipeops_trafotask_survclassif_IPCW}},
-\code{\link{mlr_pipeops_trafotask_survclassif_disctime}}
+\link{pipeline_survaverager}
 }
 \concept{Ensembles}
 \concept{PipeOps}
