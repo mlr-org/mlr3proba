@@ -61,7 +61,7 @@
 #' @references
 #' `r format_bib("vock_2016")`
 #'
-#' @family PipeOps
+#' @seealso [pipeline_survtoclassif_IPCW]
 #' @family Transformation PipeOps
 #' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines", "mlr3learners"), quietly = TRUE)
 #' \dontrun{

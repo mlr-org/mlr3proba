@@ -1,3 +1,7 @@
+# mlr3proba 0.7.1
+
+* Removed all `PipeOp`s and pipelines related to survival => regression reduction techniques (see #414)
+
 # mlr3proba 0.7.0
 
 * Add `mlr3pipelines` to `Imports` and set minimum latest version from CRAN (`0.7.0`)

@@ -36,7 +36,7 @@
 #' @references
 #' `r format_bib("vock_2016")`
 #'
-#' @family PipeOps
+#' @seealso [pipeline_survtoclassif_IPCW]
 #' @family Transformation PipeOps
 #' @export
 PipeOpPredClassifSurvIPCW = R6Class("PipeOpPredClassifSurvIPCW",
