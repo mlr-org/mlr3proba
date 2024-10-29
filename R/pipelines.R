@@ -727,6 +727,14 @@ pipeline_survtoregr_PEM = function(learner, cut = NULL, max_time = NULL,
   gr$add_edge(src_id = learner$id, dst_id = "trafopred_regrsurv_PEM", src_channel = "output", dst_channel = "input")
   gr$add_edge(src_id = "nop", dst_id = "trafopred_regrsurv_PEM", src_channel = "output", dst_channel = "transformed_data")
 
+  
+  if (!is.null(rhs)) {
+    gr$edges = gr$edges[-1, ]
+    gr$add_pipeop(mlr3pipelines::po("modelmatrix", formula = formulate(rhs = rhs, quote = "left")))
+    gr$add_edge(src_id = "trafotask_survregr_PEM", dst_id = "modelmatrix", src_channel = "output")
+    gr$add_edge(src_id = "modelmatrix", dst_id = learner$id, src_channel = "output", dst_channel = "input")
+  }
+  
   if (graph_learner) {
     gr = mlr3pipelines::GraphLearner$new(gr)
   }
@@ -742,4 +750,4 @@ register_graph("responsecompositor", pipeline_responsecompositor)
 register_graph("probregr", pipeline_probregr)
 register_graph("survtoregr", pipeline_survtoregr)
 register_graph("survtoclassif_disctime", pipeline_survtoclassif_disctime)
-register_graph("survregr_PEM", pipeline_survtoregr_PEM)
+register_graph("survtoregr_PEM", pipeline_survtoregr_PEM)

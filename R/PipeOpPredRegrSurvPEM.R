@@ -58,7 +58,7 @@ PipeOpPredRegrSurvPEM = R6Class(
       # is the discrete-time hazard
       data = cbind(data, dt_hazard = pred$response)
 
-      # From theory, convert hazards to surv as prod(1 - h(t))
+      # From theory, convert hazards to surv as exp(-cumsum(h(t) * exp(offset)))
       rows_per_id = nrow(data) / length(unique(data$id))
       surv = t(vapply(unique(data$id), function(unique_id) {
         exp(-cumsum(data[data$id == unique_id, ][["dt_hazard"]] * exp(data[data$id == unique_id, ][["offset"]])))
@@ -74,14 +74,14 @@ PipeOpPredRegrSurvPEM = R6Class(
 
       ids = unique(data$id)
       # select last row for every id => observed times
-      id = disc_status = NULL # to fix note
-      data = data[, .SD[.N, list(disc_status)], by = id]
+      id = PEM_status = NULL # to fix note
+      data = data[, .SD[.N, list(PEM_status)], by = id]
 
       # create prediction object
       p = PredictionSurv$new(
         row_ids = ids,
         crank = pred_list$crank, distr = pred_list$distr,
-        truth = Surv(real_tend, as.integer(as.character(data$disc_status))))
+        truth = Surv(real_tend, as.integer(as.character(data$PEM_status))))
 
       list(p)
     },
