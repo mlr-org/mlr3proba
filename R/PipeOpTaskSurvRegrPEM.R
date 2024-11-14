@@ -152,7 +152,7 @@ PipeOpTaskSurvRegrPEM = R6Class("PipeOpTaskSurvRegrPEM",
 
       task_PEM = TaskRegr$new(paste0(task$id, "_PEM"), long_data,
                                   target = "PEM_status")
-      task_PEM$set_col_roles("id", roles = "group")
+      task_PEM$set_col_roles("id", roles = "original_ids")
 
       list(task_PEM, data.table())
     },
@@ -197,7 +197,7 @@ PipeOpTaskSurvRegrPEM = R6Class("PipeOpTaskSurvRegrPEM",
       long_data[, c("tstart", "interval", "obs_times") := NULL]
       task_PEM = TaskRegr$new(paste0(task$id, "_PEM"), long_data,
                                   target = "PEM_status")
-      task_PEM$set_col_roles("id", roles = "group")
+      task_PEM$set_col_roles("id", roles = "original_ids")
 
       # map observed times back
       reps = table(long_data$id)
