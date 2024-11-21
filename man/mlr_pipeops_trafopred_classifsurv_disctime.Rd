@@ -59,6 +59,14 @@ Other Transformation PipeOps:
 \section{Super class}{
 \code{\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}} -> \code{PipeOpPredClassifSurvDiscTime}
 }
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{predict_type}}{(\code{character(1)})\cr
+Returns the active predict type of this PipeOp, which is \code{"crank"}}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
