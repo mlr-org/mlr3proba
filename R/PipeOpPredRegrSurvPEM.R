@@ -60,6 +60,8 @@ PipeOpPredRegrSurvPEM = R6Class(
 
       # From theory, convert hazards to surv as exp(-cumsum(h(t) * exp(offset)))
       rows_per_id = nrow(data) / length(unique(data$id))
+      
+      # If 'single_event', 'cr', 'msm')
       surv = t(vapply(unique(data$id), function(unique_id) {
         exp(-cumsum(data[data$id == unique_id, ][["dt_hazard"]] * exp(data[data$id == unique_id, ][["offset"]])))
       }, numeric(rows_per_id)))

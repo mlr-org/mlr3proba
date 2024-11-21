@@ -713,11 +713,11 @@ pipeline_survtoclassif_disctime = function(learner, cut = NULL, max_time = NULL,
 #' }
 #' @export
 pipeline_survtoregr_PEM = function(learner, cut = NULL, max_time = NULL,
-                                           rhs = NULL, graph_learner = FALSE) {
+                                           rhs = NULL, graph_learner = FALSE, form = NULL) {
   # TODO: add assertions
 
   gr = mlr3pipelines::Graph$new()
-  gr$add_pipeop(mlr3pipelines::po("trafotask_survregr_PEM", cut = cut, max_time = max_time))
+  gr$add_pipeop(mlr3pipelines::po("trafotask_survregr_PEM", cut = cut, max_time = max_time, form = form))
   gr$add_pipeop(mlr3pipelines::po("learner", learner))
   gr$add_pipeop(mlr3pipelines::po("nop"))
   gr$add_pipeop(mlr3pipelines::po("trafopred_regrsurv_PEM"))

@@ -92,7 +92,11 @@ PipeOpTaskSurvRegrPEM = R6Class("PipeOpTaskSurvRegrPEM",
     initialize = function(id = "trafotask_survregr_PEM") {
       param_set = ps(
         cut = p_uty(default = NULL),
-        max_time = p_dbl(0, default = NULL, special_vals = list(NULL))
+        max_time = p_dbl(0, default = NULL, special_vals = list(NULL)),
+        censor_code = p_int(0L),
+        min_events = p_int(1L),
+        form = p_uty(tags = 'train')
+        #pammtools arguments: transitions etc.
       )
       super$initialize(
         id = id,
@@ -134,11 +138,19 @@ PipeOpTaskSurvRegrPEM = R6Class("PipeOpTaskSurvRegrPEM",
         assert(max_time > data[get(event_var) == 1, min(get(time_var))],
                "max_time must be greater than the minimum event time.")
       }
-
-      form = formulate(sprintf("Surv(%s, %s)", time_var, event_var), ".")
-
-      long_data = pammtools::as_ped(data = data, formula = form, cut = cut, max_time = max_time)
+      
+      # To-Do: Extend to a more general formulation for competing risks and msm
+      # form = formulate(sprintf("Surv(%s, %s)", time_var, event_var), ".")
+      # To-Do: provide formula not as string, not via formula(...)
+      long_data = pammtools::as_ped(data = data, formula = formula(self$param_set$values$form), cut = cut, max_time = max_time)
       self$state$cut = attributes(long_data)$trafo_args$cut
+      # To-Do: 
+      # extract other attributes (risks) for correct computation of predictions for competing risks and msm
+      # class(long_data) == ped_cr, ped_msmor ped 
+      # self$state$risks = attributes(long_data)$risks
+      
+
+        
       long_data = as.data.table(long_data)
       setnames(long_data, old = "ped_status", new = "PEM_status") #change to PEM
 
@@ -175,9 +187,9 @@ PipeOpTaskSurvRegrPEM = R6Class("PipeOpTaskSurvRegrPEM",
       data[[event_var]] = 1
 
       # update form
-      form = formulate(sprintf("Surv(%s, %s)", time_var, event_var), ".")
+      # form = formulate(sprintf("Surv(%s, %s)", time_var, event_var), ".")
 
-      long_data = as.data.table(pammtools::as_ped(data, formula = form, cut = cut))
+      long_data = as.data.table(pammtools::as_ped(data, formula = formula(self$param_set$values$form), cut = cut))
       setnames(long_data, old = "ped_status", new = "PEM_status")
 
       PEM_status = id = tend = obs_times = NULL # fixing global binding notes of data.table
