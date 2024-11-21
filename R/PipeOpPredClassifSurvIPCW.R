@@ -64,6 +64,15 @@ PipeOpPredClassifSurvIPCW = R6Class("PipeOpPredClassifSurvIPCW",
     }
   ),
 
+  active = list(
+    #' @field predict_type (`character(1)`)\cr
+    #' Returns the active predict type of this PipeOp, which is `"crank"`
+    predict_type = function(rhs) {
+      assert_ro_binding(rhs)
+      "crank"
+    }
+  ),
+
   private = list(
     .predict = function(input) {
       pred = input[[1]] # classification predictions

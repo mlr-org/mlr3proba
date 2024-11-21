@@ -29,6 +29,7 @@ test_that("survtoclassif_disctime", {
   grlrn = ppl("survtoclassif_disctime", learner = lrn("classif.log_reg"),
               graph_learner = TRUE)
   expect_class(grlrn, "GraphLearner")
+  expect_equal(grlrn$predict_type, "crank")
   grlrn$train(task)
   p = grlrn$predict(task)
   expect_prediction_surv(p)
@@ -103,6 +104,8 @@ test_that("survtoclassif_IPCW", {
   grlrn = ppl("survtoclassif_IPCW", learner = lrn("classif.rpart"), tau = 500,
               graph_learner = TRUE)
   expect_class(grlrn, "GraphLearner")
+  expect_equal(grlrn$predict_type, "crank")
+
   grlrn$train(task, row_ids = part$train)
   # check that the weights were used for classif learner
   expect_numeric(grlrn$model$classif.rpart$model$call$weights, any.missing = FALSE,

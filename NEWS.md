@@ -1,6 +1,7 @@
 # mlr3proba 0.7.1
 
 * Removed all `PipeOp`s and pipelines related to survival => regression reduction techniques (see #414)
+* Bug fix: `$predict_type` of `survtoclassif_disctime` and `survtoclassif_IPCW` was `prob` (classification type) and not `crank` (survival type)
 
 # mlr3proba 0.7.0
 

@@ -62,6 +62,15 @@ PipeOpPredClassifSurvDiscTime = R6Class("PipeOpPredClassifSurvDiscTime",
     }
   ),
 
+  active = list(
+    #' @field predict_type (`character(1)`)\cr
+    #' Returns the active predict type of this PipeOp, which is `"crank"`
+    predict_type = function(rhs) {
+      assert_ro_binding(rhs)
+      "crank"
+    }
+  ),
+
   private = list(
     .predict = function(input) {
       pred = input[[1]]
@@ -94,7 +103,8 @@ PipeOpPredClassifSurvDiscTime = R6Class("PipeOpPredClassifSurvDiscTime",
       p = PredictionSurv$new(
         row_ids = ids,
         crank = pred_list$crank, distr = pred_list$distr,
-        truth = Surv(real_tend, as.integer(as.character(data$disc_status))))
+        truth = Surv(real_tend, as.integer(as.character(data$disc_status)))
+      )
 
       list(p)
     },
