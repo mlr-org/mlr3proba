@@ -142,12 +142,22 @@ PipeOpTaskSurvRegrPEM = R6Class("PipeOpTaskSurvRegrPEM",
       # To-Do: Extend to a more general formulation for competing risks and msm
       # form = formulate(sprintf("Surv(%s, %s)", time_var, event_var), ".")
       # To-Do: provide formula not as string, not via formula(...)
-      long_data = pammtools::as_ped(data = data, formula = formula(self$param_set$values$form), cut = cut, max_time = max_time)
+      long_data = pammtools::as_ped(data = data, formula = self$param_set$values$form, cut = cut, max_time = max_time)
       self$state$cut = attributes(long_data)$trafo_args$cut
-      # To-Do: 
-      # extract other attributes (risks) for correct computation of predictions for competing risks and msm
-      # class(long_data) == ped_cr, ped_msmor ped 
-      # self$state$risks = attributes(long_data)$risks
+      
+      risk_scenario = attributes(long_data)$class
+      
+      # To-Do: Does this save the information at the right location for correct prediction later on? 
+      # At which steps is this information required:
+      # 1. prediction
+      # 2. data transformation? Intuitively, the as_ped() function automatically detects and performs adequate transformations
+      if ("ped_cr" %in% risk_scenario) {
+        self$state$risk_scenario = 'ped_cr'
+      } else if ('ped_msm' %in% risk_scenario) {
+        self$state$risk_scenario = 'ped_msm'
+      } else {
+        self$state$risk_scenario = 'ped'
+      }
       
 
         
@@ -175,7 +185,9 @@ PipeOpTaskSurvRegrPEM = R6Class("PipeOpTaskSurvRegrPEM",
 
       # extract `cut` from `state`
       cut = self$state$cut
-
+      
+      risk_scenario = self$state$risk_scenario
+      
       time_var = task$target_names[1]
       event_var = task$target_names[2]
 
@@ -184,12 +196,23 @@ PipeOpTaskSurvRegrPEM = R6Class("PipeOpTaskSurvRegrPEM",
       data[[time_var]] = max_time
 
       status = data[[event_var]]
-      data[[event_var]] = 1
+      # setting data[[event_var]] removes automatic detection of cr events of as_ped function
+      
+      # if (risk_scenario == "ped_cr"){
+      #   long_data = as.data.table(pammtools::as_ped(data, formula = formula(self$param_set$values$form), cut = cut))
+      #   long_data = long_data |> pammtools::make_newdata(tend = unique(tend), cause = unique(cause))
+      # }
+      
+      
+      # requires generalization for test scenario 
+      # data[[event_var]] = 1
 
       # update form
       # form = formulate(sprintf("Surv(%s, %s)", time_var, event_var), ".")
-
+      
+      for (cause in unique)
       long_data = as.data.table(pammtools::as_ped(data, formula = formula(self$param_set$values$form), cut = cut))
+        
       setnames(long_data, old = "ped_status", new = "PEM_status")
 
       PEM_status = id = tend = obs_times = NULL # fixing global binding notes of data.table
@@ -201,8 +224,12 @@ PipeOpTaskSurvRegrPEM = R6Class("PipeOpTaskSurvRegrPEM",
       long_data[, id := ids]
 
       # set correct PEM_status
+      if (risk_scenario == 'ped_cr'){
+        long_data$cause = rep(status, each = rows_per_id)
+      }
       reps = long_data[, data.table(count = sum(tend >= obs_times)), by = id]$count
-      status = rep(status, times = reps)
+      # status = rep(status, times = reps)
+      status = rep(ifelse(status != 0, 1, 0), times = reps)
       long_data[long_data[, .I[tend >= obs_times], by = id]$V1, PEM_status := status]
 
       # remove some columns from `long_data`
@@ -217,7 +244,9 @@ PipeOpTaskSurvRegrPEM = R6Class("PipeOpTaskSurvRegrPEM",
       # subset transformed data
       columns_to_keep = c("id", "obs_times", "tend", "PEM_status", "offset")
       long_data = long_data[, columns_to_keep, with = FALSE]
-
+      
+      long_data$risk_scenario = risk_scenario
+      # To-Do: return information on the risk scenario, passed on to the prediction pipeline
       list(task_PEM, long_data)
     }
   )

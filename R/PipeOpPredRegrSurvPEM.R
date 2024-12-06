@@ -56,15 +56,24 @@ PipeOpPredRegrSurvPEM = R6Class(
       assert_true(!is.null(pred$response))
       # probability of having the event (1) in each respective interval
       # is the discrete-time hazard
+      
+      # Extract the risk scenario
+      risk_scenario = unique(data$risk_scenario)
+      data$risk_scenario = NULL 
+      
       data = cbind(data, dt_hazard = pred$response)
 
       # From theory, convert hazards to surv as exp(-cumsum(h(t) * exp(offset)))
       rows_per_id = nrow(data) / length(unique(data$id))
       
       # If 'single_event', 'cr', 'msm')
-      surv = t(vapply(unique(data$id), function(unique_id) {
-        exp(-cumsum(data[data$id == unique_id, ][["dt_hazard"]] * exp(data[data$id == unique_id, ][["offset"]])))
-      }, numeric(rows_per_id)))
+      if (risk_scenario == 'ped_cr'){
+        
+      } else {
+        surv = t(vapply(unique(data$id), function(unique_id) {
+          exp(-cumsum(data[data$id == unique_id, ][["dt_hazard"]] * exp(data[data$id == unique_id, ][["offset"]])))
+        }, numeric(rows_per_id)))
+      }
 
       unique_end_times = sort(unique(data$tend))
       # coerce to distribution and crank
