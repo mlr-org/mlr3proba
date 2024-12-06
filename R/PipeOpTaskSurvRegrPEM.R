@@ -140,14 +140,10 @@ PipeOpTaskSurvRegrPEM = R6Class("PipeOpTaskSurvRegrPEM",
       }
       
       # To-Do: Extend to a more general formulation for competing risks and msm
-      # form = formulate(sprintf("Surv(%s, %s)", time_var, event_var), ".")
-      # To-Do: provide formula not as string, not via formula(...)
-      long_data = pammtools::as_ped(data = data, formula = formula(self$param_set$values$form), cut = cut, max_time = max_time)
+      # Issue: We pass form (e.g. Surv(time, status) ~ .) which currently serves to correctly transform the data into ped format 
+      # but doesn't serve any other purpose yet. For ML learners, such as xgb, the covariate structure is passed to the pipeline via rhs not form.
+      long_data = pammtools::as_ped(data = data, formula = self$param_set$values$form, cut = cut, max_time = max_time)
       self$state$cut = attributes(long_data)$trafo_args$cut
-      # To-Do: 
-      # extract other attributes (risks) for correct computation of predictions for competing risks and msm
-      # class(long_data) == ped_cr, ped_msmor ped 
-      # self$state$risks = attributes(long_data)$risks
       
 
         
@@ -186,10 +182,8 @@ PipeOpTaskSurvRegrPEM = R6Class("PipeOpTaskSurvRegrPEM",
       status = data[[event_var]]
       data[[event_var]] = 1
 
-      # update form
-      # form = formulate(sprintf("Surv(%s, %s)", time_var, event_var), ".")
 
-      long_data = as.data.table(pammtools::as_ped(data, formula = formula(self$param_set$values$form), cut = cut))
+      long_data = as.data.table(pammtools::as_ped(data, formula = self$param_set$values$form, cut = cut))
       setnames(long_data, old = "ped_status", new = "PEM_status")
 
       PEM_status = id = tend = obs_times = NULL # fixing global binding notes of data.table
