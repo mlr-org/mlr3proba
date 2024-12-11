@@ -2,7 +2,7 @@ pandoc: 3.1.11
 pkgdown: 2.1.1
 pkgdown_sha: ~
 articles: {}
-last_built: 2024-12-06T16:32Z
+last_built: 2024-12-11T14:20Z
 urls:
   reference: https://mlr3proba.mlr-org.com/reference
   article: https://mlr3proba.mlr-org.com/articles
