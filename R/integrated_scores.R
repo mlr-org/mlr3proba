@@ -90,8 +90,8 @@ weighted_survival_score = function(loss, truth, distribution, times = NULL,
     rownames(cdf) = unique_times # times x obs
   }
 
-  # apply `t_max` cutoff to remove observations
-  if (tmax_apply) {
+  # apply `t_max` cutoff to remove observations for RISBS
+  if (tmax_apply && proper) {
     true_times = test_times[test_times <= t_max]
     true_status = test_status[test_times <= t_max]
     cdf = cdf[, test_times <= t_max, drop = FALSE]
@@ -128,8 +128,8 @@ weighted_survival_score = function(loss, truth, distribution, times = NULL,
   # G(t): KM estimate of the censoring distribution
   cens = matrix(c(cens$time, cens$surv), ncol = 2L)
 
-  # filter G(t) time points based on `t_max` cutoff
-  if (tmax_apply) {
+  # filter G(t) time points based on `t_max` cutoff for ISBS
+  if (tmax_apply && proper) {
     cens = cens[cens[, 1L] <= t_max, , drop = FALSE]
   }
 
