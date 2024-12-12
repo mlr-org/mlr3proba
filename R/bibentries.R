@@ -741,5 +741,14 @@ bibentries = c( # nolint start
     title = "Simulating Survival Data Using the simsurv R Package",
     volume = "97",
     year = "2021"
+  ),
+  sonabend2024 = bibentry("misc",
+    archivePrefix = "arXiv",
+    arxivId = "2212.05260",
+    author = "Sonabend, Raphael and Zobolas, John and Kopper, Philipp and Burk, Lukas and Bender, Andreas",
+    month = "dec",
+    title = "Examining properness in the external validation of survival models with squared and logarithmic losses",
+    url = "https://arxiv.org/abs/2212.05260v2",
+    year = "2024"
   )
 )

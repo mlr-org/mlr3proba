@@ -91,13 +91,12 @@ NumericMatrix c_weight_survival_score(const NumericMatrix& score,
               k = 1;
               break;
             } else if (times[i] >= cens_times[l] &&
-              (l == cens_times.length() - 1 ||
-              times[i] < cens_times[l + 1])) {
+              (l == cens_times.length() - 1 || times[i] < cens_times[l + 1])) {
               k = cens_surv[l];
-              // k == 0 only if last obsv censored, therefore mat is set to 0
-              // anyway This division by eps can cause inflation of the score,
-              // due to a very large value for a particular (i-obs, j-time) use
-              // 't_max' to filter 'cens' in that case
+              // k == 0 only if last obs censored, therefore mat is set to 0 anyway
+              // This division by eps can cause inflation of the score,
+              // due to a very large value for a particular (i-obs, j-time)
+              // Use 't_max' to filter 'cens' in that case
               if (k == 0) {
                 k = eps;
               }

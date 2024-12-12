@@ -23,13 +23,13 @@
 #' survival function \eqn{S_i(t)}, the *observation-wise* loss integrated across
 #' the time dimension up to the time cutoff \eqn{\tau^*}, is:
 #'
-#' \deqn{L_{ISLL}(S_i, t_i, \delta_i) = -\text{I}(t_i \leq \tau^*) \int^{\tau^*}_0  \frac{log[1-S_i(\tau)] \text{I}(t_i \leq \tau, \delta=1)}{G(t_i)} + \frac{\log[S_i(\tau)] \text{I}(t_i > \tau)}{G(\tau)} \ d\tau}
+#' \deqn{L_{ISLL}(S_i, t_i, \delta_i) = - \int^{\tau^*}_0  \frac{log[1-S_i(\tau)] \text{I}(t_i \leq \tau, \delta_i=1)}{G(t_i)} + \frac{\log[S_i(\tau)] \text{I}(t_i > \tau)}{G(\tau)} \ d\tau}
 #'
 #' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
 #'
 #' The **re-weighted ISLL** (RISLL) is:
 #'
-#' \deqn{L_{RISLL}(S_i, t_i, \delta_i) = -\delta_i \text{I}(t_i \leq \tau^*) \int^{\tau^*}_0  \frac{\log[1-S_i(\tau)]) \text{I}(t_i \leq \tau) + \log[S_i(\tau)] \text{I}(t_i > \tau)}{G(t_i)} \ d\tau}
+#' \deqn{L_{RISLL}(S_i, t_i, \delta_i) = -\delta_i \text{I}(t_i \leq \tau^*) \frac{\int^{\tau^*}_0  \log[1-S_i(\tau)]) \text{I}(t_i \leq \tau) + \log[S_i(\tau)] \text{I}(t_i > \tau) \ d\tau}{G(t_i)}}
 #'
 #' which is always weighted by \eqn{G(t_i)} and is equal to zero for a censored subject.
 #'
@@ -46,7 +46,7 @@
 #' @template details_tmax
 #'
 #' @references
-#' `r format_bib("graf_1999")`
+#' `r format_bib("graf_1999", "sonabend2024")`
 #'
 #' @family Probabilistic survival measures
 #' @family distr survival measures
