@@ -86,19 +86,27 @@ Default is \code{FALSE}.
 
 \itemize{
 \item \code{IPCW} (\code{logical(1)})\cr
-If \code{TRUE} (default) then returns the \eqn{L_{RNLL}} score (which is proper), otherwise the \eqn{L_{NLL}} score (improper).
+If \code{TRUE} (default) then returns the \eqn{L_{RNLL}} score (which is proper), otherwise the \eqn{L_{NLL}} score (improper). See Sonabend et al. (2024) for more details.
 }
 }
 
 \section{Data used for Estimating Censoring Distribution}{
 
 
-If \code{task} and \code{train_set} are passed to \verb{$score} then \eqn{G(t)} is fit on training data,
-otherwise testing data. The first is likely to reduce any bias caused by calculating
-parts of the measure on the test data it is evaluating. The training data is automatically
-used in scoring resamplings.
+If \code{task} and \code{train_set} are passed to \verb{$score} then \eqn{G(t)} is fit using
+\strong{all observations} from the train set, otherwise the test set is used.
+Using the train set is likely to reduce any bias caused by calculating parts of the
+measure on the test data it is evaluating.
+Also usually it means that more data is used for fitting the censoring
+distribution \eqn{G(t)} via the Kaplan-Meier.
+The training data is automatically used in scoring resamplings.
 }
 
+\references{
+Sonabend, Raphael, Zobolas, John, Kopper, Philipp, Burk, Lukas, Bender, Andreas (2024).
+\dQuote{Examining properness in the external validation of survival models with squared and logarithmic losses.}
+\url{https://arxiv.org/abs/2212.05260v2}.
+}
 \seealso{
 Other survival measures: 
 \code{\link{mlr_measures_surv.calib_alpha}},

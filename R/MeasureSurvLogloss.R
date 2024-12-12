@@ -10,7 +10,7 @@
 #' Calculates the cross-entropy, or negative log-likelihood (NLL) or logarithmic (log), loss.
 #' @section Parameter details:
 #' - `IPCW` (`logical(1)`)\cr
-#' If `TRUE` (default) then returns the \eqn{L_{RNLL}} score (which is proper), otherwise the \eqn{L_{NLL}} score (improper).
+#' If `TRUE` (default) then returns the \eqn{L_{RNLL}} score (which is proper), otherwise the \eqn{L_{NLL}} score (improper). See Sonabend et al. (2024) for more details.
 #'
 #' @details
 #' The Log Loss, in the context of probabilistic predictions, is defined as the
@@ -32,6 +32,9 @@
 #' If only censored observations exist in the test set, `NaN` is returned.
 #'
 #' @template details_trainG
+#'
+#' @references
+#' `r format_bib("sonabend2024")`
 #'
 #' @family Probabilistic survival measures
 #' @family distr survival measures

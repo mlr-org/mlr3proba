@@ -22,26 +22,19 @@
 #' survival function \eqn{S_i(t)}, the *observation-wise* loss integrated across
 #' the time dimension up to the time cutoff \eqn{\tau^*}, is:
 #'
-#' \deqn{L_{ISS}(S_i, t_i, \delta_i) = \text{I}(t_i \leq \tau^*) \int^{\tau^*}_0  \frac{S_i(\tau) \text{I}(t_i \leq \tau, \delta=1)}{G(t_i)} + \frac{(1-S_i(\tau)) \text{I}(t_i > \tau)}{G(\tau)} \ d\tau}
+#' \deqn{L_{ISS}(S_i, t_i, \delta_i) = \int^{\tau^*}_0  \frac{S_i(\tau) \text{I}(t_i \leq \tau, \delta=1)}{G(t_i)} + \frac{(1-S_i(\tau)) \text{I}(t_i > \tau)}{G(\tau)} \ d\tau}
 #'
 #' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
 #'
 #' The **re-weighted ISS** (RISS) is:
 #'
-#' \deqn{L_{RISS}(S_i, t_i, \delta_i) = \delta_i \text{I}(t_i \leq \tau^*) \int^{\tau^*}_0  \frac{S_i(\tau) \text{I}(t_i \leq \tau) + (1-S_i(\tau)) \text{I}(t_i > \tau)}{G(t_i)} \ d\tau}
+#' \deqn{L_{RISS}(S_i, t_i, \delta_i) = \delta_i \text{I}(t_i \leq \tau^*) \frac{\int^{\tau^*}_0  S_i(\tau) \text{I}(t_i \leq \tau) + (1-S_i(\tau)) \text{I}(t_i > \tau) \ d\tau}{G(t_i)}}
 #'
 #' which is always weighted by \eqn{G(t_i)} and is equal to zero for a censored subject.
 #'
 #' To get a single score across all \eqn{N} observations of the test set, we
 #' return the average of the time-integrated observation-wise scores:
 #' \deqn{\sum_{i=1}^N L(S_i, t_i, \delta_i) / N}
-#'
-#'
-#' \deqn{L_{ISS}(S,t|t^*) = [(S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*)))I(t > t^*)(1/G(t^*))]}
-#' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
-#'
-#' The re-weighted ISS, RISS is given by
-#' \deqn{L_{RISS}(S,t|t^*) = [(S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*)))I(t > t^*)(1/G(t))]}
 #'
 #' @template properness
 #' @templateVar improper_id ISS
@@ -52,7 +45,7 @@
 #' @template details_tmax
 #'
 #' @references
-#' `r format_bib("schemper_2000", "schmid_2011")`
+#' `r format_bib("schemper_2000", "schmid_2011", "sonabend2024")`
 #'
 #' @family Probabilistic survival measures
 #' @family distr survival measures

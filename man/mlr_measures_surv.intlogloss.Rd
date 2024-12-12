@@ -15,13 +15,13 @@ outcome \eqn{(t_i, \delta_i)} (time and censoring indicator) and predicted
 survival function \eqn{S_i(t)}, the \emph{observation-wise} loss integrated across
 the time dimension up to the time cutoff \eqn{\tau^*}, is:
 
-\deqn{L_{ISLL}(S_i, t_i, \delta_i) = -\text{I}(t_i \leq \tau^*) \int^{\tau^*}_0  \frac{log[1-S_i(\tau)] \text{I}(t_i \leq \tau, \delta=1)}{G(t_i)} + \frac{\log[S_i(\tau)] \text{I}(t_i > \tau)}{G(\tau)} \ d\tau}
+\deqn{L_{ISLL}(S_i, t_i, \delta_i) = - \int^{\tau^*}_0  \frac{log[1-S_i(\tau)] \text{I}(t_i \leq \tau, \delta_i=1)}{G(t_i)} + \frac{\log[S_i(\tau)] \text{I}(t_i > \tau)}{G(\tau)} \ d\tau}
 
 where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
 
 The \strong{re-weighted ISLL} (RISLL) is:
 
-\deqn{L_{RISLL}(S_i, t_i, \delta_i) = -\delta_i \text{I}(t_i \leq \tau^*) \int^{\tau^*}_0  \frac{\log[1-S_i(\tau)]) \text{I}(t_i \leq \tau) + \log[S_i(\tau)] \text{I}(t_i > \tau)}{G(t_i)} \ d\tau}
+\deqn{L_{RISLL}(S_i, t_i, \delta_i) = -\delta_i \text{I}(t_i \leq \tau^*) \frac{\int^{\tau^*}_0  \log[1-S_i(\tau)]) \text{I}(t_i \leq \tau) + \log[S_i(\tau)] \text{I}(t_i > \tau) \ d\tau}{G(t_i)}}
 
 which is always weighted by \eqn{G(t_i)} and is equal to zero for a censored subject.
 
@@ -86,8 +86,8 @@ If \code{integrated == FALSE} then a single time point at which to return the sc
 Cutoff time \eqn{\tau^*} (i.e. time horizon) to evaluate the measure up to.
 Mutually exclusive with \code{p_max} or \code{times}.
 This will effectively remove test observations for which the observed time
-(event or censoring) is strictly more than \code{t_max}.
-It's recommended to set \code{t_max} to avoid division by \code{eps}, see Details.
+(event or censoring) is strictly more than \code{t_max} in the case of \code{proper = TRUE}.
+It's recommended to set \code{t_max} to avoid division by \code{eps}, see "Time Cutoff Details" section.
 If \code{t_max} is not specified, an \code{Inf} time horizon is assumed.
 }
 
@@ -124,9 +124,10 @@ Default is \code{FALSE} (returns the mean).
 If \code{TRUE} then weights scores by the censoring distribution at
 the observed event time, which results in a strictly proper scoring
 rule if censoring and survival time distributions are independent
-and a sufficiently large dataset is used.
+and a sufficiently large dataset is used, see Sonabend et al. (2024).
 If \code{FALSE} then weights scores by the Graf method which is the
 more common usage but the loss is not proper.
+See "Properness" section for more details.
 }
 
 
@@ -148,6 +149,7 @@ Default is \code{FALSE}.
 
 \section{Properness}{
 
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
 RISLL is strictly proper when the censoring distribution is independent
 of the survival distribution and when \eqn{G(t)} is fit on a sufficiently large dataset.
@@ -155,6 +157,9 @@ ISLL is never proper. Use \code{proper = FALSE} for ISLL and
 \code{proper = TRUE} for RISLL.
 Results may be very different if many observations are censored at the last
 observed time due to division by \eqn{1/eps} in \code{proper = TRUE}.
+
+See Sonabend et al. (2024) for more details.
+The use of \code{proper = TRUE} should be used with caution and it still considered as an experimental metric.
 }
 
 \section{Time points used for evaluation}{
@@ -194,22 +199,24 @@ not used).
 \section{Data used for Estimating Censoring Distribution}{
 
 
-If \code{task} and \code{train_set} are passed to \verb{$score} then \eqn{G(t)} is fit on training data,
-otherwise testing data. The first is likely to reduce any bias caused by calculating
-parts of the measure on the test data it is evaluating. The training data is automatically
-used in scoring resamplings.
+If \code{task} and \code{train_set} are passed to \verb{$score} then \eqn{G(t)} is fit using
+\strong{all observations} from the train set, otherwise the test set is used.
+Using the train set is likely to reduce any bias caused by calculating parts of the
+measure on the test data it is evaluating.
+Also usually it means that more data is used for fitting the censoring
+distribution \eqn{G(t)} via the Kaplan-Meier.
+The training data is automatically used in scoring resamplings.
 }
 
 \section{Time Cutoff Details}{
 
 
-If \code{t_max} or \code{p_max} is given, then \eqn{G(t)} will be fitted using \strong{all observations} from the
-train set (or test set) and only then the cutoff time will be applied.
-This is to ensure that more data is used for fitting the censoring distribution via the
-Kaplan-Meier.
-Setting the \code{t_max} can help alleviate inflation of the score when \code{proper} is \code{TRUE},
-in cases where an observation is censored at the last observed time point.
-This results in \eqn{G(t_{max}) = 0} and the use of \code{eps} instead (when \code{t_max} is \code{NULL}).
+If \code{t_max} or \code{p_max} is given, then the predicted survival function \eqn{S(t)} is
+filtered up to the time cutoff for all observations.
+Also, when \code{proper = TRUE}, \eqn{G(t)} will be filtered up to the cutoff time as well.
+This helps alleviate inflation of the score in cases where an observation is
+censored at the last observed time point and no time cutoff is given, which results in
+\eqn{G(t_{max}) = 0} and the use of \code{eps} instead.
 }
 
 \references{
@@ -217,6 +224,10 @@ Graf E, Schmoor C, Sauerbrei W, Schumacher M (1999).
 \dQuote{Assessment and comparison of prognostic classification schemes for survival data.}
 \emph{Statistics in Medicine}, \bold{18}(17-18), 2529--2545.
 \doi{10.1002/(sici)1097-0258(19990915/30)18:17/18<2529::aid-sim274>3.0.co;2-5}.
+
+Sonabend, Raphael, Zobolas, John, Kopper, Philipp, Burk, Lukas, Bender, Andreas (2024).
+\dQuote{Examining properness in the external validation of survival models with squared and logarithmic losses.}
+\url{https://arxiv.org/abs/2212.05260v2}.
 }
 \seealso{
 Other survival measures: 
