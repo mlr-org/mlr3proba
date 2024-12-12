@@ -3,6 +3,8 @@
 #' @templateVar fullname MeasureSurvDCalibration
 #'
 #' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' This calibration method is defined by calculating the following statistic:
 #' \deqn{s = B/n \sum_i (P_i - n/B)^2}
 #' where \eqn{B} is number of 'buckets' (that equally divide \eqn{[0,1]} into intervals),
@@ -12,8 +14,8 @@
 #' falls within the corresponding interval.
 #' This statistic assumes that censoring time is independent of death time.
 #'
-#' A model is well-calibrated if \eqn{s \sim Unif(B)}, tested with `chisq.test`
-#'  (\eqn{p > 0.05} if well-calibrated).
+#' A model is well D-calibrated if \eqn{s \sim Unif(B)}, tested with `chisq.test`
+#'  (\eqn{p > 0.05} if well-calibrated, i.e. higher p-values are preferred).
 #' Model \eqn{i} is better calibrated than model \eqn{j} if \eqn{s(i) < s(j)},
 #' meaning that *lower values* of this measure are preferred.
 #'
@@ -23,7 +25,7 @@
 #' is well-calibrated. If `chisq = FALSE` and `s` is the predicted value then you can manually
 #' compute the p.value with `pchisq(s, B - 1, lower.tail = FALSE)`.
 #'
-#' NOTE: This measure is still experimental both theoretically and in implementation. Results
+#' **NOTE**: This measure is still experimental both theoretically and in implementation. Results
 #' should therefore only be taken as an indicator of performance and not for
 #' conclusive judgements about model calibration.
 #'
@@ -38,11 +40,12 @@
 #' You can manually get the p-value by executing `pchisq(s, B - 1, lower.tail = FALSE)`.
 #' The null hypothesis is that the model is D-calibrated.
 #' - `truncate` (`double(1)`) \cr
-#' This parameter controls the upper bound of the output statistic,
-#' when `chisq` is `FALSE`. We use `truncate = Inf` by default but \eqn{10} may be sufficient
-#' for most purposes, which corresponds to a p-value of 0.35 for the chisq.test using
-#' \eqn{B = 10} buckets. Values \eqn{>10} translate to even lower p-values and thus
-#' less calibrated models. If the number of buckets \eqn{B} changes, you probably will want to
+#' This parameter controls the upper bound of the output statistic, when `chisq` is `FALSE`.
+#' We use `truncate = Inf` by default but values between \eqn{10-16} are sufficient
+#' for most purposes, which correspond to p-values of \eqn{0.35-0.06} for the `chisq.test` using
+#' the default \eqn{B = 10} buckets.
+#' Values \eqn{B > 10} translate to even lower p-values and thus less D-calibrated models.
+#' If the number of buckets \eqn{B} changes, you probably will want to
 #' change the `truncate` value as well to correspond to the same p-value significance.
 #' Note that truncation may severely limit automated tuning with this measure.
 #'
