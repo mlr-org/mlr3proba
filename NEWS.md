@@ -2,7 +2,7 @@
 
 * Removed all `PipeOp`s and pipelines related to survival => regression reduction techniques (see #414)
 * Bug fix: `$predict_type` of `survtoclassif_disctime` and `survtoclassif_IPCW` was `prob` (classification type) and not `crank` (survival type)
-* Bug fix: `msr("surv.ibrier", proper = FALSE)` was removing observations when `t_max` or `p_max` was used, which resulted in a bit lower scores
+* Bug fix: `msr("surv.ibrier", proper = FALSE)` was removing observations when `t_max` or `p_max` was used, which resulted in a bit lower scores. Updated scoring rules formulas and docs accordingly.
 
 # mlr3proba 0.7.0
 
