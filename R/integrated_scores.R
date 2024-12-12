@@ -128,7 +128,7 @@ weighted_survival_score = function(loss, truth, distribution, times = NULL,
   # G(t): KM estimate of the censoring distribution
   cens = matrix(c(cens$time, cens$surv), ncol = 2L)
 
-  # filter G(t) time points based on `t_max` cutoff for ISBS
+  # filter G(t) time points based on `t_max` cutoff for RISBS
   if (tmax_apply && proper) {
     cens = cens[cens[, 1L] <= t_max, , drop = FALSE]
   }
