@@ -750,5 +750,16 @@ bibentries = c( # nolint start
     title = "Examining properness in the external validation of survival models with squared and logarithmic losses",
     url = "https://arxiv.org/abs/2212.05260v2",
     year = "2024"
+  ),
+  kvamme2023 = bibentry("article",
+    author = "Kvamme, Håvard and Borgan, Ørnulf",
+    issn = "1533-7928",
+    journal = "Journal of Machine Learning Research",
+    number = "2",
+    pages = "1--26",
+    title = "The Brier Score under Administrative Censoring: Problems and a Solution",
+    url = "http://jmlr.org/papers/v24/19-1030.html",
+    volume = "24",
+    year = "2023"
   )
 )
