@@ -752,7 +752,7 @@ bibentries = c( # nolint start
     year = "2024"
   ),
   kvamme2023 = bibentry("article",
-    author = "Kvamme, Håvard and Borgan, Ørnulf",
+    author = "Kvamme, Havard and Borgan, Ornulf",
     issn = "1533-7928",
     journal = "Journal of Machine Learning Research",
     number = "2",

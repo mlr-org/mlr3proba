@@ -235,7 +235,7 @@ Sonabend, Raphael, Zobolas, John, Kopper, Philipp, Burk, Lukas, Bender, Andreas 
 \dQuote{Examining properness in the external validation of survival models with squared and logarithmic losses.}
 \url{https://arxiv.org/abs/2212.05260v2}.
 
-Kvamme, Håvard, Borgan, Ørnulf (2023).
+Kvamme, Havard, Borgan, Ornulf (2023).
 \dQuote{The Brier Score under Administrative Censoring: Problems and a Solution.}
 \emph{Journal of Machine Learning Research}, \bold{24}(2), 1--26.
 ISSN 1533-7928, \url{http://jmlr.org/papers/v24/19-1030.html}.
