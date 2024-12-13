@@ -21,7 +21,7 @@ where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
 
 The \strong{re-weighted ISLL} (RISLL) is:
 
-\deqn{L_{RISLL}(S_i, t_i, \delta_i) = -\delta_i \text{I}(t_i \leq \tau^*) \frac{\int^{\tau^*}_0  \log[1-S_i(\tau)]) \text{I}(t_i \leq \tau) + \log[S_i(\tau)] \text{I}(t_i > \tau) \ d\tau}{G(t_i)}}
+\deqn{L_{RISLL}(S_i, t_i, \delta_i) = -\delta_i \frac{\int^{\tau^*}_0  \log[1-S_i(\tau)]) \text{I}(t_i \leq \tau) + \log[S_i(\tau)] \text{I}(t_i > \tau) \ d\tau}{G(t_i)}}
 
 which is always weighted by \eqn{G(t_i)} and is equal to zero for a censored subject.
 
@@ -85,8 +85,8 @@ If \code{integrated == FALSE} then a single time point at which to return the sc
 \item \code{t_max} (\code{numeric(1)})\cr
 Cutoff time \eqn{\tau^*} (i.e. time horizon) to evaluate the measure up to.
 Mutually exclusive with \code{p_max} or \code{times}.
-This will effectively remove test observations for which the observed time
-(event or censoring) is strictly more than \code{t_max} in the case of \code{proper = TRUE}.
+This will effectively \strong{remove test observations} for which the observed time
+(event or censoring) is strictly more than \code{t_max}.
 It's recommended to set \code{t_max} to avoid division by \code{eps}, see "Time Cutoff Details" section.
 If \code{t_max} is not specified, an \code{Inf} time horizon is assumed.
 }
@@ -159,7 +159,7 @@ Results may be very different if many observations are censored at the last
 observed time due to division by \eqn{1/eps} in \code{proper = TRUE}.
 
 See Sonabend et al. (2024) for more details.
-The use of \code{proper = TRUE} should be used with caution and it still considered as an experimental metric.
+The use of \code{proper = TRUE} is considered experimental and should be used with caution.
 }
 
 \section{Time points used for evaluation}{
@@ -213,10 +213,14 @@ The training data is automatically used in scoring resamplings.
 
 If \code{t_max} or \code{p_max} is given, then the predicted survival function \eqn{S(t)} is
 filtered up to the time cutoff for all observations.
-Also, when \code{proper = TRUE}, \eqn{G(t)} will be filtered up to the cutoff time as well.
-This helps alleviate inflation of the score in cases where an observation is
+Also, \strong{observations with observed times} \eqn{t > t_{max}} \strong{are removed}.
+This is a data processing step to alleviate the problems that arise when using IPCW
+in cases of administrative censoring, see Kvamme et al. (2023).
+It also helps alleviate \strong{inflation of the score} in cases where an observation is
 censored at the last observed time point and no time cutoff is given, which results in
-\eqn{G(t_{max}) = 0} and the use of \code{eps} instead.
+\eqn{G(t) = 0} and the use of \code{eps} instead.
+The proper version of this score is more affected by this issue, see Sonabend
+et al. (2024) for more details.
 }
 
 \references{
@@ -228,6 +232,11 @@ Graf E, Schmoor C, Sauerbrei W, Schumacher M (1999).
 Sonabend, Raphael, Zobolas, John, Kopper, Philipp, Burk, Lukas, Bender, Andreas (2024).
 \dQuote{Examining properness in the external validation of survival models with squared and logarithmic losses.}
 \url{https://arxiv.org/abs/2212.05260v2}.
+
+Kvamme, Håvard, Borgan, Ørnulf (2023).
+\dQuote{The Brier Score under Administrative Censoring: Problems and a Solution.}
+\emph{Journal of Machine Learning Research}, \bold{24}(2), 1--26.
+ISSN 1533-7928, \url{http://jmlr.org/papers/v24/19-1030.html}.
 }
 \seealso{
 Other survival measures: 

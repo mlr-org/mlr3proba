@@ -9,5 +9,5 @@
 #' observed time due to division by \eqn{1/eps} in `proper = TRUE`.
 #'
 #' See Sonabend et al. (2024) for more details.
-#' The use of `proper = TRUE` should be used with caution and it still considered as an experimental metric.
+#' The use of `proper = TRUE` is considered experimental and should be used with caution.
 #'
