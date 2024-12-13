@@ -29,7 +29,7 @@
 #'
 #' The **re-weighted ISLL** (RISLL) is:
 #'
-#' \deqn{L_{RISLL}(S_i, t_i, \delta_i) = -\delta_i \text{I}(t_i \leq \tau^*) \frac{\int^{\tau^*}_0  \log[1-S_i(\tau)]) \text{I}(t_i \leq \tau) + \log[S_i(\tau)] \text{I}(t_i > \tau) \ d\tau}{G(t_i)}}
+#' \deqn{L_{RISLL}(S_i, t_i, \delta_i) = -\delta_i \frac{\int^{\tau^*}_0  \log[1-S_i(\tau)]) \text{I}(t_i \leq \tau) + \log[S_i(\tau)] \text{I}(t_i > \tau) \ d\tau}{G(t_i)}}
 #'
 #' which is always weighted by \eqn{G(t_i)} and is equal to zero for a censored subject.
 #'
@@ -46,7 +46,7 @@
 #' @template details_tmax
 #'
 #' @references
-#' `r format_bib("graf_1999", "sonabend2024")`
+#' `r format_bib("graf_1999", "sonabend2024", "kvamme2023")`
 #'
 #' @family Probabilistic survival measures
 #' @family distr survival measures

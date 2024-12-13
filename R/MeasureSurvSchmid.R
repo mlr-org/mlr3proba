@@ -28,7 +28,7 @@
 #'
 #' The **re-weighted ISS** (RISS) is:
 #'
-#' \deqn{L_{RISS}(S_i, t_i, \delta_i) = \delta_i \text{I}(t_i \leq \tau^*) \frac{\int^{\tau^*}_0  S_i(\tau) \text{I}(t_i \leq \tau) + (1-S_i(\tau)) \text{I}(t_i > \tau) \ d\tau}{G(t_i)}}
+#' \deqn{L_{RISS}(S_i, t_i, \delta_i) = \delta_i \frac{\int^{\tau^*}_0  S_i(\tau) \text{I}(t_i \leq \tau) + (1-S_i(\tau)) \text{I}(t_i > \tau) \ d\tau}{G(t_i)}}
 #'
 #' which is always weighted by \eqn{G(t_i)} and is equal to zero for a censored subject.
 #'
@@ -45,7 +45,7 @@
 #' @template details_tmax
 #'
 #' @references
-#' `r format_bib("schemper_2000", "schmid_2011", "sonabend2024")`
+#' `r format_bib("schemper_2000", "schmid_2011", "sonabend2024", "kvamme2023")`
 #'
 #' @family Probabilistic survival measures
 #' @family distr survival measures
