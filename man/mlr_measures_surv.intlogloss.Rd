@@ -52,6 +52,7 @@ msr("surv.intlogloss")
    proper \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    eps \tab numeric \tab 0.001 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    ERV \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   remove_obs \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
 }
 }
 
@@ -83,10 +84,9 @@ If \code{integrated == FALSE} then a single time point at which to return the sc
 
 \itemize{
 \item \code{t_max} (\code{numeric(1)})\cr
-Cutoff time \eqn{\tau^*} (i.e. time horizon) to evaluate the measure up to.
+Cutoff time \eqn{\tau^*} (i.e. time horizon) to evaluate the measure up to
+(truncate \eqn{S(t)}).
 Mutually exclusive with \code{p_max} or \code{times}.
-This will effectively \strong{remove test observations} for which the observed time
-(event or censoring) is strictly more than \code{t_max}.
 It's recommended to set \code{t_max} to avoid division by \code{eps}, see "Time Cutoff Details" section.
 If \code{t_max} is not specified, an \code{Inf} time horizon is assumed.
 }
@@ -144,6 +144,14 @@ Default value is 0.001.
 If \code{TRUE} then the Explained Residual Variation method is applied, which
 means the score is standardized against a Kaplan-Meier baseline.
 Default is \code{FALSE}.
+}
+
+
+\itemize{
+\item \code{remove_obs} (\code{logical(1)})\cr
+Only effective when \code{t_max} or \code{p_max} is provided. Default is \code{FALSE}.
+If \code{TRUE}, then we \strong{remove test observations} for which the observed time (event or censoring) is strictly larger than \code{t_max}.
+See "Time Cutoff Details" section for more details.
 }
 }
 
@@ -210,17 +218,26 @@ The training data is automatically used in scoring resamplings.
 
 \section{Time Cutoff Details}{
 
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
 If \code{t_max} or \code{p_max} is given, then the predicted survival function \eqn{S(t)} is
-filtered up to the time cutoff for all observations.
-Also, \strong{observations with observed times} \eqn{t > t_{max}} \strong{are removed}.
-This is a data processing step to alleviate the problems that arise when using IPCW
+truncated at the time cutoff for all observations.
+
+Also, if \code{remove_obs = TRUE}, \strong{observations with observed times} \eqn{t > t_{max}} \strong{are removed}.
+This data preprocessing step mitigates issues that arise when using IPCW
 in cases of administrative censoring, see Kvamme et al. (2023).
-It also helps alleviate \strong{inflation of the score} in cases where an observation is
-censored at the last observed time point and no time cutoff is given, which results in
-\eqn{G(t) = 0} and the use of \code{eps} instead.
-The proper version of this score is more affected by this issue, see Sonabend
-et al. (2024) for more details.
+Practically, this step, along with setting a time cutoff \code{t_max}, helps mitigate
+the \strong{inflation of the score} observed when an observation is censored at the
+final time point. In such cases, \eqn{G(t) = 0}, triggering the use of a
+small constant \code{eps} instead.
+This inflation particularly impacts the proper version of the score, see Sonabend et al. (2024)
+for more details.
+Note that the \code{t_max} and \code{remove_obs} parameters do not affect the estimation
+of the censoring distribution, i.e. \strong{always all the observations are used for estimating} \eqn{G(t)}.
+
+If \code{remove_obs = FALSE}, inflated scores may occur. While this aligns more closely
+with the definitions presented in the original papers, it can lead to misleading
+evaluation and poor optimization outcomes when using this score for model tuning.
 }
 
 \references{
