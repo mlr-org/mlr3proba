@@ -11,6 +11,7 @@
 #' @templateVar eps 1e-3
 #' @template param_eps
 #' @template param_erv
+#' @template param_remove_obs
 #'
 #' @aliases MeasureSurvBrier mlr_measures_surv.brier
 #'
@@ -73,11 +74,12 @@ MeasureSurvGraf = R6Class("MeasureSurvGraf",
         se = p_lgl(default = FALSE),
         proper = p_lgl(default = FALSE),
         eps = p_dbl(0, 1, default = 1e-3),
-        ERV = p_lgl(default = FALSE)
+        ERV = p_lgl(default = FALSE),
+        remove_obs = p_lgl(default = FALSE)
       )
       ps$set_values(
         integrated = TRUE, method = 2L, se = FALSE,
-        proper = FALSE, eps = 1e-3, ERV = ERV
+        proper = FALSE, eps = 1e-3, ERV = ERV, remove_obs = FALSE
       )
 
       range = if (ERV) c(-Inf, 1) else c(0, Inf)
@@ -132,7 +134,7 @@ MeasureSurvGraf = R6Class("MeasureSurvGraf",
         truth = prediction$truth,
         distribution = prediction$data$distr, times = times,
         t_max = ps$t_max, p_max = ps$p_max, proper = ps$proper, train = train,
-        eps = ps$eps
+        eps = ps$eps, remove_obs = ps$remove_obs
       )
 
       if (ps$se) {
