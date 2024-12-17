@@ -163,15 +163,18 @@ test_that("graf: t_max, p_max, times", {
   t_max = 100
   times_flt = times[times <= t_max] # keep only times until the `t_max`
   m0 = p$score(msr("surv.graf")) # uses all test time points
-  m1 = p$score(msr("surv.graf", times = times_flt)) # uses times_flt
+  m1 = p$score(msr("surv.graf", times = times_flt)) # uses `times_flt`
   m2 = p$score(msr("surv.graf", t_max = t_max)) # 100
+  m22 = p$score(msr("surv.graf", t_max = t_max, remove_obs = TRUE)) # 100
   m3 = p$score(msr("surv.graf", t_max = max(times))) # 104
-  m4 = p$score(msr("surv.graf", t_max = max(times) + 1)) # 105
+  m4 = p$score(msr("surv.graf", t_max = max(times) + 10)) # 105
 
   # different time points considered
   expect_true(m0 != m1)
-  # same time points are used, but `t_max` also removes observations
-  expect_true(m1 != m2)
+  # same time points are used, and no removal of observations (original Graf score)
+  expect_equal(m1, m2)
+  # same time points are used, but observations with `t > t_max` are removed
+  expect_true(m2 != m22)
   # different `t_max` => different time points used
   expect_true(m2 != m3)
   # different `t_max` but after the max evaluation time point, so result stays the same
