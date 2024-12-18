@@ -14,7 +14,7 @@ score_graf_schmid = function(true_times, unique_times, cdf, power = 2) {
 # - `t_max` > 0
 # - `p_max` in [0,1]
 weighted_survival_score = function(loss, truth, distribution, times = NULL,
-  t_max = NULL, p_max = NULL, proper, train = NULL, eps, ...) {
+  t_max = NULL, p_max = NULL, proper, train = NULL, eps, remove_obs = FALSE) {
   assert_surv(truth)
   # test set's (times, status)
   test_times = truth[, "time"]
@@ -90,8 +90,8 @@ weighted_survival_score = function(loss, truth, distribution, times = NULL,
     rownames(cdf) = unique_times # times x obs
   }
 
-  # apply `t_max` cutoff to remove observations
-  if (tmax_apply) {
+  # apply `t_max` cutoff to remove observations as a preprocessing step to alleviate inflation
+  if (tmax_apply && remove_obs) {
     true_times = test_times[test_times <= t_max]
     true_status = test_status[test_times <= t_max]
     cdf = cdf[, test_times <= t_max, drop = FALSE]
@@ -118,6 +118,7 @@ weighted_survival_score = function(loss, truth, distribution, times = NULL,
 
   # use the `truth` (time, status) information from the train or test set
   if (is.null(train)) {
+    # no filtering of observations from test data: use ALL
     cens = survival::survfit(Surv(test_times, 1 - test_status) ~ 1)
   } else {
     # no filtering of observations from train data: use ALL
@@ -127,11 +128,6 @@ weighted_survival_score = function(loss, truth, distribution, times = NULL,
   }
   # G(t): KM estimate of the censoring distribution
   cens = matrix(c(cens$time, cens$surv), ncol = 2L)
-
-  # filter G(t) time points based on `t_max` cutoff
-  if (tmax_apply) {
-    cens = cens[cens[, 1L] <= t_max, , drop = FALSE]
-  }
 
   score = .c_weight_survival_score(score, true_truth, unique_times, cens, proper, eps)
   colnames(score) = unique_times

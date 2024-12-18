@@ -11,6 +11,7 @@
 #' @templateVar eps 1e-3
 #' @template param_eps
 #' @template param_erv
+#' @template param_remove_obs
 #'
 #' @aliases MeasureSurvBrier mlr_measures_surv.brier
 #'
@@ -25,13 +26,13 @@
 #' survival function \eqn{S_i(t)}, the *observation-wise* loss integrated across
 #' the time dimension up to the time cutoff \eqn{\tau^*}, is:
 #'
-#' \deqn{L_{ISBS}(S_i, t_i, \delta_i) = \text{I}(t_i \leq \tau^*) \int^{\tau^*}_0  \frac{S_i^2(\tau) \text{I}(t_i \leq \tau, \delta=1)}{G(t_i)} + \frac{(1-S_i(\tau))^2 \text{I}(t_i > \tau)}{G(\tau)} \ d\tau}
+#' \deqn{L_{ISBS}(S_i, t_i, \delta_i) = \int^{\tau^*}_0  \frac{S_i^2(\tau) \text{I}(t_i \leq \tau, \delta_i=1)}{G(t_i)} + \frac{(1-S_i(\tau))^2 \text{I}(t_i > \tau)}{G(\tau)} \ d\tau}
 #'
 #' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
 #'
 #' The **re-weighted ISBS** (RISBS) is:
 #'
-#' \deqn{L_{RISBS}(S_i, t_i, \delta_i) = \delta_i \text{I}(t_i \leq \tau^*) \int^{\tau^*}_0  \frac{S_i^2(\tau) \text{I}(t_i \leq \tau) + (1-S_i(\tau))^2 \text{I}(t_i > \tau)}{G(t_i)} \ d\tau}
+#' \deqn{L_{RISBS}(S_i, t_i, \delta_i) = \delta_i \frac{\int^{\tau^*}_0  S_i^2(\tau) \text{I}(t_i \leq \tau) + (1-S_i(\tau))^2 \text{I}(t_i > \tau) \ d\tau}{G(t_i)}}
 #'
 #' which is always weighted by \eqn{G(t_i)} and is equal to zero for a censored subject.
 #'
@@ -48,10 +49,11 @@
 #' @template details_tmax
 #'
 #' @references
-#' `r format_bib("graf_1999")`
+#' `r format_bib("graf_1999", "sonabend2024", "kvamme2023")`
 #'
 #' @family Probabilistic survival measures
 #' @family distr survival measures
+#' @template example_scoring_rules
 #' @export
 MeasureSurvGraf = R6Class("MeasureSurvGraf",
   inherit = MeasureSurv,
@@ -73,11 +75,12 @@ MeasureSurvGraf = R6Class("MeasureSurvGraf",
         se = p_lgl(default = FALSE),
         proper = p_lgl(default = FALSE),
         eps = p_dbl(0, 1, default = 1e-3),
-        ERV = p_lgl(default = FALSE)
+        ERV = p_lgl(default = FALSE),
+        remove_obs = p_lgl(default = FALSE)
       )
       ps$set_values(
         integrated = TRUE, method = 2L, se = FALSE,
-        proper = FALSE, eps = 1e-3, ERV = ERV
+        proper = FALSE, eps = 1e-3, ERV = ERV, remove_obs = FALSE
       )
 
       range = if (ERV) c(-Inf, 1) else c(0, Inf)
@@ -132,7 +135,7 @@ MeasureSurvGraf = R6Class("MeasureSurvGraf",
         truth = prediction$truth,
         distribution = prediction$data$distr, times = times,
         t_max = ps$t_max, p_max = ps$p_max, proper = ps$proper, train = train,
-        eps = ps$eps
+        eps = ps$eps, remove_obs = ps$remove_obs
       )
 
       if (ps$se) {

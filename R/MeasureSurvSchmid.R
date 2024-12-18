@@ -11,6 +11,7 @@
 #' @templateVar eps 1e-3
 #' @template param_eps
 #' @template param_erv
+#' @template param_remove_obs
 #'
 #' @description
 #' Calculates the **Integrated Schmid Score** (ISS), aka integrated absolute loss.
@@ -22,26 +23,19 @@
 #' survival function \eqn{S_i(t)}, the *observation-wise* loss integrated across
 #' the time dimension up to the time cutoff \eqn{\tau^*}, is:
 #'
-#' \deqn{L_{ISS}(S_i, t_i, \delta_i) = \text{I}(t_i \leq \tau^*) \int^{\tau^*}_0  \frac{S_i(\tau) \text{I}(t_i \leq \tau, \delta=1)}{G(t_i)} + \frac{(1-S_i(\tau)) \text{I}(t_i > \tau)}{G(\tau)} \ d\tau}
+#' \deqn{L_{ISS}(S_i, t_i, \delta_i) = \int^{\tau^*}_0  \frac{S_i(\tau) \text{I}(t_i \leq \tau, \delta=1)}{G(t_i)} + \frac{(1-S_i(\tau)) \text{I}(t_i > \tau)}{G(\tau)} \ d\tau}
 #'
 #' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
 #'
 #' The **re-weighted ISS** (RISS) is:
 #'
-#' \deqn{L_{RISS}(S_i, t_i, \delta_i) = \delta_i \text{I}(t_i \leq \tau^*) \int^{\tau^*}_0  \frac{S_i(\tau) \text{I}(t_i \leq \tau) + (1-S_i(\tau)) \text{I}(t_i > \tau)}{G(t_i)} \ d\tau}
+#' \deqn{L_{RISS}(S_i, t_i, \delta_i) = \delta_i \frac{\int^{\tau^*}_0  S_i(\tau) \text{I}(t_i \leq \tau) + (1-S_i(\tau)) \text{I}(t_i > \tau) \ d\tau}{G(t_i)}}
 #'
 #' which is always weighted by \eqn{G(t_i)} and is equal to zero for a censored subject.
 #'
 #' To get a single score across all \eqn{N} observations of the test set, we
 #' return the average of the time-integrated observation-wise scores:
 #' \deqn{\sum_{i=1}^N L(S_i, t_i, \delta_i) / N}
-#'
-#'
-#' \deqn{L_{ISS}(S,t|t^*) = [(S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*)))I(t > t^*)(1/G(t^*))]}
-#' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
-#'
-#' The re-weighted ISS, RISS is given by
-#' \deqn{L_{RISS}(S,t|t^*) = [(S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*)))I(t > t^*)(1/G(t))]}
 #'
 #' @template properness
 #' @templateVar improper_id ISS
@@ -52,10 +46,11 @@
 #' @template details_tmax
 #'
 #' @references
-#' `r format_bib("schemper_2000", "schmid_2011")`
+#' `r format_bib("schemper_2000", "schmid_2011", "sonabend2024", "kvamme2023")`
 #'
 #' @family Probabilistic survival measures
 #' @family distr survival measures
+#' @template example_scoring_rules
 #' @export
 MeasureSurvSchmid = R6Class("MeasureSurvSchmid",
   inherit = MeasureSurv,
@@ -77,11 +72,12 @@ MeasureSurvSchmid = R6Class("MeasureSurvSchmid",
         se = p_lgl(default = FALSE),
         proper = p_lgl(default = FALSE),
         eps = p_dbl(0, 1, default = 1e-3),
-        ERV = p_lgl(default = FALSE)
+        ERV = p_lgl(default = FALSE),
+        remove_obs = p_lgl(default = FALSE)
       )
       ps$set_values(
         integrated = TRUE, method = 2L, se = FALSE,
-        proper = FALSE, eps = 1e-3, ERV = ERV
+        proper = FALSE, eps = 1e-3, ERV = ERV, remove_obs = FALSE
       )
 
       range = if (ERV) c(-Inf, 1) else c(0, Inf)
@@ -135,7 +131,7 @@ MeasureSurvSchmid = R6Class("MeasureSurvSchmid",
         truth = prediction$truth,
         distribution = prediction$data$distr, times = times,
         t_max = ps$t_max, p_max = ps$p_max, proper = ps$proper, train = train,
-        eps = ps$eps
+        eps = ps$eps, remove_obs = ps$remove_obs
       )
 
       if (ps$se) {

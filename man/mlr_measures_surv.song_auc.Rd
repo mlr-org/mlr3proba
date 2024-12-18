@@ -69,6 +69,32 @@ incident TPR, \code{cumulative} refers to cumulative TPR.
 }
 }
 
+\examples{
+library(mlr3)
+
+# Define a survival Task
+task = tsk("lung")
+
+# Create train and test set
+part = partition(task)
+
+# Train Cox learner on the train set
+cox = lrn("surv.coxph")
+cox$train(task, row_ids = part$train)
+
+# Make predictions for the test set
+p = cox$predict(task, row_ids = part$test)
+
+# Integrated AUC score
+p$score(msr("surv.song_auc"), task = task, train_set = part$train, learner = cox)
+
+# AUC at specific time point
+p$score(msr("surv.song_auc", times = 600), task = task, train_set = part$train, learner = cox)
+
+# Integrated AUC at specific time points
+p$score(msr("surv.song_auc", times = c(100, 200, 300, 400, 500)), task = task, train_set = part$train, learner = cox)
+
+}
 \references{
 Song, Xiao, Zhou, Xiao-Hua (2008).
 \dQuote{A semiparametric approach for the covariate specific ROC curve with survival outcome.}

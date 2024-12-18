@@ -5,6 +5,8 @@
 \alias{MeasureSurvDCalibration}
 \title{D-Calibration Survival Measure}
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 This calibration method is defined by calculating the following statistic:
 \deqn{s = B/n \sum_i (P_i - n/B)^2}
 where \eqn{B} is number of 'buckets' (that equally divide \eqn{[0,1]} into intervals),
@@ -14,8 +16,8 @@ of observations in the \eqn{i}th interval. An observation is assigned to the
 falls within the corresponding interval.
 This statistic assumes that censoring time is independent of death time.
 
-A model is well-calibrated if \eqn{s \sim Unif(B)}, tested with \code{chisq.test}
-(\eqn{p > 0.05} if well-calibrated).
+A model is well D-calibrated if \eqn{s \sim Unif(B)}, tested with \code{chisq.test}
+(\eqn{p > 0.05} if well-calibrated, i.e. higher p-values are preferred).
 Model \eqn{i} is better calibrated than model \eqn{j} if \eqn{s(i) < s(j)},
 meaning that \emph{lower values} of this measure are preferred.
 }
@@ -25,7 +27,7 @@ The former is useful for model comparison whereas the latter is useful for deter
 is well-calibrated. If \code{chisq = FALSE} and \code{s} is the predicted value then you can manually
 compute the p.value with \code{pchisq(s, B - 1, lower.tail = FALSE)}.
 
-NOTE: This measure is still experimental both theoretically and in implementation. Results
+\strong{NOTE}: This measure is still experimental both theoretically and in implementation. Results
 should therefore only be taken as an indicator of performance and not for
 conclusive judgements about model calibration.
 }
@@ -72,11 +74,12 @@ Default is \code{FALSE} and returns the statistic \code{s}.
 You can manually get the p-value by executing \code{pchisq(s, B - 1, lower.tail = FALSE)}.
 The null hypothesis is that the model is D-calibrated.
 \item \code{truncate} (\code{double(1)}) \cr
-This parameter controls the upper bound of the output statistic,
-when \code{chisq} is \code{FALSE}. We use \code{truncate = Inf} by default but \eqn{10} may be sufficient
-for most purposes, which corresponds to a p-value of 0.35 for the chisq.test using
-\eqn{B = 10} buckets. Values \eqn{>10} translate to even lower p-values and thus
-less calibrated models. If the number of buckets \eqn{B} changes, you probably will want to
+This parameter controls the upper bound of the output statistic, when \code{chisq} is \code{FALSE}.
+We use \code{truncate = Inf} by default but values between \eqn{10-16} are sufficient
+for most purposes, which correspond to p-values of \eqn{0.35-0.06} for the \code{chisq.test} using
+the default \eqn{B = 10} buckets.
+Values \eqn{B > 10} translate to even lower p-values and thus less D-calibrated models.
+If the number of buckets \eqn{B} changes, you probably will want to
 change the \code{truncate} value as well to correspond to the same p-value significance.
 Note that truncation may severely limit automated tuning with this measure.
 }

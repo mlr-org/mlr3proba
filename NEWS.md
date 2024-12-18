@@ -1,7 +1,11 @@
 # mlr3proba 0.7.1
 
-* Removed all `PipeOp`s and pipelines related to survival => regression reduction techniques (see #414)
-* Bug fix: `$predict_type` of `survtoclassif_disctime` and `survtoclassif_IPCW` was `prob` (classification type) and not `crank` (survival type)
+* cleanup: removed all `PipeOp`s and pipelines related to survival => regression reduction techniques (see #414)
+* fix: `$predict_type` of `survtoclassif_disctime` and `survtoclassif_IPCW` was `prob` (classification type) and not `crank` (survival type)
+* fix: G(t) is not filtered when `t_max|p_max` is specified in scoring rules (didn't influence evaluation at all)
+* docs: Clarified the use and impact of using `t_max` in scoring rules, added examples in scoring rules and AUC scores
+* feat: Added new argument `remove_obs` in scoring rules to remove observations with observed time `t > t_max` as a processing step to alleviate IPCW issues.
+This was before 'hard-coded' which made the Integrated Brier Score (`msr("surv.graf")`) differ minimally from other implementations and the original definition.
 
 # mlr3proba 0.7.0
 
