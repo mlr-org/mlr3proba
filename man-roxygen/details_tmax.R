@@ -1,8 +1,9 @@
 #' @section Time Cutoff Details:
-#' `r lifecycle::badge("experimental")`
 #'
 #' If `t_max` or `p_max` is given, then the predicted survival function \eqn{S(t)} is
 #' truncated at the time cutoff for all observations.
+#'
+#' `r lifecycle::badge("experimental")`
 #'
 #' Also, if `remove_obs = TRUE`, **observations with observed times** \eqn{t > t_{max}} **are removed**.
 #' This data preprocessing step mitigates issues that arise when using IPCW

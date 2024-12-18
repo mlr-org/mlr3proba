@@ -220,10 +220,11 @@ The training data is automatically used in scoring resamplings.
 
 \section{Time Cutoff Details}{
 
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
 If \code{t_max} or \code{p_max} is given, then the predicted survival function \eqn{S(t)} is
 truncated at the time cutoff for all observations.
+
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
 Also, if \code{remove_obs = TRUE}, \strong{observations with observed times} \eqn{t > t_{max}} \strong{are removed}.
 This data preprocessing step mitigates issues that arise when using IPCW
