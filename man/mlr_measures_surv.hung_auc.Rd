@@ -61,6 +61,32 @@ If \code{integrated == FALSE} then a single time point at which to return the sc
 }
 }
 
+\examples{
+library(mlr3)
+
+# Define a survival Task
+task = tsk("lung")
+
+# Create train and test set
+part = partition(task)
+
+# Train Cox learner on the train set
+cox = lrn("surv.coxph")
+cox$train(task, row_ids = part$train)
+
+# Make predictions for the test set
+p = cox$predict(task, row_ids = part$test)
+
+# Integrated AUC score
+p$score(msr("surv.hung_auc"), task = task, train_set = part$train, learner = cox)
+
+# AUC at specific time point
+p$score(msr("surv.hung_auc", times = 600), task = task, train_set = part$train, learner = cox)
+
+# Integrated AUC at specific time points
+p$score(msr("surv.hung_auc", times = c(100, 200, 300, 400, 500)), task = task, train_set = part$train, learner = cox)
+
+}
 \references{
 Hung H, Chiang C (2010).
 \dQuote{Estimation methods for time-dependent AUC models with survival data.}
