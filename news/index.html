@@ -52,8 +52,11 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.7.1" id="mlr3proba-071">mlr3proba 0.7.1<a class="anchor" aria-label="anchor" href="#mlr3proba-071"></a></h2>
-<ul><li>Removed all <code>PipeOp</code>s and pipelines related to survival =&gt; regression reduction techniques (see <a href="https://github.com/mlr-org/mlr3proba/issues/414" class="external-link">#414</a>)</li>
-<li>Bug fix: <code>$predict_type</code> of <code>survtoclassif_disctime</code> and <code>survtoclassif_IPCW</code> was <code>prob</code> (classification type) and not <code>crank</code> (survival type)</li>
+<ul><li>cleanup: removed all <code>PipeOp</code>s and pipelines related to survival =&gt; regression reduction techniques (see <a href="https://github.com/mlr-org/mlr3proba/issues/414" class="external-link">#414</a>)</li>
+<li>fix: <code>$predict_type</code> of <code>survtoclassif_disctime</code> and <code>survtoclassif_IPCW</code> was <code>prob</code> (classification type) and not <code>crank</code> (survival type)</li>
+<li>fix: G(t) is not filtered when <code>t_max|p_max</code> is specified in scoring rules (didn’t influence evaluation at all)</li>
+<li>docs: Clarified the use and impact of using <code>t_max</code> in scoring rules, added examples in scoring rules and AUC scores</li>
+<li>feat: Added new argument <code>remove_obs</code> in scoring rules to remove observations with observed time <code>t &gt; t_max</code> as a processing step to alleviate IPCW issues. This was before ‘hard-coded’ which made the Integrated Brier Score (<code>msr("surv.graf")</code>) differ minimally from other implementations and the original definition.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.7.0" id="mlr3proba-070">mlr3proba 0.7.0<a class="anchor" aria-label="anchor" href="#mlr3proba-070"></a></h2>

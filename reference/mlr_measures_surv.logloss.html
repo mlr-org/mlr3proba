@@ -115,17 +115,26 @@ If <code>TRUE</code> then the Explained Residual Variation method is applied, wh
 means the score is standardized against a Kaplan-Meier baseline.
 Default is <code>FALSE</code>.</p></li>
 </ul><ul><li><p><code>IPCW</code> (<code>logical(1)</code>)<br>
-If <code>TRUE</code> (default) then returns the \(L_{RNLL}\) score (which is proper), otherwise the \(L_{NLL}\) score (improper).</p></li>
+If <code>TRUE</code> (default) then returns the \(L_{RNLL}\) score (which is proper), otherwise the \(L_{NLL}\) score (improper). See Sonabend et al. (2024) for more details.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="data-used-for-estimating-censoring-distribution">Data used for Estimating Censoring Distribution<a class="anchor" aria-label="anchor" href="#data-used-for-estimating-censoring-distribution"></a></h2>
 
 
 
-<p>If <code>task</code> and <code>train_set</code> are passed to <code>$score</code> then \(G(t)\) is fit on training data,
-otherwise testing data. The first is likely to reduce any bias caused by calculating
-parts of the measure on the test data it is evaluating. The training data is automatically
-used in scoring resamplings.</p>
+<p>If <code>task</code> and <code>train_set</code> are passed to <code>$score</code> then \(G(t)\) is fit using
+<strong>all observations</strong> from the train set, otherwise the test set is used.
+Using the train set is likely to reduce any bias caused by calculating parts of the
+measure on the test data it is evaluating.
+Also usually it means that more data is used for fitting the censoring
+distribution \(G(t)\) via the Kaplan-Meier.
+The training data is automatically used in scoring resamplings.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
+    <p>Sonabend, Raphael, Zobolas, John, Kopper, Philipp, Burk, Lukas, Bender, Andreas (2024).
+“Examining properness in the external validation of survival models with squared and logarithmic losses.”
+<a href="https://arxiv.org/abs/2212.05260v2" class="external-link">https://arxiv.org/abs/2212.05260v2</a>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

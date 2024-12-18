@@ -202,6 +202,40 @@ incident TPR, <code>cumulative</code> refers to cumulative TPR.</p></li>
 
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mlr3.mlr-org.com" class="external-link">mlr3</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Define a survival Task</span></span></span>
+<span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">tsk</a></span><span class="op">(</span><span class="st">"lung"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Create train and test set</span></span></span>
+<span class="r-in"><span><span class="va">part</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/partition.html" class="external-link">partition</a></span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Train Cox learner on the train set</span></span></span>
+<span class="r-in"><span><span class="va">cox</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"surv.coxph"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">cox</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span>, row_ids <span class="op">=</span> <span class="va">part</span><span class="op">$</span><span class="va">train</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Make predictions for the test set</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">=</span> <span class="va">cox</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span>, row_ids <span class="op">=</span> <span class="va">part</span><span class="op">$</span><span class="va">test</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Integrated AUC score</span></span></span>
+<span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.song_auc"</span><span class="op">)</span>, task <span class="op">=</span> <span class="va">task</span>, train_set <span class="op">=</span> <span class="va">part</span><span class="op">$</span><span class="va">train</span>, learner <span class="op">=</span> <span class="va">cox</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> surv.song_auc </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      0.633294 </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># AUC at specific time point</span></span></span>
+<span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.song_auc"</span>, times <span class="op">=</span> <span class="fl">600</span><span class="op">)</span>, task <span class="op">=</span> <span class="va">task</span>, train_set <span class="op">=</span> <span class="va">part</span><span class="op">$</span><span class="va">train</span>, learner <span class="op">=</span> <span class="va">cox</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> surv.song_auc </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     0.6156616 </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Integrated AUC at specific time points</span></span></span>
+<span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.song_auc"</span>, times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">200</span>, <span class="fl">300</span>, <span class="fl">400</span>, <span class="fl">500</span><span class="op">)</span><span class="op">)</span>, task <span class="op">=</span> <span class="va">task</span>, train_set <span class="op">=</span> <span class="va">part</span><span class="op">$</span><span class="va">train</span>, learner <span class="op">=</span> <span class="va">cox</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> surv.song_auc </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      0.631936 </span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 
