@@ -53,6 +53,7 @@
 #'
 #' @family Probabilistic survival measures
 #' @family distr survival measures
+#' @template example_scoring_rules
 #' @export
 MeasureSurvGraf = R6Class("MeasureSurvGraf",
   inherit = MeasureSurv,

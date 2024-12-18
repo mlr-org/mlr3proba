@@ -50,6 +50,7 @@
 #'
 #' @family Probabilistic survival measures
 #' @family distr survival measures
+#' @template example_scoring_rules
 #' @export
 MeasureSurvSchmid = R6Class("MeasureSurvSchmid",
   inherit = MeasureSurv,

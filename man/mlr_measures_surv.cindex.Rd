@@ -105,6 +105,7 @@ p$score(msr("surv.cindex", weight_meth = "G2"),
 
 # Harrell's C-index evaluated up to a specific time horizon
 p$score(msr("surv.cindex", t_max = 97))
+
 # Harrell's C-index evaluated up to the time corresponding to 30\% of censoring
 p$score(msr("surv.cindex", p_max = 0.3))
 

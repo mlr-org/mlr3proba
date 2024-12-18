@@ -51,6 +51,7 @@
 #'
 #' @family Probabilistic survival measures
 #' @family distr survival measures
+#' @template example_scoring_rules
 #' @export
 MeasureSurvIntLogloss = R6Class("MeasureSurvIntLogloss",
   inherit = MeasureSurv,

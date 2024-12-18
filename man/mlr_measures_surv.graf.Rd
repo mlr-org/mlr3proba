@@ -243,6 +243,50 @@ with the definitions presented in the original papers, it can lead to misleading
 evaluation and poor optimization outcomes when using this score for model tuning.
 }
 
+\examples{
+library(mlr3)
+
+# Define a survival Task
+task = tsk("lung")
+
+# Create train and test set
+part = partition(task)
+
+# Train Cox learner on the train set
+cox = lrn("surv.coxph")
+cox$train(task, row_ids = part$train)
+
+# Make predictions for the test set
+p = cox$predict(task, row_ids = part$test)
+
+# ISBS, G(t) calculated using the test set
+p$score(msr("surv.graf"))
+
+# ISBS, G(t) calculated using the train set (always recommended)
+p$score(msr("surv.graf"), task = task, train_set = part$train)
+
+# ISBS, ERV score (comparing with KM baseline)
+p$score(msr("surv.graf", ERV = TRUE), task = task, train_set = part$train)
+
+# ISBS at specific time point
+p$score(msr("surv.graf", times = 365), task = task, train_set = part$train)
+
+# ISBS at multiple time points (integrated)
+p$score(msr("surv.graf", times = c(125, 365, 450), integrated = TRUE), task = task, train_set = part$train)
+
+# ISBS, use time cutoff
+p$score(msr("surv.graf", t_max = 700), task = task, train_set = part$train)
+
+# ISBS, use time cutoff and also remove observations
+p$score(msr("surv.graf", t_max = 700, remove_obs = TRUE), task = task, train_set = part$train)
+
+# ISBS, use time cutoff corresponding to specific proportion of censoring on the test set
+p$score(msr("surv.graf", p_max = 0.8), task = task, train_set = part$train)
+
+# RISBS, G(t) calculated using the train set
+p$score(msr("surv.graf", proper = TRUE), task = task, train_set = part$train)
+
+}
 \references{
 Graf E, Schmoor C, Sauerbrei W, Schumacher M (1999).
 \dQuote{Assessment and comparison of prognostic classification schemes for survival data.}
