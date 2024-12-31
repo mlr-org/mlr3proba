@@ -43,7 +43,7 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH",
       }
 
       invoke(survival::coxph, formula = task$formula(), data = task$data(),
-             .args = pv, x = TRUE)
+             .args = pv, model = TRUE)
     },
 
     .predict = function(task) {
