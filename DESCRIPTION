@@ -67,7 +67,6 @@ Imports:
     Rcpp (>= 1.0.4),
     survival
 Suggests:
-    bujar,
     GGally,
     knitr,
     lgr,
@@ -79,9 +78,7 @@ Suggests:
     simsurv,
     survAUC,
     testthat (>= 3.0.0),
-    vdiffr,
     abind,
-    Ecdat,
     coxed,
     mlr3learners,
     pammtools

@@ -163,38 +163,6 @@ load_rats = function() {
   task
 }
 
-#' @title Unemployment Duration Survival Task
-#'
-#' @name mlr_tasks_unemployment
-#'
-#' @templateVar type Surv
-#' @templateVar task_type survival
-#' @templateVar id unemployment
-#' @templateVar data Ecdat::UnempDur
-#' @template task
-#' @template seealso_task
-#'
-#' @section Preprocessing:
-#' - Only the columns `spell`, `censor1`, `age`, `logwage`, `tenure`, `ui` are
-#' kept in this task.
-#' - Renamed target columns from (`spell`, `censor1`) to (`time`, `status`), so
-#' outcome is the duration until re-employment in a full-time job.
-NULL
-
-load_unemployment = function() {
-  path = file.path(system.file("extdata", package = "mlr3proba"), "unemployment.rds")
-  data = readRDS(path)
-  colnames(data)[colnames(data) == "spell"] = "time"
-  colnames(data)[colnames(data) == "censor1"] = "status"
-
-  b = as_data_backend(data)
-  task = TaskSurv$new("unemployment", b, time = "time", event = "status",
-                      label = "Unemployment Duration")
-  b$hash = task$man = "mlr3proba::mlr_tasks_unemployment"
-
-  task
-}
-
 #' @title Lung Cancer Survival Task
 #'
 #' @name mlr_tasks_lung
