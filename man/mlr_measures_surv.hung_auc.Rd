@@ -78,13 +78,16 @@ cox$train(task, row_ids = part$train)
 p = cox$predict(task, row_ids = part$test)
 
 # Integrated AUC score
-p$score(msr("surv.hung_auc"), task = task, train_set = part$train, learner = cox)
+p$score(msr("surv.hung_auc"), task = task,
+        train_set = part$train, learner = cox)
 
 # AUC at specific time point
-p$score(msr("surv.hung_auc", times = 600), task = task, train_set = part$train, learner = cox)
+p$score(msr("surv.hung_auc", times = 600), task = task,
+        train_set = part$train, learner = cox)
 
 # Integrated AUC at specific time points
-p$score(msr("surv.hung_auc", times = c(100, 200, 300, 400, 500)), task = task, train_set = part$train, learner = cox)
+p$score(msr("surv.hung_auc", times = c(100, 200, 300, 400, 500)),
+        task = task, train_set = part$train, learner = cox)
 
 }
 \references{

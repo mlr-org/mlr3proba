@@ -29,13 +29,15 @@
 #' p$score(msr("<%=measure$id%>", times = 365), task = task, train_set = part$train)
 #'
 #' # <%=improper_id%> at multiple time points (integrated)
-#' p$score(msr("<%=measure$id%>", times = c(125, 365, 450), integrated = TRUE), task = task, train_set = part$train)
+#' p$score(msr("<%=measure$id%>", times = c(125, 365, 450), integrated = TRUE),
+#'         task = task, train_set = part$train)
 #'
 #' # <%=improper_id%>, use time cutoff
 #' p$score(msr("<%=measure$id%>", t_max = 700), task = task, train_set = part$train)
 #'
 #' # <%=improper_id%>, use time cutoff and also remove observations
-#' p$score(msr("<%=measure$id%>", t_max = 700, remove_obs = TRUE), task = task, train_set = part$train)
+#' p$score(msr("<%=measure$id%>", t_max = 700, remove_obs = TRUE),
+#'         task = task, train_set = part$train)
 #'
 #' # <%=improper_id%>, use time cutoff corresponding to specific proportion of censoring on the test set
 #' p$score(msr("<%=measure$id%>", p_max = 0.8), task = task, train_set = part$train)

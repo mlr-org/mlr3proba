@@ -272,13 +272,15 @@ p$score(msr("surv.graf", ERV = TRUE), task = task, train_set = part$train)
 p$score(msr("surv.graf", times = 365), task = task, train_set = part$train)
 
 # ISBS at multiple time points (integrated)
-p$score(msr("surv.graf", times = c(125, 365, 450), integrated = TRUE), task = task, train_set = part$train)
+p$score(msr("surv.graf", times = c(125, 365, 450), integrated = TRUE),
+        task = task, train_set = part$train)
 
 # ISBS, use time cutoff
 p$score(msr("surv.graf", t_max = 700), task = task, train_set = part$train)
 
 # ISBS, use time cutoff and also remove observations
-p$score(msr("surv.graf", t_max = 700, remove_obs = TRUE), task = task, train_set = part$train)
+p$score(msr("surv.graf", t_max = 700, remove_obs = TRUE),
+        task = task, train_set = part$train)
 
 # ISBS, use time cutoff corresponding to specific proportion of censoring on the test set
 p$score(msr("surv.graf", p_max = 0.8), task = task, train_set = part$train)

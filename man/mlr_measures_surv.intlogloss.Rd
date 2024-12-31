@@ -270,13 +270,15 @@ p$score(msr("surv.intlogloss", ERV = TRUE), task = task, train_set = part$train)
 p$score(msr("surv.intlogloss", times = 365), task = task, train_set = part$train)
 
 # ISLL at multiple time points (integrated)
-p$score(msr("surv.intlogloss", times = c(125, 365, 450), integrated = TRUE), task = task, train_set = part$train)
+p$score(msr("surv.intlogloss", times = c(125, 365, 450), integrated = TRUE),
+        task = task, train_set = part$train)
 
 # ISLL, use time cutoff
 p$score(msr("surv.intlogloss", t_max = 700), task = task, train_set = part$train)
 
 # ISLL, use time cutoff and also remove observations
-p$score(msr("surv.intlogloss", t_max = 700, remove_obs = TRUE), task = task, train_set = part$train)
+p$score(msr("surv.intlogloss", t_max = 700, remove_obs = TRUE),
+        task = task, train_set = part$train)
 
 # ISLL, use time cutoff corresponding to specific proportion of censoring on the test set
 p$score(msr("surv.intlogloss", p_max = 0.8), task = task, train_set = part$train)
