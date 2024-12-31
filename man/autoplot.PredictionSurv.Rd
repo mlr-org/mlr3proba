@@ -68,9 +68,9 @@ library(mlr3)
 library(mlr3proba)
 library(mlr3viz)
 
-learn = lrn("surv.coxph")
-task = tsk("unemployment")
-p = learn$train(task, row_ids = 1:300)$predict(task, row_ids = 301:400)
+learner = lrn("surv.coxph")
+task = tsk("gbcs")
+p = learner$train(task, row_ids = 1:300)$predict(task, row_ids = 301:400)
 
 # calibration by comparison of average prediction to Kaplan-Meier
 autoplot(p, type = "calib", task = task, row_ids = 301:400)
@@ -83,8 +83,8 @@ autoplot(p, type = "preds")
 \dontshow{\}) # examplesIf}
 }
 \references{
-Haider H, Hoehn B, Davis S, Greiner R (2020).
+Haider, Humza, Hoehn, Bret, Davis, Sarah, Greiner, Russell (2020).
 \dQuote{Effective Ways to Build and Evaluate Individual Survival Distributions.}
-\emph{Journal of Machine Learning Research}, \bold{21}(85), 1-63.
+\emph{Journal of Machine Learning Research}, \bold{21}(85), 1--63.
 \url{https://jmlr.org/papers/v21/18-772.html}.
 }

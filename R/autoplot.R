@@ -181,22 +181,22 @@ plot.TaskDens = function(x, ...) {
 #' @template section_theme
 #'
 #' @references
-#' `r format_bib("dcalib")`
+#' `r format_bib("haider_2020")`
 #'
 #' @examplesIf mlr3misc::require_namespaces(c("mlr3viz", "ggplot2"), quietly = TRUE)
 #' library(mlr3)
 #' library(mlr3proba)
 #' library(mlr3viz)
 #'
-#' learn = lrn("surv.coxph")
-#' task = tsk("unemployment")
-#' p = learn$train(task, row_ids = 1:300)$predict(task, row_ids = 301:400)
+#' learner = lrn("surv.coxph")
+#' task = tsk("gbcs")
+#' p = learner$train(task, row_ids = 1:300)$predict(task, row_ids = 301:400)
 #'
 #' # calibration by comparison of average prediction to Kaplan-Meier
 #' autoplot(p, type = "calib", task = task, row_ids = 301:400)
 #'
 #' # Distribution-calibration (D-Calibration)
-#' autoplot(p, type = "dcalib")
+#' autoplot(p, type = "dcalib", extend_quantile = TRUE)
 #'
 #' # Predictions
 #' autoplot(p, type = "preds")
@@ -250,7 +250,7 @@ autoplot.PredictionSurv = function(object, type = "calib",
 
       if (xyline) {
         pl = pl +
-          geom_segment(aes(x = 0, y = 0, xend = 1, yend = 1), color = "lightgray")
+          annotate("segment", x = 0, y = 0, xend = 1, yend = 1, color = "lightgray")
       }
       pl +
         labs(x = "True", y = "Predicted") +
