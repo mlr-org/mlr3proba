@@ -92,7 +92,6 @@ reference:
       - mlr_tasks_grace
       - mlr_tasks_lung
       - mlr_tasks_rats
-      - mlr_tasks_unemployment
       - mlr_tasks_whas
   - title: Survival PipeOps
     contents:
