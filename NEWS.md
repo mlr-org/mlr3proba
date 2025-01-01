@@ -1,6 +1,8 @@
-# mlr3proba dev
+# mlr3proba 0.7.2
 
 * fix: `lrn("surv.coxph")` is now trained with `model=TRUE` which fixes an issue with using observation weights [stackoverflow link](https://stackoverflow.com/questions/79297386/mlr3-predicted-values-for-surv-coxph-learner-with-case-weights).
+* cleanup: remove `tsk("unemployment")` and associated files
+* cleanup: remove unused references
 
 # mlr3proba 0.7.1
 
