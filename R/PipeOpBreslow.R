@@ -40,7 +40,7 @@
 #'    another.
 #' @seealso [pipeline_distrcompositor]
 #' @references
-#' `r format_bib("cox_1972", "lin_2007")`
+#' `r format_bib("breslow_1972", "lin_2007")`
 #' @export
 #' @family survival compositors
 #' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)

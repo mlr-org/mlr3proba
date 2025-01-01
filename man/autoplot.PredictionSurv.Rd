@@ -76,7 +76,7 @@ p = learner$train(task, row_ids = 1:300)$predict(task, row_ids = 301:400)
 autoplot(p, type = "calib", task = task, row_ids = 301:400)
 
 # Distribution-calibration (D-Calibration)
-autoplot(p, type = "dcalib")
+autoplot(p, type = "dcalib", extend_quantile = TRUE)
 
 # Predictions
 autoplot(p, type = "preds")

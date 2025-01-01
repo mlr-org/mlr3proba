@@ -104,10 +104,9 @@ surv = breslow(times = task$times(part$train), status = task$status(part$train),
 head(surv)
 }
 \references{
-Cox DR (1972).
-\dQuote{Regression Models and Life-Tables.}
-\emph{Journal of the Royal Statistical Society: Series B (Methodological)}, \bold{34}(2), 187--202.
-\doi{10.1111/j.2517-6161.1972.tb00899.x}.
+Breslow N (1972).
+\dQuote{Discussion of 'Regression Models and Life-Tables' by D.R. Cox.}
+\emph{Journal of the Royal Statistical Society: Series B}, \bold{34}(2), 216-217.
 
 Lin, Y. D (2007).
 \dQuote{On the Breslow estimator.}
