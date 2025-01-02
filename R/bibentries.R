@@ -401,5 +401,20 @@ bibentries = c(
     url = "http://jmlr.org/papers/v24/19-1030.html",
     volume = "24",
     year = "2023"
+  ),
+  austin2020 = bibentry("article",
+    author = "Austin, Peter C. and Harrell, Frank E. and van Klaveren, David",
+    doi = "10.1002/SIM.8570",
+    issn = "10970258",
+    journal = "Statistics in Medicine",
+    month = "sep",
+    number = "21",
+    pages = "2714",
+    pmid = "32548928",
+    publisher = "John Wiley and Sons Ltd",
+    title = "Graphical calibration curves and the integrated calibration index (ICI) for survival models",
+    url = "https://pmc.ncbi.nlm.nih.gov/articles/PMC7497089/",
+    volume = "39",
+    year = "2020"
   )
 )
