@@ -34,8 +34,8 @@
 #' library(ggplot2)
 #'
 #' task = tsk("lung")
+#' task$head()
 #'
-#' head(fortify(task))
 #' autoplot(task) # KM
 #' autoplot(task) # KM of the censoring distribution
 #' autoplot(task, rhs = "sex")
@@ -105,8 +105,8 @@ plot.TaskSurv = function(x, ...) {
 #' library(mlr3viz)
 #' library(ggplot2)
 #' task = tsk("precip")
+#' task$head()
 #'
-#' head(fortify(task))
 #' autoplot(task, bins = 15)
 #' autoplot(task, type = "freq", bins = 15)
 #' autoplot(task, type = "overlay", bins = 15)
