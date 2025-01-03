@@ -1,49 +1,23 @@
 Package: mlr3proba
 Title: Probabilistic Supervised Learning for 'mlr3'
 Version: 0.7.1
-Authors@R:
-    c(person(given = "Raphael",
-             family = "Sonabend",
-             role = "aut",
-             email = "raphaelsonabend@gmail.com",
-             comment = c(ORCID = "0000-0001-9225-4654")),
-      person(given = "Franz",
-             family = "Kiraly",
-             role = "aut",
-             email = "f.kiraly@ucl.ac.uk"),
-      person(given = "Michel",
-             family = "Lang",
-             role = "aut",
-             email = "michellang@gmail.com",
-             comment = c(ORCID = "0000-0001-9754-0393")),
-      person(given = "Nurul Ain",
-             family = "Toha",
-             role = "ctb",
-             email = "nurul.toha.15@ucl.ac.uk"),
-      person(given = "Andreas",
-             family = "Bender",
-             role = "ctb",
-             email = "bender.at.R@gmail.com",
-             comment = c(ORCID = "0000-0001-5628-8611")),
-      person(given = "John",
-             family = "Zobolas",
-             role = c("cre", "aut"),
-             email = "bblodfon@gmail.com",
-             comment = c(ORCID = "0000-0002-3609-8674")),
-      person(given = "Lukas",
-             family = "Burk",
-             email = "github@quantenbrot.de",
-             role = "ctb",
-             comment = c(ORCID = "0000-0001-7528-3795")),
-      person(given = "Philip",
-             family = "Studener",
-             role = "aut",
-             email = "philip.studener@gmx.de"),
-      person(given = "Maximilian",
-             family = "Muecke",
-             email = "muecke.maximilian@gmail.com",
-             role = "ctb",
-             comment = c(ORCID = "0009-0000-9432-9795")))
+Authors@R: c(
+    person("Raphael", "Sonabend", , "raphaelsonabend@gmail.com", role = "aut",
+           comment = c(ORCID = "0000-0001-9225-4654")),
+    person("Franz", "Kiraly", , "f.kiraly@ucl.ac.uk", role = "aut"),
+    person("Michel", "Lang", , "michellang@gmail.com", role = "aut",
+           comment = c(ORCID = "0000-0001-9754-0393")),
+    person("Nurul Ain", "Toha", , "nurul.toha.15@ucl.ac.uk", role = "ctb"),
+    person("Andreas", "Bender", , "bender.at.R@gmail.com", role = "ctb",
+           comment = c(ORCID = "0000-0001-5628-8611")),
+    person("John", "Zobolas", , "bblodfon@gmail.com", role = c("cre", "aut"),
+           comment = c(ORCID = "0000-0002-3609-8674")),
+    person("Lukas", "Burk", , "github@quantenbrot.de", role = "ctb",
+           comment = c(ORCID = "0000-0001-7528-3795")),
+    person("Philip", "Studener", , "philip.studener@gmx.de", role = "aut"),
+    person("Maximilian", "Muecke", , "muecke.maximilian@gmail.com", role = "ctb",
+           comment = c(ORCID = "0009-0000-9432-9795"))
+  )
 Description: Provides extensions for probabilistic supervised learning for
     'mlr3'.  This includes extending the regression task to probabilistic
     and interval regression, adding a survival task, and other specialized
@@ -67,29 +41,30 @@ Imports:
     Rcpp (>= 1.0.4),
     survival
 Suggests:
+    abind,
+    coxed,
     GGally,
     knitr,
     lgr,
     lifecycle,
+    mlr3learners,
+    pammtools,
     param6 (>= 0.2.4),
+    polspline,
     pracma,
     rpart,
     set6 (>= 0.2.6),
     simsurv,
     survAUC,
-    testthat (>= 3.0.0),
-    abind,
-    coxed,
-    mlr3learners,
-    pammtools
+    testthat (>= 3.0.0)
 LinkingTo:
     Rcpp
 Remotes:
     xoopR/distr6,
     xoopR/param6,
     xoopR/set6
-Config/testthat/edition: 3
 ByteCompile: true
+Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
