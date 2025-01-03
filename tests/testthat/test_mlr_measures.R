@@ -1,8 +1,8 @@
 set.seed(1L)
-task = tsk("rats")$filter(sample(300, 20L))
+task = tsk("rats")$filter(sample(300, 50L))
 learner = suppressWarnings(lrn("surv.coxph")$train(task))
 pred = learner$predict(task)
-pred$data$response = 1:20
+pred$data$response = 1:50
 pred$predict_types = c(pred$predict_types, "response")
 
 test_that("mlr_measures", {
@@ -40,12 +40,9 @@ test_that("mlr_measures", {
   }
 })
 
-learner = suppressWarnings(lrn("surv.coxph")$train(task))
-prediction = learner$predict(task)
-
 test_that("unintegrated_prob_losses", {
   msr = msr("surv.logloss")
-  expect_silent(prediction$score(msr))
+  expect_silent(pred$score(msr))
 })
 
 test_that("integrated losses with use of times", {
@@ -59,28 +56,28 @@ test_that("integrated losses with use of times", {
   }
 
   # between 64 and 104
-  test_unique_times = sort(unique(prediction$truth[,1]))
-  expect_true(all(test_unique_times > 63))
+  test_unique_times = sort(unique(pred$truth[,1]))
+  expect_true(all(test_unique_times > 38))
   expect_true(all(test_unique_times < 105))
 
   # no `times` => use test set's unique time points
-  expect_silent(prediction$score(lapply(losses, msr, integrated = TRUE, proper = TRUE)))
+  expect_silent(pred$score(lapply(losses, msr, integrated = TRUE, proper = TRUE)))
   # all `times` outside the test set range
   for (loss in losses) {
-    expect_warning(prediction$score(msr(loss, integrated = TRUE, proper = TRUE, times = 34:38)), "requested times")
+    expect_warning(pred$score(msr(loss, integrated = TRUE, proper = TRUE, times = 34:38)), "requested times")
   }
   # some `times` outside the test set range
   for (loss in losses) {
-    expect_warning(prediction$score(msr(loss, integrated = TRUE, proper = TRUE, times = 100:110)), "requested times")
+    expect_warning(pred$score(msr(loss, integrated = TRUE, proper = TRUE, times = 100:110)), "requested times")
   }
   # one time point, inside the range, no warnings
-  expect_silent(prediction$score(lapply(losses, msr, integrated = FALSE, proper = TRUE, times = 80)))
+  expect_silent(pred$score(lapply(losses, msr, integrated = FALSE, proper = TRUE, times = 80)))
 })
 
 test_that("dcalib works", {
   expect_equal(
-    pchisq(prediction$score(msr("surv.dcalib", B = 14)), df = 13, lower.tail = FALSE),
-    suppressWarnings(prediction$score(msr("surv.dcalib", B = 14, chisq = TRUE)))
+    pchisq(pred$score(msr("surv.dcalib", B = 14)), df = 13, lower.tail = FALSE),
+    suppressWarnings(pred$score(msr("surv.dcalib", B = 14, chisq = TRUE)))
   )
 })
 
