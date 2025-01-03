@@ -170,7 +170,6 @@ Collate:
     'mlr3proba-package.R'
     'pecs.R'
     'pipelines.R'
-    'plot.R'
     'plot_probregr.R'
     'scoring_rule_erv.R'
     'surv_measures.R'

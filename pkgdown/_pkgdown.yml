@@ -121,7 +121,6 @@ reference:
   - title: Visualisation
     contents:
       - pecs
-      - plot.LearnerSurv
       - plot_probregr
       - starts_with("autoplot")
   - title: Datasets
