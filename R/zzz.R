@@ -27,7 +27,6 @@ NULL
 #' @importFrom survival Surv
 #' @importFrom utils getFromNamespace
 #' @importFrom mlr3pipelines po as_graph %>>% pipeline_greplicate gunion Graph ppl
-#' @importFrom pammtools as_ped
 "_PACKAGE"
 # nolint end
 
