@@ -16,7 +16,7 @@ Type of the plot. Available choices:
 \item \code{"freq"}: histogram frequency plot with \code{\link[ggplot2:geom_histogram]{ggplot2::geom_histogram()}}.
 \item \code{"overlay"}: histogram with overlaid density plot with \code{\link[ggplot2:geom_histogram]{ggplot2::geom_histogram()}} and
 \code{\link[ggplot2:geom_density]{ggplot2::geom_density()}}.
-\item \code{"freqpoly"}: frequency polygon plot with \code{ggplot2::geom_freqpoly}.
+\item \code{"freqpoly"}: frequency polygon plot with \link[ggplot2:geom_histogram]{ggplot2::geom_freqpoly}.
 }}
 
 \item{theme}{(\code{\link[ggplot2:theme]{ggplot2::theme()}})\cr
