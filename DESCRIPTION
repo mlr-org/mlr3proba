@@ -91,6 +91,7 @@ Collate:
     'MeasureSurvDCalibration.R'
     'MeasureSurvGraf.R'
     'MeasureSurvHungAUC.R'
+    'MeasureSurvICI.R'
     'MeasureSurvIntLogloss.R'
     'MeasureSurvLogloss.R'
     'MeasureSurvMAE.R'

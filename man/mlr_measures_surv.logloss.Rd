@@ -111,6 +111,7 @@ Sonabend, Raphael, Zobolas, John, Kopper, Philipp, Burk, Lukas, Bender, Andreas 
 Other survival measures: 
 \code{\link{mlr_measures_surv.calib_alpha}},
 \code{\link{mlr_measures_surv.calib_beta}},
+\code{\link{mlr_measures_surv.calib_index}},
 \code{\link{mlr_measures_surv.chambless_auc}},
 \code{\link{mlr_measures_surv.cindex}},
 \code{\link{mlr_measures_surv.dcalib}},
@@ -140,6 +141,7 @@ Other Probabilistic survival measures:
 
 Other distr survival measures: 
 \code{\link{mlr_measures_surv.calib_alpha}},
+\code{\link{mlr_measures_surv.calib_index}},
 \code{\link{mlr_measures_surv.dcalib}},
 \code{\link{mlr_measures_surv.graf}},
 \code{\link{mlr_measures_surv.intlogloss}},
