@@ -97,6 +97,7 @@ PipeOpTaskSurvClassifDiscTime = R6Class("PipeOpTaskSurvClassifDiscTime",
       )
       super$initialize(
         id = id,
+        packages = c("pammtools"),
         param_set = param_set,
         input = data.table(
           name    = "input",

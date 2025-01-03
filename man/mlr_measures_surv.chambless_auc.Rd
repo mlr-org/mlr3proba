@@ -100,6 +100,7 @@ Chambless LE, Diao G (2006).
 Other survival measures: 
 \code{\link{mlr_measures_surv.calib_alpha}},
 \code{\link{mlr_measures_surv.calib_beta}},
+\code{\link{mlr_measures_surv.calib_index}},
 \code{\link{mlr_measures_surv.cindex}},
 \code{\link{mlr_measures_surv.dcalib}},
 \code{\link{mlr_measures_surv.graf}},

@@ -17,7 +17,6 @@
 #' @template param_predict_types
 #' @template param_feature_types
 #' @template param_learner_properties
-#' @template param_data_formats
 #' @template param_packages
 #' @template param_label
 #' @template param_man

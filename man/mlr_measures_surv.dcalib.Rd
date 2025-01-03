@@ -95,6 +95,7 @@ Haider, Humza, Hoehn, Bret, Davis, Sarah, Greiner, Russell (2020).
 Other survival measures: 
 \code{\link{mlr_measures_surv.calib_alpha}},
 \code{\link{mlr_measures_surv.calib_beta}},
+\code{\link{mlr_measures_surv.calib_index}},
 \code{\link{mlr_measures_surv.chambless_auc}},
 \code{\link{mlr_measures_surv.cindex}},
 \code{\link{mlr_measures_surv.graf}},
@@ -118,10 +119,12 @@ Other survival measures:
 
 Other calibration survival measures: 
 \code{\link{mlr_measures_surv.calib_alpha}},
-\code{\link{mlr_measures_surv.calib_beta}}
+\code{\link{mlr_measures_surv.calib_beta}},
+\code{\link{mlr_measures_surv.calib_index}}
 
 Other distr survival measures: 
 \code{\link{mlr_measures_surv.calib_alpha}},
+\code{\link{mlr_measures_surv.calib_index}},
 \code{\link{mlr_measures_surv.graf}},
 \code{\link{mlr_measures_surv.intlogloss}},
 \code{\link{mlr_measures_surv.logloss}},

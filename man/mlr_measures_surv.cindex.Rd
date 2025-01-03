@@ -138,6 +138,7 @@ Uno H, Cai T, Pencina MJ, D'Agostino RB, Wei LJ (2011).
 Other survival measures: 
 \code{\link{mlr_measures_surv.calib_alpha}},
 \code{\link{mlr_measures_surv.calib_beta}},
+\code{\link{mlr_measures_surv.calib_index}},
 \code{\link{mlr_measures_surv.chambless_auc}},
 \code{\link{mlr_measures_surv.dcalib}},
 \code{\link{mlr_measures_surv.graf}},

@@ -54,8 +54,8 @@ library(mlr3proba)
 library(ggplot2)
 
 task = tsk("lung")
+task$head()
 
-head(fortify(task))
 autoplot(task) # KM
 autoplot(task) # KM of the censoring distribution
 autoplot(task, rhs = "sex")
