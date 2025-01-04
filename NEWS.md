@@ -1,3 +1,11 @@
+# mlr3proba 0.7.3
+
+* feat: added new calibration measure => `msr("surv.calib_index")`
+* refactor: `autoplot.PredictionSurv`
+  * The default `"calib"` plot uses the survival matrix directly now (so faster)
+  * `"dcalib"` has extra barplot + better documentation
+  * **BREAKING CHANGE**: `"preds"` is now called `"isd"` (individual survival distribution) and `row_ids` can be used to filter the observations for which you draw the survival curves.
+
 # mlr3proba 0.7.2
 
 * fix: `lrn("surv.coxph")` is now trained with `model=TRUE` which fixes an issue with using observation weights [stackoverflow link](https://stackoverflow.com/questions/79297386/mlr3-predicted-values-for-surv-coxph-learner-with-case-weights).
