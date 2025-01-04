@@ -10,6 +10,7 @@
   times = NULL,
   row_ids = NULL,
   cuts = 11L,
+  time = NULL,
   theme = theme_minimal(),
   ...
 )
@@ -31,6 +32,10 @@ we draw their predicted survival distributions.}
 \item{cuts}{(\code{integer(1)}) \cr
 Number of cuts in \eqn{(0,1)} to plot \code{dcalib} over, default is \code{11}.}
 
+\item{time}{(\code{numeric(1)}) \cr
+The specific time point at which the smoothed calibration plot is created.
+Must be always provided if \code{type = "scalib"}.}
+
 \item{theme}{(\code{\link[ggplot2:theme]{ggplot2::theme()}})\cr
 The \code{\link[ggplot2:ggtheme]{ggplot2::theme_minimal()}} is applied by default to all plots.}
 
@@ -49,10 +54,17 @@ proportion of observed outcomes occurring before the predicted time quantile,
 matches \code{p}. For example, 50\% of events should occur before the predicted
 median survival time (i.e. the time corresponding to a predicted survival
 probability of 0.5).
-This means that the resulting line plot will lie close to the straight line
-y = x.
+Good calibration means that the resulting line plot will lie close to the
+straight line \eqn{y = x}.
 Note that we impute \code{NA}s from the predicted quantile function with the
 maximum observed outcome time.
+\item \code{"scalib"}: \strong{Smoothed calibration plot} at a specific time point.
+For a range of predicted probabilities of event occurrence in \eqn{[0,1]} (x-axis),
+the y-axis has the smoothed observed proportions calculated using hazard
+regression.
+See Austin et al. (2020) and \link{MeasureSurvICI} for more details.
+Good calibration means that the resulting line plot will lie close to the
+straight line \eqn{y = x}.
 \item \code{"isd"}: Plot the predicted \strong{i}ndividual \strong{s}urvival \strong{d}istributions
 (survival curves) for observations from the test set.
 }
@@ -86,6 +98,9 @@ autoplot(p, times = seq(1, 1000, 5))
 # Distribution-calibration (D-Calibration)
 autoplot(p, type = "dcalib")
 
+# Smoothed Calibration (S-Calibration)
+autoplot(p, type = "scalib", time = 750)
+
 # Predicted survival curves (all observations)
 autoplot(p, type = "isd")
 
@@ -98,4 +113,9 @@ Haider, Humza, Hoehn, Bret, Davis, Sarah, Greiner, Russell (2020).
 \dQuote{Effective Ways to Build and Evaluate Individual Survival Distributions.}
 \emph{Journal of Machine Learning Research}, \bold{21}(85), 1--63.
 \url{https://jmlr.org/papers/v21/18-772.html}.
+
+Austin, C. P, Harrell, E. F, van Klaveren, David (2020).
+\dQuote{Graphical calibration curves and the integrated calibration index (ICI) for survival models.}
+\emph{Statistics in Medicine}, \bold{39}(21), 2714.
+ISSN 10970258, \doi{10.1002/SIM.8570}, \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC7497089/}.
 }

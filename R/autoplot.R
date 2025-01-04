@@ -168,10 +168,17 @@ plot.TaskDens = function(x, ...) {
 #' matches `p`. For example, 50% of events should occur before the predicted
 #' median survival time (i.e. the time corresponding to a predicted survival
 #' probability of 0.5).
-#' This means that the resulting line plot will lie close to the straight line
-#' y = x.
+#' Good calibration means that the resulting line plot will lie close to the
+#' straight line \eqn{y = x}.
 #' Note that we impute `NA`s from the predicted quantile function with the
 #' maximum observed outcome time.
+#' - `"scalib"`: **Smoothed calibration plot** at a specific time point.
+#' For a range of predicted probabilities of event occurrence in \eqn{[0,1]} (x-axis),
+#' the y-axis has the smoothed observed proportions calculated using hazard
+#' regression.
+#' See Austin et al. (2020) and [MeasureSurvICI] for more details.
+#' Good calibration means that the resulting line plot will lie close to the
+#' straight line \eqn{y = x}.
 #' - `"isd"`: Plot the predicted **i**ndividual **s**urvival **d**istributions
 #' (survival curves) for observations from the test set.
 #'
@@ -193,6 +200,9 @@ plot.TaskDens = function(x, ...) {
 #'  if `NULL` uses all time points from the predicted survival matrix (`object$data$distr`).
 #' @param cuts (`integer(1)`) \cr
 #'  Number of cuts in \eqn{(0,1)} to plot `dcalib` over, default is `11`.
+#' @param time (`numeric(1)`) \cr
+#'  The specific time point at which the smoothed calibration plot is created.
+#'  Must be always provided if `type = "scalib"`.
 #' @template param_theme
 #' @param ... (`any`):
 #'   Additional arguments, currently unused.
@@ -200,7 +210,7 @@ plot.TaskDens = function(x, ...) {
 #' @template section_theme
 #'
 #' @references
-#' `r format_bib("haider_2020")`
+#' `r format_bib("haider_2020", "austin2020")`
 #'
 #' @examplesIf mlr3misc::require_namespaces(c("mlr3viz", "ggplot2"), quietly = TRUE)
 #' library(mlr3)
@@ -220,6 +230,9 @@ plot.TaskDens = function(x, ...) {
 #' # Distribution-calibration (D-Calibration)
 #' autoplot(p, type = "dcalib")
 #'
+#' # Smoothed Calibration (S-Calibration)
+#' autoplot(p, type = "scalib", time = 750)
+#'
 #' # Predicted survival curves (all observations)
 #' autoplot(p, type = "isd")
 #'
@@ -228,8 +241,8 @@ plot.TaskDens = function(x, ...) {
 #'
 #' @export
 autoplot.PredictionSurv = function(object, type = "calib",
-  times = NULL, row_ids = NULL, cuts = 11L, theme = theme_minimal(), ...) {
-  assert_choice(type, c("calib", "dcalib", "isd"), null.ok = FALSE)
+  times = NULL, row_ids = NULL, cuts = 11L, time = NULL, theme = theme_minimal(), ...) {
+  assert_choice(type, c("calib", "dcalib", "scalib", "isd"), null.ok = FALSE)
   assert("distr" %in% object$predict_types)
   assert_number(cuts, na.ok = FALSE, lower = 1L, null.ok = FALSE)
   assert_numeric(row_ids, any.missing = FALSE, lower = 1, null.ok = TRUE)
@@ -292,13 +305,62 @@ autoplot.PredictionSurv = function(object, type = "calib",
       })
 
       ggplot(data = data.table(p, q), aes(x = p, y = q)) +
-        geom_bar(stat = "identity", fill = "skyblue", color = "black") +
-        geom_line(color = "red") +
+        geom_bar(stat = "identity", fill = "#5dadc8") +
+        geom_line(color = "black") +
         scale_x_continuous(breaks = p) +
-        annotate("segment", x = 0, y = 0, xend = 1, yend = 1, color = "black",
+        annotate("segment", x = 0, y = 0, xend = 1, yend = 1, alpha = 0.5,
                  linetype = "dashed") +
         labs(x = "Survival Probability (Bins)",
              y = "Observed Proportion") +
+        theme
+    },
+
+    "scalib" = {
+      requireNamespace("polspline")
+      # test set survival outcome
+      times  = object$truth[, 1L]
+      status = object$truth[, 2L]
+      # time point for plotting calibration curve
+      time = assert_number(time, na.ok = FALSE, lower = 0, null.ok = FALSE)
+
+      # get predicted survival matrix
+      if (inherits(object$data$distr, "array")) {
+        surv = object$data$distr
+        if (length(dim(surv)) == 3L) {
+          # survival 3d array, extract median
+          surv = .ext_surv_mat(arr = surv, which.curve = 0.5)
+        }
+      } else {
+        stop("Distribution prediction does not have a survival matrix or array
+             in the $data$distr slot")
+      }
+
+      # get cdf at the specified time point
+      extend_times_cdf = getFromNamespace("C_Vec_WeightedDiscreteCdf", ns = "distr6")
+      pred_times = as.numeric(colnames(surv))
+      cdf = as.vector(extend_times_cdf(time, pred_times, cdf = t(1 - surv), TRUE, FALSE))
+      # to avoid log(0) later, same as in paper's Appendix
+      cdf[cdf == 1] = 0.9999
+
+      # get the cdf complement (survival) log-log transformed
+      cll = log(-log(1 - cdf))
+
+      hare_fit = polspline::hare(data = times, delta = status, cov = as.matrix(cll))
+
+      # make a wide-range of cdf probabilities
+      cdf_grid = seq(0.001, 0.999, 0.001)
+      cll_grid = log(-log(1 - cdf_grid))
+
+      smoothed_cdf_grid = polspline::phare(q = time, cov = cll_grid, fit = hare_fit)
+      data = data.table(pred = cdf_grid, obs = smoothed_cdf_grid)
+
+      ggplot(data, aes(x = pred, y = obs)) +
+        geom_line() +
+        annotate("segment", x = 0, y = 0, xend = 1, yend = 1, alpha = 0.5,
+                 linetype = "dashed") +
+        labs(x = "Predicted probability",
+             y = "Observed probability",
+             title = paste0("t = ", time)) +
         theme
     },
 
@@ -315,9 +377,8 @@ autoplot.PredictionSurv = function(object, type = "calib",
         data = data[get("row_id") %in% row_ids]
       }
 
-      p =
-        ggplot(data, aes(x = .data[["time"]], y = .data[["surv_prob"]],
-                         group = .data[["row_id"]], color = .data[["row_id"]])) +
+      p = ggplot(data, aes(x = .data[["time"]], y = .data[["surv_prob"]],
+                           group = .data[["row_id"]], color = .data[["row_id"]])) +
         geom_line() +
         labs(x = "Time", y = "Survival Probability") +
         theme
