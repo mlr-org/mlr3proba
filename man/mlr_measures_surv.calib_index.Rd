@@ -5,10 +5,28 @@
 \alias{MeasureSurvICI}
 \title{Integrated Calibration Index Survival Measure}
 \description{
-Calculates the Integrated Calibration Index (ICI), which is the absolute
-difference between predicted survival probabilities and smoothed survival
-frequencies (calculated using hazard regression via the \CRANpkg{polspline})
-at a specific time point.
+Calculates the Integrated Calibration Index (ICI), see Austin et al. (2020).
+}
+\details{
+Each individual \eqn{i} from the test set, has an observed survival outcome
+\eqn{(t_i, \delta_i)} (time and censoring indicator) and predicted survival
+function \eqn{S_i(t)}.
+The predicted probability of an event occurring before a specific time point
+\eqn{t_0}, is defined as \eqn{\hat{P_i}(t_0) = F_i(t_0) = 1 - S_i(t_0)}.
+
+Using hazard regression (via the \CRANpkg{polspline} R package), a \emph{smoothed}
+calibration curve is estimated by fitting the following model:
+\deqn{log(h(t)) = g(log(− log(1 − \hat{P}_{t_0})), t)}
+
+Any \eqn{\hat{P}_{t_0} = 1} is set to \eqn{0.9999} to avoid calculating \eqn{log(0)}.
+From this model, the \emph{smoothed} probability of occurrence at \eqn{t_0} for
+observation \eqn{i} is obtained as \eqn{\hat{P}_i^c(t_0)}.
+
+The \strong{Integrated Calibration Index} is then computed as:
+\deqn{ICI = \frac{1}{N} \sum_{i=1}^N | \hat{P}_i^c(t_0) - \hat{P}_i(t_0) |}
+
+This measure evaluates \strong{point-calibration} at a specific time point, which
+must be specified by the user.
 }
 \section{Dictionary}{
 
@@ -42,13 +60,46 @@ msr("surv.calib_index")
 \section{Parameter details}{
 
 \itemize{
-\item \code{eps} (\code{numeric(1)})\cr
-Very small number to substitute zero values in order to prevent errors
-in e.g. log(0) and/or division-by-zero calculations.
-Default value is 1e-04.
+\item \code{time} (\code{numeric(1)})\cr
+The specific time point \eqn{t_0} at which calibration is evaluated.
+If \code{NULL}, the median observed time from the test set is used.
+\item \code{method} (\code{character(1)})\cr
+Specifies the summary statistic used to calculate the final calibration score.
+\itemize{
+\item \code{"ICI"} (default): Uses the mean of absolute differences \eqn{| \hat{P}_i^c(t_0) - \hat{P}_i(t_0) |} across all observations.
+\item \code{"E50"}: Uses the median of absolute differences instead of the mean.
+\item \code{"E90"}: Uses the 90th percentile of absolute differences, emphasizing higher deviations.
+\item \code{"Emax"}: Uses the maximum absolute difference, capturing the largest discrepancy between predicted and smoothed probabilities.
+}
 }
 }
 
+\examples{
+library(mlr3)
+
+# Define a survival Task
+task = tsk("lung")
+
+# Create train and test set
+part = partition(task)
+
+# Train Cox learner on the train set
+cox = lrn("surv.coxph")
+cox$train(task, row_ids = part$train)
+
+# Make predictions for the test set
+p = cox$predict(task, row_ids = part$test)
+
+# ICI at median test time
+p$score(msr("surv.calib_index"))
+
+# ICI at specific time point
+p$score(msr("surv.calib_index", time = 365))
+
+# E50 at specific time point
+p$score(msr("surv.calib_index", method = "E50", time = 365))
+
+}
 \references{
 Austin, C. P, Harrell, E. F, van Klaveren, David (2020).
 \dQuote{Graphical calibration curves and the integrated calibration index (ICI) for survival models.}
