@@ -59,14 +59,14 @@ autoplot.TaskSurv = function(object, type = "target", theme = theme_minimal(), r
     },
 
     "duo" = {
-      GGally::ggduo(object,
+      GGally::ggduo(object$data(),
         columnsX = object$target_names,
         columnsY = object$feature_names, ...) +
         theme
     },
 
     "pairs" = {
-      GGally::ggpairs(object, ...) +
+      GGally::ggpairs(object$data(), ...) +
         theme
     },
 
@@ -115,7 +115,7 @@ plot.TaskSurv = function(x, ...) {
 autoplot.TaskDens = function(object, type = "dens", theme = theme_minimal(), ...) { # nolint
   assert_choice(type, c("dens", "freq", "overlay", "freqpoly"), null.ok = FALSE)
 
-  p = ggplot(data = object, aes(x = .data[[object$feature_names]]), ...)
+  p = ggplot(data = object$data(), aes(x = .data[[object$feature_names]]), ...)
 
   switch(type,
     "dens" = {
