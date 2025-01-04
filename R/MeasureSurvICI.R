@@ -138,7 +138,7 @@ MeasureSurvICI = R6Class("MeasureSurvICI",
         result = stats::median(abs(cdf - smoothed_cdf))
       } else if (method == "E90") {
         # 90th percentile (E90)
-        result = stats::quantile(abs(cdf - smoothed_cdf), probs = 0.90)
+        result = stats::quantile(abs(cdf - smoothed_cdf), probs = 0.9)
       } else if (method == "Emax") {
         # Maximum absolute difference (Emax)
         result = max(abs(cdf - smoothed_cdf))
