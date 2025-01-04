@@ -16,7 +16,9 @@
 #' calibration curve is estimated by fitting the following model:
 #' \deqn{log(h(t)) = g(log(− log(1 − \hat{P}_{t_0})), t)}
 #'
-#' Any \eqn{\hat{P}_{t_0} = 1} is set to \eqn{0.9999} to avoid calculating \eqn{log(0)}.
+#' Note that we substitute any \eqn{\hat{P}_{t_0} = 1} with \eqn{0.9999} and any
+#' \eqn{\hat{P}_{t_0} = 0} with \eqn{0.0001} to avoid arithmetic issues arising
+#' from calculating \eqn{log(0)}.
 #' From this model, the *smoothed* probability of occurrence at \eqn{t_0} for
 #' observation \eqn{i} is obtained as \eqn{\hat{P}_i^c(t_0)}.
 #'
@@ -119,6 +121,7 @@ MeasureSurvICI = R6Class("MeasureSurvICI",
       cdf = as.vector(extend_times_cdf(time, pred_times, cdf = t(1 - surv), TRUE, FALSE))
       # to avoid log(0) later, same as in paper's Appendix
       cdf[cdf == 1] = 0.9999
+      cdf[cdf == 0] = 0.0001
 
       # get the cdf complement (survival) log-log transformed
       cll = log(-log(1 - cdf))

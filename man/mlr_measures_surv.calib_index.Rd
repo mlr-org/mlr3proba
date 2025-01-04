@@ -18,7 +18,9 @@ Using hazard regression (via the \CRANpkg{polspline} R package), a \emph{smoothe
 calibration curve is estimated by fitting the following model:
 \deqn{log(h(t)) = g(log(− log(1 − \hat{P}_{t_0})), t)}
 
-Any \eqn{\hat{P}_{t_0} = 1} is set to \eqn{0.9999} to avoid calculating \eqn{log(0)}.
+Note that we substitute any \eqn{\hat{P}_{t_0} = 1} with \eqn{0.9999} and any
+\eqn{\hat{P}_{t_0} = 0} with \eqn{0.0001} to avoid arithmetic issues arising
+from calculating \eqn{log(0)}.
 From this model, the \emph{smoothed} probability of occurrence at \eqn{t_0} for
 observation \eqn{i} is obtained as \eqn{\hat{P}_i^c(t_0)}.
 
