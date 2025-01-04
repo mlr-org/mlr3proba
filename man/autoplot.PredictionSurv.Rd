@@ -23,18 +23,19 @@ Type of the plot, see Description.}
 
 \item{times}{(\code{numeric()}) \cr
 If \code{type = "calib"} then \code{times} is the values on the x-axis to plot over.
-if \code{NULL} uses all time points from the predicted survival matrix (\code{object$data$distr}).}
+If \code{NULL}, we use all time points from the predicted survival matrix (\code{object$data$distr}).}
 
 \item{row_ids}{(\code{integer()}) \cr
 If \code{type = "isd"}, specific observation ids (from the test set) for which
 we draw their predicted survival distributions.}
 
 \item{cuts}{(\code{integer(1)}) \cr
-Number of cuts in \eqn{(0,1)} to plot \code{dcalib} over, default is \code{11}.}
+If \code{type = "calib"}, number of cuts in \eqn{(0,1)}, which define the bins on
+the x-axis of the D-calibration plot. Default is \code{11}.}
 
 \item{time}{(\code{numeric(1)}) \cr
-The specific time point at which the smoothed calibration plot is created.
-Must be always provided if \code{type = "scalib"}.}
+If \code{type = "scalib"}, a specific time point at which the smoothed calibration
+plot is constructed.}
 
 \item{theme}{(\code{\link[ggplot2:theme]{ggplot2::theme()}})\cr
 The \code{\link[ggplot2:ggtheme]{ggplot2::theme_minimal()}} is applied by default to all plots.}
@@ -59,14 +60,14 @@ straight line \eqn{y = x}.
 Note that we impute \code{NA}s from the predicted quantile function with the
 maximum observed outcome time.
 \item \code{"scalib"}: \strong{Smoothed calibration plot} at a specific time point.
-For a range of predicted probabilities of event occurrence in \eqn{[0,1]} (x-axis),
+For a range of probabilities of event occurrence in \eqn{[0,1]} (x-axis),
 the y-axis has the smoothed observed proportions calculated using hazard
-regression.
+regression (model is fitted using the predicted probabilities).
 See Austin et al. (2020) and \link{MeasureSurvICI} for more details.
 Good calibration means that the resulting line plot will lie close to the
 straight line \eqn{y = x}.
 \item \code{"isd"}: Plot the predicted \strong{i}ndividual \strong{s}urvival \strong{d}istributions
-(survival curves) for observations from the test set.
+(survival curves) for the test set's observations.
 }
 }
 \section{Notes}{
@@ -87,7 +88,7 @@ library(mlr3viz)
 
 learner = lrn("surv.coxph")
 task = tsk("gbcs")
-p = learner$train(task, row_ids = 1:300)$predict(task, row_ids = 301:400)
+p = learner$train(task, row_ids = 1:600)$predict(task, row_ids = 601:686)
 
 # calibration by comparison of average prediction to Kaplan-Meier
 autoplot(p)
@@ -99,13 +100,13 @@ autoplot(p, times = seq(1, 1000, 5))
 autoplot(p, type = "dcalib")
 
 # Smoothed Calibration (S-Calibration)
-autoplot(p, type = "scalib", time = 750)
+autoplot(p, type = "scalib", time = 1750)
 
 # Predicted survival curves (all observations)
 autoplot(p, type = "isd")
 
 # Predicted survival curves (specific observations)
-autoplot(p, type = "isd", row_ids = c(301, 351, 399))
+autoplot(p, type = "isd", row_ids = c(601, 651, 686))
 \dontshow{\}) # examplesIf}
 }
 \references{

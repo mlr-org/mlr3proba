@@ -173,14 +173,14 @@ plot.TaskDens = function(x, ...) {
 #' Note that we impute `NA`s from the predicted quantile function with the
 #' maximum observed outcome time.
 #' - `"scalib"`: **Smoothed calibration plot** at a specific time point.
-#' For a range of predicted probabilities of event occurrence in \eqn{[0,1]} (x-axis),
+#' For a range of probabilities of event occurrence in \eqn{[0,1]} (x-axis),
 #' the y-axis has the smoothed observed proportions calculated using hazard
-#' regression.
+#' regression (model is fitted using the predicted probabilities).
 #' See Austin et al. (2020) and [MeasureSurvICI] for more details.
 #' Good calibration means that the resulting line plot will lie close to the
 #' straight line \eqn{y = x}.
 #' - `"isd"`: Plot the predicted **i**ndividual **s**urvival **d**istributions
-#' (survival curves) for observations from the test set.
+#' (survival curves) for the test set's observations.
 #'
 #' @section Notes:
 #'
@@ -197,12 +197,13 @@ plot.TaskDens = function(x, ...) {
 #'  we draw their predicted survival distributions.
 #' @param times (`numeric()`) \cr
 #'  If `type = "calib"` then `times` is the values on the x-axis to plot over.
-#'  if `NULL` uses all time points from the predicted survival matrix (`object$data$distr`).
+#'  If `NULL`, we use all time points from the predicted survival matrix (`object$data$distr`).
 #' @param cuts (`integer(1)`) \cr
-#'  Number of cuts in \eqn{(0,1)} to plot `dcalib` over, default is `11`.
+#'  If `type = "calib"`, number of cuts in \eqn{(0,1)}, which define the bins on
+#'  the x-axis of the D-calibration plot. Default is `11`.
 #' @param time (`numeric(1)`) \cr
-#'  The specific time point at which the smoothed calibration plot is created.
-#'  Must be always provided if `type = "scalib"`.
+#'  If `type = "scalib"`, a specific time point at which the smoothed calibration
+#'  plot is constructed.
 #' @template param_theme
 #' @param ... (`any`):
 #'   Additional arguments, currently unused.
@@ -219,7 +220,7 @@ plot.TaskDens = function(x, ...) {
 #'
 #' learner = lrn("surv.coxph")
 #' task = tsk("gbcs")
-#' p = learner$train(task, row_ids = 1:300)$predict(task, row_ids = 301:400)
+#' p = learner$train(task, row_ids = 1:600)$predict(task, row_ids = 601:686)
 #'
 #' # calibration by comparison of average prediction to Kaplan-Meier
 #' autoplot(p)
@@ -231,13 +232,13 @@ plot.TaskDens = function(x, ...) {
 #' autoplot(p, type = "dcalib")
 #'
 #' # Smoothed Calibration (S-Calibration)
-#' autoplot(p, type = "scalib", time = 750)
+#' autoplot(p, type = "scalib", time = 1750)
 #'
 #' # Predicted survival curves (all observations)
 #' autoplot(p, type = "isd")
 #'
 #' # Predicted survival curves (specific observations)
-#' autoplot(p, type = "isd", row_ids = c(301, 351, 399))
+#' autoplot(p, type = "isd", row_ids = c(601, 651, 686))
 #'
 #' @export
 autoplot.PredictionSurv = function(object, type = "calib",
