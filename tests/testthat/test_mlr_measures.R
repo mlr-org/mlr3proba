@@ -119,6 +119,28 @@ test_that("calib_alpha works", {
   expect_equal(unname(pred$score(m3)), -1)
 })
 
+test_that("calib_index works", {
+  m = msr("surv.calib_index")
+  expect_equal(m$range, c(0, Inf))
+  expect_true(m$minimize)
+  expect_equal(m$param_set$values$method, "ICI")
+  res = pred$score(m)
+  expect_gt(res, 0)
+
+  m2 = msr("surv.calib_index", method = "E90")
+  expect_equal(m2$param_set$values$method, "E90")
+  res2 = pred$score(m2)
+  expect_gt(res2, res)
+
+  m3 = msr("surv.calib_index", method = "Emax")
+  expect_equal(m3$param_set$values$method, "Emax")
+  expect_gt(pred$score(m3), res2)
+
+  m4 = msr("surv.calib_index", time = 100)
+  expect_equal(m4$param_set$values$time, 100)
+  expect_false(pred$score(m4) == res)
+})
+
 test_that("graf training data for weights", {
   m = msr("surv.graf", proper = TRUE)
   t = tsk("rats")
