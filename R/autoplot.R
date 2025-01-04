@@ -312,7 +312,7 @@ autoplot.PredictionSurv = function(object, type = "calib",
 
       # filter data to specific ids
       if (!is.null(row_ids)) {
-        data = data[row_id %in% row_ids]
+        data = data[get("row_id") %in% row_ids]
       }
 
       p =

@@ -80,10 +80,10 @@ MeasureSurvICI = R6Class("MeasureSurvICI",
         result = mean(abs(cdf - cdf_hare))
       } else if (method == "E50") {
         # Median (E50)
-        result = median(abs(cdf - cdf_hare))
+        result = stats::median(abs(cdf - cdf_hare))
       } else if (method == "E90") {
         # 90th percentile (E90)
-        result = quantile(abs(cdf - cdf_hare), probs = 0.90)
+        result = stats::quantile(abs(cdf - cdf_hare), probs = 0.90)
       } else if (method == "Emax") {
         # Maximum absolute difference (Emax)
         result = max(abs(cdf - cdf_hare))
