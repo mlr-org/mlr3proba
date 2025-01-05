@@ -18,9 +18,9 @@ Using hazard regression (via the \CRANpkg{polspline} R package), a \emph{smoothe
 calibration curve is estimated by fitting the following model:
 \deqn{log(h(t)) = g(log(− log(1 − \hat{P}_{t_0})), t)}
 
-Note that we substitute any \eqn{\hat{P}_{t_0} = 1} with \eqn{0.9999} and any
-\eqn{\hat{P}_{t_0} = 0} with \eqn{0.0001} to avoid arithmetic issues arising
-from calculating \eqn{log(0)}.
+Note that we substitute probabilities \eqn{\hat{P}_{t_0} = 0} with a small
+\eqn{\epsilon} number to avoid arithmetic issues (\eqn{log(0)}). Same with
+\eqn{\hat{P}_{t_0} = 1}, we use \eqn{1 - \epsilon}.
 From this model, the \emph{smoothed} probability of occurrence at \eqn{t_0} for
 observation \eqn{i} is obtained as \eqn{\hat{P}_i^c(t_0)}.
 
@@ -45,6 +45,7 @@ msr("surv.calib_index")
 \tabular{lllll}{
    Id \tab Type \tab Default \tab Levels \tab Range \cr
    time \tab numeric \tab - \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   eps \tab numeric \tab 1e-04 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    method \tab character \tab ICI \tab ICI, E50, E90, Emax \tab - \cr
 }
 }
@@ -60,6 +61,14 @@ msr("surv.calib_index")
 }
 
 \section{Parameter details}{
+
+\itemize{
+\item \code{eps} (\code{numeric(1)})\cr
+Very small number to substitute zero values in order to prevent errors
+in e.g. log(0) and/or division-by-zero calculations.
+Default value is 1e-04.
+}
+
 
 \itemize{
 \item \code{time} (\code{numeric(1)})\cr

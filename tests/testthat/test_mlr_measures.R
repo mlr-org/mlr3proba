@@ -123,10 +123,12 @@ test_that("calib_index works", {
   m = msr("surv.calib_index")
   expect_equal(m$range, c(0, Inf))
   expect_true(m$minimize)
-  expect_equal(m$param_set$values$method, "ICI")
+  expect_equal(m$param_set$values$method, "ICI") # mean abs diffs
+  expect_equal(m$param_set$values$eps, 0.0001)
   res = pred$score(m)
   expect_gt(res, 0)
 
+  # scores for E90 and Emax represent more extreme (larger) differences than the mean
   m2 = msr("surv.calib_index", method = "E90")
   expect_equal(m2$param_set$values$method, "E90")
   res2 = pred$score(m2)
@@ -136,6 +138,7 @@ test_that("calib_index works", {
   expect_equal(m3$param_set$values$method, "Emax")
   expect_gt(pred$score(m3), res2)
 
+  # different time point
   m4 = msr("surv.calib_index", time = 100)
   expect_equal(m4$param_set$values$time, 100)
   expect_false(pred$score(m4) == res)

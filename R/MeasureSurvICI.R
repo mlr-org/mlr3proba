@@ -1,6 +1,8 @@
 #' @template surv_measure
 #' @templateVar title Integrated Calibration Index
 #' @templateVar fullname MeasureSurvICI
+#' @templateVar eps 1e-4
+#' @template param_eps
 #'
 #' @description
 #' Calculates the Integrated Calibration Index (ICI), see Austin et al. (2020).
@@ -16,9 +18,9 @@
 #' calibration curve is estimated by fitting the following model:
 #' \deqn{log(h(t)) = g(log(− log(1 − \hat{P}_{t_0})), t)}
 #'
-#' Note that we substitute any \eqn{\hat{P}_{t_0} = 1} with \eqn{0.9999} and any
-#' \eqn{\hat{P}_{t_0} = 0} with \eqn{0.0001} to avoid arithmetic issues arising
-#' from calculating \eqn{log(0)}.
+#' Note that we substitute probabilities \eqn{\hat{P}_{t_0} = 0} with a small
+#' \eqn{\epsilon} number to avoid arithmetic issues (\eqn{log(0)}). Same with
+#' \eqn{\hat{P}_{t_0} = 1}, we use \eqn{1 - \epsilon}.
 #' From this model, the *smoothed* probability of occurrence at \eqn{t_0} for
 #' observation \eqn{i} is obtained as \eqn{\hat{P}_i^c(t_0)}.
 #'
@@ -77,9 +79,10 @@ MeasureSurvICI = R6Class("MeasureSurvICI",
     initialize = function() {
       param_set = ps(
         time = p_dbl(0, Inf),
+        eps = p_dbl(0, 1, default = 1e-4),
         method = p_fct(default = "ICI", levels = c("ICI", "E50", "E90", "Emax"))
       )
-      param_set$set_values(method = "ICI")
+      param_set$set_values(method = "ICI", eps = 1e-4)
 
       super$initialize(
         id = "surv.calib_index",
@@ -112,16 +115,19 @@ MeasureSurvICI = R6Class("MeasureSurvICI",
              in the $data$distr slot")
       }
 
+      pv = self$param_set$values
+
       # time point for calibration
-      time = self$param_set$values$time %??% median(times)
+      time = pv$time %??% median(times)
 
       # get cdf at the specified time point
       extend_times_cdf = getFromNamespace("C_Vec_WeightedDiscreteCdf", ns = "distr6")
       pred_times = as.numeric(colnames(surv))
       cdf = as.vector(extend_times_cdf(time, pred_times, cdf = t(1 - surv), TRUE, FALSE))
       # to avoid log(0) later, same as in paper's Appendix
-      cdf[cdf == 1] = 0.9999
-      cdf[cdf == 0] = 0.0001
+      eps = pv$eps
+      cdf[cdf == 1] = 1 - eps
+      cdf[cdf == 0] = eps
 
       # get the cdf complement (survival) log-log transformed
       cll = log(-log(1 - cdf))
@@ -129,7 +135,7 @@ MeasureSurvICI = R6Class("MeasureSurvICI",
       hare_fit = polspline::hare(data = times, delta = status, cov = as.matrix(cll))
       smoothed_cdf = polspline::phare(q = time, cov = cll, fit = hare_fit)
 
-      method = self$param_set$values$method
+      method = pv$method
       if (method == "ICI") {
         # Mean difference (ICI)
         result = mean(abs(cdf - smoothed_cdf))
@@ -144,7 +150,7 @@ MeasureSurvICI = R6Class("MeasureSurvICI",
         result = max(abs(cdf - smoothed_cdf))
       }
 
-      return(result)
+      result
     }
   )
 )
