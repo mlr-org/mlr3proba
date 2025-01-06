@@ -24,7 +24,8 @@
 #' From this model, the *smoothed* probability of occurrence at \eqn{t_0} for
 #' observation \eqn{i} is obtained as \eqn{\hat{P}_i^c(t_0)}.
 #'
-#' The **Integrated Calibration Index** is then computed as:
+#' The **Integrated Calibration Index** is then computed across the \eqn{N}
+#' test set observations as:
 #' \deqn{ICI = \frac{1}{N} \sum_{i=1}^N | \hat{P}_i^c(t_0) - \hat{P}_i(t_0) |}
 #'
 #' This measure evaluates **point-calibration** at a specific time point, which
@@ -62,7 +63,7 @@
 #' # Make predictions for the test set
 #' p = cox$predict(task, row_ids = part$test)
 #'
-#' # ICI at median test time
+#' # ICI at median test set time
 #' p$score(msr("surv.calib_index"))
 #'
 #' # ICI at specific time point
