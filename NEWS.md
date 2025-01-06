@@ -1,10 +1,10 @@
 # mlr3proba 0.7.3
 
 * feat: added new calibration measure => `msr("surv.calib_index")`
-* refator + feat: `autoplot.PredictionSurv`
+* refactor + feat: `autoplot.PredictionSurv`
   * The default `"calib"` plot uses the survival matrix directly now which is faster
   * `"dcalib"` has extra barplot + better documentation
-  * Added new `type = "scalib"` which contructs the smoothed calibration plots as in Austin et al. (2020)
+  * Added new `type = "scalib"` which constructs the smoothed calibration plots as in Austin et al. (2020)
   * **BREAKING CHANGE**: `"preds"` is now called `"isd"` (individual survival distribution). `row_ids` can now be used to filter the observations for which you draw the survival curves.
 
 # mlr3proba 0.7.2
