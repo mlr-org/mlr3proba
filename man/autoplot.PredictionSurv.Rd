@@ -7,43 +7,38 @@
 \method{autoplot}{PredictionSurv}(
   object,
   type = "calib",
-  task = NULL,
-  row_ids = NULL,
   times = NULL,
-  xyline = TRUE,
+  row_ids = NULL,
   cuts = 11L,
+  time = NULL,
   theme = theme_minimal(),
-  extend_quantile = FALSE,
   ...
 )
 }
 \arguments{
 \item{object}{(\link{PredictionSurv}).}
 
-\item{type}{(\code{character(1)})\cr
-Name of the column giving the type of censoring. Default is 'right' censoring.}
-
-\item{task}{(\link{TaskSurv}) \cr
-If \code{type = "calib"} then \code{task} is passed to \verb{$predict} in the Kaplan-Meier learner.}
-
-\item{row_ids}{(\code{integer()}) \cr
-If \code{type = "calib"} then \code{row_ids} is passed to \verb{$predict} in the Kaplan-Meier learner.}
+\item{type}{(\code{character(1)}) \cr
+Type of the plot, see Description.}
 
 \item{times}{(\code{numeric()}) \cr
-If \code{type = "calib"} then \code{times} is the values on the x-axis to plot over,
-if \code{NULL} uses all times from \code{task}.}
+If \code{type = "calib"} then \code{times} is the values on the x-axis to plot over.
+If \code{NULL}, we use all time points from the predicted survival matrix (\code{object$data$distr}).}
 
-\item{xyline}{(\code{logical(1)}) \cr
-If \code{TRUE} (default) plots the x-y line for \code{type = "dcalib"}.}
+\item{row_ids}{(\code{integer()}) \cr
+If \code{type = "isd"}, specific observation ids (from the test set) for which
+we draw their predicted survival distributions.}
 
 \item{cuts}{(\code{integer(1)}) \cr
-Number of cuts in (0,1) to plot \code{dcalib} over, default is \code{11}.}
+If \code{type = "calib"}, number of cuts in \eqn{(0,1)}, which define the bins on
+the x-axis of the D-calibration plot. Default is \code{11}.}
+
+\item{time}{(\code{numeric(1)}) \cr
+If \code{type = "scalib"}, a specific time point at which the smoothed calibration
+plot is constructed.}
 
 \item{theme}{(\code{\link[ggplot2:theme]{ggplot2::theme()}})\cr
 The \code{\link[ggplot2:ggtheme]{ggplot2::theme_minimal()}} is applied by default to all plots.}
-
-\item{extend_quantile}{\code{(logical(1))} \cr
-If \code{TRUE} then \code{dcalib} will impute NAs from predicted quantile function with the maximum observed outcome time, e.g. if the last predicted survival probability is greater than 0.1, then the last predicted cdf is smaller than 0.9 so F^1(0.9) = NA, this would be imputed with max(times). Default is \code{FALSE}.}
 
 \item{...}{(\code{any}):
 Additional arguments, currently unused.}
@@ -51,17 +46,40 @@ Additional arguments, currently unused.}
 \description{
 Generates plots for \link{PredictionSurv}, depending on argument \code{type}:
 \itemize{
-\item \code{"calib"} (default): Calibration plot comparing the average predicted survival distribution
-to a Kaplan-Meier prediction, this is \emph{not} a comparison of a stratified \code{crank} or \code{lp}
-prediction. \code{object} must have \code{distr} prediction. \code{geom_line()} is used for comparison split
-between the prediction (\code{Pred}) and Kaplan-Meier estimate (\code{KM}). In addition labels are added
-for the x (\code{T}) and y (\code{S(T)}) axes.
-\item \code{"dcalib"}: Distribution calibration plot. A model is D-calibrated if X\% of deaths occur before
-the X/100 quantile of the predicted distribution, e.g. if 50\% of observations die before their
-predicted median survival time. A model is D-calibrated if the resulting plot lies on x = y.
-\item \code{"preds"}: Matplots the survival curves for all predictions
+\item \code{"calib"} (default): \strong{Calibration plot} comparing the average predicted
+survival distribution (\code{Pred}) to a Kaplan-Meier prediction (\code{KM}), this is
+\emph{not} a comparison of a stratified \code{crank} or \code{lp}.
+\item \code{"dcalib"}: \strong{Distribution calibration plot}.
+A model is considered D-calibrated if, for any given quantile \code{p}, the
+proportion of observed outcomes occurring before the predicted time quantile,
+matches \code{p}. For example, 50\% of events should occur before the predicted
+median survival time (i.e. the time corresponding to a predicted survival
+probability of 0.5).
+Good calibration means that the resulting line plot will lie close to the
+straight line \eqn{y = x}.
+Note that we impute \code{NA}s from the predicted quantile function with the
+maximum observed outcome time.
+\item \code{"scalib"}: \strong{Smoothed calibration plot} at a specific time point.
+For a range of probabilities of event occurrence in \eqn{[0,1]} (x-axis),
+the y-axis has the smoothed observed proportions calculated using hazard
+regression (model is fitted using the predicted probabilities).
+See Austin et al. (2020) and \link{MeasureSurvICI} for more details.
+Good calibration means that the resulting line plot will lie close to the
+straight line \eqn{y = x}.
+\item \code{"isd"}: Plot the predicted \strong{i}ndividual \strong{s}urvival \strong{d}istributions
+(survival curves) for the test set's observations.
 }
 }
+\section{Notes}{
+
+\enumerate{
+\item \code{object} must have a \code{distr} prediction, as all plot \code{type}s use the
+predicted survival distribution/matrix.
+\item \code{type = "dcalib"} is drawn a bit differently from Haider et al. (2020),
+though its still conceptually the same.
+}
+}
+
 \examples{
 \dontshow{if (mlr3misc::require_namespaces(c("mlr3viz", "ggplot2"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(mlr3)
@@ -70,16 +88,25 @@ library(mlr3viz)
 
 learner = lrn("surv.coxph")
 task = tsk("gbcs")
-p = learner$train(task, row_ids = 1:300)$predict(task, row_ids = 301:400)
+p = learner$train(task, row_ids = 1:600)$predict(task, row_ids = 601:686)
 
 # calibration by comparison of average prediction to Kaplan-Meier
-autoplot(p, type = "calib", task = task, row_ids = 301:400)
+autoplot(p)
+
+# same as above, use specific time points
+autoplot(p, times = seq(1, 1000, 5))
 
 # Distribution-calibration (D-Calibration)
-autoplot(p, type = "dcalib", extend_quantile = TRUE)
+autoplot(p, type = "dcalib")
 
-# Predictions
-autoplot(p, type = "preds")
+# Smoothed Calibration (S-Calibration)
+autoplot(p, type = "scalib", time = 1750)
+
+# Predicted survival curves (all observations)
+autoplot(p, type = "isd")
+
+# Predicted survival curves (specific observations)
+autoplot(p, type = "isd", row_ids = c(601, 651, 686))
 \dontshow{\}) # examplesIf}
 }
 \references{
@@ -87,4 +114,9 @@ Haider, Humza, Hoehn, Bret, Davis, Sarah, Greiner, Russell (2020).
 \dQuote{Effective Ways to Build and Evaluate Individual Survival Distributions.}
 \emph{Journal of Machine Learning Research}, \bold{21}(85), 1--63.
 \url{https://jmlr.org/papers/v21/18-772.html}.
+
+Austin, C. P, Harrell, E. F, van Klaveren, David (2020).
+\dQuote{Graphical calibration curves and the integrated calibration index (ICI) for survival models.}
+\emph{Statistics in Medicine}, \bold{39}(21), 2714.
+ISSN 10970258, \doi{10.1002/SIM.8570}, \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC7497089/}.
 }

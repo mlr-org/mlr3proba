@@ -1,8 +1,8 @@
 set.seed(1L)
-task = tsk("rats")$filter(sample(300, 20L))
+task = tsk("rats")$filter(sample(300, 50L))
 learner = suppressWarnings(lrn("surv.coxph")$train(task))
 pred = learner$predict(task)
-pred$data$response = 1:20
+pred$data$response = 1:50
 pred$predict_types = c(pred$predict_types, "response")
 
 test_that("mlr_measures", {
@@ -40,12 +40,9 @@ test_that("mlr_measures", {
   }
 })
 
-learner = suppressWarnings(lrn("surv.coxph")$train(task))
-prediction = learner$predict(task)
-
 test_that("unintegrated_prob_losses", {
   msr = msr("surv.logloss")
-  expect_silent(prediction$score(msr))
+  expect_silent(pred$score(msr))
 })
 
 test_that("integrated losses with use of times", {
@@ -59,28 +56,28 @@ test_that("integrated losses with use of times", {
   }
 
   # between 64 and 104
-  test_unique_times = sort(unique(prediction$truth[,1]))
-  expect_true(all(test_unique_times > 63))
+  test_unique_times = sort(unique(pred$truth[,1]))
+  expect_true(all(test_unique_times > 38))
   expect_true(all(test_unique_times < 105))
 
   # no `times` => use test set's unique time points
-  expect_silent(prediction$score(lapply(losses, msr, integrated = TRUE, proper = TRUE)))
+  expect_silent(pred$score(lapply(losses, msr, integrated = TRUE, proper = TRUE)))
   # all `times` outside the test set range
   for (loss in losses) {
-    expect_warning(prediction$score(msr(loss, integrated = TRUE, proper = TRUE, times = 34:38)), "requested times")
+    expect_warning(pred$score(msr(loss, integrated = TRUE, proper = TRUE, times = 34:38)), "requested times")
   }
   # some `times` outside the test set range
   for (loss in losses) {
-    expect_warning(prediction$score(msr(loss, integrated = TRUE, proper = TRUE, times = 100:110)), "requested times")
+    expect_warning(pred$score(msr(loss, integrated = TRUE, proper = TRUE, times = 100:110)), "requested times")
   }
   # one time point, inside the range, no warnings
-  expect_silent(prediction$score(lapply(losses, msr, integrated = FALSE, proper = TRUE, times = 80)))
+  expect_silent(pred$score(lapply(losses, msr, integrated = FALSE, proper = TRUE, times = 80)))
 })
 
 test_that("dcalib works", {
   expect_equal(
-    pchisq(prediction$score(msr("surv.dcalib", B = 14)), df = 13, lower.tail = FALSE),
-    suppressWarnings(prediction$score(msr("surv.dcalib", B = 14, chisq = TRUE)))
+    pchisq(pred$score(msr("surv.dcalib", B = 14)), df = 13, lower.tail = FALSE),
+    suppressWarnings(pred$score(msr("surv.dcalib", B = 14, chisq = TRUE)))
   )
 })
 
@@ -120,6 +117,31 @@ test_that("calib_alpha works", {
   m3 = msr("surv.calib_alpha", method = "diff", truncate = -1)
   expect_equal(m3$param_set$values$truncate, -1)
   expect_equal(unname(pred$score(m3)), -1)
+})
+
+test_that("calib_index works", {
+  m = msr("surv.calib_index")
+  expect_equal(m$range, c(0, Inf))
+  expect_true(m$minimize)
+  expect_equal(m$param_set$values$method, "ICI") # mean abs diffs
+  expect_equal(m$param_set$values$eps, 0.0001)
+  res = pred$score(m)
+  expect_gt(res, 0)
+
+  # scores for E90 and Emax represent more extreme (larger) differences than the mean
+  m2 = msr("surv.calib_index", method = "E90")
+  expect_equal(m2$param_set$values$method, "E90")
+  res2 = pred$score(m2)
+  expect_gt(res2, res)
+
+  m3 = msr("surv.calib_index", method = "Emax")
+  expect_equal(m3$param_set$values$method, "Emax")
+  expect_gt(pred$score(m3), res2)
+
+  # different time point
+  m4 = msr("surv.calib_index", time = 100)
+  expect_equal(m4$param_set$values$time, 100)
+  expect_false(pred$score(m4) == res)
 })
 
 test_that("graf training data for weights", {

@@ -25,7 +25,6 @@ NULL
 #' @importFrom utils data head tail
 #' @importFrom stats model.matrix model.frame sd predict density
 #' @importFrom survival Surv
-#' @importFrom mlr3viz fortify
 #' @importFrom utils getFromNamespace
 #' @importFrom mlr3pipelines po as_graph %>>% pipeline_greplicate gunion Graph ppl
 "_PACKAGE"
