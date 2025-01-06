@@ -33,7 +33,7 @@
 
     <a class="navbar-brand me-2" href="index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.7.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.7.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -121,28 +121,15 @@
 <div class="section level3">
 <h3 id="r-universe">R-universe<a class="anchor" aria-label="anchor" href="#r-universe"></a>
 </h3>
+<p>Install the latest released version:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"mlr3proba"</span>, repos <span class="op">=</span> <span class="st">"https://mlr-org.r-universe.dev"</span><span class="op">)</span></span></code></pre></div>
-<p>Or for easier installation going forward:</p>
-<ol style="list-style-type: decimal">
-<li>Run <code>usethis::edit_r_environ()</code> then in the file that opened add or edit <code>options</code> to look something like:</li>
-</ol>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>  raphaels1 <span class="op">=</span> <span class="st">"https://raphaels1.r-universe.dev"</span>,</span>
-<span>  mlrorg    <span class="op">=</span> <span class="st">"https://mlr-org.r-universe.dev"</span>, <span class="co"># add this line</span></span>
-<span>  CRAN      <span class="op">=</span> <span class="st">"https://cloud.r-project.org"</span></span>
-<span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<ol start="2" style="list-style-type: decimal">
-<li>Save and close the file, restart your <code>R</code> session</li>
-<li>Run <code>install.packages("mlr3proba")</code> as usual</li>
-</ol>
 </div>
 <div class="section level3">
 <h3 id="github">GitHub<a class="anchor" aria-label="anchor" href="#github"></a>
 </h3>
 <p>Install the latest development version:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"mlr-org/mlr3proba"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
@@ -162,11 +149,11 @@
 <p>Some commonly used measures are the following:</p>
 <table class="table">
 <colgroup>
-<col width="44%">
-<col width="12%">
-<col width="27%">
-<col width="7%">
-<col width="7%">
+<col width="20%">
+<col width="20%">
+<col width="20%">
+<col width="20%">
+<col width="20%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">ID</th>
@@ -179,44 +166,51 @@
 <tr class="odd">
 <td align="left"><a href="https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.dcalib.html">surv.dcalib</a></td>
 <td align="left">D-Calibration</td>
-<td align="left"><a href="https://CRAN.R-project.org/package=mlr3proba" class="external-link">mlr3proba</a></td>
+<td align="left"><code>mlr3proba</code></td>
 <td align="left">Calibration</td>
-<td align="left">distr</td>
+<td align="left"><code>distr</code></td>
 </tr>
 <tr class="even">
+<td align="left"><a href="https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.calib_index.html">surv.calib_index</a></td>
+<td align="left">One-point Calibration</td>
+<td align="left"><code>mlr3proba</code></td>
+<td align="left">Calibration</td>
+<td align="left"><code>distr</code></td>
+</tr>
+<tr class="odd">
 <td align="left"><a href="https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.cindex.html">surv.cindex</a></td>
 <td align="left">Concordance Index</td>
-<td align="left"><a href="https://CRAN.R-project.org/package=mlr3proba" class="external-link">mlr3proba</a></td>
+<td align="left"><code>mlr3proba</code></td>
 <td align="left">Discrimination</td>
-<td align="left">crank</td>
+<td align="left"><code>crank</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><a href="https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.uno_auc.html">surv.uno_auc</a></td>
 <td align="left">Uno’s AUC</td>
-<td align="left"><a href="https://CRAN.R-project.org/package=survAUC" class="external-link">survAUC</a></td>
+<td align="left"><code>survAUC</code></td>
 <td align="left">Discrimination</td>
-<td align="left">lp</td>
-</tr>
-<tr class="even">
-<td align="left"><a href="https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.graf.html">surv.graf</a></td>
-<td align="left">Integrated Brier Score</td>
-<td align="left"><a href="https://CRAN.R-project.org/package=mlr3proba" class="external-link">mlr3proba</a></td>
-<td align="left">Scoring Rule</td>
-<td align="left">distr</td>
+<td align="left"><code>lp</code></td>
 </tr>
 <tr class="odd">
-<td align="left"><a href="https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.rcll.html">surv.rcll</a></td>
-<td align="left">Right-Censored Log loss</td>
-<td align="left"><a href="https://CRAN.R-project.org/package=mlr3proba" class="external-link">mlr3proba</a></td>
+<td align="left"><a href="https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.graf.html">surv.graf</a></td>
+<td align="left">Integrated Brier Score</td>
+<td align="left"><code>mlr3proba</code></td>
 <td align="left">Scoring Rule</td>
-<td align="left">distr</td>
+<td align="left"><code>distr</code></td>
 </tr>
 <tr class="even">
+<td align="left"><a href="https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.rcll.html">surv.rcll</a></td>
+<td align="left">Right-Censored Log loss</td>
+<td align="left"><code>mlr3proba</code></td>
+<td align="left">Scoring Rule</td>
+<td align="left"><code>distr</code></td>
+</tr>
+<tr class="odd">
 <td align="left"><a href="https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.intlogloss.html">surv.intlogloss</a></td>
 <td align="left">Integrated Log-Likelihood</td>
-<td align="left"><a href="https://CRAN.R-project.org/package=mlr3proba" class="external-link">mlr3proba</a></td>
+<td align="left"><code>mlr3proba</code></td>
 <td align="left">Scoring Rule</td>
-<td align="left">distr</td>
+<td align="left"><code>distr</code></td>
 </tr>
 </tbody>
 </table>
@@ -241,15 +235,15 @@
 <h2 id="citing-mlr3proba">Citing mlr3proba<a class="anchor" aria-label="anchor" href="#citing-mlr3proba"></a>
 </h2>
 <p>If you use mlr3proba, please cite our <a href="https://doi.org/10.1093/bioinformatics/btab039" class="external-link">Bioinformatics article</a>:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="sc">@</span>Article{,</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  title <span class="ot">=</span> {mlr3proba<span class="sc">:</span> An R Package <span class="cf">for</span> Machine Learning <span class="cf">in</span> Survival Analysis},</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  author <span class="ot">=</span> {Raphael Sonabend and Franz J Király and Andreas Bender and Bernd Bischl and Michel Lang},</span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  journal <span class="ot">=</span> {Bioinformatics},</span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  month <span class="ot">=</span> {<span class="dv">02</span>},</span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  year <span class="ot">=</span> {<span class="dv">2021</span>},</span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  doi <span class="ot">=</span> {<span class="fl">10.1093</span><span class="sc">/</span>bioinformatics<span class="sc">/</span>btab039},</span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  issn <span class="ot">=</span> {<span class="dv">1367-4803</span>},</span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="sc">@</span>Article{,</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  title <span class="ot">=</span> {mlr3proba<span class="sc">:</span> An R Package <span class="cf">for</span> Machine Learning <span class="cf">in</span> Survival Analysis},</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  author <span class="ot">=</span> {Raphael Sonabend and Franz J Király and Andreas Bender and Bernd Bischl and Michel Lang},</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  journal <span class="ot">=</span> {Bioinformatics},</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  month <span class="ot">=</span> {<span class="dv">02</span>},</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>  year <span class="ot">=</span> {<span class="dv">2021</span>},</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>  doi <span class="ot">=</span> {<span class="fl">10.1093</span><span class="sc">/</span>bioinformatics<span class="sc">/</span>btab039},</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>  issn <span class="ot">=</span> {<span class="dv">1367-4803</span>},</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
