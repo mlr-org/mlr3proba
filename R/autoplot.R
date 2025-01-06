@@ -353,6 +353,7 @@ autoplot.PredictionSurv = function(object, type = "calib",
       cll_grid = log(-log(1 - cdf_grid))
 
       smoothed_cdf_grid = polspline::phare(q = time, cov = cll_grid, fit = hare_fit)
+      pred = obs = NULL
       data = data.table(pred = cdf_grid, obs = smoothed_cdf_grid)
 
       ggplot(data, aes(x = pred, y = obs)) +

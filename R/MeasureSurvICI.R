@@ -119,7 +119,7 @@ MeasureSurvICI = R6Class("MeasureSurvICI",
       pv = self$param_set$values
 
       # time point for calibration
-      time = pv$time %??% median(times)
+      time = pv$time %??% stats::median(times)
 
       # get cdf at the specified time point
       extend_times_cdf = getFromNamespace("C_Vec_WeightedDiscreteCdf", ns = "distr6")
