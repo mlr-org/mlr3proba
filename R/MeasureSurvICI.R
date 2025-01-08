@@ -119,7 +119,7 @@ MeasureSurvICI = R6Class("MeasureSurvICI",
       pv = self$param_set$values
 
       # time point for calibration
-      time = pv$time %??% stats::median(times)
+      time = pv$time %??% median(times)
 
       # get cdf at the specified time point
       extend_times_cdf = getFromNamespace("C_Vec_WeightedDiscreteCdf", ns = "distr6")
@@ -142,10 +142,10 @@ MeasureSurvICI = R6Class("MeasureSurvICI",
         result = mean(abs(cdf - smoothed_cdf))
       } else if (method == "E50") {
         # Median (E50)
-        result = stats::median(abs(cdf - smoothed_cdf))
+        result = median(abs(cdf - smoothed_cdf))
       } else if (method == "E90") {
         # 90th percentile (E90)
-        result = stats::quantile(abs(cdf - smoothed_cdf), probs = 0.9)
+        result = quantile(abs(cdf - smoothed_cdf), probs = 0.9)
       } else if (method == "Emax") {
         # Maximum absolute difference (Emax)
         result = max(abs(cdf - smoothed_cdf))
