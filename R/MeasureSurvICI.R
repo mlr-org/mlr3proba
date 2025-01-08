@@ -142,7 +142,6 @@ MeasureSurvICI = R6Class("MeasureSurvICI",
 
       hare_fit = polspline::hare(data = times, delta = status, cov = as.matrix(cll))
       smoothed_cdf = polspline::phare(q = time, cov = cll, fit = hare_fit)
-      browser()
       if (anyNA(smoothed_cdf)) {
         warning("`polspline::phare` fit resulted in NaN smoothed probabilities")
       }
