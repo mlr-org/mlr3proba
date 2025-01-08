@@ -14,6 +14,10 @@
 #' msr("<%=shortname%>")
 #' ```
 #'
+#' @section Parameters:
+#' `r mlr3misc::rd_info(mlr3::msr("<%= shortname %>")$param_set)`
+#' @md
+#'
 #' @section Meta Information:
 #' * Type: `"surv"`
 #' * Range: <%= format_range(meas$range) %>

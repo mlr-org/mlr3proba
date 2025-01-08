@@ -3,40 +3,31 @@
 \name{mlr_measures_surv.intlogloss}
 \alias{mlr_measures_surv.intlogloss}
 \alias{MeasureSurvIntLogloss}
-\title{Integrated Log loss Survival Measure}
+\title{Integrated Log-Likelihood Survival Measure}
 \description{
-Calculates the integrated survival logarithmic (log) (ISLL), loss, aka integrated cross entropy.
-
-For an individual who dies at time \eqn{t}, with predicted Survival function, \eqn{S}, the
-probabilistic log loss at time \eqn{t^*}{t*} is given by
-\deqn{L(S,t|t^*) = - [log(1 - S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] - [log(S(t^*))I(t > t^*)(1/G(t^*))]}{L(S,t|t*) = - [log(1 - S(t*))I(t \le t*, \delta = 1)(1/G(t))] - [log(S(t*))I(t > t*)(1/G(t*))]} # nolint
-where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
-
-The re-weighted ISLL, ISLL* is given by
-\deqn{L(S,t|t^*) = - [log(1 - S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] - [log(S(t^*))I(t > t^*)(1/G(t))]}{L(S,t|t*) = - [log(1 - S(t*))I(t \le t*, \delta = 1)(1/G(t))] - [log(S(t*))I(t > t*)(1/G(t))]} # nolint
-where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution, i.e. always
-weighted by \eqn{G(t)}. ISLL* is strictly proper when the censoring distribution is independent
-of the survival distribution and when G is fit on a sufficiently large dataset. ISLL is never
-proper. Use \code{proper = FALSE} for ISLL and \code{proper = TRUE} for ISLL*, in the future the default
-will be changed to \code{proper = TRUE}. Results may be very different if many observations are
-censored at the last observed time due to division by 1/\code{eps} in \code{proper = TRUE}.
-
-If \code{integrated == FALSE} then the sample mean is taken for the single specified \code{times}, \eqn{t^*}{t*}, and the returned
-score is given by
-\deqn{L(S,t|t^*) = \frac{1}{N} \sum_{i=1}^N L(S_i,t_i|t^*)}{L(S,t|t*) = 1/N \sum_i^N L(S_i,t_i|t*)}
-where \eqn{N} is the number of observations, \eqn{S_i} is the predicted survival function for
-individual \eqn{i} and \eqn{t_i} is their true survival time.
-
-If \code{integrated == TRUE} then an approximation to integration is made by either taking the sample
-mean over all \eqn{T} unique time-points (\code{method == 1}), or by taking a mean weighted by the difference
-between time-points (\code{method == 2}). Then the sample mean is taken over all \eqn{N} observations.
-\deqn{L(S) = \frac{1}{NT} \sum_{i=1}^N \sum_{j=1}^T L(S_i,t_i|t^*_j)}{L(S) = 1/(NT) \sum_i^N \sum_j^T L(S_i,t_i|t*_j)}
+Calculates the \strong{Integrated Survival Log-Likelihood} (ISLL) or Integrated
+Logarithmic (log) Loss, aka integrated cross entropy.
 }
 \details{
-If \code{task} and \code{train_set} are passed to \verb{$score} then G is fit on training data,
-otherwise testing data. The first is likely to reduce any bias caused by calculating
-parts of the measure on the test data it is evaluating. The training data is automatically
-used in scoring resamplings.
+This measure has two dimensions: (test set) observations and time points.
+For a specific individual \eqn{i} from the test set, with observed survival
+outcome \eqn{(t_i, \delta_i)} (time and censoring indicator) and predicted
+survival function \eqn{S_i(t)}, the \emph{observation-wise} loss integrated across
+the time dimension up to the time cutoff \eqn{\tau^*}, is:
+
+\deqn{L_{ISLL}(S_i, t_i, \delta_i) = - \int^{\tau^*}_0  \frac{log[1-S_i(\tau)] \text{I}(t_i \leq \tau, \delta_i=1)}{G(t_i)} + \frac{\log[S_i(\tau)] \text{I}(t_i > \tau)}{G(\tau)} \ d\tau}
+
+where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
+
+The \strong{re-weighted ISLL} (RISLL) is:
+
+\deqn{L_{RISLL}(S_i, t_i, \delta_i) = -\delta_i \frac{\int^{\tau^*}_0  \log[1-S_i(\tau)]) \text{I}(t_i \leq \tau) + \log[S_i(\tau)] \text{I}(t_i > \tau) \ d\tau}{G(t_i)}}
+
+which is always weighted by \eqn{G(t_i)} and is equal to zero for a censored subject.
+
+To get a single score across all \eqn{N} observations of the test set, we
+return the average of the time-integrated observation-wise scores:
+\deqn{\sum_{i=1}^N L(S_i, t_i, \delta_i) / N}
 }
 \section{Dictionary}{
 
@@ -49,6 +40,22 @@ msr("surv.intlogloss")
 }\if{html}{\out{</div>}}
 }
 
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Levels \tab Range \cr
+   integrated \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
+   times \tab untyped \tab - \tab  \tab - \cr
+   t_max \tab numeric \tab - \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   p_max \tab numeric \tab - \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   method \tab integer \tab 2 \tab  \tab \eqn{[1, 2]}{[1, 2]} \cr
+   se \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   proper \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   eps \tab numeric \tab 0.001 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   ERV \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   remove_obs \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+}
+}
+
 \section{Meta Information}{
 
 \itemize{
@@ -59,16 +66,247 @@ msr("surv.intlogloss")
 }
 }
 
+\section{Parameter details}{
+
+\itemize{
+\item \code{integrated} (\code{logical(1)})\cr
+If \code{TRUE} (default), returns the integrated score (eg across
+time points); otherwise, not integrated (eg at a single time point).
+}
+
+
+\itemize{
+\item \code{times} (\code{numeric()})\cr
+If \code{integrated == TRUE} then a vector of time-points over which to integrate the score.
+If \code{integrated == FALSE} then a single time point at which to return the score.
+}
+
+
+\itemize{
+\item \code{t_max} (\code{numeric(1)})\cr
+Cutoff time \eqn{\tau^*} (i.e. time horizon) to evaluate the measure up to
+(truncate \eqn{S(t)}).
+Mutually exclusive with \code{p_max} or \code{times}.
+It's recommended to set \code{t_max} to avoid division by \code{eps}, see "Time Cutoff Details" section.
+If \code{t_max} is not specified, an \code{Inf} time horizon is assumed.
+}
+
+
+\itemize{
+\item \code{p_max} (\code{numeric(1)})\cr
+The proportion of censoring to integrate up to in the given dataset.
+Mutually exclusive with \code{times} or \code{t_max}.
+}
+
+
+\itemize{
+\item \code{method} (\code{integer(1)})\cr
+If \code{integrate == TRUE}, this selects the integration weighting method.
+\code{method == 1} corresponds to weighting each time-point equally
+and taking the mean score over discrete time-points.
+\code{method == 2} corresponds to calculating a mean weighted by the
+difference between time-points.
+\code{method == 2} is the default value, to be in line with other packages.
+}
+
+
+\itemize{
+\item \code{se} (\code{logical(1)})\cr
+If \code{TRUE} then returns standard error of the measure otherwise
+returns the mean across all individual scores, e.g. the mean of
+the per observation scores.
+Default is \code{FALSE} (returns the mean).
+}
+
+
+\itemize{
+\item \code{proper} (\code{logical(1)})\cr
+If \code{TRUE} then weights scores by the censoring distribution at
+the observed event time, which results in a strictly proper scoring
+rule if censoring and survival time distributions are independent
+and a sufficiently large dataset is used, see Sonabend et al. (2024).
+If \code{FALSE} then weights scores by the Graf method which is the
+more common usage but the loss is not proper.
+See "Properness" section for more details.
+}
+
+
+\itemize{
+\item \code{eps} (\code{numeric(1)})\cr
+Very small number to substitute zero values in order to prevent errors
+in e.g. log(0) and/or division-by-zero calculations.
+Default value is 0.001.
+}
+
+
+\itemize{
+\item \code{ERV} (\code{logical(1)})\cr
+If \code{TRUE} then the Explained Residual Variation method is applied, which
+means the score is standardized against a Kaplan-Meier baseline.
+Default is \code{FALSE}.
+}
+
+
+\itemize{
+\item \code{remove_obs} (\code{logical(1)})\cr
+Only effective when \code{t_max} or \code{p_max} is provided. Default is \code{FALSE}.
+If \code{TRUE}, then we \strong{remove test observations} for which the observed time (event or censoring) is strictly larger than \code{t_max}.
+See "Time Cutoff Details" section for more details.
+}
+}
+
+\section{Properness}{
+
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
+RISLL is strictly proper when the censoring distribution is independent
+of the survival distribution and when \eqn{G(t)} is fit on a sufficiently large dataset.
+ISLL is never proper. Use \code{proper = FALSE} for ISLL and
+\code{proper = TRUE} for RISLL.
+Results may be very different if many observations are censored at the last
+observed time due to division by \eqn{1/eps} in \code{proper = TRUE}.
+
+See Sonabend et al. (2024) for more details.
+The use of \code{proper = TRUE} is considered experimental and should be used with caution.
+}
+
+\section{Time points used for evaluation}{
+
+If the \code{times} argument is not specified (\code{NULL}), then the unique (and
+sorted) time points from the \strong{test set} are used for evaluation of the
+time-integrated score.
+This was a design decision due to the fact that different predicted survival
+distributions \eqn{S(t)} usually have a \strong{discretized time domain} which may
+differ, i.e. in the case the survival predictions come from different survival
+learners.
+Essentially, using the same set of time points for the calculation of the score
+minimizes the bias that would come from using different time points.
+We note that \eqn{S(t)} is by default constantly interpolated for time points that fall
+outside its discretized time domain.
+
+Naturally, if the \code{times} argument is specified, then exactly these time
+points are used for evaluation.
+A warning is given to the user in case some of the specified \code{times} fall outside
+of the time point range of the test set.
+The assumption here is that if the test set is large enough, it should have a
+time domain/range similar to the one from the train set, and therefore time
+points outside that domain might lead to interpolation or extrapolation of \eqn{S(t)}.
+}
+
+\section{Implementation differences}{
+
+
+If comparing the integrated graf score to other packages, e.g.
+\CRANpkg{pec}, then \code{method = 2} should be used. However the results may
+still be very slightly different as this package uses \code{survfit} to estimate
+the censoring distribution, in line with the Graf 1999 paper; whereas some
+other packages use \code{prodlim} with \code{reverse = TRUE} (meaning Kaplan-Meier is
+not used).
+}
+
+\section{Data used for Estimating Censoring Distribution}{
+
+
+If \code{task} and \code{train_set} are passed to \verb{$score} then \eqn{G(t)} is fit using
+\strong{all observations} from the train set, otherwise the test set is used.
+Using the train set is likely to reduce any bias caused by calculating parts of the
+measure on the test data it is evaluating.
+Also usually it means that more data is used for fitting the censoring
+distribution \eqn{G(t)} via the Kaplan-Meier.
+The training data is automatically used in scoring resamplings.
+}
+
+\section{Time Cutoff Details}{
+
+
+If \code{t_max} or \code{p_max} is given, then the predicted survival function \eqn{S(t)} is
+truncated at the time cutoff for all observations.
+
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
+Also, if \code{remove_obs = TRUE}, \strong{observations with observed times} \eqn{t > t_{max}} \strong{are removed}.
+This data preprocessing step mitigates issues that arise when using IPCW
+in cases of administrative censoring, see Kvamme et al. (2023).
+Practically, this step, along with setting a time cutoff \code{t_max}, helps mitigate
+the \strong{inflation of the score} observed when an observation is censored at the
+final time point. In such cases, \eqn{G(t) = 0}, triggering the use of a
+small constant \code{eps} instead.
+This inflation particularly impacts the proper version of the score, see Sonabend et al. (2024)
+for more details.
+Note that the \code{t_max} and \code{remove_obs} parameters do not affect the estimation
+of the censoring distribution, i.e. \strong{always all the observations are used for estimating} \eqn{G(t)}.
+
+If \code{remove_obs = FALSE}, inflated scores may occur. While this aligns more closely
+with the definitions presented in the original papers, it can lead to misleading
+evaluation and poor optimization outcomes when using this score for model tuning.
+}
+
+\examples{
+library(mlr3)
+
+# Define a survival Task
+task = tsk("lung")
+
+# Create train and test set
+part = partition(task)
+
+# Train Cox learner on the train set
+cox = lrn("surv.coxph")
+cox$train(task, row_ids = part$train)
+
+# Make predictions for the test set
+p = cox$predict(task, row_ids = part$test)
+
+# ISLL, G(t) calculated using the test set
+p$score(msr("surv.intlogloss"))
+
+# ISLL, G(t) calculated using the train set (always recommended)
+p$score(msr("surv.intlogloss"), task = task, train_set = part$train)
+
+# ISLL, ERV score (comparing with KM baseline)
+p$score(msr("surv.intlogloss", ERV = TRUE), task = task, train_set = part$train)
+
+# ISLL at specific time point
+p$score(msr("surv.intlogloss", times = 365), task = task, train_set = part$train)
+
+# ISLL at multiple time points (integrated)
+p$score(msr("surv.intlogloss", times = c(125, 365, 450), integrated = TRUE),
+        task = task, train_set = part$train)
+
+# ISLL, use time cutoff
+p$score(msr("surv.intlogloss", t_max = 700), task = task, train_set = part$train)
+
+# ISLL, use time cutoff and also remove observations
+p$score(msr("surv.intlogloss", t_max = 700, remove_obs = TRUE),
+        task = task, train_set = part$train)
+
+# ISLL, use time cutoff corresponding to specific proportion of censoring on the test set
+p$score(msr("surv.intlogloss", p_max = 0.8), task = task, train_set = part$train)
+
+# RISLL, G(t) calculated using the train set
+p$score(msr("surv.intlogloss", proper = TRUE), task = task, train_set = part$train)
+
+}
 \references{
 Graf E, Schmoor C, Sauerbrei W, Schumacher M (1999).
 \dQuote{Assessment and comparison of prognostic classification schemes for survival data.}
 \emph{Statistics in Medicine}, \bold{18}(17-18), 2529--2545.
 \doi{10.1002/(sici)1097-0258(19990915/30)18:17/18<2529::aid-sim274>3.0.co;2-5}.
+
+Sonabend, Raphael, Zobolas, John, Kopper, Philipp, Burk, Lukas, Bender, Andreas (2024).
+\dQuote{Examining properness in the external validation of survival models with squared and logarithmic losses.}
+\url{https://arxiv.org/abs/2212.05260v2}.
+
+Kvamme, Havard, Borgan, Ornulf (2023).
+\dQuote{The Brier Score under Administrative Censoring: Problems and a Solution.}
+\emph{Journal of Machine Learning Research}, \bold{24}(2), 1--26.
+ISSN 1533-7928, \url{http://jmlr.org/papers/v24/19-1030.html}.
 }
 \seealso{
 Other survival measures: 
 \code{\link{mlr_measures_surv.calib_alpha}},
 \code{\link{mlr_measures_surv.calib_beta}},
+\code{\link{mlr_measures_surv.calib_index}},
 \code{\link{mlr_measures_surv.chambless_auc}},
 \code{\link{mlr_measures_surv.cindex}},
 \code{\link{mlr_measures_surv.dcalib}},
@@ -98,6 +336,7 @@ Other Probabilistic survival measures:
 
 Other distr survival measures: 
 \code{\link{mlr_measures_surv.calib_alpha}},
+\code{\link{mlr_measures_surv.calib_index}},
 \code{\link{mlr_measures_surv.dcalib}},
 \code{\link{mlr_measures_surv.graf}},
 \code{\link{mlr_measures_surv.logloss}},
@@ -123,8 +362,8 @@ Other distr survival measures:
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate"><a href='../../mlr3/html/Measure.html#method-Measure-aggregate'><code>mlr3::Measure$aggregate()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format"><a href='../../mlr3/html/Measure.html#method-Measure-format'><code>mlr3::Measure$format()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help"><a href='../../mlr3/html/Measure.html#method-Measure-help'><code>mlr3::Measure$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print"><a href='../../mlr3/html/Measure.html#method-Measure-print'><code>mlr3::Measure$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score"><a href='../../mlr3/html/Measure.html#method-Measure-score'><code>mlr3::Measure$score()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3proba" data-topic="MeasureSurv" data-id="print"><a href='../../mlr3proba/html/MeasureSurv.html#method-MeasureSurv-print'><code>mlr3proba::MeasureSurv$print()</code></a></span></li>
 </ul>
 </details>
 }}

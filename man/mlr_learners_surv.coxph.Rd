@@ -26,11 +26,20 @@ lrn("surv.coxph")
 \section{Meta Information}{
 
 \itemize{
-\item Type: "surv"
-\item Predict Types: \verb{crank, distr, lp}
-\item Feature Types: \verb{logical, integer, numeric, factor}
-\item Properties: \code{weights}
-\item Packages: \CRANpkg{mlr3} \CRANpkg{mlr3proba} \CRANpkg{survival} \CRANpkg{distr6}
+\item Task type: \dQuote{surv}
+\item Predict Types: \dQuote{crank}, \dQuote{distr}, \dQuote{lp}
+\item Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{factor}
+\item Required Packages: \CRANpkg{mlr3}, \CRANpkg{mlr3proba}, \CRANpkg{survival}, \CRANpkg{distr6}
+}
+}
+
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Levels \tab Range \cr
+   ties \tab character \tab efron \tab efron, breslow, exact \tab - \cr
+   singular.ok \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
+   type \tab character \tab efron \tab efron, aalen, kalbfleisch-prentice \tab - \cr
+   stype \tab integer \tab 2 \tab  \tab \eqn{[1, 2]}{[1, 2]} \cr
 }
 }
 
@@ -60,6 +69,7 @@ Other survival learners:
 <details><summary>Inherited methods</summary>
 <ul>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="base_learner"><a href='../../mlr3/html/Learner.html#method-Learner-base_learner'><code>mlr3::Learner$base_learner()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="encapsulate"><a href='../../mlr3/html/Learner.html#method-Learner-encapsulate'><code>mlr3::Learner$encapsulate()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="format"><a href='../../mlr3/html/Learner.html#method-Learner-format'><code>mlr3::Learner$format()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="help"><a href='../../mlr3/html/Learner.html#method-Learner-help'><code>mlr3::Learner$help()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict"><a href='../../mlr3/html/Learner.html#method-Learner-predict'><code>mlr3::Learner$predict()</code></a></span></li>

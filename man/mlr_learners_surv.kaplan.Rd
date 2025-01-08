@@ -8,7 +8,9 @@
 Calls \code{\link[survival:survfit]{survival::survfit()}}.
 \itemize{
 \item distr is predicted by estimating the survival function with \code{\link[survival:survfit]{survival::survfit()}}
-\item \code{crank} is predicted as the expectation of the survival distribution, \code{distr}
+\item \code{crank} is predicted as the sum of the cumulative
+hazard function (expected mortality) derived from the survival distribution,
+\code{distr}
 }
 }
 \section{Dictionary}{
@@ -25,12 +27,16 @@ lrn("surv.kaplan")
 \section{Meta Information}{
 
 \itemize{
-\item Type: "surv"
-\item Predict Types: \verb{crank, distr}
-\item Feature Types: \verb{logical, integer, numeric, character, factor, ordered}
-\item Properties: \code{missings}
-\item Packages: \CRANpkg{mlr3} \CRANpkg{mlr3proba} \CRANpkg{survival} \CRANpkg{distr6}
+\item Task type: \dQuote{surv}
+\item Predict Types: \dQuote{crank}, \dQuote{distr}
+\item Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{character}, \dQuote{factor}, \dQuote{ordered}
+\item Required Packages: \CRANpkg{mlr3}, \CRANpkg{mlr3proba}, \CRANpkg{survival}, \CRANpkg{distr6}
 }
+}
+
+\section{Parameters}{
+
+Empty ParamSet
 }
 
 \references{
@@ -59,6 +65,7 @@ Other survival learners:
 <details><summary>Inherited methods</summary>
 <ul>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="base_learner"><a href='../../mlr3/html/Learner.html#method-Learner-base_learner'><code>mlr3::Learner$base_learner()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="encapsulate"><a href='../../mlr3/html/Learner.html#method-Learner-encapsulate'><code>mlr3::Learner$encapsulate()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="format"><a href='../../mlr3/html/Learner.html#method-Learner-format'><code>mlr3::Learner$format()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="help"><a href='../../mlr3/html/Learner.html#method-Learner-help'><code>mlr3::Learner$help()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict"><a href='../../mlr3/html/Learner.html#method-Learner-predict'><code>mlr3::Learner$predict()</code></a></span></li>

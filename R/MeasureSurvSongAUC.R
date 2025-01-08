@@ -1,23 +1,22 @@
 #' @template surv_measure
 #' @templateVar title Song and Zhou's AUC
 #' @templateVar fullname MeasureSurvSongAUC
-#'
-#' @template param_integrated
+#' @template measure_survAUC
 #' @template param_times
-#' @template param_measure_type
+#' @template param_integrated
+#' @template param_type_auc
 #'
 #' @description
 #' Calls [survAUC::AUC.sh()].
 #'
 #' Assumes Cox PH model specification.
 #'
-#' @template measure_survAUC
-#'
 #' @references
 #' `r format_bib("song_2008")`
 #'
 #' @family AUC survival measures
 #' @family lp survival measures
+#' @template example_auc_measures
 #' @export
 MeasureSurvSongAUC = R6Class("MeasureSurvSongAUC",
   inherit = MeasureSurvAUC,
@@ -29,7 +28,7 @@ MeasureSurvSongAUC = R6Class("MeasureSurvSongAUC",
         integrated = p_lgl(default = TRUE),
         type = p_fct(c("incident", "cumulative"), default = "incident")
       )
-      ps$values = list(integrated = TRUE, type = "incident")
+      ps$set_values(integrated = TRUE, type = "incident")
 
       super$initialize(
         id = "surv.song_auc",
@@ -67,3 +66,5 @@ MeasureSurvSongAUC = R6Class("MeasureSurvSongAUC",
     }
   )
 )
+
+register_measure("surv.song_auc", MeasureSurvSongAUC)

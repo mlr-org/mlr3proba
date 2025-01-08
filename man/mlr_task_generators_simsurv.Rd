@@ -8,14 +8,16 @@
 A \link[mlr3:TaskGenerator]{mlr3::TaskGenerator} calling \code{\link[simsurv:simsurv]{simsurv::simsurv()}} from package \CRANpkg{simsurv}.
 
 This generator currently only exposes a small subset of the flexibility of \CRANpkg{simsurv},
-and just creates a small data set with the following numerical covariates:
+and just creates a small dataset with the following numerical covariates:
 \itemize{
-\item \code{treatment}: Bernoulli distributed with log hazard ratio \code{-0.5}.
-\item \code{height}: Normally distributed with log hazard ratio \code{1}.
-\item \code{weight}: normally distributed with log hazard ratio \code{0}.
+\item \code{treatment}: Bernoulli distributed with hazard ratio \code{0.5}.
+\item \code{height}: Normally distributed with hazard ratio \code{1}.
+\item \code{weight}: normally distributed with hazard ratio \code{1}.
 }
 
 See \code{\link[simsurv:simsurv]{simsurv::simsurv()}} for an explanation of the hyperparameters.
+Initial values for hyperparameters are \code{lambdas} = 0.1, \code{gammas} = 1.5 and \code{maxt} = 5.
+The last one, by default generates samples which are administratively censored at \eqn{\tau = 5}, so increase this value if you want to change this.
 }
 \section{Dictionary}{
 
@@ -26,16 +28,46 @@ tgen("simsurv")
 }\if{html}{\out{</div>}}
 }
 
-\examples{
-if (requireNamespace("simsurv", quietly = TRUE)) {
-  generator = mlr3::mlr_task_generators$get("simsurv")
-  task = generator$generate(20)
-  head(task)
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Levels \tab Range \cr
+   dist \tab character \tab weibull \tab weibull, exponential, gompertz \tab - \cr
+   lambdas \tab numeric \tab - \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   gammas \tab numeric \tab - \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   maxt \tab numeric \tab - \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
 }
+}
+
+\examples{
+\dontshow{if (mlr3misc::require_namespaces(c("simsurv"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+  # generate 20 samples with Weibull survival distribution
+  gen = tgen("simsurv")
+  task = gen$generate(20)
+  head(task)
+
+  # generate 100 samples with exponential survival distribution and tau = 40
+  gen = tgen("simsurv", dist = "exponential", gammas = NULL, maxt = 40)
+  task = gen$generate(100)
+  head(task)
+\dontshow{\}) # examplesIf}
+}
+\references{
+Brilleman, L. S, Wolfe, Rory, Moreno-Betancur, Margarita, Crowther, J. M (2021).
+\dQuote{Simulating Survival Data Using the simsurv R Package.}
+\emph{Journal of Statistical Software}, \bold{97}(3), 1--27.
+\doi{10.18637/JSS.V097.I03}.
 }
 \seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:TaskGenerator]{TaskGenerators}: \link[mlr3:mlr_task_generators]{mlr3::mlr_task_generators}
+\itemize{
+\item \link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:TaskGenerator]{TaskGenerators}: \link[mlr3:mlr_task_generators]{mlr3::mlr_task_generators}
+\item \code{as.data.table(mlr_task_generators)}  for a table of available \link[=TaskGenerator]{TaskGenerators} in the running session
 }
+
+Other TaskGenerator: 
+\code{\link{mlr_task_generators_coxed}},
+\code{\link{mlr_task_generators_simdens}}
+}
+\concept{TaskGenerator}
 \section{Super class}{
 \code{\link[mlr3:TaskGenerator]{mlr3::TaskGenerator}} -> \code{TaskGeneratorSimsurv}
 }
@@ -43,6 +75,7 @@ if (requireNamespace("simsurv", quietly = TRUE)) {
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-TaskGeneratorSimsurv-new}{\code{TaskGeneratorSimsurv$new()}}
+\item \href{#method-TaskGeneratorSimsurv-help}{\code{TaskGeneratorSimsurv$help()}}
 \item \href{#method-TaskGeneratorSimsurv-clone}{\code{TaskGeneratorSimsurv$clone()}}
 }
 }
@@ -62,6 +95,16 @@ if (requireNamespace("simsurv", quietly = TRUE)) {
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TaskGeneratorSimsurv$new()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TaskGeneratorSimsurv-help"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskGeneratorSimsurv-help}{}}}
+\subsection{Method \code{help()}}{
+Opens the corresponding help page referenced by field \verb{$man}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TaskGeneratorSimsurv$help()}\if{html}{\out{</div>}}
 }
 
 }

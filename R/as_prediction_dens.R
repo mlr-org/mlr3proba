@@ -23,13 +23,11 @@ as_prediction_dens = function(x, ...) {
   UseMethod("as_prediction_dens")
 }
 
-
 #' @rdname as_prediction_dens
 #' @export
 as_prediction_dens.PredictionDens = function(x, ...) { # nolint
   x
 }
-
 
 #' @rdname as_prediction_dens
 #' @export
@@ -41,7 +39,7 @@ as_prediction_dens.data.frame = function(x, ...) { # nolint
   assert_names(names(x), subset.of = c(mandatory, optional))
 
   if ("distr" %in% names(x)) {
-    distr = x$distr[[1]]
+    distr = x$distr[[1L]]
   } else {
     distr = NULL
   }

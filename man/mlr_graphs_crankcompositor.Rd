@@ -3,19 +3,14 @@
 \name{mlr_graphs_crankcompositor}
 \alias{mlr_graphs_crankcompositor}
 \alias{pipeline_crankcompositor}
-\alias{crankcompositor}
 \title{Estimate Survival crank Predict Type Pipeline}
 \usage{
 pipeline_crankcompositor(
   learner,
-  method = c("sum_haz", "mean", "median", "mode"),
-  which = NULL,
-  response = FALSE,
+  method = c("mort"),
   overwrite = FALSE,
   graph_learner = FALSE
 )
-
-crankcompositor(...)
 }
 \arguments{
 \item{learner}{\verb{[mlr3::Learner]|[mlr3pipelines::PipeOp]|[mlr3pipelines::Graph]} \cr
@@ -23,27 +18,18 @@ Either a \code{Learner} which will be wrapped in \link[mlr3pipelines:mlr_pipeops
 be wrapped in \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or a \code{Graph} itself. Underlying \code{Learner} should be
 \link{LearnerSurv}.}
 
-\item{method}{\code{character(1)}\cr
-One of \code{sum_haz} (default), \code{mean}, \code{mode}, or \code{median};
-abbreviations allowed. Used to determine how \code{crank} is estimated from
-the predicted \code{distr}.}
+\item{method}{(\code{character(1)})\cr
+Determines what method should be used to produce a continuous ranking from the distribution.
+Currently only \code{mort} is supported, which is the sum of the cumulative hazard, also called \emph{expected/ensemble mortality}, see Ishwaran et al. (2008).
+For more details, see \code{\link[=get_mortality]{get_mortality()}}.}
 
-\item{which}{\code{integer(1)}\cr
-If \code{method = "mode"} then specifies which mode to use if multi-modal, default
-is the first.}
+\item{overwrite}{(\code{logical(1)})\cr
+If \code{FALSE} (default) and the prediction already has a \code{crank} prediction, then the compositor returns the input prediction unchanged.
+If \code{TRUE}, then the \code{crank} will be overwritten.}
 
-\item{response}{\code{logical(1)}\cr
-If \code{TRUE} then the \code{response} predict type is also estimated with the same values as \code{crank}.}
-
-\item{overwrite}{\code{logical(1)}\cr
-If \code{TRUE} then existing \code{response} and \code{crank} predict types are overwritten.}
-
-\item{graph_learner}{\code{logical(1)}\cr
+\item{graph_learner}{(\code{logical(1)})\cr
 If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
 \link[mlr3pipelines:mlr_learners_graph]{GraphLearner} otherwise (default) returns as a \code{Graph}.}
-
-\item{...}{\code{ANY}\cr
-For use with \code{crankcompositor}, now deprecated.}
 }
 \value{
 \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or \link[mlr3pipelines:mlr_learners_graph]{mlr3pipelines::GraphLearner}
@@ -51,29 +37,46 @@ For use with \code{crankcompositor}, now deprecated.}
 \description{
 Wrapper around \link{PipeOpCrankCompositor} to simplify \link[mlr3pipelines:Graph]{Graph} creation.
 }
-\examples{
-\dontrun{
-if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
-  library("mlr3")
-  library("mlr3pipelines")
+\section{Dictionary}{
 
-  task = tsk("rats")
-  pipe = ppl(
+This \link[mlr3pipelines:Graph]{Graph} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3pipelines:mlr_graphs]{mlr_graphs} or with the associated sugar function \link[mlr3pipelines:ppl]{ppl()}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_graphs$get("crankcompositor")
+ppl("crankcompositor")
+}\if{html}{\out{</div>}}
+}
+
+\examples{
+\dontshow{if (mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontrun{
+  library(mlr3)
+  library(mlr3pipelines)
+
+  task = tsk("lung")
+  part = partition(task)
+
+  # change the crank prediction type of a Cox's model predictions
+  grlrn = ppl(
     "crankcompositor",
     learner = lrn("surv.coxph"),
-    method = "sum_haz"
+    method = "mort",
+    overwrite = TRUE,
+    graph_learner = TRUE
   )
-  pipe$train(task)
-  pipe$predict(task)
+  grlrn$train(task, part$train)
+  grlrn$predict(task, part$test)
 }
-}
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 Other pipelines: 
 \code{\link{mlr_graphs_distrcompositor}},
 \code{\link{mlr_graphs_probregr}},
+\code{\link{mlr_graphs_responsecompositor}},
 \code{\link{mlr_graphs_survaverager}},
 \code{\link{mlr_graphs_survbagging}},
-\code{\link{mlr_graphs_survtoregr}}
+\code{\link{mlr_graphs_survtoclassif_IPCW}},
+\code{\link{mlr_graphs_survtoclassif_disctime}}
 }
 \concept{pipelines}

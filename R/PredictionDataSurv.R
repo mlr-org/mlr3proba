@@ -16,7 +16,7 @@ check_prediction_data.PredictionDataSurv = function(pdata, ...) { # nolint
     assert(nrow(pdata$distr$modelTable) == n)
   } else if (inherits(pdata$distr, c("Matdist", "Arrdist"))) {
     assert(nrow(gprm(pdata$distr, "pdf")) == n)
-  } else if (class(pdata$distr)[1] == "array") { # from Arrdist
+  } else if (class(pdata$distr)[1L] == "array") { # from Arrdist
     assert_array(pdata$distr, d = 3, any.missing = FALSE, null.ok = TRUE)
   } else {
     assert_matrix(pdata$distr, nrows = n, any.missing = FALSE, null.ok = TRUE)
@@ -73,15 +73,15 @@ c.PredictionDataSurv = function(..., keep_duplicates = TRUE) {
 
   if ("distr" %in% predict_types) {
     distr_list = map(dots, "distr")
-    test_dist = unique(vapply(distr_list, testDistribution, logical(1)))
+    test_dist = unique(map_lgl(distr_list, testDistribution))
 
     # Mix of distributions and arrays? Convert arrays to distributions!
-    if (length(test_dist) == 2) {
+    if (length(test_dist) == 2L) {
       distr_list = map(distr_list, function(.x) {
         if (testDistribution(.x)) {
           .x
         } else {
-          as.Distribution(1 - .x,  fun = "cdf",
+          as.Distribution(1 - .x, fun = "cdf",
             decorators = c("CoreStatistics", "ExoticStatistics"))
         }
       })
@@ -93,19 +93,22 @@ c.PredictionDataSurv = function(..., keep_duplicates = TRUE) {
       result$distr = do.call(c, c(distr_list,
         list(decorators = c("CoreStatistics", "ExoticStatistics"))))
     } else {
-      dims = vapply(distr_list, function(.x) length(dim(.x)), integer(1))
+      dims = map_int(distr_list, function(.x) length(dim(.x)))
       # If mix of arrays and matrices, convert arrays to median survival matrices
-      if (length(unique(dims)) > 1) {
+      if (length(unique(dims)) > 1L) {
         distr_list = lapply(distr_list, function(.x) {
-          if (length(dim(.x)) == 3) {
+          if (length(dim(.x)) == 3L) {
             .ext_surv_mat(.x, which.curve = 0.5)
-          } else .x
+          } else {
+            .x
+          }
         })
       }
       # All objects are now either 3d arrays or 2d matrices
       # row-bind arrays and ensure all have same column names
       # by automatically converting to pdf then back to surv
-      merged_array = distr6:::.merge_cols(distr_list, "surv")
+      merge_cols = getFromNamespace(".merge_cols", ns = "distr6")
+      merged_array = merge_cols(distr_list, "surv")
       # abind works with matrices as well
       result$distr = abind::abind(merged_array, along = 1, force.array = FALSE)
     }
@@ -133,14 +136,14 @@ filter_prediction_data.PredictionDataSurv = function(pdata, row_ids, ...) {
 
     if (testDistribution(distr)) { # distribution
       ok = inherits(distr, c("VectorDistribution", "Matdist", "Arrdist")) &&
-           length(keep) > 1 # e.g.: Arrdist(1xYxZ) and keep = FALSE
+        length(keep) > 1L # e.g.: Arrdist(1xYxZ) and keep = FALSE
       if (ok) {
         pdata$distr = distr[keep] # we can subset row/samples like this
       } else {
         pdata$distr = base::switch(keep, distr) # one distribution only
       }
     } else {
-      if (length(dim(distr)) == 2) { # 2d matrix
+      if (length(dim(distr)) == 2L) { # 2d matrix
         pdata$distr = distr[keep, , drop = FALSE]
       } else { # 3d array
         pdata$distr = distr[keep, , , drop = FALSE]

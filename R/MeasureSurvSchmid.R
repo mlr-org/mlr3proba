@@ -1,40 +1,58 @@
 #' @template surv_measure
 #' @templateVar title Integrated Schmid Score
 #' @templateVar fullname MeasureSurvSchmid
-#'
-#' @description
-#' Calculates the Integrated Schmid Score (ISS), aka integrated absolute loss.
-#'
-#' For an individual who dies at time \eqn{t}, with predicted Survival function, \eqn{S}, the
-#' Schmid Score at time \eqn{t^*}{t*} is given by
-#' \deqn{L(S,t|t^*) = [(S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*)))I(t > t^*)(1/G(t^*))]}{L(S,t|t*) = [(S(t*))I(t \le t*, \delta = 1)(1/G(t))] + [((1 - S(t*)))I(t > t*)(1/G(t*))]} # nolint
-#' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
-#'
-#' The re-weighted ISS, ISS* is given by
-#' \deqn{L(S,t|t^*) = [(S(t^*))I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*)))I(t > t^*)(1/G(t))]}{L(S,t|t*) = [(S(t*))I(t \le t*, \delta = 1)(1/G(t))] + [((1 - S(t*)))I(t > t*)(1/G(t))]} # nolint
-#' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution, i.e. always
-#' weighted by \eqn{G(t)}. ISS* is strictly proper when the censoring distribution is independent
-#' of the survival distribution and when G is fit on a sufficiently large dataset. ISS is never
-#' proper. Use `proper = FALSE` for ISS and `proper = TRUE` for ISS*, in the future the default
-#' will be changed to `proper = TRUE`. Results may be very different if many observations are
-#' censored at the last observed time due to division by 1/`eps` in `proper = TRUE`.
-#'
-#' @template measure_integrated
 #' @template param_integrated
 #' @template param_times
+#' @template param_tmax
+#' @template param_pmax
 #' @template param_method
-#' @template param_proper
 #' @template param_se
+#' @template param_proper
+#' @templateVar eps 1e-3
 #' @template param_eps
+#' @template param_erv
+#' @template param_remove_obs
+#'
+#' @description
+#' Calculates the **Integrated Schmid Score** (ISS), aka integrated absolute loss.
+#'
+#' @details
+#' This measure has two dimensions: (test set) observations and time points.
+#' For a specific individual \eqn{i} from the test set, with observed survival
+#' outcome \eqn{(t_i, \delta_i)} (time and censoring indicator) and predicted
+#' survival function \eqn{S_i(t)}, the *observation-wise* loss integrated across
+#' the time dimension up to the time cutoff \eqn{\tau^*}, is:
+#'
+#' \deqn{L_{ISS}(S_i, t_i, \delta_i) = \int^{\tau^*}_0  \frac{S_i(\tau) \text{I}(t_i \leq \tau, \delta=1)}{G(t_i)} + \frac{(1-S_i(\tau)) \text{I}(t_i > \tau)}{G(\tau)} \ d\tau}
+#'
+#' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
+#'
+#' The **re-weighted ISS** (RISS) is:
+#'
+#' \deqn{L_{RISS}(S_i, t_i, \delta_i) = \delta_i \frac{\int^{\tau^*}_0  S_i(\tau) \text{I}(t_i \leq \tau) + (1-S_i(\tau)) \text{I}(t_i > \tau) \ d\tau}{G(t_i)}}
+#'
+#' which is always weighted by \eqn{G(t_i)} and is equal to zero for a censored subject.
+#'
+#' To get a single score across all \eqn{N} observations of the test set, we
+#' return the average of the time-integrated observation-wise scores:
+#' \deqn{\sum_{i=1}^N L(S_i, t_i, \delta_i) / N}
+#'
+#' @template properness
+#' @templateVar improper_id ISS
+#' @templateVar proper_id RISS
+#' @template which_times
+#' @template details_method
 #' @template details_trainG
+#' @template details_tmax
 #'
 #' @references
-#' `r format_bib("schemper_2000", "schmid_2011")`
+#' `r format_bib("schemper_2000", "schmid_2011", "sonabend2024", "kvamme2023")`
 #'
 #' @family Probabilistic survival measures
 #' @family distr survival measures
+#' @template example_scoring_rules
 #' @export
-MeasureSurvSchmid = R6::R6Class("MeasureSurvSchmid",
+MeasureSurvSchmid = R6Class("MeasureSurvSchmid",
   inherit = MeasureSurv,
   public = list(
     #' @description
@@ -43,7 +61,7 @@ MeasureSurvSchmid = R6::R6Class("MeasureSurvSchmid",
     #'   Standardize measure against a Kaplan-Meier baseline
     #'   (Explained Residual Variation)
     initialize = function(ERV = FALSE) {
-      assert(check_logical(ERV))
+      assert_logical(ERV)
 
       ps = ps(
         integrated = p_lgl(default = TRUE),
@@ -54,11 +72,12 @@ MeasureSurvSchmid = R6::R6Class("MeasureSurvSchmid",
         se = p_lgl(default = FALSE),
         proper = p_lgl(default = FALSE),
         eps = p_dbl(0, 1, default = 1e-3),
-        ERV = p_lgl(default = FALSE)
+        ERV = p_lgl(default = FALSE),
+        remove_obs = p_lgl(default = FALSE)
       )
-      ps$values = list(
+      ps$set_values(
         integrated = TRUE, method = 2L, se = FALSE,
-        proper = FALSE, eps = 1e-3, ERV = ERV
+        proper = FALSE, eps = 1e-3, ERV = ERV, remove_obs = FALSE
       )
 
       range = if (ERV) c(-Inf, 1) else c(0, Inf)
@@ -79,16 +98,21 @@ MeasureSurvSchmid = R6::R6Class("MeasureSurvSchmid",
   private = list(
     .score = function(prediction, task, train_set, ...) {
       ps = self$param_set$values
+      # times must be unique, sorted and positive numbers
+      times = assert_numeric(ps$times, lower = 0, any.missing = FALSE,
+                             unique = TRUE, sorted = TRUE, null.ok = TRUE)
+
+      # ERV score
       if (ps$ERV) return(.scoring_rule_erv(self, prediction, task, train_set))
-      nok = sum(!is.null(ps$times), !is.null(ps$t_max), !is.null(ps$p_max)) > 1
+      nok = sum(!is.null(times), !is.null(ps$t_max), !is.null(ps$p_max)) > 1
       if (nok) {
         stop("Only one of `times`, `t_max`, and `p_max` should be provided")
       }
       if (!ps$integrated) {
         msg = "If `integrated=FALSE` then `times` should be a scalar numeric."
-        assert_numeric(ps$times, len = 1, .var.name = msg)
+        assert_numeric(times, len = 1L, .var.name = msg)
       } else {
-        if (!is.null(ps$times) && length(ps$times) == 1) {
+        if (!is.null(times) && length(times) == 1L) {
           ps$integrated = FALSE
         }
       }
@@ -102,9 +126,13 @@ MeasureSurvSchmid = R6::R6Class("MeasureSurvSchmid",
         train = NULL
       }
 
-      score = weighted_survival_score("schmid", truth = prediction$truth,
-        distribution = prediction$data$distr, times = ps$times, t_max = ps$t_max,
-        p_max = ps$p_max, proper = ps$proper, train = train, eps = ps$eps)
+      # `score` is a matrix, IBS(i,j) => n_test_obs x times
+      score = weighted_survival_score("schmid",
+        truth = prediction$truth,
+        distribution = prediction$data$distr, times = times,
+        t_max = ps$t_max, p_max = ps$p_max, proper = ps$proper, train = train,
+        eps = ps$eps, remove_obs = ps$remove_obs
+      )
 
       if (ps$se) {
         integrated_se(score, ps$integrated)
@@ -114,3 +142,5 @@ MeasureSurvSchmid = R6::R6Class("MeasureSurvSchmid",
     }
   )
 )
+
+register_measure("surv.schmid", MeasureSurvSchmid)

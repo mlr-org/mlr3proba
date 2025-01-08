@@ -1,21 +1,20 @@
 #' @template regr_measure
-#' @templateVar title Log loss
+#' @templateVar title Log Loss
 #' @templateVar inherit [MeasureRegr]
 #' @templateVar fullname MeasureRegrLogloss
-#' @templateVar pars eps = 1e-15
-#' @templateVar eps_par TRUE
-#'
+#' @templateVar eps 1e-15
 #' @template param_eps
 #'
 #' @description
 #' Calculates the cross-entropy, or logarithmic (log), loss.
 #'
-#' The logloss, in the context of probabilistic predictions, is defined as the negative log
+#' @details
+#' The Log Loss, in the context of probabilistic predictions, is defined as the negative log
 #' probability density function, \eqn{f}, evaluated at the observed value, \eqn{y},
 #' \deqn{L(f, y) = -\log(f(y))}{L(f, y) = -log(f(y))}
 #'
 #' @export
-MeasureRegrLogloss = R6::R6Class("MeasureRegrLogloss",
+MeasureRegrLogloss = R6Class("MeasureRegrLogloss",
   inherit = MeasureRegr,
   public = list(
     #' @description
@@ -46,7 +45,7 @@ MeasureRegrLogloss = R6::R6Class("MeasureRegrLogloss",
       if (inherits(distr, c("Matdist", "Arrdist"))) {
         pdf = diag(distr$pdf(truth))
       } else {
-        pdf = as.numeric(distr$pdf(data = matrix(truth, nrow = 1)))
+        pdf = as.numeric(distr$pdf(data = matrix(truth, nrow = 1L)))
       }
 
       pdf[pdf == 0] = self$param_set$values$eps
@@ -54,3 +53,5 @@ MeasureRegrLogloss = R6::R6Class("MeasureRegrLogloss",
     }
   )
 )
+
+register_measure("regr.logloss", MeasureRegrLogloss)

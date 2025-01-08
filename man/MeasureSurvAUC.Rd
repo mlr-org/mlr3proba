@@ -6,6 +6,22 @@
 \description{
 This is an abstract class that should not be constructed directly.
 }
+\section{Parameter details}{
+
+\itemize{
+\item \code{integrated} (\code{logical(1)})\cr
+If \code{TRUE} (default), returns the integrated score (eg across
+time points); otherwise, not integrated (eg at a single time point).
+}
+
+
+\itemize{
+\item \code{times} (\code{numeric()})\cr
+If \code{integrated == TRUE} then a vector of time-points over which to integrate the score.
+If \code{integrated == FALSE} then a single time point at which to return the score.
+}
+}
+
 \section{Super classes}{
 \code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3proba:MeasureSurv]{mlr3proba::MeasureSurv}} -> \code{MeasureSurvAUC}
 }
@@ -22,8 +38,8 @@ This is an abstract class that should not be constructed directly.
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate"><a href='../../mlr3/html/Measure.html#method-Measure-aggregate'><code>mlr3::Measure$aggregate()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format"><a href='../../mlr3/html/Measure.html#method-Measure-format'><code>mlr3::Measure$format()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help"><a href='../../mlr3/html/Measure.html#method-Measure-help'><code>mlr3::Measure$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print"><a href='../../mlr3/html/Measure.html#method-Measure-print'><code>mlr3::Measure$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score"><a href='../../mlr3/html/Measure.html#method-Measure-score'><code>mlr3::Measure$score()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3proba" data-topic="MeasureSurv" data-id="print"><a href='../../mlr3proba/html/MeasureSurv.html#method-MeasureSurv-print'><code>mlr3proba::MeasureSurv$print()</code></a></span></li>
 </ul>
 </details>
 }}

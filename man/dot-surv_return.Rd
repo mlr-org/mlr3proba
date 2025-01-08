@@ -16,43 +16,58 @@
 \arguments{
 \item{times}{(\code{numeric()}) \cr Vector of survival times.}
 
-\item{surv}{(\code{matrix()|array()})\cr Matrix or array of predicted survival
-probabilities, rows (1st dimension) are observations, columns (2nd dimension)
-are times and in the case of an array there should be one more dimension.
-Number of columns should be equal to length of \code{times}. In case a \code{numeric()}
-vector is provided, it is converted to a single row (one observation) matrix.}
+\item{surv}{(\code{matrix()|array()})\cr Matrix or array of predicted survival probabilities, rows (1st dimension) are observations, columns (2nd dimension) are times and in the case of an array there should be one more dimension.
+Number of columns should be equal to length of \code{times}.
+In case a \code{numeric()} vector is provided, it is converted to a single row (one observation) matrix.}
 
-\item{crank}{(\code{numeric()})\cr Relative risk/continuous ranking. Higher value is associated
-with higher risk. If \code{NULL} then either set as \code{-response} if available or
-\code{lp} if available (this assumes that the \code{lp} prediction comes from a PH type
-model - in case of an AFT model the user should provide \code{-lp}).
-In case neither \code{response} or \code{lp} are provided, then \code{crank} is calculated
-as the sum of the cumulative hazard function (expected mortality) derived from
-the predicted survival function (\code{surv}). In case \code{surv} is a 3d array, we use
-the \code{which.curve} parameter to decide which survival matrix (index in the 3rd
-dimension) will be chosen for the calculation of \code{crank}.}
+\item{crank}{(\code{numeric()})\cr Relative risk/continuous ranking.
+Higher value is associated with higher risk.
+If \code{NULL} then either set as \code{-response} if available or \code{lp} if available (this assumes that the \code{lp} prediction comes from a PH type model - in case of an AFT model the user should provide \code{-lp}).
+In case neither \code{response} or \code{lp} are provided, then \code{crank} is calculated as the sum of the cumulative hazard function (\strong{expected mortality}) derived from the predicted survival function (\code{surv}), see \link{get_mortality}.
+In case \code{surv} is a 3d array, we use the \code{which.curve} parameter to decide which survival matrix (index in the 3rd dimension) will be chosen for the calculation of \code{crank}.}
 
 \item{lp}{(\code{numeric()})\cr Predicted linear predictor, used to impute \code{crank} if \code{NULL}.}
 
 \item{response}{(\code{numeric()})\cr Predicted survival time, passed through function without
 modification.}
 
-\item{which.curve}{Which curve (3rd dimension) should the \code{crank} be
-calculated for, in case \code{surv} is an \code{array}? If between (0,1) it is taken as
-the quantile of the curves otherwise if greater than 1 it is taken as the
-curve index. It can also be 'mean' and the survival probabilities are averaged
-across the 3rd dimension. Default value (\code{NULL}) is the \strong{0.5 quantile} which
-is the median across the 3rd dimension of the survival array.}
+\item{which.curve}{Which curve (3rd dimension) should the \code{crank} be calculated for, in case \code{surv} is an \code{array}?
+If between (0,1) it is taken as the quantile of the curves otherwise if greater than 1 it is taken as the  curve index.
+It can also be 'mean' and the survival probabilities are averaged across the 3rd dimension.
+Default value (\code{NULL}) is the \strong{0.5 quantile} which is the median across the 3rd dimension of the survival array.}
 }
 \description{
 Internal helper function to easily return the correct survival predict types.
 }
-\details{
-Uses \link[survivalmodels:surv_to_risk]{survivalmodels::surv_to_risk} to reduce survival matrices to relative
-risks / rankings if \code{crank} is NULL.
+\examples{
+n = 10 # number of observations
+k = 50 # time points
+
+# Create the matrix with random values between 0 and 1
+mat = matrix(runif(n * k, min = 0, max = 1), nrow = n, ncol = k)
+
+# transform it to a survival matrix
+surv_mat = t(apply(mat, 1L, function(row) sort(row, decreasing = TRUE)))
+
+# crank is expected mortality, distr is the survival matrix
+.surv_return(times = 1:k, surv = surv_mat)
+
+# if crank is set, it's not overwritten
+.surv_return(times = 1:k, surv = surv_mat, crank = rnorm(n))
+
+# lp = crank
+.surv_return(lp = rnorm(n))
+
+# if response is set and no crank, crank = -response
+.surv_return(response = sample(1:100, n))
+
+# if both are set, they are not overwritten
+.surv_return(crank = rnorm(n), response = sample(1:100, n))
+
 }
 \references{
-Sonabend, R., Bender, A., & Vollmer, S. (2022). Avoiding C-hacking when
-evaluating survival distribution predictions with discrimination measures.
-Bioinformatics. https://doi.org/10.1093/BIOINFORMATICS/BTAC451
+Sonabend, Raphael, Bender, Andreas, Vollmer, Sebastian (2022).
+\dQuote{Avoiding C-hacking when evaluating survival distribution predictions with discrimination measures.}
+\emph{Bioinformatics}.
+ISSN 1367-4803, \doi{10.1093/BIOINFORMATICS/BTAC451}, \url{https://academic.oup.com/bioinformatics/advance-article/doi/10.1093/bioinformatics/btac451/6640155}.
 }

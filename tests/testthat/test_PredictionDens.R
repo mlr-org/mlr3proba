@@ -12,7 +12,7 @@ test_that("Internally constructed Prediction", {
 })
 
 test_that("c", {
-  resampling = rsmp("cv", folds = 3)
+  resampling = rsmp("cv", folds = 3L)
   rr = resample(task, lrn, resampling)
 
   preds = rr$predictions()

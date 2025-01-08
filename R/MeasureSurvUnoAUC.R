@@ -16,6 +16,7 @@
 #'
 #' @family AUC survival measures
 #' @family lp survival measures
+#' @template example_auc_measures
 #' @export
 MeasureSurvUnoAUC = R6Class("MeasureSurvUnoAUC",
   inherit = MeasureSurvAUC,
@@ -45,7 +46,7 @@ MeasureSurvUnoAUC = R6Class("MeasureSurvUnoAUC",
         msg = "If `integrated=FALSE` then `times` should be a scalar numeric."
         assert_numeric(ps$times, len = 1, .var.name = msg)
       } else {
-        if (!is.null(ps$times) && length(ps$times) == 1) {
+        if (!is.null(ps$times) && length(ps$times) == 1L) {
           ps$integrated = FALSE
         }
       }
@@ -65,3 +66,5 @@ MeasureSurvUnoAUC = R6Class("MeasureSurvUnoAUC",
     }
   )
 )
+
+register_measure("surv.uno_auc", MeasureSurvUnoAUC)

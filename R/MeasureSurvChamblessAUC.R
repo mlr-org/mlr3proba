@@ -1,21 +1,21 @@
 #' @template surv_measure
 #' @templateVar title Chambless and Diao's AUC
 #' @templateVar fullname MeasureSurvChamblessAUC
+#' @template measure_survAUC
+#' @template param_integrated
+#' @template param_times
 #'
 #' @description
 #' Calls [survAUC::AUC.cd()].
 #'
 #' Assumes Cox PH model specification.
 #'
-#' @template param_integrated
-#' @template param_times
-#' @template measure_survAUC
-#'
 #' @references
 #' `r format_bib("chambless_2006")`
 #'
 #' @family AUC survival measures
 #' @family lp survival measures
+#' @template example_auc_measures
 #' @export
 MeasureSurvChamblessAUC = R6Class("MeasureSurvChamblessAUC",
   inherit = MeasureSurvAUC,
@@ -24,8 +24,8 @@ MeasureSurvChamblessAUC = R6Class("MeasureSurvChamblessAUC",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       ps = ps(
-        times = p_uty(),
-        integrated = p_lgl(default = TRUE)
+        integrated = p_lgl(default = TRUE),
+        times = p_uty()
       )
       ps$values$integrated = TRUE
 
@@ -47,9 +47,9 @@ MeasureSurvChamblessAUC = R6Class("MeasureSurvChamblessAUC",
       ps = self$param_set$values
       if (!ps$integrated) {
         msg = "If `integrated=FALSE` then `times` should be a scalar numeric."
-        assert_numeric(ps$times, len = 1, .var.name = msg)
+        assert_numeric(ps$times, len = 1L, .var.name = msg)
       } else {
-        if (!is.null(ps$times) && length(ps$times) == 1) {
+        if (!is.null(ps$times) && length(ps$times) == 1L) {
           ps$integrated = FALSE
         }
       }
@@ -63,3 +63,5 @@ MeasureSurvChamblessAUC = R6Class("MeasureSurvChamblessAUC",
     }
   )
 )
+
+register_measure("surv.chambless_auc", MeasureSurvChamblessAUC)

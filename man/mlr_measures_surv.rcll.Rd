@@ -3,21 +3,20 @@
 \name{mlr_measures_surv.rcll}
 \alias{mlr_measures_surv.rcll}
 \alias{MeasureSurvRCLL}
-\title{Right-Censored Log loss Survival Measure}
+\title{Right-Censored Log Loss Survival Measure}
 \description{
 Calculates the right-censored logarithmic (log), loss.
-
+}
+\details{
 The RCLL, in the context of probabilistic predictions, is defined by
 \deqn{L(f, t, \Delta) = -log(\Delta f(t) + (1 - \Delta) S(t))}
-where \eqn{\Delta} is the censoring indicator.
+where \eqn{\Delta} is the censoring indicator, \eqn{f} the probability
+density function and \eqn{S} the survival function.
+RCLL is proper given that censoring and survival distribution are independent, see Rindt et al. (2022).
 
-Parameters
-\itemize{
-\item \code{eps} (numeric(1)) - Value to set zero-valued scores to prevent log(0) errors, default \code{1e-15}.
-\item \code{se} (logical(1)) - If \code{TRUE} then returns standard error of the loss otherwise returns mean across all individual scores.
-\item \code{ERV} (logical(1)) - If \code{TRUE} then the Explained Residual Variation method is applied, which means the score is standardised against a Kaplan-Meier baseline.
-\item \code{na.rm} (logical(1)) - If \code{TRUE} (default) then removes any NAs in individual score calculations.
-}
+\strong{Note}: Even though RCLL is a proper scoring rule, the calculation of \eqn{f(t)} (which in our case is discrete, i.e. it is a \emph{probability mass function}) for time points in the test set that don't exist in the predicted survival matrix (\code{distr}), results in 0 values, which are substituted by \code{"eps"} in our implementation, therefore skewing the result towards \eqn{-log(eps)}.
+This problem is also discussed in Rindt et al. (2022), where the authors perform interpolation to get non-zero values for the \eqn{f(t)}.
+Until this is handled in \code{mlr3proba} some way, we advise against using this measure for model evaluation.
 }
 \section{Dictionary}{
 
@@ -30,6 +29,16 @@ msr("surv.rcll")
 }\if{html}{\out{</div>}}
 }
 
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Levels \tab Range \cr
+   eps \tab numeric \tab 1e-15 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   se \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   ERV \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   na.rm \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
+}
+}
+
 \section{Meta Information}{
 
 \itemize{
@@ -40,15 +49,55 @@ msr("surv.rcll")
 }
 }
 
+\section{Parameter details}{
+
+\itemize{
+\item \code{eps} (\code{numeric(1)})\cr
+Very small number to substitute zero values in order to prevent errors
+in e.g. log(0) and/or division-by-zero calculations.
+Default value is 1e-15.
+}
+
+
+\itemize{
+\item \code{se} (\code{logical(1)})\cr
+If \code{TRUE} then returns standard error of the measure otherwise
+returns the mean across all individual scores, e.g. the mean of
+the per observation scores.
+Default is \code{FALSE} (returns the mean).
+}
+
+
+\itemize{
+\item \code{ERV} (\code{logical(1)})\cr
+If \code{TRUE} then the Explained Residual Variation method is applied, which
+means the score is standardized against a Kaplan-Meier baseline.
+Default is \code{FALSE}.
+}
+
+
+\itemize{
+\item \code{na.rm} (\code{logical(1)})\cr
+If \code{TRUE} (default) then removes any NAs in individual score calculations.
+}
+}
+
 \references{
-Avati, A., Duan, T., Zhou, S., Jung, K., Shah, N. H., & Ng, A. (2018).
-Countdown Regression: Sharp and Calibrated Survival Predictions.
-http://arxiv.org/abs/1806.08324
+Avati, Anand, Duan, Tony, Zhou, Sharon, Jung, Kenneth, Shah, H N, Ng, Y A (2020).
+\dQuote{Countdown Regression: Sharp and Calibrated Survival Predictions.}
+\emph{Proceedings of The 35th Uncertainty in Artificial Intelligence Conference}, \bold{115}(4), 145--155.
+\url{https://proceedings.mlr.press/v115/avati20a.html}.
+
+Rindt, David, Hu, Robert, Steinsaltz, David, Sejdinovic, Dino (2022).
+\dQuote{Survival regression with proper scoring rules and monotonic neural networks.}
+\emph{Proceedings of The 25th International Conference on Artificial Intelligence and Statistics}, \bold{151}(4), 1190--1205.
+\url{https://proceedings.mlr.press/v151/rindt22a.html}.
 }
 \seealso{
 Other survival measures: 
 \code{\link{mlr_measures_surv.calib_alpha}},
 \code{\link{mlr_measures_surv.calib_beta}},
+\code{\link{mlr_measures_surv.calib_index}},
 \code{\link{mlr_measures_surv.chambless_auc}},
 \code{\link{mlr_measures_surv.cindex}},
 \code{\link{mlr_measures_surv.dcalib}},
@@ -78,6 +127,7 @@ Other Probabilistic survival measures:
 
 Other distr survival measures: 
 \code{\link{mlr_measures_surv.calib_alpha}},
+\code{\link{mlr_measures_surv.calib_index}},
 \code{\link{mlr_measures_surv.dcalib}},
 \code{\link{mlr_measures_surv.graf}},
 \code{\link{mlr_measures_surv.intlogloss}},
@@ -103,8 +153,8 @@ Other distr survival measures:
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate"><a href='../../mlr3/html/Measure.html#method-Measure-aggregate'><code>mlr3::Measure$aggregate()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format"><a href='../../mlr3/html/Measure.html#method-Measure-format'><code>mlr3::Measure$format()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help"><a href='../../mlr3/html/Measure.html#method-Measure-help'><code>mlr3::Measure$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print"><a href='../../mlr3/html/Measure.html#method-Measure-print'><code>mlr3::Measure$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score"><a href='../../mlr3/html/Measure.html#method-Measure-score'><code>mlr3::Measure$score()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3proba" data-topic="MeasureSurv" data-id="print"><a href='../../mlr3proba/html/MeasureSurv.html#method-MeasureSurv-print'><code>mlr3proba::MeasureSurv$print()</code></a></span></li>
 </ul>
 </details>
 }}

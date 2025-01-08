@@ -41,7 +41,7 @@
 #' \item{hormone}{Hormone therapy. 1 = Yes. 0 = No.}
 #' \item{size}{Tumor size (mm).}
 #' \item{grade}{Tumor grade (1-3).}
-#' \item{nodes}{Number of nodes.}
+#' \item{nodes}{Number of lymph nodes.}
 #' \item{prog_recp}{Number of progesterone receptors.}
 #' \item{estrg_recp}{Number of estrogen receptors.}
 #' \item{rectime}{Time to recurrence (days).}

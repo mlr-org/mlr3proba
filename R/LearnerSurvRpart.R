@@ -1,12 +1,14 @@
-#' @template surv_learner
 #' @templateVar title Rpart Survival Trees
 #' @templateVar fullname LearnerSurvRpart
 #' @templateVar caller [rpart::rpart()]
 #' @templateVar crank using [rpart::predict.rpart()]
+#' @templateVar id surv.rpart
+#' @template surv_learner
 #'
-#' @description
-#' Parameter `xval` is set to 0 in order to save some computation time.
-#' Parameter `model` has been renamed to `keep_model`.
+#' @section Initial parameter values:
+#'
+#' - `xval` is set to 0 in order to save some computation time.
+#' - `model` has been renamed to `keep_model`.
 #'
 #' @references
 #' `r format_bib("breiman_1984")`
@@ -20,19 +22,20 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart",
     initialize = function() {
       ps = ps(
         parms          = p_dbl(default = 1, tags = "train"),
-        minbucket      = p_int(lower = 1L, tags = "train"),
-        minsplit       = p_int(default = 20L, lower = 1L, tags = "train"),
-        cp             = p_dbl(default = 0.01, lower = 0, upper = 1, tags = "train"),
-        maxcompete     = p_int(default = 4L, lower = 0L, tags = "train"),
-        maxsurrogate   = p_int(default = 5L, lower = 0L, tags = "train"),
-        maxdepth       = p_int(default = 30L, lower = 1L, upper = 30L, tags = "train"),
-        usesurrogate   = p_int(default = 2L, lower = 0L, upper = 2L, tags = "train"),
-        surrogatestyle = p_int(default = 0L, lower = 0L, upper = 1L, tags = "train"),
-        xval           = p_int(default = 10L, lower = 0L, tags = "train"),
+        minbucket      = p_int(1L, tags = "train"),
+        minsplit       = p_int(1L, default = 20L, tags = "train"),
+        cp             = p_dbl(0, 1, default = 0.01, tags = "train"),
+        maxcompete     = p_int(0L, default = 4L, tags = "train"),
+        maxsurrogate   = p_int(0L, default = 5L, tags = "train"),
+        maxdepth       = p_int(1L, 30L, default = 30L, tags = "train"),
+        usesurrogate   = p_int(0L, 2L, default = 2L, tags = "train"),
+        surrogatestyle = p_int(0L, 1L, default = 0L, tags = "train"),
+        xval           = p_int(0L, default = 10L, tags = "train"),
         cost           = p_uty(tags = "train"),
         keep_model     = p_lgl(default = FALSE, tags = "train")
       )
-      ps$values = list(xval = 0L)
+
+      ps$set_values(xval = 0L)
 
       super$initialize(
         id = "surv.rpart",
@@ -76,14 +79,17 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart",
         pv = insert_named(pv, list(weights = task$weights$weight))
       }
 
-      invoke(rpart::rpart,
-        formula = task$formula(), data = task$data(),
-        method = "exp", .args = pv)
+      invoke(rpart::rpart, formula = task$formula(), data = task$data(),
+             method = "exp", .args = pv)
     },
 
     .predict = function(task) {
-      preds = invoke(predict, object = self$model, newdata = task$data(cols = task$feature_names))
-      list(crank = preds)
+      newdata = ordered_features(task, self)
+      p = invoke(predict, object = self$model, newdata = newdata)
+
+      list(crank = p)
     }
   )
 )
+
+register_learner("surv.rpart", LearnerSurvRpart)

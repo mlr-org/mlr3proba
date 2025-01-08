@@ -9,7 +9,7 @@ on:
     branches:
       - main
 
-name: r-cmd-check
+name: R-CMD-check
 
 jobs:
   r-cmd-check:
@@ -28,7 +28,7 @@ jobs:
           - {os: ubuntu-latest,   r: 'release'}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: r-lib/actions/setup-pandoc@v2
 

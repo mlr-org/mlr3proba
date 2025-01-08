@@ -3,18 +3,16 @@
 \name{mlr_graphs_distrcompositor}
 \alias{mlr_graphs_distrcompositor}
 \alias{pipeline_distrcompositor}
-\alias{distrcompositor}
 \title{Estimate Survival distr Predict Type Pipeline}
 \usage{
 pipeline_distrcompositor(
   learner,
-  estimator = c("kaplan", "nelson"),
-  form = c("aft", "ph", "po"),
+  estimator = "kaplan",
+  form = "aft",
   overwrite = FALSE,
+  scale_lp = FALSE,
   graph_learner = FALSE
 )
-
-distrcompositor(...)
 }
 \arguments{
 \item{learner}{\verb{[mlr3::Learner]|[mlr3pipelines::PipeOp]|[mlr3pipelines::Graph]} \cr
@@ -22,59 +20,78 @@ Either a \code{Learner} which will be wrapped in \link[mlr3pipelines:mlr_pipeops
 be wrapped in \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or a \code{Graph} itself. Underlying \code{Learner} should be
 \link{LearnerSurv}.}
 
-\item{estimator}{\code{character(1)}\cr
-One of \code{kaplan} (default) or \code{nelson}, corresponding to the Kaplan-Meier and
-Nelson-Aalen estimators respectively. Used to estimate the baseline survival distribution.}
+\item{estimator}{(\code{character(1)})\cr
+One of \code{kaplan} (default), \code{nelson} or \code{breslow}, corresponding to the Kaplan-Meier,
+Nelson-Aalen and \link[=breslow]{Breslow} estimators respectively.
+Used to estimate the baseline survival distribution.}
 
-\item{form}{\code{character(1)}\cr
+\item{form}{(\code{character(1)})\cr
 One of \code{aft} (default), \code{ph}, or \code{po}, corresponding to accelerated failure time,
-proportional hazards, and proportional odds respectively. Used to determine the form of the
-composed survival distribution.}
+proportional hazards, and proportional odds respectively.
+Used to determine the form of the composed survival distribution.
+Ignored if estimator is \code{breslow}.}
 
-\item{overwrite}{\code{logical(1)}\cr
+\item{overwrite}{(\code{logical(1)})\cr
 If \code{FALSE} (default) then if the \code{learner} already has a \code{distr}, the compositor does nothing.
 If \code{TRUE} then the \code{distr} is overwritten by the compositor if
 already present, which may be required for changing the prediction \code{distr} from one model form
 to another.}
 
-\item{graph_learner}{\code{logical(1)}\cr
+\item{scale_lp}{(\code{logical(1)})\cr
+If \code{TRUE} and \code{form} is \code{"aft"}, the linear predictor scores are scaled before
+the composition. Experimental option, see more details on \link{PipeOpDistrCompositor}.
+Default is \code{FALSE}.}
+
+\item{graph_learner}{(\code{logical(1)})\cr
 If \code{TRUE} returns wraps the \link[mlr3pipelines:Graph]{Graph} as a
 \link[mlr3pipelines:mlr_learners_graph]{GraphLearner} otherwise (default) returns as a \code{Graph}.}
-
-\item{...}{\code{ANY}\cr
-For use with \code{distrcompositor}, now deprecated.}
 }
 \value{
 \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or \link[mlr3pipelines:mlr_learners_graph]{mlr3pipelines::GraphLearner}
 }
 \description{
-Wrapper around \link{PipeOpDistrCompositor} to simplify \link[mlr3pipelines:Graph]{Graph} creation.
-}
-\examples{
-\dontrun{
-if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
-  requireNamespace("rpart", quietly = TRUE)) {
-  library("mlr3")
-  library("mlr3pipelines")
+Wrapper around \link{PipeOpDistrCompositor} or \link{PipeOpBreslow} to simplify \link[mlr3pipelines:Graph]{Graph} creation.
 
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+}
+\section{Dictionary}{
+
+This \link[mlr3pipelines:Graph]{Graph} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary}
+\link[mlr3pipelines:mlr_graphs]{mlr_graphs} or with the associated sugar function \link[mlr3pipelines:ppl]{ppl()}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_graphs$get("distrcompositor")
+ppl("distrcompositor")
+}\if{html}{\out{</div>}}
+}
+
+\examples{
+\dontshow{if (mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontrun{
+  library(mlr3pipelines)
+
+  # let's change the distribution prediction of Cox (Breslow-based) to an AFT form:
   task = tsk("rats")
-  pipe = ppl(
+  grlrn = ppl(
     "distrcompositor",
-    learner = lrn("surv.rpart"),
+    learner = lrn("surv.coxph"),
     estimator = "kaplan",
-    form = "ph"
+    form = "aft",
+    overwrite = TRUE,
+    graph_learner = TRUE
   )
-  pipe$train(task)
-  pipe$predict(task)
+  grlrn$train(task)
+  grlrn$predict(task)
 }
-}
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 Other pipelines: 
 \code{\link{mlr_graphs_crankcompositor}},
 \code{\link{mlr_graphs_probregr}},
+\code{\link{mlr_graphs_responsecompositor}},
 \code{\link{mlr_graphs_survaverager}},
 \code{\link{mlr_graphs_survbagging}},
-\code{\link{mlr_graphs_survtoregr}}
+\code{\link{mlr_graphs_survtoclassif_IPCW}},
+\code{\link{mlr_graphs_survtoclassif_disctime}}
 }
 \concept{pipelines}

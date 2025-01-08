@@ -5,6 +5,8 @@
 \alias{MeasureSurvDCalibration}
 \title{D-Calibration Survival Measure}
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 This calibration method is defined by calculating the following statistic:
 \deqn{s = B/n \sum_i (P_i - n/B)^2}
 where \eqn{B} is number of 'buckets' (that equally divide \eqn{[0,1]} into intervals),
@@ -14,8 +16,8 @@ of observations in the \eqn{i}th interval. An observation is assigned to the
 falls within the corresponding interval.
 This statistic assumes that censoring time is independent of death time.
 
-A model is well-calibrated if \eqn{s \sim Unif(B)}, tested with \code{chisq.test}
-(\eqn{p > 0.05} if well-calibrated).
+A model is well D-calibrated if \eqn{s \sim Unif(B)}, tested with \code{chisq.test}
+(\eqn{p > 0.05} if well-calibrated, i.e. higher p-values are preferred).
 Model \eqn{i} is better calibrated than model \eqn{j} if \eqn{s(i) < s(j)},
 meaning that \emph{lower values} of this measure are preferred.
 }
@@ -25,7 +27,7 @@ The former is useful for model comparison whereas the latter is useful for deter
 is well-calibrated. If \code{chisq = FALSE} and \code{s} is the predicted value then you can manually
 compute the p.value with \code{pchisq(s, B - 1, lower.tail = FALSE)}.
 
-NOTE: This measure is still experimental both theoretically and in implementation. Results
+\strong{NOTE}: This measure is still experimental both theoretically and in implementation. Results
 should therefore only be taken as an indicator of performance and not for
 conclusive judgements about model calibration.
 }
@@ -40,6 +42,15 @@ msr("surv.dcalib")
 }\if{html}{\out{</div>}}
 }
 
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Levels \tab Range \cr
+   B \tab integer \tab 10 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
+   chisq \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   truncate \tab numeric \tab Inf \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+}
+}
+
 \section{Meta Information}{
 
 \itemize{
@@ -47,6 +58,30 @@ msr("surv.dcalib")
 \item Range: \eqn{[0, \infty)}{[0, Inf)}
 \item Minimize: \code{TRUE}
 \item Required prediction: \code{distr}
+}
+}
+
+\section{Parameter details}{
+
+\itemize{
+\item \code{B} (\code{integer(1)}) \cr
+Number of buckets to test for uniform predictions over.
+Default of \code{10} is recommended by Haider et al. (2020).
+Changing this parameter affects \code{truncate}.
+\item \code{chisq} (\code{logical(1)}) \cr
+If \code{TRUE} returns the p-value of the corresponding chisq.test instead of the measure.
+Default is \code{FALSE} and returns the statistic \code{s}.
+You can manually get the p-value by executing \code{pchisq(s, B - 1, lower.tail = FALSE)}.
+The null hypothesis is that the model is D-calibrated.
+\item \code{truncate} (\code{double(1)}) \cr
+This parameter controls the upper bound of the output statistic, when \code{chisq} is \code{FALSE}.
+We use \code{truncate = Inf} by default but values between \eqn{10-16} are sufficient
+for most purposes, which correspond to p-values of \eqn{0.35-0.06} for the \code{chisq.test} using
+the default \eqn{B = 10} buckets.
+Values \eqn{B > 10} translate to even lower p-values and thus less D-calibrated models.
+If the number of buckets \eqn{B} changes, you probably will want to
+change the \code{truncate} value as well to correspond to the same p-value significance.
+Note that truncation may severely limit automated tuning with this measure.
 }
 }
 
@@ -60,6 +95,7 @@ Haider, Humza, Hoehn, Bret, Davis, Sarah, Greiner, Russell (2020).
 Other survival measures: 
 \code{\link{mlr_measures_surv.calib_alpha}},
 \code{\link{mlr_measures_surv.calib_beta}},
+\code{\link{mlr_measures_surv.calib_index}},
 \code{\link{mlr_measures_surv.chambless_auc}},
 \code{\link{mlr_measures_surv.cindex}},
 \code{\link{mlr_measures_surv.graf}},
@@ -83,10 +119,12 @@ Other survival measures:
 
 Other calibration survival measures: 
 \code{\link{mlr_measures_surv.calib_alpha}},
-\code{\link{mlr_measures_surv.calib_beta}}
+\code{\link{mlr_measures_surv.calib_beta}},
+\code{\link{mlr_measures_surv.calib_index}}
 
 Other distr survival measures: 
 \code{\link{mlr_measures_surv.calib_alpha}},
+\code{\link{mlr_measures_surv.calib_index}},
 \code{\link{mlr_measures_surv.graf}},
 \code{\link{mlr_measures_surv.intlogloss}},
 \code{\link{mlr_measures_surv.logloss}},
@@ -112,8 +150,8 @@ Other distr survival measures:
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate"><a href='../../mlr3/html/Measure.html#method-Measure-aggregate'><code>mlr3::Measure$aggregate()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format"><a href='../../mlr3/html/Measure.html#method-Measure-format'><code>mlr3::Measure$format()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help"><a href='../../mlr3/html/Measure.html#method-Measure-help'><code>mlr3::Measure$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print"><a href='../../mlr3/html/Measure.html#method-Measure-print'><code>mlr3::Measure$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score"><a href='../../mlr3/html/Measure.html#method-Measure-score'><code>mlr3::Measure$score()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3proba" data-topic="MeasureSurv" data-id="print"><a href='../../mlr3proba/html/MeasureSurv.html#method-MeasureSurv-print'><code>mlr3proba::MeasureSurv$print()</code></a></span></li>
 </ul>
 </details>
 }}
@@ -126,31 +164,6 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \if{html}{\out{<div class="r">}}\preformatted{MeasureSurvDCalibration$new()}\if{html}{\out{</div>}}
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{B}}{(\code{integer(1)}) \cr
-Number of buckets to test for uniform predictions over.
-Default of \code{10} is recommended by Haider et al. (2020).
-Changing this parameter affects \code{truncate}.}
-
-\item{\code{chisq}}{(\code{logical(1)}) \cr
-If \code{TRUE} returns the p-value of the corresponding chisq.test instead of the measure.
-Default is \code{FALSE} and returns the statistic \code{s}.
-You can manually get the p-value by executing \code{pchisq(s, B - 1, lower.tail = FALSE)}.
-The null hypothesis is that the model is D-calibrated.}
-
-\item{\code{truncate}}{(\code{double(1)}) \cr
-This parameter controls the upper bound of the output statistic,
-when \code{chisq} is \code{FALSE}. We use \code{truncate = Inf} by default but \eqn{10} may be sufficient
-for most purposes, which corresponds to a p-value of 0.35 for the chisq.test using
-\eqn{B = 10} buckets. Values \eqn{>10} translate to even lower p-values and thus
-less calibrated models. If the number of buckets \eqn{B} changes, you probably will want to
-change the \code{truncate} value as well to correspond to the same p-value significance.
-Note that truncation may severely limit automated tuning with this measure.}
-}
-\if{html}{\out{</div>}}
-}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MeasureSurvDCalibration-clone"></a>}}

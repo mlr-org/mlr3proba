@@ -1,21 +1,21 @@
 #' @template surv_measure
 #' @templateVar title Hung and Chiang's AUC
 #' @templateVar fullname MeasureSurvHungAUC
+#' @template measure_survAUC
+#' @template param_integrated
+#' @template param_times
 #'
 #' @description
 #' Calls [survAUC::AUC.hc()].
 #'
 #' Assumes random censoring.
 #'
-#' @template measure_survAUC
-#' @template param_integrated
-#' @template param_times
-#'
 #' @references
 #' `r format_bib("hung_2010")`
 #'
 #' @family AUC survival measures
 #' @family lp survival measures
+#' @template example_auc_measures
 #' @export
 MeasureSurvHungAUC = R6Class("MeasureSurvHungAUC",
   inherit = MeasureSurvAUC,
@@ -59,3 +59,5 @@ MeasureSurvHungAUC = R6Class("MeasureSurvHungAUC",
     }
   )
 )
+
+register_measure("surv.hung_auc", MeasureSurvHungAUC)

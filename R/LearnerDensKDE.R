@@ -1,7 +1,7 @@
 #' @template dens_learner
 #' @templateVar title Kernel
 #' @templateVar fullname LearnerDensKDE
-#' @templateVar caller kernels implemented in \CRANpkg{distr6}
+#' @templateVar caller kernels implemented in [distr6]
 #' @details The default bandwidth uses Silverman's rule-of-thumb for Gaussian kernels, however for
 #' non-Gaussian kernels it is recommended to use \CRANpkg{mlr3tuning} to tune the bandwidth with
 #' cross-validation. Other density learners can be used for automated bandwidth selection.
@@ -11,19 +11,19 @@
 #' `r format_bib("silverman_1986")`
 #'
 #' @export
-LearnerDensKDE = R6::R6Class("LearnerDensKDE",
+LearnerDensKDE = R6Class("LearnerDensKDE",
   inherit = LearnerDens,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       ps = ps(
-        kernel = p_fct(levels = subset(distr6::listKernels(), select = "ShortName")[[1]],
+        kernel = p_fct(levels = subset(distr6::listKernels(), select = "ShortName")[[1L]],
           default = "Epan", tags = "train"),
-        bandwidth = p_dbl(lower = 0, tags = "train", special_vals = list("silver"))
+        bandwidth = p_dbl(0, tags = "train", special_vals = list("silver"))
       )
 
-      ps$values = list(kernel = "Epan", bandwidth = "silver")
+      ps$set_values(kernel = "Epan", bandwidth = "silver")
 
       super$initialize(
         id = "dens.kde",
@@ -46,7 +46,7 @@ LearnerDensKDE = R6::R6Class("LearnerDensKDE",
         self$param_set$values$kernel == "Epan"
       }
 
-      data = task$data()[[1]]
+      data = task$data()[[1L]]
 
       kernel = get(as.character(subset(
         distr6::listKernels(),
@@ -54,20 +54,22 @@ LearnerDensKDE = R6::R6Class("LearnerDensKDE",
         ClassName)))$new()
 
 
-      bw = ifelse(self$param_set$values$bandwidth == "silver",
+      bw = if (isTRUE(self$param_set$values$bandwidth == "silver")) {
         0.9 * min(sd(data), stats::IQR(data, na.rm = TRUE) / 1.349, na.rm = TRUE) *
-          length(data)^-0.2,
-        self$param_set$values$bandwidth)
+          length(data)^-0.2
+      } else {
+        self$param_set$values$bandwidth
+      }
 
       pdf = function(x) {} # nolint
 
       body(pdf) = substitute({
-        if (length(x) == 1) {
+        if (length(x) == 1L) {
           return(1 / (rows * bw) * sum(kernel$pdf((x - train) / bw)))
         } else {
           x = matrix(x, nrow = length(x), ncol = rows)
           train_mat = matrix(train, nrow = nrow(x), ncol = rows, byrow = TRUE)
-          return(1 / (rows * bw) * colSums(apply((x - train_mat) / bw, 1, kernel$pdf)))
+          return(1 / (rows * bw) * colSums(apply((x - train_mat) / bw, 1L, kernel$pdf)))
         }
       }, list(
         rows = task$nrow,
@@ -83,8 +85,10 @@ LearnerDensKDE = R6::R6Class("LearnerDensKDE",
     },
 
     .predict = function(task) {
-      list(pdf = self$model$pdf(task$data()[[1]]),
+      list(pdf = self$model$pdf(task$data()[[1L]]),
         distr = self$model)
     }
   )
 )
+
+register_learner("dens.kde", LearnerDensKDE)

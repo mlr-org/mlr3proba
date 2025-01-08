@@ -15,7 +15,7 @@
 #'
 #' @family response survival measures
 #' @export
-MeasureSurvMAE = R6::R6Class("MeasureSurvMAE",
+MeasureSurvMAE = R6Class("MeasureSurvMAE",
   inherit = MeasureSurv,
   public = list(
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
@@ -47,3 +47,5 @@ MeasureSurvMAE = R6::R6Class("MeasureSurvMAE",
     }
   )
 )
+
+register_measure("surv.mae", MeasureSurvMAE)

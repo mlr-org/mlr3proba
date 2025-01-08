@@ -1,11 +1,10 @@
-#' @template surv_learner
 #' @templateVar title Cox Proportional Hazards
 #' @templateVar fullname LearnerSurvCoxPH
 #' @templateVar caller [survival::coxph()]
 #' @templateVar distr by [survival::survfit.coxph()]
 #' @templateVar lp by [survival::predict.coxph()]
-#' @description
-#'
+#' @templateVar id surv.coxph
+#' @template surv_learner
 #'
 #' @references
 #' `r format_bib("cox_1972")`
@@ -23,7 +22,7 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH",
           ties        = p_fct(default = "efron", levels = c("efron", "breslow", "exact"), tags = "train"),
           singular.ok = p_lgl(default = TRUE, tags = "train"),
           type        = p_fct(default = "efron", levels = c("efron", "aalen", "kalbfleisch-prentice"), tags = "predict"),
-          stype       = p_int(default = 2L, lower = 1L, upper = 2L, tags = "predict")
+          stype       = p_int(1L, 2L, default = 2L, tags = "predict")
         ),
         predict_types = c("crank", "distr", "lp"),
         feature_types = c("logical", "integer", "numeric", "factor"),
@@ -43,31 +42,24 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH",
         pv$weights = task$weights$weight
       }
 
-      invoke(survival::coxph, formula = task$formula(), data = task$data(), .args = pv, x = TRUE)
+      invoke(survival::coxph, formula = task$formula(), data = task$data(),
+             .args = pv, model = TRUE)
     },
 
     .predict = function(task) {
-
-      newdata = task$data(cols = task$feature_names)
-
-      # We move the missingness checks here manually as if any NAs are made in predictions then the
-      # distribution object cannot be create (initialization of distr6 objects does not handle NAs)
-      if (anyMissing(newdata)) {
-        stop(sprintf(
-          "Learner %s on task %s failed to predict: Missing values in new data (line(s) %s)\n",
-          self$id, task$id,
-          paste0(which(!complete.cases(newdata)), collapse = ", ")))
-      }
-
+      newdata = ordered_features(task, self)
       pv = self$param_set$get_values(tags = "predict")
 
-      # Get predicted values
-      fit = mlr3misc::invoke(survival::survfit, formula = self$model, newdata = newdata,
-        se.fit = FALSE, .args = pv)
+      # Get survival predictions via `survfit`
+      fit = invoke(survival::survfit, formula = self$model, newdata = newdata,
+                   se.fit = FALSE, .args = pv)
 
-      lp = predict(self$model, type = "lp", newdata = newdata)
+      # Get linear predictors
+      lp = invoke(predict, self$model, type = "lp", newdata = newdata)
 
       .surv_return(times = fit$time, surv = t(fit$surv), lp = lp)
     }
   )
 )
+
+register_learner("surv.coxph", LearnerSurvCoxPH)

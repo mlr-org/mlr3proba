@@ -7,6 +7,10 @@
 This object stores the predictions returned by a learner of class \link{LearnerSurv}.
 
 The \code{task_type} is set to \code{"surv"}.
+
+For accessing survival and hazard functions, as well as other complex methods
+from a \link{PredictionSurv} object, see public methods on \code{\link[distr6:ExoticStatistics]{distr6::ExoticStatistics()}}
+and example below.
 }
 \examples{
 library(mlr3)
@@ -14,6 +18,9 @@ task = tsk("rats")
 learner = lrn("surv.kaplan")
 p = learner$train(task, row_ids = 1:26)$predict(task, row_ids = 27:30)
 head(as.data.table(p))
+
+p$distr # distr6::Matdist class (test obs x time points)
+
 # survival probabilities of the 4 test rats at two time points
 p$distr$survival(c(20, 100))
 }
@@ -53,11 +60,12 @@ Access the stored predicted survival time.}
 }
 }
 \if{html}{\out{
-<details open><summary>Inherited methods</summary>
+<details><summary>Inherited methods</summary>
 <ul>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="filter"><a href='../../mlr3/html/Prediction.html#method-Prediction-filter'><code>mlr3::Prediction$filter()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="format"><a href='../../mlr3/html/Prediction.html#method-Prediction-format'><code>mlr3::Prediction$format()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="help"><a href='../../mlr3/html/Prediction.html#method-Prediction-help'><code>mlr3::Prediction$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="obs_loss"><a href='../../mlr3/html/Prediction.html#method-Prediction-obs_loss'><code>mlr3::Prediction$obs_loss()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="print"><a href='../../mlr3/html/Prediction.html#method-Prediction-print'><code>mlr3::Prediction$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="score"><a href='../../mlr3/html/Prediction.html#method-Prediction-score'><code>mlr3::Prediction$score()</code></a></span></li>
 </ul>

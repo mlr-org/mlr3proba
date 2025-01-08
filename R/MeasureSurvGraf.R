@@ -1,48 +1,61 @@
 #' @template surv_measure
-#' @templateVar title Integrated Graf Score
+#' @templateVar title Integrated Brier Score
 #' @templateVar fullname MeasureSurvGraf
+#' @template param_integrated
+#' @template param_times
+#' @template param_tmax
+#' @template param_pmax
+#' @template param_method
+#' @template param_se
+#' @template param_proper
+#' @templateVar eps 1e-3
+#' @template param_eps
+#' @template param_erv
+#' @template param_remove_obs
 #'
 #' @aliases MeasureSurvBrier mlr_measures_surv.brier
 #'
 #' @description
-#' Calculates the Integrated Graf Score, aka integrated Brier score or squared loss.
+#' Calculates the **Integrated Survival Brier Score** (ISBS), Integrated Graf Score
+#' or squared survival loss.
 #'
-#' For an individual who dies at time \eqn{t}, with predicted Survival function, \eqn{S}, the
-#' Graf Score at time \eqn{t^*}{t*} is given by
-#' \deqn{L(S,t|t^*) = [(S(t^*)^2)I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*))^2)I(t > t^*)(1/G(t^*))]}{L(S,t|t*) = [(S(t*)^2)I(t \le t*, \delta = 1)(1/G(t))] + [((1 - S(t*))^2)I(t > t*)(1/G(t*))]} # nolint
+#' @details
+#' This measure has two dimensions: (test set) observations and time points.
+#' For a specific individual \eqn{i} from the test set, with observed survival
+#' outcome \eqn{(t_i, \delta_i)} (time and censoring indicator) and predicted
+#' survival function \eqn{S_i(t)}, the *observation-wise* loss integrated across
+#' the time dimension up to the time cutoff \eqn{\tau^*}, is:
+#'
+#' \deqn{L_{ISBS}(S_i, t_i, \delta_i) = \int^{\tau^*}_0  \frac{S_i^2(\tau) \text{I}(t_i \leq \tau, \delta_i=1)}{G(t_i)} + \frac{(1-S_i(\tau))^2 \text{I}(t_i > \tau)}{G(\tau)} \ d\tau}
+#'
 #' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
 #'
-#' The re-weighted IGS, IGS* is given by
-#' \deqn{L(S,t|t^*) = [(S(t^*)^2)I(t \le t^*, \delta = 1)(1/G(t))] + [((1 - S(t^*))^2)I(t > t^*)(1/G(t))]}{L(S,t|t*) = [(S(t*)^2)I(t \le t*, \delta = 1)(1/G(t))] + [((1 - S(t*))^2)I(t > t*)(1/G(t))]} # nolint
-#' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution, i.e. always
-#' weighted by \eqn{G(t)}. IGS* is strictly proper when the censoring distribution is independent
-#' of the survival distribution and when G is fit on a sufficiently large dataset. IGS is never
-#' proper. Use `proper = FALSE` for IGS and `proper = TRUE` for IGS*, in the future the default
-#' will be changed to `proper = TRUE`. Results may be very different if many observations are
-#' censored at the last observed time due to division by 1/`eps` in `proper = TRUE`.
+#' The **re-weighted ISBS** (RISBS) is:
 #'
-#' Note: If comparing the integrated graf score to other packages, e.g. \CRANpkg{pec}, then
-#' `method = 2` should be used. However the results may still be very slightly different as
-#' this package uses `survfit` to estimate the censoring distribution, in line with the Graf 1999
-#' paper; whereas some other packages use `prodlim` with `reverse = TRUE` (meaning Kaplan-Meier is
-#' not used).
+#' \deqn{L_{RISBS}(S_i, t_i, \delta_i) = \delta_i \frac{\int^{\tau^*}_0  S_i^2(\tau) \text{I}(t_i \leq \tau) + (1-S_i(\tau))^2 \text{I}(t_i > \tau) \ d\tau}{G(t_i)}}
 #'
-#' @template measure_integrated
-#' @template param_integrated
-#' @template param_times
-#' @template param_method
-#' @template param_proper
-#' @template param_se
-#' @template param_eps
+#' which is always weighted by \eqn{G(t_i)} and is equal to zero for a censored subject.
+#'
+#' To get a single score across all \eqn{N} observations of the test set, we
+#' return the average of the time-integrated observation-wise scores:
+#' \deqn{\sum_{i=1}^N L(S_i, t_i, \delta_i) / N}
+#'
+#' @template properness
+#' @templateVar improper_id ISBS
+#' @templateVar proper_id RISBS
+#' @template which_times
+#' @template details_method
 #' @template details_trainG
+#' @template details_tmax
 #'
 #' @references
-#' `r format_bib("graf_1999")`
+#' `r format_bib("graf_1999", "sonabend2024", "kvamme2023")`
 #'
 #' @family Probabilistic survival measures
 #' @family distr survival measures
+#' @template example_scoring_rules
 #' @export
-MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
+MeasureSurvGraf = R6Class("MeasureSurvGraf",
   inherit = MeasureSurv,
   public = list(
     #' @description
@@ -51,7 +64,7 @@ MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
     #'   Standardize measure against a Kaplan-Meier baseline
     #'   (Explained Residual Variation)
     initialize = function(ERV = FALSE) {
-      assert(check_logical(ERV))
+      assert_logical(ERV)
 
       ps = ps(
         integrated = p_lgl(default = TRUE),
@@ -62,11 +75,12 @@ MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
         se = p_lgl(default = FALSE),
         proper = p_lgl(default = FALSE),
         eps = p_dbl(0, 1, default = 1e-3),
-        ERV = p_lgl(default = FALSE)
+        ERV = p_lgl(default = FALSE),
+        remove_obs = p_lgl(default = FALSE)
       )
-      ps$values = list(
+      ps$set_values(
         integrated = TRUE, method = 2L, se = FALSE,
-        proper = FALSE, eps = 1e-3, ERV = ERV
+        proper = FALSE, eps = 1e-3, ERV = ERV, remove_obs = FALSE
       )
 
       range = if (ERV) c(-Inf, 1) else c(0, Inf)
@@ -78,7 +92,7 @@ MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
         minimize = !ERV,
         packages = character(),
         predict_type = "distr",
-        label = "Integrated Graf Score",
+        label = "Integrated Brier Score",
         man = "mlr3proba::mlr_measures_surv.graf",
       )
     }
@@ -87,16 +101,22 @@ MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
   private = list(
     .score = function(prediction, task, train_set, ...) {
       ps = self$param_set$values
+      # times must be unique, sorted and positive numbers
+      times = assert_numeric(ps$times, lower = 0, any.missing = FALSE,
+                             unique = TRUE, sorted = TRUE, null.ok = TRUE)
+      # ERV score
       if (ps$ERV) return(.scoring_rule_erv(self, prediction, task, train_set))
-      nok = sum(!is.null(ps$times), !is.null(ps$t_max), !is.null(ps$p_max)) > 1
+
+      nok = sum(!is.null(times), !is.null(ps$t_max), !is.null(ps$p_max)) > 1
       if (nok) {
         stop("Only one of `times`, `t_max`, and `p_max` should be provided")
       }
+
       if (!ps$integrated) {
         msg = "If `integrated=FALSE` then `times` should be a scalar numeric."
-        assert_numeric(ps$times, len = 1, .var.name = msg)
+        assert_numeric(times, len = 1L, .var.name = msg)
       } else {
-        if (!is.null(ps$times) && length(ps$times) == 1) {
+        if (!is.null(times) && length(times) == 1L) {
           ps$integrated = FALSE
         }
       }
@@ -110,11 +130,12 @@ MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
         train = NULL
       }
 
+      # `score` is a matrix, IBS(i,j) => n_test_obs x times
       score = weighted_survival_score("graf",
         truth = prediction$truth,
-        distribution = prediction$data$distr, times = ps$times,
+        distribution = prediction$data$distr, times = times,
         t_max = ps$t_max, p_max = ps$p_max, proper = ps$proper, train = train,
-        eps = ps$eps
+        eps = ps$eps, remove_obs = ps$remove_obs
       )
 
       if (ps$se) {
@@ -125,3 +146,6 @@ MeasureSurvGraf = R6::R6Class("MeasureSurvGraf",
     }
   )
 )
+
+register_measure("surv.graf", MeasureSurvGraf)
+register_measure("surv.brier", MeasureSurvGraf)

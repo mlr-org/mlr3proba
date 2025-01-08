@@ -7,6 +7,7 @@
 \description{
 A \link[mlr3:TaskGenerator]{mlr3::TaskGenerator} calling \code{\link[distr6:distrSimulate]{distr6::distrSimulate()}}.
 See \code{\link[distr6:distrSimulate]{distr6::distrSimulate()}} for an explanation of the hyperparameters.
+See \code{\link[distr6:listDistributions]{distr6::listDistributions()}} for the names of the available distributions.
 }
 \section{Dictionary}{
 
@@ -17,14 +18,38 @@ tgen("simdens")
 }\if{html}{\out{</div>}}
 }
 
+\section{Parameters}{
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Levels \cr
+   distribution \tab character \tab Normal \tab Arcsine, Arrdist, Bernoulli, Beta, BetaNoncentral, Binomial, Categorical, Cauchy, ChiSquared, ChiSquaredNoncentral, \link{...} \cr
+   pars \tab untyped \tab - \tab  \cr
+}
+}
+
 \examples{
-generator = mlr3::mlr_task_generators$get("simdens")
-task = generator$generate(20)
+# generate 20 samples from a standard Normal distribution
+dens_gen = tgen("simdens")
+dens_gen$param_set
+
+task = dens_gen$generate(20)
 head(task)
+
+# generate 50 samples from a Binomial distribution with specific parameters
+dens_gen = tgen("simdens", distribution = "Bernoulli", pars = list(prob = 0.8))
+task = dens_gen$generate(50)
+task$data()[["x"]]
 }
 \seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:TaskGenerator]{TaskGenerators}: \link[mlr3:mlr_task_generators]{mlr3::mlr_task_generators}
+\itemize{
+\item \link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:TaskGenerator]{TaskGenerators}: \link[mlr3:mlr_task_generators]{mlr3::mlr_task_generators}
+\item \code{as.data.table(mlr_task_generators)}  for a table of available \link[=TaskGenerator]{TaskGenerators} in the running session
 }
+
+Other TaskGenerator: 
+\code{\link{mlr_task_generators_coxed}},
+\code{\link{mlr_task_generators_simsurv}}
+}
+\concept{TaskGenerator}
 \section{Super class}{
 \code{\link[mlr3:TaskGenerator]{mlr3::TaskGenerator}} -> \code{TaskGeneratorSimdens}
 }
@@ -32,6 +57,7 @@ head(task)
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-TaskGeneratorSimdens-new}{\code{TaskGeneratorSimdens$new()}}
+\item \href{#method-TaskGeneratorSimdens-help}{\code{TaskGeneratorSimdens$help()}}
 \item \href{#method-TaskGeneratorSimdens-clone}{\code{TaskGeneratorSimdens$clone()}}
 }
 }
@@ -51,6 +77,16 @@ head(task)
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TaskGeneratorSimdens$new()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TaskGeneratorSimdens-help"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskGeneratorSimdens-help}{}}}
+\subsection{Method \code{help()}}{
+Opens the corresponding help page referenced by field \verb{$man}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TaskGeneratorSimdens$help()}\if{html}{\out{</div>}}
 }
 
 }

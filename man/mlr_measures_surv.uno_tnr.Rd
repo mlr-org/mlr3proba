@@ -9,13 +9,15 @@ Calls \code{\link[survAUC:AUC.uno]{survAUC::spec.uno()}}.
 
 Assumes random censoring.
 
-\code{times} and \code{lp_thresh} are arbitrarily set to \code{0} to prevent crashing, these should be further
-specified.
+\code{times} and \code{lp_thresh} are arbitrarily set to \code{0} to prevent crashing, these
+should be further specified.
 }
 \details{
-All measures implemented from \CRANpkg{survAUC} should be used with care, we are aware
-of problems in implementation that sometimes cause fatal errors in R. In future updates these
-measures will all be re-written and implemented directly in \code{mlr3proba}.
+All measures implemented from \CRANpkg{survAUC} should be used with
+care, we are aware of problems in implementation that sometimes cause fatal
+errors in R.
+In future updates some of these measures may be re-written and implemented
+directly in \code{mlr3proba}.
 }
 \section{Dictionary}{
 
@@ -28,6 +30,14 @@ msr("surv.uno_tnr")
 }\if{html}{\out{</div>}}
 }
 
+\section{Parameters}{
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Range \cr
+   times \tab numeric \tab - \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   lp_thresh \tab numeric \tab 0 \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
+}
+}
+
 \section{Meta Information}{
 
 \itemize{
@@ -35,6 +45,21 @@ msr("surv.uno_tnr")
 \item Range: \eqn{[0, 1]}{[0, 1]}
 \item Minimize: \code{FALSE}
 \item Required prediction: \code{lp}
+}
+}
+
+\section{Parameter details}{
+
+\itemize{
+\item \code{times} (\code{numeric()})\cr
+A vector of time-points at which we calculate the TPR/TNR scores.
+}
+
+
+\itemize{
+\item \code{lp_thresh} (\code{numeric(1)})\cr
+Determines the cutoff threshold of the linear predictor in the
+calculation of the TPR/TNR scores.
 }
 }
 
@@ -48,6 +73,7 @@ Uno H, Cai T, Tian L, Wei LJ (2007).
 Other survival measures: 
 \code{\link{mlr_measures_surv.calib_alpha}},
 \code{\link{mlr_measures_surv.calib_beta}},
+\code{\link{mlr_measures_surv.calib_index}},
 \code{\link{mlr_measures_surv.chambless_auc}},
 \code{\link{mlr_measures_surv.cindex}},
 \code{\link{mlr_measures_surv.dcalib}},
@@ -69,6 +95,15 @@ Other survival measures:
 \code{\link{mlr_measures_surv.uno_tpr}},
 \code{\link{mlr_measures_surv.xu_r2}}
 
+Other AUC survival measures: 
+\code{\link{mlr_measures_surv.chambless_auc}},
+\code{\link{mlr_measures_surv.hung_auc}},
+\code{\link{mlr_measures_surv.song_auc}},
+\code{\link{mlr_measures_surv.song_tnr}},
+\code{\link{mlr_measures_surv.song_tpr}},
+\code{\link{mlr_measures_surv.uno_auc}},
+\code{\link{mlr_measures_surv.uno_tpr}}
+
 Other lp survival measures: 
 \code{\link{mlr_measures_surv.calib_beta}},
 \code{\link{mlr_measures_surv.chambless_auc}},
@@ -81,15 +116,6 @@ Other lp survival measures:
 \code{\link{mlr_measures_surv.uno_auc}},
 \code{\link{mlr_measures_surv.uno_tpr}},
 \code{\link{mlr_measures_surv.xu_r2}}
-
-Other AUC survival measures: 
-\code{\link{mlr_measures_surv.chambless_auc}},
-\code{\link{mlr_measures_surv.hung_auc}},
-\code{\link{mlr_measures_surv.song_auc}},
-\code{\link{mlr_measures_surv.song_tnr}},
-\code{\link{mlr_measures_surv.song_tpr}},
-\code{\link{mlr_measures_surv.uno_auc}},
-\code{\link{mlr_measures_surv.uno_tpr}}
 }
 \concept{AUC survival measures}
 \concept{lp survival measures}
@@ -110,8 +136,8 @@ Other AUC survival measures:
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate"><a href='../../mlr3/html/Measure.html#method-Measure-aggregate'><code>mlr3::Measure$aggregate()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format"><a href='../../mlr3/html/Measure.html#method-Measure-format'><code>mlr3::Measure$format()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help"><a href='../../mlr3/html/Measure.html#method-Measure-help'><code>mlr3::Measure$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print"><a href='../../mlr3/html/Measure.html#method-Measure-print'><code>mlr3::Measure$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score"><a href='../../mlr3/html/Measure.html#method-Measure-score'><code>mlr3::Measure$score()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3proba" data-topic="MeasureSurv" data-id="print"><a href='../../mlr3proba/html/MeasureSurv.html#method-MeasureSurv-print'><code>mlr3proba::MeasureSurv$print()</code></a></span></li>
 </ul>
 </details>
 }}

@@ -10,9 +10,11 @@ Calls \code{\link[survAUC:AUC.Song_Zhou]{survAUC::AUC.sh()}}.
 Assumes Cox PH model specification.
 }
 \details{
-All measures implemented from \CRANpkg{survAUC} should be used with care, we are aware
-of problems in implementation that sometimes cause fatal errors in R. In future updates these
-measures will all be re-written and implemented directly in \code{mlr3proba}.
+All measures implemented from \CRANpkg{survAUC} should be used with
+care, we are aware of problems in implementation that sometimes cause fatal
+errors in R.
+In future updates some of these measures may be re-written and implemented
+directly in \code{mlr3proba}.
 }
 \section{Dictionary}{
 
@@ -25,6 +27,15 @@ msr("surv.song_auc")
 }\if{html}{\out{</div>}}
 }
 
+\section{Parameters}{
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Levels \cr
+   times \tab untyped \tab - \tab  \cr
+   integrated \tab logical \tab TRUE \tab TRUE, FALSE \cr
+   type \tab character \tab incident \tab incident, cumulative \cr
+}
+}
+
 \section{Meta Information}{
 
 \itemize{
@@ -35,6 +46,58 @@ msr("surv.song_auc")
 }
 }
 
+\section{Parameter details}{
+
+\itemize{
+\item \code{times} (\code{numeric()})\cr
+If \code{integrated == TRUE} then a vector of time-points over which to integrate the score.
+If \code{integrated == FALSE} then a single time point at which to return the score.
+}
+
+
+\itemize{
+\item \code{integrated} (\code{logical(1)})\cr
+If \code{TRUE} (default), returns the integrated score (eg across
+time points); otherwise, not integrated (eg at a single time point).
+}
+
+
+\itemize{
+\item \code{type} (\code{character(1)})\cr
+A string defining the type of true positive rate (TPR): \code{incident} refers to
+incident TPR, \code{cumulative} refers to cumulative TPR.
+}
+}
+
+\examples{
+library(mlr3)
+
+# Define a survival Task
+task = tsk("lung")
+
+# Create train and test set
+part = partition(task)
+
+# Train Cox learner on the train set
+cox = lrn("surv.coxph")
+cox$train(task, row_ids = part$train)
+
+# Make predictions for the test set
+p = cox$predict(task, row_ids = part$test)
+
+# Integrated AUC score
+p$score(msr("surv.song_auc"), task = task,
+        train_set = part$train, learner = cox)
+
+# AUC at specific time point
+p$score(msr("surv.song_auc", times = 600), task = task,
+        train_set = part$train, learner = cox)
+
+# Integrated AUC at specific time points
+p$score(msr("surv.song_auc", times = c(100, 200, 300, 400, 500)),
+        task = task, train_set = part$train, learner = cox)
+
+}
 \references{
 Song, Xiao, Zhou, Xiao-Hua (2008).
 \dQuote{A semiparametric approach for the covariate specific ROC curve with survival outcome.}
@@ -45,6 +108,7 @@ Song, Xiao, Zhou, Xiao-Hua (2008).
 Other survival measures: 
 \code{\link{mlr_measures_surv.calib_alpha}},
 \code{\link{mlr_measures_surv.calib_beta}},
+\code{\link{mlr_measures_surv.calib_index}},
 \code{\link{mlr_measures_surv.chambless_auc}},
 \code{\link{mlr_measures_surv.cindex}},
 \code{\link{mlr_measures_surv.dcalib}},
@@ -107,8 +171,8 @@ Other lp survival measures:
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate"><a href='../../mlr3/html/Measure.html#method-Measure-aggregate'><code>mlr3::Measure$aggregate()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format"><a href='../../mlr3/html/Measure.html#method-Measure-format'><code>mlr3::Measure$format()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help"><a href='../../mlr3/html/Measure.html#method-Measure-help'><code>mlr3::Measure$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print"><a href='../../mlr3/html/Measure.html#method-Measure-print'><code>mlr3::Measure$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score"><a href='../../mlr3/html/Measure.html#method-Measure-score'><code>mlr3::Measure$score()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3proba" data-topic="MeasureSurv" data-id="print"><a href='../../mlr3proba/html/MeasureSurv.html#method-MeasureSurv-print'><code>mlr3proba::MeasureSurv$print()</code></a></span></li>
 </ul>
 </details>
 }}

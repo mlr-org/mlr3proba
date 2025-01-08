@@ -6,8 +6,6 @@
 \alias{mlr3proba-package}
 \title{mlr3proba: Probabilistic Supervised Learning for 'mlr3'}
 \description{
-\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
-
 Provides extensions for probabilistic supervised learning for 'mlr3'. This includes extending the regression task to probabilistic and interval regression, adding a survival task, and other specialized models, predictions, and measures.
 }
 \seealso{
@@ -20,19 +18,23 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Raphael Sonabend \email{raphaelsonabend@gmail.com} (\href{https://orcid.org/0000-0001-9225-4654}{ORCID})
+\strong{Maintainer}: John Zobolas \email{bblodfon@gmail.com} (\href{https://orcid.org/0000-0002-3609-8674}{ORCID})
 
 Authors:
 \itemize{
+  \item Raphael Sonabend \email{raphaelsonabend@gmail.com} (\href{https://orcid.org/0000-0001-9225-4654}{ORCID})
   \item Franz Kiraly \email{f.kiraly@ucl.ac.uk}
   \item Michel Lang \email{michellang@gmail.com} (\href{https://orcid.org/0000-0001-9754-0393}{ORCID})
+  \item Philip Studener \email{philip.studener@gmx.de}
 }
 
 Other contributors:
 \itemize{
   \item Nurul Ain Toha \email{nurul.toha.15@ucl.ac.uk} [contributor]
   \item Andreas Bender \email{bender.at.R@gmail.com} (\href{https://orcid.org/0000-0001-5628-8611}{ORCID}) [contributor]
-  \item John Zobolas \email{bblodfon@gmail.com} (\href{https://orcid.org/0000-0002-3609-8674}{ORCID}) [contributor]
+  \item Lukas Burk \email{github@quantenbrot.de} (\href{https://orcid.org/0000-0001-7528-3795}{ORCID}) [contributor]
+  \item Maximilian Muecke \email{muecke.maximilian@gmail.com} (\href{https://orcid.org/0009-0000-9432-9795}{ORCID}) [contributor]
+  \item Lee Xingzhuo Li \email{xingzhuo_li@yahoo.com.au} (\href{https://orcid.org/0000-0001-5259-5198}{ORCID}) [contributor]
 }
 
 }

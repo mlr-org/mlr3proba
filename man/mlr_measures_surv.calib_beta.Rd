@@ -3,16 +3,18 @@
 \name{mlr_measures_surv.calib_beta}
 \alias{mlr_measures_surv.calib_beta}
 \alias{MeasureSurvCalibrationBeta}
-\title{Van Houwelingen's Beta Survival Measure}
+\title{Van Houwelingen's Calibration Beta Survival Measure}
 \description{
-This calibration method fits the predicted linear predictor from a Cox PH model as the only
-predictor in a new Cox PH model with the test data as the response.
-\deqn{h(t|x) = h_0(t)exp(l\beta)}
-where \eqn{l} is the predicted linear predictor.
+This calibration method fits the predicted linear predictor from a Cox PH
+model as the only predictor in a new Cox PH model with the test data as
+the response.
+\deqn{h(t|x) = h_0(t)exp(\beta \times lp)}
+where \eqn{lp} is the predicted linear predictor on the test data.
 
-The model is well calibrated if the estimated \eqn{\beta} coefficient is equal to 1.
+The model is well calibrated if the estimated \eqn{\hat{\beta}} coefficient
+(returned score) is equal to 1.
 
-Assumes fitted model is Cox PH.
+\strong{Note}: Assumes fitted model is Cox PH (i.e. has an \code{lp} prediction type).
 }
 \section{Dictionary}{
 
@@ -25,6 +27,14 @@ msr("surv.calib_beta")
 }\if{html}{\out{</div>}}
 }
 
+\section{Parameters}{
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Levels \cr
+   se \tab logical \tab FALSE \tab TRUE, FALSE \cr
+   method \tab character \tab ratio \tab ratio, diff \cr
+}
+}
+
 \section{Meta Information}{
 
 \itemize{
@@ -32,6 +42,22 @@ msr("surv.calib_beta")
 \item Range: \eqn{(-\infty, \infty)}{(-Inf, Inf)}
 \item Minimize: \code{FALSE}
 \item Required prediction: \code{lp}
+}
+}
+
+\section{Parameter details}{
+
+\itemize{
+\item \code{se} (\code{logical(1)})\cr
+If \code{TRUE} then return standard error of the measure which is the standard
+error of the estimated coefficient \eqn{se_{\hat{\beta}}} from the Cox PH model.
+If \code{FALSE} (default) then returns the estimated coefficient \eqn{\hat{\beta}}.
+\item \code{method} (\code{character(1)})\cr
+Returns \eqn{\hat{\beta}} if equal to \code{ratio} (default) and \eqn{|1-\hat{\beta}|}
+if \code{diff}.
+With \code{diff}, the output score can be minimized and for example be used for
+tuning purposes.
+This parameter takes effect only if \code{se} is \code{FALSE}.
 }
 }
 
@@ -44,6 +70,7 @@ Van Houwelingen, C. H (2000).
 \seealso{
 Other survival measures: 
 \code{\link{mlr_measures_surv.calib_alpha}},
+\code{\link{mlr_measures_surv.calib_index}},
 \code{\link{mlr_measures_surv.chambless_auc}},
 \code{\link{mlr_measures_surv.cindex}},
 \code{\link{mlr_measures_surv.dcalib}},
@@ -68,6 +95,7 @@ Other survival measures:
 
 Other calibration survival measures: 
 \code{\link{mlr_measures_surv.calib_alpha}},
+\code{\link{mlr_measures_surv.calib_index}},
 \code{\link{mlr_measures_surv.dcalib}}
 
 Other lp survival measures: 
@@ -102,8 +130,8 @@ Other lp survival measures:
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate"><a href='../../mlr3/html/Measure.html#method-Measure-aggregate'><code>mlr3::Measure$aggregate()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format"><a href='../../mlr3/html/Measure.html#method-Measure-format'><code>mlr3::Measure$format()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help"><a href='../../mlr3/html/Measure.html#method-Measure-help'><code>mlr3::Measure$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print"><a href='../../mlr3/html/Measure.html#method-Measure-print'><code>mlr3::Measure$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score"><a href='../../mlr3/html/Measure.html#method-Measure-score'><code>mlr3::Measure$score()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3proba" data-topic="MeasureSurv" data-id="print"><a href='../../mlr3proba/html/MeasureSurv.html#method-MeasureSurv-print'><code>mlr3proba::MeasureSurv$print()</code></a></span></li>
 </ul>
 </details>
 }}
@@ -113,9 +141,17 @@ Other lp survival measures:
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvCalibrationBeta$new()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MeasureSurvCalibrationBeta$new(method = "ratio")}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{method}}{defines which output score to return, see "Parameter
+details" section.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MeasureSurvCalibrationBeta-clone"></a>}}

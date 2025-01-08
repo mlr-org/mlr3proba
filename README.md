@@ -1,122 +1,75 @@
 
 # mlr3proba
 
-Package website: [release](https://mlr3proba.mlr-org.com/) |
-[dev](https://mlr3proba.mlr-org.com/dev/)
-
 Probabilistic Supervised Learning for
-**[mlr3](https://github.com/mlr-org/mlr3/)**.
+**[mlr3](https://github.com/mlr-org/mlr3/)**
+([website](https://mlr3proba.mlr-org.com/)).
 
 <!-- badges: start -->
 
-[![r-cmd-check](https://github.com/mlr-org/mlr3proba/actions/workflows/r-cmd-check.yml/badge.svg)](https://github.com/mlr-org/mlr3proba/actions/workflows/r-cmd-check.yml)
-[![CodeFactor](https://www.codefactor.io/repository/github/mlr-org/mlr3proba/badge)](https://www.codefactor.io/repository/github/mlr-org/mlr3proba)
+[![R-CMD-check](https://github.com/mlr-org/mlr3proba/actions/workflows/r-cmd-check.yml/badge.svg)](https://github.com/mlr-org/mlr3proba/actions/workflows/r-cmd-check.yml)
+[![runiverse](https://mlr-org.r-universe.dev/badges/mlr3proba)](https://mlr-org.r-universe.dev/mlr3proba)
+[![GitHub
+Discussions](https://img.shields.io/github/discussions/mlr-org/mlr3proba?logo=github&label=Discussions%20Q%26A&color=FFE600)](https://github.com/mlr-org/mlr3proba/discussions)
 [![Article](https://img.shields.io/badge/Article-10.1093%2Fbioinformatics%2Fbtab039-brightgreen)](https://doi.org/10.1093/bioinformatics/btab039)
-[![StackOverflow](https://img.shields.io/badge/stackoverflow-mlr3-orange.svg)](https://stackoverflow.com/questions/tagged/mlr3)
-[![Mattermost](https://img.shields.io/badge/chat-mattermost-orange.svg)](https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/)
+[![StackOverflow](https://img.shields.io/badge/stackoverflow-mlr3-orange.svg?color=pink)](https://stackoverflow.com/questions/tagged/mlr3)
+[![Mattermost](https://img.shields.io/badge/chat-mattermost-orange.svg?color=pink)](https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/)
 <!-- badges: end -->
 
-## What is mlr3proba ?
+## What is mlr3proba?
 
-**mlr3proba** is a machine learning toolkit for making probabilistic
+`mlr3proba` is a machine learning toolkit for making probabilistic
 predictions within the **[mlr3](https://github.com/mlr-org/mlr3)**
 ecosystem. It currently supports the following tasks:
 
-  - Probabilistic supervised regression - Supervised regression with a
-    predictive distribution as the return type.
-  - Predictive survival analysis - Survival analysis where individual
-    predictive hazards can be queried. This is equivalent to
-    probabilistic supervised regression with censored observations.
-  - Unconditional distribution estimation, where the distribution is
-    returned. Sub-cases are density estimation and unconditional
+1.  **Predictive survival analysis**: survival analysis where individual
+    hazards and survival distributions can be queried.
+2.  **Unconditional distribution estimation**: main returned output is
+    the distribution. Sub-cases are density estimation and unconditional
     survival estimation.
+3.  **Probabilistic supervised regression**: Supervised regression with
+    a predictive distribution as the return type.
 
-Key features of **mlr3proba** are
-
-  - A unified fit/predict model interface to any probabilistic
-    predictive model (frequentist, Bayesian, or other)
-  - Pipeline/model composition
-  - Task reduction strategies
-  - Domain-agnostic evaluation workflows using task specific algorithmic
-    performance measures.
-
-**mlr3proba** makes use of the
-**[distr6](https://github.com/alan-turing-institute/distr6)**
-probability distribution interface as its probabilistic predictive
-return type.
+The survival analysis part is considered in a mature state, the rest are
+in early stages of development.
 
 ## Feature Overview
 
-The current **mlr3proba** release focuses on survival analysis, and
-contains:
+Key features of `mlr3proba` focus on survival analysis and are:
 
-  - Task frameworks for survival analysis (`TaskSurv`)
-  - A comprehensive selection of 17 predictive survival learners
-  - A comprehensive selection of 21 performance measures for predictive
-    survival learners, with respect to prognostic index (continuous
-    rank) prediction, and probabilistic (distribution) prediction
-  - PipeOps integrated with
-    **[mlr3pipelines](https://github.com/mlr-org/mlr3pipelines)**, for
-    basic pipeline building, and reduction/composition strategies using
-    linear predictors and baseline hazards.
-
-## Roadmap
-
-The vision of **mlr3proba** is to provide comprehensive machine learning
-functionality to the mlr3 ecosystem for continuous probabilistic return
-types.
-
-The lifecycle of the survival task and features are considered
-`maturing` and any major changes are unlikely.
-
-The density and probabilistic supervised regression tasks are currently
-in the early stages of development. Task frameworks have been drawn up,
-but may not be stable; learners need to be interfaced, and contributions
-are very welcome (see
-[issues](https://github.com/mlr-org/mlr3proba/issues)).
+- Task frameworks for survival analysis (`TaskSurv`)
+- A comprehensive selection of predictive survival learners (mostly via
+  [mlr3extralearners](https://github.com/mlr-org/mlr3extralearners/))
+- A unified `train`/`predict` model interface to any probabilistic
+  predictive model (frequentist, Bayesian, Deep Learning, or other)
+- Use of the
+  **[distr6](https://github.com/alan-turing-institute/distr6)**
+  probability distribution interface as its probabilistic predictive
+  return type
+- A comprehensive selection of measures for evaluating the performance
+  of survival learners, with respect to prognostic index (continuous
+  rank) prediction, and probabilistic (distribution) prediction
+- Basic ML pipeline building integrated with
+  **[mlr3pipelines](https://github.com/mlr-org/mlr3pipelines)**
+- Reduction/composition strategies using linear predictors and baseline
+  hazards
 
 ## Installation
 
-`mlr3proba` is not on CRAN and is unlikely to be reuploaded (see
-[here](https://twitter.com/RaphaelS101/status/1506321623250571265) for
-reasons). As such you must install with one of the following methods:
+`mlr3proba` is not currently on CRAN. Please follow one of the two
+following methods to install it:
 
-### Install from r-universe:
+### R-universe
 
-``` r
-options(repos=c(
-  mlrorg = 'https://mlr-org.r-universe.dev',
-  raphaels1 = 'https://raphaels1.r-universe.dev',
-  CRAN = 'https://cloud.r-project.org'
-))
-install.packages("mlr3proba")
-```
-
-or
+Install the latest released version:
 
 ``` r
 install.packages("mlr3proba", repos = "https://mlr-org.r-universe.dev")
 ```
 
-### Or for easier installation going forward:
+### GitHub
 
-1.  Run `usethis::edit_r_environ()` then in the file that opened add or
-    edit `options` to look something like
-
-<!-- end list -->
-
-``` r
-options(repos = c(
-       raphaels1 = "https://raphaels1.r-universe.dev",
-       mlrorg = "https://mlr-org.r-universe.dev",
-       CRAN = 'https://cloud.r-project.org'
-))
-```
-
-2.  Save and close the file, restart your R session
-3.  Run `install.packages("mlr3proba")` as usual
-
-### Install from GitHub:
+Install the latest development version:
 
 ``` r
 remotes::install_github("mlr-org/mlr3proba")
@@ -124,61 +77,46 @@ remotes::install_github("mlr-org/mlr3proba")
 
 ## Learners
 
-Core learners are implemented in
-[mlr3proba](https://github.com/mlr-org/mlr3proba), recommended common
-learners are implemented in
-[mlr3learners](https://github.com/mlr-org/mlr3learners), and many more
-are implemented in
-[mlr3extralearners](https://github.com/mlr-org/mlr3extralearners). Use
-the [interactive search
-table](https://mlr3extralearners.mlr-org.com/articles/learners/list_learners.html)
-to search for available learners and see the [learner status
-page](https://mlr3extralearners.mlr-org.com/articles/learners/test_overview.html)
-for their live status.
+- [Core
+  learners](https://mlr3proba.mlr-org.com/reference/index.html#survival-learners)
+  are implemented in `mlr3proba` and include the Kaplan-Meier Estimator,
+  the Cox Proportional Hazards model and the Survival Tree learner.
+- In [mlr3extralearners](https://github.com/mlr-org/mlr3extralearners)
+  we have interfaced several advanced ML survival learners. Use the
+  [interactive search table](https://mlr-org.com/learners.html) to
+  search for the available survival learners and see the [learner status
+  page](https://mlr3extralearners.mlr-org.com/articles/learner_status.html)
+  for their live status.
 
 ## Measures
 
-For density estimation only the log-loss is currently implemented, for
-survival analysis, the following measures are implemented:
+For density estimation and probabilistic regression only the
+**log-loss** is currently implemented. For survival analysis, see full
+list
+[here](https://mlr3proba.mlr-org.com/reference/index.html#survival-measures).
 
-| ID                                                                                                  | Measure                             | Package                                                   |
-| :-------------------------------------------------------------------------------------------------- | :---------------------------------- | :-------------------------------------------------------- |
-| [surv.calib\_alpha](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.calib_alpha.html)     | van Houwelingen’s Alpha Calibration | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
-| [surv.calib\_beta](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.calib_beta.html)       | van Houwelingen’s Beta Calibration  | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
-| [surv.chambless\_auc](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.chambless_auc.html) | Chambless and Diao’s AUC            | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.cindex](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.cindex.html)                | Concordance Index                   | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
-| [surv.graf](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.graf.html)                    | Integrated Graf Score               | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
-| [surv.hungAUC](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.hung_auc.html)             | Hung and Chiang’s AUC               | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.intlogloss](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.intlogloss.html)        | Integrated Log Loss                 | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
-| [surv.logloss](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.logloss.html)              | Log Loss                            | [mlr3proba](https://CRAN.R-project.org/package=mlr3proba) |
-| [surv.nagelk\_r2](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.nagelk_r2.html)         | Nagelkerke’s R2                     | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.oquigley\_r2](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.oquigley_r2.html)     | O’Quigley, Xu, and Stare’s R2       | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.song\_auc](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.song_auc.html)           | Song and Zhou’s AUC                 | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.song\_tnr](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.song_tnr.html)           | Song and Zhou’s TNR                 | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.song\_tpr](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.song_tpr.html)           | Song and Zhou’s TPR                 | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.uno\_auc](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.uno_auc.html)             | Uno’s AUC                           | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.uno\_tnr](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.uno_tnr.html)             | Uno’s TNR                           | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.uno\_tpr](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.uno_tpr.html)             | Uno’s TPR                           | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
-| [surv.xu\_r2](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.xu_r2.html)                 | Xu and O’Quigley’s R2               | [survAUC](https://CRAN.R-project.org/package=survAUC)     |
+Some commonly used measures are the following:
 
-## Near-Future Plans
-
-  - Add `prob` predict type to `TaskRegr`, and associated
-    learners/measures
-  - Allow `MeasureSurv` to return measures at multiple time-points
-    simultaneously
-  - Continue to add survival measures and learners
+| ID | Measure | Package | Category | Prediction Type |
+|:---|:---|:---|:---|:---|
+| [surv.dcalib](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.dcalib.html) | D-Calibration | `mlr3proba` | Calibration | `distr` |
+| [surv.calib_index](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.calib_index.html) | One-point Calibration | `mlr3proba` | Calibration | `distr` |
+| [surv.cindex](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.cindex.html) | Concordance Index | `mlr3proba` | Discrimination | `crank` |
+| [surv.uno_auc](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.uno_auc.html) | Uno’s AUC | `survAUC` | Discrimination | `lp` |
+| [surv.graf](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.graf.html) | Integrated Brier Score | `mlr3proba` | Scoring Rule | `distr` |
+| [surv.rcll](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.rcll.html) | Right-Censored Log loss | `mlr3proba` | Scoring Rule | `distr` |
+| [surv.intlogloss](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.intlogloss.html) | Integrated Log-Likelihood | `mlr3proba` | Scoring Rule | `distr` |
 
 ## Bugs, Questions, Feedback
 
 **mlr3proba** is a free and open source software project that encourages
 participation and feedback. If you have any issues, questions,
 suggestions or feedback, please do not hesitate to open an “issue” about
-it on the [GitHub page](https://github.com/mlr-org/mlr3proba/issues)\!
+it on the [GitHub page](https://github.com/mlr-org/mlr3proba/issues)!
 
 In case of problems / bugs, it is often helpful if you provide a
-“minimum working example” that showcases the behaviour (but don’t
-worry about this if the bug is obvious).
+“minimum working example” using [reprex](https://reprex.tidyverse.org/)
+that showcases the behavior.
 
 ## Similar Projects
 
@@ -196,7 +134,7 @@ few survival models and measures, a central package is
 appear to be a package that provides an architectural framework for
 distribution/density estimation, see **[this
 list](https://vita.had.co.nz/papers/density-estimation.pdf)** for a
-review of density estimation packages in R.
+review of density estimation packages in `R`.
 
 ## Acknowledgements
 

@@ -1,22 +1,21 @@
 #' @template dens_measure
-#' @templateVar title Log loss
+#' @templateVar title Log Loss
 #' @templateVar inherit [MeasureDens]
 #' @templateVar fullname MeasureDensLogloss
-#' @templateVar pars eps = 1e-15
-#' @templateVar eps_par TRUE
-#'
+#' @templateVar eps 1e-15
 #' @template param_eps
 #'
 #' @description
 #' Calculates the cross-entropy, or logarithmic (log), loss.
 #'
-#' The logloss, in the context of probabilistic predictions, is defined as the negative log
+#' @details
+#' The Log Loss, in the context of probabilistic predictions, is defined as the negative log
 #' probability density function, \eqn{f}, evaluated at the observed value, \eqn{y},
 #' \deqn{L(f, y) = -\log(f(y))}{L(f, y) = -log(f(y))}
 #'
 #' @family Density estimation measures
 #' @export
-MeasureDensLogloss = R6::R6Class("MeasureDensLogloss",
+MeasureDensLogloss = R6Class("MeasureDensLogloss",
   inherit = MeasureDens,
   public = list(
     #' @description
@@ -47,3 +46,5 @@ MeasureDensLogloss = R6::R6Class("MeasureDensLogloss",
     }
   )
 )
+
+register_measure("dens.logloss", MeasureDensLogloss)

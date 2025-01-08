@@ -3,6 +3,8 @@
 #' @templateVar fullname MeasureSurvDCalibration
 #'
 #' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' This calibration method is defined by calculating the following statistic:
 #' \deqn{s = B/n \sum_i (P_i - n/B)^2}
 #' where \eqn{B} is number of 'buckets' (that equally divide \eqn{[0,1]} into intervals),
@@ -12,8 +14,8 @@
 #' falls within the corresponding interval.
 #' This statistic assumes that censoring time is independent of death time.
 #'
-#' A model is well-calibrated if \eqn{s \sim Unif(B)}, tested with `chisq.test`
-#'  (\eqn{p > 0.05} if well-calibrated).
+#' A model is well D-calibrated if \eqn{s \sim Unif(B)}, tested with `chisq.test`
+#'  (\eqn{p > 0.05} if well-calibrated, i.e. higher p-values are preferred).
 #' Model \eqn{i} is better calibrated than model \eqn{j} if \eqn{s(i) < s(j)},
 #' meaning that *lower values* of this measure are preferred.
 #'
@@ -23,9 +25,29 @@
 #' is well-calibrated. If `chisq = FALSE` and `s` is the predicted value then you can manually
 #' compute the p.value with `pchisq(s, B - 1, lower.tail = FALSE)`.
 #'
-#' NOTE: This measure is still experimental both theoretically and in implementation. Results
+#' **NOTE**: This measure is still experimental both theoretically and in implementation. Results
 #' should therefore only be taken as an indicator of performance and not for
 #' conclusive judgements about model calibration.
+#'
+#' @section Parameter details:
+#' - `B` (`integer(1)`) \cr
+#' Number of buckets to test for uniform predictions over.
+#' Default of `10` is recommended by Haider et al. (2020).
+#' Changing this parameter affects `truncate`.
+#' - `chisq` (`logical(1)`) \cr
+#' If `TRUE` returns the p-value of the corresponding chisq.test instead of the measure.
+#' Default is `FALSE` and returns the statistic `s`.
+#' You can manually get the p-value by executing `pchisq(s, B - 1, lower.tail = FALSE)`.
+#' The null hypothesis is that the model is D-calibrated.
+#' - `truncate` (`double(1)`) \cr
+#' This parameter controls the upper bound of the output statistic, when `chisq` is `FALSE`.
+#' We use `truncate = Inf` by default but values between \eqn{10-16} are sufficient
+#' for most purposes, which correspond to p-values of \eqn{0.35-0.06} for the `chisq.test` using
+#' the default \eqn{B = 10} buckets.
+#' Values \eqn{B > 10} translate to even lower p-values and thus less D-calibrated models.
+#' If the number of buckets \eqn{B} changes, you probably will want to
+#' change the `truncate` value as well to correspond to the same p-value significance.
+#' Note that truncation may severely limit automated tuning with this measure.
 #'
 #' @references
 #' `r format_bib("haider_2020")`
@@ -37,30 +59,13 @@ MeasureSurvDCalibration = R6Class("MeasureSurvDCalibration",
   inherit = MeasureSurv,
   public = list(
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
-    #' @param B (`integer(1)`) \cr
-    #' Number of buckets to test for uniform predictions over.
-    #' Default of `10` is recommended by Haider et al. (2020).
-    #' Changing this parameter affects `truncate`.
-    #' @param chisq (`logical(1)`) \cr
-    #' If `TRUE` returns the p-value of the corresponding chisq.test instead of the measure.
-    #' Default is `FALSE` and returns the statistic `s`.
-    #' You can manually get the p-value by executing `pchisq(s, B - 1, lower.tail = FALSE)`.
-    #' The null hypothesis is that the model is D-calibrated.
-    #' @param truncate (`double(1)`) \cr
-    #' This parameter controls the upper bound of the output statistic,
-    #' when `chisq` is `FALSE`. We use `truncate = Inf` by default but \eqn{10} may be sufficient
-    #' for most purposes, which corresponds to a p-value of 0.35 for the chisq.test using
-    #' \eqn{B = 10} buckets. Values \eqn{>10} translate to even lower p-values and thus
-    #' less calibrated models. If the number of buckets \eqn{B} changes, you probably will want to
-    #' change the `truncate` value as well to correspond to the same p-value significance.
-    #' Note that truncation may severely limit automated tuning with this measure.
     initialize = function() {
       ps = ps(
-        B = p_int(1, default = 10),
+        B = p_int(1L, default = 10L),
         chisq = p_lgl(default = FALSE),
-        truncate = p_dbl(lower = 0, upper = Inf, default = Inf)
+        truncate = p_dbl(0, Inf, default = Inf)
       )
-      ps$values = list(B = 10L, chisq = FALSE, truncate = Inf)
+      ps$set_values(B = 10L, chisq = FALSE, truncate = Inf)
 
       super$initialize(
         id = "surv.dcalib",
@@ -93,8 +98,8 @@ MeasureSurvDCalibration = R6Class("MeasureSurvDCalibration",
         }
         times = as.numeric(colnames(surv))
 
-        si = diag(distr6:::C_Vec_WeightedDiscreteCdf(true_times, times,
-          cdf = t(1 - surv), FALSE, FALSE))
+        extend_times = getFromNamespace("C_Vec_WeightedDiscreteCdf", ns = "distr6")
+        si = diag(extend_times(true_times, times, cdf = t(1 - surv), FALSE, FALSE))
       } else {
         distr = prediction$distr
         if (inherits(distr, c("Matdist", "Arrdist"))) {
@@ -132,3 +137,5 @@ MeasureSurvDCalibration = R6Class("MeasureSurvDCalibration",
     }
   )
 )
+
+register_measure("surv.dcalib", MeasureSurvDCalibration)

@@ -1,25 +1,23 @@
 #' @template surv_measure
 #' @templateVar title Uno's TNR
 #' @templateVar fullname MeasureSurvUnoTNR
+#' @template measure_survAUC
+#' @template param_times2
+#' @template param_thresh
 #'
 #' @description
 #' Calls [survAUC::spec.uno()].
 #'
 #' Assumes random censoring.
 #'
-#' `times` and `lp_thresh` are arbitrarily set to `0` to prevent crashing, these should be further
-#' specified.
-#'
-#' @template measure_survAUC
-#' @template param_times
-#' @template param_thresh
-#'
-#' @family lp survival measures
+#' `times` and `lp_thresh` are arbitrarily set to `0` to prevent crashing, these
+#' should be further specified.
 #'
 #' @references
 #' `r format_bib("uno_2007")`
 #'
 #' @family AUC survival measures
+#' @family lp survival measures
 #' @export
 MeasureSurvUnoTNR = R6Class("MeasureSurvUnoTNR",
   inherit = MeasureSurvAUC,
@@ -30,7 +28,7 @@ MeasureSurvUnoTNR = R6Class("MeasureSurvUnoTNR",
         times = p_dbl(0),
         lp_thresh = p_dbl(default = 0)
       )
-      ps$values = list(lp_thresh = 0)
+      ps$set_values(lp_thresh = 0)
 
       super$initialize(
         param_set = ps,
@@ -57,3 +55,5 @@ MeasureSurvUnoTNR = R6Class("MeasureSurvUnoTNR",
     }
   )
 )
+
+register_measure("surv.uno_tnr", MeasureSurvUnoTNR)

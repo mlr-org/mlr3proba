@@ -40,7 +40,7 @@ as_prediction_surv.data.frame = function(x, ...) { # nolint
   assert_names(names(x), subset.of = c(mandatory, optional))
 
   if ("distr" %in% names(x)) {
-    distr = x$distr[[1]][[1]]
+    distr = x$distr[[1L]][[1L]]
   } else {
     distr = NULL
   }
@@ -51,7 +51,7 @@ as_prediction_surv.data.frame = function(x, ...) { # nolint
     } else if ("response" %in% names(x)) {
       x$crank = -x$response
     } else {
-      x$crank = -apply(1 - distr, 1, function(.x) sum(c(.x[1], diff(.x)) * x$time))
+      x$crank = -apply(1 - distr, 1L, function(.x) sum(c(.x[1L], diff(.x)) * x$time))
     }
   }
 
