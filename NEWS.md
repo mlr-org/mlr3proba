@@ -1,3 +1,7 @@
+# mlr3proba dev
+
+* fix: Measure labels are now printed. Add `obs_loss` related arguments to `MeasureSurv`.y
+
 # mlr3proba 0.7.3
 
 * feat: added new calibration measure => `msr("surv.calib_index")`

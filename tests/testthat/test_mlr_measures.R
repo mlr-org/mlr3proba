@@ -30,7 +30,7 @@ test_that("mlr_measures", {
     })
     expect_number(perf, na.ok = "na_score" %in% m$properties)
 
-    # test measures with squared-errors
+    # test measures with squared-errors (se = TRUE)
     if (key %in% paste0("surv.", c("schmid", "graf", "intlogloss", "logloss", "mae", "mse",
       "rmse", "calib_alpha", "calib_beta"))) {
       m = suppressWarnings(msr(key, se = TRUE))
