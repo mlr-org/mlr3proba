@@ -13,7 +13,7 @@ This measure specializes \link[mlr3:Measure]{Measure} for survival problems.
 Predefined measures can be found in the \link[mlr3misc:Dictionary]{dictionary} \link[mlr3:mlr_measures]{mlr3::mlr_measures}.
 }
 \seealso{
-Default survival measures: \code{\link[=mlr_measures_surv.cindex]{surv.cindex}}
+Default survival measure: \code{\link[=mlr_measures_surv.cindex]{surv.cindex}}
 
 Other Measure: 
 \code{\link{MeasureDens}}
@@ -26,7 +26,6 @@ Other Measure:
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-MeasureSurv-new}{\code{MeasureSurv$new()}}
-\item \href{#method-MeasureSurv-print}{\code{MeasureSurv$print()}}
 }
 }
 \if{html}{\out{
@@ -35,6 +34,7 @@ Other Measure:
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate"><a href='../../mlr3/html/Measure.html#method-Measure-aggregate'><code>mlr3::Measure$aggregate()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format"><a href='../../mlr3/html/Measure.html#method-Measure-format'><code>mlr3::Measure$format()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help"><a href='../../mlr3/html/Measure.html#method-Measure-help'><code>mlr3::Measure$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print"><a href='../../mlr3/html/Measure.html#method-Measure-print'><code>mlr3::Measure$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score"><a href='../../mlr3/html/Measure.html#method-Measure-score'><code>mlr3::Measure$score()</code></a></span></li>
 </ul>
 </details>
@@ -50,14 +50,17 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   param_set = ps(),
   range,
   minimize = NA,
+  average = "macro",
   aggregator = NULL,
+  obs_loss = NULL,
   properties = character(),
   predict_type = "distr",
+  predict_sets = "test",
   task_properties = character(),
   packages = character(),
   label = NA_character_,
   man = NA_character_,
-  se = FALSE
+  trafo = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -79,9 +82,21 @@ Set to \code{TRUE} if good predictions correspond to small values,
 and to \code{FALSE} if good predictions correspond to large values.
 If set to \code{NA} (default), tuning this measure is not possible.}
 
+\item{\code{average}}{(\code{character(1)})\cr
+How to average multiple \link{Prediction}s from a \link{ResampleResult}.
+
+The default, \code{"macro"}, calculates the individual performances scores for each \link{Prediction} and then uses the
+function defined in \verb{$aggregator} to average them to a single number.
+
+If set to \code{"micro"}, the individual \link{Prediction} objects are first combined into a single new \link{Prediction} object which is then used to assess the performance.
+The function in \verb{$aggregator} is not used in this case.}
+
 \item{\code{aggregator}}{(\verb{function(x)})\cr
 Function to aggregate individual performance scores \code{x} where \code{x} is a numeric vector.
 If \code{NULL}, defaults to \code{\link[=mean]{mean()}}.}
+
+\item{\code{obs_loss}}{(\code{function} or \code{NULL})\cr
+The observation-wise loss function, e.g. \link[mlr3measures:zero_one]{zero-one} for classification error.}
 
 \item{\code{properties}}{(\code{character()})\cr
 Properties of the measure.
@@ -98,6 +113,13 @@ Supported by \code{mlr3}:
 Required predict type of the \link{Learner}.
 Possible values are stored in \link[=mlr_reflections]{mlr_reflections$learner_predict_types}.}
 
+\item{\code{predict_sets}}{(\code{character()})\cr
+Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
+Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
+Must be a non-empty subset of \verb{\{"train", "test"\}}.
+If multiple sets are provided, these are first combined to a single prediction object.
+Default is \code{"test"}.}
+
 \item{\code{task_properties}}{(\code{character()})\cr
 Required task properties, see \link{Task}.}
 
@@ -113,20 +135,12 @@ Label for the new instance.}
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 The referenced help package can be opened via method \verb{$help()}.}
 
-\item{\code{se}}{If \code{TRUE} then returns standard error of the
-measure otherwise returns the mean (default).}
+\item{\code{trafo}}{(\code{list()} or \code{NULL})\cr
+An optional list with two elements, containing the transformation \code{"fn"} and its derivative \code{"deriv"}.
+The transformation function is the function that is applied after aggregating the pointwise losses, i.e.
+this requires an \verb{$obs_loss} to be present. An example is \code{sqrt} for RMSE (regression).}
 }
 \if{html}{\out{</div>}}
 }
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-MeasureSurv-print"></a>}}
-\if{latex}{\out{\hypertarget{method-MeasureSurv-print}{}}}
-\subsection{Method \code{print()}}{
-Printer.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureSurv$print()}\if{html}{\out{</div>}}
-}
-
 }
 }
