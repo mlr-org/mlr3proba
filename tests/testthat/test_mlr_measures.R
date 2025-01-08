@@ -30,7 +30,7 @@ test_that("mlr_measures", {
     })
     expect_number(perf, na.ok = "na_score" %in% m$properties)
 
-    # test measures with squared-errors
+    # test measures with squared-errors (se = TRUE)
     if (key %in% paste0("surv.", c("schmid", "graf", "intlogloss", "logloss", "mae", "mse",
       "rmse", "calib_alpha", "calib_beta"))) {
       m = suppressWarnings(msr(key, se = TRUE))
@@ -121,8 +121,9 @@ test_that("calib_alpha works", {
 
 test_that("calib_index works", {
   m = msr("surv.calib_index")
-  expect_equal(m$range, c(0, Inf))
+  expect_equal(m$range, c(0, 1))
   expect_true(m$minimize)
+  expect_true(m$param_set$values$na.rm)
   expect_equal(m$param_set$values$method, "ICI") # mean abs diffs
   expect_equal(m$param_set$values$eps, 0.0001)
   res = pred$score(m)

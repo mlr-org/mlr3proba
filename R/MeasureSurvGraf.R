@@ -92,7 +92,7 @@ MeasureSurvGraf = R6Class("MeasureSurvGraf",
         minimize = !ERV,
         packages = character(),
         predict_type = "distr",
-        label = "Integrated Graf Score",
+        label = "Integrated Brier Score",
         man = "mlr3proba::mlr_measures_surv.graf",
       )
     }

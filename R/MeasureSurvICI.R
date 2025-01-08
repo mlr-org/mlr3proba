@@ -5,7 +5,8 @@
 #' @template param_eps
 #'
 #' @description
-#' Calculates the Integrated Calibration Index (ICI), see Austin et al. (2020).
+#' Calculates the Integrated Calibration Index (ICI), which evaluates
+#' **point-calibration** (i.e. at a specific time point), see Austin et al. (2020).
 #'
 #' @details
 #' Each individual \eqn{i} from the test set, has an observed survival outcome
@@ -28,8 +29,9 @@
 #' test set observations as:
 #' \deqn{ICI = \frac{1}{N} \sum_{i=1}^N | \hat{P}_i^c(t_0) - \hat{P}_i(t_0) |}
 #'
-#' This measure evaluates **point-calibration** at a specific time point, which
-#' must be specified by the user.
+#' Therefore, a perfect calibration (smoothed probabilities match predicted
+#' probabilities for all observations) yields \eqn{ICI = 0}, while the worst
+#' possible score is \eqn{ICI = 1}.
 #'
 #' @section Parameter details:
 #' - `time` (`numeric(1)`)\cr
@@ -41,6 +43,10 @@
 #'   - `"E50"`: Uses the median of absolute differences instead of the mean.
 #'   - `"E90"`: Uses the 90th percentile of absolute differences, emphasizing higher deviations.
 #'   - `"Emax"`: Uses the maximum absolute difference, capturing the largest discrepancy between predicted and smoothed probabilities.
+#' - `na.rm` (`logical(1)`)\cr
+#' If `TRUE` (default) then removes any NAs/NaNs in the smoothed probabilities
+#' \eqn{\hat{P}_i^c(t_0)} that may arise. A warning is issued nonetheless in such
+#' cases.
 #'
 #' @references
 #' `r format_bib("austin2020")`
@@ -81,14 +87,15 @@ MeasureSurvICI = R6Class("MeasureSurvICI",
       param_set = ps(
         time = p_dbl(0, Inf),
         eps = p_dbl(0, 1, default = 1e-4),
-        method = p_fct(default = "ICI", levels = c("ICI", "E50", "E90", "Emax"))
+        method = p_fct(default = "ICI", levels = c("ICI", "E50", "E90", "Emax")),
+        na.rm = p_lgl(default = TRUE)
       )
-      param_set$set_values(method = "ICI", eps = 1e-4)
+      param_set$set_values(method = "ICI", eps = 1e-4, na.rm = TRUE)
 
       super$initialize(
         id = "surv.calib_index",
         packages = c("polspline"),
-        range = c(0, Inf),
+        range = c(0, 1),
         minimize = TRUE,
         predict_type = "distr",
         label = "Integrated Calibration Index",
@@ -119,7 +126,7 @@ MeasureSurvICI = R6Class("MeasureSurvICI",
       pv = self$param_set$values
 
       # time point for calibration
-      time = pv$time %??% stats::median(times)
+      time = pv$time %??% median(times)
 
       # get cdf at the specified time point
       extend_times_cdf = getFromNamespace("C_Vec_WeightedDiscreteCdf", ns = "distr6")
@@ -135,20 +142,24 @@ MeasureSurvICI = R6Class("MeasureSurvICI",
 
       hare_fit = polspline::hare(data = times, delta = status, cov = as.matrix(cll))
       smoothed_cdf = polspline::phare(q = time, cov = cll, fit = hare_fit)
+      if (anyNA(smoothed_cdf)) {
+        warning("`polspline::phare` fit resulted in NaN smoothed probabilities")
+      }
 
       method = pv$method
+      na.rm = pv$na.rm
       if (method == "ICI") {
         # Mean difference (ICI)
-        result = mean(abs(cdf - smoothed_cdf))
+        result = mean(abs(cdf - smoothed_cdf), na.rm = na.rm)
       } else if (method == "E50") {
         # Median (E50)
-        result = stats::median(abs(cdf - smoothed_cdf))
+        result = median(abs(cdf - smoothed_cdf), na.rm = na.rm)
       } else if (method == "E90") {
         # 90th percentile (E90)
-        result = stats::quantile(abs(cdf - smoothed_cdf), probs = 0.9)
+        result = quantile(abs(cdf - smoothed_cdf), probs = 0.9, na.rm = na.rm)
       } else if (method == "Emax") {
         # Maximum absolute difference (Emax)
-        result = max(abs(cdf - smoothed_cdf))
+        result = max(abs(cdf - smoothed_cdf), na.rm = na.rm)
       }
 
       result

@@ -5,7 +5,8 @@
 \alias{MeasureSurvICI}
 \title{Integrated Calibration Index Survival Measure}
 \description{
-Calculates the Integrated Calibration Index (ICI), see Austin et al. (2020).
+Calculates the Integrated Calibration Index (ICI), which evaluates
+\strong{point-calibration} (i.e. at a specific time point), see Austin et al. (2020).
 }
 \details{
 Each individual \eqn{i} from the test set, has an observed survival outcome
@@ -28,8 +29,9 @@ The \strong{Integrated Calibration Index} is then computed across the \eqn{N}
 test set observations as:
 \deqn{ICI = \frac{1}{N} \sum_{i=1}^N | \hat{P}_i^c(t_0) - \hat{P}_i(t_0) |}
 
-This measure evaluates \strong{point-calibration} at a specific time point, which
-must be specified by the user.
+Therefore, a perfect calibration (smoothed probabilities match predicted
+probabilities for all observations) yields \eqn{ICI = 0}, while the worst
+possible score is \eqn{ICI = 1}.
 }
 \section{Dictionary}{
 
@@ -48,6 +50,7 @@ msr("surv.calib_index")
    time \tab numeric \tab - \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
    eps \tab numeric \tab 1e-04 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    method \tab character \tab ICI \tab ICI, E50, E90, Emax \tab - \cr
+   na.rm \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
 }
 }
 
@@ -55,7 +58,7 @@ msr("surv.calib_index")
 
 \itemize{
 \item Type: \code{"surv"}
-\item Range: \eqn{[0, \infty)}{[0, Inf)}
+\item Range: \eqn{[0, 1]}{[0, 1]}
 \item Minimize: \code{TRUE}
 \item Required prediction: \code{distr}
 }
@@ -83,6 +86,10 @@ Specifies the summary statistic used to calculate the final calibration score.
 \item \code{"E90"}: Uses the 90th percentile of absolute differences, emphasizing higher deviations.
 \item \code{"Emax"}: Uses the maximum absolute difference, capturing the largest discrepancy between predicted and smoothed probabilities.
 }
+\item \code{na.rm} (\code{logical(1)})\cr
+If \code{TRUE} (default) then removes any NAs/NaNs in the smoothed probabilities
+\eqn{\hat{P}_i^c(t_0)} that may arise. A warning is issued nonetheless in such
+cases.
 }
 }
 
@@ -177,8 +184,8 @@ Other distr survival measures:
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate"><a href='../../mlr3/html/Measure.html#method-Measure-aggregate'><code>mlr3::Measure$aggregate()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format"><a href='../../mlr3/html/Measure.html#method-Measure-format'><code>mlr3::Measure$format()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help"><a href='../../mlr3/html/Measure.html#method-Measure-help'><code>mlr3::Measure$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print"><a href='../../mlr3/html/Measure.html#method-Measure-print'><code>mlr3::Measure$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score"><a href='../../mlr3/html/Measure.html#method-Measure-score'><code>mlr3::Measure$score()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3proba" data-topic="MeasureSurv" data-id="print"><a href='../../mlr3proba/html/MeasureSurv.html#method-MeasureSurv-print'><code>mlr3proba::MeasureSurv$print()</code></a></span></li>
 </ul>
 </details>
 }}
