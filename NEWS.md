@@ -1,6 +1,7 @@
-# mlr3proba dev
+# mlr3proba 0.7.4
 
-* fix: Measure labels are now printed. Add `obs_loss` related arguments to `MeasureSurv`.y
+* fix + update `MeasureSurv`: survival measure labels are now printed and the `obs_loss` property is now supported
+* feat: add `na.rm` parameter to `msr("surv.calib_index")` to avoid `NaN` scores
 
 # mlr3proba 0.7.3
 
