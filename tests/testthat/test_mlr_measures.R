@@ -121,8 +121,9 @@ test_that("calib_alpha works", {
 
 test_that("calib_index works", {
   m = msr("surv.calib_index")
-  expect_equal(m$range, c(0, Inf))
+  expect_equal(m$range, c(0, 1))
   expect_true(m$minimize)
+  expect_true(m$param_set$values$na.rm)
   expect_equal(m$param_set$values$method, "ICI") # mean abs diffs
   expect_equal(m$param_set$values$eps, 0.0001)
   res = pred$score(m)
