@@ -17,12 +17,12 @@
 #'
 #' Using hazard regression (via the \CRANpkg{polspline} R package), a *smoothed*
 #' calibration curve is estimated by fitting the following model:
-#' \deqn{log(h(t)) = g(log(− log(1 − \hat{P}_{t_0})), t)}
+#' \deqn{\log(h(t)) = g(\log(− \log(1 − \hat{P}(t_0))), t)}
 #'
-#' Note that we substitute probabilities \eqn{\hat{P}_{t_0} = 0} with a small
-#' \eqn{\epsilon} number to avoid arithmetic issues (\eqn{log(0)}). Same with
-#' \eqn{\hat{P}_{t_0} = 1}, we use \eqn{1 - \epsilon}.
-#' From this model, the *smoothed* probability of occurrence at \eqn{t_0} for
+#' Note that we substitute probabilities \eqn{\hat{P}(t_0) = 0} with a small
+#' \eqn{\epsilon} number to avoid arithmetic issues (\eqn{\log(0)}). Same with
+#' \eqn{\hat{P}(t_0) = 1}, we use \eqn{1 - \epsilon}.
+#' From this model, the *smoothed* probability of event occurrence at \eqn{t_0} for
 #' observation \eqn{i} is obtained as \eqn{\hat{P}_i^c(t_0)}.
 #'
 #' The **Integrated Calibration Index** is then computed across the \eqn{N}
