@@ -138,16 +138,16 @@ PipeOpTaskSurvRegrPEM = R6Class("PipeOpTaskSurvRegrPEM",
         assert(max_time > data[get(event_var) == 1, min(get(time_var))],
                "max_time must be greater than the minimum event time.")
       }
-      
+
       # To-Do: Extend to a more general formulation for competing risks and msm
       # form = formulate(sprintf("Surv(%s, %s)", time_var, event_var), ".")
       # To-Do: provide formula not as string, not via formula(...)
       long_data = pammtools::as_ped(data = data, formula = self$param_set$values$form, cut = cut, max_time = max_time)
       self$state$cut = attributes(long_data)$trafo_args$cut
-      
+
       risk_scenario = attributes(long_data)$class
-      
-      # To-Do: Does this save the information at the right location for correct prediction later on? 
+
+      # To-Do: Does this save the information at the right location for correct prediction later on?
       # At which steps is this information required:
       # 1. prediction
       # 2. data transformation? Intuitively, the as_ped() function automatically detects and performs adequate transformations
@@ -158,9 +158,9 @@ PipeOpTaskSurvRegrPEM = R6Class("PipeOpTaskSurvRegrPEM",
       } else {
         self$state$risk_scenario = 'ped'
       }
-      
 
-        
+
+
       long_data = as.data.table(long_data)
       setnames(long_data, old = "ped_status", new = "PEM_status") #change to PEM
 
@@ -185,9 +185,9 @@ PipeOpTaskSurvRegrPEM = R6Class("PipeOpTaskSurvRegrPEM",
 
       # extract `cut` from `state`
       cut = self$state$cut
-      
+
       risk_scenario = self$state$risk_scenario
-      
+
       time_var = task$target_names[1]
       event_var = task$target_names[2]
 
@@ -196,57 +196,67 @@ PipeOpTaskSurvRegrPEM = R6Class("PipeOpTaskSurvRegrPEM",
       data[[time_var]] = max_time
 
       status = data[[event_var]]
-      # setting data[[event_var]] removes automatic detection of cr events of as_ped function
-      
-      # if (risk_scenario == "ped_cr"){
-      #   long_data = as.data.table(pammtools::as_ped(data, formula = formula(self$param_set$values$form), cut = cut))
-      #   long_data = long_data |> pammtools::make_newdata(tend = unique(tend), cause = unique(cause))
-      # }
-      
-      
-      # requires generalization for test scenario 
+
+      # requires generalization for test scenario
+      # setting data[[event_var]] = 1 removes automatic detection of cr events during call of ped function
       # data[[event_var]] = 1
 
-      # update form
-      # form = formulate(sprintf("Surv(%s, %s)", time_var, event_var), ".")
-      
-      for (cause in unique)
       long_data = as.data.table(pammtools::as_ped(data, formula = formula(self$param_set$values$form), cut = cut))
-        
       setnames(long_data, old = "ped_status", new = "PEM_status")
 
       PEM_status = id = tend = obs_times = NULL # fixing global binding notes of data.table
       long_data[, PEM_status := 0]
-      # set correct id
-      rows_per_id = nrow(long_data) / length(unique(long_data$id))
-      long_data$obs_times = rep(time, each = rows_per_id)
-      ids = rep(task$row_ids, each = rows_per_id)
-      long_data[, id := ids]
 
-      # set correct PEM_status
-      if (risk_scenario == 'ped_cr'){
-        long_data$cause = rep(status, each = rows_per_id)
+
+      if (risk_scenario == "ped_cr"){
+        rows_per_id = nrow(long_data) / length(unique(long_data$id))
+        num_causes = length(unique(long_data$cause))
+        rows_per_id_per_cause = rows_per_id / num_causes
+
+        # sequence of ids for every stack
+        ids = rep(task$row_ids, each = rows_per_id_per_cause)
+        ids = rep(ids, times = num_causes)
+        long_data[, id := ids]
+
+        # To-Do: Reassign observation times for every df
+        # long_data$obs_times = rep(rep(time, each = rows_per_id_per_cause), each = num_cause)
+        long_data[, c("tstart", "interval") := NULL]
+      } else {
+        # set correct id
+        rows_per_id = nrow(long_data) / length(unique(long_data$id))
+        long_data$obs_times = rep(time, each = rows_per_id)
+        ids = rep(task$row_ids, each = rows_per_id)
+        long_data[, id := ids]
+
+        # starts diverging from competing risks
+
+        # set correct PEM status
+        reps = long_data[, data.table(count = sum(tend >= obs_times)), by = id]$count
+        status = rep(ifelse(status != 0, 1, 0), times = reps)
+
+        long_data[long_data[, .I[tend >= obs_times], by = id]$V1, PEM_status := status]
+
+        # remove some columns from 'long_data'
+        long_data[, c("tstart", "interval", "obs_times") := NULL]
       }
-      reps = long_data[, data.table(count = sum(tend >= obs_times)), by = id]$count
-      # status = rep(status, times = reps)
-      status = rep(ifelse(status != 0, 1, 0), times = reps)
-      long_data[long_data[, .I[tend >= obs_times], by = id]$V1, PEM_status := status]
 
-      # remove some columns from `long_data`
-      long_data[, c("tstart", "interval", "obs_times") := NULL]
       task_PEM = TaskRegr$new(paste0(task$id, "_PEM"), long_data,
                                   target = "PEM_status")
       task_PEM$set_col_roles("id", roles = "original_ids")
 
-      # map observed times back
-      reps = table(long_data$id)
-      long_data$obs_times = rep(time, each = rows_per_id)
+
       # subset transformed data
-      columns_to_keep = c("id", "obs_times", "tend", "PEM_status", "offset")
+      if (risk_scenario == "ped_cr"){
+        columns_to_keep = c("id", "tend", "PEM_status", "offset", "cause")
+      } else {
+        columns_to_keep = c("id", "obs_times", "tend", "PEM_status", "offset")
+        # map observed times back
+        long_data$obs_times = rep(time, each = rows_per_id)
+      }
       long_data = long_data[, columns_to_keep, with = FALSE]
-      
+
+      # save risk_scenario in long_data to pass it on to prediction pipeline
       long_data$risk_scenario = risk_scenario
-      # To-Do: return information on the risk scenario, passed on to the prediction pipeline
       list(task_PEM, long_data)
     }
   )
