@@ -175,6 +175,7 @@ PipeOpTaskSurvRegrPEM = R6Class("PipeOpTaskSurvRegrPEM",
       task_PEM = TaskRegr$new(paste0(task$id, "_PEM"), long_data,
                                   target = "PEM_status")
       task_PEM$set_col_roles("id", roles = "original_ids")
+      task_PEM$set_col_roles('offset', roles = "offset")
 
       list(task_PEM, data.table())
     },
@@ -243,6 +244,7 @@ PipeOpTaskSurvRegrPEM = R6Class("PipeOpTaskSurvRegrPEM",
       task_PEM = TaskRegr$new(paste0(task$id, "_PEM"), long_data,
                                   target = "PEM_status")
       task_PEM$set_col_roles("id", roles = "original_ids")
+      task_PEM$set_col_roles('offset', roles = "offset")
 
 
       # subset transformed data

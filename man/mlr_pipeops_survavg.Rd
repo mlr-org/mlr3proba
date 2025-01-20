@@ -63,10 +63,12 @@ Other PipeOps:
 \code{\link{PipeOpTransformer}},
 \code{\link{mlr_pipeops_trafopred_classifsurv_disctime}},
 \code{\link{mlr_pipeops_trafopred_regrsurv}},
+\code{\link{mlr_pipeops_trafopred_regrsurv_PEM}},
 \code{\link{mlr_pipeops_trafopred_survregr}},
 \code{\link{mlr_pipeops_trafotask_regrsurv}},
 \code{\link{mlr_pipeops_trafotask_survclassif_disctime}},
-\code{\link{mlr_pipeops_trafotask_survregr}}
+\code{\link{mlr_pipeops_trafotask_survregr}},
+\code{\link{mlr_pipeops_trafotask_survregr_PEM}}
 }
 \concept{Ensembles}
 \concept{PipeOps}

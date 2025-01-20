@@ -50,6 +50,7 @@ Other pipelines:
 \code{\link{mlr_graphs_responsecompositor}},
 \code{\link{mlr_graphs_survbagging}},
 \code{\link{mlr_graphs_survtoclassif_disctime}},
-\code{\link{mlr_graphs_survtoregr}}
+\code{\link{mlr_graphs_survtoregr}},
+\code{\link{mlr_graphs_survtoregr_PEM}}
 }
 \concept{pipelines}
