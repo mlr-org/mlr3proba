@@ -750,4 +750,7 @@ register_graph("responsecompositor", pipeline_responsecompositor)
 register_graph("probregr", pipeline_probregr)
 register_graph("survtoregr", pipeline_survtoregr)
 register_graph("survtoclassif_disctime", pipeline_survtoclassif_disctime)
+register_graph("survtoclassif_IPCW", pipeline_survtoclassif_IPCW)
+register_graph("survtoclassif_vock", pipeline_survtoclassif_IPCW) # alias
 register_graph("survtoregr_PEM", pipeline_survtoregr_PEM)
+
