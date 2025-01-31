@@ -21,17 +21,17 @@ pcox$data$response = rexp(20) # hack: add survival time predictions to cox model
 
 test_that("overwrite", {
   # no overwrite
-  por = mlr3pipelines::po("responsecompose")
+  por = po("responsecompose")
   p1 = por$predict(list(pcox))[[1L]]
   expect_identical(p1$response, pcox$response)
 
   # overwrite response
-  por = mlr3pipelines::po("responsecompose", overwrite = TRUE)
+  por = po("responsecompose", overwrite = TRUE)
   p2 = por$predict(list(pcox))[[1L]]
   expect_false(all(p2$response == pcox$response))
 
   # even if prediction doesn't have response, pipeop will add them even if no overwrite
-  por = mlr3pipelines::po("responsecompose")
+  por = po("responsecompose")
   pkm = lrn("surv.kaplan")$train(task)$predict(task)
   expect_null(pkm$response)
   p3 = por$predict(list(pkm))[[1L]]
@@ -40,7 +40,7 @@ test_that("overwrite", {
 })
 
 test_that("different methods, different responses", {
-  por = mlr3pipelines::po("responsecompose", overwrite = TRUE, method = "rmst")
+  por = po("responsecompose", overwrite = TRUE, method = "rmst")
   p1 = por$predict(list(pcox))[[1L]]
   por$param_set$set_values(method = "median")
   p2 = por$predict(list(pcox))[[1L]]
@@ -48,13 +48,10 @@ test_that("different methods, different responses", {
 })
 
 test_that("different cutoffs, different rmst", {
-  por1 = mlr3pipelines::po("responsecompose", overwrite = TRUE, method = "rmst")
-  por2 = mlr3pipelines::po("responsecompose", overwrite = TRUE, method = "rmst",
-                           cutoff_time = 100) # t_max = 99 in the generated data
-  por3 = mlr3pipelines::po("responsecompose", overwrite = TRUE, method = "rmst",
-                           cutoff_time = 65)
-  por4 = mlr3pipelines::po("responsecompose", overwrite = TRUE, method = "rmst",
-                           cutoff_time = 25)
+  por1 = po("responsecompose", overwrite = TRUE, method = "rmst")
+  por2 = po("responsecompose", overwrite = TRUE, method = "rmst", tau = 100) # t_max = 99 in the generated data
+  por3 = po("responsecompose", overwrite = TRUE, method = "rmst", tau = 65)
+  por4 = po("responsecompose", overwrite = TRUE, method = "rmst", tau = 25)
   p1 = por1$predict(list(pcox))[[1L]]
   p2 = por2$predict(list(pcox))[[1L]]
   p3 = por3$predict(list(pcox))[[1L]]
@@ -68,12 +65,12 @@ test_that("different cutoffs, different rmst", {
 })
 
 test_that("crank is added", {
-  por = mlr3pipelines::po("responsecompose", overwrite = FALSE, add_crank = TRUE)
+  por = po("responsecompose", overwrite = FALSE, add_crank = TRUE)
   p1 = por$predict(list(pcox))[[1L]]
   # same crank or response
   expect_identical(p1$response, pcox$response)
 
-  por = mlr3pipelines::po("responsecompose", overwrite = TRUE, add_crank = TRUE)
+  por = po("responsecompose", overwrite = TRUE, add_crank = TRUE)
   p2 = por$predict(list(pcox))[[1L]]
   # response changed
   expect_false(all(pcox$response == p2$response))

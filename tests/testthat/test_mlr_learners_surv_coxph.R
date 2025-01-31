@@ -2,20 +2,9 @@ test_that("autotest", {
   with_seed(42L, {
     learner = lrn("surv.coxph")
     expect_learner(learner)
-    ## no idea why weights check here fails, we test the same task
-    ## in the below test and it works!
-    result = suppressWarnings(
-      run_autotest(learner, exclude = "weights", check_replicable = FALSE, N = 10L)
-    )
+    result = run_autotest(learner, check_replicable = FALSE)
     expect_true(result, info = result$error)
   })
-})
-
-test_that("weights", {
-  learner = lrn("surv.coxph")
-  task = generate_tasks.LearnerSurv(learner)$weights
-  learner$train(task)
-  expect_equal(learner$model$weights, task$weights$weight)
 })
 
 test_that("missing", {

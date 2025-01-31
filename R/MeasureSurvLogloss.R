@@ -10,33 +10,36 @@
 #' Calculates the cross-entropy, or negative log-likelihood (NLL) or logarithmic (log), loss.
 #' @section Parameter details:
 #' - `IPCW` (`logical(1)`)\cr
-#' If `TRUE` (default) then returns the \eqn{L_{RNLL}} score (which is proper), otherwise the \eqn{L_{NLL}} score (improper).
+#' If `TRUE` (default) then returns the \eqn{L_{RNLL}} score (which is proper), otherwise the \eqn{L_{NLL}} score (improper). See Sonabend et al. (2024) for more details.
 #'
 #' @details
 #' The Log Loss, in the context of probabilistic predictions, is defined as the
 #' negative log probability density function, \eqn{f}, evaluated at the
 #' observation time (event or censoring), \eqn{t},
-#' \deqn{L_{NLL}(f, t) = -log(f(t))}
+#' \deqn{L_{NLL}(f, t) = -\log[f(t)]}
 #'
 #' The standard error of the Log Loss, L, is approximated via,
 #' \deqn{se(L) = sd(L)/\sqrt{N}}{se(L) = sd(L)/\sqrt N}
 #' where \eqn{N} are the number of observations in the test set, and \eqn{sd} is the standard
 #' deviation.
 #'
-#' The **Re-weighted Negative Log-Likelihood** (RNLL) or IPCW Log Loss is defined by
-#' \deqn{L_{RNLL}(f, t, \Delta) = -\Delta log(f(t))/G(t)}
-#' where \eqn{\Delta} is the censoring indicator and G is the Kaplan-Meier estimator of the
+#' The **Re-weighted Negative Log-Likelihood** (RNLL) or IPCW (Inverse Probability Censoring Weighted) Log Loss is defined by
+#' \deqn{L_{RNLL}(f, t, \delta) = - \frac{\delta \log[f(t)]}{G(t)}}
+#' where \eqn{\delta} is the censoring indicator and \eqn{G(t)} is the Kaplan-Meier estimator of the
 #' censoring distribution.
 #' So only observations that have experienced the event are taking into account
-#' for RNLL and both \eqn{f(t), G(t)} are calculated only at the event times.
+#' for RNLL (i.e. \eqn{\delta = 1}) and both \eqn{f(t), G(t)} are calculated only at the event times.
 #' If only censored observations exist in the test set, `NaN` is returned.
 #'
 #' @template details_trainG
 #'
+#' @references
+#' `r format_bib("sonabend2024")`
+#'
 #' @family Probabilistic survival measures
 #' @family distr survival measures
 #' @export
-MeasureSurvLogloss = R6::R6Class("MeasureSurvLogloss",
+MeasureSurvLogloss = R6Class("MeasureSurvLogloss",
   inherit = MeasureSurv,
   public = list(
     #' @description

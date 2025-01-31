@@ -16,7 +16,6 @@
 #' `r format_bib("grambsch_1994")`
 #'
 #' @family Task
-#' @export
 #' @examples
 #' library(mlr3)
 #' task = tsk("lung")
@@ -47,7 +46,8 @@
 #' task$prop_haz()
 #' # veteran data is definitely non-PH (p << 0.05)
 #' tsk("veteran")$prop_haz()
-TaskSurv = R6::R6Class("TaskSurv",
+#' @export
+TaskSurv = R6Class("TaskSurv",
   inherit = TaskSupervised,
   public = list(
     #' @description
@@ -393,7 +393,7 @@ TaskSurv = R6::R6Class("TaskSurv",
       assert_choice(self$censtype, choices = c("right", "left"))
 
       cox = lrn("surv.coxph")
-      cox$encapsulate = c(train = "evaluate", predict = "evaluate")
+      cox$encapsulate("evaluate", fallback = lrn("surv.kaplan"))
       cox$train(self)
       ok = (length(cox$errors) == 0L) & (length(cox$warnings) == 0L)
 
@@ -408,7 +408,7 @@ TaskSurv = R6::R6Class("TaskSurv",
   ),
 
   active = list(
-    #' @field censtype `character(1)`\cr
+    #' @field censtype (`character(1)`)\cr
     #' Returns the type of censoring, one of `"right"`, `"left"`, `"counting"`,
     #' `"interval"`, `"interval2"` or `"mstate"`.
     #' Currently, only the `"right"`-censoring type is fully supported, the rest

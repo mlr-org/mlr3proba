@@ -50,3 +50,12 @@ ordered_features = function(task, learner) {
   cols = names(learner$state$data_prototype) %??% learner$state$feature_names
   task$data(cols = intersect(cols, task$feature_names))
 }
+
+## create GraphLearner
+create_grlrn = function(gr, graph_learner = FALSE) {
+  if (graph_learner) {
+    gr = as_learner(gr)
+  }
+
+  gr
+}

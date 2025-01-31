@@ -16,7 +16,7 @@ Type of the plot. Available choices:
 \item \code{"freq"}: histogram frequency plot with \code{\link[ggplot2:geom_histogram]{ggplot2::geom_histogram()}}.
 \item \code{"overlay"}: histogram with overlaid density plot with \code{\link[ggplot2:geom_histogram]{ggplot2::geom_histogram()}} and
 \code{\link[ggplot2:geom_density]{ggplot2::geom_density()}}.
-\item \code{"freqpoly"}: frequency polygon plot with \code{ggplot2::geom_freqpoly}.
+\item \code{"freqpoly"}: frequency polygon plot with \link[ggplot2:geom_histogram]{ggplot2::geom_freqpoly}.
 }}
 
 \item{theme}{(\code{\link[ggplot2:theme]{ggplot2::theme()}})\cr
@@ -32,15 +32,17 @@ Additional arguments, possibly passed down to the underlying plot functions.}
 Generates plots for \link{TaskDens}.
 }
 \examples{
+\dontshow{if (mlr3misc::require_namespaces(c("mlr3viz", "ggplot2"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(mlr3)
 library(mlr3proba)
 library(mlr3viz)
 library(ggplot2)
 task = tsk("precip")
+task$head()
 
-head(fortify(task))
 autoplot(task, bins = 15)
 autoplot(task, type = "freq", bins = 15)
 autoplot(task, type = "overlay", bins = 15)
 autoplot(task, type = "freqpoly", bins = 15)
+\dontshow{\}) # examplesIf}
 }

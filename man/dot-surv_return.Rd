@@ -39,6 +39,32 @@ Default value (\code{NULL}) is the \strong{0.5 quantile} which is the median acr
 \description{
 Internal helper function to easily return the correct survival predict types.
 }
+\examples{
+n = 10 # number of observations
+k = 50 # time points
+
+# Create the matrix with random values between 0 and 1
+mat = matrix(runif(n * k, min = 0, max = 1), nrow = n, ncol = k)
+
+# transform it to a survival matrix
+surv_mat = t(apply(mat, 1L, function(row) sort(row, decreasing = TRUE)))
+
+# crank is expected mortality, distr is the survival matrix
+.surv_return(times = 1:k, surv = surv_mat)
+
+# if crank is set, it's not overwritten
+.surv_return(times = 1:k, surv = surv_mat, crank = rnorm(n))
+
+# lp = crank
+.surv_return(lp = rnorm(n))
+
+# if response is set and no crank, crank = -response
+.surv_return(response = sample(1:100, n))
+
+# if both are set, they are not overwritten
+.surv_return(crank = rnorm(n), response = sample(1:100, n))
+
+}
 \references{
 Sonabend, Raphael, Bender, Andreas, Vollmer, Sebastian (2022).
 \dQuote{Avoiding C-hacking when evaluating survival distribution predictions with discrimination measures.}

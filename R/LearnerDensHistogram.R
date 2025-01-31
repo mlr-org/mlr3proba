@@ -4,7 +4,7 @@
 #' @templateVar caller [graphics::hist()]
 #'
 #' @export
-LearnerDensHistogram = R6::R6Class("LearnerDensHistogram",
+LearnerDensHistogram = R6Class("LearnerDensHistogram",
   inherit = LearnerDens,
   public = list(
     #' @description

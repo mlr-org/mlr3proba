@@ -30,7 +30,7 @@
 #' @family Probabilistic survival measures
 #' @family distr survival measures
 #' @export
-MeasureSurvRCLL = R6::R6Class("MeasureSurvRCLL",
+MeasureSurvRCLL = R6Class("MeasureSurvRCLL",
   inherit = MeasureSurv,
   public = list(
     #' @description
@@ -56,7 +56,7 @@ MeasureSurvRCLL = R6::R6Class("MeasureSurvRCLL",
         minimize = !ERV,
         predict_type = "distr",
         packages = "distr6",
-        label = "RCLL",
+        label = "Right-Censored Log Loss",
         man = "mlr3proba::mlr_measures_surv.rcll",
         range = range,
         param_set = ps

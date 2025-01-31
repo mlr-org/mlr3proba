@@ -57,10 +57,8 @@
 #' All event times after `max_time` will be administratively censored at `max_time.`
 #' Needs to be greater than the minimum event time in the given task.
 #'
-#' @examples
+#' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines", "mlr3learners"), quietly = TRUE)
 #' \dontrun{
-#' if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
-#'     requireNamespace("mlr3learners", quietly = TRUE)) {
 #'   library(mlr3)
 #'   library(mlr3learners)
 #'   library(mlr3pipelines)
@@ -79,12 +77,11 @@
 #'   learner = lrn("classif.log_reg", predict_type = "prob")
 #'   learner$train(task_classif)
 #' }
-#' }
 #'
 #' @references
 #' `r format_bib("tutz_2016")`
 #'
-#' @family PipeOps
+#' @seealso [pipeline_survtoclassif_disctime]
 #' @family Transformation PipeOps
 #' @export
 PipeOpTaskSurvClassifDiscTime = R6Class("PipeOpTaskSurvClassifDiscTime",
@@ -100,6 +97,7 @@ PipeOpTaskSurvClassifDiscTime = R6Class("PipeOpTaskSurvClassifDiscTime",
       )
       super$initialize(
         id = id,
+        packages = c("pammtools"),
         param_set = param_set,
         input = data.table(
           name    = "input",

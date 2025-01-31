@@ -8,7 +8,7 @@ p1 = lrn("surv.kaplan")$train(task)$predict(task)
 p2 = lrn("surv.coxph")$train(task)$predict(task)
 
 test_that("equal weights", {
-  poc = mlr3pipelines::po("survavg")
+  poc = po("survavg")
   expect_silent({
     p = poc$predict(list(p1, p2))[[1L]]
   })
@@ -22,7 +22,7 @@ test_that("equal weights", {
 })
 
 test_that("unequal weights", {
-  poc = mlr3pipelines::po("survavg", param_vals = list(weights = c(0.2, 0.8)))
+  poc = po("survavg", param_vals = list(weights = c(0.2, 0.8)))
   expect_silent({
     p = poc$predict(list(p1, p2))$output
   })
@@ -34,7 +34,7 @@ test_that("unequal weights", {
 })
 
 test_that("lp", {
-  poc = mlr3pipelines::po("survavg")
+  poc = po("survavg")
   expect_silent({
     p = poc$predict(list(p2, p2))[[1L]]
   })
@@ -42,9 +42,8 @@ test_that("lp", {
 })
 
 test_that("response", {
-  poc = mlr3pipelines::po("survavg")
-  por = mlr3pipelines::ppl("responsecompositor", learner = lrn("surv.coxph"),
-                           graph_learner = TRUE)
+  poc = po("survavg")
+  por = ppl("responsecompositor", learner = lrn("surv.coxph"), graph_learner = TRUE)
   p3 = por$train(task)$predict(task)
   expect_silent({
     p = poc$predict(list(p3, p3))[[1L]]
@@ -53,12 +52,11 @@ test_that("response", {
 })
 
 test_that("pipeline surv_averager", {
-  poc = mlr3pipelines::po("survavg", weights = c(0.2, 0.8))
+  poc = po("survavg", weights = c(0.2, 0.8))
   p = poc$predict(list(p1, p2))[[1L]]
 
-  p2 = mlr3pipelines::ppl("survaverager",
-                          learners = list(lrn("surv.kaplan"), lrn("surv.coxph")),
-                          list(weights = c(0.2, 0.8)), graph_learner = TRUE)$
+  p2 = ppl("survaverager", learners = list(lrn("surv.kaplan"), lrn("surv.coxph")),
+           list(weights = c(0.2, 0.8)), graph_learner = TRUE)$
     train(task)$predict(task)
 
   expect_equal(p$crank, p2$crank)

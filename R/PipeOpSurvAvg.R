@@ -30,12 +30,12 @@
 #' Inherits from [PipeOpEnsemble][mlr3pipelines::PipeOpEnsemble] by implementing the
 #' `private$weighted_avg_predictions()` method.
 #'
+#' @seealso [pipeline_survaverager]
 #' @family PipeOps
 #' @family Ensembles
 #' @export
-#' @examples
+#' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)
 #' \dontrun{
-#' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 #'   library(mlr3)
 #'   library(mlr3pipelines)
 #'
@@ -45,7 +45,6 @@
 #'   poc = po("survavg", param_vals = list(weights = c(0.2, 0.8)))
 #'   poc$predict(list(p1, p2))
 #' }
-#' }
 PipeOpSurvAvg = R6Class("PipeOpSurvAvg",
   inherit = mlr3pipelines::PipeOpEnsemble,
 
@@ -53,11 +52,11 @@ PipeOpSurvAvg = R6Class("PipeOpSurvAvg",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
-    #' @param innum `(numeric(1))`\cr
+    #' @param innum (`numeric(1)`)\cr
     #'   Determines the number of input channels.
     #'   If `innum` is 0 (default), a vararg input channel is created that can take an arbitrary
     #'   number of inputs.
-    #' @param ... `ANY`\cr
+    #' @param ... (`ANY`)\cr
     #' Additional arguments passed to [mlr3pipelines::PipeOpEnsemble].
     initialize = function(innum = 0, id = "survavg",
       param_vals = list(), ...) {

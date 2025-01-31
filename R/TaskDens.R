@@ -17,7 +17,7 @@
 #' @examples
 #' task = TaskDens$new("precip", backend = precip)
 #' task$task_type
-TaskDens = R6::R6Class("TaskDens",
+TaskDens = R6Class("TaskDens",
   inherit = TaskUnsupervised,
   public = list(
     #' @description

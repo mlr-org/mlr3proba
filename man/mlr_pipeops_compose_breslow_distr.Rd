@@ -53,8 +53,8 @@ another.
 }
 
 \examples{
+\dontshow{if (mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \dontrun{
-if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   library(mlr3)
   library(mlr3pipelines)
   task = tsk("rats")
@@ -68,7 +68,17 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   b$train(list(train_task))
   p = b$predict(list(test_task))[[1L]]
 }
+\dontshow{\}) # examplesIf}
 }
+\references{
+Breslow N (1972).
+\dQuote{Discussion of 'Regression Models and Life-Tables' by D.R. Cox.}
+\emph{Journal of the Royal Statistical Society: Series B}, \bold{34}(2), 216-217.
+
+Lin, Y. D (2007).
+\dQuote{On the Breslow estimator.}
+\emph{Lifetime Data Analysis}, \bold{13}(4), 471-480.
+\doi{10.1007/s10985-007-9048-y}.
 }
 \seealso{
 \link{pipeline_distrcompositor}

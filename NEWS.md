@@ -1,26 +1,72 @@
+# mlr3proba 0.7.4
+
+* fix + update `MeasureSurv`: survival measure labels are now printed and the `obs_loss` property is now supported
+* feat: add `na.rm` parameter to `msr("surv.calib_index")` to avoid `NaN` scores
+
+# mlr3proba 0.7.3
+
+* feat: added new calibration measure => `msr("surv.calib_index")`
+* refactor + feat: `autoplot.PredictionSurv`
+  * The default `"calib"` plot uses the survival matrix directly now which is faster
+  * `"dcalib"` has extra barplot + better documentation
+  * Added new `type = "scalib"` which constructs the smoothed calibration plots as in Austin et al. (2020)
+  * **BREAKING CHANGE**: `"preds"` is now called `"isd"` (individual survival distribution). `row_ids` can now be used to filter the observations for which you draw the survival curves.
+
+# mlr3proba 0.7.2
+
+* fix: `lrn("surv.coxph")` is now trained with `model=TRUE` which fixes an issue with using observation weights [stackoverflow link](https://stackoverflow.com/questions/79297386/mlr3-predicted-values-for-surv-coxph-learner-with-case-weights).
+* cleanup: remove `tsk("unemployment")` and associated files
+* cleanup: remove unused references
+
+# mlr3proba 0.7.1
+
+* cleanup: removed all `PipeOp`s and pipelines related to survival => regression reduction techniques (see #414)
+* fix: `$predict_type` of `survtoclassif_disctime` and `survtoclassif_IPCW` was `prob` (classification type) and not `crank` (survival type)
+* fix: G(t) is not filtered when `t_max|p_max` is specified in scoring rules (didn't influence evaluation at all)
+* docs: Clarified the use and impact of using `t_max` in scoring rules, added examples in scoring rules and AUC scores
+* feat: Added new argument `remove_obs` in scoring rules to remove observations with observed time `t > t_max` as a processing step to alleviate IPCW issues.
+This was before 'hard-coded' which made the Integrated Brier Score (`msr("surv.graf")`) differ minimally from other implementations and the original definition.
+
+# mlr3proba 0.7.0
+
+* Add `mlr3pipelines` to `Imports` and set minimum latest version from CRAN (`0.7.0`)
+* Refactor code to minimize namespace calling and imports such as `mlr3pipelines::` or `R6::`
+* Doc updates: add experimental badge in a some PipeOps + add references in others
+* Add argument `scale_lp` for AFT `distrcompose` pipeop + respective pipeline
+
+# mlr3proba 0.6.9
+
+* New `PipeOp`s: `PipeOpTaskSurvClassifIPCW`, `PipeOpPredClassifSurvIPCW`
+* New pipeline (**reduction method**): `pipeline_survtoclassif_IPCW`
+* Improved the way Integrated Brier score handles the `times` argument and the `t_max`, especially when the survival matrix has one time point (column)
+* Improved documentation of integrated survival scores
+* Improved documentation of all pipelines
+* Temp fix of math-rendering issue in package website
+* Add experimental `lifecycle` badge for 3 pipelines (`survtoregr`, `distrcompositor` and `probregr`) - these are currently either not supported by literature or tested enough.
+
 # mlr3proba 0.6.8
 
-- `Rcpp` code optimizations
-- Fixed ERV scoring to comply with `mlr3` dev version (no bugs before)
-- Skipping `survtoregr` pipelines due to bugs (to be refactored in the future)
+* `Rcpp` code optimizations
+* Fixed ERV scoring to comply with `mlr3` dev version (no bugs before)
+* Skipping `survtoregr` pipelines due to bugs (to be refactored in the future)
 
 # mlr3proba 0.6.7
 
-- Deprecate `crank` to `distr` composition in `distrcompose` pipeop (only from `lp` => `distr` works now)
-- Add `get_mortality()` function (from `survivalmodels::surv_to_risk()`
-- Add Rcpp function `assert_surv_matrix()`
-- Update and simplify `crankcompose` pipeop and respective pipeline (no `response` is created anymore)
-- Add `responsecompositor` pipeline with `rmst` and `median`
+* Deprecate `crank` to `distr` composition in `distrcompose` pipeop (only from `lp` => `distr` works now)
+* Add `get_mortality()` function (from `survivalmodels::surv_to_risk()`
+* Add Rcpp function `assert_surv_matrix()`
+* Update and simplify `crankcompose` pipeop and respective pipeline (no `response` is created anymore)
+* Add `responsecompositor` pipeline with `rmst` and `median`
 
 # mlr3proba 0.6.6
 
-- Small fixes and refactoring to the discrete-time pipeops
+* Small fixes and refactoring to the discrete-time pipeops
 
 # mlr3proba 0.6.5
 
 * Add support for discrete-time survival analysis
 * New `PipeOp`s: `PipeOpTaskSurvClassifDiscTime`, `PipeOpPredClassifSurvDiscTime`
-* New pipeline: `pipeline_survtoclassif`
+* New pipeline (**reduction method**): `pipeline_survtoclassif_disctime`
 
 # mlr3proba 0.6.4
 

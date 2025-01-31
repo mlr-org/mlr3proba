@@ -61,7 +61,6 @@ Other Task:
 \code{\link{mlr_tasks_pbc}},
 \code{\link{mlr_tasks_precip}},
 \code{\link{mlr_tasks_rats}},
-\code{\link{mlr_tasks_unemployment}},
 \code{\link{mlr_tasks_whas}}
 }
 \concept{Task}

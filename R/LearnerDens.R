@@ -14,7 +14,6 @@
 #' @template param_predict_types
 #' @template param_feature_types
 #' @template param_learner_properties
-#' @template param_data_formats
 #' @template param_packages
 #' @template param_label
 #' @template param_man
@@ -30,7 +29,7 @@
 #' # get a specific learner from mlr_learners:
 #' mlr_learners$get("dens.hist")
 #' lrn("dens.hist")
-LearnerDens = R6::R6Class("LearnerDens",
+LearnerDens = R6Class("LearnerDens",
   inherit = Learner,
   public = list(
     #' @description Creates a new instance of this [R6][R6::R6Class] class.

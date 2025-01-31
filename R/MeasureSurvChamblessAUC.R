@@ -15,6 +15,7 @@
 #'
 #' @family AUC survival measures
 #' @family lp survival measures
+#' @template example_auc_measures
 #' @export
 MeasureSurvChamblessAUC = R6Class("MeasureSurvChamblessAUC",
   inherit = MeasureSurvAUC,

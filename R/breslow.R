@@ -74,7 +74,7 @@
 #' (0-`Inf`).
 #'
 #' @references
-#' `r format_bib("cox_1972", "lin_2007")`
+#' `r format_bib("breslow_1972", "lin_2007")`
 #'
 #' @examples
 #' task = tsk("rats")

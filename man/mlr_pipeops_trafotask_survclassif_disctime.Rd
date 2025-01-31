@@ -69,9 +69,8 @@ Needs to be greater than the minimum event time in the given task.
 }
 
 \examples{
+\dontshow{if (mlr3misc::require_namespaces(c("mlr3pipelines", "mlr3learners"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \dontrun{
-if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
-    requireNamespace("mlr3learners", quietly = TRUE)) {
   library(mlr3)
   library(mlr3learners)
   library(mlr3pipelines)
@@ -90,8 +89,7 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
   learner = lrn("classif.log_reg", predict_type = "prob")
   learner$train(task_classif)
 }
-}
-
+\dontshow{\}) # examplesIf}
 }
 \references{
 Tutz, Gerhard, Schmid, Matthias (2016).
@@ -100,25 +98,13 @@ Springer International Publishing.
 ISBN 978-3-319-28156-8 978-3-319-28158-2, \url{http://link.springer.com/10.1007/978-3-319-28158-2}.
 }
 \seealso{
-Other PipeOps: 
-\code{\link{PipeOpPredTransformer}},
-\code{\link{PipeOpTaskTransformer}},
-\code{\link{PipeOpTransformer}},
-\code{\link{mlr_pipeops_survavg}},
-\code{\link{mlr_pipeops_trafopred_classifsurv_disctime}},
-\code{\link{mlr_pipeops_trafopred_regrsurv}},
-\code{\link{mlr_pipeops_trafopred_survregr}},
-\code{\link{mlr_pipeops_trafotask_regrsurv}},
-\code{\link{mlr_pipeops_trafotask_survregr}}
+\link{pipeline_survtoclassif_disctime}
 
 Other Transformation PipeOps: 
+\code{\link{mlr_pipeops_trafopred_classifsurv_IPCW}},
 \code{\link{mlr_pipeops_trafopred_classifsurv_disctime}},
-\code{\link{mlr_pipeops_trafopred_regrsurv}},
-\code{\link{mlr_pipeops_trafopred_survregr}},
-\code{\link{mlr_pipeops_trafotask_regrsurv}},
-\code{\link{mlr_pipeops_trafotask_survregr}}
+\code{\link{mlr_pipeops_trafotask_survclassif_IPCW}}
 }
-\concept{PipeOps}
 \concept{Transformation PipeOps}
 \section{Super class}{
 \code{\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}} -> \code{PipeOpTaskSurvClassifDiscTime}

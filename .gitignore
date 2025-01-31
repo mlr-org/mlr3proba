@@ -105,3 +105,4 @@ src/*.dll
 CRAN-RELEASE
 .vscode
 check/*
+docs

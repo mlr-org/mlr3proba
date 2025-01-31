@@ -5,10 +5,6 @@ c_assert_surv <- function(mat) {
     .Call(`_mlr3proba_c_assert_surv`, mat)
 }
 
-.c_get_unique_times <- function(true_times, req_times) {
-    .Call(`_mlr3proba_c_get_unique_times`, true_times, req_times)
-}
-
 c_score_intslogloss <- function(truth, unique_times, cdf, eps) {
     .Call(`_mlr3proba_c_score_intslogloss`, truth, unique_times, cdf, eps)
 }

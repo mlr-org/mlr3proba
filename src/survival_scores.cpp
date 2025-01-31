@@ -3,44 +3,6 @@
 using namespace Rcpp;
 using namespace std;
 
-// [[Rcpp::export(.c_get_unique_times)]]
-NumericVector c_get_unique_times(NumericVector true_times, NumericVector req_times) {
-  if (req_times.length() == 0) {
-    return sort_unique(true_times);
-  }
-
-  std::sort(true_times.begin(), true_times.end());
-  std::sort(req_times.begin(), req_times.end());
-
-  double mintime = true_times(0);
-  double maxtime = true_times(true_times.length() - 1);
-
-  for (int i = 0; i < req_times.length(); i++) {
-    if (req_times[i] < mintime || req_times[i] > maxtime || ((i > 1) && req_times[i] == req_times[i - 1])) {
-      req_times.erase(i);
-      i--;
-    }
-  }
-
-  if (req_times.length() == 0) {
-    Rcpp::stop("Requested times are all outside the observed range.");
-  }
-  for (int i = 0; i < true_times.length(); i++) {
-    for (int j = 0; j < req_times.length(); j++) {
-      if (true_times[i] <= req_times[j] &&
-        (i == true_times.length() - 1 || true_times[i + 1] > req_times[j])) {
-        break;
-      } else if (j == req_times.length() - 1) {
-        true_times.erase(i);
-        i--;
-        break;
-      }
-    }
-  }
-
-  return true_times;
-}
-
 // [[Rcpp::export]]
 NumericMatrix c_score_intslogloss(const NumericVector& truth,
                                   const NumericVector& unique_times,
@@ -129,13 +91,12 @@ NumericMatrix c_weight_survival_score(const NumericMatrix& score,
               k = 1;
               break;
             } else if (times[i] >= cens_times[l] &&
-              (l == cens_times.length() - 1 ||
-              times[i] < cens_times[l + 1])) {
+              (l == cens_times.length() - 1 || times[i] < cens_times[l + 1])) {
               k = cens_surv[l];
-              // k == 0 only if last obsv censored, therefore mat is set to 0
-              // anyway This division by eps can cause inflation of the score,
-              // due to a very large value for a particular (i-obs, j-time) use
-              // 't_max' to filter 'cens' in that case
+              // k == 0 only if last obs censored, therefore mat is set to 0 anyway
+              // This division by eps can cause inflation of the score,
+              // due to a very large value for a particular (i-obs, j-time)
+              // Use 't_max' to filter 'cens' in that case
               if (k == 0) {
                 k = eps;
               }

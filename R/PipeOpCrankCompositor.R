@@ -35,10 +35,11 @@
 #'    If `TRUE`, then the `crank` will be overwritten.
 #'
 #' @seealso [pipeline_crankcompositor]
+#' @references
+#' `r format_bib("sonabend_2022", "ishwaran_2008")`
 #' @family survival compositors
-#' @examples
+#' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)
 #' \dontrun{
-#' if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
 #'   library(mlr3pipelines)
 #'   task = tsk("rats")
 #'
@@ -46,7 +47,6 @@
 #'   pred = lrn("surv.coxph")$train(task)$predict(task)
 #'   poc = po("crankcompose", param_vals = list(overwrite = TRUE))
 #'   poc$predict(list(pred))[[1L]]
-#' }
 #' }
 #' @export
 PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
@@ -109,11 +109,10 @@ PipeOpCrankCompositor = R6Class("PipeOpCrankCompositor",
           crank = get_mortality(surv)
         }
 
-        # update only `crank`
         p = PredictionSurv$new(
           row_ids = pred$row_ids,
           truth = pred$truth,
-          crank = crank,
+          crank = crank, # update only `crank`
           distr = pred$distr,
           lp = pred$lp,
           response = pred$response

@@ -11,25 +11,20 @@ Calculates the cross-entropy, or negative log-likelihood (NLL) or logarithmic (l
 The Log Loss, in the context of probabilistic predictions, is defined as the
 negative log probability density function, \eqn{f}, evaluated at the
 observation time (event or censoring), \eqn{t},
-\deqn{L_{NLL}(f, t) = -log(f(t))}
+\deqn{L_{NLL}(f, t) = -\log[f(t)]}
 
 The standard error of the Log Loss, L, is approximated via,
 \deqn{se(L) = sd(L)/\sqrt{N}}{se(L) = sd(L)/\sqrt N}
 where \eqn{N} are the number of observations in the test set, and \eqn{sd} is the standard
 deviation.
 
-The \strong{Re-weighted Negative Log-Likelihood} (RNLL) or IPCW Log Loss is defined by
-\deqn{L_{RNLL}(f, t, \Delta) = -\Delta log(f(t))/G(t)}
-where \eqn{\Delta} is the censoring indicator and G is the Kaplan-Meier estimator of the
+The \strong{Re-weighted Negative Log-Likelihood} (RNLL) or IPCW (Inverse Probability Censoring Weighted) Log Loss is defined by
+\deqn{L_{RNLL}(f, t, \delta) = - \frac{\delta \log[f(t)]}{G(t)}}
+where \eqn{\delta} is the censoring indicator and \eqn{G(t)} is the Kaplan-Meier estimator of the
 censoring distribution.
 So only observations that have experienced the event are taking into account
-for RNLL and both \eqn{f(t), G(t)} are calculated only at the event times.
+for RNLL (i.e. \eqn{\delta = 1}) and both \eqn{f(t), G(t)} are calculated only at the event times.
 If only censored observations exist in the test set, \code{NaN} is returned.
-
-If \code{task} and \code{train_set} are passed to \verb{$score} then \eqn{G(t)} is fit on training data,
-otherwise testing data. The first is likely to reduce any bias caused by calculating
-parts of the measure on the test data it is evaluating. The training data is automatically
-used in scoring resamplings.
 }
 \section{Dictionary}{
 
@@ -91,14 +86,32 @@ Default is \code{FALSE}.
 
 \itemize{
 \item \code{IPCW} (\code{logical(1)})\cr
-If \code{TRUE} (default) then returns the \eqn{L_{RNLL}} score (which is proper), otherwise the \eqn{L_{NLL}} score (improper).
+If \code{TRUE} (default) then returns the \eqn{L_{RNLL}} score (which is proper), otherwise the \eqn{L_{NLL}} score (improper). See Sonabend et al. (2024) for more details.
 }
 }
 
+\section{Data used for Estimating Censoring Distribution}{
+
+
+If \code{task} and \code{train_set} are passed to \verb{$score} then \eqn{G(t)} is fit using
+\strong{all observations} from the train set, otherwise the test set is used.
+Using the train set is likely to reduce any bias caused by calculating parts of the
+measure on the test data it is evaluating.
+Also usually it means that more data is used for fitting the censoring
+distribution \eqn{G(t)} via the Kaplan-Meier.
+The training data is automatically used in scoring resamplings.
+}
+
+\references{
+Sonabend, Raphael, Zobolas, John, Kopper, Philipp, Burk, Lukas, Bender, Andreas (2024).
+\dQuote{Examining properness in the external validation of survival models with squared and logarithmic losses.}
+\url{https://arxiv.org/abs/2212.05260v2}.
+}
 \seealso{
 Other survival measures: 
 \code{\link{mlr_measures_surv.calib_alpha}},
 \code{\link{mlr_measures_surv.calib_beta}},
+\code{\link{mlr_measures_surv.calib_index}},
 \code{\link{mlr_measures_surv.chambless_auc}},
 \code{\link{mlr_measures_surv.cindex}},
 \code{\link{mlr_measures_surv.dcalib}},
@@ -128,6 +141,7 @@ Other Probabilistic survival measures:
 
 Other distr survival measures: 
 \code{\link{mlr_measures_surv.calib_alpha}},
+\code{\link{mlr_measures_surv.calib_index}},
 \code{\link{mlr_measures_surv.dcalib}},
 \code{\link{mlr_measures_surv.graf}},
 \code{\link{mlr_measures_surv.intlogloss}},
@@ -153,8 +167,8 @@ Other distr survival measures:
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate"><a href='../../mlr3/html/Measure.html#method-Measure-aggregate'><code>mlr3::Measure$aggregate()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format"><a href='../../mlr3/html/Measure.html#method-Measure-format'><code>mlr3::Measure$format()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help"><a href='../../mlr3/html/Measure.html#method-Measure-help'><code>mlr3::Measure$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print"><a href='../../mlr3/html/Measure.html#method-Measure-print'><code>mlr3::Measure$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score"><a href='../../mlr3/html/Measure.html#method-Measure-score'><code>mlr3::Measure$score()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3proba" data-topic="MeasureSurv" data-id="print"><a href='../../mlr3proba/html/MeasureSurv.html#method-MeasureSurv-print'><code>mlr3proba::MeasureSurv$print()</code></a></span></li>
 </ul>
 </details>
 }}

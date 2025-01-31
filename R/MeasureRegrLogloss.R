@@ -14,7 +14,7 @@
 #' \deqn{L(f, y) = -\log(f(y))}{L(f, y) = -log(f(y))}
 #'
 #' @export
-MeasureRegrLogloss = R6::R6Class("MeasureRegrLogloss",
+MeasureRegrLogloss = R6Class("MeasureRegrLogloss",
   inherit = MeasureRegr,
   public = list(
     #' @description

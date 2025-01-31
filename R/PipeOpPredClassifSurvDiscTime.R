@@ -34,11 +34,10 @@
 #'
 #' @references
 #' `r format_bib("tutz_2016")`
-#' @family PipeOps
+#' @seealso [pipeline_survtoclassif_disctime]
 #' @family Transformation PipeOps
 #' @export
-PipeOpPredClassifSurvDiscTime = R6Class(
-  "PipeOpPredClassifSurvDiscTime",
+PipeOpPredClassifSurvDiscTime = R6Class("PipeOpPredClassifSurvDiscTime",
   inherit = mlr3pipelines::PipeOp,
 
   public = list(
@@ -60,6 +59,15 @@ PipeOpPredClassifSurvDiscTime = R6Class(
           predict = "PredictionSurv"
         )
       )
+    }
+  ),
+
+  active = list(
+    #' @field predict_type (`character(1)`)\cr
+    #' Returns the active predict type of this PipeOp, which is `"crank"`
+    predict_type = function(rhs) {
+      assert_ro_binding(rhs)
+      "crank"
     }
   ),
 
@@ -95,7 +103,8 @@ PipeOpPredClassifSurvDiscTime = R6Class(
       p = PredictionSurv$new(
         row_ids = ids,
         crank = pred_list$crank, distr = pred_list$distr,
-        truth = Surv(real_tend, as.integer(as.character(data$disc_status))))
+        truth = Surv(real_tend, as.integer(as.character(data$disc_status)))
+      )
 
       list(p)
     },

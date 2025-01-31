@@ -43,7 +43,7 @@ The \verb{$state} is left empty (\code{list()}).
 \item \code{method} :: \code{character(1)} \cr
 Determines what method should be used to produce a survival time (response) from the survival distribution.
 Available methods are \code{"rmst"} and \code{"median"}, corresponding to the \emph{restricted mean survival time} and the \emph{median survival time} respectively.
-\item \code{cutoff_time} :: \code{numeric(1)} \cr
+\item \code{tau} :: \code{numeric(1)} \cr
 Determines the time point up to which we calculate the restricted mean survival time (works only for the \code{"rmst"} method).
 If \code{NULL} (default), all the available time points in the predicted survival distribution will be used.
 }
@@ -62,7 +62,7 @@ If \code{TRUE}, then the \code{response} (and the \code{crank}, if \code{add_cra
 The restricted mean survival time is the default/preferred method and is calculated as follows:
 \deqn{T_{i,rmst} \approx \sum_{t_j \in [0,\tau]} (t_j - t_{j-1}) S_i(t_j)}
 
-where \eqn{T} is the expected survival time, \eqn{\tau} is the time cutoff and \eqn{S_i(t_j)} are the predicted survival probabilities of observation \eqn{i} for all the \eqn{t_j} time points.
+where \eqn{T} is the expected survival time, \eqn{\tau} is the time cutoff/horizon and \eqn{S_i(t_j)} are the predicted survival probabilities of observation \eqn{i} for all the \eqn{t_j} time points.
 
 The \eqn{T_{i,median}} survival time is just the first time point for which the survival probability is less than \eqn{0.5}.
 If no such time point exists (e.g. when the survival distribution is not proper due to high censoring) we return the last time point.
@@ -70,8 +70,8 @@ This is \strong{not a good estimate to use in general}, only a reasonable substi
 }
 
 \examples{
+\dontshow{if (mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \dontrun{
-if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   library(mlr3pipelines)
   task = tsk("rats")
 
@@ -83,11 +83,11 @@ if (requireNamespace("mlr3pipelines", quietly = TRUE)) {
   # mostly improper survival distributions, "median" sets the survival time
   # to the last time point
 
-  # RMST (default) as response, while also changing the crank = -response
+  # RMST (default) as response, while also changing the `crank` to `-response`
   por = po("responsecompose", param_vals = list(overwrite = TRUE, add_crank = TRUE))
   por$predict(list(pred))[[1L]]
 }
-}
+\dontshow{\}) # examplesIf}
 }
 \references{
 Zhao, Lihui, Claggett, Brian, Tian, Lu, Uno, Hajime, Pfeffer, A. M, Solomon, D. S, Trippa, Lorenzo, Wei, J. L (2016).
@@ -96,7 +96,7 @@ Zhao, Lihui, Claggett, Brian, Tian, Lu, Uno, Hajime, Pfeffer, A. M, Solomon, D. 
 ISSN 1541-0420, \doi{10.1111/BIOM.12384}, \url{https://onlinelibrary.wiley.com/doi/full/10.1111/biom.12384}.
 }
 \seealso{
-\link{pipeline_crankcompositor}
+\link{pipeline_responsecompositor}
 
 Other survival compositors: 
 \code{\link{mlr_pipeops_compose_breslow_distr}},

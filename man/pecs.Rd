@@ -84,8 +84,8 @@ from the \link{PredictionSurv} or \link{TaskSurv} object. If a range is provided
 then all time-points between the range are returned.
 }
 \examples{
+\dontshow{if (mlr3misc::require_namespaces(c("ggplot2"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \dontrun{
-if (requireNamespace("ggplot2", quietly = TRUE)) {
   #' library(mlr3)
   task = tsk("rats")
 
@@ -106,6 +106,5 @@ if (requireNamespace("ggplot2", quietly = TRUE)) {
   lapply(learns, function(x) x$train(task))
   pecs(learns, task = task, measure = "logloss", times = c(20, 90), n = 10)
 }
-}
-
+\dontshow{\}) # examplesIf}
 }

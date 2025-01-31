@@ -2,6 +2,13 @@ url: https://mlr3proba.mlr-org.com
 
 template:
   bootstrap: 5
+  # solve temporarily math rendering issue: https://github.com/r-lib/pkgdown/issues/2704
+  # TODO: Check and remove when above issue is resolved
+  includes:
+    in_header: |
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+      <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+      <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
   light-switch: true
   math-rendering: mathjax
   package: mlr3pkgdowntemplate
@@ -17,8 +24,9 @@ toc:
 navbar:
   structure:
     left:  [articles, reference, news, book]
-    right: [search, github, mattermost, stackoverflow, rss, lightswitch]
+    right: [search, github, mattermost, stackoverflow, website, lightswitch]
   components:
+    # Left
     home: ~
     articles:
       text: Vignettes
@@ -33,19 +41,23 @@ navbar:
           href: https://mlr-org.com/gallery/technical/2023-10-25-bart-survival/
         - text: Neural Networks for Survival Analysis
           href: https://towardsdatascience.com/neural-networks-for-survival-analysis-in-r-1e0421584ab
+    book:
+      text: mlr3book
+      icon: fa fa-book
+      href: https://mlr3book.mlr-org.com
+    # Right
     mattermost:
       icon: fa fa-comments
       href: https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/
-    book:
-      text: mlr3book
-      icon: fa fa-link
-      href: https://mlr3book.mlr-org.com
+      aria-label: Mattermost
     stackoverflow:
       icon: fab fa-stack-overflow
       href: https://stackoverflow.com/questions/tagged/mlr3
-    rss:
-      icon: fa-rss
+      aria-label: Stack Overflow
+    website:
+      icon: fa-link
       href: https://mlr-org.com/
+      aria-label: mlr3 website
 
 reference:
   - title: Package
@@ -80,13 +92,14 @@ reference:
       - mlr_tasks_grace
       - mlr_tasks_lung
       - mlr_tasks_rats
-      - mlr_tasks_unemployment
       - mlr_tasks_whas
   - title: Survival PipeOps
     contents:
       - starts_with("mlr_pipeops")
-      - starts_with("mlr_graphs")
       - starts_with("PipeOp")
+  - title: Survival Pipelines
+    contents:
+      - starts_with("mlr_graphs")
   - title: Density Learners
     contents:
       - starts_with("mlr_learners_dens")
@@ -108,7 +121,6 @@ reference:
   - title: Visualisation
     contents:
       - pecs
-      - plot.LearnerSurv
       - plot_probregr
       - starts_with("autoplot")
   - title: Datasets

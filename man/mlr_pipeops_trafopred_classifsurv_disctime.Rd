@@ -48,28 +48,24 @@ Springer International Publishing.
 ISBN 978-3-319-28156-8 978-3-319-28158-2, \url{http://link.springer.com/10.1007/978-3-319-28158-2}.
 }
 \seealso{
-Other PipeOps: 
-\code{\link{PipeOpPredTransformer}},
-\code{\link{PipeOpTaskTransformer}},
-\code{\link{PipeOpTransformer}},
-\code{\link{mlr_pipeops_survavg}},
-\code{\link{mlr_pipeops_trafopred_regrsurv}},
-\code{\link{mlr_pipeops_trafopred_survregr}},
-\code{\link{mlr_pipeops_trafotask_regrsurv}},
-\code{\link{mlr_pipeops_trafotask_survclassif_disctime}},
-\code{\link{mlr_pipeops_trafotask_survregr}}
+\link{pipeline_survtoclassif_disctime}
 
 Other Transformation PipeOps: 
-\code{\link{mlr_pipeops_trafopred_regrsurv}},
-\code{\link{mlr_pipeops_trafopred_survregr}},
-\code{\link{mlr_pipeops_trafotask_regrsurv}},
-\code{\link{mlr_pipeops_trafotask_survclassif_disctime}},
-\code{\link{mlr_pipeops_trafotask_survregr}}
+\code{\link{mlr_pipeops_trafopred_classifsurv_IPCW}},
+\code{\link{mlr_pipeops_trafotask_survclassif_IPCW}},
+\code{\link{mlr_pipeops_trafotask_survclassif_disctime}}
 }
-\concept{PipeOps}
 \concept{Transformation PipeOps}
 \section{Super class}{
 \code{\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}} -> \code{PipeOpPredClassifSurvDiscTime}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{predict_type}}{(\code{character(1)})\cr
+Returns the active predict type of this PipeOp, which is \code{"crank"}}
+}
+\if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
