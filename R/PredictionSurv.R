@@ -143,7 +143,6 @@ PredictionSurv = R6Class("PredictionSurv",
   ),
 
   private = list(
-    .censtype = NULL,
     .distr = function() self$data$distr %??% NA_real_,
     .simplify_distr = function(x) {
       if (inherits(x, c("Matdist", "Arrdist"))) {
@@ -189,16 +188,14 @@ PredictionSurv = R6Class("PredictionSurv",
   )
 )
 
-
 #' @export
-as.data.table.PredictionSurv = function(x, ...) { # nolint
-
+as.data.table.PredictionSurv = function(x, ...) {
   tab = as.data.table(x$data[c("row_ids", "crank", "lp", "response")])
   tab$time = x$data$truth[, 1L]
   tab$status = as.logical(x$data$truth[, 2L])
   if ("distr" %in% x$predict_types) {
     # annoyingly need this many lists to get nice printing
-    tab$distr = list(list(list(r6_private(x)$.distr())))
+    tab$distr = list(list(list(get_private(x)$.distr())))
   }
   setcolorder(tab, c("row_ids", "time", "status"))[]
 }
