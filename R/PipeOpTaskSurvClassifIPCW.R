@@ -135,7 +135,7 @@ PipeOpTaskSurvClassifIPCW = R6Class("PipeOpTaskSurvClassifIPCW",
       task = input[[1]]
 
       # checks
-      assert_true(task$censtype == "right")
+      assert_true(task$cens_type == "right")
       tau = assert_numeric(self$param_set$values$tau, null.ok = FALSE)
       max_event_time = max(task$unique_event_times())
       stopifnot(tau <= max_event_time)
