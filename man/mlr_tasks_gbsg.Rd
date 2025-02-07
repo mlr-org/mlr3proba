@@ -52,6 +52,7 @@ replaced with \code{no} and \code{yes} respectively.
 }
 
 Other Task: 
+\code{\link{TaskCompRisks}},
 \code{\link{TaskDens}},
 \code{\link{TaskSurv}},
 \code{\link{mlr_tasks_actg}},

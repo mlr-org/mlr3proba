@@ -3,7 +3,9 @@
 #' @description
 #' This task specializes [mlr3::Task] and [mlr3::TaskSupervised] for
 #' **single-event survival** problems.
-#' The target is comprised of survival times and an event indicator.
+#' The target is comprised of survival times and an event indicator (\eqn{0}
+#' represents censored observations, \eqn{1} represents observations that had the
+#' event).
 #' Every row corresponds to one subject/observation.
 #'
 #' Predefined tasks are stored in [mlr3::mlr_tasks].
@@ -157,7 +159,6 @@ TaskSurv = R6Class("TaskSurv",
 
     #' @description
     #' Returns the (unsorted) outcome times.
-    #'
     #' @return `numeric()`
     times = function(rows = NULL) {
       if (self$cens_type == "interval") stop("Not supported for interval-censored data")
@@ -190,7 +191,6 @@ TaskSurv = R6Class("TaskSurv",
 
     #' @description
     #' Returns the sorted unique outcome times.
-    #'
     #' @return `numeric()`
     unique_times = function(rows = NULL) {
       sort(unique(self$times(rows)))
@@ -198,7 +198,6 @@ TaskSurv = R6Class("TaskSurv",
 
     #' @description
     #' Returns the sorted unique event (or failure) outcome times.
-    #'
     #' @return `numeric()`
     unique_event_times = function(rows = NULL) {
       sort(unique(self$times(rows)[self$status(rows) == 1])) # event => 1

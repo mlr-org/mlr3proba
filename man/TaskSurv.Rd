@@ -6,7 +6,9 @@
 \description{
 This task specializes \link[mlr3:Task]{mlr3::Task} and \link[mlr3:TaskSupervised]{mlr3::TaskSupervised} for
 \strong{single-event survival} problems.
-The target is comprised of survival times and an event indicator.
+The target is comprised of survival times and an event indicator (\eqn{0}
+represents censored observations, \eqn{1} represents observations that had the
+event).
 Every row corresponds to one subject/observation.
 
 Predefined tasks are stored in \link[mlr3:mlr_tasks]{mlr3::mlr_tasks}.

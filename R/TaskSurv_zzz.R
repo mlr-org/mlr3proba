@@ -36,11 +36,11 @@ load_gbsg = function() {
   task
 }
 
-#' @title Primary Biliary Cholangitis Survival Task
+#' @title Primary Biliary Cholangitis Competing Risks Task
 #'
 #' @name mlr_tasks_pbc
-#' @templateVar type Surv
-#' @templateVar task_type survival
+#' @templateVar type CompRisks
+#' @templateVar task_type competing risks
 #' @templateVar id pbc
 #' @templateVar data pbc
 #' @template task
@@ -53,7 +53,7 @@ load_gbsg = function() {
 #' - Columns `trt`, `stage`, `hepato`, `edema` and `ascites` have been converted
 #' to `factor`s.
 #' - Column `trt` has levels `Dpenicillmain` and `placebo` instead of 1 and 2.
-#' - Column `status` has 1 for death and 0 for censored or transplant.
+#' - Column `status` has 0 for censored, 1 for transplant and 2 for death.
 NULL
 
 load_pbc = function() {
@@ -65,11 +65,10 @@ load_pbc = function() {
   data$trt = factor(ifelse(data$trt == 1, "Dpenicillmain", "placebo"),
                     levels = c("Dpenicillmain", "placebo"))
   data$stage = factor(data$stage)
-  data$status[data$status > 0] = data$status[data$status > 0] - 1
 
   b = as_data_backend(data)
-  task = TaskSurv$new("pbc", b, time = "time", event = "status",
-                      label = "Primary Biliary Cholangitis")
+  task = TaskCompRisks$new("pbc", b, time = "time", event = "status",
+                           label = "Primary Biliary Cholangitis")
   b$hash = task$man = "mlr3proba::mlr_tasks_pbc"
 
   task

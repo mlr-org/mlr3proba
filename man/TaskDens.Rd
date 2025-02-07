@@ -16,6 +16,7 @@ task$task_type
 }
 \seealso{
 Other Task: 
+\code{\link{TaskCompRisks}},
 \code{\link{TaskSurv}},
 \code{\link{mlr_tasks_actg}},
 \code{\link{mlr_tasks_faithful}},

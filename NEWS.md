@@ -1,3 +1,8 @@
+# mlr3proba 0.8.0
+
+* refactor: `TaskSurv` uses only right, left or interval censoring, simplified code a lot in the methods
+* feat: add `TaskCompRisks` class and `as_task_cmprk()` S3 methods (support for right-censored data only)
+
 # mlr3proba 0.7.4
 
 * fix + update `MeasureSurv`: survival measure labels are now printed and the `obs_loss` property is now supported
