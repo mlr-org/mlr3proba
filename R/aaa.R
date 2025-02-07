@@ -42,14 +42,16 @@ register_reflections = function() {
   x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
 
   # task
-  x$task_types = x$task_types[!c("surv", "dens")]
+  x$task_types = x$task_types[!c("surv", "dens", "cmprsk")]
   x$task_types = setkeyv(rbind(x$task_types, rowwise_table(
     ~type,  ~package,     ~task,      ~learner,      ~prediction,       ~prediction_data,     ~measure,
     "surv", "mlr3proba",  "TaskSurv", "LearnerSurv", "PredictionSurv",  "PredictionDataSurv", "MeasureSurv",
-    "dens", "mlr3proba",  "TaskDens", "LearnerDens", "PredictionDens",  "PredictionDataDens", "MeasureDens"
+    "dens", "mlr3proba",  "TaskDens", "LearnerDens", "PredictionDens",  "PredictionDataDens", "MeasureDens",
+    "cmprsk", "mlr3proba",  "TaskCompRisks", "LearnerCompRisks", "PredictionCompRisks",  "PredictionDataCompRisks", "MeasureCompRisks"
   )), "type")
 
   x$task_col_roles$surv = x$task_col_roles$regr
+  x$task_col_roles$cmprsk = x$task_col_roles$regr
   x$task_col_roles$dens = c("feature", "target", "label", "order", "group", "weight", "stratum")
   x$task_col_roles$classif = unique(c(x$task_col_roles$classif, "original_ids")) # for discrete time
   x$task_properties$surv = x$task_properties$regr
