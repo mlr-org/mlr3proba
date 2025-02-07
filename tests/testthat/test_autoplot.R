@@ -23,7 +23,7 @@ test_that("autoplot.PredictionSurv", {
   p = autoplot(prediction, type = "dcalib", cuts = 4)
   expect_true(is.ggplot(p))
 
-  p = autoplot(prediction, type = "scalib", time = 95)
+  p = suppressWarnings(autoplot(prediction, type = "scalib", time = 95))
   expect_true(is.ggplot(p))
 
   p = autoplot(prediction, type = "isd", row_ids = sample(task$row_ids, size = 5))
