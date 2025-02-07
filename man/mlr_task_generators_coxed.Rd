@@ -27,7 +27,7 @@ tgen("coxed")
 \tabular{lllll}{
    Id \tab Type \tab Default \tab Levels \tab Range \cr
    T \tab numeric \tab 100 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
-   type \tab character \tab none \tab none, tvc, tvbeta \tab - \cr
+   type \tab character \tab none \tab none, tvbeta \tab - \cr
    knots \tab integer \tab 8 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
    spline \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
    xvars \tab integer \tab 3 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
@@ -49,8 +49,8 @@ tgen("coxed")
               mu = 1, sd = 2, censor.cond = FALSE)
   gen$generate(50)
 
-  # same as above, but with time-varying coefficients (counting process format)
-  gen$param_set$set_values(type = "tvc")
+  # same as above, but with time-varying coefficients
+  gen$param_set$set_values(type = "tvbeta")
   gen$generate(50)
 \dontshow{\}) # examplesIf}
 }

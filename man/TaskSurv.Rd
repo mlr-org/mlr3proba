@@ -246,7 +246,6 @@ or \code{"left"} censoring.}
 \if{latex}{\out{\hypertarget{method-TaskSurv-times}{}}}
 \subsection{Method \code{times()}}{
 Returns the (unsorted) outcome times.
-Only applicable to \code{"right"} or \code{"left"} censoring.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TaskSurv$times(rows = NULL)}\if{html}{\out{</div>}}
 }
@@ -366,7 +365,6 @@ Additional arguments passed down to \code{\link[survival:survfit.formula]{surviv
 \if{latex}{\out{\hypertarget{method-TaskSurv-reverse}{}}}
 \subsection{Method \code{reverse()}}{
 Returns the same task with the status variable reversed, i.e., 1 - status.
-Only designed for \code{"left"} and \code{"right"} censoring.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TaskSurv$reverse()}\if{html}{\out{</div>}}
 }
