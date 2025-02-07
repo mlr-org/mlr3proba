@@ -384,7 +384,8 @@ TaskSurv = R6Class("TaskSurv",
     #'
     #' Currently, only the `"right"` censoring type is fully supported, the rest
     #' are experimental and the API might change in the future.
-    cens_type = function() {
+    cens_type = function(rhs) {
+      assert_ro_binding(rhs)
       private$.cens_type
     }
   ),

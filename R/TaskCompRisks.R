@@ -186,13 +186,15 @@ TaskCompRisks = R6Class("TaskCompRisks",
     #'
     #' Currently, only the `"right"` censoring type is fully supported.
     #' The API might change in the future to support left and interval censoring.
-    cens_type = function() {
+    cens_type = function(rhs) {
+      assert_ro_binding(rhs)
       private$.cens_type
     },
 
     #' @field cmp_events (`character(1)`)\cr
     #' Returns the names of the competing events.
-    cmp_events = function() {
+    cmp_events = function(rhs) {
+      assert_ro_binding(rhs)
       setdiff(private$.event_levels, "0")
     }
   ),
