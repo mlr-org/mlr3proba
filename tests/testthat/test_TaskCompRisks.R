@@ -55,7 +55,7 @@ test_that("as_task_cmprsk", {
   expect_false("sex" %in% names(t1$data()))
   expect_true("sex" %in% names(t2$data()))
 
-  t1 = tsk("bpc")
+  t1 = tsk("pbc")
   t2 = as_task_cmprisk(t1, clone = FALSE)
   expect_task_cmprsk(t2)
   t1$select("edema")
