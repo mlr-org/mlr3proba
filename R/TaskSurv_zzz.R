@@ -158,6 +158,7 @@ load_rats = function() {
 
   b = as_data_backend(data)
   task = TaskSurv$new("rats", b, time = "time", event = "status", label = "Rats")
+  task$properties = c(task$properties, "right-censored")
   b$hash = task$man = "mlr3proba::mlr_tasks_rats"
 
   task

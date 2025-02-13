@@ -54,9 +54,10 @@ register_reflections = function() {
   x$task_col_roles$classif = unique(c(x$task_col_roles$classif, "original_ids")) # for discrete time
   x$task_properties$surv = x$task_properties$regr
   x$task_properties$dens = x$task_properties$regr
+  x$task_mandatory_properties$surv = c("right-censored", "left-censored", "interval-censored")
 
   # learner
-  x$learner_properties$surv = x$learner_properties$regr
+  x$learner_properties$surv = c(x$learner_properties$reg, "right-censored", "left-censored", "interval-censored")
   x$learner_properties$dens = x$learner_properties$regr
   x$learner_predict_types$surv = list(
     crank = c("crank", "lp", "distr", "response"),
