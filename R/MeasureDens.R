@@ -27,7 +27,7 @@
 #' Default density measures: [`dens.logloss`][mlr_measures_dens.logloss]
 #' @export
 MeasureDens = R6Class("MeasureDens",
-  inherit = Measure, cloneable = FALSE,
+  inherit = Measure,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
