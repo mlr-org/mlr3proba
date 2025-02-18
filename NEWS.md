@@ -1,3 +1,7 @@
+# mlr3proba dev
+
+* fix: allow cloning of measures objects
+
 # mlr3proba 0.7.4
 
 * fix + update `MeasureSurv`: survival measure labels are now printed and the `obs_loss` property is now supported
