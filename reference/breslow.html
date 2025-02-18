@@ -146,7 +146,7 @@ $$\hat{H}_0(eval\_times &gt; max(t)) = \hat{H}_0(max(t))$$</p>
 <p>Note that in the rare event of <code>lp</code> predictions being <code>Inf</code> or <code>-Inf</code>, the
 resulting cumulative hazard values become <code>NaN</code>, which we substitute with
 <code>Inf</code> (and corresponding survival probabilities take the value of \(0\)).</p>
-<p>For similar implementations, see <code><a href="https://rdrr.io/pkg/gbm/man/basehaz.gbm.html" class="external-link">gbm::basehaz.gbm()</a></code>, <code>C060::basesurv()</code> and
+<p>For similar implementations, see <code>gbm::basehaz.gbm()</code>, <code>C060::basesurv()</code> and
 <code>xgboost.surv::sgb_bhaz()</code>.</p>
     </div>
     <div class="section level2">
