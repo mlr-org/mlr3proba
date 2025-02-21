@@ -27,8 +27,8 @@
 #' names(lrns)
 #'
 #' # get a specific learner from mlr_learners:
-#' # mlr_learners$get("cmprsk.aalen") # TODO UNCOMMENT
-#' # lrn("cmprsk.aalen")
+#' mlr_learners$get("cmprsk.aalen")
+#' lrn("cmprsk.aalen")
 LearnerCompRisks = R6Class("LearnerCompRisks",
   inherit = Learner,
   public = list(
