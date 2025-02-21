@@ -54,6 +54,7 @@ load_gbsg = function() {
 #' to `factor`s.
 #' - Column `trt` has levels `Dpenicillmain` and `placebo` instead of 1 and 2.
 #' - Column `status` has 0 for censored, 1 for transplant and 2 for death.
+#' - Column `time` as been converted from days to months.
 NULL
 
 load_pbc = function() {
@@ -65,6 +66,7 @@ load_pbc = function() {
   data$trt = factor(ifelse(data$trt == 1, "Dpenicillmain", "placebo"),
                     levels = c("Dpenicillmain", "placebo"))
   data$stage = factor(data$stage)
+  data$time = floor(data$time / 30.44) # convert to months
 
   b = as_data_backend(data)
   task = TaskCompRisks$new("pbc", b, time = "time", event = "status",
@@ -313,6 +315,54 @@ load_whas = function() {
   task
 }
 
+#' @title Annual Precipitation Density Task
+#'
+#' @name mlr_tasks_precip
+#'
+#' @templateVar type Dens
+#' @templateVar task_type density
+#' @templateVar id precip
+#' @templateVar data precip
+#' @template task
+#' @template seealso_task
+#'
+#' @section Preprocessing:
+#' - Only the `precip` column is kept in this task.
+#'
+NULL
+
+load_precip = function(id = "precip") {
+  b = as_data_backend(data.table(precip = load_dataset("precip", "datasets",
+                                                       keep_rownames = TRUE)))
+  task = TaskDens$new(id, b, label = "Annual Precipitation")
+  b$hash = task$man = "mlr3proba::mlr_tasks_precip"
+  task
+}
+
+#' @title Old Faithful Eruptions Density Task
+#'
+#' @name mlr_tasks_faithful
+#'
+#' @templateVar type Dens
+#' @templateVar task_type density
+#' @templateVar id faithful
+#' @templateVar data faithful
+#' @template task
+#' @template seealso_task
+#'
+#' @section Preprocessing:
+#' - Only the `eruptions` column is kept in this task.
+#'
+NULL
+
+load_faithful = function(id = "faithful") {
+  b = as_data_backend(data.table(eruptions = load_dataset("faithful", "datasets",
+                                                          keep_rownames = TRUE)$eruptions))
+  task = TaskDens$new(id, b, label = "Old Faithful Eruptions")
+  b$hash = task$man = "mlr3proba::mlr_tasks_faithful"
+  task
+}
+
 register_task("gbsg", load_gbsg)
 register_task("pbc", load_pbc)
 register_task("mgus", load_mgus)
@@ -323,3 +373,5 @@ register_task("actg", load_actg)
 register_task("gbcs", load_gbcs)
 register_task("grace", load_grace)
 register_task("whas", load_whas)
+register_task("precip", load_precip)
+register_task("faithful", load_faithful)
