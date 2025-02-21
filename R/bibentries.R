@@ -382,7 +382,7 @@ bibentries = c(
     volume = "97",
     year = "2021"
   ),
-  sonabend2024 = bibentry("misc",
+  sonabend_2024 = bibentry("misc",
     archivePrefix = "arXiv",
     arxivId = "2212.05260",
     author = "Sonabend, Raphael and Zobolas, John and Kopper, Philipp and Burk, Lukas and Bender, Andreas",
@@ -391,7 +391,7 @@ bibentries = c(
     url = "https://arxiv.org/abs/2212.05260v2",
     year = "2024"
   ),
-  kvamme2023 = bibentry("article",
+  kvamme_2023 = bibentry("article",
     author = "Kvamme, Havard and Borgan, Ornulf",
     issn = "1533-7928",
     journal = "Journal of Machine Learning Research",
@@ -402,7 +402,7 @@ bibentries = c(
     volume = "24",
     year = "2023"
   ),
-  austin2020 = bibentry("article",
+  austin_2020 = bibentry("article",
     author = "Austin, Peter C. and Harrell, Frank E. and van Klaveren, David",
     doi = "10.1002/SIM.8570",
     issn = "10970258",
@@ -416,5 +416,13 @@ bibentries = c(
     url = "https://pmc.ncbi.nlm.nih.gov/articles/PMC7497089/",
     volume = "39",
     year = "2020"
+  ),
+  aalen_1978 = bibentry("article",
+    author = "Aalen, Odd O and Johansen, Soren",
+    journal = "Scandinavian journal of statistics",
+    pages = "141--150",
+    publisher = "JSTOR",
+    title = "An empirical transition matrix for non-homogeneous Markov chains based on censored observations",
+    year = "1978"
   )
 )
