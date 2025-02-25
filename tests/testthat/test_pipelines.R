@@ -135,3 +135,114 @@ test_that("survtoclassif_IPCW", {
   # different cutoff times, different (crank) predictions
   expect_false(all(p$crank == p2$crank))
 })
+
+test_that("survtoregr_PEM", {
+  skip_if_not_installed("mlr3learners")
+  task = tsk('rats')
+  task$select(c('sex', 'rx')) # litter has high cardinality resulting in sparse features, overfitting of tree based methods
+  learner = lrn('regr.xgboost', 
+                nrounds = 1000, 
+                eta = 0.1, 
+                max_depth = 1, 
+                objective = "count:poisson", 
+                lambda = 0, 
+                base_score = 1)
+  part = partition(task)
+  
+
+  pipe = ppl("survtoregr_PEM", learner = learner, rhs = 'tend + sex + rx')
+  expect_class(pipe, "Graph")
+  grlrn = ppl("survtoregr_PEM", learner = learner, rhs = 'tend + sex + rx', graph_learner = TRUE)
+  expect_class(grlrn, "GraphLearner")
+  expect_equal(grlrn$predict_type, "response")
+  
+  grlrn$train(task)
+  p = grlrn$predict(task)
+  expect_prediction_surv(p)
+  
+  
+  cox = lrn("surv.coxph")
+  suppressWarnings(cox$train(task))
+  p2 = cox$predict(task)
+
+  expect_equal(p$row_ids, p2$row_ids)
+  expect_equal(p$truth, p2$truth)
+  #TODO
+  expect_equal(p$score(), p2$score(), tolerance = 0.015) # andreas fragen
+
+  # Test with cut
+  grlrn = ppl("survtoregr_PEM", 
+              learner = learner,
+              cut = c(10, 30, 50), 
+              rhs = "tend + rx + sex", 
+              graph_learner = TRUE)
+  expect_class(grlrn, "GraphLearner")
+  suppressWarnings(grlrn$train(task))
+  p = grlrn$predict(task)
+  expect_prediction_surv(p)
+  
+  # `max_time` needs to be larger than the minimum event time so we choose
+  # the minimum event time in the data for testing
+  max_time = task$data()[status == 1, min(time)]
+  
+  grlrn = ppl("survtoregr_PEM", 
+              learner = learner,
+              max_time = max_time, 
+              rhs = "tend + rx + sex", 
+              graph_learner = TRUE)
+  
+  expect_error(grlrn$train(task))
+  
+  grlrn = ppl("survtoregr_PEM", 
+              learner = learner,
+              max_time = max_time + 1, 
+              rhs = "tend + rx + sex", 
+              graph_learner = TRUE)
+  suppressWarnings(grlrn$train(task))
+  p = grlrn$predict(task)
+  expect_prediction_surv(p)
+  
+  # Test with rhs
+  grlrn = ppl("survtoregr_PEM", learner = learner,
+              rhs = "1", graph_learner = TRUE)
+  grlrn$train(task)
+  pred = suppressWarnings(grlrn$predict(task))
+  
+  # TODO 
+  # grlrn2 = ppl("survtoregr_PEM", learner = lrn("regr.featureless"), does not support offset
+  #              graph_learner = TRUE)
+  # grlrn2$train(task)
+  # pred2 = grlrn2$predict(task)
+  
+  # featureless has random discrimination
+  expect_equal(unname(pred$score()), 0.5)
+  # expect_equal(unname(pred2$score()), 0.5)
+  # expect_equal(pred$data$distr, pred2$data$distr)
+  learner = lrn('regr.xgboost', 
+                nrounds = 2000,
+                eta = 0.1, 
+                max_depth = 1, 
+                objective = "count:poisson", 
+                lambda = 0, 
+                base_score = 1)
+  
+  learner$validate = 0.2
+  set_validate(learner, 0.3)
+  task = tsk('rats')
+  grlrn = ppl("survtoregr_PEM", learner = learner,
+              rhs = "rx + litter", graph_learner = TRUE)
+  grlrn$train(task)
+  pred = suppressWarnings(grlrn$predict(task))
+  
+  grlrn2 = ppl("survtoregr_PEM", learner = learner,
+               rhs = ".", graph_learner = TRUE)
+  grlrn2$train(task)
+  pred2 = suppressWarnings(grlrn2$predict(task))
+  
+  # model with more covariates should have better C-index
+  # models with training parameters may display varying models fits 
+  expect_gt(pred2$score(), pred$score())
+  
+  #TODO fit a regression learner that does not employ any 
+})
+  
