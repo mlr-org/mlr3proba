@@ -2,8 +2,22 @@
 #' @name mlr_pipeops_trafopred_regrsurv_PEM
 #'
 #' @description
-#' Transform [PredictionRegr] to [PredictionSurv].
-#'
+#' Transform [PredictionRegr] to [PredictionSurv]. 
+#' Predicted hazards are transformed into survival probabilities and wrapped in a 
+#' [PredictionSurv] object. 
+#' 
+#' Continuous time is partitioned into time intervals \eqn{[0, t_1), [t_1, t_2), ..., [t_J, \infty)}.
+#' [PredictionRegr] contains the estimates of the piece-wise constant hazards defined as  
+#'  \deqn{\lambda(t \mid \mathbf{x}_i (t)) := exp(g(x_{ij},t{j})), \quad \forall t \in [t_{j-1}, t_{j}), \quad i = 1, \dots, n.} 
+#' 
+#'  Via the following identity
+#'  \deqn{S(t | \mathbf{x}) = \exp \left( - \int_{0}^{t} \lambda(s | \mathbf{x}) \, ds \right) = \exp \left( - \sum_{j = 1}^{J} \lambda(j | \mathbf{x}) d_j\,  \right),}
+#'  where \eqn{d_j} specifies the duration of interval \eqn{j}, 
+#'  
+#'  we compute the survival probability from the predicted hazards. 
+#'  
+#'  
+#'  
 #' @section Dictionary:
 #' This [PipeOp][mlr3pipelines::PipeOp] can be instantiated via the
 #' [dictionary][mlr3misc::Dictionary] [mlr3pipelines::mlr_pipeops]
@@ -51,20 +65,20 @@ PipeOpPredRegrSurvPEM = R6Class(
 
   private = list(
     .predict = function(input) {
-      pred = input[[1]]
+      pred = input[[1]] # retrieve the hazards predicted by the regression learner
       data = input[[2]]
       assert_true(!is.null(pred$response))
-      # probability of having the event (1) in each respective interval
-      # is the discrete-time hazard
+     
+      
       data = cbind(data, dt_hazard = pred$response)
 
       # From theory, convert hazards to surv as exp(-cumsum(h(t) * exp(offset)))
       rows_per_id = nrow(data) / length(unique(data$id))
       
-      # If 'single_event', 'cr', 'msm')
       surv = t(vapply(unique(data$id), function(unique_id) {
         exp(-cumsum(data[data$id == unique_id, ][["dt_hazard"]] * exp(data[data$id == unique_id, ][["offset"]])))
       }, numeric(rows_per_id)))
+      
 
       unique_end_times = sort(unique(data$tend))
       # coerce to distribution and crank
