@@ -23,7 +23,7 @@ NULL
 #' @import paradox
 #' @importFrom R6 R6Class
 #' @importFrom utils data head tail
-#' @importFrom stats model.matrix model.frame sd predict density median quantile
+#' @importFrom stats model.matrix model.frame sd predict density median quantile setNames
 #' @importFrom survival Surv
 #' @importFrom utils getFromNamespace
 #' @importFrom mlr3pipelines po as_graph %>>% pipeline_greplicate gunion Graph ppl

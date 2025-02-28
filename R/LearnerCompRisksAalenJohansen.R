@@ -58,7 +58,7 @@ LearnerCompRisksAalenJohansen = R6Class("LearnerCompRisksAalenJohansen",
 
       times = self$model$time # unique train set time points
       n_obs = task$nrow # number of test observations
-      CIF = setNames(vector("list", ncol(trans_mat)), colnames(trans_mat))
+      CIF = stats::setNames(vector("list", ncol(trans_mat)), colnames(trans_mat))
 
       for (i in seq_along(CIF)) {
         CIF[[i]] = matrix(
