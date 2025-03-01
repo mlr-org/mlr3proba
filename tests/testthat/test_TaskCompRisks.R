@@ -29,6 +29,12 @@ test_that("TaskCompRisks + methods work", {
   # are reported correctly
   task2 = task$clone()$filter(3:5) # both events are kept
   expect_equal(task2$event(), c(1, 0, 2))
+  expect_equal(task2$unique_events(), c(1, 2))
+  expect_equal(task2$cmp_events, c("1", "2")) # competing events don't change
+
+  task3 = task$clone()$filter(c(3, 5)) # only events are kept (no censoring)
+  expect_equal(task3$event(), c(1, 2))
+  expect_equal(task2$unique_events(), c(1, 2))
   expect_equal(task2$cmp_events, c("1", "2")) # competing events don't change
 
   # at least two competing risks are needed upon construction

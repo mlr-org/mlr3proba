@@ -95,9 +95,14 @@ TaskCompRisks = R6Class("TaskCompRisks",
       tn = self$target_names
       data = self$data(rows = rows, cols = self$target_names)
       times = data[[tn[1L]]]
-      event = data[[tn[2L]]]
+      events = data[[tn[2L]]]
 
-      args = list(time = times, event = as.factor(event))
+      args = list(
+        time = times,
+        # levels is needed, otherwise subsetting `Surv()` doesn't work as it should
+        event = factor(events, levels = c("0", self$cmp_events))
+      )
+
       invoke(Surv, .args = args)
     },
 
@@ -127,10 +132,8 @@ TaskCompRisks = R6Class("TaskCompRisks",
     #' Returns the event indicator.
     #' @return `integer()`
     event = function(rows = NULL) {
-      # avoid going via `truth()[, 2L]` because `Surv()` + subsetting by `rows`
-      # results in different encoding than expected
-      event = self$data(rows = rows, cols = self$target_names[[2L]])[[1L]]
-      as.integer(event)
+      truth = self$truth(rows)
+      as.integer(truth[, 2L])
     },
 
     #' @description
