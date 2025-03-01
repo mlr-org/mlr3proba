@@ -59,6 +59,8 @@ assert_surv_matrix = function(x) {
 #'
 #' @param x (`list()`)\cr
 #' A list of CIF matrices, each one with dimensions (observations x times).
+#' @param n (`numeric(1)`)\cr
+#' Expected number of rows of each matrix element of the input list.
 #'
 #' @return if the assertion fails an error occurs, otherwise `NULL` is returned
 #' invisibly.

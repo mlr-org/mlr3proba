@@ -9,6 +9,9 @@ assert_cif_list(x, n = NULL)
 \arguments{
 \item{x}{(\code{list()})\cr
 A list of CIF matrices, each one with dimensions (observations x times).}
+
+\item{n}{(\code{numeric(1)})\cr
+Expected number of rows of each matrix element of the input list.}
 }
 \value{
 if the assertion fails an error occurs, otherwise \code{NULL} is returned
