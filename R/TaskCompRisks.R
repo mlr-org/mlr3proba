@@ -196,7 +196,7 @@ TaskCompRisks = R6Class("TaskCompRisks",
       # check that we don't remove the competing events from the data
       uevents = self$unique_events(rows)
       if (length(uevents) != length(self$cmp_events)) {
-        stopf("Can't filter task %s: %i competing events found, but row filtering results in %i unique competing event(s)", task$id, length(self$cmp_events), length(uevents)) #nolint
+        stopf("Can't filter task %s: %i competing events found, but row filtering results in %i unique competing event(s)", self$id, length(self$cmp_events), length(uevents)) #nolint
       }
 
       super$filter(rows)
