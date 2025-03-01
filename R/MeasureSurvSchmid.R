@@ -46,7 +46,7 @@
 #' @template details_tmax
 #'
 #' @references
-#' `r format_bib("schemper_2000", "schmid_2011", "sonabend2024", "kvamme2023")`
+#' `r format_bib("schemper_2000", "schmid_2011", "sonabend_2024", "kvamme_2023")`
 #'
 #' @family Probabilistic survival measures
 #' @family distr survival measures

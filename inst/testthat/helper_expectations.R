@@ -35,3 +35,15 @@ expect_prediction_surv = function(p) {
   }
   expect_true(inherits(p, "PredictionSurv"))
 }
+
+expect_task_cmprsk = function(task) {
+  expect_class(task, "TaskCompRisks")
+  expect_task(task)
+  expect_task_supervised(task)
+  expect_class(task$truth(), "Surv")
+
+  f = task$formula()
+  expect_formula(f)
+  expect_setequal(extract_vars(f)$lhs, task$target_names)
+  expect_class(task$aalen_johansen(), "survfit")
+}
