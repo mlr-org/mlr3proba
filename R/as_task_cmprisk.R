@@ -8,26 +8,26 @@
 #' @param ... (`any`)\cr
 #'   Additional arguments.
 #' @export
-as_task_cmprisk = function(x, ...) {
-  UseMethod("as_task_cmprisk")
+as_task_cmprsk = function(x, ...) {
+  UseMethod("as_task_cmprsk")
 }
 
-#' @rdname as_task_cmprisk
+#' @rdname as_task_cmprsk
 #' @param clone (`logical(1)`)\cr
 #'   If `TRUE`, ensures that the returned object is not the same as the input `x`.
 #' @export
-as_task_cmprisk.TaskCompRisks = function(x, clone = FALSE, ...) {
+as_task_cmprsk.TaskCompRisks = function(x, clone = FALSE, ...) {
   if (clone) x$clone() else x
 }
 
-#' @rdname as_task_cmprisk
+#' @rdname as_task_cmprsk
 #' @template param_time
 #' @template param_event
 #' @param id (`character(1)`)\cr
 #'   Id for the new task.
 #'   Defaults to the (deparsed and substituted) name of `x`.
 #' @export
-as_task_cmprisk.data.frame = function(x, time = "time", event = "event",
+as_task_cmprsk.data.frame = function(x, time = "time", event = "event",
                                       id = deparse(substitute(x)), ...) {
   assert_data_frame(x, min.rows = 1L, min.cols = 1L, col.names = "unique")
 
@@ -39,9 +39,9 @@ as_task_cmprisk.data.frame = function(x, time = "time", event = "event",
   TaskCompRisks$new(id = id, backend = x, time = time, event = event, ...)
 }
 
-#' @rdname as_task_cmprisk
+#' @rdname as_task_cmprsk
 #' @export
-as_task_cmprisk.DataBackend = function(x, time = "time", event = "event",
+as_task_cmprsk.DataBackend = function(x, time = "time", event = "event",
                                        id = deparse(substitute(x)), ...) {
   TaskCompRisks$new(id = id, backend = x, time = time, event = event, ...)
 }
