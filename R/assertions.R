@@ -51,3 +51,33 @@ assert_surv_matrix = function(x) {
 
   invisible(NULL)
 }
+
+#' @title Assert CIF list
+#'
+#' @description Asserts if the given input list is a list of Cumulative Incidence
+#' matrices.
+#'
+#' @param x (`list()`)\cr
+#' A list of CIF matrices, each one with dimensions (observations x times).
+#'
+#' @return if the assertion fails an error occurs, otherwise `NULL` is returned
+#' invisibly.
+#'
+#' @export
+assert_cif_list = function(x, n = NULL) {
+  # At least 2 elements/competing risks
+  assert_list(x, any.missing = FALSE, min.len = 2, names = "named")
+  for (mat in x) {
+    # Each element a matrix
+    assert_matrix(mat, any.missing = FALSE, min.rows = 1, min.cols = 1, col.names = "named")
+    # check `nrow` == `n_obs`
+    if (!is.null(n)) {
+      assert_true(nrow(mat) == n, .var.name = sprintf("CIF matrix has %i rows and not %i (number of observations)", nrow(mat), n))
+    }
+    # check column names => time points
+    assert_numeric(as.numeric(colnames(mat)), lower = 0, unique = TRUE, sorted = TRUE,
+                   any.missing = FALSE, null.ok = FALSE, .var.name = "Colnames must be coersable to positive, unique, increasing numeric time points")
+  }
+
+  invisible(NULL)
+}
