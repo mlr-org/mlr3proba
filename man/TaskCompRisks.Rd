@@ -82,10 +82,12 @@ Returns the names of the competing events.}
 \item \href{#method-TaskCompRisks-formula}{\code{TaskCompRisks$formula()}}
 \item \href{#method-TaskCompRisks-times}{\code{TaskCompRisks$times()}}
 \item \href{#method-TaskCompRisks-event}{\code{TaskCompRisks$event()}}
+\item \href{#method-TaskCompRisks-unique_events}{\code{TaskCompRisks$unique_events()}}
 \item \href{#method-TaskCompRisks-unique_times}{\code{TaskCompRisks$unique_times()}}
 \item \href{#method-TaskCompRisks-unique_event_times}{\code{TaskCompRisks$unique_event_times()}}
 \item \href{#method-TaskCompRisks-aalen_johansen}{\code{TaskCompRisks$aalen_johansen()}}
 \item \href{#method-TaskCompRisks-cens_prop}{\code{TaskCompRisks$cens_prop()}}
+\item \href{#method-TaskCompRisks-filter}{\code{TaskCompRisks$filter()}}
 \item \href{#method-TaskCompRisks-clone}{\code{TaskCompRisks$clone()}}
 }
 }
@@ -97,7 +99,6 @@ Returns the names of the competing events.}
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="data"><a href='../../mlr3/html/Task.html#method-Task-data'><code>mlr3::Task$data()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="divide"><a href='../../mlr3/html/Task.html#method-Task-divide'><code>mlr3::Task$divide()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="droplevels"><a href='../../mlr3/html/Task.html#method-Task-droplevels'><code>mlr3::Task$droplevels()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="filter"><a href='../../mlr3/html/Task.html#method-Task-filter'><code>mlr3::Task$filter()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="format"><a href='../../mlr3/html/Task.html#method-Task-format'><code>mlr3::Task$format()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="head"><a href='../../mlr3/html/Task.html#method-Task-head'><code>mlr3::Task$head()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="help"><a href='../../mlr3/html/Task.html#method-Task-help'><code>mlr3::Task$help()</code></a></span></li>
@@ -244,6 +245,27 @@ Row indices.}
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TaskCompRisks-unique_events"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskCompRisks-unique_events}{}}}
+\subsection{Method \code{unique_events()}}{
+Returns the unique events (excluding censoring).
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TaskCompRisks$unique_events(rows = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{rows}}{(\code{integer()})\cr
+Row indices.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{integer()}
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TaskCompRisks-unique_times"></a>}}
 \if{latex}{\out{\hypertarget{method-TaskCompRisks-unique_times}{}}}
 \subsection{Method \code{unique_times()}}{
@@ -333,6 +355,28 @@ Row indices.}
 }
 \subsection{Returns}{
 \code{numeric()}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TaskCompRisks-filter"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskCompRisks-filter}{}}}
+\subsection{Method \code{filter()}}{
+Subsets the task, keeping only the rows specified via row ids \code{rows}.
+This operation mutates the task in-place.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TaskCompRisks$filter(rows = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{rows}}{(\code{integer()})\cr
+Row indices.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Returns the object itself, but modified \strong{by reference.}
 }
 }
 \if{html}{\out{<hr>}}

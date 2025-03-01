@@ -134,6 +134,14 @@ TaskCompRisks = R6Class("TaskCompRisks",
     },
 
     #' @description
+    #' Returns the unique events (excluding censoring).
+    #' @return `integer()`
+    unique_events = function(rows = NULL) {
+      events = self$event(rows)
+      sort(setdiff(events, 0))
+    },
+
+    #' @description
     #' Returns the sorted unique outcome times.
     #' @return `numeric()`
     unique_times = function(rows = NULL) {
@@ -177,6 +185,21 @@ TaskCompRisks = R6Class("TaskCompRisks",
       n_obs = length(event)
 
       total_censored / n_obs
+    },
+
+    #' @description
+    #' Subsets the task, keeping only the rows specified via row ids `rows`.
+    #' This operation mutates the task in-place.
+    #'
+    #' @return Returns the object itself, but modified **by reference.**
+    filter = function(rows = NULL) {
+      # check that we don't remove the competing events from the data
+      uevents = self$unique_events(rows)
+      if (length(uevents) != length(self$cmp_events)) {
+        stopf("Can't filter task %s: %i competing events found, but row filtering results in %i unique competing event(s)", task$id, length(self$cmp_events), length(uevents)) #nolint
+      }
+
+      super$filter(rows)
     }
   ),
 
