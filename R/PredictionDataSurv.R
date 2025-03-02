@@ -1,3 +1,5 @@
+# Here we define some mlr3-mandatory S3 methods of the `PredictionDataSurv` object
+
 #' @export
 as_prediction.PredictionDataSurv = function(x, check = TRUE, ...) {
   invoke(PredictionSurv$new, check = check, .args = x)
