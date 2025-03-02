@@ -50,21 +50,21 @@ test_that("TaskCompRisks + methods work", {
 })
 
 test_that("as_task_cmprsk", {
-  expect_task_cmprsk(as_task_cmprisk(data.frame(time = c(1, 2), event = c(1, 4))))
-  expect_task_cmprsk(as_task_cmprisk(data.frame(time = c(1, 2), status = c(1, 2)),
+  expect_task_cmprsk(as_task_cmprsk(data.frame(time = c(1, 2), event = c(1, 4))))
+  expect_task_cmprsk(as_task_cmprsk(data.frame(time = c(1, 2), status = c(1, 2)),
                                      event = "status"))
-  expect_task_cmprsk(as_task_cmprisk(data.frame(t = c(1, 2, 3), s = c(0, 1, 2)),
+  expect_task_cmprsk(as_task_cmprsk(data.frame(t = c(1, 2, 3), s = c(0, 1, 2)),
                                      time = "t", event = "s", id = "test"))
 
   t1 = tsk("pbc")
-  t2 = as_task_cmprisk(t1, clone = TRUE)
+  t2 = as_task_cmprsk(t1, clone = TRUE)
   expect_task_cmprsk(t2)
   t1$select("edema")
   expect_false("sex" %in% names(t1$data()))
   expect_true("sex" %in% names(t2$data()))
 
   t1 = tsk("pbc")
-  t2 = as_task_cmprisk(t1, clone = FALSE)
+  t2 = as_task_cmprsk(t1, clone = FALSE)
   expect_task_cmprsk(t2)
   t1$select("edema")
   expect_false("sex" %in% names(t1$data()))
