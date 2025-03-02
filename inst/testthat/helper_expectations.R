@@ -26,10 +26,10 @@ expect_task_surv = function(task) {
 }
 
 expect_prediction_surv = function(p) {
-  checkmate::expect_r6(p, "Prediction", public = c("row_ids", "truth", "predict_types",
+  expect_r6(p, "Prediction", public = c("row_ids", "truth", "predict_types",
                                                    "response", "distr", "lp", "crank"))
-  checkmate::expect_data_table(data.table::as.data.table(p), nrows  = length(p$row_ids))
-  checkmate::expect_atomic_vector(p$missing)
+  expect_data_table(data.table::as.data.table(p), nrows  = length(p$row_ids))
+  expect_atomic_vector(p$missing)
   if ("distr" %in% p$predict_types && !is.null(p$distr)) {
     expect_true(class(p$distr)[[1L]] %in% c("VectorDistribution", "Matdist", "Arrdist", "WeightedDiscrete"))
   }
