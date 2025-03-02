@@ -1,6 +1,9 @@
 # mlr3proba dev
 
-* fix: allow cloning of measures objects
+* fix: allow cloning of measure objects
+* refactor: `TaskSurv` uses only right, left or interval censoring, simplified code a lot in the methods
+* feat: add `TaskCompRisks` class and `as_task_cmprk()` S3 methods (support for right-censored data only)
+* fix: as.data.table() for `PredictionSurv` objects holds now a survival curve per observation as it should
 
 # mlr3proba 0.7.4
 

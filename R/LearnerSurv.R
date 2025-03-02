@@ -39,10 +39,12 @@ LearnerSurv = R6Class("LearnerSurv",
     initialize = function(id, param_set = ps(), predict_types = "distr",
       feature_types = character(), properties = character(),
       packages = character(), label = NA_character_, man = NA_character_) {
+
       super$initialize(
         id = id, task_type = "surv", param_set = param_set, predict_types = predict_types,
         feature_types = feature_types, properties = properties,
-        packages = c("mlr3proba", packages), label = label, man = man)
+        packages = c("mlr3proba", packages), label = label, man = man
+      )
     }
   )
 )
