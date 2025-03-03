@@ -500,7 +500,11 @@ pipeline_survtoclassif_IPCW = function(learner, tau = NULL, eps = 1e-3, graph_le
 #' @param graph_learner `logical(1)`\cr
 #' If `TRUE` returns wraps the [Graph][mlr3pipelines::Graph] as a
 #' [GraphLearner][mlr3pipelines::GraphLearner] otherwise (default) returns as a `Graph`.
-#'
+#' @param rhs (`character(1)`)\cr
+#' Right-hand side of the formula to use with the learner.
+#' All features of the task are available as well as `tend` the upper bounds
+#' of the intervals created by `cut`.
+#' If `rhs` is unspecified, the formula of the task will be used.
 #' @details
 #' The pipeline consists of the following steps:
 #' \enumerate{
@@ -513,11 +517,8 @@ pipeline_survtoclassif_IPCW = function(learner, tau = NULL, eps = 1e-3, graph_le
 #' @return [mlr3pipelines::Graph] or [mlr3pipelines::GraphLearner]
 #' @family pipelines
 #'
-#' @examples
+#' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines", "mlr3learners"), quietly = TRUE)
 #' \dontrun{
-#' if (requireNamespace("mlr3pipelines", quietly = TRUE) &&
-#'     requireNamespace("mlr3learners", quietly = TRUE)) {
-#'
 #'   library(mlr3)
 #'   library(mlr3learners)
 #'   library(mlr3pipelines)
@@ -532,14 +533,14 @@ pipeline_survtoclassif_IPCW = function(learner, tau = NULL, eps = 1e-3, graph_le
 #'   grlrn$train(task, row_ids = part$train)
 #'   grlrn$predict(task, row_ids = part$test)
 #' }
-#' }
 #' @export
 pipeline_survtoregr_PEM = function(learner, cut = NULL, max_time = NULL,
-                                           rhs = NULL, graph_learner = FALSE, form = NULL) {
+                                           rhs = NULL, graph_learner = FALSE) {
   # TODO: add assertions
+  assert_learner(learner, task_type = "regr")
 
   gr = mlr3pipelines::Graph$new()
-  gr$add_pipeop(mlr3pipelines::po("trafotask_survregr_PEM", cut = cut, max_time = max_time, form = form))
+  gr$add_pipeop(mlr3pipelines::po("trafotask_survregr_PEM", cut = cut, max_time = max_time))
   gr$add_pipeop(mlr3pipelines::po("learner", learner))
   gr$add_pipeop(mlr3pipelines::po("nop"))
   gr$add_pipeop(mlr3pipelines::po("trafopred_regrsurv_PEM"))
@@ -572,9 +573,4 @@ register_graph("responsecompositor", pipeline_responsecompositor)
 register_graph("probregr", pipeline_probregr)
 register_graph("survtoclassif_disctime", pipeline_survtoclassif_disctime)
 register_graph("survtoclassif_IPCW", pipeline_survtoclassif_IPCW)
-register_graph("survtoclassif_vock", pipeline_survtoclassif_IPCW) # alias
-<<<<<<< HEAD
 register_graph("survtoregr_PEM", pipeline_survtoregr_PEM)
-
-=======
->>>>>>> origin/main

@@ -55,8 +55,7 @@
 #' If `cut` is unspecified, this will be the last possible event time.
 #' All event times after `max_time` will be administratively censored at `max_time.`
 #' Needs to be greater than the minimum event time in the given task.
-#' * `ped_formula` 
-#' TODO 
+#' 
 #' @examplesIf (mlr3misc::require_namespaces(c("mlr3pipelines", "mlr3extralearners"), quietly = TRUE))
 #' \dontrun{
 #'   library(mlr3)
@@ -93,9 +92,7 @@ PipeOpTaskSurvRegrPEM = R6Class("PipeOpTaskSurvRegrPEM",
         cut = p_uty(default = NULL),
         max_time = p_dbl(0, default = NULL, special_vals = list(NULL)),
         censor_code = p_int(0L),
-        min_events = p_int(1L),
-        ped_formula = p_uty(tags = 'train', default = NULL)
-        #pammtools arguments: transitions etc.
+        min_events = p_int(1L)
       )
       super$initialize(
         id = id,
@@ -138,10 +135,9 @@ PipeOpTaskSurvRegrPEM = R6Class("PipeOpTaskSurvRegrPEM",
                "max_time must be greater than the minimum event time.")
       }
       
-      ped_formula = self$param_set$values$ped_formula
-      if (is.null(ped_formula)){
-        ped_formula = formulate(sprintf("Surv(%s, %s)", time_var, event_var), ".")
-      }
+      
+      
+      ped_formula = formulate(sprintf("Surv(%s, %s)", time_var, event_var), ".")
       long_data = pammtools::as_ped(data = data, formula = ped_formula, cut = cut, max_time = max_time)
       long_data = as.data.table(long_data)
       
@@ -183,10 +179,7 @@ PipeOpTaskSurvRegrPEM = R6Class("PipeOpTaskSurvRegrPEM",
       data[[event_var]] = 1
       
       
-      ped_formula = self$param_set$values$ped_formula
-      if (is.null(ped_formula)){
-        ped_formula = formulate(sprintf("Surv(%s, %s)", time_var, event_var), ".")
-      }
+      ped_formula = formulate(sprintf("Surv(%s, %s)", time_var, event_var), ".")
       long_data = pammtools::as_ped(data = data, formula = ped_formula, cut = cut, max_time = max_time)
       long_data = as.data.table(long_data)
 
