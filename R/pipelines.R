@@ -536,8 +536,16 @@ pipeline_survtoclassif_IPCW = function(learner, tau = NULL, eps = 1e-3, graph_le
 #' @export
 pipeline_survtoregr_PEM = function(learner, cut = NULL, max_time = NULL,
                                            rhs = NULL, graph_learner = FALSE) {
-  # TODO: add assertions
+  # TODO: another way to assert whether a learner is eligible for this pipeline other than offset?
+  
+  assert_true("use_pred_offset" %in% learner$param_set$ids())
+  assert_true("offset" %in% learner$properties)
   assert_learner(learner, task_type = "regr")
+  
+  if (learner$param_set$values$use_pred_offset == TRUE) {
+    learner$param_set$set_values(use_pred_offset = FALSE)
+    message("Note: 'use_pred_offset' was set to TRUE and has now been changed to FALSE. This is necessary for the PEM Pipeline to output the correct results.")
+  }
 
   gr = mlr3pipelines::Graph$new()
   gr$add_pipeop(mlr3pipelines::po("trafotask_survregr_PEM", cut = cut, max_time = max_time))
