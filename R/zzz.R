@@ -80,6 +80,7 @@ unregister_reflections = function() {
   x$task_col_roles$surv = NULL
   x$task_col_roles$dens = NULL
   x$task_col_roles$classif = setdiff(x$task_col_roles$classif, "original_ids")
+  x$task_col_roles$regr = setdiff(x$task_col_roles$regr, 'original_ids')
   x$task_properties$surv = NULL
   x$task_properties$dens = NULL
 
