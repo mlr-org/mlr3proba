@@ -538,13 +538,16 @@ pipeline_survtoregr_PEM = function(learner, cut = NULL, max_time = NULL,
                                            rhs = NULL, graph_learner = FALSE) {
   # TODO: another way to assert whether a learner is eligible for this pipeline other than offset?
   
-  assert_true("use_pred_offset" %in% learner$param_set$ids())
   assert_true("offset" %in% learner$properties)
   assert_learner(learner, task_type = "regr")
   
-  if (learner$param_set$values$use_pred_offset == TRUE) {
-    learner$param_set$set_values(use_pred_offset = FALSE)
-    message("Note: 'use_pred_offset' was set to TRUE and has now been changed to FALSE. This is necessary for the PEM Pipeline to output the correct results.")
+  if ('use_pred_offset' %in% learner$param_set$ids()){
+    if (learner$param_set$values$use_pred_offset == TRUE){
+      learner$param_set$set_values(use_pred_offset = FALSE)
+      message("Note: 'use_pred_offset' was set to TRUE and has now been changed to FALSE. 
+              At prediction time, the PEM Pipeline intentionally omits the offset. Set use_pred_offset 
+              to FALSE to avoid this message.")
+    }
   }
 
   gr = mlr3pipelines::Graph$new()

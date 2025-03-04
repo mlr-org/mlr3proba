@@ -147,7 +147,7 @@ test_that("survtoregr_PEM", {
                 objective = "count:poisson", 
                 lambda = 0, 
                 base_score = 1)
-  part = partition(task)
+  
   
 
   pipe = ppl("survtoregr_PEM", learner = learner, rhs = 'tend + sex + rx')
@@ -160,15 +160,24 @@ test_that("survtoregr_PEM", {
   p = grlrn$predict(task)
   expect_prediction_surv(p)
   
+  rfSRC = lrn('surv.rfsrc',
+              ntree = 1000)
+  rfSRC$train(task)
+  p2 = rfSRC$predict(task)
   
-  cox = lrn("surv.coxph")
-  suppressWarnings(cox$train(task))
-  p2 = cox$predict(task)
-
   expect_equal(p$row_ids, p2$row_ids)
   expect_equal(p$truth, p2$truth)
   #TODO
-  expect_equal(p$score(), p2$score(), tolerance = 0.015) # andreas fragen
+  expect_equal(p$score(), p2$score(), tolerance = 0.015) 
+  
+  
+  #TODO fit a gam learner to compare to coxph
+  cox = lrn("surv.coxph")
+  suppressWarnings(cox$train(task))
+  p3 = cox$predict(task)
+  
+  p4 = 
+
 
   # Test with cut
   grlrn = ppl("survtoregr_PEM", 
@@ -208,9 +217,13 @@ test_that("survtoregr_PEM", {
   grlrn$train(task)
   pred = suppressWarnings(grlrn$predict(task))
   
-  # TODO 
-  # grlrn2 = ppl("survtoregr_PEM", learner = lrn("regr.featureless"), does not support offset
-  #              graph_learner = TRUE)
+  # # TODO Featureless learner
+  # grlrn2 = ppl("survtoregr_PEM", 
+  #              learner = lrn("regr.glmnet", 
+  #                            family = "poisson",
+  #                            use_pred_offset = FALSE),
+  #              graph_learner = TRUE,
+  #              rhs = 'tend')
   # grlrn2$train(task)
   # pred2 = grlrn2$predict(task)
   
@@ -218,6 +231,7 @@ test_that("survtoregr_PEM", {
   expect_equal(unname(pred$score()), 0.5)
   # expect_equal(unname(pred2$score()), 0.5)
   # expect_equal(pred$data$distr, pred2$data$distr)
+  
   learner = lrn('regr.xgboost', 
                 nrounds = 2000,
                 eta = 0.1, 
@@ -226,11 +240,9 @@ test_that("survtoregr_PEM", {
                 lambda = 0, 
                 base_score = 1)
   
-  learner$validate = 0.2
-  set_validate(learner, 0.3)
   task = tsk('rats')
   grlrn = ppl("survtoregr_PEM", learner = learner,
-              rhs = "rx + litter", graph_learner = TRUE)
+              rhs = "tend + rx", graph_learner = TRUE)
   grlrn$train(task)
   pred = suppressWarnings(grlrn$predict(task))
   
@@ -243,6 +255,6 @@ test_that("survtoregr_PEM", {
   # models with training parameters may display varying models fits 
   expect_gt(pred2$score(), pred$score())
   
-  #TODO fit a regression learner that does not employ any 
+  #TODO fit a regression learner that does not require any tuning
 })
   
