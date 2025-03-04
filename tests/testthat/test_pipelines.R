@@ -138,6 +138,7 @@ test_that("survtoclassif_IPCW", {
 
 test_that("survtoregr_PEM", {
   skip_if_not_installed("mlr3learners")
+  skip_if_not_installed('xgboost')
   task = tsk('rats')
   task$select(c('sex', 'rx')) # litter has high cardinality resulting in sparse features, overfitting of tree based methods
   learner = lrn('regr.xgboost', 
@@ -172,11 +173,11 @@ test_that("survtoregr_PEM", {
   
   
   #TODO fit a gam learner to compare to coxph
-  cox = lrn("surv.coxph")
-  suppressWarnings(cox$train(task))
-  p3 = cox$predict(task)
-  
-  p4 = 
+  # cox = lrn("surv.coxph")
+  # suppressWarnings(cox$train(task))
+  # p3 = cox$predict(task)
+  # 
+  # p4 = 
 
 
   # Test with cut
@@ -252,7 +253,6 @@ test_that("survtoregr_PEM", {
   pred2 = suppressWarnings(grlrn2$predict(task))
   
   # model with more covariates should have better C-index
-  # models with training parameters may display varying models fits 
   expect_gt(pred2$score(), pred$score())
   
   #TODO fit a regression learner that does not require any tuning
