@@ -70,6 +70,8 @@ reference:
       - PredictionSurv
       - MeasureSurv
       - TaskCompRisks
+      - LearnerCompRisks
+      - PredictionCompRisks
       - TaskDens
       - LearnerDens
       - PredictionDens
@@ -103,6 +105,9 @@ reference:
   - title: Competing Risks Tasks
     contents:
       - mlr_tasks_pbc
+  - title: Competing Risk Learners
+    contents:
+      - starts_with("mlr_learners_cmprsk")
   - title: Density Learners
     contents:
       - starts_with("mlr_learners_dens")
@@ -138,5 +143,6 @@ reference:
       - breslow
       - assert_surv
       - assert_surv_matrix
+      - assert_cif_list
       - get_mortality
       - MeasureSurvAUC
