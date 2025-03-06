@@ -17,11 +17,19 @@ task = tsk("pbc")
 learner = lrn("cmprsk.aalen")
 part = partition(task)
 p = learner$train(task, part$train)$predict(task, part$test)
-head(as.data.table(p))
+p
 
-# CIF list: 1 matrix per competing event, each matrix has dimentions
-# (observations) x (times)
-p$cif
+# CIF list: 1 matrix (obs x times) per competing event
+names(p$cif) # competing events
+# CIF matrix for competing event 1 (first 5 test observations and 20 time points)
+p$cif[["1"]][1:5, 1:20]
+# CIF matrix for competing event 2 (first 5 test observations and 20 time points)
+p$cif[["2"]][1:5, 1:20]
+
+# data.table conversion
+tab = as.data.table(p)
+tab$CIF[[1]] # for first test observation, list of CIF vectors
+
 }
 \seealso{
 Other Prediction: 
