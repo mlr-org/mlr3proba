@@ -29,9 +29,8 @@ PredictionCompRisks = R6Class("PredictionCompRisks",
     #'
     #' @details
     #' The `cif` input currently is a list of CIF matrices.
-    #' In the future the `cif` field should coerce this to a [TODO] CIF container
-    #' to get all survival and hazard functions easily with interpolation.
-    #' Think: store it in the `$data$distr` slot for internal use?
+    #' In the future the `cif` field should coerce this to a (TODO) CIF container
+    #' to get all survival and hazard functions using interpolation.
     #'
     #' @param task ([TaskSurv])\cr
     #'   Task, used to extract defaults for `row_ids` and `truth`.

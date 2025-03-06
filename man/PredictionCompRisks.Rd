@@ -104,9 +104,8 @@ If \code{TRUE}, performs argument checks and predict type conversions.}
 }
 \subsection{Details}{
 The \code{cif} input currently is a list of CIF matrices.
-In the future the \code{cif} field should coerce this to a \link{TODO} CIF container
-to get all survival and hazard functions easily with interpolation.
-Think: store it in the \verb{$data$distr} slot for internal use?
+In the future the \code{cif} field should coerce this to a (TODO) CIF container
+to get all survival and hazard functions using interpolation.
 }
 
 }
