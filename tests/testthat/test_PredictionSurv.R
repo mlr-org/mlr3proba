@@ -7,17 +7,16 @@ test_that("Construction", {
 })
 
 test_that("Internally constructed Prediction", {
-  lrn = lrn("surv.kaplan")
-  p = lrn$train(task)$predict(task)
+  learner = lrn("surv.kaplan")
+  p = learner$train(task)$predict(task)
   expect_prediction_surv(p)
 
   p = reshape_distr_to_3d(p)
   expect_prediction_surv(p)
 })
 
-lrn = lrn("surv.kaplan")
-
-test_that("c", {
+test_that("combining predictions", {
+  lrn = lrn("surv.kaplan")
   set.seed(1L)
   resampling = rsmp("cv", folds = 2L)
   rr = resample(task, lrn, resampling)
