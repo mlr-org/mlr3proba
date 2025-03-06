@@ -16,7 +16,7 @@ reshape_distr_to_3d = function(p, num_seq = seq(0.1, 0.2, 0.05)) {
   p2
 }
 
-gen_cmp_task = function(n = 50, n_events = 2) {
+gen_cmprsk_task = function(n = 50, n_events = 2) {
   # Generate exp distribution for event times
   times = stats::rexp(n, rate = 0.2)
 

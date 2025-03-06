@@ -1,5 +1,5 @@
 set.seed(42L)
-task = gen_cif_task(n = 50, n_events = 3)
+task = gen_cmprsk_task(n = 50, n_events = 3)
 cif_list = gen_cif(n = 50, n_events = 3)
 learner = lrn("cmprsk.aalen")
 
