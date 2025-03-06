@@ -4,14 +4,18 @@
 \alias{assert_cif_list}
 \title{Assert CIF list}
 \usage{
-assert_cif_list(x, n = NULL)
+assert_cif_list(x, n_rows = NULL, n_cmp_events = NULL)
 }
 \arguments{
 \item{x}{(\code{list()})\cr
 A list of CIF matrices, each one with dimensions (observations x times).}
 
-\item{n}{(\code{numeric(1)})\cr
+\item{n_rows}{(\code{numeric(1)})\cr
 Expected number of rows of each matrix element of the input list.}
+
+\item{n_cmp_events}{(\code{numeric(1)})\cr
+Expected number of competing events which is the number of elements in input
+CIF list.}
 }
 \value{
 if the assertion fails an error occurs, otherwise \code{NULL} is returned
