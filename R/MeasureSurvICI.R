@@ -49,7 +49,7 @@
 #' cases.
 #'
 #' @references
-#' `r format_bib("austin2020")`
+#' `r format_bib("austin_2020")`
 #'
 #' @family calibration survival measures
 #' @family distr survival measures

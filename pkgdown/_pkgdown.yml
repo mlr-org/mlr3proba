@@ -69,6 +69,9 @@ reference:
       - LearnerSurv
       - PredictionSurv
       - MeasureSurv
+      - TaskCompRisks
+      - LearnerCompRisks
+      - PredictionCompRisks
       - TaskDens
       - LearnerDens
       - PredictionDens
@@ -86,7 +89,6 @@ reference:
       - mlr_tasks_actg
       - mlr_tasks_gbsg
       - mlr_tasks_mgus
-      - mlr_tasks_pbc
       - mlr_tasks_veteran
       - mlr_tasks_gbcs
       - mlr_tasks_grace
@@ -100,6 +102,12 @@ reference:
   - title: Survival Pipelines
     contents:
       - starts_with("mlr_graphs")
+  - title: Competing Risks Tasks
+    contents:
+      - mlr_tasks_pbc
+  - title: Competing Risk Learners
+    contents:
+      - starts_with("mlr_learners_cmprsk")
   - title: Density Learners
     contents:
       - starts_with("mlr_learners_dens")
@@ -135,5 +143,6 @@ reference:
       - breslow
       - assert_surv
       - assert_surv_matrix
+      - assert_cif_list
       - get_mortality
       - MeasureSurvAUC

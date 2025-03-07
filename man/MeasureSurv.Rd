@@ -26,6 +26,7 @@ Other Measure:
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-MeasureSurv-new}{\code{MeasureSurv$new()}}
+\item \href{#method-MeasureSurv-clone}{\code{MeasureSurv$clone()}}
 }
 }
 \if{html}{\out{
@@ -139,6 +140,23 @@ The referenced help package can be opened via method \verb{$help()}.}
 An optional list with two elements, containing the transformation \code{"fn"} and its derivative \code{"deriv"}.
 The transformation function is the function that is applied after aggregating the pointwise losses, i.e.
 this requires an \verb{$obs_loss} to be present. An example is \code{sqrt} for RMSE (regression).}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-MeasureSurv-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-MeasureSurv-clone}{}}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MeasureSurv$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
 }
 \if{html}{\out{</div>}}
 }

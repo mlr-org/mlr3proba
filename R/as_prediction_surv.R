@@ -23,27 +23,26 @@ as_prediction_surv = function(x, ...) {
   UseMethod("as_prediction_surv")
 }
 
-
 #' @rdname as_prediction_surv
 #' @export
 as_prediction_surv.PredictionSurv = function(x, ...) { # nolint
   x
 }
 
-
 #' @rdname as_prediction_surv
 #' @export
 as_prediction_surv.data.frame = function(x, ...) { # nolint
   mandatory = c("row_ids", "time", "status")
   optional = c("crank", "lp", "distr", "response")
-  assert_names(names(x), must.include = mandatory)
-  assert_names(names(x), subset.of = c(mandatory, optional))
+  assert_names(names(x), must.include = mandatory, subset.of = c(mandatory, optional))
 
-  if ("distr" %in% names(x)) {
-    distr = x$distr[[1L]][[1L]]
-  } else {
-    distr = NULL
-  }
+  distr = if ("distr" %in% names(x)) {
+    times = names(x$distr[[1L]][[1L]])
+
+    # Reconstruct the survival matrix from the list of vectors
+    do.call(rbind, lapply(x$distr, function(l) { matrix(l[[1L]], nrow = 1) })) |>
+      set_col_names(times)
+  } else NULL
 
   if ("crank" %nin% names(x)) {
     if ("lp" %in% names(x)) {
@@ -55,9 +54,10 @@ as_prediction_surv.data.frame = function(x, ...) { # nolint
     }
   }
 
-  invoke(PredictionSurv$new,
+  invoke(
+    PredictionSurv$new,
     truth = Surv(x$time, x$status),
     distr = distr,
-    .args = x[, -intersect(c("time", "status", "distr"), names(x)), with = FALSE],
+    .args = x[, -intersect(c("time", "status", "distr"), names(x)), with = FALSE]
   )
 }

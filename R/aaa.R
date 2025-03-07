@@ -41,29 +41,40 @@ register_graph = function(name, constructor) {
 register_reflections = function() {
   x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
 
-  # task
-  x$task_types = x$task_types[!c("surv", "dens")]
+  # task types
+  x$task_types = x$task_types[!c("surv", "dens", "cmprsk")]
   x$task_types = setkeyv(rbind(x$task_types, rowwise_table(
     ~type,  ~package,     ~task,      ~learner,      ~prediction,       ~prediction_data,     ~measure,
     "surv", "mlr3proba",  "TaskSurv", "LearnerSurv", "PredictionSurv",  "PredictionDataSurv", "MeasureSurv",
-    "dens", "mlr3proba",  "TaskDens", "LearnerDens", "PredictionDens",  "PredictionDataDens", "MeasureDens"
+    "dens", "mlr3proba",  "TaskDens", "LearnerDens", "PredictionDens",  "PredictionDataDens", "MeasureDens",
+    "cmprsk", "mlr3proba",  "TaskCompRisks", "LearnerCompRisks", "PredictionCompRisks",  "PredictionDataCompRisks", "MeasureCompRisks"
   )), "type")
 
+  # task column roles
   x$task_col_roles$surv = x$task_col_roles$regr
+  x$task_col_roles$cmprsk = x$task_col_roles$regr
   x$task_col_roles$dens = c("feature", "target", "label", "order", "group", "weight", "stratum")
   x$task_col_roles$classif = unique(c(x$task_col_roles$classif, "original_ids")) # for discrete time
+
+  # task properties
   x$task_properties$surv = x$task_properties$regr
+  x$task_properties$cmprsk = x$task_properties$regr
   x$task_properties$dens = x$task_properties$regr
 
-  # learner
+  # learner properties
   x$learner_properties$surv = x$learner_properties$regr
+  x$learner_properties$cmprsk = x$learner_properties$regr
   x$learner_properties$dens = x$learner_properties$regr
+
+  # learner predict types
   x$learner_predict_types$surv = list(
+    # for survival we all predict types are possible in theory via transformations
     crank = c("crank", "lp", "distr", "response"),
     distr = c("crank", "lp", "distr", "response"),
     lp = c("crank", "lp", "distr", "response"),
     response = c("crank", "lp", "distr", "response")
   )
+  x$learner_predict_types$cmprsk = list(cif = "cif")
   x$learner_predict_types$dens = list(
     pdf = c("pdf", "cdf", "distr"),
     cdf = c("pdf", "cdf", "distr"),

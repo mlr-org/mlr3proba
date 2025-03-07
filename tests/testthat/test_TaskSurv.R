@@ -1,15 +1,13 @@
-test_that("Task duplicates rows", {
-  task = tsk("lung")
-  expect_task_surv(task)
-  expect_setequal(extract_vars(task$formula())$rhs, ".")
-})
-
 test_that("right censoring", {
   expect_silent({
-    task = TaskSurv$new("right", backend = survival::rats, time = "time", event = "status")
+    task = TaskSurv$new(
+      id = "right", backend = survival::rats,
+      time = "time", event = "status"
+    )
   })
-  expect_equal(task$censtype, "right")
+  expect_equal(task$cens_type, "right")
   expect_numeric(task$times())
+  expect_numeric(task$unique_event_times())
   expect_integer(task$status())
   expect_equal(
     task$formula(), as.formula(Surv(time, status, type = "right") ~ .),
@@ -17,55 +15,8 @@ test_that("right censoring", {
   )
 })
 
-test_that("left censoring", {
-  expect_silent({
-    task = TaskSurv$new("left", backend = survival::rats, time = "time", event = "status",
-      type = "left")
-  })
-  expect_equal(task$censtype, "left")
-  expect_numeric(task$times())
-  expect_integer(task$status())
-  expect_equal(
-    task$formula(), as.formula(Surv(time, status, type = "left") ~ .),
-    ignore_attr = TRUE
-  )
-})
 
-test_that("interval censoring", {
-  # interval censoring data should have one subject id per row
-  expect_silent({
-    task = TaskSurv$new(
-      id = "interval_censored", backend = survival::bladder1,
-      time = "start", time2 = "stop", event = "status", type = "interval")
-  })
-  expect_equal(task$censtype, "interval")
-  expect_equal(ncol(task$truth()), 3L)
-  expect_numeric(task$times())
-  expect_integer(task$status())
-  expect_equal(
-    task$formula(), as.formula(Surv(start, stop, status, type = "interval") ~ .),
-    ignore_attr = TRUE
-  )
-})
-
-test_that("interval2 censoring", {
-  # test without 'event'
-  expect_silent({
-    task = TaskSurv$new(
-      id = "interval2_censored", backend = survival::bladder2[, -c(1, 7)],
-      time = "start", time2 = "stop", type = "interval2")
-  })
-  expect_equal(task$censtype, "interval2")
-  expect_identical(ncol(task$truth()), 3L)
-  expect_numeric(task$times())
-  expect_integer(task$status())
-  expect_equal(
-    task$formula(), as.formula(Surv(start, stop, type = "interval2") ~ .),
-    ignore_attr = TRUE
-  )
-})
-
-test_that("surv methods", {
+test_that("right-censored TaskSurv methods", {
   status = c(1, 1, 1, 0, 0, 0)
   times = c(1, 1, 2, 4, 4, 5)
   task = TaskSurv$new(
@@ -77,7 +28,6 @@ test_that("surv methods", {
   expect_equal(task$status(), status)
   expect_equal(task$unique_times(), c(1, 2, 4, 5))
   expect_equal(task$unique_event_times(), c(1, 2))
-  expect_equal(task$risk_set(time = 2), c(3, 4, 5, 6))
   expect_class(task$kaplan(), "survfit")
   expect_class(task$kaplan(rows = 1:3), "survfit")
   expect_equal(task$cens_prop(), 3 / 6)
@@ -106,11 +56,72 @@ test_that("surv methods", {
   expect_equal(task2$dep_cens_prop(sign_level = 0.5), 1)
 })
 
+test_that("left censoring", {
+  expect_silent({
+    task = TaskSurv$new(
+      id = "left", backend = survival::rats,
+      time = "time", event = "status", type = "left"
+    )
+  })
+  expect_equal(task$cens_type, "left")
+  expect_numeric(task$times())
+  expect_numeric(task$unique_event_times())
+  expect_integer(task$status())
+  expect_number(task$cens_prop())
+  expect_equal(
+    task$formula(), as.formula(Surv(time, status, type = "left") ~ .),
+    ignore_attr = TRUE
+  )
+  # following methods don't make sense with left-censored data
+  expect_error(task$admin_cens_prop(), "Not supported")
+  expect_error(task$dep_cens_prop(), "Not supported")
+  expect_error(task$prop_haz(), "Not supported")
+})
+
+test_that("interval censoring", {
+  # no 'event' column
+  data = data.frame(time = c(-Inf, 2, 3, 4), time2 = c(1, Inf, 3, 5))
+  expect_silent({
+    task = TaskSurv$new(
+      id = "interval_censored", backend = data,
+      time = "time", time2 = "time2", type = "interval"
+    )
+  })
+  expect_equal(task$cens_type, "interval")
+  expect_identical(ncol(task$truth()), 3L) # it's (start, stop, event {0,1,2,3})
+  expect_equal(task$status(), c(2, 0, 1, 3))
+  expect_numeric(task$cens_prop(), len = 3, names = "named")
+  expect_names(names(task$cens_prop()), subset.of = c("0", "2", "3"))
+  expect_equal(
+    task$formula(), as.formula(Surv(time, time2, type = "interval2") ~ .),
+    ignore_attr = TRUE
+  )
+  # following methods don't make sense with interval censored data
+  expect_error(task$times(), "Not supported")
+  expect_error(task$unique_event_times(), "Not supported")
+  expect_error(task$admin_cens_prop(), "Not supported")
+  expect_error(task$dep_cens_prop(), "Not supported")
+  expect_error(task$prop_haz(), "Not supported")
+  expect_error(task$reverse(), "Not supported")
+})
+
+test_that("reverse", {
+  t = tsk("rats")
+  expect_equal(t$kaplan()$surv,
+    survival::survfit(Surv(time, status) ~ 1, t$data())$surv)
+  expect_equal(t$kaplan(reverse = TRUE)$surv,
+    survival::survfit(Surv(time, 1 - status) ~ 1, t$data())$surv)
+
+  t2 = tsk("rats")$reverse()
+  expect_equal(t$kaplan(reverse = TRUE)$surv, t2$kaplan()$surv)
+  expect_equal(t2$data()$status, 1 - t$data()$status)
+})
+
 test_that("as_task_surv", {
   expect_task_surv(as_task_surv(data.frame(time = 1, event = 1)))
-  expect_task_surv(as_task_surv(data.frame(time = 1, status = 1),
-    event = "status"
-  ))
+  expect_task_surv(as_task_surv(data.frame(time = 1, status = 1), event = "status"))
+  expect_task_surv(as_task_surv(data.frame(time = 1, time2 = 2), type = "interval"))
+
   t1 = tsk("rats")
   t2 = as_task_surv(t1, clone = TRUE)
   expect_task_surv(t2)
@@ -124,16 +135,4 @@ test_that("as_task_surv", {
   t1$select("sex")
   expect_false("litter" %in% names(t1$data()))
   expect_false("litter" %in% names(t2$data()))
-})
-
-test_that("reverse", {
-  t = tsk("rats")
-  expect_equal(t$kaplan()$surv,
-    survival::survfit(Surv(time, status) ~ 1, t$data())$surv)
-  expect_equal(t$kaplan(reverse = TRUE)$surv,
-    survival::survfit(Surv(time, 1 - status) ~ 1, t$data())$surv)
-
-  t2 = tsk("rats")$reverse()
-  expect_equal(t$kaplan(reverse = TRUE)$surv, t2$kaplan()$surv)
-  expect_equal(t2$data()$status, 1 - t$data()$status)
 })
