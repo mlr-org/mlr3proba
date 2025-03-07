@@ -70,8 +70,9 @@ assert_surv_matrix = function(x) {
 #'
 #' @export
 assert_cif_list = function(x, n_rows = NULL, n_cmp_events = NULL) {
-  # At least 2 elements/competing risks
-  assert_list(x, any.missing = FALSE, min.len = 2, len = n_cmp_events, names = "named")
+  # List of matrices, with at least 2 elements/competing risks
+  assert_list(x, types = "matrix", any.missing = FALSE, min.len = 2,
+              len = n_cmp_events, names = "named")
   for (mat in x) {
     # Each element a matrix
     assert_matrix(mat, any.missing = FALSE, min.rows = 1, min.cols = 1, col.names = "named")
