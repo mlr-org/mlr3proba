@@ -17,143 +17,41 @@ test_that("Internally constructed Prediction", {
   expect_prediction_cmprsk(p)
 })
 
-skip("Combining CIFs")
 test_that("combining predictions", {
   set.seed(1L)
-  resampling = rsmp("cv", folds = 2L)
-  rr = resample(task, lrn("cmprsk.aalen"), resampling)
-
+  rr = resample(tsk("pbc"), lrn("cmprsk.aalen"), rsmp("cv", folds = 3L))
   preds = rr$predictions()
 
-  # combining survival matrices
-  # same number of time points (columns) but different values
-  distr1 = preds[[1L]]$data$distr
-  distr2 = preds[[2L]]$data$distr
-  times1 = as.integer(colnames(distr1))
-  times2 = as.integer(colnames(distr2))
-  expect_length(times1, length(times2))
-  expect_false(all(times1 == times2))
+  # different time points in each resampling `preds[[i]]`
+  # Note: AJ has the same number of time points independent of the cause, so we
+  # just check for cause `1`
+  expect_false(ncol(preds[[1L]]$data$cif$`1`) == ncol(preds[[2L]]$data$cif$`1`))
+  expect_false(ncol(preds[[2L]]$data$cif$`1`) == ncol(preds[[3L]]$data$cif$`1`))
 
+  # combine predictions
   pred = do.call(c, preds)
-  expect_prediction_surv(pred)
-  surv_mat = pred$data$distr
-  expect_matrix(surv_mat)
+  expect_prediction_cmprsk(pred)
+
   # check that time points are properly combined
-  times = as.integer(colnames(surv_mat))
-  expect_true(all(times == sort(union(times1, times2))))
+  # cause 1
+  times1 = as.numeric(colnames(pred$cif$`1`))
+  times1_fold1 = as.numeric(colnames(preds[[1L]]$data$cif$`1`))
+  times1_fold2 = as.numeric(colnames(preds[[2L]]$data$cif$`1`))
+  times1_fold3 = as.numeric(colnames(preds[[3L]]$data$cif$`1`))
+  expect_true(all(times1 == sort(unique(c(times1_fold1, times1_fold2, times1_fold3)))))
+
+  # cause 2
+  times2 = as.numeric(colnames(pred$cif$`2`))
+  times2_fold1 = as.numeric(colnames(preds[[1L]]$data$cif$`2`))
+  times2_fold2 = as.numeric(colnames(preds[[2L]]$data$cif$`2`))
+  times2_fold3 = as.numeric(colnames(preds[[3L]]$data$cif$`2`))
+  expect_true(all(times2 == sort(unique(c(times2_fold1, times2_fold2, times2_fold3)))))
 
   # data.table conversion
   dt = as.data.table(pred)
-  expect_data_table(dt, nrows = task$nrow, ncols = 5L, any.missing = FALSE)
-
-  # different number of time points
-  # add extra time point on the 2nd prediction object
-  preds2 = rr$predictions()
-  preds2[[2L]]$data$distr = cbind(distr2,
-                                  matrix(data = rep(0.3, 10), ncol = 1L, dimnames = list(NULL, 108)))
-  distr1 = preds2[[1L]]$data$distr
-  distr2 = preds2[[2L]]$data$distr
-  times1 = as.integer(colnames(distr1))
-  times2 = as.integer(colnames(distr2))
-  expect_false(length(times1) == length(times2))
-
-  pred2 = do.call(c, preds2)
-  expect_prediction_surv(pred2)
-  surv_mat2 = pred2$data$distr
-  expect_matrix(surv_mat2)
-  # check that time points are properly combined
-  times = as.integer(colnames(surv_mat2))
-  expect_true(all(times == sort(union(times1, times2))))
-
-  # combining survival arrays
-  arr_preds = map(preds2, reshape_distr_to_3d)
-  arr_pred = do.call(c, arr_preds)
-  expect_prediction_surv(arr_pred)
-  expect_array(arr_pred$data$distr)
-  expect_r6(arr_pred$distr, "Arrdist")
-  # check that time points are properly combined
-  times1 = as.integer(colnames(arr_preds[[1L]]$data$distr))
-  times2 = as.integer(colnames(arr_preds[[2L]]$data$distr))
-  times = as.integer(colnames(arr_pred$data$distr))
-  expect_equal(as.integer(colnames(arr_pred$data$distr)),
-               sort(union(times1, times2)))
-
-  p1 = lrn("surv.kaplan")$train(task)$predict(task)
-  p2 = suppressWarnings(lrn("surv.coxph")$train(task))$predict(task)
-  expect_error(c(p1, p2), "Cannot combine")
-
-  # combining predictions with exactly the same time points
-  p1 = lrn("surv.kaplan")$train(task)$predict(task)
-  p2 = p1$clone()
-  expect_length(c(p1, p2, keep_duplicates = TRUE)$row_ids, 40L)
-  expect_length(c(p1, p2, keep_duplicates = FALSE)$row_ids, 20L)
-  preds = list(p1, p2)
-  p12 = do.call(c, preds)
-  expect_matrix(p12$data$distr) # combination is a matrix
-  expect_equal(colnames(p12$data$distr), colnames(p1$data$distr)) # same time points
-
-  arr_p1 = reshape_distr_to_3d(p1)
-  arr_p2 = reshape_distr_to_3d(p2)
-  arr_preds = list(arr_p1, arr_p2)
-  arr_pred = do.call(c, arr_preds)
-  expect_array(arr_pred$data$distr) # combination is an array
-  expect_equal(colnames(arr_pred$data$distr), colnames(arr_p1$data$distr)) # same time points
-
-  # combining distr6::Distribution objects of the same type
-  # Matdist
-  p1$data$distr = p1$distr
-  p2$data$distr = p2$distr
-  preds2 = list(p1, p2)
-  pred2 = do.call(c, preds2)
-  expect_matrix(pred2$data$distr)
-  expect_true(all(pred2$data$distr == p12$data$distr))
-
-  # Arrdist
-  arr_p1$data$distr = arr_p1$distr
-  arr_p2$data$distr = arr_p2$distr
-  arr_preds2 = list(arr_p1, arr_p2)
-  arr_pred2 = do.call(c, arr_preds2)
-  expect_array(arr_pred2$data$distr)
-  expect_true(all(arr_pred2$data$distr == arr_pred$data$distr))
-
-  # combining distr6::Distribution objects of different types
-  mix_preds = list(p1, arr_p2) # Matdist and Arrdist
-  expect_error(supressWarnings(do.call(c, mix_preds)))
-
-  # combine survival matrix and Matdist (matrix converts to a Matdist)
-  p1 = lrn("surv.kaplan")$train(task)$predict(task)
-  p2 = p1$clone()
-  p2$data$distr = p2$distr
-  preds = list(p1, p2)
-  expect_prediction_surv(do.call(c, preds))
-
-  # combine survival array and Matdist (array converts to an Arrdist)
-  preds = list(reshape_distr_to_3d(p1), p2)
-  expect_error(do.call(c, preds))
-
-  # combine survival matrix and Arrdist (matrix converts to a Matdist)
-  p2 = p1$clone()
-  p2 = reshape_distr_to_3d(p2)
-  p2$data$distr = p2$distr
-  preds = list(p1, p2)
-  expect_error(supressWarnings(do.call(c, preds)))
-
-  # combine survival array and Arrdist (array converts to an Arrdist)
-  preds = list(reshape_distr_to_3d(p1), p2)
-  expect_prediction_surv(do.call(c, preds))
-
-  # combine survival matrix and array
-  p2 = p1$clone()
-  p2 = reshape_distr_to_3d(p2)
-  expect_array(p2$data$distr, d = 3)
-  # add extra time point in the survival matrix
-  p1$data$distr = cbind(p1$data$distr,
-                        matrix(data = rep(0.3, 20), ncol = 1L, dimnames = list(NULL, 108)))
-  expect_matrix(p1$data$distr, nrows = 20L)
-  preds = list(p1, p2)
-  pred = do.call(c, preds)
-  expect_prediction_surv(pred)
-  expect_true("108" %in% colnames(pred$data$distr)) # time point was added for all observations
+  expect_data_table(dt, nrows = tsk("pbc")$nrow, ncols = 4L, any.missing = FALSE)
+  # row ids are correctly combined
+  expect_equal(dt$row_ids, c(preds[[1]]$row_ids, preds[[2]]$row_ids, preds[[3]]$row_ids))
 })
 
 test_that("data.frame roundtrip", {
