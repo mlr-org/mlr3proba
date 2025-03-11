@@ -95,11 +95,11 @@ in each time interval.
 An additional feature named <code>"tend"</code> contains the end time point of each interval.
 Lastly, the "output" task has a column with the original observation ids,
 under the role <code>"original_ids"</code>.
-The "transformed_data" is an empty <a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table</a>.</p>
+The "transformed_data" is an empty <a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a>.</p>
 <p>During prediction, the "input" <a href="TaskSurv.html">TaskSurv</a> is transformed to the "output"
 <a href="https://mlr3.mlr-org.com/reference/TaskClassif.html" class="external-link">TaskClassif</a> with <code>"disc_status"</code> as target and the <code>"tend"</code>
 feature included.
-The "transformed_data" is a <a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table</a> with columns the <code>"disc_status"</code>
+The "transformed_data" is a <a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a> with columns the <code>"disc_status"</code>
 target of the "output" task, the <code>"id"</code> (original observation ids),
 <code>"obs_times"</code> (observed times per <code>"id"</code>) and <code>"tend"</code> (end time of each interval).
 This "transformed_data" is only meant to be used with the <a href="mlr_pipeops_trafopred_classifsurv_disctime.html">PipeOpPredClassifSurvDiscTime</a>.</p>

@@ -113,7 +113,7 @@ The "data" is <code>NULL</code>.</p>
 <p>During prediction, the "input" <a href="TaskSurv.html">TaskSurv</a> is transformed to the "output"
 <a href="https://mlr3.mlr-org.com/reference/TaskClassif.html" class="external-link">TaskClassif</a> with <code>"status"</code> as target (again indicating
 if the event occurred before the cutoff time).
-The "data" is a <a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table</a> containing the observed <code>times</code> \(T_i\) and
+The "data" is a <a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a> containing the observed <code>times</code> \(T_i\) and
 censoring indicators/<code>status</code> \(\delta_i\) of each subject as well as the corresponding
 <code>row_ids</code>.
 This "data" is only meant to be used with the <a href="mlr_pipeops_trafopred_classifsurv_IPCW.html">PipeOpPredClassifSurvIPCW</a>.</p>
