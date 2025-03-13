@@ -138,22 +138,20 @@ test_that("survtoclassif_IPCW", {
 
 test_that("survtoregr_PEM", {
   skip_if_not_installed("mlr3learners")
-  skip_if_not_installed('xgboost')
-  task = tsk('rats')
-  task$select(c('sex', 'rx')) # litter has high cardinality resulting in sparse features, overfitting of tree based methods
-  learner = lrn('regr.xgboost', 
-                nrounds = 1000, 
-                eta = 0.1, 
-                max_depth = 1, 
-                objective = "count:poisson", 
-                lambda = 0, 
-                base_score = 1)
   
+  task = tsk('rats')
+  # for this section, select only numeric covariates, 
+  # as 'regr.glmnet' does not automatically handle factor type variables
+  task$select(c('litter', 'rx'))
+  learner = lrn('regr.glmnet', 
+                family = "poisson", 
+                lambda = 0,
+                use_pred_offset = FALSE)
   
 
-  pipe = ppl("survtoregr_PEM", learner = learner, rhs = 'tend + sex + rx')
+  pipe = ppl("survtoregr_PEM", learner = learner)
   expect_class(pipe, "Graph")
-  grlrn = ppl("survtoregr_PEM", learner = learner, rhs = 'tend + sex + rx', graph_learner = TRUE)
+  grlrn = ppl("survtoregr_PEM", learner = learner, graph_learner = TRUE)
   expect_class(grlrn, "GraphLearner")
   expect_equal(grlrn$predict_type, "response")
   
@@ -161,30 +159,19 @@ test_that("survtoregr_PEM", {
   p = grlrn$predict(task)
   expect_prediction_surv(p)
   
-  rfSRC = lrn('surv.rfsrc',
-              ntree = 1000)
-  rfSRC$train(task)
-  p2 = rfSRC$predict(task)
+  
+  cox = lrn("surv.coxph")
+  suppressWarnings(cox$train(task))
+  p2 = cox$predict(task)
   
   expect_equal(p$row_ids, p2$row_ids)
   expect_equal(p$truth, p2$truth)
-  #TODO
   expect_equal(p$score(), p2$score(), tolerance = 0.015) 
   
-  
-  #TODO fit a gam learner to compare to coxph
-  # cox = lrn("surv.coxph")
-  # suppressWarnings(cox$train(task))
-  # p3 = cox$predict(task)
-  # 
-  # p4 = 
-
-
   # Test with cut
   grlrn = ppl("survtoregr_PEM", 
               learner = learner,
-              cut = c(10, 30, 50), 
-              rhs = "tend + rx + sex", 
+              cut = c(10, 30, 50),
               graph_learner = TRUE)
   expect_class(grlrn, "GraphLearner")
   suppressWarnings(grlrn$train(task))
@@ -197,53 +184,34 @@ test_that("survtoregr_PEM", {
   
   grlrn = ppl("survtoregr_PEM", 
               learner = learner,
-              max_time = max_time, 
-              rhs = "tend + rx + sex", 
+              max_time = max_time,
               graph_learner = TRUE)
   
   expect_error(grlrn$train(task))
   
   grlrn = ppl("survtoregr_PEM", 
               learner = learner,
-              max_time = max_time + 1, 
-              rhs = "tend + rx + sex", 
+              max_time = max_time + 1,
               graph_learner = TRUE)
   suppressWarnings(grlrn$train(task))
   p = grlrn$predict(task)
   expect_prediction_surv(p)
   
   # Test with rhs
-  grlrn = ppl("survtoregr_PEM", learner = learner,
-              rhs = "1", graph_learner = TRUE)
+  
+  grlrn = ppl("survtoregr_PEM", 
+              learner = learner,
+              rhs = 'tend',
+              graph_learner = TRUE)
   grlrn$train(task)
   pred = suppressWarnings(grlrn$predict(task))
   
-  # # TODO Featureless learner
-  # grlrn2 = ppl("survtoregr_PEM", 
-  #              learner = lrn("regr.glmnet", 
-  #                            family = "poisson",
-  #                            use_pred_offset = FALSE),
-  #              graph_learner = TRUE,
-  #              rhs = 'tend')
-  # grlrn2$train(task)
-  # pred2 = grlrn2$predict(task)
-  
-  # featureless has random discrimination
+  # tend as only covariate leads to random discrimination
   expect_equal(unname(pred$score()), 0.5)
-  # expect_equal(unname(pred2$score()), 0.5)
-  # expect_equal(pred$data$distr, pred2$data$distr)
-  
-  learner = lrn('regr.xgboost', 
-                nrounds = 2000,
-                eta = 0.1, 
-                max_depth = 1, 
-                objective = "count:poisson", 
-                lambda = 0, 
-                base_score = 1)
   
   task = tsk('rats')
   grlrn = ppl("survtoregr_PEM", learner = learner,
-              rhs = "tend + rx", graph_learner = TRUE)
+              rhs = "rx + litter", graph_learner = TRUE)
   grlrn$train(task)
   pred = suppressWarnings(grlrn$predict(task))
   
@@ -254,7 +222,5 @@ test_that("survtoregr_PEM", {
   
   # model with more covariates should have better C-index
   expect_gt(pred2$score(), pred$score())
-  
-  #TODO fit a regression learner that does not require any tuning
 })
   

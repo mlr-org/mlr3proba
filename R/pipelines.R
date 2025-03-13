@@ -536,7 +536,6 @@ pipeline_survtoclassif_IPCW = function(learner, tau = NULL, eps = 1e-3, graph_le
 #' @export
 pipeline_survtoregr_PEM = function(learner, cut = NULL, max_time = NULL,
                                            rhs = NULL, graph_learner = FALSE) {
-  # TODO: another way to assert whether a learner is eligible for this pipeline other than offset?
   
   assert_true("offset" %in% learner$properties)
   assert_learner(learner, task_type = "regr")
