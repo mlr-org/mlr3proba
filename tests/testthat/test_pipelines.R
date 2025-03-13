@@ -138,89 +138,92 @@ test_that("survtoclassif_IPCW", {
 
 test_that("survtoregr_PEM", {
   skip_if_not_installed("mlr3learners")
+  if (require_namespaces('glmnet', quietly = TRUE)){
+      
+    
+    task = tsk('rats')
+    # for this section, select only numeric covariates, 
+    # as 'regr.glmnet' does not automatically handle factor type variables
+    task$select(c('litter', 'rx'))
+    learner = lrn('regr.glmnet', 
+                  family = "poisson", 
+                  lambda = 0,
+                  use_pred_offset = FALSE)
+    
   
-  task = tsk('rats')
-  # for this section, select only numeric covariates, 
-  # as 'regr.glmnet' does not automatically handle factor type variables
-  task$select(c('litter', 'rx'))
-  learner = lrn('regr.glmnet', 
-                family = "poisson", 
-                lambda = 0,
-                use_pred_offset = FALSE)
-  
-
-  pipe = ppl("survtoregr_PEM", learner = learner)
-  expect_class(pipe, "Graph")
-  grlrn = ppl("survtoregr_PEM", learner = learner, graph_learner = TRUE)
-  expect_class(grlrn, "GraphLearner")
-  expect_equal(grlrn$predict_type, "response")
-  
-  grlrn$train(task)
-  p = grlrn$predict(task)
-  expect_prediction_surv(p)
-  
-  
-  cox = lrn("surv.coxph")
-  suppressWarnings(cox$train(task))
-  p2 = cox$predict(task)
-  
-  expect_equal(p$row_ids, p2$row_ids)
-  expect_equal(p$truth, p2$truth)
-  expect_equal(p$score(), p2$score(), tolerance = 0.015) 
-  
-  # Test with cut
-  grlrn = ppl("survtoregr_PEM", 
-              learner = learner,
-              cut = c(10, 30, 50),
-              graph_learner = TRUE)
-  expect_class(grlrn, "GraphLearner")
-  suppressWarnings(grlrn$train(task))
-  p = grlrn$predict(task)
-  expect_prediction_surv(p)
-  
-  # `max_time` needs to be larger than the minimum event time so we choose
-  # the minimum event time in the data for testing
-  max_time = task$data()[status == 1, min(time)]
-  
-  grlrn = ppl("survtoregr_PEM", 
-              learner = learner,
-              max_time = max_time,
-              graph_learner = TRUE)
-  
-  expect_error(grlrn$train(task))
-  
-  grlrn = ppl("survtoregr_PEM", 
-              learner = learner,
-              max_time = max_time + 1,
-              graph_learner = TRUE)
-  suppressWarnings(grlrn$train(task))
-  p = grlrn$predict(task)
-  expect_prediction_surv(p)
-  
-  # Test with rhs
-  
-  grlrn = ppl("survtoregr_PEM", 
-              learner = learner,
-              rhs = 'tend',
-              graph_learner = TRUE)
-  grlrn$train(task)
-  pred = suppressWarnings(grlrn$predict(task))
-  
-  # tend as only covariate leads to random discrimination
-  expect_equal(unname(pred$score()), 0.5)
-  
-  task = tsk('rats')
-  grlrn = ppl("survtoregr_PEM", learner = learner,
-              rhs = "rx + litter", graph_learner = TRUE)
-  grlrn$train(task)
-  pred = suppressWarnings(grlrn$predict(task))
-  
-  grlrn2 = ppl("survtoregr_PEM", learner = learner,
-               rhs = ".", graph_learner = TRUE)
-  grlrn2$train(task)
-  pred2 = suppressWarnings(grlrn2$predict(task))
-  
-  # model with more covariates should have better C-index
-  expect_gt(pred2$score(), pred$score())
+    pipe = ppl("survtoregr_PEM", learner = learner)
+    expect_class(pipe, "Graph")
+    grlrn = ppl("survtoregr_PEM", learner = learner, graph_learner = TRUE)
+    expect_class(grlrn, "GraphLearner")
+    expect_equal(grlrn$predict_type, "response")
+    
+    grlrn$train(task)
+    p = grlrn$predict(task)
+    expect_prediction_surv(p)
+    
+    
+    cox = lrn("surv.coxph")
+    suppressWarnings(cox$train(task))
+    p2 = cox$predict(task)
+    
+    expect_equal(p$row_ids, p2$row_ids)
+    expect_equal(p$truth, p2$truth)
+    expect_equal(p$score(), p2$score(), tolerance = 0.015) 
+    
+    # Test with cut
+    grlrn = ppl("survtoregr_PEM", 
+                learner = learner,
+                cut = c(10, 30, 50),
+                graph_learner = TRUE)
+    expect_class(grlrn, "GraphLearner")
+    suppressWarnings(grlrn$train(task))
+    p = grlrn$predict(task)
+    expect_prediction_surv(p)
+    
+    # `max_time` needs to be larger than the minimum event time so we choose
+    # the minimum event time in the data for testing
+    max_time = task$data()[status == 1, min(time)]
+    
+    grlrn = ppl("survtoregr_PEM", 
+                learner = learner,
+                max_time = max_time,
+                graph_learner = TRUE)
+    
+    expect_error(grlrn$train(task))
+    
+    grlrn = ppl("survtoregr_PEM", 
+                learner = learner,
+                max_time = max_time + 1,
+                graph_learner = TRUE)
+    suppressWarnings(grlrn$train(task))
+    p = grlrn$predict(task)
+    expect_prediction_surv(p)
+    
+    # Test with rhs
+    
+    grlrn = ppl("survtoregr_PEM", 
+                learner = learner,
+                rhs = 'tend',
+                graph_learner = TRUE)
+    grlrn$train(task)
+    pred = suppressWarnings(grlrn$predict(task))
+    
+    # tend as only covariate leads to random discrimination
+    expect_equal(unname(pred$score()), 0.5)
+    
+    task = tsk('rats')
+    grlrn = ppl("survtoregr_PEM", learner = learner,
+                rhs = "rx + litter", graph_learner = TRUE)
+    grlrn$train(task)
+    pred = suppressWarnings(grlrn$predict(task))
+    
+    grlrn2 = ppl("survtoregr_PEM", learner = learner,
+                 rhs = ".", graph_learner = TRUE)
+    grlrn2$train(task)
+    pred2 = suppressWarnings(grlrn2$predict(task))
+    
+    # model with more covariates should have better C-index
+    expect_gt(pred2$score(), pred$score())
+  }
 })
   
