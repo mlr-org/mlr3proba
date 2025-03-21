@@ -95,7 +95,9 @@ MeasureSurvGraf = R6Class("MeasureSurvGraf",
         label = "Integrated Brier Score",
         man = "mlr3proba::mlr_measures_surv.graf",
       )
-    }
+    },
+
+    scores = list()
   ),
 
   private = list(
@@ -141,7 +143,7 @@ MeasureSurvGraf = R6Class("MeasureSurvGraf",
       if (ps$se) {
         integrated_se(score, ps$integrated)
       } else {
-        integrated_score(score, ps$integrated, ps$method)
+        integrated_score(score, ps$integrated, ps$method, self)
       }
     }
   )

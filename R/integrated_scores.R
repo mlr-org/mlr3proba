@@ -135,7 +135,7 @@ weighted_survival_score = function(loss, truth, distribution, times = NULL,
   return(score)
 }
 
-integrated_score = function(score, integrated, method = NULL) {
+integrated_score = function(score, integrated, method = NULL, meas) {
   # score is a matrix of BS(i,t) scores
   # rows => observations, cols => time points
   if (ncol(score) == 1L) {
@@ -150,6 +150,17 @@ integrated_score = function(score, integrated, method = NULL) {
     } else if (method == 2L) {
       times = as.numeric(colnames(score))
       lt = ncol(score)
+
+      # store the per-observation IBS (integrated across time points)
+      meas$scores = apply(score, 1, function(.x) {
+        # remove potential Infs
+        .x = .x[is.finite(.x)]
+        # new time points
+        times2 = as.numeric(names(.x))
+        lt2 = length(times2)
+        (diff(times2) %*% (.x[1:(lt2 - 1)] + .x[2:lt2])) / (2 * (max(times2) - min(times2)))
+      })
+
       score = col_sums(score) # score(t)
       return((diff(times) %*% (score[1:(lt - 1)] + score[2:lt])) / (2 * (max(times) - min(times))))
     }
