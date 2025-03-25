@@ -103,9 +103,9 @@ ISBN 978-3-319-28156-8 978-3-319-28158-2, \url{http://link.springer.com/10.1007/
 Other Transformation PipeOps: 
 \code{\link{mlr_pipeops_trafopred_classifsurv_IPCW}},
 \code{\link{mlr_pipeops_trafopred_classifsurv_disctime}},
-\code{\link{mlr_pipeops_trafopred_regrsurv_PEM}},
+\code{\link{mlr_pipeops_trafopred_regrsurv_pem}},
 \code{\link{mlr_pipeops_trafotask_survclassif_IPCW}},
-\code{\link{mlr_pipeops_trafotask_survregr_PEM}}
+\code{\link{mlr_pipeops_trafotask_survregr_pem}}
 }
 \concept{Transformation PipeOps}
 \section{Super class}{

@@ -1,5 +1,5 @@
 #' @title PipeOpPredRegrSurvPEM
-#' @name mlr_pipeops_trafopred_regrsurv_PEM
+#' @name mlr_pipeops_trafopred_regrsurv_pem
 #'
 #' @description
 #' Transform [PredictionRegr] to [PredictionSurv]. 
@@ -8,15 +8,17 @@
 #' 
 #' Continuous time is partitioned into time intervals \eqn{[0, t_1), [t_1, t_2), ..., [t_J, \infty)}.
 #' [PredictionRegr] contains the estimates of the piece-wise constant hazards defined as  
-#'  \deqn{\lambda(t \mid \mathbf{x}_i (t)) := exp(g(x_{ij},t{j})), \quad \forall t \in [t_{j-1}, t_{j}), \quad i = 1, \dots, n.} 
-#' 
-#'  Via the following identity
+#'  \deqn{\lambda(t \mid \mathbf{x}_i) := exp(g(x_{i},t_{j})), \quad \forall t \in [t_{j-1}, t_{j}), \quad i = 1, \dots, n.} 
+#'  \eqn{t_j} is a representation of time in interval \eqn{j}, here, it's the right boundary of an interval.
+#'  \eqn{g(x_{i},t_{j})} is a general function of features \eqn{x} and \eqn{t}, a learner, and may include non-linearity and complex feature interactions. 
+#'  An important prerequisite for \eqn{g(x_{i},t_{j})} is its capacity to model a poisson likelihood. 
+#'  This is necessary for capturing the exponential link structure between the hazard and the predictive features.
+#'  
+#'  Via the following identity 
 #'  \deqn{S(t | \mathbf{x}) = \exp \left( - \int_{0}^{t} \lambda(s | \mathbf{x}) \, ds \right) = \exp \left( - \sum_{j = 1}^{J} \lambda(j | \mathbf{x}) d_j\,  \right),}
-#'  where \eqn{d_j} specifies the duration of interval \eqn{j}, 
+#'  where \eqn{d_j} specifies the duration of interval \eqn{j}, we compute the survival probability from the predicted hazards. 
 #'  
-#'  we compute the survival probability from the predicted hazards. 
-#'  
-#'  
+#'  For a more detailed description of PEM, see [pipeline_survtoregr_pem].
 #'  
 #' @section Dictionary:
 #' This [PipeOp][mlr3pipelines::PipeOp] can be instantiated via the
@@ -24,8 +26,8 @@
 #' or with the associated sugar function [mlr3pipelines::po()]:
 #' ```
 #' PipeOpPredRegrSurvPEM$new()
-#' mlr_pipeops$get("trafopred_regrsurv_PEM")
-#' po("trafopred_regrsurv_PEM")
+#' mlr_pipeops$get("trafopred_regrsurv_pem")
+#' po("trafopred_regrsurv_pem")
 #' ```
 #'
 #' @section Input and Output Channels:
@@ -35,6 +37,10 @@
 #' The output is the input [PredictionRegr] transformed to a [PredictionSurv].
 #' Only works during prediction phase.
 #'
+#' @references
+#' `r format_bib("bender_2018")`
+#' 
+#' @seealso [pipeline_survtoregr_pem]
 #' @family PipeOps
 #' @family Transformation PipeOps
 #' @export
@@ -47,7 +53,7 @@ PipeOpPredRegrSurvPEM = R6Class(
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #' @param id (character(1))\cr
     #' Identifier of the resulting object.
-    initialize = function(id = "trafopred_regrsurv_PEM") {
+    initialize = function(id = "trafopred_regrsurv_pem") {
       super$initialize(
         id = id,
         input = data.table(
@@ -91,14 +97,14 @@ PipeOpPredRegrSurvPEM = R6Class(
 
       ids = unique(data$id)
       # select last row for every id => observed times
-      id = PEM_status = NULL # to fix note
-      data = data[, .SD[.N, list(PEM_status)], by = id]
+      id = pem_status = NULL # to fix note
+      data = data[, .SD[.N, list(pem_status)], by = id]
 
       # create prediction object
       p = PredictionSurv$new(
         row_ids = ids,
         crank = pred_list$crank, distr = pred_list$distr,
-        truth = Surv(real_tend, as.integer(as.character(data$PEM_status))))
+        truth = Surv(real_tend, as.integer(as.character(data$pem_status))))
 
       list(p)
     },
@@ -109,4 +115,4 @@ PipeOpPredRegrSurvPEM = R6Class(
     }
   )
 )
-register_pipeop("trafopred_regrsurv_PEM", PipeOpPredRegrSurvPEM)
+register_pipeop("trafopred_regrsurv_pem", PipeOpPredRegrSurvPEM)
