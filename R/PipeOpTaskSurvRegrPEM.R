@@ -34,8 +34,8 @@
 #' The "transformed_data" is an empty [data.table][data.table::data.table].
 #'
 #' During prediction, the "input" [TaskSurv] is transformed to the "output"
-#' [TaskRegr][mlr3::TaskRegr] with `"pem_status"` as target, while `"tend"`
-#' and `"offset"` are included as features.
+#' [TaskRegr][mlr3::TaskRegr] with `"pem_status"` as target, `"tend"` included as feature and
+#' and the `"offset"` column which is assigned the offset `"col_role"`.
 #' The "transformed_data" is a [data.table] with columns the `"pem_status"`
 #' target of the "output" task, the `"id"` (original observation ids),
 #' `"obs_times"` (observed times per `"id"`) and `"tend"` (end time of each interval).
@@ -65,7 +65,7 @@
 #'
 #'   task = tsk("lung")
 #'
-#'   # transform the survival task to a poisson regression task
+#'   # transform the survival task to a regression task
 #'   # all unique event times are used as cutpoints
 #'   po_pem = po("trafotask_survregr_pem")
 #'   task_regr = po_pem$train(list(task))[[1L]]
@@ -73,8 +73,16 @@
 #'   # the end time points of the discrete time intervals
 #'   unique(task_regr$data(cols = "tend"))[[1L]]
 #'
-#'   # train a regression learner
-#'   learner = lrn("regr.gam") # won't run unless learner can accept offset column role
+#'   # train a regression learner that supports poisson regression
+#'   # e.g. regr.gam
+#'   # won't run unless learner can accept offset column role
+#'   learner = lrn("regr.gam", formula = pem_status ~ s(age) + s(tend), family = "poisson") 
+#'   learner$train(task_regr)
+#'   
+#'   # e.g. regr.xgboost, note prior data processing steps
+#'   learner = po("modelmatrix", formula = ~ as.factor(tend) + .) %>>%
+#'     lrn("regr.xgboost", objective = "count:poisson", nrounds = 100, eta = 0.1) |> 
+#'     as_learner() 
 #'   learner$train(task_regr)
 #'   }
 #'
@@ -139,14 +147,11 @@ PipeOpTaskSurvRegrPEM = R6Class("PipeOpTaskSurvRegrPEM",
                "max_time must be greater than the minimum event time.")
       }
       
-      
-      
       ped_formula = formulate(sprintf("Surv(%s, %s)", time_var, event_var), ".")
-      long_data = pammtools::as_ped(data = data, formula = ped_formula, cut = cut, max_time = max_time)
+      long_data = pammtools::as_ped(data = data, formula = ped_formula, 
+                                    cut = cut, max_time = max_time)
       long_data = as.data.table(long_data)
-      
       self$state$cut = attributes(long_data)$trafo_args$cut
-        
       setnames(long_data, old = "ped_status", new = "pem_status") 
 
       # remove some columns from `long_data`
@@ -156,11 +161,11 @@ PipeOpTaskSurvRegrPEM = R6Class("PipeOpTaskSurvRegrPEM",
       ids = rep(task$row_ids, times = reps)
       id = NULL
       long_data[, id := ids]
-
+      # create TaskRegr and set column roles
       task_pem = TaskRegr$new(paste0(task$id, "_pem"), long_data,
-                                  target = "pem_status")
+                              target = "pem_status")
       task_pem$set_col_roles("id", roles = "original_ids")
-      task_pem$set_col_roles('offset', roles = "offset")
+      task_pem$set_col_roles("offset", roles = "offset")
 
       list(task_pem, data.table())
     },
@@ -171,26 +176,29 @@ PipeOpTaskSurvRegrPEM = R6Class("PipeOpTaskSurvRegrPEM",
 
       # extract `cut` from `state`
       cut = self$state$cut
-
+    
       time_var = task$target_names[1]
       event_var = task$target_names[2]
-
+      
       max_time = max(cut)
+      
       time = data[[time_var]]
+      # setting time variable to max_time ensures that the ped data spans  
+      # over all intervals for every subject irrespective of event time
       data[[time_var]] = max_time
-
+      
       status = data[[event_var]]
       data[[event_var]] = 1
       
-      
       ped_formula = formulate(sprintf("Surv(%s, %s)", time_var, event_var), ".")
-      long_data = pammtools::as_ped(data = data, formula = ped_formula, cut = cut, max_time = max_time)
+      long_data = pammtools::as_ped(data = data, formula = ped_formula, 
+                                    cut = cut, max_time = max_time)
       long_data = as.data.table(long_data)
-
       setnames(long_data, old = "ped_status", new = "pem_status")
 
       pem_status = id = tend = obs_times = NULL # fixing global binding notes of data.table
       long_data[, pem_status := 0]
+      
       # set correct id
       rows_per_id = nrow(long_data) / length(unique(long_data$id))
       long_data$obs_times = rep(time, each = rows_per_id)
@@ -201,17 +209,18 @@ PipeOpTaskSurvRegrPEM = R6Class("PipeOpTaskSurvRegrPEM",
       reps = long_data[, data.table(count = sum(tend >= obs_times)), by = id]$count
       status = rep(status, times = reps)
       long_data[long_data[, .I[tend >= obs_times], by = id]$V1, pem_status := status]
-
+      
       # remove some columns from `long_data`
       long_data[, c("tstart", "interval", "obs_times") := NULL]
       task_pem = TaskRegr$new(paste0(task$id, "_pem"), long_data,
-                                  target = "pem_status")
+                              target = "pem_status")
       task_pem$set_col_roles("id", roles = "original_ids")
-      task_pem$set_col_roles('offset', roles = "offset")
-
+      task_pem$set_col_roles("offset", roles = "offset")
+      
       # map observed times back
       reps = table(long_data$id)
       long_data$obs_times = rep(time, each = rows_per_id)
+      
       # subset transformed data
       columns_to_keep = c("id", "obs_times", "tend", "pem_status", "offset")
       long_data = long_data[, columns_to_keep, with = FALSE]
