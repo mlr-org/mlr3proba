@@ -28,8 +28,9 @@
 #' [TaskRegr][mlr3::TaskRegr].
 #' The target column is named `"pem_status"` and indicates whether an event occurred
 #' in each time interval.
-#' An additional feature named `"tend"` contains the end time point of each interval.
-#' Lastly, the "output" task has an offset column `"offset"`.
+#' An additional numeric feature named `"tend"` contains the end time point of each interval.
+#' Lastly, the "output" task has an offset column `"offset"`. 
+#' The offset, also referred to as exposure, is the logarithm of time spent in interval \eqn{j}, i.e. \eqn{log(t_j)}. 
 #' The "transformed_data" is an empty [data.table][data.table::data.table].
 #'
 #' During prediction, the "input" [TaskSurv] is transformed to the "output"
