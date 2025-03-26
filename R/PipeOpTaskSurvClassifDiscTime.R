@@ -28,7 +28,7 @@
 #' [TaskClassif][mlr3::TaskClassif].
 #' The target column is named `"disc_status"` and indicates whether an event occurred
 #' in each time interval.
-#' An additional feature named `"tend"` contains the end time point of each interval.
+#' An additional numeric feature named `"tend"` contains the end time point of each interval.
 #' Lastly, the "output" task has a column with the original observation ids,
 #' under the role `"original_ids"`.
 #' The "transformed_data" is an empty [data.table][data.table::data.table].
@@ -139,7 +139,8 @@ PipeOpTaskSurvClassifDiscTime = R6Class("PipeOpTaskSurvClassifDiscTime",
 
       form = formulate(sprintf("Surv(%s, %s)", time_var, event_var), ".")
 
-      long_data = pammtools::as_ped(data = data, formula = form, cut = cut, max_time = max_time)
+      long_data = pammtools::as_ped(data = data, formula = form, 
+                                    cut = cut, max_time = max_time)
       self$state$cut = attributes(long_data)$trafo_args$cut
       long_data = as.data.table(long_data)
       setnames(long_data, old = "ped_status", new = "disc_status")
@@ -172,6 +173,8 @@ PipeOpTaskSurvClassifDiscTime = R6Class("PipeOpTaskSurvClassifDiscTime",
 
       max_time = max(cut)
       time = data[[time_var]]
+      # setting time variable to max_time ensures that the ped data spans  
+      # over all intervals for every subject irrespective of event time
       data[[time_var]] = max_time
 
       status = data[[event_var]]
