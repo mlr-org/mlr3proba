@@ -43,7 +43,7 @@ test_that("survtoclassif_disctime", {
   expect_equal(p$truth, p2$truth)
   expect_equal(p$score(), p2$score(), tolerance = 0.015)
 
-  # Test with cut
+  # test with cut
   grlrn = ppl("survtoclassif_disctime", learner = lrn("classif.log_reg"),
               cut = c(10, 30, 50), graph_learner = TRUE)
   expect_class(grlrn, "GraphLearner")
@@ -64,9 +64,10 @@ test_that("survtoclassif_disctime", {
   p = grlrn$predict(task)
   expect_prediction_surv(p)
 
-  # Test with rhs
-  grlrn = ppl("survtoclassif_disctime", learner = lrn("classif.log_reg"),
-              rhs = "1", graph_learner = TRUE)
+  # test with po("modelmatrix") for custom formula
+  learner = po("modelmatrix", formula = ~ 1)%>>% lrn("classif.log_reg") |> as_learner()
+  grlrn = ppl("survtoclassif_disctime", learner = learner,
+              graph_learner = TRUE)
   grlrn$train(task)
   pred = suppressWarnings(grlrn$predict(task))
 
@@ -79,17 +80,22 @@ test_that("survtoclassif_disctime", {
   expect_equal(unname(pred$score()), 0.5)
   expect_equal(unname(pred2$score()), 0.5)
   expect_equal(pred$data$distr, pred2$data$distr)
-
-  grlrn = ppl("survtoclassif_disctime", learner = lrn("classif.log_reg"),
-              rhs = "rx + litter", graph_learner = TRUE)
+  
+  # compare reduced and full model 
+  learner = po("modelmatrix", formula = ~ rx + litter) %>>% 
+    lrn("classif.log_reg") |> as_learner()
+  grlrn = ppl("survtoclassif_disctime", learner = learner, 
+              graph_learner = TRUE)
   grlrn$train(task)
   pred = suppressWarnings(grlrn$predict(task))
-
+  
+  learner = po("modelmatrix", formula = ~ as.factor(tend) + .) %>>% 
+    lrn("classif.log_reg") |> as_learner()
   grlrn2 = ppl("survtoclassif_disctime", learner = lrn("classif.log_reg"),
-               rhs = ".", graph_learner = TRUE)
+              graph_learner = TRUE)
   grlrn2$train(task)
   pred2 = suppressWarnings(grlrn2$predict(task))
-
+  
   # model with more covariates should have better C-index
   expect_gt(pred2$score(), pred$score())
 })
