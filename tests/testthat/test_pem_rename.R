@@ -1,6 +1,6 @@
 test_that("PipeOpTaskSurvRegrPEM", {
   task = tsk("lung")
-  
+
   # imitate train/test split manually
   test_ids = c(2, 10, 107)
   train_ids = setdiff(task$row_ids, test_ids)
@@ -8,13 +8,13 @@ test_that("PipeOpTaskSurvRegrPEM", {
   train_task = task$clone()$filter(rows = train_ids)
   expect_equal(test_task$row_ids, test_ids)
   expect_equal(train_task$row_ids, train_ids)
-  
-  po_PEM = po("trafotask_survregr_PEM", cut = 4)
-  expect_class(po_PEM, c("PipeOp", "PipeOpTaskSurvRegrPEM"))
-  
-  res = po_PEM$train(list(train_task))
+
+  po_pem = po("trafotask_survregr_pem", cut = 4)
+  expect_class(po_pem, c("PipeOp", "PipeOpTaskSurvRegrPEM"))
+
+  res = po_pem$train(list(train_task))
   # 0 is added
-  time_cuts = po_PEM$state$cut
+  time_cuts = po_pem$state$cut
   expect_numeric(time_cuts, len = 5, lower = 0)
   # no transformed data during training
   expect_data_table(res[["transformed_data"]], nrows = 0, ncols = 0)
@@ -22,17 +22,17 @@ test_that("PipeOpTaskSurvRegrPEM", {
   output_task = res[[1L]]
   expect_task_regr(output_task)
   expect_equal(output_task$col_roles$original_ids, "id")
-  expect_equal(output_task$target_names, "PEM_status")
-  
-  # offset present and correctly assigned 
+  expect_equal(output_task$target_names, "pem_status")
+
+  # offset present and correctly assigned
   expect_equal(output_task$properties, "offset")
   expect_equal(output_task$col_roles$offset, "offset")
-  # new column added to the task + offset is not a feature 
+  # new column added to the task + offset is not a feature
   expect_equal("tend", setdiff(output_task$feature_names, task$feature_names))
   # not all observations have events on the last (4th) interval
   expect_lt(output_task$nrow, task$nrow * 4)
-  
-  res = po_PEM$predict(list(test_task))
+
+  res = po_pem$predict(list(test_task))
   pred_task = res[[1L]]
   res$output$data()
   expect_task_regr(pred_task)
@@ -46,30 +46,30 @@ test_that("PipeOpTaskSurvRegrPEM", {
   original_ids = pred_task$data(cols = "id")[[1L]]
   correct_ids = rep(test_ids, each = 4)
   expect_equal(original_ids, correct_ids)
-  
+
   transformed_data = res[["transformed_data"]]
   # check columns in the transformed data.table
   expect_setequal(colnames(transformed_data),
-                  c("id", "PEM_status", "obs_times", "tend", "offset"))
+                  c("id", "pem_status", "obs_times", "tend", "offset"))
   # `id`s are correct
   expect_equal(transformed_data$id, correct_ids)
-  # `PEM_status` is the same
-  expect_equal(as.character(transformed_data$PEM_status),
+  # `pem_status` is the same
+  expect_equal(as.character(transformed_data$pem_status),
                as.character(pred_task$truth()))
   # `obs_times` are correct
   times = test_task$times() # observed times
   expect_setequal(unique(transformed_data$obs_times), times)
   # `tends` are correct
   expect_setequal(unique(transformed_data$tend), time_cuts[2:5])
-  
-  # `PEM_status` per interval and per observation is correct
-  # before observed time ("obs_times"), "PEM_status" = 0
-  expect_equal(as.character(unique(transformed_data[tend < obs_times, PEM_status])), "0")
-  
-  # after observed time, "PEM_status" must be the same as "status"
+
+  # `pem_status` per interval and per observation is correct
+  # before observed time ("obs_times"), "pem_status" = 0
+  expect_equal(as.character(unique(transformed_data[tend < obs_times, pem_status])), "0")
+
+  # after observed time, "pem_status" must be the same as "status"
   status = as.character(test_task$status())
   td = transformed_data[tend > obs_times]
-  expect_equal(as.character(unique(td[id == test_ids[1], PEM_status])), status[1])
-  expect_equal(as.character(unique(td[id == test_ids[2], PEM_status])), status[2])
-  expect_equal(as.character(unique(td[id == test_ids[3], PEM_status])), status[3])
+  expect_equal(as.character(unique(td[id == test_ids[1], pem_status])), status[1])
+  expect_equal(as.character(unique(td[id == test_ids[2], pem_status])), status[2])
+  expect_equal(as.character(unique(td[id == test_ids[3], pem_status])), status[3])
 })
