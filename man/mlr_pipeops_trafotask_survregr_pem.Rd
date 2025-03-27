@@ -33,13 +33,14 @@ During training, the "output" is the "input" \link{TaskSurv} transformed to a
 \link[mlr3:TaskRegr]{TaskRegr}.
 The target column is named \code{"pem_status"} and indicates whether an event occurred
 in each time interval.
-An additional feature named \code{"tend"} contains the end time point of each interval.
+An additional numeric feature named \code{"tend"} contains the end time point of each interval.
 Lastly, the "output" task has an offset column \code{"offset"}.
+The offset, also referred to as exposure, is the logarithm of time spent in interval \eqn{j}, i.e. \eqn{log(t_j)}.
 The "transformed_data" is an empty \link[data.table:data.table]{data.table}.
 
 During prediction, the "input" \link{TaskSurv} is transformed to the "output"
-\link[mlr3:TaskRegr]{TaskRegr} with \code{"pem_status"} as target, while \code{"tend"}
-and \code{"offset"} are included as features.
+\link[mlr3:TaskRegr]{TaskRegr} with \code{"pem_status"} as target, \code{"tend"} included as feature and
+and the \code{"offset"} column which is assigned the offset \code{"col_role"}.
 The "transformed_data" is a \link{data.table} with columns the \code{"pem_status"}
 target of the "output" task, the \code{"id"} (original observation ids),
 \code{"obs_times"} (observed times per \code{"id"}) and \code{"tend"} (end time of each interval).
@@ -76,7 +77,7 @@ Needs to be greater than the minimum event time in the given task.
 
   task = tsk("lung")
 
-  # transform the survival task to a poisson regression task
+  # transform the survival task to a regression task
   # all unique event times are used as cutpoints
   po_pem = po("trafotask_survregr_pem")
   task_regr = po_pem$train(list(task))[[1L]]
@@ -84,8 +85,16 @@ Needs to be greater than the minimum event time in the given task.
   # the end time points of the discrete time intervals
   unique(task_regr$data(cols = "tend"))[[1L]]
 
-  # train a regression learner
-  learner = lrn("regr.gam") # won't run unless learner can accept offset column role
+  # train a regression learner that supports poisson regression
+  # e.g. regr.gam
+  # won't run unless learner can accept offset column role
+  learner = lrn("regr.gam", formula = pem_status ~ s(age) + s(tend), family = "poisson") 
+  learner$train(task_regr)
+  
+  # e.g. regr.xgboost, note prior data processing steps
+  learner = po("modelmatrix", formula = ~ as.factor(tend) + .) \%>>\%
+    lrn("regr.xgboost", objective = "count:poisson", nrounds = 100, eta = 0.1) |> 
+    as_learner() 
   learner$train(task_regr)
   }
 \dontshow{\}) # examplesIf}

@@ -33,7 +33,7 @@ During training, the "output" is the "input" \link{TaskSurv} transformed to a
 \link[mlr3:TaskClassif]{TaskClassif}.
 The target column is named \code{"disc_status"} and indicates whether an event occurred
 in each time interval.
-An additional feature named \code{"tend"} contains the end time point of each interval.
+An additional numeric feature named \code{"tend"} contains the end time point of each interval.
 Lastly, the "output" task has a column with the original observation ids,
 under the role \code{"original_ids"}.
 The "transformed_data" is an empty \link[data.table:data.table]{data.table}.
