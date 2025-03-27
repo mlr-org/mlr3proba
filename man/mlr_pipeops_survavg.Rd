@@ -58,6 +58,10 @@ Inherits from \link[mlr3pipelines:PipeOpEnsemble]{PipeOpEnsemble} by implementin
 }
 \seealso{
 \link{pipeline_survaverager}
+
+Other PipeOps: 
+\code{\link{mlr_pipeops_trafopred_regrsurv_pem}},
+\code{\link{mlr_pipeops_trafotask_survregr_pem}}
 }
 \concept{Ensembles}
 \concept{PipeOps}

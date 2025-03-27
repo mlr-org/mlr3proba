@@ -346,12 +346,6 @@ pipeline_probregr = function(learner, learner_se = NULL, dist = "Uniform",
 #' @param max_time (`numeric(1)`)\cr
 #' If cut is unspecified, this will be the last possible event time.
 #' All event times after max_time will be administratively censored at max_time.
-#' @param rhs (`character(1)`)\cr
-#' Right-hand side of the formula to use with the learner.
-#' All features of the task are available as well as `tend` the upper bounds
-#' of the intervals created by `cut`.
-#' If `rhs` is unspecified, the formula of the task will be used.
-#'
 #' @details
 #' The pipeline consists of the following steps:
 #'
@@ -382,8 +376,8 @@ pipeline_probregr = function(learner, learner_se = NULL, dist = "Uniform",
 #'   grlrn$predict(task, row_ids = part$test)
 #' }
 #' @export
-pipeline_survtoclassif_disctime = function(learner, cut = NULL, max_time = NULL,
-                                  rhs = NULL, graph_learner = FALSE) {
+pipeline_survtoclassif_disctime = function(learner, cut = NULL, max_time = NULL, 
+                                           graph_learner = FALSE) {
   assert_learner(learner, task_type = "classif")
   assert_true("prob" %in% learner$predict_types)
 
@@ -396,13 +390,6 @@ pipeline_survtoclassif_disctime = function(learner, cut = NULL, max_time = NULL,
     add_edge(src_id = "trafotask_survclassif_disctime", dst_id = "nop", src_channel = "transformed_data", dst_channel = "input")$
     add_edge(src_id = learner$id, dst_id = "trafopred_classifsurv_disctime", src_channel = "output", dst_channel = "input")$
     add_edge(src_id = "nop", dst_id = "trafopred_classifsurv_disctime", src_channel = "output", dst_channel = "transformed_data")
-
-  if (!is.null(rhs)) {
-    gr$edges = gr$edges[-1, ]
-    gr$add_pipeop(po("modelmatrix", formula = formulate(rhs = rhs, quote = "left")))$
-      add_edge(src_id = "trafotask_survclassif_disctime", dst_id = "modelmatrix", src_channel = "output")$
-      add_edge(src_id = "modelmatrix", dst_id = learner$id, src_channel = "output", dst_channel = "input")
-  }
 
   create_grlrn(gr, graph_learner)
 }
@@ -481,6 +468,103 @@ pipeline_survtoclassif_IPCW = function(learner, tau = NULL, eps = 1e-3, graph_le
   create_grlrn(gr, graph_learner)
 }
 
+#' @name mlr_graphs_survtoregr_pem
+#' @title Survival to Poisson Regression Reduction Pipeline
+#' @description Wrapper around multiple [PipeOp][mlr3pipelines::PipeOp]s to help in creation
+#' of complex survival reduction methods.
+#'
+#' @param learner [LearnerRegr][mlr3::LearnerRegr]\cr
+#' Regression learner to fit the transformed [TaskRegr][mlr3::TaskRegr].
+#' `learner` must be able to handle `offset`.
+#' @param cut `numeric()`\cr
+#' Split points, used to partition the data into intervals.
+#' If unspecified, all unique event times will be used.
+#' If `cut` is a single integer, it will be interpreted as the number of equidistant
+#' intervals from 0 until the maximum event time.
+#' @param max_time `numeric(1)`\cr
+#' If cut is unspecified, this will be the last possible event time.
+#' All event times after max_time will be administratively censored at max_time.
+#' @param graph_learner `logical(1)`\cr
+#' If `TRUE` returns wraps the [Graph][mlr3pipelines::Graph] as a
+#' [GraphLearner][mlr3pipelines::GraphLearner] otherwise (default) returns as a `Graph`.
+#' @details
+#' The pipeline consists of the following steps:
+#' \enumerate{
+#' \item [PipeOpTaskSurvRegrPEM] Converts [TaskSurv] to a [TaskRegr][mlr3::TaskRegr].
+#' \item A [LearnerRegr] is fit and predicted on the new `TaskRegr`.
+#' \item [PipeOpPredRegrSurvPEM] transforms the resulting [PredictionRegr][mlr3::PredictionRegr]
+#' to [PredictionSurv].
+#' }
+#'
+#' @return [mlr3pipelines::Graph] or [mlr3pipelines::GraphLearner]
+#' @family pipelines
+#'
+#' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines", "mlr3learners"), quietly = TRUE)
+#' \dontrun{
+#'   library(mlr3)
+#'   library(mlr3learners)
+#'   library(mlr3pipelines)
+#'
+#'   task = tsk("lung")
+#'   part = partition(task)
+#'   
+#'   # xgboost regression learner 
+#'   # encode data before passing to learner with e.g. po("encode"), po("modelmatrix"), etc. 
+#'   learner = po("modelmatrix", formula = ~ as.factor(tend) + .) %>>%
+#'     lrn("regr.xgboost", objective = "count:poisson", nrounds = 100, eta = 0.1) |> 
+#'     as_learner()
+#'   
+#'   grlrn = ppl(
+#'     "survtoregr_pem",
+#'     learner = learner, 
+#'     graph_learner = TRUE
+#'   )
+#'   grlrn$train(task, row_ids = part$train)
+#'   grlrn$predict(task, row_ids = part$test)
+#'   
+#' }
+#' @export
+pipeline_survtoregr_pem = function(learner, cut = NULL, max_time = NULL, 
+                                   graph_learner = FALSE) {
+  
+  assert_learner(learner, task_type = "regr", properties = 'offset')
+  # check for poisson family in learner
+  learner_args = learner$param_set$get_values()
+  if (!some(learner_args, function(x) any(grepl("poisson", as.character(x), ignore.case = TRUE)))){
+    msg <- paste(
+      "Learner wasn't specified to fit a poisson regression.",
+      "PEM requires learners capable of poisson regression.",
+      "This needs to be explicitly specified in the learner. Correctly define the objective/family.",
+      sep = "\n"
+    )
+    warning(msg)
+  }
+  if ('use_pred_offset' %in% learner$param_set$ids()){
+    if (learner$param_set$values$use_pred_offset == TRUE){
+      learner$param_set$set_values(use_pred_offset = FALSE)
+      msg <- paste(
+        "Note: 'use_pred_offset' in learner was set to TRUE and has now been changed to FALSE.",
+        "At prediction time, the PEM Pipeline intentionally omits the offset.",
+        "Set use_pred_offset to FALSE to avoid this message.",
+        sep = "\n"
+      )
+      message(msg)
+    }
+  }
+  
+  gr = Graph$new()
+  gr$add_pipeop(po("trafotask_survregr_pem", cut = cut, max_time = max_time))
+  gr$add_pipeop(po("learner", learner))
+  gr$add_pipeop(po("nop"))
+  gr$add_pipeop(po("trafopred_regrsurv_pem"))
+
+  gr$add_edge(src_id = "trafotask_survregr_pem", dst_id = learner$id, src_channel = "output", dst_channel = "input")
+  gr$add_edge(src_id = "trafotask_survregr_pem", dst_id = "nop", src_channel = "transformed_data", dst_channel = "input")
+  gr$add_edge(src_id = learner$id, dst_id = "trafopred_regrsurv_pem", src_channel = "output", dst_channel = "input")
+  gr$add_edge(src_id = "nop", dst_id = "trafopred_regrsurv_pem", src_channel = "output", dst_channel = "transformed_data")
+
+  create_grlrn(gr, graph_learner)
+}
 register_graph("survaverager", pipeline_survaverager)
 register_graph("survbagging", pipeline_survbagging)
 register_graph("crankcompositor", pipeline_crankcompositor)
@@ -489,4 +573,4 @@ register_graph("responsecompositor", pipeline_responsecompositor)
 register_graph("probregr", pipeline_probregr)
 register_graph("survtoclassif_disctime", pipeline_survtoclassif_disctime)
 register_graph("survtoclassif_IPCW", pipeline_survtoclassif_IPCW)
-register_graph("survtoclassif_vock", pipeline_survtoclassif_IPCW) # alias
+register_graph("survtoregr_pem", pipeline_survtoregr_pem)

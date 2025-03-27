@@ -5,7 +5,7 @@
 \alias{MeasureSurvHungAUC}
 \title{Hung and Chiang's AUC Survival Measure}
 \description{
-Calls \code{\link[survAUC:AUC.HungChiang]{survAUC::AUC.hc()}}.
+Calls \code{\link[survAUC:AUC.hc]{survAUC::AUC.hc()}}.
 
 Assumes random censoring.
 }

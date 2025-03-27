@@ -58,13 +58,14 @@ Suggests:
     set6 (>= 0.2.6),
     simsurv,
     survAUC,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    glmnet
 LinkingTo:
     Rcpp
 Remotes:
     xoopR/distr6,
     xoopR/param6,
-    xoopR/set6
+    xoopR/set6,
 ByteCompile: true
 Config/testthat/edition: 3
 Encoding: UTF-8
@@ -115,11 +116,13 @@ Collate:
     'PipeOpDistrCompositor.R'
     'PipeOpPredClassifSurvDiscTime.R'
     'PipeOpPredClassifSurvIPCW.R'
+    'PipeOpPredRegrSurvPEM.R'
     'PipeOpProbregrCompositor.R'
     'PipeOpResponseCompositor.R'
     'PipeOpSurvAvg.R'
     'PipeOpTaskSurvClassifDiscTime.R'
     'PipeOpTaskSurvClassifIPCW.R'
+    'PipeOpTaskSurvRegrPEM.R'
     'PredictionDataDens.R'
     'PredictionDataSurv.R'
     'PredictionDens.R'

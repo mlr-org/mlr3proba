@@ -416,5 +416,17 @@ bibentries = c(
     url = "https://pmc.ncbi.nlm.nih.gov/articles/PMC7497089/",
     volume = "39",
     year = "2020"
+  ),
+  bender_2018 = bibentry("article",
+    author  = "Bender, Andreas and Groll, Andreas and Scheipl, Fabian",
+    title   = "A generalized additive model approach to time-to-event analysis",
+    journal = "Statistical Modelling",
+    volume  = "18",
+    number  = "3-4",
+    pages   = "299--321",
+    url     = "https://doi.org/10.1177/1471082X17748083",
+    year    = "2018"
   )
+  
+  
 )

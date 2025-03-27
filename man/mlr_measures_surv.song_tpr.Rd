@@ -5,7 +5,7 @@
 \alias{MeasureSurvSongTPR}
 \title{Song and Zhou's TPR Survival Measure}
 \description{
-Calls \code{\link[survAUC:AUC.Song_Zhou]{survAUC::sens.sh()}}.
+Calls \code{\link[survAUC:sens.sh]{survAUC::sens.sh()}}.
 
 Assumes Cox PH model specification.
 
