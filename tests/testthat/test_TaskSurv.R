@@ -36,7 +36,7 @@ test_that("right-censored TaskSurv methods", {
   expect_equal(task$admin_cens_prop(quantile_prob = 0.9), 1) # t_max = 4
   expect_equal(task$admin_cens_prop(admin_time = 3), 1)
   expect_equal(task$admin_cens_prop(rows = 1:3), 0) # only events
-  expect_equal(task$dep_cens_prop(), 0)
+  expect_equal(suppressWarnings(task$dep_cens_prop()), 0)
   expect_number(task$prop_haz(), finite = TRUE)
   expect_lt(tsk("veteran")$prop_haz(), 0.01) # non-PH
 
