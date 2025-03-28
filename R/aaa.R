@@ -83,8 +83,10 @@ register_reflections = function() {
 
   # measure
   x$measure_properties$surv = x$measure_properties$regr
+  x$measure_properties$cmprsk = x$measure_properties$regr
   x$measure_properties$dens = x$measure_properties$regr
   x$default_measures$surv = "surv.cindex"
+  x$default_measures$cmprsk = "cmprsk.auc"
   x$default_measures$dens = "dens.logloss"
 }
 

@@ -54,6 +54,7 @@ Suggests:
     param6 (>= 0.2.4),
     polspline,
     pracma,
+    riskRegression,
     rpart,
     set6 (>= 0.2.6),
     simsurv,
@@ -83,6 +84,8 @@ Collate:
     'LearnerSurvCoxPH.R'
     'LearnerSurvKaplan.R'
     'LearnerSurvRpart.R'
+    'MeasureCompRisks.R'
+    'MeasureCompRisksAUC.R'
     'MeasureDens.R'
     'MeasureDensLogloss.R'
     'MeasureRegrLogloss.R'
