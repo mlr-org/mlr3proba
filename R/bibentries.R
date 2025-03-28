@@ -424,5 +424,20 @@ bibentries = c(
     publisher = "JSTOR",
     title = "An empirical transition matrix for non-homogeneous Markov chains based on censored observations",
     year = "1978"
+  ),
+  blanche_2013 = bibentry("article",
+    author = "Blanche, Paul and Dartigues, Jean François and Jacqmin-Gadda, Hélène",
+    journal = "Statistics in Medicine",
+    pages = "5381--5397",
+    publisher = "John Wiley & Sons, Ltd",
+    title = "Estimating and comparing time-dependent areas under receiver operating characteristic curves for censored event times with competing risks",
+    year = "2013",
+    doi = "10.1002/SIM.5958",
+    issn = "1097-0258",
+    month = "December",
+    number = "30",
+    pmid = "24027076",
+    volume = "32",
+    url = "https://onlinelibrary.wiley.com/doi/10.1002/sim.5958"
   )
 )
