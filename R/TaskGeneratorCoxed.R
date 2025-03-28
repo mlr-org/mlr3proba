@@ -28,8 +28,8 @@
 #'               mu = 1, sd = 2, censor.cond = FALSE)
 #'   gen$generate(50)
 #'
-#'   # same as above, but with time-varying coefficients (counting process format)
-#'   gen$param_set$set_values(type = "tvc")
+#'   # same as above, but with time-varying coefficients
+#'   gen$param_set$set_values(type = "tvbeta")
 #'   gen$generate(50)
 #' @export
 TaskGeneratorCoxed = R6Class("TaskGeneratorCoxed",
@@ -39,7 +39,7 @@ TaskGeneratorCoxed = R6Class("TaskGeneratorCoxed",
     initialize = function() {
       param_set = ps(
         T = p_dbl(1, default = 100), # time-horizon
-        type = p_fct(default = "none", levels = c("none", "tvc", "tvbeta")), # time-varying effects
+        type = p_fct(default = "none", levels = c("none", "tvbeta")), # time-varying coefficients
         knots = p_int(1L, default = 8L), # for flexible-hazard method
         spline = p_lgl(default = TRUE), # for flexible-hazard method
         xvars = p_int(1L, default = 3L), # number of covariates to generate
@@ -48,6 +48,8 @@ TaskGeneratorCoxed = R6Class("TaskGeneratorCoxed",
         censor = p_dbl(0, 1, default = 0.1), # censoring proportion
         censor.cond = p_lgl(default = FALSE) # conditional censoring
       )
+
+      param_set$set_values(type = "none")
 
       super$initialize(
         id = "coxed",
@@ -74,17 +76,8 @@ TaskGeneratorCoxed = R6Class("TaskGeneratorCoxed",
       data = invoke(coxed::sim.survdata, N = n, .args = pv)[[1]]
       data = map_at(data, "failed", as.integer)
 
-      if (is.null(pv$type) || pv$type != "tvc") {
-        task = TaskSurv$new(id = self$id, backend = data, time = "y",
-                            event = "failed", type = "right")
-      } else {
-        # Counting Process format handles time-varying coefficients
-        # and multiple observation intervals for each individual
-        task = TaskSurv$new(id = self$id, backend = data, time = "start",
-                            time2 = "end", event = "failed", type = "counting")
-      }
-
-      task
+      TaskSurv$new(id = self$id, backend = data, time = "y",
+                   event = "failed", type = "right")
     }
   )
 )

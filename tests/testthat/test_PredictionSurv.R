@@ -7,17 +7,16 @@ test_that("Construction", {
 })
 
 test_that("Internally constructed Prediction", {
-  lrn = lrn("surv.kaplan")
-  p = lrn$train(task)$predict(task)
+  learner = lrn("surv.kaplan")
+  p = learner$train(task)$predict(task)
   expect_prediction_surv(p)
 
   p = reshape_distr_to_3d(p)
   expect_prediction_surv(p)
 })
 
-lrn = lrn("surv.kaplan")
-
-test_that("c", {
+test_that("combining predictions", {
+  lrn = lrn("surv.kaplan")
   set.seed(1L)
   resampling = rsmp("cv", folds = 2L)
   rr = resample(task, lrn, resampling)
@@ -30,7 +29,7 @@ test_that("c", {
   distr2 = preds[[2L]]$data$distr
   times1 = as.integer(colnames(distr1))
   times2 = as.integer(colnames(distr2))
-  expect_length(times1, length(times2))
+  expect_equal(length(times1), length(times2))
   expect_false(all(times1 == times2))
 
   pred = do.call(c, preds)
@@ -48,8 +47,10 @@ test_that("c", {
   # different number of time points
   # add extra time point on the 2nd prediction object
   preds2 = rr$predictions()
-  preds2[[2L]]$data$distr = cbind(distr2,
-    matrix(data = rep(0.3, 10), ncol = 1L, dimnames = list(NULL, 108)))
+  preds2[[2L]]$data$distr = cbind(
+    distr2,
+    matrix(data = rep(0.3, 10), ncol = 1L, dimnames = list(NULL, 108))
+  )
   distr1 = preds2[[1L]]$data$distr
   distr2 = preds2[[2L]]$data$distr
   times1 = as.integer(colnames(distr1))
@@ -75,7 +76,7 @@ test_that("c", {
   times2 = as.integer(colnames(arr_preds[[2L]]$data$distr))
   times = as.integer(colnames(arr_pred$data$distr))
   expect_equal(as.integer(colnames(arr_pred$data$distr)),
-    sort(union(times1, times2)))
+               sort(union(times1, times2)))
 
   p1 = lrn("surv.kaplan")$train(task)$predict(task)
   p2 = suppressWarnings(lrn("surv.coxph")$train(task))$predict(task)
@@ -146,8 +147,10 @@ test_that("c", {
   p2 = reshape_distr_to_3d(p2)
   expect_array(p2$data$distr, d = 3)
   # add extra time point in the survival matrix
-  p1$data$distr = cbind(p1$data$distr,
-    matrix(data = rep(0.3, 20), ncol = 1L, dimnames = list(NULL, 108)))
+  p1$data$distr = cbind(
+    p1$data$distr,
+    matrix(data = rep(0.3, 20), ncol = 1L, dimnames = list(NULL, 108))
+  )
   expect_matrix(p1$data$distr, nrows = 20L)
   preds = list(p1, p2)
   pred = do.call(c, preds)
@@ -159,6 +162,14 @@ test_that("data.frame roundtrip", {
   p1 = suppressWarnings(lrn("surv.coxph")$train(task)$predict(task))
 
   tab = as.data.table(p1)
+  expect_class(tab$distr, "list")
+  expect_equal(length(tab$distr), 20)
+  for (i in 1:20) {
+    # 1 vector (survival probabilities) per observation, wrapped in a list
+    expect_list(tab$distr[[i]], len = 1)
+    expect_vector(tab$distr[[i]][[1L]], size = ncol(p1$data$distr))
+  }
+
   p2 = as_prediction_surv(tab)
   expect_prediction_surv(p2)
 

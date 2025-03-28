@@ -5,7 +5,6 @@
 \alias{as_task_surv.TaskSurv}
 \alias{as_task_surv.data.frame}
 \alias{as_task_surv.DataBackend}
-\alias{as_task_surv.formula}
 \title{Convert to a Survival Task}
 \usage{
 as_task_surv(x, ...)
@@ -16,7 +15,7 @@ as_task_surv(x, ...)
   x,
   time = "time",
   event = "event",
-  time2,
+  time2 = "time2",
   type = "right",
   id = deparse(substitute(x)),
   ...
@@ -31,8 +30,6 @@ as_task_surv(x, ...)
   id = deparse(substitute(x)),
   ...
 )
-
-\method{as_task_surv}{formula}(x, data, id = deparse(substitute(data)), ...)
 }
 \arguments{
 \item{x}{(\code{any})\cr
@@ -50,24 +47,19 @@ interval censored.}
 
 \item{event}{(\code{character(1)})\cr
 Name of the column giving the event indicator.
-If data is right censored then "0"/\code{FALSE} means alive (no event), "1"/\code{TRUE} means dead
-(event). If \code{type} is \code{"interval"} then "0" means right censored, "1" means dead (event),
-"2" means left censored, and "3" means interval censored. If \code{type} is \code{"interval2"} then
-\code{event} is ignored.}
+If data is right censored then \code{0} means alive (no event) and \code{1} means dead (event).
+If \code{type} is \code{"interval"} then \code{event} is ignored.}
 
 \item{time2}{(\code{character(1)})\cr
-Name of the column for ending time of the interval for interval censored or
-counting process data, otherwise ignored.}
+Name of the column for ending time of the interval for interval censored data,
+otherwise ignored.}
 
 \item{type}{(\code{character(1)})\cr
-Name of the column giving the type of censoring. Default is 'right' censoring.}
+The type of censoring. Can be \code{"right"} (default), \code{"left"} or \code{"interval"} censoring.}
 
 \item{id}{(\code{character(1)})\cr
 Id for the new task.
 Defaults to the (deparsed and substituted) name of \code{x}.}
-
-\item{data}{(\code{data.frame()})\cr
-Data frame containing all columns referenced in formula \code{x}.}
 }
 \description{
 Convert object to a survival task (\link{TaskSurv}).
