@@ -110,7 +110,6 @@ MeasureCompRisksAUC = R6Class(
 
         res$AUC$score[times == time_horizon][["AUC"]]
       } else {
-        browser()
         # iterate through cause-specific CIFs, get AUC(t), return the mean
         AUCs = sapply(names(cif), function(cause) {
           # get cause-specific CIF
