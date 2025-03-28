@@ -108,6 +108,7 @@ MeasureCompRisksAUC = R6Class(
           cause = cause
         )
 
+        times = NULL # fix: no global binding
         res$AUC$score[times == time_horizon][["AUC"]]
       } else {
         # iterate through cause-specific CIFs, get AUC(t), return the mean
@@ -128,6 +129,7 @@ MeasureCompRisksAUC = R6Class(
             cause = cause
           )
 
+          times = NULL # fix: no global binding
           res$AUC$score[times == time_horizon][["AUC"]]
         })
 
