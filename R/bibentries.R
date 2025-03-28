@@ -426,7 +426,7 @@ bibentries = c(
     year = "1978"
   ),
   blanche_2013 = bibentry("article",
-    author = "Blanche, Paul and Dartigues, Jean François and Jacqmin-Gadda, Helene",
+    author = "Blanche, Paul and Dartigues, Jean Francois and Jacqmin-Gadda, Helene",
     journal = "Statistics in Medicine",
     pages = "5381--5397",
     publisher = "John Wiley & Sons, Ltd",
