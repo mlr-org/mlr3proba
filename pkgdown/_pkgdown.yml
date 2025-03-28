@@ -72,6 +72,7 @@ reference:
       - TaskCompRisks
       - LearnerCompRisks
       - PredictionCompRisks
+      - MeasureCompRisks
       - TaskDens
       - LearnerDens
       - PredictionDens
@@ -102,12 +103,16 @@ reference:
   - title: Survival Pipelines
     contents:
       - starts_with("mlr_graphs")
-  - title: Competing Risks Tasks
-    contents:
-      - mlr_tasks_pbc
   - title: Competing Risk Learners
     contents:
       - starts_with("mlr_learners_cmprsk")
+  - title: Competing Risk Measures
+    contents:
+      - starts_with("mlr_measures_cmprsk")
+  - title: Competing Risk Tasks
+    contents:
+      - mlr_tasks_pbc
+
   - title: Density Learners
     contents:
       - starts_with("mlr_learners_dens")
