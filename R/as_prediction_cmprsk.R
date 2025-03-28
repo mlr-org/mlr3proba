@@ -39,9 +39,10 @@ as_prediction_cmprsk.data.frame = function(x, ...) {
   cmp_event_ids = unique(unlist(lapply(x$CIF, names)))
   cif = if ("CIF" %in% names(x)) {
     # Reconstruct the list of matrices (one per competing risk)
-    lapply(cmp_event_ids, function(event_id) {
+    mat_list = lapply(cmp_event_ids, function(event_id) {
       do.call(rbind, lapply(x$CIF, function(obs_cif) obs_cif[[event_id]]))
-    }) |> set_names(cmp_event_ids)
+    })
+    set_names(mat_list, cmp_event_ids)
   } else NULL
 
   invoke(

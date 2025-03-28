@@ -41,9 +41,10 @@ gen_cif = function(n = 20, n_events = 2, n_times = 20) {
     k = sample(n_times, 1)
 
     # Generate a CIF matrix where each row starts at 0 and increases
-    matrix(apply(matrix(runif(n * k, min = 0, max = 1), nrow = n), 1, function(x) {
+    cif_mat = matrix(apply(matrix(runif(n * k, min = 0, max = 1), nrow = n), 1, function(x) {
       c(0, sort(x)) # Ensure first value is 0 and sequence is increasing
-    }), nrow = n, byrow = TRUE) |> set_col_names(1:(k+1))
+    }), nrow = n, byrow = TRUE)
+    set_col_names(cif_mat, 1:(k+1))
   })
   names(cif_list) = 1:n_events
 

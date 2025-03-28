@@ -40,8 +40,8 @@ as_prediction_surv.data.frame = function(x, ...) { # nolint
     times = names(x$distr[[1L]][[1L]])
 
     # Reconstruct the survival matrix from the list of vectors
-    do.call(rbind, lapply(x$distr, function(l) { matrix(l[[1L]], nrow = 1) })) |>
-      set_col_names(times)
+    surv_mat = do.call(rbind, lapply(x$distr, function(l) { matrix(l[[1L]], nrow = 1) }))
+    set_col_names(surv_mat, times)
   } else NULL
 
   if ("crank" %nin% names(x)) {
