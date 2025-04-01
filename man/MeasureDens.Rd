@@ -16,6 +16,7 @@ Predefined measures can be found in the \link[mlr3misc:Dictionary]{dictionary} \
 Default density measures: \code{\link[=mlr_measures_dens.logloss]{dens.logloss}}
 
 Other Measure: 
+\code{\link{MeasureCompRisks}},
 \code{\link{MeasureSurv}}
 }
 \concept{Measure}
@@ -26,6 +27,7 @@ Other Measure:
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-MeasureDens-new}{\code{MeasureDens$new()}}
+\item \href{#method-MeasureDens-clone}{\code{MeasureDens$clone()}}
 }
 }
 \if{html}{\out{
@@ -111,6 +113,23 @@ Label for the new instance.}
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 The referenced help package can be opened via method \verb{$help()}.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-MeasureDens-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-MeasureDens-clone}{}}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MeasureDens$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
 }
 \if{html}{\out{</div>}}
 }
