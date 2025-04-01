@@ -112,7 +112,6 @@ reference:
   - title: Competing Risk Tasks
     contents:
       - mlr_tasks_pbc
-
   - title: Density Learners
     contents:
       - starts_with("mlr_learners_dens")
