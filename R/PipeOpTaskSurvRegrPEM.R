@@ -4,11 +4,10 @@
 #'
 #' @description
 #' Transform [TaskSurv] to [TaskRegr][mlr3::TaskRegr] by dividing continuous
-#' time into multiple time intervals for each observation. The survival data set 
-#' stored in [TaskSurv] is transformed into Piece-wise Exponential Data (PED) format 
-#' which in turn forms the backend for [TaskRegr][mlr3::TaskRegr]. 
+#' time into multiple time intervals for each observation. 
 #' This transformation creates a new target variable `pem_status` that indicates
-#' whether an event occurred within each time interval.
+#' whether an event occurred within each time interval. 
+#' 
 #'
 #' @section Dictionary:
 #' This [PipeOp][mlr3pipelines::PipeOp] can be instantiated via the

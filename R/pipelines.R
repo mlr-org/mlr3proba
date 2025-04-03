@@ -475,7 +475,7 @@ pipeline_survtoclassif_IPCW = function(learner, tau = NULL, eps = 1e-3, graph_le
 #'
 #' @param learner [LearnerRegr][mlr3::LearnerRegr]\cr
 #' Regression learner to fit the transformed [TaskRegr][mlr3::TaskRegr].
-#' `learner` must be able to handle `offset`.
+#' `learner` must be able to handle `offset` and support optimization of a poisson likelihood.
 #' @param cut `numeric()`\cr
 #' Split points, used to partition the data into intervals.
 #' If unspecified, all unique event times will be used.
@@ -488,7 +488,29 @@ pipeline_survtoclassif_IPCW = function(learner, tau = NULL, eps = 1e-3, graph_le
 #' If `TRUE` returns wraps the [Graph][mlr3pipelines::Graph] as a
 #' [GraphLearner][mlr3pipelines::GraphLearner] otherwise (default) returns as a `Graph`.
 #' @details
-#' The pipeline consists of the following steps:
+#' A brief mathematical summary of PEMs (see referenced article for more detail): 
+#' \enumerate{
+#' \item{\strong{PED Transformation: }
+#' Survival data is converted into piece-wise exponential data (PED) format. 
+#' Key elements are: Continuous time is divided into \eqn{j = 1, \ldots, J} intervals for each subject, \eqn{i = 1, \ldots, n}.
+#' A status variable in each entry indicates whether an event or censoring occurred during that interval. For any subject, data entries are 
+#' created only up until the interval including the event time. An offset column is introduced and represents the logarithm of the time a subject spent in any given interval.
+#' For more details, see `help(pammtools::as_ped())`.
+#' }
+#' \item{\strong{Hazard Estimation with PEM: } 
+#' The PED transformation combined with the working assumption \deqn{\delta_{ij} \stackrel{\text{iid}}{\sim} Poisson \left( \mu_{ij} = \lambda_{ij} t_{ij} \right),} 
+#' where \eqn{\delta_{ij}} denotes the event or censoring indicator, allows framing the problem of piecewise constant hazard estimation as a poisson regression with offset.
+#' Specifically, we want to estimate \deqn{\lambda(t \mid \mathbf{x}_i) := exp(g(x_{i},t_{j})), \quad \forall t \in [t_{j-1}, t_{j}), \quad i = 1, \dots, n.}
+#' \eqn{g(x_{i},t_{j})} is a general function of features \eqn{x} and \eqn{t}, a learner, and may include non-linearity and complex feature interactions. 
+#' Two important prerequisites of the learner are its capacity to model a poisson likelihood and accommodate the offset.
+#' }
+#' \item{\strong{From Piecewise Hazards to Survival Probabilities: } 
+#' Lastly, the computed hazards are back transformed to survival probabilities via the following identity 
+#' \deqn{S(t | \mathbf{x}) = \exp \left( - \int_{0}^{t} \lambda(s | \mathbf{x}) \, ds \right) = \exp \left( - \sum_{j = 1}^{J} \lambda(j | \mathbf{x}) d_j\,  \right),}
+#'  where \eqn{d_j} specifies the duration of interval \eqn{j}.
+#' }
+#' }
+#' The previous considerations are reflected in the pipeline which consists of the following steps:
 #' \enumerate{
 #' \item [PipeOpTaskSurvRegrPEM] Converts [TaskSurv] to a [TaskRegr][mlr3::TaskRegr].
 #' \item A [LearnerRegr] is fit and predicted on the new `TaskRegr`.
@@ -498,7 +520,10 @@ pipeline_survtoclassif_IPCW = function(learner, tau = NULL, eps = 1e-3, graph_le
 #'
 #' @return [mlr3pipelines::Graph] or [mlr3pipelines::GraphLearner]
 #' @family pipelines
-#'
+#' 
+#' @references 
+#' `r format_bib("bender_2018")`
+#' 
 #' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines", "mlr3learners"), quietly = TRUE)
 #' \dontrun{
 #'   library(mlr3)
@@ -508,9 +533,42 @@ pipeline_survtoclassif_IPCW = function(learner, tau = NULL, eps = 1e-3, graph_le
 #'   task = tsk("lung")
 #'   part = partition(task)
 #'   
+#'   # typically model formula and features types are extracted from the task
+#'   learner = lrn("regr.gam", family = "poisson") 
+#'   grlrn = ppl(
+#'    "survtoregr_pem",
+#'     learner = learner, 
+#'     graph_learner = TRUE
+#'   )
+#'   grlrn$train(task, row_ids = part$train)
+#'   grlrn$predict(task, row_ids = part$test)
+#'   
+#'   # In some instances special formulas can be specified in the learner 
+#'   learner = lrn("regr.gam", family = "poisson", formula = pem_status ~ s(tend) + s(age) + meal.cal)
+#'   grlrn = ppl(
+#'    "survtoregr_pem",
+#'     learner = learner, 
+#'     graph_learner = TRUE
+#'   )
+#'   grlrn$train(task, row_ids = part$train)
+#'   grlrn$predict(task, row_ids = part$test)
+#'  
+#'   # if necessary encode data before passing to learner with e.g. po("encode"), po("modelmatrix"), etc.
+#'   # with po("modelmatrix") feature types and formula can be adjusted at the same time
+#'   cut = seq(0, max(task$data()$time), length.out = 20) |> round()
+#'   learner = po("modelmatrix", formula = ~ as.factor(tend) + .) %>>% 
+#'     lrn("regr.glmnet", family = "poisson", lambda = 0) |> as_learner()
+#'   grlrn = ppl(
+#'     "survtoregr_pem",
+#'     learner = learner, 
+#'     cut = cut,
+#'     graph_learner = TRUE
+#'   )
+#'   grlrn$train(task, row_ids = part$train)
+#'   grlrn$predict(task, row_ids = part$test)
+#'  
 #'   # xgboost regression learner 
-#'   # encode data before passing to learner with e.g. po("encode"), po("modelmatrix"), etc. 
-#'   learner = po("modelmatrix", formula = ~ as.factor(tend) + .) %>>%
+#'   learner = po("modelmatrix", formula = ~ .) %>>%
 #'     lrn("regr.xgboost", objective = "count:poisson", nrounds = 100, eta = 0.1) |> 
 #'     as_learner()
 #'   
@@ -521,7 +579,6 @@ pipeline_survtoclassif_IPCW = function(learner, tau = NULL, eps = 1e-3, graph_le
 #'   )
 #'   grlrn$train(task, row_ids = part$train)
 #'   grlrn$predict(task, row_ids = part$test)
-#'   
 #' }
 #' @export
 pipeline_survtoregr_pem = function(learner, cut = NULL, max_time = NULL, 
@@ -532,9 +589,8 @@ pipeline_survtoregr_pem = function(learner, cut = NULL, max_time = NULL,
   learner_args = learner$param_set$get_values()
   if (!some(learner_args, function(x) any(grepl("poisson", as.character(x), ignore.case = TRUE)))){
     msg <- paste(
-      "Learner wasn't specified to fit a poisson regression.",
-      "PEM requires learners capable of poisson regression.",
-      "This needs to be explicitly specified in the learner. Correctly define the objective/family.",
+      "Learner must explicitly support Poisson regression.",
+      "PEM requires this; please define the objective/family accordingly.",
       sep = "\n"
     )
     warning(msg)

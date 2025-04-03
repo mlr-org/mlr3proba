@@ -6,22 +6,14 @@
 \title{PipeOpPredRegrSurvPEM}
 \description{
 Transform \link{PredictionRegr} to \link{PredictionSurv}.
-Predicted hazards are transformed into survival probabilities and wrapped in a
+The predicted piece-wise constant hazards contained in \link{PredictionRegr} are transformed into survival probabilities and wrapped in a
 \link{PredictionSurv} object.
 
-Continuous time is partitioned into time intervals \eqn{[0, t_1), [t_1, t_2), ..., [t_J, \infty)}.
-\link{PredictionRegr} contains the estimates of the piece-wise constant hazards defined as
-\deqn{\lambda(t \mid \mathbf{x}_i) := exp(g(x_{i},t_{j})), \quad \forall t \in [t_{j-1}, t_{j}), \quad i = 1, \dots, n.}
-\eqn{t_j} is a representation of time in interval \eqn{j}, here, it's the right boundary of an interval.
-\eqn{g(x_{i},t_{j})} is a general function of features \eqn{x} and \eqn{t}, a learner, and may include non-linearity and complex feature interactions.
-An important prerequisite for \eqn{g(x_{i},t_{j})} is its capacity to model a poisson likelihood.
-This is necessary for capturing the exponential link structure between the hazard and the predictive features.
-
-Via the following identity
+We compute the survival probability from the predicted hazards using the following relation:
 \deqn{S(t | \mathbf{x}) = \exp \left( - \int_{0}^{t} \lambda(s | \mathbf{x}) \, ds \right) = \exp \left( - \sum_{j = 1}^{J} \lambda(j | \mathbf{x}) d_j\,  \right),}
-where \eqn{d_j} specifies the duration of interval \eqn{j}, we compute the survival probability from the predicted hazards.
+where \eqn{j = 1, \ldots, J} denotes the interval, \eqn{i = 1, \ldots, n} the subject, \eqn{t} the time, and \eqn{d_j} the duration of interval \eqn{j}.
 
-For a more detailed description of PEM, see \link{pipeline_survtoregr_pem}.
+For a more detailed description of PEM, refer to \link{pipeline_survtoregr_pem} or the referred article.
 }
 \section{Dictionary}{
 

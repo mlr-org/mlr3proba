@@ -6,9 +6,7 @@
 \title{PipeOpTaskSurvRegrPEM}
 \description{
 Transform \link{TaskSurv} to \link[mlr3:TaskRegr]{TaskRegr} by dividing continuous
-time into multiple time intervals for each observation. The survival data set
-stored in \link{TaskSurv} is transformed into Piece-wise Exponential Data (PED) format
-which in turn forms the backend for \link[mlr3:TaskRegr]{TaskRegr}.
+time into multiple time intervals for each observation.
 This transformation creates a new target variable \code{pem_status} that indicates
 whether an event occurred within each time interval.
 }
