@@ -571,7 +571,6 @@ pipeline_survtoclassif_IPCW = function(learner, tau = NULL, eps = 1e-3, graph_le
 #'   learner = po("modelmatrix", formula = ~ .) %>>%
 #'     lrn("regr.xgboost", objective = "count:poisson", nrounds = 100, eta = 0.1) |> 
 #'     as_learner()
-#'   
 #'   grlrn = ppl(
 #'     "survtoregr_pem",
 #'     learner = learner, 
