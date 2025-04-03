@@ -49,6 +49,8 @@ test_that("survtoclassif_disctime", {
   expect_class(grlrn, "GraphLearner")
   suppressWarnings(grlrn$train(task))
   p = grlrn$predict(task)
+  expect_true(ncol(p$data$distr) == 3)
+  expect_true(all(as.numeric(colnames(p$data$distr)) == c(10, 30, 50)))
   expect_prediction_surv(p)
 
   # `max_time` needs to be larger than the minimum event time so we choose
@@ -181,6 +183,8 @@ test_that("survtoregr_pem", {
   expect_class(grlrn, "GraphLearner")
   suppressWarnings(grlrn$train(task))
   p = grlrn$predict(task)
+  expect_true(ncol(p$data$distr) == 3)
+  expect_true(all(as.numeric(colnames(p$data$distr)) == c(10, 30, 50)))
   expect_prediction_surv(p)
   
   # `max_time` needs to be larger than the minimum event time so we choose
