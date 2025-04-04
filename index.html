@@ -33,7 +33,7 @@
 
     <a class="navbar-brand me-2" href="index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.7.4</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.7.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -105,13 +105,13 @@
 <p>Key features of <code>mlr3proba</code> focus on survival analysis and are:</p>
 <ul>
 <li>Task frameworks for survival analysis (<code>TaskSurv</code>)</li>
-<li>A comprehensive selection of predictive survival learners (mostly via <a href="https://github.com/mlr-org/mlr3extralearners/" class="external-link">mlr3extralearners</a>)</li>
-<li>A unified <code>train</code>/<code>predict</code> model interface to any probabilistic predictive model (frequentist, Bayesian, Deep Learning, or other)</li>
-<li>Use of the <strong><a href="https://github.com/alan-turing-institute/distr6" class="external-link">distr6</a></strong> probability distribution interface as its probabilistic predictive return type</li>
-<li>A comprehensive selection of measures for evaluating the performance of survival learners, with respect to prognostic index (continuous rank) prediction, and probabilistic (distribution) prediction</li>
-<li>Basic ML pipeline building integrated with <strong><a href="https://github.com/mlr-org/mlr3pipelines" class="external-link">mlr3pipelines</a></strong>
-</li>
-<li>Reduction/composition strategies using linear predictors and baseline hazards</li>
+<li>A comprehensive <strong>selection of survival learners</strong> (mostly via <a href="https://github.com/mlr-org/mlr3extralearners/" class="external-link">mlr3extralearners</a>)</li>
+<li>A unified <code>$train()</code>/<code>$predict()</code> model interface to any probabilistic predictive model (frequentist, Bayesian, Deep Learning, or other)</li>
+<li>Use of the <strong><a href="https://github.com/alan-turing-institute/distr6" class="external-link">distr6</a></strong> interface for the survival probability distribution prediction</li>
+<li>A comprehensive selection of <strong>measures</strong> for evaluating the performance of survival learners, with respect to prognostic index (continuous rank) prediction, and probabilistic (distribution) prediction</li>
+<li>Basic <strong>ML pipeline building</strong> integrated with <strong><a href="https://github.com/mlr-org/mlr3pipelines" class="external-link">mlr3pipelines</a></strong> (e.g. transform prediction types)</li>
+<li>
+<strong>Reduction strategies</strong> to transform survival to classification/regression problems</li>
 </ul>
 </div>
 <div class="section level2">

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.7.4</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.7.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,7 +61,6 @@
 <span>  <span class="va">learner</span>,</span>
 <span>  cut <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  max_time <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  rhs <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  graph_learner <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -88,14 +87,6 @@ intervals from 0 until the maximum event time.</p></dd>
 <dd><p>(<code>numeric(1)</code>)<br>
 If cut is unspecified, this will be the last possible event time.
 All event times after max_time will be administratively censored at max_time.</p></dd>
-
-
-<dt id="arg-rhs">rhs<a class="anchor" aria-label="anchor" href="#arg-rhs"></a></dt>
-<dd><p>(<code>character(1)</code>)<br>
-Right-hand side of the formula to use with the learner.
-All features of the task are available as well as <code>tend</code> the upper bounds
-of the intervals created by <code>cut</code>.
-If <code>rhs</code> is unspecified, the formula of the task will be used.</p></dd>
 
 
 <dt id="arg-graph-learner">graph_learner<a class="anchor" aria-label="anchor" href="#arg-graph-learner"></a></dt>
@@ -141,7 +132,8 @@ ISBN 978-3-319-28156-8 978-3-319-28158-2, <a href="http://link.springer.com/10.1
 <code><a href="mlr_graphs_responsecompositor.html">mlr_graphs_responsecompositor</a></code>,
 <code><a href="mlr_graphs_survaverager.html">mlr_graphs_survaverager</a></code>,
 <code><a href="mlr_graphs_survbagging.html">mlr_graphs_survbagging</a></code>,
-<code><a href="mlr_graphs_survtoclassif_IPCW.html">mlr_graphs_survtoclassif_IPCW</a></code></p></div>
+<code><a href="mlr_graphs_survtoclassif_IPCW.html">mlr_graphs_survtoclassif_IPCW</a></code>,
+<code><a href="mlr_graphs_survtoregr_pem.html">mlr_graphs_survtoregr_pem</a></code></p></div>
     </div>
 
     <div class="section level2">
