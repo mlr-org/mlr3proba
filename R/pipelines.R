@@ -376,7 +376,7 @@ pipeline_probregr = function(learner, learner_se = NULL, dist = "Uniform",
 #'   grlrn$predict(task, row_ids = part$test)
 #' }
 #' @export
-pipeline_survtoclassif_disctime = function(learner, cut = NULL, max_time = NULL, 
+pipeline_survtoclassif_disctime = function(learner, cut = NULL, max_time = NULL,
                                            graph_learner = FALSE) {
   assert_learner(learner, task_type = "classif")
   assert_true("prob" %in% learner$predict_types)
@@ -488,24 +488,24 @@ pipeline_survtoclassif_IPCW = function(learner, tau = NULL, eps = 1e-3, graph_le
 #' If `TRUE` returns wraps the [Graph][mlr3pipelines::Graph] as a
 #' [GraphLearner][mlr3pipelines::GraphLearner] otherwise (default) returns as a `Graph`.
 #' @details
-#' A brief mathematical summary of PEMs (see referenced article for more detail): 
+#' A brief mathematical summary of PEMs (see referenced article for more detail):
 #' \enumerate{
 #' \item{\strong{PED Transformation: }
-#' Survival data is converted into piece-wise exponential data (PED) format. 
+#' Survival data is converted into piece-wise exponential data (PED) format.
 #' Key elements are: Continuous time is divided into \eqn{j = 1, \ldots, J} intervals for each subject, \eqn{i = 1, \ldots, n}.
-#' A status variable in each entry indicates whether an event or censoring occurred during that interval. For any subject, data entries are 
+#' A status variable in each entry indicates whether an event or censoring occurred during that interval. For any subject, data entries are
 #' created only up until the interval including the event time. An offset column is introduced and represents the logarithm of the time a subject spent in any given interval.
-#' For more details, see `help(pammtools::as_ped())`.
+#' For more details, see [pammtools::as_ped()].
 #' }
-#' \item{\strong{Hazard Estimation with PEM: } 
-#' The PED transformation combined with the working assumption \deqn{\delta_{ij} \stackrel{\text{iid}}{\sim} Poisson \left( \mu_{ij} = \lambda_{ij} t_{ij} \right),} 
+#' \item{\strong{Hazard Estimation with PEM: }
+#' The PED transformation combined with the working assumption \deqn{\delta_{ij} \stackrel{\text{iid}}{\sim} Poisson \left( \mu_{ij} = \lambda_{ij} t_{ij} \right),}
 #' where \eqn{\delta_{ij}} denotes the event or censoring indicator, allows framing the problem of piecewise constant hazard estimation as a poisson regression with offset.
 #' Specifically, we want to estimate \deqn{\lambda(t \mid \mathbf{x}_i) := exp(g(x_{i},t_{j})), \quad \forall t \in [t_{j-1}, t_{j}), \quad i = 1, \dots, n.}
-#' \eqn{g(x_{i},t_{j})} is a general function of features \eqn{x} and \eqn{t}, a learner, and may include non-linearity and complex feature interactions. 
+#' \eqn{g(x_{i},t_{j})} is a general function of features \eqn{x} and \eqn{t}, i.e. a learner, and may include non-linearity and complex feature interactions.
 #' Two important prerequisites of the learner are its capacity to model a poisson likelihood and accommodate the offset.
 #' }
-#' \item{\strong{From Piecewise Hazards to Survival Probabilities: } 
-#' Lastly, the computed hazards are back transformed to survival probabilities via the following identity 
+#' \item{\strong{From Piecewise Hazards to Survival Probabilities: }
+#' Lastly, the computed hazards are back transformed to survival probabilities via the following identity
 #' \deqn{S(t | \mathbf{x}) = \exp \left( - \int_{0}^{t} \lambda(s | \mathbf{x}) \, ds \right) = \exp \left( - \sum_{j = 1}^{J} \lambda(j | \mathbf{x}) d_j\,  \right),}
 #'  where \eqn{d_j} specifies the duration of interval \eqn{j}.
 #' }
@@ -520,10 +520,10 @@ pipeline_survtoclassif_IPCW = function(learner, tau = NULL, eps = 1e-3, graph_le
 #'
 #' @return [mlr3pipelines::Graph] or [mlr3pipelines::GraphLearner]
 #' @family pipelines
-#' 
-#' @references 
+#'
+#' @references
 #' `r format_bib("bender_2018")`
-#' 
+#'
 #' @examplesIf mlr3misc::require_namespaces(c("mlr3pipelines", "mlr3learners"), quietly = TRUE)
 #' \dontrun{
 #'   library(mlr3)
@@ -532,62 +532,66 @@ pipeline_survtoclassif_IPCW = function(learner, tau = NULL, eps = 1e-3, graph_le
 #'
 #'   task = tsk("lung")
 #'   part = partition(task)
-#'   
+#'
 #'   # typically model formula and features types are extracted from the task
-#'   learner = lrn("regr.gam", family = "poisson") 
+#'   learner = lrn("regr.gam", family = "poisson")
 #'   grlrn = ppl(
 #'    "survtoregr_pem",
-#'     learner = learner, 
+#'     learner = learner,
 #'     graph_learner = TRUE
 #'   )
 #'   grlrn$train(task, row_ids = part$train)
 #'   grlrn$predict(task, row_ids = part$test)
-#'   
-#'   # In some instances special formulas can be specified in the learner 
+#'
+#'   # In some instances special formulas can be specified in the learner
 #'   learner = lrn("regr.gam", family = "poisson", formula = pem_status ~ s(tend) + s(age) + meal.cal)
 #'   grlrn = ppl(
 #'    "survtoregr_pem",
-#'     learner = learner, 
+#'     learner = learner,
 #'     graph_learner = TRUE
 #'   )
 #'   grlrn$train(task, row_ids = part$train)
 #'   grlrn$predict(task, row_ids = part$test)
-#'  
+#'
 #'   # if necessary encode data before passing to learner with e.g. po("encode"), po("modelmatrix"), etc.
 #'   # with po("modelmatrix") feature types and formula can be adjusted at the same time
-#'   cut = seq(0, max(task$data()$time), length.out = 20) |> round()
-#'   learner = po("modelmatrix", formula = ~ as.factor(tend) + .) %>>% 
-#'     lrn("regr.glmnet", family = "poisson", lambda = 0) |> as_learner()
+#'   cut = round(seq(0, max(task$data()$time), length.out = 20))
+#'   learner = as_learner(
+#'     po("modelmatrix", formula = ~ as.factor(tend) + .) %>>%
+#'     lrn("regr.glmnet", family = "poisson", lambda = 0)
+#'   )
 #'   grlrn = ppl(
 #'     "survtoregr_pem",
-#'     learner = learner, 
+#'     learner = learner,
 #'     cut = cut,
 #'     graph_learner = TRUE
 #'   )
 #'   grlrn$train(task, row_ids = part$train)
 #'   grlrn$predict(task, row_ids = part$test)
-#'  
-#'   # xgboost regression learner 
-#'   learner = po("modelmatrix", formula = ~ .) %>>%
-#'     lrn("regr.xgboost", objective = "count:poisson", nrounds = 100, eta = 0.1) |> 
-#'     as_learner()
+#'
+#'   # xgboost regression learner
+#'   learner = as_learner(
+#'     po("modelmatrix", formula = ~ .) %>>%
+#'     lrn("regr.xgboost", objective = "count:poisson", nrounds = 100, eta = 0.1)
+#'   )
+#'
 #'   grlrn = ppl(
 #'     "survtoregr_pem",
-#'     learner = learner, 
+#'     learner = learner,
 #'     graph_learner = TRUE
 #'   )
 #'   grlrn$train(task, row_ids = part$train)
 #'   grlrn$predict(task, row_ids = part$test)
 #' }
 #' @export
-pipeline_survtoregr_pem = function(learner, cut = NULL, max_time = NULL, 
+pipeline_survtoregr_pem = function(learner, cut = NULL, max_time = NULL,
                                    graph_learner = FALSE) {
-  
-  assert_learner(learner, task_type = "regr", properties = 'offset')
+  assert_learner(learner, task_type = "regr", properties = "offset")
+
   # check for poisson family in learner
   learner_args = learner$param_set$get_values()
   if (!some(learner_args, function(x) any(grepl("poisson", as.character(x), ignore.case = TRUE)))){
-    msg <- paste(
+    msg = paste(
       "Learner must explicitly support Poisson regression.",
       "PEM requires this; please define the objective/family accordingly.",
       sep = "\n"
@@ -597,7 +601,7 @@ pipeline_survtoregr_pem = function(learner, cut = NULL, max_time = NULL,
   if ('use_pred_offset' %in% learner$param_set$ids()){
     if (learner$param_set$values$use_pred_offset == TRUE){
       learner$param_set$set_values(use_pred_offset = FALSE)
-      msg <- paste(
+      msg = paste(
         "Note: 'use_pred_offset' in learner was set to TRUE and has now been changed to FALSE.",
         "At prediction time, the PEM Pipeline intentionally omits the offset.",
         "Set use_pred_offset to FALSE to avoid this message.",
@@ -606,7 +610,7 @@ pipeline_survtoregr_pem = function(learner, cut = NULL, max_time = NULL,
       message(msg)
     }
   }
-  
+
   gr = Graph$new()
   gr$add_pipeop(po("trafotask_survregr_pem", cut = cut, max_time = max_time))
   gr$add_pipeop(po("learner", learner))
@@ -620,6 +624,7 @@ pipeline_survtoregr_pem = function(learner, cut = NULL, max_time = NULL,
 
   create_grlrn(gr, graph_learner)
 }
+
 register_graph("survaverager", pipeline_survaverager)
 register_graph("survbagging", pipeline_survbagging)
 register_graph("crankcompositor", pipeline_crankcompositor)
@@ -628,4 +633,5 @@ register_graph("responsecompositor", pipeline_responsecompositor)
 register_graph("probregr", pipeline_probregr)
 register_graph("survtoclassif_disctime", pipeline_survtoclassif_disctime)
 register_graph("survtoclassif_IPCW", pipeline_survtoclassif_IPCW)
+register_graph("survtoclassif_vock", pipeline_survtoclassif_IPCW) # alias
 register_graph("survtoregr_pem", pipeline_survtoregr_pem)

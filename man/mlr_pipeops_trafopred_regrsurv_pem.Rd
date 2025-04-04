@@ -11,7 +11,7 @@ The predicted piece-wise constant hazards contained in \link{PredictionRegr} are
 
 We compute the survival probability from the predicted hazards using the following relation:
 \deqn{S(t | \mathbf{x}) = \exp \left( - \int_{0}^{t} \lambda(s | \mathbf{x}) \, ds \right) = \exp \left( - \sum_{j = 1}^{J} \lambda(j | \mathbf{x}) d_j\,  \right),}
-where \eqn{j = 1, \ldots, J} denotes the interval, \eqn{i = 1, \ldots, n} the subject, \eqn{t} the time, and \eqn{d_j} the duration of interval \eqn{j}.
+where \eqn{j = 1, \ldots, J} denotes the interval, \eqn{t} the time, and \eqn{d_j} the duration of interval \eqn{j}.
 
 For a more detailed description of PEM, refer to \link{pipeline_survtoregr_pem} or the referred article.
 }
@@ -60,6 +60,14 @@ Other Transformation PipeOps:
 \concept{Transformation PipeOps}
 \section{Super class}{
 \code{\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}} -> \code{PipeOpPredRegrSurvPEM}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{predict_type}}{(\code{character(1)})\cr
+Returns the active predict type of this PipeOp, which is \code{"crank"}}
+}
+\if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{

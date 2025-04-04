@@ -33,8 +33,9 @@ test_that("PipeOpTaskSurvRegrPEM", {
   expect_lt(output_task$nrow, task$nrow * 4)
 
   res = po_pem$predict(list(test_task))
+
+  # check: output is regression task
   pred_task = res[[1L]]
-  res$output$data()
   expect_task_regr(pred_task)
   # every test observation will have one row per interval for prediction
   expect_equal(pred_task$nrow, test_task$nrow * 4)

@@ -134,12 +134,12 @@ PipeOpTaskSurvClassifDiscTime = R6Class("PipeOpTaskSurvClassifDiscTime",
 
       if (!is.null(max_time)) {
         assert(max_time > data[get(event_var) == 1, min(get(time_var))],
-               "max_time must be greater than the minimum event time.")
+               .var.name = "max_time must be greater than the minimum event time.")
       }
 
       form = formulate(sprintf("Surv(%s, %s)", time_var, event_var), ".")
 
-      long_data = pammtools::as_ped(data = data, formula = form, 
+      long_data = pammtools::as_ped(data = data, formula = form,
                                     cut = cut, max_time = max_time)
       self$state$cut = attributes(long_data)$trafo_args$cut
       long_data = as.data.table(long_data)
@@ -173,7 +173,7 @@ PipeOpTaskSurvClassifDiscTime = R6Class("PipeOpTaskSurvClassifDiscTime",
 
       max_time = max(cut)
       time = data[[time_var]]
-      # setting time variable to max_time ensures that the ped data spans  
+      # setting time variable to max_time ensures that the ped data spans
       # over all intervals for every subject irrespective of event time
       data[[time_var]] = max_time
 

@@ -19,7 +19,7 @@ Authors@R: c(
            comment = c(ORCID = "0009-0000-9432-9795")),
     person("Lee Xingzhuo", "Li", , "xingzhuo_li@yahoo.com.au", role = "ctb",
            comment = c(ORCID = "0000-0001-5259-5198")),
-    person("Markus", "Goeswein", "markus.goeswein@outlook.de", role = "ctb")
+    person("Markus", "Goeswein", , "markus.goeswein@outlook.de", role = "ctb")
   )
 Description: Provides extensions for probabilistic supervised learning for
     'mlr3'.  This includes extending the regression task to probabilistic
