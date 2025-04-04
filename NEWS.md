@@ -1,6 +1,8 @@
-# mlr3proba dev
+# mlr3proba 0.7.5
 
 * fix: allow cloning of measures objects
+* New `PipeOp`s: `PipeOpTaskSurvRegrPEM`, `PipeOpPredRegrPEM`
+* New pipeline (**reduction method**): `pipeline_survtoregr_pem`
 
 # mlr3proba 0.7.4
 

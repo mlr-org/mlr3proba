@@ -1,6 +1,6 @@
 Package: mlr3proba
 Title: Probabilistic Supervised Learning for 'mlr3'
-Version: 0.7.4
+Version: 0.7.5
 Authors@R: c(
     person("Raphael", "Sonabend", , "raphaelsonabend@gmail.com", role = "aut",
            comment = c(ORCID = "0000-0001-9225-4654")),
@@ -18,7 +18,8 @@ Authors@R: c(
     person("Maximilian", "Muecke", , "muecke.maximilian@gmail.com", role = "ctb",
            comment = c(ORCID = "0009-0000-9432-9795")),
     person("Lee Xingzhuo", "Li", , "xingzhuo_li@yahoo.com.au", role = "ctb",
-           comment = c(ORCID = "0000-0001-5259-5198"))
+           comment = c(ORCID = "0000-0001-5259-5198")),
+    person("Markus", "Goeswein", , "markus.goeswein@outlook.de", role = "ctb")
   )
 Description: Provides extensions for probabilistic supervised learning for
     'mlr3'.  This includes extending the regression task to probabilistic
@@ -28,7 +29,7 @@ License: LGPL-3
 URL: https://mlr3proba.mlr-org.com, https://github.com/mlr-org/mlr3proba
 BugReports: https://github.com/mlr-org/mlr3proba/issues
 Depends:
-    mlr3 (>= 0.14.1),
+    mlr3 (>= 0.23.0),
     R (>= 3.5.0)
 Imports:
     checkmate,
@@ -48,7 +49,7 @@ Suggests:
     knitr,
     lgr,
     lifecycle,
-    mlr3learners,
+    mlr3learners (>= 0.10.0),
     mlr3viz,
     pammtools,
     param6 (>= 0.2.4),
@@ -58,13 +59,14 @@ Suggests:
     set6 (>= 0.2.6),
     simsurv,
     survAUC,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    glmnet
 LinkingTo:
     Rcpp
 Remotes:
     xoopR/distr6,
     xoopR/param6,
-    xoopR/set6
+    xoopR/set6,
 ByteCompile: true
 Config/testthat/edition: 3
 Encoding: UTF-8
@@ -115,11 +117,13 @@ Collate:
     'PipeOpDistrCompositor.R'
     'PipeOpPredClassifSurvDiscTime.R'
     'PipeOpPredClassifSurvIPCW.R'
+    'PipeOpPredRegrSurvPEM.R'
     'PipeOpProbregrCompositor.R'
     'PipeOpResponseCompositor.R'
     'PipeOpSurvAvg.R'
     'PipeOpTaskSurvClassifDiscTime.R'
     'PipeOpTaskSurvClassifIPCW.R'
+    'PipeOpTaskSurvRegrPEM.R'
     'PredictionDataDens.R'
     'PredictionDataSurv.R'
     'PredictionDens.R'

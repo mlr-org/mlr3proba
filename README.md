@@ -38,21 +38,22 @@ in early stages of development.
 Key features of `mlr3proba` focus on survival analysis and are:
 
 - Task frameworks for survival analysis (`TaskSurv`)
-- A comprehensive selection of predictive survival learners (mostly via
+- A comprehensive **selection of survival learners** (mostly via
   [mlr3extralearners](https://github.com/mlr-org/mlr3extralearners/))
-- A unified `train`/`predict` model interface to any probabilistic
+- A unified `$train()`/`$predict()` model interface to any probabilistic
   predictive model (frequentist, Bayesian, Deep Learning, or other)
 - Use of the
   **[distr6](https://github.com/alan-turing-institute/distr6)**
-  probability distribution interface as its probabilistic predictive
-  return type
-- A comprehensive selection of measures for evaluating the performance
-  of survival learners, with respect to prognostic index (continuous
-  rank) prediction, and probabilistic (distribution) prediction
-- Basic ML pipeline building integrated with
+  interface for the survival probability distribution prediction
+- A comprehensive selection of **measures** for evaluating the
+  performance of survival learners, with respect to prognostic index
+  (continuous rank) prediction, and probabilistic (distribution)
+  prediction
+- Basic **ML pipeline building** integrated with
   **[mlr3pipelines](https://github.com/mlr-org/mlr3pipelines)**
-- Reduction/composition strategies using linear predictors and baseline
-  hazards
+  (e.g. transform prediction types)
+- **Reduction strategies** to transform survival to
+  classification/regression problems
 
 ## Installation
 
