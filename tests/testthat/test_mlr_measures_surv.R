@@ -26,7 +26,7 @@ test_that("mlr_measures", {
     expect_measure(m)
 
     expect_silent({
-      perf = pred$score(m, task = task, train_set = seq(task$nrow), learner = learner)
+      perf = pred$score(m, task = task, train_set = task$row_ids, learner = learner)
     })
     expect_number(perf, na.ok = "na_score" %in% m$properties)
 
@@ -34,7 +34,7 @@ test_that("mlr_measures", {
     if (key %in% paste0("surv.", c("schmid", "graf", "intlogloss", "logloss", "mae", "mse",
       "rmse", "calib_alpha", "calib_beta"))) {
       m = suppressWarnings(msr(key, se = TRUE))
-      perf = pred$score(m, task = task, train_set = seq(task$nrow), learner = learner)
+      perf = pred$score(m, task = task, train_set = task$row_ids, learner = learner)
       expect_number(perf, na.ok = TRUE)
     }
   }
@@ -561,7 +561,7 @@ test_that("distr measures work with 3d survival array", {
 
   for (m in distr_msrs) {
     expect_numeric({
-      p$score(m, task = task, train_set = seq(task$nrow), learner = learner)
+      p$score(m, task = task, train_set = task$row_ids, learner = learner)
     })
   }
 })
