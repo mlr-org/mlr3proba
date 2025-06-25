@@ -71,7 +71,7 @@ p$score(msr("cmprsk.auc", time_horizon = 42))
 \dontshow{\}) # examplesIf}
 }
 \references{
-Blanche, Paul, Dartigues, François J, Jacqmin-Gadda, Hélène (2013).
+Blanche, Paul, Dartigues, Francois J, Jacqmin-Gadda, Helene (2013).
 \dQuote{Estimating and comparing time-dependent areas under receiver operating characteristic curves for censored event times with competing risks.}
 \emph{Statistics in Medicine}, \bold{32}(30), 5381--5397.
 ISSN 1097-0258, \doi{10.1002/SIM.5958}, \url{https://onlinelibrary.wiley.com/doi/10.1002/sim.5958}.
