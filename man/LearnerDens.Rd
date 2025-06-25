@@ -4,10 +4,10 @@
 \alias{LearnerDens}
 \title{Density Learner}
 \description{
-This Learner specializes \link{Learner} for density estimation problems:
+This Learner specializes \link[mlr3:Learner]{Learner} for density estimation problems:
 \itemize{
 \item \code{task_type} is set to \code{"dens"}
-\item Creates \link{Prediction}s of class \link{PredictionDens}.
+\item Creates \link[mlr3:Prediction]{Prediction}s of class \link{PredictionDens}.
 \item Possible values for \code{predict_types} are:
 \itemize{
 \item \code{"pdf"}: Evaluates estimated probability density function for each value in the test set.
@@ -27,6 +27,7 @@ lrn("dens.hist")
 }
 \seealso{
 Other Learner: 
+\code{\link{LearnerCompRisks}},
 \code{\link{LearnerSurv}}
 }
 \concept{Learner}
@@ -85,22 +86,14 @@ Identifier for the new instance.}
 Set of hyperparameters.}
 
 \item{\code{predict_types}}{(\code{character()})\cr
-Supported predict types. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.}
+Supported predict types. Must be a subset of \code{\link[mlr3:mlr_reflections]{mlr_reflections$learner_predict_types}}.}
 
 \item{\code{feature_types}}{(\code{character()})\cr
-Feature types the learner operates on. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.}
+Feature types the learner operates on. Must be a subset of \code{\link[mlr3:mlr_reflections]{mlr_reflections$task_feature_types}}.}
 
 \item{\code{properties}}{(\code{character()})\cr
-Set of properties of the \link{Learner}.
-Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.
-The following properties are currently standardized and understood by learners in \CRANpkg{mlr3}:
-\itemize{
-\item \code{"missings"}: The learner can handle missing values in the data.
-\item \code{"weights"}: The learner supports observation weights.
-\item \code{"importance"}: The learner supports extraction of importance scores, i.e. comes with an \verb{$importance()} extractor function (see section on optional extractors in \link{Learner}).
-\item \code{"selected_features"}: The learner supports extraction of the set of selected features, i.e. comes with a \verb{$selected_features()} extractor function (see section on optional extractors in \link{Learner}).
-\item \code{"oob_error"}: The learner supports extraction of estimated out of bag error, i.e. comes with a \code{oob_error()} extractor function (see section on optional extractors in \link{Learner}).
-}}
+Set of properties of the \link[mlr3:Learner]{Learner} (see initialization method \verb{$new()}.
+Must be a subset of \code{\link[mlr3:mlr_reflections]{mlr_reflections$learner_properties}}.}
 
 \item{\code{packages}}{(\code{character()})\cr
 Set of required packages.

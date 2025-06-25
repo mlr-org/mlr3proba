@@ -1,5 +1,5 @@
 #' @section Dictionary:
-#' This [TaskGenerator] can be instantiated via the [dictionary][mlr3misc::Dictionary] [mlr_task_generators] or with the associated sugar function [tgen()]:
+#' This [TaskGenerator][mlr3::TaskGenerator] can be instantiated via the [dictionary][mlr3misc::Dictionary] [mlr_task_generators][mlr3::mlr_task_generators] or with the associated sugar function [tgen()][mlr3::tgen()]:
 #' ```
 #' mlr_task_generators$get("<%= id %>")
 #' tgen("<%= id %>")

@@ -5,7 +5,7 @@
 \alias{TaskGeneratorCoxed}
 \title{Survival Task Generator for Package 'coxed'}
 \description{
-A \link[mlr3:TaskGenerator]{mlr3::TaskGenerator} calling \code{\link[coxed:sim.survdata]{coxed::sim.survdata()}}.
+A \link[mlr3:TaskGenerator]{TaskGenerator} calling \code{\link[coxed:sim.survdata]{coxed::sim.survdata()}}.
 
 This generator creates a survival dataset using \CRANpkg{coxed}, and exposes
 some parameters from the \code{sim.survdata()} function.
@@ -16,7 +16,7 @@ generated datasets always use the \emph{flexible-hazard} method from the package
 }
 \section{Dictionary}{
 
-This \link{TaskGenerator} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_task_generators} or with the associated sugar function \code{\link[=tgen]{tgen()}}:
+This \link[mlr3:TaskGenerator]{TaskGenerator} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link[mlr3:mlr_task_generators]{mlr_task_generators} or with the associated sugar function \link[mlr3:mlr_sugar]{tgen()}:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_task_generators$get("coxed")
 tgen("coxed")
@@ -27,7 +27,7 @@ tgen("coxed")
 \tabular{lllll}{
    Id \tab Type \tab Default \tab Levels \tab Range \cr
    T \tab numeric \tab 100 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
-   type \tab character \tab none \tab none, tvc, tvbeta \tab - \cr
+   type \tab character \tab none \tab none, tvbeta \tab - \cr
    knots \tab integer \tab 8 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
    spline \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
    xvars \tab integer \tab 3 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
@@ -49,8 +49,8 @@ tgen("coxed")
               mu = 1, sd = 2, censor.cond = FALSE)
   gen$generate(50)
 
-  # same as above, but with time-varying coefficients (counting process format)
-  gen$param_set$set_values(type = "tvc")
+  # same as above, but with time-varying coefficients
+  gen$param_set$set_values(type = "tvbeta")
   gen$generate(50)
 \dontshow{\}) # examplesIf}
 }
@@ -63,7 +63,7 @@ Harden, J. J, Kropko, Jonathan (2019).
 \seealso{
 \itemize{
 \item \link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:TaskGenerator]{TaskGenerators}: \link[mlr3:mlr_task_generators]{mlr3::mlr_task_generators}
-\item \code{as.data.table(mlr_task_generators)}  for a table of available \link[=TaskGenerator]{TaskGenerators} in the running session
+\item \code{as.data.table(mlr_task_generators)}  for a table of available \link[mlr3:TaskGenerator]{TaskGenerators} in the running session
 }
 
 Other TaskGenerator: 

@@ -15,6 +15,7 @@ test_that("no params", {
   base = lrn("surv.kaplan")$train(task)$predict(task)
   pred = lrn("surv.kaplan")$train(task)$predict(task)
   pod = po("distrcompose", param_vals = list())
+  pod$train(list(NULL, NULL))
   expect_silent(pod$predict(list(base = base, pred = pred)))
 })
 
@@ -22,6 +23,9 @@ test_that("scale_lp = TRUE", {
   base = lrn("surv.kaplan")$train(task)$predict(task)
   pod1 = po("distrcompose", param_vals = list(overwrite = TRUE, scale_lp = FALSE))
   pod2 = po("distrcompose", param_vals = list(overwrite = TRUE, scale_lp = TRUE))
+
+  pod1$train(list(NULL, NULL))
+  pod2$train(list(NULL, NULL))
 
   p1 = pod1$predict(list(base = base, pred = cox_pred))[[1L]]
   p2 = pod2$predict(list(base = base, pred = cox_pred))[[1L]]

@@ -12,5 +12,5 @@ test_that("single prediction", {
   task = tsk("rats")$filter(sample(300, 20))
   learner = mlr_learners$get("surv.kaplan")
   learner$train(task)
-  expect_prediction_surv(learner$predict(task, 1))
+  expect_prediction_surv(learner$predict(task, task$row_ids[1]))
 })

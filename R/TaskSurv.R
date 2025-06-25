@@ -2,15 +2,21 @@
 #'
 #' @description
 #' This task specializes [mlr3::Task] and [mlr3::TaskSupervised] for
-#' possibly-censored survival problems.
-#' The target is comprised of survival times and an event indicator.
+#' **single-event survival** problems.
+#' The target is comprised of survival times and an event indicator (\eqn{0}
+#' represents censored observations, \eqn{1} represents observations that had the
+#' event).
+#' Every row corresponds to one subject/observation.
+#'
 #' Predefined tasks are stored in [mlr3::mlr_tasks].
 #'
 #' The `task_type` is set to `"surv"`.
 #'
+#' **Note:** Currently only right-censoring is supported, though it possible to
+#' create tasks with left and interval censoring using the [Surv][survival::Surv()]
+#' interface.
+#'
 #' @template param_rows
-#' @template param_id
-#' @template param_backend
 #'
 #' @references
 #' `r format_bib("grambsch_1994")`
@@ -31,7 +37,6 @@
 #' task$status() # event indicators (1 = death, 0 = censored)
 #' task$unique_times() # sorted unique times
 #' task$unique_event_times() # sorted unique event times
-#' task$risk_set(time = 700) # observation ids that are not censored or dead at t = 700
 #' task$kaplan(strata = "sex") # stratified Kaplan-Meier
 #' task$kaplan(reverse = TRUE) # Kaplan-Meier of the censoring distribution
 #'
@@ -56,54 +61,39 @@ TaskSurv = R6Class("TaskSurv",
     #' @details
     #' Depending on the censoring type (`"type"`), the output of a survival
     #' task's `"$target_names"` is a `character()` vector with values the names
-    #' of the columns given by the above initialization arguments.
+    #' of the target columns.
     #' Specifically, the output is as follows (and in the specified order):
     #'
-    #' - For `type` = `"right"`, `"left"` or `"mstate"`: (`"time"`, `"event"`)
-    #' - For `type` = `"interval"` or `"counting"`: (`"time"`, `"time2"`, `"event"`)
-    #' - For `type` = `"interval2"`: (`"time"`, `"time2`)
+    #' - For `type` = `"right"` or `"left"`: (`"time"`, `"event"`)
+    #' - For `type` = `"interval"`: (`"time"`, `"time2"`)
     #'
+    #' @template param_id
+    #' @template param_backend
     #' @template param_time
     #' @template param_event
     #' @template param_time2
     #' @template param_type
     #' @param label (`character(1)`)\cr
-    #'    Label for the new instance.
-    initialize = function(id, backend, time = "time", event = "event", time2,
-      type = c("right", "left", "interval", "counting", "interval2", "mstate"),
-      label = NA_character_) {
-
-      type = match.arg(type)
-
+    #'  Label for the new instance.
+    initialize = function(id, backend, time = "time", event = "event", time2 = "time2",
+                          type = "right", label = NA_character_) {
+      cens_type = assert_choice(type, c("right", "left", "interval"))
+      private$.cens_type = cens_type
       backend = as_data_backend(backend)
 
-      if (type != "interval2") {
-        c_ev = r6_private(backend)$.data[, event, with = FALSE][[1L]]
-        if (type == "mstate") {
-          assert_factor(c_ev)
-        } else if (type == "interval") {
-          assert_integerish(c_ev, lower = 0L, upper = 3L)
-        } else if (!is.logical(c_ev)) {
-          assert_integerish(c_ev, lower = 0L, upper = 2L)
-        }
-      }
-
-      private$.censtype = type
-
-      if (type %in% c("right", "left", "mstate")) {
-        super$initialize(
-          id = id, task_type = "surv", backend = backend,
-          target = c(time, event), label = label
-        )
-      } else if (type %in% c("interval", "counting")) {
-        super$initialize(
-          id = id, task_type = "surv", backend = backend,
-          target = c(time, time2, event), label = label
-        )
-      } else {
+      if (cens_type == "interval") {
         super$initialize(
           id = id, task_type = "surv", backend = backend,
           target = c(time, time2), label = label
+        )
+      } else {
+        # check event is 0 or 1
+        event_col = get_private(backend)$.data[, event, with = FALSE][[1L]]
+        assert_integerish(event_col, lower = 0L, upper = 1L, any.missing = FALSE)
+
+        super$initialize(
+          id = id, task_type = "surv", backend = backend,
+          target = c(time, event), label = label
         )
       }
     },
@@ -113,26 +103,33 @@ TaskSurv = R6Class("TaskSurv",
     #' using the [Surv][survival::Surv()] format and depends on the censoring
     #' type. Defaults to all rows with role `"use"`.
     #'
+    #' For censoring type:
+    #'
+    #' - `"right|left"`: `Surv(time, event, type = "right|left")`
+    #' - `"interval"`: `Surv(time, time2, type = "interval2")`
+    #'
     #' @return [survival::Surv()].
     truth = function(rows = NULL) {
       tn = self$target_names
-      ct = self$censtype
-      d = self$data(rows, cols = self$target_names)
-      args = list(time = d[[tn[1L]]], type = self$censtype)
+      cens_type = self$cens_type
+      data = self$data(rows, cols = self$target_names)
+      args = list(time = data[[tn[1L]]])
 
-      if (ct %in% c("right", "left", "mstate")) {
-        args$event = as.integer(d[[tn[2L]]])
-      } else if (ct %in% c("interval", "counting")) {
-        args$event = as.integer(d[[tn[3L]]])
-        args$time2 = d[[tn[2L]]]
+      if (cens_type == "interval") {
+        args$time2 = data[[tn[2L]]]
+        # the "interval" type in `Surv()` has the the event
+        # and is not so much used, "interval2" is the one we want here
+        args$type = "interval2"
       } else {
-        args$time2 = d[[tn[2L]]]
+        args$event = as.integer(data[[tn[2L]]])
+        args$type = cens_type # "right" or "left"
       }
 
       if (allMissing(args$event) & allMissing(args$time)) {
-        return(suppressWarnings(invoke(Surv, .args = args)))
+        # this is to pass autotest...
+        suppressWarnings(invoke(Surv, .args = args))
       } else {
-        return(invoke(Surv, .args = args))
+        invoke(Surv, .args = args)
       }
     },
 
@@ -143,21 +140,25 @@ TaskSurv = R6Class("TaskSurv",
     #' @param rhs
     #' If `NULL`, RHS (right hand side) is `"."`, otherwise RHS is `"rhs"`.
     #' @param reverse
-    #' If `TRUE` then formula calculated with 1 - status.
+    #' If `TRUE` then formula calculated with 1 - status. Only applicable to `"right"`
+    #' or `"left"` censoring.
     #'
     #' @return [stats::formula()].
     formula = function(rhs = NULL, reverse = FALSE) {
-      # formula appends the rhs argument to Surv(time, event)~
+      # formula appends the rhs argument to Surv(time, (time2), event)~
       tn = self$target_names
-      if (length(tn) == 2L) {
-        if (reverse) {
-          lhs = sprintf("Surv(%s, 1 - %s, type = '%s')", tn[1L], tn[2L], self$censtype)
-        } else {
-          lhs = sprintf("Surv(%s, %s, type = '%s')", tn[1L], tn[2L], self$censtype)
-        }
+      cens_type = self$cens_type
+
+      if (cens_type == "interval") {
+        lhs = sprintf("Surv(%s, %s, type = '%s')", tn[1L], tn[2L], "interval2")
       } else {
-        lhs = sprintf("Surv(%s, %s, %s, type = '%s')", tn[1L], tn[2L], tn[3L], self$censtype)
+        if (reverse) {
+          lhs = sprintf("Surv(%s, 1 - %s, type = '%s')", tn[1L], tn[2L], cens_type)
+        } else {
+          lhs = sprintf("Surv(%s, %s, type = '%s')", tn[1L], tn[2L], cens_type)
+        }
       }
+
       formulate(lhs, rhs %??% ".", env = getNamespace("survival"))
     },
 
@@ -165,26 +166,26 @@ TaskSurv = R6Class("TaskSurv",
     #' Returns the (unsorted) outcome times.
     #' @return `numeric()`
     times = function(rows = NULL) {
+      if (self$cens_type == "interval") stop("Not supported for interval-censored data")
+
       truth = self$truth(rows)
-      if (self$censtype %in% c("interval", "counting", "interval2")) {
-        return(truth[, 1:2])
-      } else {
-        return(as.numeric(truth[, 1L]))
-      }
+
+      as.numeric(truth[, 1L])
     },
 
     #' @description
     #' Returns the event indicator (aka censoring/survival indicator).
-    #' If `censtype` is `"right"` or `"left"` then `1` is event and `0` is censored.
-    #' If `censtype` is `"mstate"` then `0` is censored and all other values are different events.
-    #' If `censtype` is `"interval"` then `0` is right-censored, `1` is event, `2` is left-censored,
-    #' `3` is interval-censored.
+    #' If censoring type is `"right"` or `"left"` then `1` is event and `0` is censored.
+    #' If censoring type is `"interval"` then `0` means right-censored, `1` is
+    #' event, `2` is left-censored and `3` is interval-censored.
+    #'
     #' See [survival::Surv()].
     #'
     #' @return `integer()`
     status = function(rows = NULL) {
       truth = self$truth(rows)
-      if (self$censtype %in% c("interval", "counting", "interval2")) {
+
+      if (self$cens_type == "interval") {
         status = truth[, 3L]
       } else {
         status = truth[, 2L]
@@ -194,45 +195,17 @@ TaskSurv = R6Class("TaskSurv",
     },
 
     #' @description
-    #' Returns the sorted unique outcome times for `"right"`, `"left"` and
-    #' `"mstate"` types of censoring.
-    #'
+    #' Returns the sorted unique outcome times.
     #' @return `numeric()`
     unique_times = function(rows = NULL) {
-      assert_choice(self$censtype, choices = c("right", "left", "mstate"))
-
       sort(unique(self$times(rows)))
     },
 
     #' @description
-    #' Returns the sorted unique event (or failure) outcome times for `"right"`,
-    #' `"left"` and `"mstate"` types of censoring.
-    #'
+    #' Returns the sorted unique event (or failure) outcome times.
     #' @return `numeric()`
     unique_event_times = function(rows = NULL) {
-      assert_choice(self$censtype, choices = c("right", "left", "mstate"))
-
-      sort(unique(self$times(rows)[self$status(rows) != 0]))
-    },
-
-    #' @description
-    #' Returns the `row_ids` of the observations **at risk** (not dead or censored
-    #' or had other events in case of multi-state tasks) at the specified `time`.
-    #'
-    #' Only designed for `"right"`, `"left"` and `"mstate"` types of censoring.
-    #'
-    #' @param time (`numeric(1)`) \cr Time to return risk set for, if `NULL`
-    #' returns all `row_ids`.
-    #'
-    #' @return `integer()`
-    risk_set = function(time = NULL) {
-      assert_choice(self$censtype, choices = c("right", "left", "mstate"))
-
-      if (is.null(time)) {
-        self$row_ids
-      } else {
-        self$row_ids[self$times() >= time]
-      }
+      sort(unique(self$times(rows)[self$status(rows) == 1])) # event => 1
     },
 
     #' @description
@@ -251,42 +224,44 @@ TaskSurv = R6Class("TaskSurv",
       assert_character(strata, null.ok = TRUE)
       f = self$formula(strata %??% 1, reverse)
       cols = c(self$target_names, intersect(self$backend$colnames, strata))
-      data = self$data(cols = cols, rows = rows)
+      data = self$data(rows = rows, cols = cols)
       survival::survfit(f, data = data, ...)
     },
 
     #' @description
     #' Returns the same task with the status variable reversed, i.e., 1 - status.
-    #' Only designed for `"left"` and `"right"` censoring.
     #'
     #' @return [mlr3proba::TaskSurv].
     reverse = function() {
-      assert_choice(self$censtype, choices = c("right", "left"))
+      if (self$cens_type == "interval") stop("Not supported for interval-censored data")
 
-      d = copy(self$data())
-      d[, (self$target_names[2L]) := 1 - get(self$target_names[2L])]
-      as_task_surv(d, self$target_names[1L],
-        self$target_names[2L],
-        type = self$censtype, id = paste0(self$id, "_reverse")
-      )
+      data = copy(self$data())
+      data[, (self$target_names[2L]) := 1 - get(self$target_names[2L])]
+      as_task_surv(data, time = self$target_names[1L], event = self$target_names[2L],
+                   type = self$cens_type, id = paste0(self$id, "_reverse"))
     },
 
     #' @description
     #' Returns the **proportion of censoring** for this survival task.
+    #' This the proportion of censored observations in case of `"right"` or
+    #' `"left"` censoring, otherwise the proportion of left (2), right (0) and
+    #' interval censored (3) observations when censoring type is `"interval"`.
+    #'
     #' By default, this is returned for all observations, otherwise only the
     #' specified ones (`rows`).
     #'
-    #' Only designed for `"right"` and `"left"` censoring.
-    #'
     #' @return `numeric()`
     cens_prop = function(rows = NULL) {
-      assert_choice(self$censtype, choices = c("right", "left"))
-
       status = self$status(rows)
-      total_censored = sum(status == 0)
-      n_obs = length(status)
 
-      total_censored / n_obs
+      tbl_status = table(status, exclude = 1) # 1 => event
+      cens_props = as.vector(tbl_status) / length(status)
+
+      if (self$cens_type == "interval") {
+        set_names(cens_props, names(tbl_status)) # can be 0, 2 or 3, see `$status()`
+      } else {
+        cens_props
+      }
     },
 
     #' @description
@@ -296,7 +271,7 @@ TaskSurv = R6Class("TaskSurv",
     #' the maximum censoring time is likely close to the maximum event time and
     #' so we expect higher proportion of censored subjects near the study end date.
     #'
-    #' Only designed for `"right"` and `"left"` censoring.
+    #' Only designed for `"right"` censoring.
     #'
     #' @param admin_time (`numeric(1)`) \cr
     #' Administrative censoring time (in case it is known *a priori*).
@@ -310,7 +285,8 @@ TaskSurv = R6Class("TaskSurv",
     #'
     #' @return `numeric()`
     admin_cens_prop = function(rows = NULL, admin_time = NULL, quantile_prob = 0.99) {
-      assert_choice(self$censtype, choices = c("right", "left"))
+      if (self$cens_type != "right") stopf("Not supported for %s-censored data", self$cens_type)
+
       assert_number(quantile_prob, lower = 0.8, upper = 1, null.ok = FALSE)
       assert_number(admin_time, lower = 0, null.ok = TRUE)
 
@@ -347,7 +323,7 @@ TaskSurv = R6Class("TaskSurv",
     #' the number of features is relatively small compared to the number of
     #' observations.
     #'
-    #' Only designed for `"right"` and `"left"` censoring.
+    #' Only designed for `"right"` censoring.
     #'
     #' @param sign_level (`numeric(1)`) \cr
     #' Significance level for each coefficient's p-value from the logistic
@@ -358,7 +334,7 @@ TaskSurv = R6Class("TaskSurv",
     #'
     #' @return `numeric()`
     dep_cens_prop = function(rows = NULL, method = "holm", sign_level = 0.05) {
-      assert_choice(self$censtype, choices = c("right", "left"))
+      if (self$cens_type != "right") stopf("Not supported for %s-censored data", self$cens_type)
 
       status_var = self$target_names[[2L]]
       glm_summary = summary(stats::glm(
@@ -384,13 +360,13 @@ TaskSurv = R6Class("TaskSurv",
     #' the number of features is relatively small compared to the number of
     #' observations.
     #'
-    #' Only designed for `"right"` and `"left"` censoring.
+    #' Only designed for `"right"` censoring.
     #'
     #' @return `numeric()` \cr
     #' If no errors, the p-value of the global chi-square test.
     #' A p-value \eqn{< 0.05} is an indication of possible PH violation.
     prop_haz = function() {
-      assert_choice(self$censtype, choices = c("right", "left"))
+      if (self$cens_type != "right") stopf("Not supported for %s-censored data", self$cens_type)
 
       cox = lrn("surv.coxph")
       cox$encapsulate("evaluate", fallback = lrn("surv.kaplan"))
@@ -408,17 +384,18 @@ TaskSurv = R6Class("TaskSurv",
   ),
 
   active = list(
-    #' @field censtype (`character(1)`)\cr
-    #' Returns the type of censoring, one of `"right"`, `"left"`, `"counting"`,
-    #' `"interval"`, `"interval2"` or `"mstate"`.
-    #' Currently, only the `"right"`-censoring type is fully supported, the rest
-    #' are experimental and the API will change in the future.
-    censtype = function() {
-      return(private$.censtype)
+    #' @field cens_type (`character(1)`)\cr
+    #' Returns the type of censoring, one of `"right"`, `"left"` or `"interval"`.
+    #'
+    #' Currently, only the `"right"` censoring type is fully supported, the rest
+    #' are experimental and the API might change in the future.
+    cens_type = function(rhs) {
+      assert_ro_binding(rhs)
+      private$.cens_type
     }
   ),
 
   private = list(
-    .censtype = character()
+    .cens_type = NULL
   )
 )

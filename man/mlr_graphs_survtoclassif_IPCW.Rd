@@ -38,7 +38,7 @@ Wrapper around \link{PipeOpTaskSurvClassifIPCW} and \link{PipeOpPredClassifSurvI
 The pipeline consists of the following steps:
 \enumerate{
 \item \link{PipeOpTaskSurvClassifIPCW} Converts \link{TaskSurv} to a \link[mlr3:TaskClassif]{TaskClassif}.
-\item A \link{LearnerClassif} is fit and predicted on the new \code{TaskClassif}.
+\item A \link[mlr3:LearnerClassif]{LearnerClassif} is fit and predicted on the new \code{TaskClassif}.
 \item \link{PipeOpPredClassifSurvIPCW} transforms the resulting \link[mlr3:PredictionClassif]{PredictionClassif}
 to \link{PredictionSurv}.
 }

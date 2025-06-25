@@ -37,13 +37,13 @@
 #' The target column is named `"status"` and indicates whether **an event occurred**
 #' **before the cutoff time** \eqn{\tau} (`1` = yes, `0` = no).
 #' The observed times column is removed from the "output" task.
-#' The transformed task has the property `"weights"` (the \eqn{\omega_i}).
+#' The transformed task has the property `"weights_learner"` (the \eqn{\omega_i}).
 #' The "data" is `NULL`.
 #'
 #' During prediction, the "input" [TaskSurv] is transformed to the "output"
 #' [TaskClassif][mlr3::TaskClassif] with `"status"` as target (again indicating
 #' if the event occurred before the cutoff time).
-#' The "data" is a [data.table] containing the observed `times` \eqn{T_i} and
+#' The "data" is a [data.table][data.table::data.table] containing the observed `times` \eqn{T_i} and
 #' censoring indicators/`status` \eqn{\delta_i} of each subject as well as the corresponding
 #' `row_ids`.
 #' This "data" is only meant to be used with the [PipeOpPredClassifSurvIPCW].
@@ -135,7 +135,7 @@ PipeOpTaskSurvClassifIPCW = R6Class("PipeOpTaskSurvClassifIPCW",
       task = input[[1]]
 
       # checks
-      assert_true(task$censtype == "right")
+      assert_true(task$cens_type == "right")
       tau = assert_numeric(self$param_set$values$tau, null.ok = FALSE)
       max_event_time = max(task$unique_event_times())
       stopifnot(tau <= max_event_time)
@@ -181,7 +181,7 @@ PipeOpTaskSurvClassifIPCW = R6Class("PipeOpTaskSurvClassifIPCW",
       # create classification task
       task_ipcw = TaskClassif$new(id = paste0(task$id, "_IPCW"), backend = data,
                                   target = status_var, positive = "1")
-      task_ipcw$set_col_roles("ipc_weights", roles = "weight")
+      task_ipcw$set_col_roles("ipc_weights", roles = "weights_learner")
 
       # keep this in the state just in case
       self$state = list()

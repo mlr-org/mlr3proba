@@ -211,7 +211,7 @@ plot.TaskDens = function(x, ...) {
 #' @template section_theme
 #'
 #' @references
-#' `r format_bib("haider_2020", "austin2020")`
+#' `r format_bib("haider_2020", "austin_2020")`
 #'
 #' @examplesIf mlr3misc::require_namespaces(c("mlr3viz", "ggplot2"), quietly = TRUE)
 #' library(mlr3)

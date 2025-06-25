@@ -382,7 +382,7 @@ bibentries = c(
     volume = "97",
     year = "2021"
   ),
-  sonabend2024 = bibentry("misc",
+  sonabend_2024 = bibentry("misc",
     archivePrefix = "arXiv",
     arxivId = "2212.05260",
     author = "Sonabend, Raphael and Zobolas, John and Kopper, Philipp and Burk, Lukas and Bender, Andreas",
@@ -391,7 +391,7 @@ bibentries = c(
     url = "https://arxiv.org/abs/2212.05260v2",
     year = "2024"
   ),
-  kvamme2023 = bibentry("article",
+  kvamme_2023 = bibentry("article",
     author = "Kvamme, Havard and Borgan, Ornulf",
     issn = "1533-7928",
     journal = "Journal of Machine Learning Research",
@@ -402,7 +402,7 @@ bibentries = c(
     volume = "24",
     year = "2023"
   ),
-  austin2020 = bibentry("article",
+  austin_2020 = bibentry("article",
     author = "Austin, Peter C. and Harrell, Frank E. and van Klaveren, David",
     doi = "10.1002/SIM.8570",
     issn = "10970258",
@@ -417,6 +417,29 @@ bibentries = c(
     volume = "39",
     year = "2020"
   ),
+  aalen_1978 = bibentry("article",
+    author = "Aalen, Odd O and Johansen, Soren",
+    journal = "Scandinavian journal of statistics",
+    pages = "141--150",
+    publisher = "JSTOR",
+    title = "An empirical transition matrix for non-homogeneous Markov chains based on censored observations",
+    year = "1978"
+  ),
+  blanche_2013 = bibentry("article",
+    author = "Blanche, Paul and Dartigues, Jean Francois and Jacqmin-Gadda, Helene",
+    journal = "Statistics in Medicine",
+    pages = "5381--5397",
+    publisher = "John Wiley & Sons, Ltd",
+    title = "Estimating and comparing time-dependent areas under receiver operating characteristic curves for censored event times with competing risks",
+    year = "2013",
+    doi = "10.1002/SIM.5958",
+    issn = "1097-0258",
+    month = "December",
+    number = "30",
+    pmid = "24027076",
+    volume = "32",
+    url = "https://onlinelibrary.wiley.com/doi/10.1002/sim.5958"
+  ),
   bender_2018 = bibentry("article",
     author  = "Bender, Andreas and Groll, Andreas and Scheipl, Fabian",
     title   = "A generalized additive model approach to time-to-event analysis",
@@ -427,6 +450,4 @@ bibentries = c(
     url     = "https://doi.org/10.1177/1471082X17748083",
     year    = "2018"
   )
-  
-  
 )

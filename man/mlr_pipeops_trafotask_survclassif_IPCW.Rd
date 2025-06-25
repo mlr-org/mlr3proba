@@ -42,13 +42,13 @@ which is the "output".
 The target column is named \code{"status"} and indicates whether \strong{an event occurred}
 \strong{before the cutoff time} \eqn{\tau} (\code{1} = yes, \code{0} = no).
 The observed times column is removed from the "output" task.
-The transformed task has the property \code{"weights"} (the \eqn{\omega_i}).
+The transformed task has the property \code{"weights_learner"} (the \eqn{\omega_i}).
 The "data" is \code{NULL}.
 
 During prediction, the "input" \link{TaskSurv} is transformed to the "output"
 \link[mlr3:TaskClassif]{TaskClassif} with \code{"status"} as target (again indicating
 if the event occurred before the cutoff time).
-The "data" is a \link{data.table} containing the observed \code{times} \eqn{T_i} and
+The "data" is a \link[data.table:data.table]{data.table} containing the observed \code{times} \eqn{T_i} and
 censoring indicators/\code{status} \eqn{\delta_i} of each subject as well as the corresponding
 \code{row_ids}.
 This "data" is only meant to be used with the \link{PipeOpPredClassifSurvIPCW}.

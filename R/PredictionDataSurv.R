@@ -1,12 +1,12 @@
+# Here we define some mlr3-mandatory S3 methods of the `PredictionDataSurv` object
+
 #' @export
-as_prediction.PredictionDataSurv = function(x, check = TRUE, ...) { # nolint
+as_prediction.PredictionDataSurv = function(x, check = TRUE, ...) {
   invoke(PredictionSurv$new, check = check, .args = x)
 }
 
-
 #' @export
-check_prediction_data.PredictionDataSurv = function(pdata, ...) { # nolint
-
+check_prediction_data.PredictionDataSurv = function(pdata, ...) {
   n = length(assert_row_ids(pdata$row_ids))
   assert_surv(pdata$truth, "Surv", len = n, any.missing = TRUE, null.ok = TRUE)
   assert_numeric(pdata$crank, len = n, any.missing = FALSE, null.ok = FALSE)
@@ -23,7 +23,6 @@ check_prediction_data.PredictionDataSurv = function(pdata, ...) { # nolint
   }
   pdata
 }
-
 
 #' @export
 is_missing_prediction_data.PredictionDataSurv = function(pdata, ...) { # nolint
@@ -44,7 +43,6 @@ is_missing_prediction_data.PredictionDataSurv = function(pdata, ...) { # nolint
   pdata$row_ids[miss]
 }
 
-
 #' @export
 c.PredictionDataSurv = function(..., keep_duplicates = TRUE) {
   dots = list(...)
@@ -57,7 +55,7 @@ c.PredictionDataSurv = function(..., keep_duplicates = TRUE) {
   predict_types = names(mlr_reflections$learner_predict_types$surv)
   predict_types = map(dots, function(x) intersect(names(x), predict_types))
   if (!every(predict_types[-1L], setequal, y = predict_types[[1L]])) {
-    stopf("Cannot combine predictions: Different predict types")
+    stopf("Cannot combine predictions: Different prediction types")
   }
 
   predict_types = predict_types[[1L]]

@@ -34,7 +34,7 @@
 #' @template details_trainG
 #'
 #' @references
-#' `r format_bib("sonabend2024")`
+#' `r format_bib("sonabend_2024")`
 #'
 #' @family Probabilistic survival measures
 #' @family distr survival measures

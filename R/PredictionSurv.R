@@ -10,7 +10,6 @@
 #' and example below.
 #'
 #' @family Prediction
-#' @export
 #' @examples
 #' library(mlr3)
 #' task = tsk("rats")
@@ -22,6 +21,7 @@
 #'
 #' # survival probabilities of the 4 test rats at two time points
 #' p$distr$survival(c(20, 100))
+#' @export
 PredictionSurv = R6Class("PredictionSurv",
   inherit = Prediction,
   public = list(
@@ -143,7 +143,6 @@ PredictionSurv = R6Class("PredictionSurv",
   ),
 
   private = list(
-    .censtype = NULL,
     .distr = function() self$data$distr %??% NA_real_,
     .simplify_distr = function(x) {
       if (inherits(x, c("Matdist", "Arrdist"))) {
@@ -189,16 +188,40 @@ PredictionSurv = R6Class("PredictionSurv",
   )
 )
 
-
 #' @export
-as.data.table.PredictionSurv = function(x, ...) { # nolint
-
+as.data.table.PredictionSurv = function(x, ...) {
   tab = as.data.table(x$data[c("row_ids", "crank", "lp", "response")])
   tab$time = x$data$truth[, 1L]
   tab$status = as.logical(x$data$truth[, 2L])
-  if ("distr" %in% x$predict_types) {
-    # annoyingly need this many lists to get nice printing
-    tab$distr = list(list(list(r6_private(x)$.distr())))
+
+  n_obs = length(x$row_ids)
+  if ("distr" %in% x$predict_types && n_obs > 0) {
+    distr = x$data$distr
+    # get survival matrix/array
+    surv = if (inherits(distr, "Distribution"))
+      1 - distr6::gprm(distr, "cdf")
+    else distr
+
+    # If survival array, take the median
+    surv_mat = if (length(dim(surv)) == 3L) .ext_surv_mat(surv, 0.5) else surv
+
+    # Edge case with 1 observation coming from a `distr6::WeightedDisc`
+    if (is.vector(surv_mat)) {
+      surv_mat = matrix(surv_mat, nrow = 1, dimnames = list(NULL, names(surv_mat)))
+    }
+
+    # split survival matrix to 1 vector (curve) per observation
+    # wrapped in a list for nice printing
+    tab$distr = lapply(1:n_obs, function(i) {
+      list(surv_mat[i, , drop = TRUE])
+    })
+
+    # strange edge issue with 1 row `data.table` => extra list is removed!
+    # so we put them back in:
+    if (nrow(tab) == 1) {
+      tab$distr = list(list(tab$distr))
+    }
   }
+
   setcolorder(tab, c("row_ids", "time", "status"))[]
 }

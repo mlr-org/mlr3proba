@@ -1,14 +1,13 @@
 skip_if_not_installed("rpart")
 
 test_that("autotest", {
-  learner = mlr_learners$get("surv.rpart")
-  expect_learner(learner)
-  ## excluding because I don't know what it does or how to test it..
-  result = run_autotest(learner, exclude = "utf8_feature_names",
-                        check_replicable = FALSE)
-  expect_true(result, info = result$error)
+  with_seed(42L, {
+    learner = mlr_learners$get("surv.rpart")
+    expect_learner(learner)
+    result = run_autotest(learner, check_replicable = FALSE)
+    expect_true(result, info = result$error)
+  })
 })
-
 
 test_that("importance/selected", {
   learner = lrn("surv.rpart")

@@ -75,9 +75,7 @@ LearnerSurvRpart = R6Class("LearnerSurvRpart",
     .train = function(task) {
       pv = self$param_set$get_values(tags = "train")
       names(pv) = replace(names(pv), names(pv) == "keep_model", "model")
-      if ("weights" %in% task$properties) {
-        pv = insert_named(pv, list(weights = task$weights$weight))
-      }
+      pv$weights = private$.get_weights(task)
 
       invoke(rpart::rpart, formula = task$formula(), data = task$data(),
              method = "exp", .args = pv)

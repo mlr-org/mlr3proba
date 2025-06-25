@@ -2,7 +2,7 @@
 #' @description Plots probability density functions from `n` predicted probability
 #' distributions.
 #'
-#' @param p ([PredictionRegr]) \cr With at least column `distr`.
+#' @param p ([PredictionRegr][mlr3::PredictionRegr]) \cr With at least column `distr`.
 #' @param n (`integer(1)`) \cr Number of predictions to plot.
 #' @param type (`character(1)`) \cr One of `"point"` (default), `"line"`, `"both"`, `"none"`.
 #' @param which_plot (`character(1)`) \cr One of `"random"` (default) or `"top"`. See details.

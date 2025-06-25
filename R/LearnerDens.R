@@ -1,10 +1,10 @@
 #' @title Density Learner
 #'
 #' @description
-#' This Learner specializes [Learner] for density estimation problems:
+#' This Learner specializes [Learner][mlr3::Learner] for density estimation problems:
 #'
 #' * `task_type` is set to `"dens"`
-#' * Creates [Prediction]s of class [PredictionDens].
+#' * Creates [Prediction][mlr3::Prediction]s of class [PredictionDens].
 #' * Possible values for `predict_types` are:
 #'   - `"pdf"`: Evaluates estimated probability density function for each value in the test set.
 #'   - `"cdf"`: Evaluates estimated cumulative distribution function for each value in the test set.

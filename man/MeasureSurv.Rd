@@ -16,6 +16,7 @@ Predefined measures can be found in the \link[mlr3misc:Dictionary]{dictionary} \
 Default survival measure: \code{\link[=mlr_measures_surv.cindex]{surv.cindex}}
 
 Other Measure: 
+\code{\link{MeasureCompRisks}},
 \code{\link{MeasureDens}}
 }
 \concept{Measure}
@@ -84,12 +85,16 @@ and to \code{FALSE} if good predictions correspond to large values.
 If set to \code{NA} (default), tuning this measure is not possible.}
 
 \item{\code{average}}{(\code{character(1)})\cr
-How to average multiple \link{Prediction}s from a \link{ResampleResult}.
+How to average multiple \link[mlr3:Prediction]{Prediction}s from a
+\link[mlr3:ResampleResult]{ResampleResult}.
 
-The default, \code{"macro"}, calculates the individual performances scores for each \link{Prediction} and then uses the
-function defined in \verb{$aggregator} to average them to a single number.
+The default, \code{"macro"}, calculates the individual performances scores for
+each \link[mlr3:Prediction]{Prediction} and then uses the function defined in
+\verb{$aggregator} to average them to a single number.
 
-If set to \code{"micro"}, the individual \link{Prediction} objects are first combined into a single new \link{Prediction} object which is then used to assess the performance.
+If set to \code{"micro"}, the individual \link[mlr3:Prediction]{Prediction} objects
+are first combined into a single new \link[mlr3:Prediction]{Prediction} object
+which is then used to assess the performance.
 The function in \verb{$aggregator} is not used in this case.}
 
 \item{\code{aggregator}}{(\verb{function(x)})\cr
@@ -101,28 +106,28 @@ The observation-wise loss function, e.g. \link[mlr3measures:zero_one]{zero-one} 
 
 \item{\code{properties}}{(\code{character()})\cr
 Properties of the measure.
-Must be a subset of \link[=mlr_reflections]{mlr_reflections$measure_properties}.
+Must be a subset of \link[mlr3:mlr_reflections]{mlr_reflections$measure_properties}.
 Supported by \code{mlr3}:
 \itemize{
-\item \code{"requires_task"} (requires the complete \link{Task}),
-\item \code{"requires_learner"} (requires the trained \link{Learner}),
-\item \code{"requires_train_set"} (requires the training indices from the \link{Resampling}), and
+\item \code{"requires_task"} (requires the complete \link[mlr3:Task]{Task}),
+\item \code{"requires_learner"} (requires the trained \link[mlr3:Learner]{Learner}),
+\item \code{"requires_train_set"} (requires the training indices from the \link[mlr3:Resampling]{Resampling}), and
 \item \code{"na_score"} (the measure is expected to occasionally return \code{NA} or \code{NaN}).
 }}
 
 \item{\code{predict_type}}{(\code{character(1)})\cr
-Required predict type of the \link{Learner}.
-Possible values are stored in \link[=mlr_reflections]{mlr_reflections$learner_predict_types}.}
+Required predict type of the \link[mlr3:Learner]{Learner}.
+Possible values are stored in \link[mlr3:mlr_reflections]{mlr_reflections$learner_predict_types}.}
 
 \item{\code{predict_sets}}{(\code{character()})\cr
-Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
-Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
+Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link[mlr3:ResampleResult]{ResampleResult}.
+Multiple predict sets are calculated by the respective \link[mlr3:Learner]{Learner} during \link[mlr3:resample]{resample()}/\link[mlr3:benchmark]{benchmark()}.
 Must be a non-empty subset of \verb{\{"train", "test"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is \code{"test"}.}
 
 \item{\code{task_properties}}{(\code{character()})\cr
-Required task properties, see \link{Task}.}
+Required task properties, see \link[mlr3:Task]{Task}.}
 
 \item{\code{packages}}{(\code{character()})\cr
 Set of required packages.

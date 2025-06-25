@@ -14,7 +14,7 @@ plot_probregr(
 )
 }
 \arguments{
-\item{p}{(\link{PredictionRegr}) \cr With at least column \code{distr}.}
+\item{p}{(\link[mlr3:PredictionRegr]{PredictionRegr}) \cr With at least column \code{distr}.}
 
 \item{n}{(\code{integer(1)}) \cr Number of predictions to plot.}
 

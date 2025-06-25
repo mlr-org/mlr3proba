@@ -39,7 +39,7 @@ The "transformed_data" is an empty \link[data.table:data.table]{data.table}.
 During prediction, the "input" \link{TaskSurv} is transformed to the "output"
 \link[mlr3:TaskRegr]{TaskRegr} with \code{"pem_status"} as target, \code{"tend"} included as feature and
 and the \code{"offset"} column which is assigned the offset \code{"col_role"}.
-The "transformed_data" is a \link{data.table} with columns the \code{"pem_status"}
+The "transformed_data" is a \link[data.table:data.table]{data.table} with columns the \code{"pem_status"}
 target of the "output" task, the \code{"id"} (original observation ids),
 \code{"obs_times"} (observed times per \code{"id"}) and \code{"tend"} (end time of each interval).
 This "transformed_data" is only meant to be used with the \link{PipeOpPredRegrSurvPEM}.

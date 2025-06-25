@@ -4,11 +4,11 @@ template:
   bootstrap: 5
   # solve temporarily math rendering issue: https://github.com/r-lib/pkgdown/issues/2704
   # TODO: Check and remove when above issue is resolved
-  includes:
-    in_header: |
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
-      <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
-      <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+  #includes:
+  #  in_header: |
+  #    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+  #    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+  #    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
   light-switch: true
   math-rendering: mathjax
   package: mlr3pkgdowntemplate
@@ -69,6 +69,10 @@ reference:
       - LearnerSurv
       - PredictionSurv
       - MeasureSurv
+      - TaskCompRisks
+      - LearnerCompRisks
+      - PredictionCompRisks
+      - MeasureCompRisks
       - TaskDens
       - LearnerDens
       - PredictionDens
@@ -86,7 +90,6 @@ reference:
       - mlr_tasks_actg
       - mlr_tasks_gbsg
       - mlr_tasks_mgus
-      - mlr_tasks_pbc
       - mlr_tasks_veteran
       - mlr_tasks_gbcs
       - mlr_tasks_grace
@@ -100,6 +103,15 @@ reference:
   - title: Survival Pipelines
     contents:
       - starts_with("mlr_graphs")
+  - title: Competing Risk Learners
+    contents:
+      - starts_with("mlr_learners_cmprsk")
+  - title: Competing Risk Measures
+    contents:
+      - starts_with("mlr_measures_cmprsk")
+  - title: Competing Risk Tasks
+    contents:
+      - mlr_tasks_pbc
   - title: Density Learners
     contents:
       - starts_with("mlr_learners_dens")
@@ -135,5 +147,6 @@ reference:
       - breslow
       - assert_surv
       - assert_surv_matrix
+      - assert_cif_list
       - get_mortality
       - MeasureSurvAUC

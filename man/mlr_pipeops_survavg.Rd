@@ -52,6 +52,7 @@ Inherits from \link[mlr3pipelines:PipeOpEnsemble]{PipeOpEnsemble} by implementin
   p1 = lrn("surv.coxph")$train(task)$predict(task)
   p2 = lrn("surv.kaplan")$train(task)$predict(task)
   poc = po("survavg", param_vals = list(weights = c(0.2, 0.8)))
+  poc$train(list(NULL)) # need to train first, even if nothing happens
   poc$predict(list(p1, p2))
 }
 \dontshow{\}) # examplesIf}

@@ -67,12 +67,14 @@
 #'   # Median survival time as response
 #'   pred = lrn("surv.coxph")$train(task)$predict(task)
 #'   por = po("responsecompose", param_vals = list(method = "median", overwrite = TRUE))
+#'   por$train(list(NULL)) # need to train first, even if nothing happens
 #'   por$predict(list(pred))[[1L]]
 #'   # mostly improper survival distributions, "median" sets the survival time
 #'   # to the last time point
 #'
 #'   # RMST (default) as response, while also changing the `crank` to `-response`
 #'   por = po("responsecompose", param_vals = list(overwrite = TRUE, add_crank = TRUE))
+#'   por$train(list(NULL))
 #'   por$predict(list(pred))[[1L]]
 #' }
 #' @export

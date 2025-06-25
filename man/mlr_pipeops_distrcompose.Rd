@@ -99,6 +99,7 @@ distribution, see Norman et al. (2024).
   pred = lrn("surv.coxph")$train(task)$predict(task)
   # let's change the distribution prediction of Cox (Breslow-based) to an AFT form:
   pod = po("distrcompose", param_vals = list(form = "aft", overwrite = TRUE))
+  pod$train(list(NULL, NULL)) # need to train first, even if nothing happens
   pod$predict(list(base = base, pred = pred))[[1]]
 }
 \dontshow{\}) # examplesIf}

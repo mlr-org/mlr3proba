@@ -64,7 +64,7 @@ where \eqn{d_j} specifies the duration of interval \eqn{j}.
 The previous considerations are reflected in the pipeline which consists of the following steps:
 \enumerate{
 \item \link{PipeOpTaskSurvRegrPEM} Converts \link{TaskSurv} to a \link[mlr3:TaskRegr]{TaskRegr}.
-\item A \link{LearnerRegr} is fit and predicted on the new \code{TaskRegr}.
+\item A \link[mlr3:LearnerRegr]{LearnerRegr} is fit and predicted on the new \code{TaskRegr}.
 \item \link{PipeOpPredRegrSurvPEM} transforms the resulting \link[mlr3:PredictionRegr]{PredictionRegr}
 to \link{PredictionSurv}.
 }
@@ -99,8 +99,9 @@ to \link{PredictionSurv}.
   grlrn$train(task, row_ids = part$train)
   grlrn$predict(task, row_ids = part$test)
 
-  # if necessary encode data before passing to learner with e.g. po("encode"), po("modelmatrix"), etc.
-  # with po("modelmatrix") feature types and formula can be adjusted at the same time
+  # if necessary encode data before passing to learner with e.g. po("encode"),
+  # po("modelmatrix"), etc.
+  # With po("modelmatrix") feature types and formula can be adjusted at the same time
   cut = round(seq(0, max(task$data()$time), length.out = 20))
   learner = as_learner(
     po("modelmatrix", formula = ~ as.factor(tend) + .) \%>>\%

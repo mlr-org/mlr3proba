@@ -26,15 +26,15 @@ test_that("PipeOpTaskSurvClassifIPCW", {
   # classification task
   output_task = res[[1L]]
   expect_task_classif(output_task)
-  expect_equal(output_task$col_roles$weight, "ipc_weights")
-  expect_equal(sum(output_task$weights$weight), output_task$nrow)
+  expect_equal(output_task$col_roles$weights_learner, "ipc_weights")
+  expect_equal(sum(output_task$weights_learner$weight), output_task$nrow)
   expect_equal(output_task$positive, "1")
   expect_equal(output_task$target_names, "status")
   expect_equal(output_task$nrow, train_task$nrow) # same #observations
 
   # check: are weights = 0 the ones that should be so?
   true_zero_weight_ids = which(train_task$status() == 0 & train_task$times() <= cutoff)
-  res_zero_weight_ids = which(output_task$weights$weight == 0)
+  res_zero_weight_ids = which(output_task$weights_learner$weight == 0)
   expect_equal(res_zero_weight_ids, true_zero_weight_ids)
 
   res = po_ipcw$predict(list(test_task))
