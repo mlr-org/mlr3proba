@@ -1,11 +1,12 @@
-# mlr3proba 0.7.5
+# mlr3proba 0.8.0
 
 * fix: allow cloning of measure objects
+* fix: `as.data.table()` for `PredictionSurv` objects holds now one survival curve per observation as it should
+* Compatibility with `mlr3` v1.0.0 (`weights_learner`)
 * refactor: `TaskSurv` uses only right, left or interval censoring, simplified code a lot in the methods
 * feat: add `TaskCompRisks` class and `as_task_cmprk()` S3 methods (support for right-censored data only)
-* fix: as.data.table() for `PredictionSurv` objects holds now a survival curve per observation as it should
-* New `PipeOp`s: `PipeOpTaskSurvRegrPEM`, `PipeOpPredRegrPEM`
-* New pipeline (**reduction method**): `pipeline_survtoregr_pem`
+* feat: New `PipeOp`s: `PipeOpTaskSurvRegrPEM`, `PipeOpPredRegrPEM`
+* feat: New pipeline (**reduction method**): `pipeline_survtoregr_pem`
 
 # mlr3proba 0.7.4
 
