@@ -55,7 +55,7 @@ c.PredictionDataSurv = function(..., keep_duplicates = TRUE) {
   predict_types = names(mlr_reflections$learner_predict_types$surv)
   predict_types = map(dots, function(x) intersect(names(x), predict_types))
   if (!every(predict_types[-1L], setequal, y = predict_types[[1L]])) {
-    stopf("Cannot combine predictions: Different predict types")
+    stopf("Cannot combine predictions: Different prediction types")
   }
 
   predict_types = predict_types[[1L]]
