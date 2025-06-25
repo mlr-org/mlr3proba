@@ -35,6 +35,7 @@ Other contributors:
   \item Lukas Burk \email{github@quantenbrot.de} (\href{https://orcid.org/0000-0001-7528-3795}{ORCID}) [contributor]
   \item Maximilian Muecke \email{muecke.maximilian@gmail.com} (\href{https://orcid.org/0009-0000-9432-9795}{ORCID}) [contributor]
   \item Lee Xingzhuo Li \email{xingzhuo_li@yahoo.com.au} (\href{https://orcid.org/0000-0001-5259-5198}{ORCID}) [contributor]
+  \item Markus Goeswein \email{markus.goeswein@outlook.de} [contributor]
 }
 
 }

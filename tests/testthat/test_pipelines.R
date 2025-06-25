@@ -43,12 +43,14 @@ test_that("survtoclassif_disctime", {
   expect_equal(p$truth, p2$truth)
   expect_equal(p$score(), p2$score(), tolerance = 0.015)
 
-  # Test with cut
+  # test with cut
   grlrn = ppl("survtoclassif_disctime", learner = lrn("classif.log_reg"),
               cut = c(10, 30, 50), graph_learner = TRUE)
   expect_class(grlrn, "GraphLearner")
   suppressWarnings(grlrn$train(task))
   p = grlrn$predict(task)
+  expect_true(ncol(p$data$distr) == 3)
+  expect_true(all(as.numeric(colnames(p$data$distr)) == c(10, 30, 50)))
   expect_prediction_surv(p)
 
   # `max_time` needs to be larger than the minimum event time so we choose
@@ -64,9 +66,11 @@ test_that("survtoclassif_disctime", {
   p = grlrn$predict(task)
   expect_prediction_surv(p)
 
-  # Test with rhs
-  grlrn = ppl("survtoclassif_disctime", learner = lrn("classif.log_reg"),
-              rhs = "1", graph_learner = TRUE)
+  # test with po("modelmatrix") for custom formula
+  learner = as_learner(
+    po("modelmatrix", formula = ~ 1) %>>% lrn("classif.log_reg")
+  )
+  grlrn = ppl("survtoclassif_disctime", learner = learner, graph_learner = TRUE)
   grlrn$train(task)
   pred = suppressWarnings(grlrn$predict(task))
 
@@ -80,13 +84,22 @@ test_that("survtoclassif_disctime", {
   expect_equal(unname(pred2$score()), 0.5)
   expect_equal(pred$data$distr, pred2$data$distr)
 
-  grlrn = ppl("survtoclassif_disctime", learner = lrn("classif.log_reg"),
-              rhs = "rx + litter", graph_learner = TRUE)
+  # compare reduced and full model
+  learner = as_learner(
+    po("modelmatrix", formula = ~ rx + litter) %>>%
+    lrn("classif.log_reg")
+  )
+  grlrn = ppl("survtoclassif_disctime", learner = learner,
+              graph_learner = TRUE)
   grlrn$train(task)
   pred = suppressWarnings(grlrn$predict(task))
 
+  learner = as_learner(
+    po("modelmatrix", formula = ~ as.factor(tend) + .) %>>%
+    lrn("classif.log_reg")
+  )
   grlrn2 = ppl("survtoclassif_disctime", learner = lrn("classif.log_reg"),
-               rhs = ".", graph_learner = TRUE)
+               graph_learner = TRUE)
   grlrn2$train(task)
   pred2 = suppressWarnings(grlrn2$predict(task))
 
@@ -134,4 +147,125 @@ test_that("survtoclassif_IPCW", {
 
   # different cutoff times, different (crank) predictions
   expect_false(all(p$crank == p2$crank))
+})
+
+test_that("survtoregr_pem", {
+  skip_if_not_installed("mlr3learners")
+  require_namespaces("glmnet")
+
+  task = tsk("rats")
+  # for this section, select only numeric covariates,
+  # as 'regr.glmnet' does not automatically handle factor type variables
+  task$select(c("litter", "rx"))
+  learner = lrn('regr.glmnet',
+                family = "poisson",
+                lambda = 0,
+                use_pred_offset = FALSE)
+
+  pipe = ppl("survtoregr_pem", learner = learner)
+  expect_class(pipe, "Graph")
+  grlrn = ppl("survtoregr_pem", learner = learner, graph_learner = TRUE)
+  expect_class(grlrn, "GraphLearner")
+  expect_equal(grlrn$predict_type, "crank")
+
+  grlrn$train(task)
+  p = grlrn$predict(task)
+  expect_prediction_surv(p)
+
+  cox = lrn("surv.coxph")
+  suppressWarnings(cox$train(task))
+  p2 = cox$predict(task)
+
+  expect_equal(p$row_ids, p2$row_ids)
+  expect_equal(p$truth, p2$truth)
+  expect_equal(p$score(), p2$score(), tolerance = 0.015)
+
+  # Test with cut
+  cut_times = c(10, 30, 50)
+  grlrn = ppl("survtoregr_pem",
+              learner = learner,
+              cut = cut_times,
+              graph_learner = TRUE)
+  expect_class(grlrn, "GraphLearner")
+  suppressWarnings(grlrn$train(task))
+  p = grlrn$predict(task)
+  expect_prediction_surv(p)
+  expect_equal(as.numeric(colnames(p$data$distr)), cut_times)
+
+  # `max_time` needs to be larger than the minimum event time so we choose
+  # the minimum event time in the data for testing
+  max_time = task$data()[status == 1, min(time)]
+
+  grlrn = ppl("survtoregr_pem",
+              learner = learner,
+              max_time = max_time,
+              graph_learner = TRUE)
+
+  expect_error(grlrn$train(task), "max_time must be greater")
+
+  grlrn = ppl("survtoregr_pem",
+              learner = learner,
+              max_time = max_time + 1,
+              graph_learner = TRUE)
+  suppressWarnings(grlrn$train(task))
+  p = grlrn$predict(task)
+  expect_prediction_surv(p)
+
+  # Test learner with prior data processing
+  task = tsk("lung")
+  learner = lrn("regr.glmnet",
+                family = "poisson",
+                lambda = 0,
+                use_pred_offset = FALSE)
+
+  max_time = task$data()[status == 1, min(time)]
+  cut_times = seq(from = 0, to = max_time, length.out = 10)
+
+  # test custom formula via po("modelmatrix")
+  modelmatrix_learner = as_learner(
+    po("modelmatrix", formula = ~ as.factor(tend)) %>>% learner
+  )
+  grlrn = ppl("survtoregr_pem",
+              learner = modelmatrix_learner,
+              cut = cut_times,
+              graph_learner = TRUE)
+  grlrn$train(task)
+  pred = suppressWarnings(grlrn$predict(task))
+  # tend as only covariate leads to random discrimination
+  expect_equal(unname(pred$score()), 0.5)
+
+  # comparing smaller with larger models on the same task
+  # smaller model
+  modelmatrix_learner = as_learner(
+    po("modelmatrix", formula = ~ as.factor(tend) + sex + age) %>>% learner
+  )
+  grlrn = ppl("survtoregr_pem",
+              learner = modelmatrix_learner,
+              cut = cut_times,
+              graph_learner = TRUE)
+  grlrn$train(task)
+  pred = suppressWarnings(grlrn$predict(task))
+
+  # full model
+  # encode categorical features with po("encode")
+  encode_learner = as_learner(po("encode") %>>% learner)
+  grlrn = ppl("survtoregr_pem",
+              learner = encode_learner,
+              cut = cut_times,
+              graph_learner = TRUE)
+  grlrn$train(task)
+  pred2 = grlrn$predict(task)
+  # model with more covariates should have better C-index
+  expect_gt(pred2$score(), pred$score())
+
+  # test error message when poisson is not specified
+  encode_learner = as_learner(
+    po("encode") %>>% lrn("regr.glmnet", lambda = 0, use_pred_offset = FALSE)
+  )
+  expect_warning(
+    ppl("survtoregr_pem",
+        learner = encode_learner,
+        cut = cut_times,
+        graph_learner = TRUE), regexp = "Learner must explicitly support Poisson"
+  )
 })

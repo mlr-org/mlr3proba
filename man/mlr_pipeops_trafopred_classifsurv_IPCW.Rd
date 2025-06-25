@@ -51,8 +51,10 @@ Vock, M D, Wolfson, Julian, Bandyopadhyay, Sunayan, Adomavicius, Gediminas, John
 
 Other Transformation PipeOps: 
 \code{\link{mlr_pipeops_trafopred_classifsurv_disctime}},
+\code{\link{mlr_pipeops_trafopred_regrsurv_pem}},
 \code{\link{mlr_pipeops_trafotask_survclassif_IPCW}},
-\code{\link{mlr_pipeops_trafotask_survclassif_disctime}}
+\code{\link{mlr_pipeops_trafotask_survclassif_disctime}},
+\code{\link{mlr_pipeops_trafotask_survregr_pem}}
 }
 \concept{Transformation PipeOps}
 \section{Super class}{

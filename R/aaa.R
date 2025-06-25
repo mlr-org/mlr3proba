@@ -55,6 +55,7 @@ register_reflections = function() {
   x$task_col_roles$cmprsk = x$task_col_roles$regr
   x$task_col_roles$dens = c("feature", "target", "label", "order", "group", "weight", "stratum")
   x$task_col_roles$classif = unique(c(x$task_col_roles$classif, "original_ids")) # for discrete time
+  x$task_col_roles$regr = unique(c(x$task_col_roles$regr, "original_ids")) # for pem
 
   # task properties
   x$task_properties$surv = x$task_properties$regr
