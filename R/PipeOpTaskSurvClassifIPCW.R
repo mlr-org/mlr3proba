@@ -37,7 +37,7 @@
 #' The target column is named `"status"` and indicates whether **an event occurred**
 #' **before the cutoff time** \eqn{\tau} (`1` = yes, `0` = no).
 #' The observed times column is removed from the "output" task.
-#' The transformed task has the property `"weights"` (the \eqn{\omega_i}).
+#' The transformed task has the property `"weights_learner"` (the \eqn{\omega_i}).
 #' The "data" is `NULL`.
 #'
 #' During prediction, the "input" [TaskSurv] is transformed to the "output"
@@ -181,7 +181,7 @@ PipeOpTaskSurvClassifIPCW = R6Class("PipeOpTaskSurvClassifIPCW",
       # create classification task
       task_ipcw = TaskClassif$new(id = paste0(task$id, "_IPCW"), backend = data,
                                   target = status_var, positive = "1")
-      task_ipcw$set_col_roles("ipc_weights", roles = "weight")
+      task_ipcw$set_col_roles("ipc_weights", roles = "weights_learner")
 
       # keep this in the state just in case
       self$state = list()

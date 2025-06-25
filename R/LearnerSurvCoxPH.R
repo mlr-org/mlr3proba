@@ -37,10 +37,7 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH",
   private = list(
     .train = function(task) {
       pv = self$param_set$get_values(tags = "train")
-
-      if ("weights" %in% task$properties) {
-        pv$weights = task$weights$weight
-      }
+      pv$weights = private$.get_weights(task)
 
       invoke(survival::coxph, formula = task$formula(), data = task$data(),
              .args = pv, model = TRUE)

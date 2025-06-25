@@ -42,7 +42,7 @@ which is the "output".
 The target column is named \code{"status"} and indicates whether \strong{an event occurred}
 \strong{before the cutoff time} \eqn{\tau} (\code{1} = yes, \code{0} = no).
 The observed times column is removed from the "output" task.
-The transformed task has the property \code{"weights"} (the \eqn{\omega_i}).
+The transformed task has the property \code{"weights_learner"} (the \eqn{\omega_i}).
 The "data" is \code{NULL}.
 
 During prediction, the "input" \link{TaskSurv} is transformed to the "output"
