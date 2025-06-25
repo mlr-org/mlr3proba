@@ -60,7 +60,7 @@ Brilleman, L. S, Wolfe, Rory, Moreno-Betancur, Margarita, Crowther, J. M (2021).
 \seealso{
 \itemize{
 \item \link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:TaskGenerator]{TaskGenerators}: \link[mlr3:mlr_task_generators]{mlr3::mlr_task_generators}
-\item \code{as.data.table(mlr_task_generators)}  for a table of available \link[=TaskGenerator]{TaskGenerators} in the running session
+\item \code{as.data.table(mlr_task_generators)}  for a table of available \link[mlr3:TaskGenerator]{TaskGenerators} in the running session
 }
 
 Other TaskGenerator: 

@@ -5,8 +5,8 @@
 #' @description
 #' `r lifecycle::badge("experimental")`
 #'
-#' Combines a predicted `response` and `se` from [PredictionRegr] with a specified probability
-#' distribution to estimate (or 'compose') a `distr` prediction.
+#' Combines a predicted `response` and `se` from [PredictionRegr][mlr3::PredictionRegr]
+#' with a specified probability distribution to estimate (or 'compose') a `distr` prediction.
 #'
 #' @section Dictionary:
 #' This [PipeOp][mlr3pipelines::PipeOp] can be instantiated via the
@@ -20,11 +20,13 @@
 #'
 #' @section Input and Output Channels:
 #' [PipeOpProbregr] has two input channels named `"input_response"` and `"input_se"`,
-#' which take `NULL` during training and two [PredictionRegr]s during prediction, these should
-#' respectively contain the `response` and `se` return type, the same object can be passed twice.
+#' which take `NULL` during training and two [PredictionRegr][mlr3::PredictionRegr]s
+#' during prediction, these should respectively contain the `response` and `se`
+#' return type, the same object can be passed twice.
 #'
-#' The output during prediction is a [PredictionRegr] with the "response" from `input_response`,
-#' the "se" from `input_se` and a "distr" created from combining the two.
+#' The output during prediction is a [PredictionRegr][mlr3::PredictionRegr] with
+#' the "response" from `input_response`, the "se" from `input_se` and a "distr"
+#' created from combining the two.
 #'
 #' @section State:
 #' The `$state` is left empty (`list()`).
@@ -33,7 +35,7 @@
 #' * `dist` :: `character(1)` \cr
 #'    Location-scale distribution to use for composition. Current choices are
 #'    `"Uniform"` (default), `"Normal"`, `"Cauchy"`, `"Gumbel"`, `"Laplace"`,
-#'    `"Logistic"`. All implemented via [distr6].
+#'    `"Logistic"`. All implemented via \link[distr6]{distr6}.
 #'
 #' @section Internals:
 #' The composition is created by substituting the `response` and `se` predictions into the

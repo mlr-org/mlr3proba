@@ -36,8 +36,8 @@
 #' During prediction, the "input" [TaskSurv] is transformed to the "output"
 #' [TaskClassif][mlr3::TaskClassif] with `"disc_status"` as target and the `"tend"`
 #' feature included.
-#' The "transformed_data" is a [data.table] with columns the `"disc_status"`
-#' target of the "output" task, the `"id"` (original observation ids),
+#' The "transformed_data" is a [data.table][data.table::data.table] with columns
+#' the `"disc_status"` target of the "output" task, the `"id"` (original observation ids),
 #' `"obs_times"` (observed times per `"id"`) and `"tend"` (end time of each interval).
 #' This "transformed_data" is only meant to be used with the [PipeOpPredClassifSurvDiscTime].
 #'

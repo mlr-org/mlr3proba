@@ -1,13 +1,13 @@
 #' @title Survival Learner
 #'
 #' @description
-#' This Learner specializes [Learner] for survival problems:
+#' This Learner specializes [Learner][mlr3::Learner] for survival problems:
 #'
 #' * `task_type` is set to `"surv"`
-#' * Creates [Prediction]s of class [PredictionSurv].
+#' * Creates [Prediction][mlr3::Prediction]s of class [PredictionSurv].
 #' * Possible values for `predict_types` are:
 #'   - `"distr"`: Predicts a probability distribution for each observation in the test set,
-#'                uses [distr6].
+#'                uses \link[distr6]{distr6}.
 #'   - `"lp"`: Predicts a linear predictor for each observation in the test set.
 #'   - `"crank"`: Predicts a continuous ranking for each observation in the test set.
 #'   - `"response"`: Predicts a survival time for each observation in the test set.

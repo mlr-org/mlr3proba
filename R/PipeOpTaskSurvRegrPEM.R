@@ -34,7 +34,7 @@
 #' During prediction, the "input" [TaskSurv] is transformed to the "output"
 #' [TaskRegr][mlr3::TaskRegr] with `"pem_status"` as target, `"tend"` included as feature and
 #' and the `"offset"` column which is assigned the offset `"col_role"`.
-#' The "transformed_data" is a [data.table] with columns the `"pem_status"`
+#' The "transformed_data" is a [data.table][data.table::data.table] with columns the `"pem_status"`
 #' target of the "output" task, the `"id"` (original observation ids),
 #' `"obs_times"` (observed times per `"id"`) and `"tend"` (end time of each interval).
 #' This "transformed_data" is only meant to be used with the [PipeOpPredRegrSurvPEM].

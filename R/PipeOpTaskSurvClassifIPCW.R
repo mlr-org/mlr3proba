@@ -43,7 +43,7 @@
 #' During prediction, the "input" [TaskSurv] is transformed to the "output"
 #' [TaskClassif][mlr3::TaskClassif] with `"status"` as target (again indicating
 #' if the event occurred before the cutoff time).
-#' The "data" is a [data.table] containing the observed `times` \eqn{T_i} and
+#' The "data" is a [data.table][data.table::data.table] containing the observed `times` \eqn{T_i} and
 #' censoring indicators/`status` \eqn{\delta_i} of each subject as well as the corresponding
 #' `row_ids`.
 #' This "data" is only meant to be used with the [PipeOpPredClassifSurvIPCW].

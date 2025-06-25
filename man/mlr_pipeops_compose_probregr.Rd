@@ -7,8 +7,8 @@
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-Combines a predicted \code{response} and \code{se} from \link{PredictionRegr} with a specified probability
-distribution to estimate (or 'compose') a \code{distr} prediction.
+Combines a predicted \code{response} and \code{se} from \link[mlr3:PredictionRegr]{PredictionRegr}
+with a specified probability distribution to estimate (or 'compose') a \code{distr} prediction.
 }
 \section{Dictionary}{
 
@@ -25,11 +25,13 @@ po("compose_probregr")
 \section{Input and Output Channels}{
 
 \link{PipeOpProbregr} has two input channels named \code{"input_response"} and \code{"input_se"},
-which take \code{NULL} during training and two \link{PredictionRegr}s during prediction, these should
-respectively contain the \code{response} and \code{se} return type, the same object can be passed twice.
+which take \code{NULL} during training and two \link[mlr3:PredictionRegr]{PredictionRegr}s
+during prediction, these should respectively contain the \code{response} and \code{se}
+return type, the same object can be passed twice.
 
-The output during prediction is a \link{PredictionRegr} with the "response" from \code{input_response},
-the "se" from \code{input_se} and a "distr" created from combining the two.
+The output during prediction is a \link[mlr3:PredictionRegr]{PredictionRegr} with
+the "response" from \code{input_response}, the "se" from \code{input_se} and a "distr"
+created from combining the two.
 }
 
 \section{State}{
@@ -43,7 +45,7 @@ The \verb{$state} is left empty (\code{list()}).
 \item \code{dist} :: \code{character(1)} \cr
 Location-scale distribution to use for composition. Current choices are
 \code{"Uniform"} (default), \code{"Normal"}, \code{"Cauchy"}, \code{"Gumbel"}, \code{"Laplace"},
-\code{"Logistic"}. All implemented via \link{distr6}.
+\code{"Logistic"}. All implemented via \link[distr6]{distr6}.
 }
 }
 

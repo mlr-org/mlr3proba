@@ -4,14 +4,14 @@
 \alias{LearnerSurv}
 \title{Survival Learner}
 \description{
-This Learner specializes \link{Learner} for survival problems:
+This Learner specializes \link[mlr3:Learner]{Learner} for survival problems:
 \itemize{
 \item \code{task_type} is set to \code{"surv"}
-\item Creates \link{Prediction}s of class \link{PredictionSurv}.
+\item Creates \link[mlr3:Prediction]{Prediction}s of class \link{PredictionSurv}.
 \item Possible values for \code{predict_types} are:
 \itemize{
 \item \code{"distr"}: Predicts a probability distribution for each observation in the test set,
-uses \link{distr6}.
+uses \link[distr6]{distr6}.
 \item \code{"lp"}: Predicts a linear predictor for each observation in the test set.
 \item \code{"crank"}: Predicts a continuous ranking for each observation in the test set.
 \item \code{"response"}: Predicts a survival time for each observation in the test set.
@@ -95,8 +95,8 @@ Supported predict types. Must be a subset of \code{\link[=mlr_reflections]{mlr_r
 Feature types the learner operates on. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.}
 
 \item{\code{properties}}{(\code{character()})\cr
-Set of properties of the \link{Learner} (see initialization method \verb{$new()}.
-Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.}
+Set of properties of the \link[mlr3:Learner]{Learner} (see initialization method \verb{$new()}.
+Must be a subset of \code{\link[mlr3:mlr_reflections]{mlr_reflections$learner_properties}}.}
 
 \item{\code{packages}}{(\code{character()})\cr
 Set of required packages.

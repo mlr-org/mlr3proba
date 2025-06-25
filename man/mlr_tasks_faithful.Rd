@@ -42,7 +42,7 @@ tsk("faithful")
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
 \url{https://mlr3book.mlr-org.com/chapters/chapter2/data_and_basic_modeling.html}
 \item \link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Task]{Tasks}: \link[mlr3:mlr_tasks]{mlr3::mlr_tasks}
-\item \code{as.data.table(mlr_tasks)} for a table of available \link[=Task]{Tasks} in the running session
+\item \code{as.data.table(mlr_tasks)} for a table of available \link[mlr3:Task]{Tasks} in the running session
 }
 
 Other Task: 

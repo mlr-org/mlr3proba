@@ -90,8 +90,8 @@ Supported predict types. Must be a subset of \code{\link[=mlr_reflections]{mlr_r
 Feature types the learner operates on. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.}
 
 \item{\code{properties}}{(\code{character()})\cr
-Set of properties of the \link{Learner} (see initialization method \verb{$new()}.
-Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.}
+Set of properties of the \link[mlr3:Learner]{Learner} (see initialization method \verb{$new()}.
+Must be a subset of \code{\link[mlr3:mlr_reflections]{mlr_reflections$learner_properties}}.}
 
 \item{\code{packages}}{(\code{character()})\cr
 Set of required packages.
