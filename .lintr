@@ -5,5 +5,5 @@ linters: linters_with_defaults(
     object_name_linter = object_name_linter(c("snake_case", "CamelCase")),
     cyclocomp_linter = NULL, # do not check function complexity
     commented_code_linter = NULL, # allow code in comments
-    line_length_linter = line_length_linter(100L)
+    line_length_linter = line_length_linter(180L)
     )
