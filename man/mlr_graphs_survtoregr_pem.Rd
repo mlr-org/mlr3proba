@@ -99,8 +99,9 @@ to \link{PredictionSurv}.
   grlrn$train(task, row_ids = part$train)
   grlrn$predict(task, row_ids = part$test)
 
-  # if necessary encode data before passing to learner with e.g. po("encode"), po("modelmatrix"), etc.
-  # with po("modelmatrix") feature types and formula can be adjusted at the same time
+  # if necessary encode data before passing to learner with e.g. po("encode"),
+  # po("modelmatrix"), etc.
+  # With po("modelmatrix") feature types and formula can be adjusted at the same time
   cut = round(seq(0, max(task$data()$time), length.out = 20))
   learner = as_learner(
     po("modelmatrix", formula = ~ as.factor(tend) + .) \%>>\%
