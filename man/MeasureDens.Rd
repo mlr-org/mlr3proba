@@ -86,21 +86,21 @@ If \code{NULL}, defaults to \code{\link[=mean]{mean()}}.}
 
 \item{\code{properties}}{(\code{character()})\cr
 Properties of the measure.
-Must be a subset of \link[=mlr_reflections]{mlr_reflections$measure_properties}.
+Must be a subset of \link[mlr3:mlr_reflections]{mlr_reflections$measure_properties}.
 Supported by \code{mlr3}:
 \itemize{
-\item \code{"requires_task"} (requires the complete \link{Task}),
-\item \code{"requires_learner"} (requires the trained \link{Learner}),
-\item \code{"requires_train_set"} (requires the training indices from the \link{Resampling}), and
+\item \code{"requires_task"} (requires the complete \link[mlr3:Task]{Task}),
+\item \code{"requires_learner"} (requires the trained \link[mlr3:Learner]{Learner}),
+\item \code{"requires_train_set"} (requires the training indices from the \link[mlr3:Resampling]{Resampling}), and
 \item \code{"na_score"} (the measure is expected to occasionally return \code{NA} or \code{NaN}).
 }}
 
 \item{\code{predict_type}}{(\code{character(1)})\cr
-Required predict type of the \link{Learner}.
-Possible values are stored in \link[=mlr_reflections]{mlr_reflections$learner_predict_types}.}
+Required predict type of the \link[mlr3:Learner]{Learner}.
+Possible values are stored in \link[mlr3:mlr_reflections]{mlr_reflections$learner_predict_types}.}
 
 \item{\code{task_properties}}{(\code{character()})\cr
-Required task properties, see \link{Task}.}
+Required task properties, see \link[mlr3:Task]{Task}.}
 
 \item{\code{packages}}{(\code{character()})\cr
 Set of required packages.

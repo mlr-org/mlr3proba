@@ -1,10 +1,10 @@
 #' @title Competing Risks Learner
 #'
 #' @description
-#' This Learner specializes [Learner] for competing risks problems:
+#' This Learner specializes [Learner][mlr3::Learner] for competing risks problems:
 #'
 #' - `task_type` is set to `"cmprsk"`
-#' - Creates [Prediction]s of class [PredictionCompRisks].
+#' - Creates [Prediction][mlr3::Prediction]s of class [PredictionCompRisks].
 #' - The only currently available option for `predict_types` is `"cif"`, which
 #' represents the predicted **cumulative incidence function** for each observation
 #' in the test set.

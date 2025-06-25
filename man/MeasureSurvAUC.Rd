@@ -66,12 +66,12 @@ Identifier for the new instance.}
 
 \item{\code{properties}}{(\code{character()})\cr
 Properties of the measure.
-Must be a subset of \link[=mlr_reflections]{mlr_reflections$measure_properties}.
+Must be a subset of \link[mlr3:mlr_reflections]{mlr_reflections$measure_properties}.
 Supported by \code{mlr3}:
 \itemize{
-\item \code{"requires_task"} (requires the complete \link{Task}),
-\item \code{"requires_learner"} (requires the trained \link{Learner}),
-\item \code{"requires_train_set"} (requires the training indices from the \link{Resampling}), and
+\item \code{"requires_task"} (requires the complete \link[mlr3:Task]{Task}),
+\item \code{"requires_learner"} (requires the trained \link[mlr3:Learner]{Learner}),
+\item \code{"requires_train_set"} (requires the training indices from the \link[mlr3:Resampling]{Resampling}), and
 \item \code{"na_score"} (the measure is expected to occasionally return \code{NA} or \code{NaN}).
 }}
 

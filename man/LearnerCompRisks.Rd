@@ -4,10 +4,10 @@
 \alias{LearnerCompRisks}
 \title{Competing Risks Learner}
 \description{
-This Learner specializes \link{Learner} for competing risks problems:
+This Learner specializes \link[mlr3:Learner]{Learner} for competing risks problems:
 \itemize{
 \item \code{task_type} is set to \code{"cmprsk"}
-\item Creates \link{Prediction}s of class \link{PredictionCompRisks}.
+\item Creates \link[mlr3:Prediction]{Prediction}s of class \link{PredictionCompRisks}.
 \item The only currently available option for \code{predict_types} is \code{"cif"}, which
 represents the predicted \strong{cumulative incidence function} for each observation
 in the test set.
@@ -84,7 +84,7 @@ Identifier for the new instance.}
 Set of hyperparameters.}
 
 \item{\code{predict_types}}{(\code{character()})\cr
-Supported predict types. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.}
+Supported predict types. Must be a subset of \code{\link[mlr3:mlr_reflections]{mlr_reflections$learner_predict_types}}.}
 
 \item{\code{feature_types}}{(\code{character()})\cr
 Feature types the learner operates on. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.}
