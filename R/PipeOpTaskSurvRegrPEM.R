@@ -126,7 +126,7 @@ PipeOpTaskSurvRegrPEM = R6Class("PipeOpTaskSurvRegrPEM",
   private = list(
     .train = function(input) {
       task = input[[1L]]
-      assert_true(task$censtype == "right")
+      assert_true(task$cens_type == "right")
       data = task$data()
 
       if ("pem_status" %in% colnames(task$data())) {
