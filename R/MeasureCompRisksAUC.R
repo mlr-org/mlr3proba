@@ -76,7 +76,8 @@ MeasureCompRisksAUC = R6Class(
 
       # single time point for AUC or median time
       if (is.null(pv$time)) {
-        warning("No time horizon specified. We use median time from the test set")
+        # TODO: add the warning again when this is not the default measure
+        # warning("No time horizon specified. We use median time from the test set")
         time_horizon = median(data$time)
       } else {
         time_horizon = assert_number(pv$time_horizon, lower = 0, finite = TRUE, na.ok = FALSE)
