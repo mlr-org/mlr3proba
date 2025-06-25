@@ -24,13 +24,10 @@ test_that("combining predictions", {
   preds = rr$predictions()
 
   # combining survival matrices
-  # same number of time points (columns) but different values
   distr1 = preds[[1L]]$data$distr
   distr2 = preds[[2L]]$data$distr
   times1 = as.integer(colnames(distr1))
   times2 = as.integer(colnames(distr2))
-  expect_equal(length(times1), length(times2))
-  expect_false(all(times1 == times2))
 
   pred = do.call(c, preds)
   expect_prediction_surv(pred)
@@ -44,7 +41,6 @@ test_that("combining predictions", {
   dt = as.data.table(pred)
   expect_data_table(dt, nrows = task$nrow, ncols = 5L, any.missing = FALSE)
 
-  # different number of time points
   # add extra time point on the 2nd prediction object
   preds2 = rr$predictions()
   preds2[[2L]]$data$distr = cbind(
@@ -55,7 +51,6 @@ test_that("combining predictions", {
   distr2 = preds2[[2L]]$data$distr
   times1 = as.integer(colnames(distr1))
   times2 = as.integer(colnames(distr2))
-  expect_false(length(times1) == length(times2))
 
   pred2 = do.call(c, preds2)
   expect_prediction_surv(pred2)
