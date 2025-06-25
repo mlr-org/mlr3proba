@@ -2,9 +2,9 @@
 #' @name mlr_pipeops_trafopred_regrsurv_pem
 #'
 #' @description
-#' Transform [PredictionRegr] to [PredictionSurv].
-#' The predicted piece-wise constant hazards contained in [PredictionRegr] are transformed into survival probabilities and wrapped in a
-#' [PredictionSurv] object.
+#' Transform [PredictionRegr][mlr3::PredictionRegr] to [PredictionSurv].
+#' The predicted piece-wise constant hazards contained in [PredictionRegr][mlr3::PredictionRegr] are transformed into survival probabilities and wrapped in a
+#' [PredictionSurv][mlr3::PredictionRegr] object.
 #'
 #'  We compute the survival probability from the predicted hazards using the following relation:
 #'  \deqn{S(t | \mathbf{x}) = \exp \left( - \int_{0}^{t} \lambda(s | \mathbf{x}) \, ds \right) = \exp \left( - \sum_{j = 1}^{J} \lambda(j | \mathbf{x}) d_j\,  \right),}

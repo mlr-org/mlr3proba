@@ -14,7 +14,7 @@ assert_surv = function(x, len = NULL, any.missing = TRUE, null.ok = FALSE, .var.
 #' @title Assert survival matrix
 #'
 #' @description Asserts if the given input matrix is a (discrete) survival
-#' probabilities matrix using [Rcpp] code.
+#' probabilities matrix using \CRANpkg{Rcpp}.
 #' The following checks are performed:
 #'
 #' 1. All values are probabilities, i.e. \eqn{S(t) \in [0,1]}

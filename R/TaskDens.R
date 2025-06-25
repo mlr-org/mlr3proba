@@ -1,11 +1,11 @@
 #' @title Density Task
 #'
 #' @description
-#' This task specializes [TaskUnsupervised] for density estimation problems.
+#' This task specializes [TaskUnsupervised][mlr3::TaskUnsupervised] for density estimation problems.
 #' The data in `backend` should be a numeric vector or a one column matrix-like object.
 #' The `task_type` is set to `"density"`.
 #'
-#' Predefined tasks are stored in the [dictionary][mlr3misc::Dictionary] [mlr_tasks].
+#' Predefined tasks are stored in the [dictionary][mlr3misc::Dictionary] [mlr_tasks][mlr3::mlr_tasks].
 #'
 #' @template param_rows
 #' @template param_id

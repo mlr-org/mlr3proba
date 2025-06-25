@@ -64,7 +64,7 @@ where \eqn{d_j} specifies the duration of interval \eqn{j}.
 The previous considerations are reflected in the pipeline which consists of the following steps:
 \enumerate{
 \item \link{PipeOpTaskSurvRegrPEM} Converts \link{TaskSurv} to a \link[mlr3:TaskRegr]{TaskRegr}.
-\item A \link{LearnerRegr} is fit and predicted on the new \code{TaskRegr}.
+\item A \link[mlr3:LearnerRegr]{LearnerRegr} is fit and predicted on the new \code{TaskRegr}.
 \item \link{PipeOpPredRegrSurvPEM} transforms the resulting \link[mlr3:PredictionRegr]{PredictionRegr}
 to \link{PredictionSurv}.
 }

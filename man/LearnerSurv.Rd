@@ -92,7 +92,7 @@ Set of hyperparameters.}
 Supported predict types. Must be a subset of \code{\link[mlr3:mlr_reflections]{mlr_reflections$learner_predict_types}}.}
 
 \item{\code{feature_types}}{(\code{character()})\cr
-Feature types the learner operates on. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.}
+Feature types the learner operates on. Must be a subset of \code{\link[mlr3:mlr_reflections]{mlr_reflections$task_feature_types}}.}
 
 \item{\code{properties}}{(\code{character()})\cr
 Set of properties of the \link[mlr3:Learner]{Learner} (see initialization method \verb{$new()}.

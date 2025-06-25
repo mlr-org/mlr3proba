@@ -3,7 +3,7 @@
 #' @name mlr_task_generators_coxed
 #'
 #' @description
-#' A [mlr3::TaskGenerator] calling [coxed::sim.survdata()].
+#' A [TaskGenerator][mlr3::TaskGenerator] calling [coxed::sim.survdata()].
 #'
 #' This generator creates a survival dataset using \CRANpkg{coxed}, and exposes
 #' some parameters from the `sim.survdata()` function.

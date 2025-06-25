@@ -154,8 +154,8 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 Identifier for the new instance.}
 
 \item{\code{backend}}{(\link{DataBackend})\cr
-Either a \link{DataBackend}, or any object which is convertible to a \link{DataBackend} with \code{as_data_backend()}.
-E.g., a \code{data.frame()} will be converted to a \link{DataBackendDataTable}.}
+Either a \link[mlr3:DataBackend]{DataBackend}, or any object which is convertible to a \link[mlr3:DataBackend]{DataBackend} with \code{as_data_backend()}.
+E.g., a \code{data.frame()} will be converted to a \link[mlr3:DataBackendDataTable]{DataBackendDataTable}.}
 
 \item{\code{time}}{(\code{character(1)})\cr
 Name of the column for event time if data is right censored, otherwise starting time if

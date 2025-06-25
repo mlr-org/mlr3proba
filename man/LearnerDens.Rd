@@ -4,7 +4,7 @@
 \alias{LearnerDens}
 \title{Density Learner}
 \description{
-This Learner specializes \link[=mlr3:Learner]{Learner} for density estimation problems:
+This Learner specializes \link[mlr3:Learner]{Learner} for density estimation problems:
 \itemize{
 \item \code{task_type} is set to \code{"dens"}
 \item Creates \link[mlr3:Prediction]{Prediction}s of class \link{PredictionDens}.
@@ -89,7 +89,7 @@ Set of hyperparameters.}
 Supported predict types. Must be a subset of \code{\link[mlr3:mlr_reflections]{mlr_reflections$learner_predict_types}}.}
 
 \item{\code{feature_types}}{(\code{character()})\cr
-Feature types the learner operates on. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.}
+Feature types the learner operates on. Must be a subset of \code{\link[mlr3:mlr_reflections]{mlr_reflections$task_feature_types}}.}
 
 \item{\code{properties}}{(\code{character()})\cr
 Set of properties of the \link[mlr3:Learner]{Learner} (see initialization method \verb{$new()}.

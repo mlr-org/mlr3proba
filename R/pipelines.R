@@ -420,7 +420,7 @@ pipeline_survtoclassif_disctime = function(learner, cut = NULL, max_time = NULL,
 #' The pipeline consists of the following steps:
 #'
 #' 1. [PipeOpTaskSurvClassifIPCW] Converts [TaskSurv] to a [TaskClassif][mlr3::TaskClassif].
-#' 2. A [LearnerClassif] is fit and predicted on the new `TaskClassif`.
+#' 2. A [LearnerClassif][mlr3::LearnerClassif] is fit and predicted on the new `TaskClassif`.
 #' 3. [PipeOpPredClassifSurvIPCW] transforms the resulting [PredictionClassif][mlr3::PredictionClassif]
 #' to [PredictionSurv].
 #'
@@ -513,7 +513,7 @@ pipeline_survtoclassif_IPCW = function(learner, tau = NULL, eps = 1e-3, graph_le
 #' The previous considerations are reflected in the pipeline which consists of the following steps:
 #' \enumerate{
 #' \item [PipeOpTaskSurvRegrPEM] Converts [TaskSurv] to a [TaskRegr][mlr3::TaskRegr].
-#' \item A [LearnerRegr] is fit and predicted on the new `TaskRegr`.
+#' \item A [LearnerRegr][mlr3::LearnerRegr] is fit and predicted on the new `TaskRegr`.
 #' \item [PipeOpPredRegrSurvPEM] transforms the resulting [PredictionRegr][mlr3::PredictionRegr]
 #' to [PredictionSurv].
 #' }

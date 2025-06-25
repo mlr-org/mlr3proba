@@ -5,9 +5,9 @@
 \alias{PipeOpPredRegrSurvPEM}
 \title{PipeOpPredRegrSurvPEM}
 \description{
-Transform \link{PredictionRegr} to \link{PredictionSurv}.
-The predicted piece-wise constant hazards contained in \link{PredictionRegr} are transformed into survival probabilities and wrapped in a
-\link{PredictionSurv} object.
+Transform \link[mlr3:PredictionRegr]{PredictionRegr} to \link{PredictionSurv}.
+The predicted piece-wise constant hazards contained in \link[mlr3:PredictionRegr]{PredictionRegr} are transformed into survival probabilities and wrapped in a
+\link[mlr3:PredictionRegr]{PredictionSurv} object.
 
 We compute the survival probability from the predicted hazards using the following relation:
 \deqn{S(t | \mathbf{x}) = \exp \left( - \int_{0}^{t} \lambda(s | \mathbf{x}) \, ds \right) = \exp \left( - \sum_{j = 1}^{J} \lambda(j | \mathbf{x}) d_j\,  \right),}

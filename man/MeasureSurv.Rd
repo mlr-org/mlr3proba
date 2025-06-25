@@ -121,7 +121,7 @@ Possible values are stored in \link[mlr3:mlr_reflections]{mlr_reflections$learne
 
 \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link[mlr3:ResampleResult]{ResampleResult}.
-Multiple predict sets are calculated by the respective \link[mlr3:Learner]{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
+Multiple predict sets are calculated by the respective \link[mlr3:Learner]{Learner} during \link[mlr3:resample]{resample()}/\link[mlr3:benchmark]{benchmark()}.
 Must be a non-empty subset of \verb{\{"train", "test"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is \code{"test"}.}

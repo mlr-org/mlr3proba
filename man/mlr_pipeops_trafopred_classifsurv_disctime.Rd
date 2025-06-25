@@ -5,7 +5,7 @@
 \alias{PipeOpPredClassifSurvDiscTime}
 \title{PipeOpPredClassifSurvDiscTime}
 \description{
-Transform \link{PredictionClassif} to \link{PredictionSurv} by converting
+Transform \link[mlr3:PredictionClassif]{PredictionClassif} to \link{PredictionSurv} by converting
 event probabilities of a pseudo status variable (discrete time hazards)
 to survival probabilities using the product rule (Tutz et al. 2016):
 

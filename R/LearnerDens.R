@@ -1,7 +1,7 @@
 #' @title Density Learner
 #'
 #' @description
-#' This Learner specializes [Learner][mlr3:Learner] for density estimation problems:
+#' This Learner specializes [Learner][mlr3::Learner] for density estimation problems:
 #'
 #' * `task_type` is set to `"dens"`
 #' * Creates [Prediction][mlr3::Prediction]s of class [PredictionDens].

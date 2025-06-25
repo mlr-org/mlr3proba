@@ -2,7 +2,7 @@
 #' @name mlr_pipeops_trafopred_classifsurv_disctime
 #'
 #' @description
-#' Transform [PredictionClassif] to [PredictionSurv] by converting
+#' Transform [PredictionClassif][mlr3::PredictionClassif] to [PredictionSurv] by converting
 #' event probabilities of a pseudo status variable (discrete time hazards)
 #' to survival probabilities using the product rule (Tutz et al. 2016):
 #'

@@ -4,11 +4,11 @@
 \alias{TaskDens}
 \title{Density Task}
 \description{
-This task specializes \link{TaskUnsupervised} for density estimation problems.
+This task specializes \link[mlr3:TaskUnsupervised]{TaskUnsupervised} for density estimation problems.
 The data in \code{backend} should be a numeric vector or a one column matrix-like object.
 The \code{task_type} is set to \code{"density"}.
 
-Predefined tasks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks}.
+Predefined tasks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link[mlr3:mlr_tasks]{mlr_tasks}.
 }
 \examples{
 task = TaskDens$new("precip", backend = precip)
