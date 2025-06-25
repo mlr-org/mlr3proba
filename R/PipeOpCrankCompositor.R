@@ -46,6 +46,7 @@
 #'   # change the crank prediction type of a Cox's model predictions
 #'   pred = lrn("surv.coxph")$train(task)$predict(task)
 #'   poc = po("crankcompose", param_vals = list(overwrite = TRUE))
+#'   poc$train(list(NULL)) # need to train first, even if nothing happens
 #'   poc$predict(list(pred))[[1L]]
 #' }
 #' @export

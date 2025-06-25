@@ -22,16 +22,19 @@ pcox$data$response = rexp(20) # hack: add survival time predictions to cox model
 test_that("overwrite", {
   # no overwrite
   por = po("responsecompose")
+  por$train(list(NULL))
   p1 = por$predict(list(pcox))[[1L]]
   expect_identical(p1$response, pcox$response)
 
   # overwrite response
   por = po("responsecompose", overwrite = TRUE)
+  por$train(list(NULL))
   p2 = por$predict(list(pcox))[[1L]]
   expect_false(all(p2$response == pcox$response))
 
   # even if prediction doesn't have response, pipeop will add them even if no overwrite
   por = po("responsecompose")
+  por$train(list(NULL))
   pkm = lrn("surv.kaplan")$train(task)$predict(task)
   expect_null(pkm$response)
   p3 = por$predict(list(pkm))[[1L]]
@@ -41,6 +44,7 @@ test_that("overwrite", {
 
 test_that("different methods, different responses", {
   por = po("responsecompose", overwrite = TRUE, method = "rmst")
+  por$train(list(NULL))
   p1 = por$predict(list(pcox))[[1L]]
   por$param_set$set_values(method = "median")
   p2 = por$predict(list(pcox))[[1L]]
@@ -52,10 +56,17 @@ test_that("different cutoffs, different rmst", {
   por2 = po("responsecompose", overwrite = TRUE, method = "rmst", tau = 100) # t_max = 99 in the generated data
   por3 = po("responsecompose", overwrite = TRUE, method = "rmst", tau = 65)
   por4 = po("responsecompose", overwrite = TRUE, method = "rmst", tau = 25)
+
+  por1$train(list(NULL))
+  por2$train(list(NULL))
+  por3$train(list(NULL))
+  por4$train(list(NULL))
+
   p1 = por1$predict(list(pcox))[[1L]]
   p2 = por2$predict(list(pcox))[[1L]]
   p3 = por3$predict(list(pcox))[[1L]]
   p4 = por4$predict(list(pcox))[[1L]]
+
   expect_identical(p1$response, p2$response)
   expect_false(all(p2$response == p3$response))
   expect_false(all(p2$response == p4$response))
@@ -66,11 +77,13 @@ test_that("different cutoffs, different rmst", {
 
 test_that("crank is added", {
   por = po("responsecompose", overwrite = FALSE, add_crank = TRUE)
+  por$train(list(NULL))
   p1 = por$predict(list(pcox))[[1L]]
   # same crank or response
   expect_identical(p1$response, pcox$response)
 
   por = po("responsecompose", overwrite = TRUE, add_crank = TRUE)
+  por$train(list(NULL))
   p2 = por$predict(list(pcox))[[1L]]
   # response changed
   expect_false(all(pcox$response == p2$response))
