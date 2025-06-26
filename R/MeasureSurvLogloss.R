@@ -3,7 +3,6 @@
 #' @templateVar fullname MeasureSurvLogloss
 #' @templateVar eps 1e-15
 #' @template param_eps
-#' @template param_se
 #' @template param_erv
 #'
 #' @description
@@ -52,11 +51,10 @@ MeasureSurvLogloss = R6Class("MeasureSurvLogloss",
 
       ps = ps(
         eps = p_dbl(0, 1, default = 1e-15),
-        se = p_lgl(default = FALSE),
         IPCW = p_lgl(default = TRUE),
         ERV = p_lgl(default = FALSE)
       )
-      ps$set_values(eps = 1e-15, se = FALSE, IPCW = TRUE, ERV = ERV)
+      ps$set_values(eps = 1e-15, IPCW = TRUE, ERV = ERV)
 
       range = if (ERV) c(-Inf, 1) else c(0, Inf)
 
@@ -91,12 +89,7 @@ MeasureSurvLogloss = R6Class("MeasureSurvLogloss",
 
       ps = self$param_set$values
 
-      if (ps$se) {
-        ll = surv_logloss(prediction$truth, prediction$data$distr, ps$eps, ps$IPCW, train) # nolint
-        sd(ll) / sqrt(length(ll))
-      } else {
-        mean(surv_logloss(prediction$truth, prediction$data$distr, ps$eps, ps$IPCW, train)) # nolint
-      }
+      mean(surv_logloss(prediction$truth, prediction$data$distr, ps$eps, ps$IPCW, train))
     }
   )
 )

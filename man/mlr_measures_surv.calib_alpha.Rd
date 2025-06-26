@@ -6,13 +6,13 @@
 \title{Van Houwelingen's Calibration Alpha Survival Measure}
 \description{
 This calibration method is defined by estimating
-\deqn{\hat{\alpha} = \sum \delta_i / \sum H_i(T_i)}
-where \eqn{\delta} is the observed censoring indicator from the test data,
-\eqn{H_i} is the predicted cumulative hazard, and \eqn{T_i} is the observed
-survival time (event or censoring).
+\deqn{\hat{\alpha} = \frac{\sum_{i=1}^n \delta_i}{\sum_{i=1}^n H_i(T_i)}}
+where \eqn{\delta} is the observed censoring indicator from the test data
+\eqn{n} observations), \eqn{H_i} is the predicted cumulative hazard, and \eqn{T_i}
+is the observed survival time (event or censoring).
 
 The standard error is given by
-\deqn{\hat{\alpha_{se}} = exp(1/\sqrt{\sum \delta_i})}
+\deqn{\hat{\alpha_{se}} = e^{1/\sqrt{\sum \delta_i}}}
 
 The model is well calibrated if the estimated \eqn{\hat{\alpha}} coefficient
 (returned score) is equal to 1.

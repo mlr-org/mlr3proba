@@ -3,7 +3,6 @@
 #' @templateVar fullname MeasureSurvRCLL
 #' @templateVar eps 1e-15
 #' @template param_eps
-#' @template param_se
 #' @template param_erv
 #'
 #' @description
@@ -43,11 +42,10 @@ MeasureSurvRCLL = R6Class("MeasureSurvRCLL",
 
       ps = ps(
         eps = p_dbl(0, 1, default = 1e-15),
-        se = p_lgl(default = FALSE),
         ERV = p_lgl(default = FALSE),
         na.rm = p_lgl(default = TRUE)
       )
-      ps$set_values(eps = 1e-15, se = FALSE, ERV = ERV, na.rm = TRUE)
+      ps$set_values(eps = 1e-15, ERV = ERV, na.rm = TRUE)
 
       range = if (ERV) c(-Inf, 1) else c(0, Inf)
 
@@ -134,11 +132,7 @@ MeasureSurvRCLL = R6Class("MeasureSurvRCLL",
 
       out = -log(out)
 
-      if (self$param_set$values$se) {
-        sd(out, na.rm = self$param_set$values$na.rm) / sqrt(length(out))
-      } else {
-        mean(out, na.rm = self$param_set$values$na.rm)
-      }
+      mean(out, na.rm = self$param_set$values$na.rm)
     }
   )
 )

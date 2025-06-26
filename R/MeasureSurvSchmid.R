@@ -6,7 +6,6 @@
 #' @template param_tmax
 #' @template param_pmax
 #' @template param_method
-#' @template param_se
 #' @template param_proper
 #' @templateVar eps 1e-3
 #' @template param_eps
@@ -69,14 +68,13 @@ MeasureSurvSchmid = R6Class("MeasureSurvSchmid",
         t_max = p_dbl(0),
         p_max = p_dbl(0, 1),
         method = p_int(1L, 2L, default = 2L),
-        se = p_lgl(default = FALSE),
         proper = p_lgl(default = FALSE),
         eps = p_dbl(0, 1, default = 1e-3),
         ERV = p_lgl(default = FALSE),
         remove_obs = p_lgl(default = FALSE)
       )
       ps$set_values(
-        integrated = TRUE, method = 2L, se = FALSE,
+        integrated = TRUE, method = 2L,
         proper = FALSE, eps = 1e-3, ERV = ERV, remove_obs = FALSE
       )
 
@@ -134,11 +132,7 @@ MeasureSurvSchmid = R6Class("MeasureSurvSchmid",
         eps = ps$eps, remove_obs = ps$remove_obs
       )
 
-      if (ps$se) {
-        integrated_se(score, ps$integrated)
-      } else {
-        integrated_score(score, ps$integrated, ps$method)
-      }
+      integrated_score(score, ps$integrated, ps$method)
     }
   )
 )

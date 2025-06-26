@@ -2,8 +2,6 @@
 #' @templateVar title Mean Absolute Error
 #' @templateVar fullname MeasureSurvMAE
 #'
-#' @template param_se
-#'
 #' @description
 #' Calculates the mean absolute error (MAE).
 #'
@@ -20,30 +18,20 @@ MeasureSurvMAE = R6Class("MeasureSurvMAE",
   public = list(
     #' @description Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      ps = ps(
-        se = p_lgl(default = FALSE)
-      )
-      ps$values$se = FALSE
-
       super$initialize(
         id = "surv.mae",
         range = c(0, Inf),
         minimize = TRUE,
         predict_type = "response",
         label = "Mean Absolute Error",
-        man = "mlr3proba::mlr_measures_surv.mae",
-        param_set = ps
+        man = "mlr3proba::mlr_measures_surv.mae"
       )
     }
   ),
 
   private = list(
     .score = function(prediction, ...) {
-      if (self$param_set$values$se) {
-        return(surv_mae(prediction$truth, prediction$response)$se)
-      } else {
-        return(mean(surv_mae(prediction$truth, prediction$response)$mae))
-      }
+      mean(obs_surv_errors(prediction$truth, prediction$response, method = "abs"))
     }
   )
 )

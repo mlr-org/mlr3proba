@@ -33,7 +33,6 @@ msr("surv.rcll")
 \tabular{lllll}{
    Id \tab Type \tab Default \tab Levels \tab Range \cr
    eps \tab numeric \tab 1e-15 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
-   se \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    ERV \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    na.rm \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
 }
@@ -56,15 +55,6 @@ msr("surv.rcll")
 Very small number to substitute zero values in order to prevent errors
 in e.g. log(0) and/or division-by-zero calculations.
 Default value is 1e-15.
-}
-
-
-\itemize{
-\item \code{se} (\code{logical(1)})\cr
-If \code{TRUE} then returns standard error of the measure otherwise
-returns the mean across all individual scores, e.g. the mean of
-the per observation scores.
-Default is \code{FALSE} (returns the mean).
 }
 
 

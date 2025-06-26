@@ -158,14 +158,6 @@ integrated_score = function(score, integrated, method = NULL) {
   }
 }
 
-integrated_se = function(score, integrated) {
-  if (integrated) {
-    sqrt(sum(stats::cov(score), na.rm = TRUE) / (nrow(score) * ncol(score)^2))
-  } else {
-    apply(score, 2L, function(x) stats::sd(x) / sqrt(nrow(score)))
-  }
-}
-
 # like colMeans(), but removing Infs, NAs and NaNs
 col_sums = function(mat) {
   apply(mat, 2L, function(x) {
