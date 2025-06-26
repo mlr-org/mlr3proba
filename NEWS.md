@@ -1,3 +1,8 @@
+# mlr3proba dev
+
+* refactor: remove `se` argument from most of the scores (not practically used)
+* fix: `surv.mae`/`surv.mse`/`surv.rmse` scores return `NA` when test set has only censored observations
+
 # mlr3proba 0.8.0
 
 * Compatibility with `mlr3` v1.0.0 (`weights_learner`) and `mlr3pipelines` v0.8.0
