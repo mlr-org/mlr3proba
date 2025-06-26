@@ -160,7 +160,7 @@ test_that("mae/mse/rmse work", {
 
   # only censored observations => return NA
   cens_ids = pred$row_ids[pred$truth[, 2L] == 0]
-  p_cens = pred$clone()$filter(cens_row_ids)
+  p_cens = pred$clone()$filter(cens_ids)
   expect_true(is.na(p_cens$score(msr("surv.mae"))))
   expect_true(is.na(p_cens$score(msr("surv.mse"))))
   expect_true(is.na(p_cens$score(msr("surv.rmse"))))
