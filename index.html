@@ -91,12 +91,13 @@
 <div class="section level2">
 <h2 id="what-is-mlr3proba">What is mlr3proba?<a class="anchor" aria-label="anchor" href="#what-is-mlr3proba"></a>
 </h2>
-<p><code>mlr3proba</code> is a machine learning toolkit for making probabilistic predictions within the <strong><a href="https://github.com/mlr-org/mlr3" class="external-link">mlr3</a></strong> ecosystem. It currently supports the following tasks:</p>
+<p><code>mlr3proba</code> is a machine learning toolkit for <strong>probabilistic supervised learning</strong> within the <strong><a href="https://github.com/mlr-org/mlr3" class="external-link">mlr3</a></strong> ecosystem.</p>
+<p>It currently supports:</p>
 <ol style="list-style-type: decimal">
 <li>
-<strong>Predictive survival analysis</strong>: survival analysis where individual hazards and survival distributions can be queried.</li>
+<strong>Predictive survival analysis</strong>: with support for right-censoring single-event and competing risks.</li>
 <li>
-<strong>Unconditional distribution estimation</strong>: main returned output is the distribution. Sub-cases are density estimation and unconditional survival estimation.</li>
+<strong>Unconditional distribution estimation</strong>: including density and unconditional survival estimation.</li>
 <li>
 <strong>Probabilistic supervised regression</strong>: Supervised regression with a predictive distribution as the return type.</li>
 </ol>
@@ -107,7 +108,7 @@
 </h2>
 <p>Key features of <code>mlr3proba</code> focus on survival analysis and are:</p>
 <ul>
-<li>Task frameworks for survival analysis (<code>TaskSurv</code>)</li>
+<li>Task frameworks for survival analysis (<code>TaskSurv</code>, <code>TaskCompetingRisks</code>)</li>
 <li>A comprehensive <strong>selection of survival learners</strong> (mostly via <a href="https://github.com/mlr-org/mlr3extralearners/" class="external-link">mlr3extralearners</a>)</li>
 <li>A unified <code>$train()</code>/<code>$predict()</code> model interface to any probabilistic predictive model (frequentist, Bayesian, Deep Learning, or other)</li>
 <li>Use of the <strong><a href="https://github.com/alan-turing-institute/distr6" class="external-link">distr6</a></strong> interface for the survival probability distribution prediction</li>
@@ -141,15 +142,15 @@
 </h2>
 <ul>
 <li>
-<a href="https://mlr3proba.mlr-org.com/reference/index.html#survival-learners">Core learners</a> are implemented in <code>mlr3proba</code> and include the Kaplan-Meier Estimator, the Cox Proportional Hazards model and the Survival Tree learner.</li>
-<li>In <a href="https://github.com/mlr-org/mlr3extralearners" class="external-link">mlr3extralearners</a> we have interfaced several advanced ML survival learners. Use the <a href="https://mlr-org.com/learners.html" class="external-link">interactive search table</a> to search for the available survival learners and see the <a href="https://mlr3extralearners.mlr-org.com/articles/learner_status.html" class="external-link">learner status page</a> for their live status.</li>
+<a href="https://mlr3proba.mlr-org.com/reference/index.html#survival-learners">Core learners</a> are implemented in <code>mlr3proba</code> and include the Kaplan-Meier Estimator, the Cox Proportional Hazards model, the Survival Tree learner and the Aalen-Johansen estimator for competing risks.</li>
+<li>In <a href="https://github.com/mlr-org/mlr3extralearners" class="external-link">mlr3extralearners</a> we have interfaced several more advanced ML learners. Use the <a href="https://mlr-org.com/learners.html" class="external-link">interactive search table</a> to search for the available survival learners and see the <a href="https://mlr3extralearners.mlr-org.com/articles/learner_status.html" class="external-link">learner status page</a> for their live status.</li>
 </ul>
 </div>
 <div class="section level2">
 <h2 id="measures">Measures<a class="anchor" aria-label="anchor" href="#measures"></a>
 </h2>
-<p>For density estimation and probabilistic regression only the <strong>log-loss</strong> is currently implemented. For survival analysis, see full list <a href="https://mlr3proba.mlr-org.com/reference/index.html#survival-measures">here</a>.</p>
-<p>Some commonly used measures are the following:</p>
+<p>For density estimation and probabilistic regression only the <strong>log-loss</strong> is currently implemented. For competing risk, see list <a href="https://mlr3proba.mlr-org.com/reference/index.html#competing-risk-measures">here</a>. For survival analysis, see list <a href="https://mlr3proba.mlr-org.com/reference/index.html#survival-measures">here</a>.</p>
+<p>Some commonly used measures for right-censored single-event tasks are the following:</p>
 <table class="table">
 <colgroup>
 <col width="20%">
