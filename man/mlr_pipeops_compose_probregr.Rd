@@ -67,6 +67,7 @@ distribution location and scale parameters respectively.
   learn = lrn("regr.featureless", predict_type = "se")
   pred = learn$train(task)$predict(task)
   poc = po("compose_probregr")
+  poc$train(list(NULL, NULL))
   poc$predict(list(pred, pred))[[1]]
 
   # Option 2: Use two learners, one for response and the other for se
