@@ -53,6 +53,7 @@
 #'   learn = lrn("regr.featureless", predict_type = "se")
 #'   pred = learn$train(task)$predict(task)
 #'   poc = po("compose_probregr")
+#'   poc$train(list(NULL, NULL))
 #'   poc$predict(list(pred, pred))[[1]]
 #'
 #'   # Option 2: Use two learners, one for response and the other for se
@@ -125,13 +126,15 @@ PipeOpProbregr = R6Class("PipeOpProbregr",
         params = data.table(mean = response, scale = se)
       }
 
-
-      list(PredictionRegr$new(row_ids = pred_response$row_ids,
-        truth = pred_response$truth,
-        response = response,
-        se = se,
-        distr = distr6::VectorDistribution$new(distribution = dist,
-          params = params)))
+      list(
+        PredictionRegr$new(
+          row_ids = pred_response$row_ids,
+          truth = pred_response$truth,
+          response = response,
+          se = se,
+          distr = distr6::VectorDistribution$new(distribution = dist, params = params)
+        )
+      )
     }
   )
 )
