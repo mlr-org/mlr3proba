@@ -145,6 +145,26 @@ test_that("dcalib works", {
   expect_gt(score5, score)
 })
 
+test_that("mae/mse/rmse work", {
+  is_event = pred$truth[, 2L] == 1
+  event_times = pred$truth[is_event, 1L]
+  surv_times  = pred$response[is_event]
+  errors = event_times - surv_times
+  mae = pred$score(msr("surv.mae"))
+  mse = pred$score(msr("surv.mse"))
+  rmse = pred$score(msr("surv.rmse"))
+
+  expect_equal(unname(mae), mean(abs(errors)))
+  expect_equal(unname(mse), mean(errors^2))
+  expect_equal(unname(rmse), sqrt(mean(errors^2)))
+
+  # only censored observations => return NA
+  cens_ids = pred$row_ids[pred$truth[, 2L] == 0]
+  p_cens = pred$clone()$filter(cens_row_ids)
+  expect_true(is.na(p_cens$score(msr("surv.mae"))))
+  expect_true(is.na(p_cens$score(msr("surv.mse"))))
+  expect_true(is.na(p_cens$score(msr("surv.rmse"))))
+})
 
 test_that("calib_beta works", {
   m = msr("surv.calib_beta") # ratio
