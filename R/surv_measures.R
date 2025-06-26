@@ -71,26 +71,25 @@ surv_logloss = function(truth, distr, eps = 1e-15, IPCW = TRUE, train = NULL, ..
   -log(pred)
 }
 
-surv_mse = function(truth, response) {
+# Compute per-observation prediction errors for uncensored survival times.
+#
+# This function returns either squared or absolute differences between predicted
+# event times and observed event times, for all uncensored observations.
+# Useful for downstream aggregation (e.g., RMSE, MAE), or inspection of
+# prediction residuals.
+obs_surv_errors = function(truth, response, method = "squared") {
+  method = assert_choice(method, c("squared", "abs"))
   assert_surv(truth)
 
-  uncensored = truth[, 2L] == 1
-  mse = (truth[uncensored, 1L] - response[uncensored])^2
+  is_event = truth[, 2L] == 1
+  if (!any(is_event)) return(NA) # if no events, can't calculate score!
+  event_times = truth[is_event, 1L]
+  pred_times  = response[is_event]
 
-  list(
-    mse = mse,
-    se = sd(mse) / sqrt(length(response))
+  errors = switch(method,
+    squared = (event_times - pred_times)^2,
+    abs = abs(event_times - pred_times)
   )
-}
 
-surv_mae = function(truth, response) {
-  assert_surv(truth)
-
-  uncensored = truth[, 2L] == 1
-  mae = abs(truth[uncensored, 1L] - response[uncensored])
-
-  list(
-    mae = mae,
-    se = sd(mae) / sqrt(length(response))
-  )
+  errors
 }
