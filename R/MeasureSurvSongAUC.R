@@ -45,6 +45,7 @@ MeasureSurvSongAUC = R6Class("MeasureSurvSongAUC",
       if (!inherits(learner, "LearnerSurvCoxPH")) {
         stop("surv.song_auc only compatible with Cox PH models")
       }
+
       ps = self$param_set$values
       if (!ps$integrated) {
         msg = "If `integrated=FALSE` then `times` should be a scalar numeric."

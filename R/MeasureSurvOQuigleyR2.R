@@ -25,7 +25,7 @@ MeasureSurvOQuigleyR2 = R6Class("MeasureSurvOQuigleyR2",
         minimize = FALSE,
         packages = "survAUC",
         predict_type = "lp",
-        properties = c("requires_task", "requires_train_set"),
+        properties = c("requires_task", "requires_train_set", "requires_learner"),
         label = "O'Quigley, Xu, and Stare's R2",
         man = "mlr3proba::mlr_measures_surv.oquigley_r2"
       )
@@ -33,9 +33,12 @@ MeasureSurvOQuigleyR2 = R6Class("MeasureSurvOQuigleyR2",
   ),
 
   private = list(
-    .score = function(prediction, task, train_set, ...) {
-      surv_train = task$truth(train_set)
+    .score = function(prediction, learner, task, train_set, ...) {
+      if (!inherits(learner, "LearnerSurvCoxPH")) {
+        stop("Only compatible with Cox PH models")
+      }
 
+      surv_train = task$truth(train_set)
       survAUC::OXS(surv_train, prediction$lp, rep(0, length(prediction$lp)))
     }
   )

@@ -36,7 +36,6 @@ MeasureSurvAUC = R6Class("MeasureSurvAUC",
 
   private = list(
     .score = function(prediction, learner, task, train_set, FUN, ...) {
-
       args = list()
       ps = self$param_set$values
 
