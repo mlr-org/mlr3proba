@@ -62,6 +62,7 @@
 #'   pred_response = learn_response$train(task)$predict(task)
 #'   pred_se = learn_se$train(task)$predict(task)
 #'   poc = po("compose_probregr")
+#'   poc$train(list(NULL, NULL))
 #'   poc$predict(list(pred_response, pred_se))[[1]]
 #' }
 PipeOpProbregr = R6Class("PipeOpProbregr",
