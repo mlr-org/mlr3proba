@@ -1,30 +1,35 @@
 #' @template surv_measure
 #' @templateVar title Right-Censored Log Loss
 #' @templateVar fullname MeasureSurvRCLL
-#' @templateVar eps 1e-15
+#' @templateVar eps 1e-6
 #' @template param_eps
 #' @template param_erv
 #'
 #' @description
-#' Calculates the right-censored logarithmic (log), loss.
+#' Calculates the right-censored log-likelihood (RCLL) or logarithmic loss,
+#' introduced by Avati et al. (2020).
 #'
 #' @details
-#' The RCLL, in the context of probabilistic predictions, is defined by
-#' \deqn{L(f, t, \Delta) = -log(\Delta f(t) + (1 - \Delta) S(t))}
-#' where \eqn{\Delta} is the censoring indicator, \eqn{f} the probability
-#' density function and \eqn{S} the survival function.
+#' The observation-wise RCLL is defined by:
+#'
+#' \deqn{L_{RCLL}(S_i, t_i, \delta_i) = -log[\delta_i f_i(t_i) + (1 - \delta_i) S_i(t_i)]}
+#'
+#' where \eqn{\delta_i} is the censoring indicator, \eqn{f_i} the predicted probability
+#' density function and \eqn{S_i} the predicted survival function for observation \eqn{i}.
 #' RCLL is proper given that censoring and survival distribution are independent, see Rindt et al. (2022).
+#' Simulation studies by Sonabend et al. (2024) provide strong empirical evidence
+#' supporting the properness of this score.
+#' See section **Interpolation** for implementation details.
 #'
-#' **Note**: Even though RCLL is a proper scoring rule, the calculation of \eqn{f(t)} (which in our case is discrete, i.e. it is a *probability mass function*) for time points in the test set that don't exist in the predicted survival matrix (`distr`), results in 0 values, which are substituted by `"eps"` in our implementation, therefore skewing the result towards \eqn{-log(eps)}.
-#' This problem is also discussed in Rindt et al. (2022), where the authors perform interpolation to get non-zero values for the \eqn{f(t)}.
-#' Until this is handled in `mlr3proba` some way, we advise against using this measure for model evaluation.
+#' To get a single score across all \eqn{N} observations of the test set, we
+#' return the average of the observation-wise scores:
 #'
-#' @section Parameter details:
-#' - `na.rm` (`logical(1)`)\cr
-#' If `TRUE` (default) then removes any NAs in individual score calculations.
+#' \deqn{\sum_{i=1}^N L_{RCLL}(S_i, t_i, \delta_i) / N}
+#'
+#' @template details_interp
 #'
 #' @references
-#' `r format_bib("avati_2020", "rindt_2022")`
+#' `r format_bib("avati_2020", "rindt_2022", "sonabend_2024")`
 #'
 #' @family Probabilistic survival measures
 #' @family distr survival measures
@@ -41,11 +46,10 @@ MeasureSurvRCLL = R6Class("MeasureSurvRCLL",
       assert_logical(ERV)
 
       ps = ps(
-        eps = p_dbl(0, 1, default = 1e-15),
-        ERV = p_lgl(default = FALSE),
-        na.rm = p_lgl(default = TRUE)
+        eps = p_dbl(0, 1, default = 1e-6),
+        ERV = p_lgl(default = FALSE)
       )
-      ps$set_values(eps = 1e-15, ERV = ERV, na.rm = TRUE)
+      ps$set_values(eps = 1e-6, ERV = ERV)
 
       range = if (ERV) c(-Inf, 1) else c(0, Inf)
 
@@ -53,8 +57,7 @@ MeasureSurvRCLL = R6Class("MeasureSurvRCLL",
         id = "surv.rcll",
         minimize = !ERV,
         predict_type = "distr",
-        packages = "distr6",
-        label = "Right-Censored Log Loss",
+        label = "Right-Censored Log-Likelihood",
         man = "mlr3proba::mlr_measures_surv.rcll",
         range = range,
         param_set = ps
@@ -66,73 +69,38 @@ MeasureSurvRCLL = R6Class("MeasureSurvRCLL",
 
   private = list(
     .score = function(prediction, task, train_set, ...) {
-      if (self$param_set$values$ERV) {
+      pv = self$param_set$values
+
+      if (pv$ERV) {
         return(.scoring_rule_erv(self, prediction, task, train_set))
       }
-      out = rep(-99L, length(prediction$row_ids))
+
       truth = prediction$truth
-      event = truth[, 2L] == 1
-      event_times = truth[event, 1L]
-      cens_times = truth[!event, 1L]
+      n_obs = length(truth)
+      test_times = truth[, 1L]
+      test_status = truth[, 2L]
 
-      # Bypass distr6 construction if underlying distr represented by array
-      if (inherits(prediction$data$distr, "array")) {
-        surv = prediction$data$distr
-        if (length(dim(surv)) == 3L) {
-          # survival 3d array, extract median
-          surv = .ext_surv_mat(arr = surv, which.curve = 0.5)
+      # get survival matrix
+      surv_mat = .get_surv_matrix(prediction)
+      pred_times = as.numeric(colnames(surv_mat))
+
+      res = vapply(seq_len(n_obs), function(obs_index) {
+        # event time or censoring time
+        outcome_time = test_times[obs_index]
+
+        # predicted survival curve for observation
+        surv_pred = list(surv = surv_mat[obs_index, ], time = pred_times)
+
+        if (test_status[obs_index] == 1) {
+          # event => use f(t)
+          .interp_pdf(surv_pred, outcome_time)
+        } else {
+          # censored => use S(t)
+          .interp_surv(surv_pred, outcome_time)
         }
-        times = as.numeric(colnames(surv))
+      }, numeric(1))
 
-        if (any(!event)) {
-          if (sum(!event) == 1) { # fix subsetting issue in case of 1 censored
-            cdf = as.matrix(1 - surv[!event, ])
-          } else {
-            cdf = t(1 - surv[!event, ])
-          }
-
-          extend_times_cdf = getFromNamespace("C_Vec_WeightedDiscreteCdf", ns = "distr6")
-          out[!event] = diag(
-            extend_times_cdf(cens_times, times, cdf = cdf, FALSE, FALSE)
-          )
-        }
-        if (any(event)) {
-          convert_to_pdf = getFromNamespace("cdfpdf", ns = "distr6")
-          pdf = convert_to_pdf(cdf = 1 - surv)
-          if (sum(event) == 1) { # fix subsetting issue in case of 1 event
-            pdf = as.matrix(pdf[event, ])
-          } else {
-            pdf = t(pdf[event, ])
-          }
-
-          extend_times_pdf = getFromNamespace("C_Vec_WeightedDiscretePdf", ns = "distr6")
-          out[event] = diag(
-            extend_times_pdf(event_times, times, pdf = pdf)
-          )
-        }
-      } else {
-        distr = prediction$distr
-
-        # Splitting in this way bypasses unnecessary distr extraction
-        if (!any(event)) { # all censored
-          # survival at outcome time (survived *at least* this long)
-          out = diag(as.matrix(distr$survival(cens_times)))
-        } else if (all(event)) { # all uncensored
-          # pdf at outcome time (survived *this* long)
-          out = diag(as.matrix(distr$pdf(event_times)))
-        } else { # mix
-          out[event] = diag(as.matrix(distr[event]$pdf(event_times)))
-          out[!event] = diag(as.matrix(distr[!event]$survival(cens_times)))
-        }
-      }
-
-      stopifnot(!any(out == -99L)) # safety check
-      # prevent infinite log errors
-      out[out == 0] = self$param_set$values$eps
-
-      out = -log(out)
-
-      mean(out, na.rm = self$param_set$values$na.rm)
+      mean(-log(pmax(pv$eps, res)))
     }
   )
 )
