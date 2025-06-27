@@ -31,7 +31,7 @@ MeasureSurvMAE = R6Class("MeasureSurvMAE",
 
   private = list(
     .score = function(prediction, ...) {
-      mean(obs_surv_errors(prediction$truth, prediction$response, method = "abs"))
+      mean(.obs_surv_errors(prediction$truth, prediction$response, method = "abs"))
     }
   )
 )

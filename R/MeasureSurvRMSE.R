@@ -32,7 +32,7 @@ MeasureSurvRMSE = R6Class("MeasureSurvRMSE",
 
   private = list(
     .score = function(prediction, ...) {
-      sqrt(mean(obs_surv_errors(prediction$truth, prediction$response, method = "squared")))
+      sqrt(mean(.obs_surv_errors(prediction$truth, prediction$response, method = "squared")))
     }
   )
 )
