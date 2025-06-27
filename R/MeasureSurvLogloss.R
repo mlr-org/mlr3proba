@@ -16,7 +16,9 @@
 #' \deqn{L_{NLL}(S_i,t_i) = -\log{[f_i(t_i)]}}
 #'
 #' This loss does not take into account the censoring status of an observation,
-#' treating all outcomes as events, see Sonabend et al. (2024).
+#' treating all outcomes as events, and is also an improper scoring rule,
+#' see Sonabend et al. (2024).
+#' See section **Interpolation** for implementation details.
 #'
 #' To get a single score across all \eqn{N} observations of the test set, we
 #' return the average of the observation-wise scores:
