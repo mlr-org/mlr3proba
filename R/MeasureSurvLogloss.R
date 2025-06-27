@@ -17,11 +17,6 @@
 #' observation time (event or censoring), \eqn{t},
 #' \deqn{L_{NLL}(f, t) = -\log[f(t)]}
 #'
-#' The standard error of the Log Loss, L, is approximated via,
-#' \deqn{se(L) = sd(L)/\sqrt{N}}{se(L) = sd(L)/\sqrt N}
-#' where \eqn{N} are the number of observations in the test set, and \eqn{sd} is the standard
-#' deviation.
-#'
 #' The **Re-weighted Negative Log-Likelihood** (RNLL) or IPCW (Inverse Probability Censoring Weighted) Log Loss is defined by
 #' \deqn{L_{RNLL}(f, t, \delta) = - \frac{\delta \log[f(t)]}{G(t)}}
 #' where \eqn{\delta} is the censoring indicator and \eqn{G(t)} is the Kaplan-Meier estimator of the
