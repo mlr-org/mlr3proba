@@ -20,6 +20,7 @@ test_that("combining predictions", {
   set.seed(1L)
   resampling = rsmp("cv", folds = 2L)
   rr = resample(task, lrn, resampling)
+  expect_resample_result(rr)
 
   preds = rr$predictions()
 
