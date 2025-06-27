@@ -388,7 +388,7 @@ bibentries = c(
     author = "Sonabend, Raphael and Zobolas, John and Kopper, Philipp and Burk, Lukas and Bender, Andreas",
     month = "dec",
     title = "Examining properness in the external validation of survival models with squared and logarithmic losses",
-    url = "https://arxiv.org/abs/2212.05260v2",
+    url = "https://arxiv.org/abs/2212.05260v3",
     year = "2024"
   ),
   kvamme_2023 = bibentry("article",
