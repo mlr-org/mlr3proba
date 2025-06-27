@@ -1,3 +1,4 @@
+# construct `pred` object with all possible predict types for testing
 set.seed(1L)
 task = tsk("rats")$filter(sample(300, 50L))
 learner = suppressWarnings(lrn("surv.coxph")$train(task))
@@ -334,6 +335,8 @@ test_that("ERV works", {
   l = lrn("surv.kaplan")
   p = l$train(t, part$train)$predict(t, part$test)
   m = msr("surv.graf", ERV = TRUE)
+  # ERV = TRUE needs train task
+  expect_error(p$score(m))
   # KM is the baseline score, so ERV score = 0
   expect_equal(as.numeric(p$score(m, task = t, train_set = part$train)), 0)
 
