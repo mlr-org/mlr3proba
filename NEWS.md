@@ -1,5 +1,6 @@
 # mlr3proba dev
 
+* feat: `surv.logloss` and `surv.rcll` now use linear interpolation of S(t) to calculate the density f(t)
 * refactor: remove `se` argument from most of the scores (not practically used)
 * fix: `surv.mae`/`surv.mse`/`surv.rmse` scores return `NA` when test set has only censored observations
 
