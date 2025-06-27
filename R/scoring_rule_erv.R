@@ -3,11 +3,6 @@
     stop("'task' and 'train_set' are required if 'ERV' is 'TRUE'")
   }
 
-  ps = measure$param_set$values
-  if (!is.null(ps$se) && ps$se) {
-    stop("Only one of `ERV` and `se` can be TRUE")
-  }
-
   measure$param_set$set_values(ERV = FALSE)
   # compute score for the learner
   learner_score = measure$score(prediction, task = task, train_set = train_set)
