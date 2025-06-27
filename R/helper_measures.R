@@ -78,7 +78,7 @@
   # CDF = 1 - S
   cdf = 1 - surv
 
-  # Numerical derivative: f = dF/dt
+  # Numerical derivative: f = dF/dt = -dS/dt
   dt = diff(utimes)
   dF = diff(cdf)
 
@@ -142,9 +142,8 @@
   # compute score for the baseline (Kaplan-Meier)
   # train KM
   km = lrn("surv.kaplan")$train(task = task, row_ids = train_set)
-  # predict KM on the test set (= not train ids)
-  test_set = setdiff(task$row_ids, train_set)
-  km_pred = km$predict(task, row_ids = test_set)
+  # predict KM on the test set
+  km_pred = km$predict(task, row_ids = prediction$row_ids)
   base_score = measure$score(km_pred, task = task, train_set = train_set)
 
   measure$param_set$set_values(ERV = TRUE)
