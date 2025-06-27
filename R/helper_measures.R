@@ -101,8 +101,7 @@
       surv = .ext_surv_mat(arr = surv, which.curve = 0.5)
     }
   } else {
-    stop("Distribution prediction does not have a survival matrix or array
-               in the $data$distr slot")
+    stop("Distribution prediction does not have a survival matrix or array in the `$data$distr` slot")
   }
 
   surv
