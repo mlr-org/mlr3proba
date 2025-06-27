@@ -92,6 +92,22 @@
   pmax(dens_full[indx], 0)
 }
 
+# get predicted survival matrix from `PredictionSurv$data$distr` slot (if it exists)
+.get_surv_matrix = function(prediction) {
+  if (inherits(prediction$data$distr, "array")) {
+    surv = prediction$data$distr
+    if (length(dim(surv)) == 3L) {
+      # survival 3d array, extract median
+      surv = .ext_surv_mat(arr = surv, which.curve = 0.5)
+    }
+  } else {
+    stop("Distribution prediction does not have a survival matrix or array
+               in the $data$distr slot")
+  }
+
+  surv
+}
+
 # Compute per-observation prediction errors for uncensored survival times.
 #
 # This function returns either squared or absolute differences between predicted
