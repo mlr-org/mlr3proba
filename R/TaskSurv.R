@@ -125,12 +125,7 @@ TaskSurv = R6Class("TaskSurv",
         args$type = cens_type # "right" or "left"
       }
 
-      if (allMissing(args$event) & allMissing(args$time)) {
-        # this is to pass autotest...
-        suppressWarnings(invoke(Surv, .args = args))
-      } else {
-        invoke(Surv, .args = args)
-      }
+     invoke(Surv, .args = args)
     },
 
     #' @description
