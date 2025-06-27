@@ -5,26 +5,24 @@
 \alias{MeasureSurvLogloss}
 \title{Negative Log-Likelihood Survival Measure}
 \description{
-Calculates the cross-entropy, or negative log-likelihood (NLL) or logarithmic (log), loss.
+Calculates the cross-entropy, or negative log-likelihood (NLL) or logarithmic (log) loss.
 }
 \details{
-The Log Loss, in the context of probabilistic predictions, is defined as the
-negative log probability density function, \eqn{f}, evaluated at the
-observation time (event or censoring), \eqn{t},
-\deqn{L_{NLL}(f, t) = -\log[f(t)]}
+The (observation-wise) Log-Likelihood is defined as the negative logarithm of
+the predicted probability density function \eqn{f_i}, evaluated at the
+observation time \eqn{t_i} (event or censoring):
 
-The standard error of the Log Loss, L, is approximated via,
-\deqn{se(L) = sd(L)/\sqrt{N}}{se(L) = sd(L)/\sqrt N}
-where \eqn{N} are the number of observations in the test set, and \eqn{sd} is the standard
-deviation.
+\deqn{L_{NLL}(S_i,t_i) = -\log{[f_i(t_i)]}}
 
-The \strong{Re-weighted Negative Log-Likelihood} (RNLL) or IPCW (Inverse Probability Censoring Weighted) Log Loss is defined by
-\deqn{L_{RNLL}(f, t, \delta) = - \frac{\delta \log[f(t)]}{G(t)}}
-where \eqn{\delta} is the censoring indicator and \eqn{G(t)} is the Kaplan-Meier estimator of the
-censoring distribution.
-So only observations that have experienced the event are taking into account
-for RNLL (i.e. \eqn{\delta = 1}) and both \eqn{f(t), G(t)} are calculated only at the event times.
-If only censored observations exist in the test set, \code{NaN} is returned.
+This loss does not take into account the censoring status of an observation,
+treating all outcomes as events, and is also an improper scoring rule,
+see Sonabend et al. (2024).
+See section \strong{Interpolation} for implementation details.
+
+To get a single score across all \eqn{N} observations of the test set, we
+return the average of the observation-wise scores:
+
+\deqn{\sum_{i=1}^N L_{NLL}(S_i, t_i) / N}
 }
 \section{Dictionary}{
 
@@ -40,8 +38,7 @@ msr("surv.logloss")
 \section{Parameters}{
 \tabular{lllll}{
    Id \tab Type \tab Default \tab Levels \tab Range \cr
-   eps \tab numeric \tab 1e-15 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
-   IPCW \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
+   eps \tab numeric \tab 1e-06 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    ERV \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
 }
 }
@@ -60,9 +57,9 @@ msr("surv.logloss")
 
 \itemize{
 \item \code{eps} (\code{numeric(1)})\cr
-Very small number to substitute zero values in order to prevent errors
+Very small number to substitute near-zero values in order to prevent errors
 in e.g. log(0) and/or division-by-zero calculations.
-Default value is 1e-15.
+Default value is 1e-06.
 }
 
 
@@ -72,30 +69,47 @@ If \code{TRUE} then the Explained Residual Variation method is applied, which
 means the score is standardized against a Kaplan-Meier baseline.
 Default is \code{FALSE}.
 }
+}
+
+\section{Interpolation}{
 
 
+To evaluate scores involving subject-specific survival functions
+\eqn{S_i(t)}, we perform \strong{linear interpolation} on the discrete survival
+values provided in the prediction.
+Duplicate survival values are removed prior to interpolation to ensure strict
+monotonicity and non-negative density values.
+Therefore we are left with the distinct survival time points
+\eqn{t_0 < \cdots < t_k} and the corresponding survival values \eqn{S(t_j)}.
+
+Interpolation is performed using base R’s \code{approx()} with \code{method = "linear"}
+and \code{rule = 2}, ensuring:
 \itemize{
-\item \code{IPCW} (\code{logical(1)})\cr
-If \code{TRUE} (default) then returns the \eqn{L_{RNLL}} score (which is proper), otherwise the \eqn{L_{NLL}} score (improper). See Sonabend et al. (2024) for more details.
+\item \strong{Left extrapolation} (for \eqn{t < t_0}) assumes \eqn{S(0) = 1} and uses
+the slope from \eqn{(0, 1)} to \eqn{(t_0, S(t_0))}.
+\item \strong{Right extrapolation} (for \eqn{t > t_k}) uses the slope from the last
+interval \eqn{(t_{k-1}, S(t_{k-1}))} to \eqn{(t_k, S(t_k))}, with results
+truncated at 0 to preserve non-negativity.
 }
+
+This ensures a continuous, piecewise-linear survival function \eqn{S(t)} that
+satisfies \eqn{S(0) = 1} and remains non-increasing and non-negative across
+the entire domain.
+
+The density is estimated at \eqn{t_i} as follows:
+
+\deqn{
+f_i(t_i) = -\frac{S_i(t_{i+1}) - S_i(t_i)}{t_{i+1} - t_i}
 }
 
-\section{Data used for Estimating Censoring Distribution}{
-
-
-If \code{task} and \code{train_set} are passed to \verb{$score} then \eqn{G(t)} is fit using
-\strong{all observations} from the train set, otherwise the test set is used.
-Using the train set is likely to reduce any bias caused by calculating parts of the
-measure on the test data it is evaluating.
-Also usually it means that more data is used for fitting the censoring
-distribution \eqn{G(t)} via the Kaplan-Meier.
-The training data is automatically used in scoring resamplings.
+This corresponds to the (negative) slop of the \eqn{S_i(t)} between the closest
+grid point after \eqn{t_i} and \eqn{t_i} itself.
 }
 
 \references{
 Sonabend, Raphael, Zobolas, John, Kopper, Philipp, Burk, Lukas, Bender, Andreas (2024).
 \dQuote{Examining properness in the external validation of survival models with squared and logarithmic losses.}
-\url{https://arxiv.org/abs/2212.05260v2}.
+\url{https://arxiv.org/abs/2212.05260v3}.
 }
 \seealso{
 Other survival measures: 

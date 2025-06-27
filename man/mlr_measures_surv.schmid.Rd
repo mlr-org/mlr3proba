@@ -122,7 +122,7 @@ See "Properness" section for more details.
 
 \itemize{
 \item \code{eps} (\code{numeric(1)})\cr
-Very small number to substitute zero values in order to prevent errors
+Very small number to substitute near-zero values in order to prevent errors
 in e.g. log(0) and/or division-by-zero calculations.
 Default value is 0.001.
 }
@@ -289,7 +289,7 @@ Schmid, Matthias, Hielscher, Thomas, Augustin, Thomas, Gefeller, Olaf (2011).
 
 Sonabend, Raphael, Zobolas, John, Kopper, Philipp, Burk, Lukas, Bender, Andreas (2024).
 \dQuote{Examining properness in the external validation of survival models with squared and logarithmic losses.}
-\url{https://arxiv.org/abs/2212.05260v2}.
+\url{https://arxiv.org/abs/2212.05260v3}.
 
 Kvamme, Havard, Borgan, Ornulf (2023).
 \dQuote{The Brier Score under Administrative Censoring: Problems and a Solution.}

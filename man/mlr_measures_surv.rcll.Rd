@@ -5,18 +5,25 @@
 \alias{MeasureSurvRCLL}
 \title{Right-Censored Log Loss Survival Measure}
 \description{
-Calculates the right-censored logarithmic (log), loss.
+Calculates the right-censored log-likelihood (RCLL) or logarithmic loss,
+introduced by Avati et al. (2020).
 }
 \details{
-The RCLL, in the context of probabilistic predictions, is defined by
-\deqn{L(f, t, \Delta) = -log(\Delta f(t) + (1 - \Delta) S(t))}
-where \eqn{\Delta} is the censoring indicator, \eqn{f} the probability
-density function and \eqn{S} the survival function.
-RCLL is proper given that censoring and survival distribution are independent, see Rindt et al. (2022).
+The observation-wise RCLL is defined by:
 
-\strong{Note}: Even though RCLL is a proper scoring rule, the calculation of \eqn{f(t)} (which in our case is discrete, i.e. it is a \emph{probability mass function}) for time points in the test set that don't exist in the predicted survival matrix (\code{distr}), results in 0 values, which are substituted by \code{"eps"} in our implementation, therefore skewing the result towards \eqn{-log(eps)}.
-This problem is also discussed in Rindt et al. (2022), where the authors perform interpolation to get non-zero values for the \eqn{f(t)}.
-Until this is handled in \code{mlr3proba} some way, we advise against using this measure for model evaluation.
+\deqn{L_{RCLL}(S_i, t_i, \delta_i) = -log[\delta_i f_i(t_i) + (1 - \delta_i) S_i(t_i)]}
+
+where \eqn{\delta_i} is the censoring indicator, \eqn{f_i} the predicted probability
+density function and \eqn{S_i} the predicted survival function for observation \eqn{i}.
+RCLL is proper given that censoring and survival distribution are independent, see Rindt et al. (2022).
+Simulation studies by Sonabend et al. (2024) provide strong empirical evidence
+supporting the properness of this score.
+See section \strong{Interpolation} for implementation details.
+
+To get a single score across all \eqn{N} observations of the test set, we
+return the average of the observation-wise scores:
+
+\deqn{\sum_{i=1}^N L_{RCLL}(S_i, t_i, \delta_i) / N}
 }
 \section{Dictionary}{
 
@@ -32,9 +39,8 @@ msr("surv.rcll")
 \section{Parameters}{
 \tabular{lllll}{
    Id \tab Type \tab Default \tab Levels \tab Range \cr
-   eps \tab numeric \tab 1e-15 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   eps \tab numeric \tab 1e-06 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    ERV \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
-   na.rm \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
 }
 }
 
@@ -52,9 +58,9 @@ msr("surv.rcll")
 
 \itemize{
 \item \code{eps} (\code{numeric(1)})\cr
-Very small number to substitute zero values in order to prevent errors
+Very small number to substitute near-zero values in order to prevent errors
 in e.g. log(0) and/or division-by-zero calculations.
-Default value is 1e-15.
+Default value is 1e-06.
 }
 
 
@@ -64,12 +70,41 @@ If \code{TRUE} then the Explained Residual Variation method is applied, which
 means the score is standardized against a Kaplan-Meier baseline.
 Default is \code{FALSE}.
 }
-
-
-\itemize{
-\item \code{na.rm} (\code{logical(1)})\cr
-If \code{TRUE} (default) then removes any NAs in individual score calculations.
 }
+
+\section{Interpolation}{
+
+
+To evaluate scores involving subject-specific survival functions
+\eqn{S_i(t)}, we perform \strong{linear interpolation} on the discrete survival
+values provided in the prediction.
+Duplicate survival values are removed prior to interpolation to ensure strict
+monotonicity and non-negative density values.
+Therefore we are left with the distinct survival time points
+\eqn{t_0 < \cdots < t_k} and the corresponding survival values \eqn{S(t_j)}.
+
+Interpolation is performed using base R’s \code{approx()} with \code{method = "linear"}
+and \code{rule = 2}, ensuring:
+\itemize{
+\item \strong{Left extrapolation} (for \eqn{t < t_0}) assumes \eqn{S(0) = 1} and uses
+the slope from \eqn{(0, 1)} to \eqn{(t_0, S(t_0))}.
+\item \strong{Right extrapolation} (for \eqn{t > t_k}) uses the slope from the last
+interval \eqn{(t_{k-1}, S(t_{k-1}))} to \eqn{(t_k, S(t_k))}, with results
+truncated at 0 to preserve non-negativity.
+}
+
+This ensures a continuous, piecewise-linear survival function \eqn{S(t)} that
+satisfies \eqn{S(0) = 1} and remains non-increasing and non-negative across
+the entire domain.
+
+The density is estimated at \eqn{t_i} as follows:
+
+\deqn{
+f_i(t_i) = -\frac{S_i(t_{i+1}) - S_i(t_i)}{t_{i+1} - t_i}
+}
+
+This corresponds to the (negative) slop of the \eqn{S_i(t)} between the closest
+grid point after \eqn{t_i} and \eqn{t_i} itself.
 }
 
 \references{
@@ -82,6 +117,10 @@ Rindt, David, Hu, Robert, Steinsaltz, David, Sejdinovic, Dino (2022).
 \dQuote{Survival regression with proper scoring rules and monotonic neural networks.}
 \emph{Proceedings of The 25th International Conference on Artificial Intelligence and Statistics}, \bold{151}(4), 1190--1205.
 \url{https://proceedings.mlr.press/v151/rindt22a.html}.
+
+Sonabend, Raphael, Zobolas, John, Kopper, Philipp, Burk, Lukas, Bender, Andreas (2024).
+\dQuote{Examining properness in the external validation of survival models with squared and logarithmic losses.}
+\url{https://arxiv.org/abs/2212.05260v3}.
 }
 \seealso{
 Other survival measures: 
