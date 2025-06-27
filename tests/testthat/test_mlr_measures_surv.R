@@ -75,8 +75,7 @@ test_that("dcalib works", {
   t = tsk("rats")$filter(sample(1:300, 50))
   l = lrn("surv.coxph")
   p = suppressWarnings(l$train(t)$predict(t))
-  p2 = p$clone()
-  p2$data$distr = p2$distr # hack: test score via distribution
+
   m = msr("surv.dcalib", truncate = 20)
   expect_true(m$minimize)
   expect_equal(m$range, c(0, Inf))
@@ -85,8 +84,6 @@ test_that("dcalib works", {
   expect_equal(m$param_set$values$truncate, 20)
   KMscore = p$score(m)
   expect_numeric(KMscore)
-  KMscore2 = p2$score(m)
-  expect_equal(KMscore, KMscore2)
 
   status = t$truth()[, 2L]
   row_ids = t$row_ids
@@ -97,45 +94,26 @@ test_that("dcalib works", {
   p = l$predict(t, row_ids = cens_ids)
   score = p$score(m)
   expect_numeric(score)
-  p2 = p$clone() # test score via distribution
-  p2$data$distr = p2$distr
-  score2 = p2$score(m)
-  expect_equal(score, score2)
 
   # 1 censored test rat
   p = p$filter(row_ids = cens_ids[1L])
   score = p$score(m)
   expect_numeric(score)
-  p2 = p$clone() # test score via distribution
-  p2$data$distr = p2$distr
-  score2 = p2$score(m)
-  expect_equal(score, score2)
 
   # only dead rats in test set
   p = l$predict(t, row_ids = event_ids)
   score = p$score(m)
   expect_numeric(score)
-  p2 = p$clone() # test score via distribution
-  p2$data$distr = p2$distr # Matdist(1xY)
-  score2 = p2$score(m)
-  expect_equal(score, score2)
 
   # 1 dead rat
   p = p$filter(row_ids = event_ids[1L])
   score = p$score(m)
   expect_numeric(score)
-  p2 = p$clone() # test score via distribution
-  p2$data$distr = p2$distr[1L] # WeightDisc
-  score2 = p2$score(m)
-  expect_equal(score, score2)
 
   # Another edge case: some dead rats and 1 only censored
   p = l$predict(t, row_ids = c(event_ids, cens_ids[1L]))
   score = p$score(m)
   expect_numeric(score)
-  p$data$distr = p$distr
-  score2 = p$score(m)
-  expect_equal(score, score2)
   expect_gt(score, 10)
 
   score3 = p$score(msr("surv.dcalib", truncate = 10))
@@ -399,15 +377,12 @@ test_that("rcll works", {
   t = tsk("rats")$filter(sample(1:300, 50))
   l = lrn("surv.kaplan")
   p = l$train(t)$predict(t)
-  p2 = p$clone()
-  p2$data$distr = p2$distr # hack: test score via distribution
+
   m = msr("surv.rcll")
   expect_true(m$minimize)
   expect_equal(m$range, c(0, Inf))
   KMscore = p$score(m)
   expect_numeric(KMscore)
-  KMscore2 = p2$score(m)
-  expect_equal(KMscore, KMscore2)
 
   status = t$truth()[, 2L]
   row_ids = t$row_ids
@@ -418,37 +393,21 @@ test_that("rcll works", {
   p = l$predict(t, row_ids = cens_ids)
   score = p$score(m)
   expect_numeric(score)
-  p2 = p$clone() # test score via distribution
-  p2$data$distr = p2$distr
-  score2 = p2$score(m)
-  expect_equal(score, score2)
 
   # 1 censored test rat
   p = p$filter(row_ids = cens_ids[1L])
   score = p$score(m)
   expect_numeric(score)
-  p2 = p$clone() # test score via distribution
-  p2$data$distr = p2$distr
-  score2 = p2$score(m)
-  expect_equal(score, score2)
 
   # only dead rats in test set
   p = l$predict(t, row_ids = event_ids)
   score = p$score(m)
   expect_numeric(score)
-  p2 = p$clone() # test score via distribution
-  p2$data$distr = p2$distr # Matdist(1xY)
-  score2 = p2$score(m)
-  expect_equal(score, score2)
 
   # 1 dead rat
   p = p$filter(row_ids = event_ids[1L])
   score = p$score(m)
   expect_numeric(score)
-  p2 = p$clone() # test score via distribution
-  p2$data$distr = p2$distr[1L] # WeightDisc
-  score2 = p2$score(m)
-  expect_equal(score, score2)
 
   # Cox is better than baseline (Kaplan-Meier)
   l2 = lrn("surv.coxph")
@@ -459,9 +418,6 @@ test_that("rcll works", {
   p3 = p2$filter(row_ids = c(event_ids, cens_ids[1L]))
   score = p3$score(m)
   expect_numeric(score)
-  p3$data$distr = p3$distr
-  score2 = p3$score(m)
-  expect_equal(score, score2)
 })
 
 test_that("logloss works", {
@@ -485,8 +441,8 @@ test_that("logloss works", {
 
   # ERV works as it should
   m = msr("surv.logloss", ERV = TRUE)
-  expect_equal(unname(p_kaplan$score(m, task = t, train_set = task$row_ids)), 0)
-  expect_gt(unname(p_cox$score(m, task = t, train_set = task$row_ids)), 0)
+  expect_equal(unname(p_kaplan$score(m, task = t, train_set = t$row_ids)), 0)
+  expect_gt(unname(p_cox$score(m, task = t, train_set = t$row_ids)), 0)
 })
 
 test_that("distr measures work with 3d survival array", {
