@@ -13,7 +13,7 @@ c_score_graf_schmid <- function(truth, unique_times, cdf, power = 2L) {
     .Call(`_mlr3proba_c_score_graf_schmid`, truth, unique_times, cdf, power)
 }
 
-.c_weight_survival_score <- function(score, truth, unique_times, cens, proper, eps) {
+c_weight_survival_score <- function(score, truth, unique_times, cens, proper, eps) {
     .Call(`_mlr3proba_c_weight_survival_score`, score, truth, unique_times, cens, proper, eps)
 }
 

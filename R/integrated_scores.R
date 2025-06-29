@@ -107,7 +107,7 @@ weighted_survival_score = function(loss, truth, distribution, times = NULL,
                 any.missing = FALSE)
 
   # Note that whilst we calculate the score for censored observations here,
-  # they are then corrected in the weighting function `.c_weight_survival_score()`
+  # they are then corrected in the weighting function `c_weight_survival_score()`
   if (loss == "graf") {
     score = score_graf_schmid(true_times, unique_times, cdf, power = 2)
   } else if (loss == "schmid") {
@@ -129,7 +129,7 @@ weighted_survival_score = function(loss, truth, distribution, times = NULL,
   # G(t): KM estimate of the censoring distribution
   cens = matrix(c(cens$time, cens$surv), ncol = 2L)
 
-  score = .c_weight_survival_score(score, true_truth, unique_times, cens, proper, eps)
+  score = c_weight_survival_score(score, true_truth, unique_times, cens, proper, eps)
   colnames(score) = unique_times
 
   return(score)
