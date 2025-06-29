@@ -37,14 +37,13 @@
     # calculate `t_max` (time horizon) if `p_max` is given
     if (!is.null(p_max)) {
       surv = survival::survfit(truth ~ 1)
-      indx = which(1 - (surv$n.risk / surv$n) > p_max)
-      if (length(indx) == 0L) {
-        # no indexes found, get last time point
-        t_max = tail(surv$time, n = 1L)
+      censored_proportion = 1 - (surv$n.risk / surv$n)
+      indx = which(censored_proportion > p_max)
+
+      t_max = if (length(indx) == 0L) {
+         tail(surv$time, n = 1L) # no indexes found, use last time point
       } else {
-        # first time point that surpasses the specified
-        # `p_max` proportion of censoring
-        t_max = surv$time[indx[1L]]
+        surv$time[indx[1L]]  # first time exceeding `p_max` censoring
       }
     }
 
@@ -56,18 +55,17 @@
     # filter `unique_times` in the test set up to `t_max`
     unique_times = unique_times[unique_times <= t_max]
   } else {
-    # `times` is given or it is `NULL`
-    # We keep compatibility with previous code here and return an error if
-    # the requested `times` are ALL outside the considered evaluation test times.
-    # We do not prune these requested times at all (we assume that times are
-    # positive, unique and sorted).
-    # Constant interpolation is used later to get S(t) for these time points
-    outside_range = !is.null(times) && any(times < min(unique_times) | times > max(unique_times))
-    if (outside_range) {
-      warning("Some requested times are outside the considered evaluation range
-              (unique, sorted, test set's time points).")
+    # `times` can be provided or it is NULL
+    # If some requested times are outside the evaluation range, warn the user
+    # We assume that `times` are positive, unique and sorted
+    if (!is.null(times)) {
+      outside_range = any(times < min(unique_times) | times > max(unique_times))
+      if (outside_range) {
+        warning("Some requested times are outside the evaluation range (unique, sorted test times).")
+      }
     }
-    # is `times = NULL`, use the `unique_times`
+
+    # Use requested times if given, else default to `unique_times`
     unique_times = times %??% unique_times
   }
 
