@@ -236,20 +236,27 @@
     integrated = FALSE
   }
 
-  if (integrated) {
-    # summary score (integrated across all time points)
-    if (method == 1L) {
-      score = as.numeric(score)
-      return(mean(score[is.finite(score)], na.rm = TRUE)) # remove NAs and Infs
-    } else if (method == 2L) {
-      times = as.numeric(colnames(score))
-      lt = ncol(score)
-      score = .col_sums(score) # score(t)
-      return((diff(times) %*% (score[1:(lt - 1)] + score[2:lt])) / (2 * (max(times) - min(times))))
-    }
-  } else {
+  if (!integrated) {
     return(.col_sums(score)) # score(t)
   }
+
+  # summary score (integrated across all time points and observations)
+  if (method == 1L) {
+    # Mean score across all (obs, time) pairs
+    score = as.numeric(score)
+
+    int_score = mean(score[is.finite(score)], na.rm = TRUE) # remove NAs and Infs
+  } else if (method == 2L) {
+    # Trapezoidal integration over time
+    times = as.numeric(colnames(score))
+    n = length(times)
+    time_diffs = diff(times)
+    scores = .col_sums(score) # score(t) => use the mean across obs scores per time point
+
+    int_score = sum(time_diffs * (scores[-n] + scores[-1]) / 2) / (max(times) - min(times))
+  }
+
+  int_score
 }
 
 # Computes column-wise means of a matrix while ignoring NA, NaN, and infinite values.
