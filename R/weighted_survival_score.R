@@ -1,18 +1,19 @@
-.score_intslogloss = function(true_times, unique_times, cdf, eps = eps) {
-  assert_number(eps, lower = 0)
-  c_score_intslogloss(true_times, unique_times, cdf, eps = eps)
-}
-
-.score_graf_schmid = function(true_times, unique_times, cdf, power = 2) {
-  assert_number(power)
-  c_score_graf_schmid(true_times, unique_times, cdf, power)
-}
-
-# Notes:
-# - Either all of `times`, `t_max`, `p_max` are NULL, or only one of them is not
-# - `times` is sorted (increasing), unique, positive time points
-# - `t_max` > 0
-# - `p_max` in [0,1]
+## Wrapper function for evaluating (possibly integrated) time-dependent survival scores.
+## Interfaces with Rcpp scoring functions (e.g., Schmid, Graf, Integrated LogLoss Score).
+##
+## Selects appropriate evaluation times based on:
+## - Explicit `times` argument,
+## - Censoring proportion cutoff `p_max`, or
+## - Time horizon `t_max`.
+##
+## Applies IPCW using training or test censoring distribution.
+##
+## Returns: matrix of scores with columns => evaluation times.
+## Notes:
+## - Either all of `times`, `t_max`, `p_max` are NULL, or only one of them is not
+## - `times` is sorted (increasing), unique, positive time points
+## - `t_max` > 0
+## - `p_max` in [0,1]
 .weighted_survival_score = function(loss, truth, distribution, times = NULL,
   t_max = NULL, p_max = NULL, proper, train = NULL, eps, remove_obs = FALSE) {
   assert_surv(truth)
@@ -132,5 +133,15 @@
   score = c_weight_survival_score(score, true_truth, unique_times, cens, proper, eps)
   colnames(score) = unique_times
 
-  return(score)
+  score
+}
+
+.score_intslogloss = function(true_times, unique_times, cdf, eps = eps) {
+  assert_number(eps, lower = 0)
+  c_score_intslogloss(true_times, unique_times, cdf, eps = eps)
+}
+
+.score_graf_schmid = function(true_times, unique_times, cdf, power = 2) {
+  assert_number(power)
+  c_score_graf_schmid(true_times, unique_times, cdf, power)
 }
