@@ -48,7 +48,7 @@ test_that(".interp_surv works", {
   # Non-monotonic time input (eval_times only)
   expect_equal(.interp_surv(surv_data, eval_times = c(4, 2, 1)), c(0.1, 0.9, 0.98))
 
-  # Handling duplicated S(t) values
+  # Duplicated S(t) values are removed in linear interpolation
   surv_data = list(surv = c(1.0, 0.9, 0.9, 0.7), time = c(1, 2, 3, 4))
   eval_times = c(1, 2, 2.5, 3, 3.5, 4)
   res_const = .interp_surv(surv_data, eval_times, method = "constant")
@@ -83,19 +83,19 @@ test_that(".interp_pdf works", {
   pdf_flat = .interp_pdf(flat_surv, eval_times = 1:5)
   expect_equal(pdf_flat, rep(0, 5))
 
-  # Constant drop in survival (linear survival) => constant PDF
-  linear_surv = list(surv = seq(1, 0.5, length.out = 5), time = 1:5)
-  pdf_linear = .interp_pdf(linear_surv, eval_times = 1:5)
-  expect_true(all(pdf_linear == 0.125))
-
   # One time point only — should return 0 everywhere
   one_point = list(surv = 0.9, time = 2)
   pdf_one = .interp_pdf(one_point, eval_times = c(1, 2, 3))
   expect_equal(pdf_one, c(0, 0, 0))
 
-  # Handling duplicated S(t) values
+  # Constant drop in survival (linear survival) => constant PDF
+  linear_surv = list(surv = seq(1, 0.5, length.out = 5), time = 1:5)
+  pdf_linear = .interp_pdf(linear_surv, eval_times = 1:5)
+  expect_true(all(pdf_linear == 0.125))
+
+  # Duplicated S(t) values are removed
   surv_data = list(surv = c(1.0, 0.9, 0.9, 0.7), time = c(1, 2, 3, 4))
   eval_times = c(1, 2, 2.5, 3, 3.5, 4)
   pdf_vals = .interp_pdf(surv_data, eval_times)
-  expect_true(all(pdf_vals > 0)) # 0 densities
+  expect_true(all(pdf_vals > 0))
 })
