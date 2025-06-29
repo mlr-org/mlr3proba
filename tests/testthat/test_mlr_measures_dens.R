@@ -1,15 +1,7 @@
-task = TaskGeneratorSimdens$new()$generate(20L)
-
 test_that("mlr_measures", {
-  keys = mlr_measures$keys("^dens")
-
-  for (key in keys) {
-
-    m = mlr_measures$get(key)
-
-    expect_measure(m)
-
-    perf = mlr_learners$get("dens.hist")$train(task)$predict(task)$score()
-    expect_number(perf, na.ok = "na_score" %in% m$properties)
-  }
+  task = TaskGeneratorSimdens$new()$generate(20L)
+  m = msr("dens.logloss")
+  expect_measure(m)
+  perf = lrn("dens.hist")$train(task)$predict(task)$score(m)
+  expect_number(perf)
 })

@@ -25,10 +25,8 @@ msr("surv.mae")
 }
 
 \section{Parameters}{
-\tabular{llll}{
-   Id \tab Type \tab Default \tab Levels \cr
-   se \tab logical \tab FALSE \tab TRUE, FALSE \cr
-}
+
+Empty ParamSet
 }
 
 \section{Meta Information}{
@@ -38,17 +36,6 @@ msr("surv.mae")
 \item Range: \eqn{[0, \infty)}{[0, Inf)}
 \item Minimize: \code{TRUE}
 \item Required prediction: \code{response}
-}
-}
-
-\section{Parameter details}{
-
-\itemize{
-\item \code{se} (\code{logical(1)})\cr
-If \code{TRUE} then returns standard error of the measure otherwise
-returns the mean across all individual scores, e.g. the mean of
-the per observation scores.
-Default is \code{FALSE} (returns the mean).
 }
 }
 

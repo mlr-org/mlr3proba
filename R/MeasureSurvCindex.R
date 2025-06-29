@@ -44,7 +44,7 @@
 #' Weighting applied to tied rankings, default is to give them half (0.5) weighting.
 #'
 #' @references
-#' `r format_bib("peto_1972", "harrell_1982", "goenen_2005", "schemper_2009", "uno_2011")`
+#' `r format_bib("peto_1972", "harrell_1982", "gonen_2005", "schemper_2009", "uno_2011")`
 #'
 #' @template param_range
 #' @template param_minimize
@@ -90,11 +90,10 @@ MeasureSurvCindex = R6Class("MeasureSurvCindex",
 
       super$initialize(
         id = "surv.cindex",
-        range = 0:1,
+        range = c(0, 1),
         minimize = FALSE,
-        packages = character(),
         predict_type = "crank",
-        properties = character(),
+        properties = "na_score",
         label = "Concordance Index",
         man = "mlr3proba::mlr_measures_surv.cindex",
         param_set = ps
@@ -108,43 +107,39 @@ MeasureSurvCindex = R6Class("MeasureSurvCindex",
     .score = function(prediction, task, train_set, ...) {
       ps = self$param_set$values
 
-      # calculate t_max (cutoff time horizon)
-      if (is.null(ps$t_max) && !is.null(ps$p_max)) {
+      # Determine cutoff time horizon (t_max)
+      t_max = ps$t_max
+      if (is.null(t_max) && !is.null(ps$p_max)) {
         truth = prediction$truth
-        unique_times = unique(sort(truth[, "time"]))
+        unique_times = unique(sort(truth[, 1L]))
         surv = survival::survfit(truth ~ 1)
-        indx = which(1 - (surv$n.risk / surv$n) > ps$p_max)
-        if (length(indx) == 0L) {
-          t_max = NULL # t_max calculated in `cindex()`
-        } else {
-          # first time point that surpasses the specified
-          # `p_max` proportion of censoring
-          t_max = surv$time[indx[1L]]
-        }
-      } else {
-        t_max = ps$t_max
+        censored_proportion = 1 - (surv$n.risk / surv$n)
+        indx = which(censored_proportion > ps$p_max)
+
+        # First time point that surpasses `p_max` censoring
+        t_max = if (length(indx) > 0L) surv$time[indx[1L]] else NULL
       }
 
-      if (ps$weight_meth == "GH") {
-        return(gonen(prediction$crank, ps$tiex))
-      } else if (ps$weight_meth == "I") {
-        return(cindex(prediction$truth, prediction$crank, t_max, ps$weight_meth, ps$tiex))
-      } else {
-        if (is.null(task) | is.null(train_set)) {
-          stop("'task' and 'train_set' required for all weighted C-indexes (except GH).")
-        }
-        return(cindex(prediction$truth, prediction$crank, t_max, ps$weight_meth,
-                      ps$tiex, task$truth(train_set), ps$eps))
+      # Select weighting method
+      weight_meth = ps$weight_meth
+
+      if (weight_meth == "I") {
+        return(.cindex(prediction$truth, prediction$crank, t_max, weight_meth, ps$tiex))
       }
+
+      if (weight_meth == "GH") {
+        return(.gonen(prediction$crank, ps$tiex))
+      }
+
+      # All other methods require task and train_set
+      if (is.null(task) || is.null(train_set)) {
+        stopf("'task' and 'train_set' are required for weighted C-index method '%s'", weight_meth)
+      }
+
+      train_truth = task$truth(train_set)
+      .cindex(prediction$truth, prediction$crank, t_max, weight_meth, ps$tiex, train_truth, ps$eps)
     }
   )
 )
-
-gonen = function(crank, tiex) {
-  assert_numeric(crank, any.missing = FALSE)
-  assert_number(tiex)
-
-  c_gonen(sort(crank), tiex)
-}
 
 register_measure("surv.cindex", MeasureSurvCindex)

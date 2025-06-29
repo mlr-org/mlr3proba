@@ -50,7 +50,6 @@ msr("surv.graf")
    t_max \tab numeric \tab - \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
    p_max \tab numeric \tab - \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    method \tab integer \tab 2 \tab  \tab \eqn{[1, 2]}{[1, 2]} \cr
-   se \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    proper \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    eps \tab numeric \tab 0.001 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    ERV \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
@@ -113,15 +112,6 @@ difference between time-points.
 
 
 \itemize{
-\item \code{se} (\code{logical(1)})\cr
-If \code{TRUE} then returns standard error of the measure otherwise
-returns the mean across all individual scores, e.g. the mean of
-the per observation scores.
-Default is \code{FALSE} (returns the mean).
-}
-
-
-\itemize{
 \item \code{proper} (\code{logical(1)})\cr
 If \code{TRUE} then weights scores by the censoring distribution at
 the observed event time, which results in a strictly proper scoring
@@ -135,7 +125,7 @@ See "Properness" section for more details.
 
 \itemize{
 \item \code{eps} (\code{numeric(1)})\cr
-Very small number to substitute zero values in order to prevent errors
+Very small number to substitute near-zero values in order to prevent errors
 in e.g. log(0) and/or division-by-zero calculations.
 Default value is 0.001.
 }
@@ -297,7 +287,7 @@ Graf E, Schmoor C, Sauerbrei W, Schumacher M (1999).
 
 Sonabend, Raphael, Zobolas, John, Kopper, Philipp, Burk, Lukas, Bender, Andreas (2024).
 \dQuote{Examining properness in the external validation of survival models with squared and logarithmic losses.}
-\url{https://arxiv.org/abs/2212.05260v2}.
+\url{https://arxiv.org/abs/2212.05260v3}.
 
 Kvamme, Havard, Borgan, Ornulf (2023).
 \dQuote{The Brier Score under Administrative Censoring: Problems and a Solution.}

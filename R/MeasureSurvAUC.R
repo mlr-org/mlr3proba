@@ -22,7 +22,7 @@ MeasureSurvAUC = R6Class("MeasureSurvAUC",
 
       super$initialize(
         id = id,
-        range = 0:1,
+        range = c(0, 1),
         minimize = FALSE,
         packages = "survAUC",
         predict_type = "lp",
@@ -36,7 +36,6 @@ MeasureSurvAUC = R6Class("MeasureSurvAUC",
 
   private = list(
     .score = function(prediction, learner, task, train_set, FUN, ...) {
-
       args = list()
       ps = self$param_set$values
 

@@ -112,17 +112,9 @@ MeasureSurvICI = R6Class("MeasureSurvICI",
       status = prediction$truth[, 2L]
 
       # get predicted survival matrix
-      if (inherits(prediction$data$distr, "array")) {
-        surv = prediction$data$distr
-        if (length(dim(surv)) == 3L) {
-          # survival 3d array, extract median
-          surv = .ext_surv_mat(arr = surv, which.curve = 0.5)
-        }
-      } else {
-        stop("Distribution prediction does not have a survival matrix or array
-             in the $data$distr slot")
-      }
+      surv = .get_surv_matrix(prediction)
 
+      # parameter values
       pv = self$param_set$values
 
       # time point for calibration

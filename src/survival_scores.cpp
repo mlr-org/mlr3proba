@@ -41,7 +41,7 @@ NumericMatrix c_score_graf_schmid(const NumericVector& truth,
   return igs;
 }
 
-// [[Rcpp::export(.c_weight_survival_score)]]
+// [[Rcpp::export]]
 NumericMatrix c_weight_survival_score(const NumericMatrix& score,
                                       const NumericMatrix& truth,
                                       const NumericVector& unique_times,

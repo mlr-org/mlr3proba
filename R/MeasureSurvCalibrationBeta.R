@@ -6,7 +6,7 @@
 #' This calibration method fits the predicted linear predictor from a Cox PH
 #' model as the only predictor in a new Cox PH model with the test data as
 #' the response.
-#' \deqn{h(t|x) = h_0(t)exp(\beta \times lp)}
+#' \deqn{h(t|x) = h_0(t)e^{\beta \times lp}}
 #' where \eqn{lp} is the predicted linear predictor on the test data.
 #'
 #' The model is well calibrated if the estimated \eqn{\hat{\beta}} coefficient
@@ -56,7 +56,8 @@ MeasureSurvCalibrationBeta = R6Class("MeasureSurvCalibrationBeta",
         predict_type = "lp",
         label = "Van Houwelingen's Beta",
         man = "mlr3proba::mlr_measures_surv.calib_beta",
-        param_set = ps
+        param_set = ps,
+        properties = "na_score"
       )
     }
   ),
@@ -68,21 +69,22 @@ MeasureSurvCalibrationBeta = R6Class("MeasureSurvCalibrationBeta",
 
       if (inherits(fit, "try-error")) {
         return(NA)
-      } else {
-        ps = self$param_set$values
-
-        if (ps$se) {
-          return(fit$coefficients[, "se(coef)"])
-        } else {
-          out = fit$coefficients[, "coef"]
-
-          if (ps$method == "diff") {
-            out = abs(1 - out)
-          }
-
-          return(out)
-        }
       }
+
+      ps = self$param_set$values
+
+      if (ps$se) {
+        return(fit$coefficients[, "se(coef)"])
+      } else {
+        out = fit$coefficients[, "coef"]
+
+        if (ps$method == "diff") {
+          out = abs(1 - out)
+        }
+
+        return(out)
+      }
+
     }
   )
 )

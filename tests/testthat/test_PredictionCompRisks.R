@@ -38,6 +38,7 @@ test_that("combining predictions", {
   times1_fold1 = as.numeric(colnames(preds[[1L]]$data$cif$`1`))
   times1_fold2 = as.numeric(colnames(preds[[2L]]$data$cif$`1`))
   times1_fold3 = as.numeric(colnames(preds[[3L]]$data$cif$`1`))
+  # union of time points across folds in the combined prediction object
   expect_true(all(times1 == sort(unique(c(times1_fold1, times1_fold2, times1_fold3)))))
 
   # cause 2
@@ -45,6 +46,7 @@ test_that("combining predictions", {
   times2_fold1 = as.numeric(colnames(preds[[1L]]$data$cif$`2`))
   times2_fold2 = as.numeric(colnames(preds[[2L]]$data$cif$`2`))
   times2_fold3 = as.numeric(colnames(preds[[3L]]$data$cif$`2`))
+  # union of time points across folds in the combined prediction object
   expect_true(all(times2 == sort(unique(c(times2_fold1, times2_fold2, times2_fold3)))))
 
   # data.table conversion

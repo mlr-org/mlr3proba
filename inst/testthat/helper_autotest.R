@@ -14,7 +14,6 @@ generate_tasks.LearnerDens = function(learner, N = 30L, ...) { # nolint
   # generate sanity task
   data = with_seed(100, rnorm(1000, 10, 1))
   tasks$sanity = mlr3proba::TaskDens$new("sanity", data)
-  tasks$sanity_reordered = tasks$sanity$clone(deep = TRUE)
 
   tasks
 }
@@ -45,8 +44,6 @@ generate_tasks.LearnerSurv = function(learner, N = 20L, ...) { # nolint
     event = rbinom(N, 1, 0.9)
   )})
   tasks$sanity = mlr3proba::TaskSurv$new("sanity", mlr3::as_data_backend(data), time = "time", event = "event")
-  tasks$sanity_reordered = tasks$sanity$clone(deep = TRUE)
-  tasks$sanity_reordered$id = "sanity_reordered"
 
   tasks
 }

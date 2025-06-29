@@ -6,13 +6,13 @@
 #'
 #' @description
 #' This calibration method is defined by estimating
-#' \deqn{\hat{\alpha} = \sum \delta_i / \sum H_i(T_i)}
-#' where \eqn{\delta} is the observed censoring indicator from the test data,
-#' \eqn{H_i} is the predicted cumulative hazard, and \eqn{T_i} is the observed
-#' survival time (event or censoring).
+#' \deqn{\hat{\alpha} = \frac{\sum_{i=1}^n \delta_i}{\sum_{i=1}^n H_i(T_i)}}
+#' where \eqn{\delta} is the observed censoring indicator from the test data
+#' \eqn{n} observations), \eqn{H_i} is the predicted cumulative hazard, and \eqn{T_i}
+#' is the observed survival time (event or censoring).
 #'
 #' The standard error is given by
-#' \deqn{\hat{\alpha_{se}} = exp(1/\sqrt{\sum \delta_i})}
+#' \deqn{\hat{\alpha_{se}} = e^{1/\sqrt{\sum \delta_i}}}
 #'
 #' The model is well calibrated if the estimated \eqn{\hat{\alpha}} coefficient
 #' (returned score) is equal to 1.
@@ -75,11 +75,11 @@ MeasureSurvCalibrationAlpha = R6Class("MeasureSurvCalibrationAlpha",
       truth = prediction$truth
       all_times = truth[, 1L] # both event times and censoring times
       status = truth[, 2L]
-      deaths = sum(status)
+      n_events = sum(status)
 
       ps = self$param_set$values
       if (ps$se) {
-        return(exp(1 / sqrt(deaths)))
+        return(exp(1 / sqrt(n_events)))
       } else {
         distr = prediction$data$distr
 
@@ -113,7 +113,7 @@ MeasureSurvCalibrationAlpha = R6Class("MeasureSurvCalibrationAlpha",
         # Inf => case where censoring occurs at last time point
         # 0   => case where survival probabilities are all 1
         cumhaz[cumhaz == Inf | cumhaz == 0] = ps$eps
-        out = deaths / sum(cumhaz)
+        out = n_events / sum(cumhaz)
 
         if (ps$method == "diff") {
           out = abs(1 - out)

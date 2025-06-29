@@ -1,3 +1,10 @@
+# mlr3proba dev
+
+* feat: `surv.logloss` and `surv.rcll` now use linear interpolation of S(t) to calculate the density f(t)
+* fix: `surv.mae`/`surv.mse`/`surv.rmse` scores return `NA` when test set has only censored observations
+* refactor: remove `se` argument from most of the scores (not practically used)
+* refactor: all private functions starts with `.` now and are adequately (privately) documented. Code was refactored for clarity.
+
 # mlr3proba 0.8.0
 
 * Compatibility with `mlr3` v1.0.0 (`weights_learner`) and `mlr3pipelines` v0.8.0

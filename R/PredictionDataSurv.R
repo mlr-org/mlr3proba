@@ -129,6 +129,10 @@ filter_prediction_data.PredictionDataSurv = function(pdata, row_ids, ...) {
     pdata$lp = pdata$lp[keep]
   }
 
+  if (!is.null(pdata$response)) {
+    pdata$response = pdata$response[keep]
+  }
+
   if (!is.null(pdata$distr)) {
     distr = pdata$distr
 

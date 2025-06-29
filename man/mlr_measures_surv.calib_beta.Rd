@@ -8,7 +8,7 @@
 This calibration method fits the predicted linear predictor from a Cox PH
 model as the only predictor in a new Cox PH model with the test data as
 the response.
-\deqn{h(t|x) = h_0(t)exp(\beta \times lp)}
+\deqn{h(t|x) = h_0(t)e^{\beta \times lp}}
 where \eqn{lp} is the predicted linear predictor on the test data.
 
 The model is well calibrated if the estimated \eqn{\hat{\beta}} coefficient

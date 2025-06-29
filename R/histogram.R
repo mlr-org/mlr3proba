@@ -40,7 +40,7 @@
 #              and substract.
 
 # Arguments:
-# 1. val: component of Intervval which the upper limit belong to
+# 1. val: component of Interval which the upper limit belong to
 # 2. Intervals: The intervals/break of the histogram. A vector
 # 3. Pdf: pdf for each interval. a vector
 

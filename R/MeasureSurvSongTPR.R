@@ -47,6 +47,10 @@ MeasureSurvSongTPR = R6Class("MeasureSurvSongTPR",
         stop("`times` must be non-NULL")
       }
 
+      if (!inherits(learner, "LearnerSurvCoxPH")) {
+        stop("Only compatible with Cox PH models")
+      }
+
       tpr = super$.score(
         prediction = prediction,
         learner = learner,
