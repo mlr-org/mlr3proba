@@ -127,14 +127,14 @@ MeasureSurvIntLogloss = R6Class("MeasureSurvIntLogloss",
       }
 
       # `score` is a matrix, IBS(i,j) => n_test_obs x times
-      score = weighted_survival_score("intslogloss",
+      score = .weighted_survival_score("intslogloss",
         truth = prediction$truth,
         distribution = prediction$data$distr, times = times,
         t_max = ps$t_max, p_max = ps$p_max, proper = ps$proper, train = train,
         eps = ps$eps, remove_obs = ps$remove_obs
       )
 
-      integrated_score(score, ps$integrated, ps$method)
+      .integrated_score(score, ps$integrated, ps$method)
     }
   )
 )

@@ -130,44 +130,6 @@
   errors
 }
 
-.scoring_rule_erv = function(measure, prediction, task, train_set) {
-  if (is.null(task) || is.null(train_set)) {
-    stop("'task' and 'train_set' are required if 'ERV' is 'TRUE'")
-  }
-
-  measure$param_set$set_values(ERV = FALSE)
-  # compute score for the learner
-  learner_score = measure$score(prediction, task = task, train_set = train_set)
-
-  # compute score for the baseline (Kaplan-Meier)
-  # train KM
-  km = lrn("surv.kaplan")$train(task = task, row_ids = train_set)
-  # predict KM on the test set
-  km_pred = km$predict(task, row_ids = prediction$row_ids)
-  base_score = measure$score(km_pred, task = task, train_set = train_set)
-
-  measure$param_set$set_values(ERV = TRUE)
-
-  # return R^2-like score
-  # 0 => same as base score, >0 => better than baseline
-  # <0 => worse than baseline
-  1 - (learner_score / base_score)
-}
-
-# COMPETING RISKS ----
-## constant interpolate CIF matrix to requested `new_times`
-.interp_cif = function(cif_mat, new_times) {
-  # predicted time points
-  pred_times = as.numeric(colnames(cif_mat))
-  if (all(new_times %in% pred_times)) {
-    # no interpolation needed
-    cif_mat[, as.character(new_times), drop = FALSE]
-  } else {
-    extend_times = getFromNamespace("C_Vec_WeightedDiscreteCdf", ns = "distr6")
-    t(extend_times(new_times, pred_times, cdf = t(cif_mat), lower = TRUE, FALSE))
-  }
-}
-
 ## Wrapper function for Rcpp implementation of Gonen & Heller's concordance index.
 ## Takes a numeric vector of crank values (e.g., predicted scores) and a weight value
 ## for ties
@@ -183,8 +145,8 @@
 ## Supports multiple weighting methods and handles tied predictions via `tiex`.
 ## Optionally uses Kaplan-Meier estimates from training data for weighting.
 .cindex = function(truth, crank, t_max = NULL,
-                  weight_meth = c("I", "G", "G2", "SG", "S"),
-                  tiex = 0.5, train = NULL, eps = 1e-3) {
+                   weight_meth = c("I", "G", "G2", "SG", "S"),
+                   tiex = 0.5, train = NULL, eps = 1e-3) {
 
   if (length(unique(crank)) == 1L) {
     return(0.5)
@@ -226,6 +188,78 @@
   c_concordance(time, status, crank[ord], t_max, weight_meth, cens, surv, tiex)
 }
 
+.scoring_rule_erv = function(measure, prediction, task, train_set) {
+  if (is.null(task) || is.null(train_set)) {
+    stop("'task' and 'train_set' are required if 'ERV' is 'TRUE'")
+  }
+
+  measure$param_set$set_values(ERV = FALSE)
+  # compute score for the learner
+  learner_score = measure$score(prediction, task = task, train_set = train_set)
+
+  # compute score for the baseline (Kaplan-Meier)
+  # train KM
+  km = lrn("surv.kaplan")$train(task = task, row_ids = train_set)
+  # predict KM on the test set
+  km_pred = km$predict(task, row_ids = prediction$row_ids)
+  base_score = measure$score(km_pred, task = task, train_set = train_set)
+
+  measure$param_set$set_values(ERV = TRUE)
+
+  # return R^2-like score
+  # 0 => same as base score, >0 => better than baseline
+  # <0 => worse than baseline
+  1 - (learner_score / base_score)
+}
+
+## Computes the integrated version of a time-dependent score matrix, such as the
+## Brier score, using either the discrete mean (method = 1) or trapezoidal
+## integration (method = 2) across time points.
+## If `integrated = FALSE`, it computes BS(t) and returns a vector.
+.integrated_score = function(score, integrated, method = NULL) {
+  # score is a matrix of BS(i,t) scores
+  # rows => observations, cols => time points
+  if (ncol(score) == 1L) {
+    integrated = FALSE
+  }
+
+  if (integrated) {
+    # summary score (integrated across all time points)
+    if (method == 1L) {
+      score = as.numeric(score)
+      return(mean(score[is.finite(score)], na.rm = TRUE)) # remove NAs and Infs
+    } else if (method == 2L) {
+      times = as.numeric(colnames(score))
+      lt = ncol(score)
+      score = .col_sums(score) # score(t)
+      return((diff(times) %*% (score[1:(lt - 1)] + score[2:lt])) / (2 * (max(times) - min(times))))
+    }
+  } else {
+    return(.col_sums(score)) # score(t)
+  }
+}
+
+## Computes column-wise means of a matrix while ignoring NA, NaN, and infinite values.
+.col_sums = function(mat) {
+  apply(mat, 2L, function(x) {
+    x = x[is.finite(x)]
+    mean(x, na.rm = TRUE)
+  })
+}
+
+# COMPETING RISKS ----
+## constant interpolate CIF matrix to requested `new_times`
+.interp_cif = function(cif_mat, new_times) {
+  # predicted time points
+  pred_times = as.numeric(colnames(cif_mat))
+  if (all(new_times %in% pred_times)) {
+    # no interpolation needed
+    cif_mat[, as.character(new_times), drop = FALSE]
+  } else {
+    extend_times = getFromNamespace("C_Vec_WeightedDiscreteCdf", ns = "distr6")
+    t(extend_times(new_times, pred_times, cdf = t(cif_mat), lower = TRUE, FALSE))
+  }
+}
 
 ## wrapper around `riskRegression::Score()`
 .riskRegr_score = function(mat_list, metric, data, formula, times, cause) {

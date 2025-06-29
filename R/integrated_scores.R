@@ -1,9 +1,9 @@
-score_intslogloss = function(true_times, unique_times, cdf, eps = eps) {
+.score_intslogloss = function(true_times, unique_times, cdf, eps = eps) {
   assert_number(eps, lower = 0)
   c_score_intslogloss(true_times, unique_times, cdf, eps = eps)
 }
 
-score_graf_schmid = function(true_times, unique_times, cdf, power = 2) {
+.score_graf_schmid = function(true_times, unique_times, cdf, power = 2) {
   assert_number(power)
   c_score_graf_schmid(true_times, unique_times, cdf, power)
 }
@@ -13,7 +13,7 @@ score_graf_schmid = function(true_times, unique_times, cdf, power = 2) {
 # - `times` is sorted (increasing), unique, positive time points
 # - `t_max` > 0
 # - `p_max` in [0,1]
-weighted_survival_score = function(loss, truth, distribution, times = NULL,
+.weighted_survival_score = function(loss, truth, distribution, times = NULL,
   t_max = NULL, p_max = NULL, proper, train = NULL, eps, remove_obs = FALSE) {
   assert_surv(truth)
   # test set's (times, status)
@@ -109,11 +109,11 @@ weighted_survival_score = function(loss, truth, distribution, times = NULL,
   # Note that whilst we calculate the score for censored observations here,
   # they are then corrected in the weighting function `c_weight_survival_score()`
   if (loss == "graf") {
-    score = score_graf_schmid(true_times, unique_times, cdf, power = 2)
+    score = .score_graf_schmid(true_times, unique_times, cdf, power = 2)
   } else if (loss == "schmid") {
-    score = score_graf_schmid(true_times, unique_times, cdf, power = 1)
+    score = .score_graf_schmid(true_times, unique_times, cdf, power = 1)
   } else {
-    score = score_intslogloss(true_times, unique_times, cdf, eps = eps)
+    score = .score_intslogloss(true_times, unique_times, cdf, eps = eps)
   }
 
   # use the `truth` (time, status) information from the train or test set
@@ -133,35 +133,4 @@ weighted_survival_score = function(loss, truth, distribution, times = NULL,
   colnames(score) = unique_times
 
   return(score)
-}
-
-integrated_score = function(score, integrated, method = NULL) {
-  # score is a matrix of BS(i,t) scores
-  # rows => observations, cols => time points
-  if (ncol(score) == 1L) {
-    integrated = FALSE
-  }
-
-  if (integrated) {
-    # summary score (integrated across all time points)
-    if (method == 1L) {
-      score = as.numeric(score)
-      return(mean(score[is.finite(score)], na.rm = TRUE)) # remove NAs and Infs
-    } else if (method == 2L) {
-      times = as.numeric(colnames(score))
-      lt = ncol(score)
-      score = col_sums(score) # score(t)
-      return((diff(times) %*% (score[1:(lt - 1)] + score[2:lt])) / (2 * (max(times) - min(times))))
-    }
-  } else {
-    return(col_sums(score)) # score(t)
-  }
-}
-
-# like colMeans(), but removing Infs, NAs and NaNs
-col_sums = function(mat) {
-  apply(mat, 2L, function(x) {
-    x = x[is.finite(x)]
-    mean(x, na.rm = TRUE)
-  })
 }
