@@ -3,77 +3,77 @@
 # SURVIVAL ----
 # S(t)/f(t) ESTIMATION/INTERPOLATION FUNCTIONS
 
-# Linearly interpolate (and extrapolate) a survival curve
-# @param fit `survfit` object or a `list` with 2 elemnts:
+# Linearly interpolate (and extrapolate) a survival curve at arbitrary time points.
+# @param surv_data `survfit` object or a `list` with 2 elemnts:
 # `surv` (survival probabilities) and corresponding `time` (time points)
-# @param new_times vector of times (unordered, possibly duplicated)
-# @param inter_type type of interpolation to use - `linear` (default) or `constant`
+# @param eval_times vector of times (unordered, possibly duplicated)
+# @param method type of interpolation to use - `linear` (default) or `constant`
 # @return interpolated S(t) values
-.interp_surv = function(fit, new_times, inter_type = "linear") {
-  assert_choice(inter_type, c("linear", "constant"))
+.interp_surv = function(surv_data, eval_times, method = "linear") {
+  assert_choice(method, c("linear", "constant"))
 
   # constant interpolation is easy
-  if (inter_type == "constant") {
-    surv = fit$surv
-    times = fit$time
+  if (method == "constant") {
+    surv = surv_data$surv
+    times = surv_data$time
 
-    return(stats::approx(x = times, y = surv, xout = new_times, yleft = 1,
+    return(stats::approx(x = times, y = surv, xout = eval_times, yleft = 1,
                          method = "constant", rule = 2)$y)
   }
 
   # remove constant-interpolated values from S(t)
-  keep = !duplicated(fit$surv)
-  surv = fit$surv[keep] # decreasing
-  times = fit$time[keep] # ordered
+  unique_surv_idx = !duplicated(surv_data$surv)
+  surv = surv_data$surv[unique_surv_idx] # decreasing
+  times = surv_data$time[unique_surv_idx] # ordered
 
   # Edge case: constant survival
-  if (length(unique(surv)) == 1) {
-    return(rep(surv[1], length(new_times)))
+  if (all(surv == surv[1])) {
+    return(rep(surv[1], length(eval_times)))
   }
 
   # linear interpolation (at least two S(t) values here)
-  int_surv = stats::approx(x = times, y = surv, xout = new_times,
-                           yleft = 1, method = "linear", rule = 2)$y
+  interp_surv = stats::approx(x = times, y = surv, xout = eval_times,
+                              yleft = 1, method = "linear", rule = 2)$y
 
   # Extrapolate manually if needed
   min_time = min(times)
   max_time = max(times)
 
   # Precompute slopes for extrapolation
-  slope_min = (surv[1L] - 1) / min_time
-  slope_max = (surv[length(surv)] - surv[length(surv) - 1L]) / (max_time - times[length(times) - 1L])
+  slope_left = (surv[1L] - 1) / min_time
+  slope_right = (surv[length(surv)] - surv[length(surv) - 1L]) / (max_time - times[length(times) - 1L])
 
-  idx_min = new_times < min_time
-  idx_max = new_times > max_time
+  idx_left = eval_times < min_time
+  idx_right = eval_times > max_time
 
   # Linear extrapolation considering that S(t = 0) = 1
-  if (any(idx_min) && surv[1L] < 1) {
-    int_surv[idx_min] = 1 + slope_min * new_times[idx_min]
+  if (any(idx_left) && surv[1L] < 1) {
+    interp_surv[idx_left] = 1 + slope_left * eval_times[idx_left]
   }
 
   # Linear extrapolation using the last time interval
-  if (any(idx_max) && surv[length(surv)] > 0) {
-    extrapolated_value = surv[length(surv)] + slope_max * (new_times[idx_max] - max_time)
-    int_surv[idx_max] = pmax(0, extrapolated_value) # force S >= 0
+  if (any(idx_right) && surv[length(surv)] > 0) {
+    extrap_value = surv[length(surv)] + slope_right * (eval_times[idx_right] - max_time)
+    interp_surv[idx_right] = pmax(0, extrap_value) # force S >= 0
   }
 
-  int_surv
+  interp_surv
 }
 
 # PDF estimation from a survival curve
-# @param fit `survfit` object or a `list` with 2 elemnts:
+# @param surv_data `survfit` object or a `list` with 2 elemnts:
 # `surv` (survival probabilities) and corresponding `time` (time points)
-# @param new_times numeric vector (unordered, duplicated allowed)
+# @param eval_times numeric vector (unordered, duplicated allowed)
 # @return numeric vector of density values f(t)
-.interp_pdf = function(fit, new_times) {
+.interp_pdf = function(surv_data, eval_times) {
   # keep all unique sorted times (predicted and requested) for pdf
-  utimes = sort(unique(c(fit$time, new_times)))
+  utimes = sort(unique(c(surv_data$time, eval_times)))
 
-  # Create a mapping of `new_times` to `utimes`
-  indx = match(new_times, utimes)
+  # Create a mapping of `eval_times` to `utimes`
+  indx = match(eval_times, utimes)
 
   # Linearly interpolate survival function (to avoid pdf = 0 problems)
-  surv = .interp_surv(fit, utimes, inter_type = "linear")
+  surv = .interp_surv(surv_data, utimes, method = "linear")
 
   # CDF = 1 - S
   cdf = 1 - surv
@@ -88,7 +88,7 @@
   # For timepoints exactly at utimes, align left
   dens_full = c(dens[1], dens) # replicate first slope for first point
 
-  # return density at `new_times`, clip any negatives to 0
+  # return density at `eval_times`, clip any negatives to 0
   pmax(dens_full[indx], 0)
 }
 
