@@ -21,7 +21,7 @@ MeasureSurvXuR2 = R6Class("MeasureSurvXuR2",
     initialize = function() {
       super$initialize(
         id = "surv.xu_r2",
-        range = 0:1,
+        range = c(0, 1),
         minimize = FALSE,
         packages = "survAUC",
         predict_type = "lp",

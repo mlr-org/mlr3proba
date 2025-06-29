@@ -44,7 +44,7 @@
 #' Weighting applied to tied rankings, default is to give them half (0.5) weighting.
 #'
 #' @references
-#' `r format_bib("peto_1972", "harrell_1982", "goenen_2005", "schemper_2009", "uno_2011")`
+#' `r format_bib("peto_1972", "harrell_1982", "gonen_2005", "schemper_2009", "uno_2011")`
 #'
 #' @template param_range
 #' @template param_minimize
@@ -90,7 +90,7 @@ MeasureSurvCindex = R6Class("MeasureSurvCindex",
 
       super$initialize(
         id = "surv.cindex",
-        range = 0:1,
+        range = c(0, 1),
         minimize = FALSE,
         packages = character(),
         predict_type = "crank",
