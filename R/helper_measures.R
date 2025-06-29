@@ -92,7 +92,7 @@
   pmax(dens_full[indx], 0)
 }
 
-# get predicted survival matrix from `PredictionSurv$data$distr` slot (if it exists)
+# Get predicted survival matrix from `PredictionSurv$data$distr` slot (if it exists)
 .get_surv_matrix = function(prediction) {
   if (inherits(prediction$data$distr, "array")) {
     surv = prediction$data$distr
@@ -130,9 +130,9 @@
   errors
 }
 
-## Wrapper function for Rcpp implementation of Gonen & Heller's concordance index.
-## Takes a numeric vector of crank values (e.g., predicted scores) and a weight value
-## for ties
+# Wrapper function for Rcpp implementation of Gonen & Heller's concordance index.
+# Takes a numeric vector of crank values (e.g., predicted scores) and a weight value
+# for ties
 .gonen = function(crank, tiex) {
   assert_numeric(crank, any.missing = FALSE)
   assert_number(tiex)
@@ -140,14 +140,13 @@
   c_gonen(sort(crank), tiex)
 }
 
-## Interfaces the Rcpp implementation to compute a weighted concordance index
-## for right-censored survival data.
-## Supports multiple weighting methods and handles tied predictions via `tiex`.
-## Optionally uses Kaplan-Meier estimates from training data for weighting.
+# Interfaces the Rcpp implementation to compute a weighted concordance index
+# for right-censored survival data.
+# Supports multiple weighting methods and handles tied predictions via `tiex`.
+# Optionally uses Kaplan-Meier estimates from training data for weighting.
 .cindex = function(truth, crank, t_max = NULL,
                    weight_meth = c("I", "G", "G2", "SG", "S"),
                    tiex = 0.5, train = NULL, eps = 1e-3) {
-
   if (length(unique(crank)) == 1L) {
     return(0.5)
   }
@@ -188,6 +187,20 @@
   c_concordance(time, status, crank[ord], t_max, weight_meth, cens, surv, tiex)
 }
 
+# Compute the Explained Residual Variation (ERV) of a survival prediction
+#
+# Calculates an R²-like statistic comparing the predictive performance of a learner
+# to a Kaplan–Meier baseline. The measure must support the `ERV` parameter flag.
+#
+# @param measure A `Measure` object (e.g., from `mlr3proba`) that supports the `ERV` parameter.
+# @param prediction A `PredictionSurv` object containing the learner's predictions on a test set.
+# @param task The `TaskSurv` object on which the learner and baseline are evaluated.
+# @param train_set Integer vector of row indices used for training the learner and baseline.
+#
+# @return A numeric value representing the explained residual variation:
+#   - `> 0` means the learner outperforms the Kaplan–Meier baseline.
+#   - `= 0` means the learner performs the same as the baseline.
+#   - `< 0` means the learner performs worse than the baseline.
 .scoring_rule_erv = function(measure, prediction, task, train_set) {
   if (is.null(task) || is.null(train_set)) {
     stop("'task' and 'train_set' are required if 'ERV' is 'TRUE'")
@@ -212,14 +225,14 @@
   1 - (learner_score / base_score)
 }
 
-## Computes the integrated version of a time-dependent score matrix, such as the
-## Brier score, using either the discrete mean (method = 1) or trapezoidal
-## integration (method = 2) across time points.
-## If `integrated = FALSE`, it computes BS(t) and returns a vector.
+# Computes the integrated version of a time-dependent score, such
+# as the Brier score, using either the discrete mean (method = 1) or trapezoidal
+# integration (method = 2) across the available time points.
 .integrated_score = function(score, integrated, method = NULL) {
   # score is a matrix of BS(i,t) scores
   # rows => observations, cols => time points
   if (ncol(score) == 1L) {
+    # Can't integrate over a single time point
     integrated = FALSE
   }
 
@@ -239,7 +252,7 @@
   }
 }
 
-## Computes column-wise means of a matrix while ignoring NA, NaN, and infinite values.
+# Computes column-wise means of a matrix while ignoring NA, NaN, and infinite values.
 .col_sums = function(mat) {
   apply(mat, 2L, function(x) {
     x = x[is.finite(x)]
@@ -248,20 +261,30 @@
 }
 
 # COMPETING RISKS ----
-## constant interpolate CIF matrix to requested `new_times`
-.interp_cif = function(cif_mat, new_times) {
+# Constant interpolation of CIF matrix to requested evaluation times
+# If all `eval_times` are already present in the predicted time points, no interpolation is done.
+#
+# @param cif_mat A numeric matrix of predicted CIF values (observations × time points).
+#                Column names must be the predicted time points.
+# @param eval_times A numeric vector of requested evaluation time points.
+#
+# @return A matrix of interpolated CIF values with rows = observations and
+#         columns = `eval_times`.
+#
+# @note Uses the internal `distr6::C_Vec_WeightedDiscreteCdf()` for constant interpolation.
+.interp_cif = function(cif_mat, eval_times) {
   # predicted time points
   pred_times = as.numeric(colnames(cif_mat))
-  if (all(new_times %in% pred_times)) {
+  if (all(eval_times %in% pred_times)) {
     # no interpolation needed
-    cif_mat[, as.character(new_times), drop = FALSE]
+    cif_mat[, as.character(eval_times), drop = FALSE]
   } else {
     extend_times = getFromNamespace("C_Vec_WeightedDiscreteCdf", ns = "distr6")
-    t(extend_times(new_times, pred_times, cdf = t(cif_mat), lower = TRUE, FALSE))
+    t(extend_times(eval_times, pred_times, cdf = t(cif_mat), lower = TRUE, FALSE))
   }
 }
 
-## wrapper around `riskRegression::Score()`
+# Wrapper around `riskRegression::Score()`
 .riskRegr_score = function(mat_list, metric, data, formula, times, cause) {
   assert_choice(metric, c("auc", "brier"))
 
