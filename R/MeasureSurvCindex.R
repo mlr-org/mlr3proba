@@ -126,25 +126,18 @@ MeasureSurvCindex = R6Class("MeasureSurvCindex",
       }
 
       if (ps$weight_meth == "GH") {
-        return(gonen(prediction$crank, ps$tiex))
+        return(.gonen(prediction$crank, ps$tiex))
       } else if (ps$weight_meth == "I") {
-        return(cindex(prediction$truth, prediction$crank, t_max, ps$weight_meth, ps$tiex))
+        return(.cindex(prediction$truth, prediction$crank, t_max, ps$weight_meth, ps$tiex))
       } else {
         if (is.null(task) | is.null(train_set)) {
           stop("'task' and 'train_set' required for all weighted C-indexes (except GH).")
         }
-        return(cindex(prediction$truth, prediction$crank, t_max, ps$weight_meth,
+        return(.cindex(prediction$truth, prediction$crank, t_max, ps$weight_meth,
                       ps$tiex, task$truth(train_set), ps$eps))
       }
     }
   )
 )
-
-gonen = function(crank, tiex) {
-  assert_numeric(crank, any.missing = FALSE)
-  assert_number(tiex)
-
-  c_gonen(sort(crank), tiex)
-}
 
 register_measure("surv.cindex", MeasureSurvCindex)
