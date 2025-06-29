@@ -153,7 +153,6 @@ Collate:
     'autoplot.R'
     'bibentries.R'
     'breslow.R'
-    'cindex.R'
     'data.R'
     'helper_measures.R'
     'helpers.R'
