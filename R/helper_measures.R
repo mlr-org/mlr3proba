@@ -225,10 +225,9 @@
   1 - (learner_score / base_score)
 }
 
-# Computes the integrated version of a time-dependent score, such
-# as the Brier score, using either the discrete mean (method = 1) or trapezoidal
-# integration (method = 2) across the available time points.
-.integrated_score = function(score, integrated, method = NULL) {
+# Computes the integrated form of a time-dependent score (e.g., Brier score)
+# via trapezoidal integration over the available time points.
+.integrated_score = function(score, integrated) {
   # score is a matrix of BS(i,t) scores
   # rows => observations, cols => time points
   if (ncol(score) == 1L) {
@@ -237,26 +236,19 @@
   }
 
   if (!integrated) {
-    return(.col_sums(score)) # score(t)
+    # Return the mean score at each time point
+    return(.col_sums(score))
   }
 
-  # summary score (integrated across all time points and observations)
-  if (method == 1L) {
-    # Mean score across all (obs, time) pairs
-    score = as.numeric(score)
+  times = as.numeric(colnames(score))
+  n = length(times)
+  time_diffs = diff(times)
 
-    int_score = mean(score[is.finite(score)], na.rm = TRUE) # remove NAs and Infs
-  } else if (method == 2L) {
-    # Trapezoidal integration over time
-    times = as.numeric(colnames(score))
-    n = length(times)
-    time_diffs = diff(times)
-    scores = .col_sums(score) # score(t) => use the mean across obs scores per time point
+  # Mean score at each time point (across observations)
+  scores = .col_sums(score)
 
-    int_score = sum(time_diffs * (scores[-n] + scores[-1]) / 2) / (max(times) - min(times))
-  }
-
-  int_score
+  # Apply trapezoidal rule and normalize by the time range
+  sum(time_diffs * (scores[-n] + scores[-1]) / 2) / (max(times) - min(times))
 }
 
 # Computes column-wise means of a matrix while ignoring NA, NaN, and infinite values.

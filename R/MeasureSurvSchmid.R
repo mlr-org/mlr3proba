@@ -5,7 +5,6 @@
 #' @template param_times
 #' @template param_tmax
 #' @template param_pmax
-#' @template param_method
 #' @templateVar eps 1e-3
 #' @template param_eps
 #' @template param_erv
@@ -31,9 +30,9 @@
 #' @template properness
 #' @templateVar id ISS
 #' @template which_times
-#' @template details_method
 #' @template details_trainG
 #' @template details_tmax
+#' @template implementation_diffs
 #'
 #' @references
 #' `r format_bib("schemper_2000", "schmid_2011", "sonabend_2024", "kvamme_2023")`
@@ -58,11 +57,10 @@ MeasureSurvSchmid = R6Class("MeasureSurvSchmid",
         times = p_uty(),
         t_max = p_dbl(0),
         p_max = p_dbl(0, 1),
-        method = p_int(1L, 2L, default = 2L),
         eps = p_dbl(0, 1, default = 1e-3),
         ERV = p_lgl(default = FALSE)
       )
-      ps$set_values(integrated = TRUE, method = 2L, eps = 1e-3, ERV = ERV)
+      ps$set_values(integrated = TRUE, eps = 1e-3, ERV = ERV)
 
       range = if (ERV) c(-Inf, 1) else c(0, Inf)
 
@@ -116,7 +114,7 @@ MeasureSurvSchmid = R6Class("MeasureSurvSchmid",
         train = train, eps = ps$eps
       )
 
-      .integrated_score(score, ps$integrated, ps$method)
+      .integrated_score(score, ps$integrated)
     }
   )
 )
