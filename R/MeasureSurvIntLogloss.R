@@ -6,11 +6,9 @@
 #' @template param_tmax
 #' @template param_pmax
 #' @template param_method
-#' @template param_proper
 #' @templateVar eps 1e-3
 #' @template param_eps
 #' @template param_erv
-#' @template param_remove_obs
 #'
 #' @description
 #' Calculates the **Integrated Survival Log-Likelihood** (ISLL) or Integrated
@@ -20,26 +18,19 @@
 #' This measure has two dimensions: (test set) observations and time points.
 #' For a specific individual \eqn{i} from the test set, with observed survival
 #' outcome \eqn{(t_i, \delta_i)} (time and censoring indicator) and predicted
-#' survival function \eqn{S_i(t)}, the *observation-wise* loss integrated across
-#' the time dimension up to the time cutoff \eqn{\tau^*}, is:
+#' survival function \eqn{S_i(t)}, the *observation-wise* estimator of the loss,
+#' integrated across the time dimension up to the time cutoff \eqn{\tau^*}, is:
 #'
 #' \deqn{L_{ISLL}(S_i, t_i, \delta_i) = - \int^{\tau^*}_0  \frac{log[1-S_i(\tau)] \text{I}(t_i \leq \tau, \delta_i=1)}{G(t_i)} + \frac{\log[S_i(\tau)] \text{I}(t_i > \tau)}{G(\tau)} \ d\tau}
 #'
 #' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
-#'
-#' The **re-weighted ISLL** (RISLL) is:
-#'
-#' \deqn{L_{RISLL}(S_i, t_i, \delta_i) = -\delta_i \frac{\int^{\tau^*}_0  \log[1-S_i(\tau)]) \text{I}(t_i \leq \tau) + \log[S_i(\tau)] \text{I}(t_i > \tau) \ d\tau}{G(t_i)}}
-#'
-#' which is always weighted by \eqn{G(t_i)} and is equal to zero for a censored subject.
 #'
 #' To get a single score across all \eqn{N} observations of the test set, we
 #' return the average of the time-integrated observation-wise scores:
 #' \deqn{\sum_{i=1}^N L(S_i, t_i, \delta_i) / N}
 #'
 #' @template properness
-#' @templateVar improper_id ISLL
-#' @templateVar proper_id RISLL
+#' @templateVar id ISLL
 #' @template which_times
 #' @template details_method
 #' @template details_trainG
@@ -69,15 +60,10 @@ MeasureSurvIntLogloss = R6Class("MeasureSurvIntLogloss",
         t_max = p_dbl(0),
         p_max = p_dbl(0, 1),
         method = p_int(1L, 2L, default = 2L),
-        proper = p_lgl(default = FALSE),
         eps = p_dbl(0, 1, default = 1e-3),
-        ERV = p_lgl(default = FALSE),
-        remove_obs = p_lgl(default = FALSE)
+        ERV = p_lgl(default = FALSE)
       )
-      ps$set_values(
-        integrated = TRUE, method = 2L,
-        proper = FALSE, eps = 1e-3, ERV = ERV, remove_obs = FALSE
-      )
+      ps$set_values(integrated = TRUE, method = 2L, eps = 1e-3, ERV = ERV)
 
       range = if (ERV) c(-Inf, 1) else c(0, Inf)
 
@@ -97,22 +83,20 @@ MeasureSurvIntLogloss = R6Class("MeasureSurvIntLogloss",
   private = list(
     .score = function(prediction, task, train_set, ...) {
       ps = self$param_set$values
-      # times must be unique, sorted and positive numbers
-      times = assert_numeric(ps$times, lower = 0, any.missing = FALSE,
-                             unique = TRUE, sorted = TRUE, null.ok = TRUE)
+
       # ERV score
       if (ps$ERV) return(.scoring_rule_erv(self, prediction, task, train_set))
 
-      nok = sum(!is.null(times), !is.null(ps$t_max), !is.null(ps$p_max)) > 1
+      nok = sum(!is.null(ps$times), !is.null(ps$t_max), !is.null(ps$p_max)) > 1
       if (nok) {
         stop("Only one of `times`, `t_max`, and `p_max` should be provided")
       }
 
       if (!ps$integrated) {
         msg = "If `integrated=FALSE` then `times` should be a scalar numeric."
-        assert_numeric(times, len = 1L, .var.name = msg)
+        assert_numeric(ps$times, len = 1L, .var.name = msg)
       } else {
-        if (!is.null(times) && length(times) == 1L) {
+        if (!is.null(ps$times) && length(ps$times) == 1L) {
           ps$integrated = FALSE
         }
       }
@@ -126,12 +110,13 @@ MeasureSurvIntLogloss = R6Class("MeasureSurvIntLogloss",
         train = NULL
       }
 
-      # `score` is a matrix, IBS(i,j) => n_test_obs x times
-      score = .weighted_survival_score("intslogloss",
+      # `score` is a matrix, ISLL(i,j) => [test_obs x times]
+      score = .weighted_survival_score(
+        loss = "logloss",
         truth = prediction$truth,
-        distribution = prediction$data$distr, times = times,
-        t_max = ps$t_max, p_max = ps$p_max, proper = ps$proper, train = train,
-        eps = ps$eps, remove_obs = ps$remove_obs
+        distribution = prediction$data$distr,
+        times = ps$times, t_max = ps$t_max, p_max = ps$p_max,
+        train = train, eps = ps$eps
       )
 
       .integrated_score(score, ps$integrated, ps$method)
