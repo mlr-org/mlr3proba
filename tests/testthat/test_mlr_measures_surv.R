@@ -17,11 +17,7 @@ test_that("mlr_measures", {
     if (grepl("TNR|TPR|tpr|tnr", key)) {
       m = msr(key, times = 60L)
     } else {
-      if (key %in% c("surv.intlogloss", "surv.schmid", "surv.brier")) {
-        m = msr(key, proper = TRUE)
-      } else {
-        m = msr(key)
-      }
+      m = msr(key)
     }
 
     expect_measure(m)
@@ -33,13 +29,13 @@ test_that("mlr_measures", {
   }
 })
 
-test_that("integrated losses with use of times", {
+test_that("integrated losses + times", {
   set.seed(1L)
   t = tsk("rats")$filter(sample(300, 50L))
   p = lrn("surv.kaplan")$train(t)$predict(t)
   losses = paste0("surv.", c("graf", "intlogloss", "schmid"))
   for (loss in losses) {
-    m = msr(loss, times = 39:80, integrated = FALSE, proper = TRUE)
+    m = msr(loss, times = 39:80, integrated = FALSE)
     expect_error(p$score(m), "scalar numeric")
   }
 
@@ -49,17 +45,17 @@ test_that("integrated losses with use of times", {
   expect_true(all(test_unique_times < 105))
 
   # no `times` => use test set's unique time points
-  expect_silent(pred$score(lapply(losses, msr, integrated = TRUE, proper = TRUE)))
+  expect_silent(pred$score(lapply(losses, msr, integrated = TRUE)))
   # all `times` outside the test set range
   for (loss in losses) {
-    expect_warning(pred$score(msr(loss, integrated = TRUE, proper = TRUE, times = 34:38)), "requested times")
+    expect_warning(pred$score(msr(loss, integrated = TRUE, times = 34:38)), "requested times")
   }
   # some `times` outside the test set range
   for (loss in losses) {
-    expect_warning(pred$score(msr(loss, integrated = TRUE, proper = TRUE, times = 100:110)), "requested times")
+    expect_warning(pred$score(msr(loss, integrated = TRUE, times = 100:110)), "requested times")
   }
   # one time point, inside the range, no warnings
-  expect_silent(pred$score(lapply(losses, msr, integrated = FALSE, proper = TRUE, times = 80)))
+  expect_silent(pred$score(lapply(losses, msr, integrated = FALSE, times = 80)))
 })
 
 test_that("dcalib works", {
@@ -210,24 +206,12 @@ test_that("calib_index works", {
 })
 
 test_that("graf training data for weights", {
-  m = msr("surv.graf", proper = TRUE)
+  m = msr("surv.graf")
   t = tsk("rats")
   l = lrn("surv.kaplan")
   s1 = l$train(t, 1:50)$predict(t, 51:100)$score(m)
   s2 = l$train(t, 1:50)$predict(t, 51:100)$score(m, task = t, train_set = 1:50)
   expect_false(identical(s1, s2))
-})
-
-test_that("graf proper option", {
-  set.seed(1L)
-  m1 = msr("surv.graf", proper = TRUE, method = 1)
-  m2 = suppressWarnings(msr("surv.graf", proper = FALSE, method = 1))
-  l = lrn("surv.kaplan")
-  p = l$train(tsk("rats"), row_ids = sample(300, 50))$
-    predict(tsk("rats"), row_ids = sample(300, 50))
-  s1 = p$score(m1)
-  s2 = p$score(m2)
-  expect_gt(s2, s1)
 })
 
 test_that("graf with 1 time point", {
@@ -252,7 +236,6 @@ test_that("graf: t_max, p_max, times", {
   m0 = p$score(msr("surv.graf")) # uses all test time points
   m1 = p$score(msr("surv.graf", times = times_flt)) # uses `times_flt`
   m2 = p$score(msr("surv.graf", t_max = t_max)) # 100
-  m22 = p$score(msr("surv.graf", t_max = t_max, remove_obs = TRUE)) # 100
   m3 = p$score(msr("surv.graf", t_max = max(times))) # 104
   m4 = p$score(msr("surv.graf", t_max = max(times) + 10)) # 105
 
@@ -260,8 +243,6 @@ test_that("graf: t_max, p_max, times", {
   expect_true(m0 != m1)
   # same time points are used, and no removal of observations (original Graf score)
   expect_equal(m1, m2)
-  # same time points are used, but observations with `t > t_max` are removed
-  expect_true(m2 != m22)
   # different `t_max` => different time points used
   expect_true(m2 != m3)
   # different `t_max` but after the max evaluation time point, so result stays the same
@@ -325,7 +306,7 @@ test_that("ERV works", {
   expect_gt(as.numeric(p$score(m, task = t, train_set = part$train)), 0)
 })
 
-test_that("ERV=TRUE changes some measure fields", {
+test_that("ERV=TRUE", {
   m = msr("surv.rcll")
   m_erv = msr("surv.rcll", ERV = TRUE)
   expect_false(m$param_set$values$ERV)
