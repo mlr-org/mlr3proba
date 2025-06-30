@@ -264,12 +264,10 @@ test_that("graf: t_max, p_max, times", {
   s2 = p_cox$score(msr("surv.graf", times = 92))
   s3 = p_cox$score(msr("surv.graf", times = 102))
   mean_score = (s1 + s2 + s3) / 3
-  # simple mean
-  s_all1 = p_cox$score(msr("surv.graf", method = 1, times = c(68, 92, 102)))
+
   # mean weighted by the difference between time-points
-  s_all2 = p_cox$score(msr("surv.graf", method = 2, times = c(68, 92, 102)))
-  expect_equal(s_all1, mean_score)
-  expect_true(s_all2 != mean_score)
+  s_all = p_cox$score(msr("surv.graf", times = c(68, 92, 102)))
+  expect_true(s_all != mean_score)
 })
 
 test_that("cindex: t_max, p_max", {
