@@ -24,6 +24,10 @@
 #'
 #' where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
 #'
+#' The implementation uses the trapezoidal rule to approximate the integral over
+#' time and the integral is normalized by the range of available evaluation times
+#' (\eqn{\tau_{\text{max}} - \tau_{\text{min}}}).
+#'
 #' To get a single score across all \eqn{N} observations of the test set, we
 #' return the average of the time-integrated observation-wise scores:
 #' \deqn{\sum_{i=1}^N L(S_i, t_i, \delta_i) / N}

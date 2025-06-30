@@ -19,6 +19,10 @@ integrated across the time dimension up to the time cutoff \eqn{\tau^*}, is:
 
 where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
 
+The implementation uses the trapezoidal rule to approximate the integral over
+time and the integral is normalized by the range of available evaluation times
+(\eqn{\tau_{\text{max}} - \tau_{\text{min}}}).
+
 To get a single score across all \eqn{N} observations of the test set, we
 return the average of the time-integrated observation-wise scores:
 \deqn{\sum_{i=1}^N L(S_i, t_i, \delta_i) / N}
@@ -41,7 +45,6 @@ msr("surv.intlogloss")
    times \tab untyped \tab - \tab  \tab - \cr
    t_max \tab numeric \tab - \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
    p_max \tab numeric \tab - \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
-   method \tab integer \tab 2 \tab  \tab \eqn{[1, 2]}{[1, 2]} \cr
    eps \tab numeric \tab 0.001 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    ERV \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
 }
@@ -87,17 +90,6 @@ If \code{t_max} is not specified, an \code{Inf} time horizon is assumed.
 \item \code{p_max} (\code{numeric(1)})\cr
 The proportion of censoring to integrate up to in the given dataset.
 Mutually exclusive with \code{times} or \code{t_max}.
-}
-
-
-\itemize{
-\item \code{method} (\code{integer(1)})\cr
-If \code{integrate == TRUE}, this selects the integration weighting method.
-\code{method == 1} corresponds to weighting each time-point equally
-and taking the mean score over discrete time-points.
-\code{method == 2} corresponds to calculating a mean weighted by the
-difference between time-points.
-\code{method == 2} is the default value, to be in line with other packages.
 }
 
 
@@ -150,17 +142,6 @@ time domain/range similar to the one from the train set, and therefore time
 points outside that domain might lead to unwanted extrapolation of \eqn{S(t)}.
 }
 
-\section{Implementation differences}{
-
-
-If comparing the integrated Graf score to other packages, e.g.
-\CRANpkg{pec}, then \code{method = 2} should be used. However the results may
-still be very slightly different as this package uses \code{survfit} to estimate
-the censoring distribution, in line with the Graf 1999 paper; whereas some
-other packages use \code{prodlim} with \code{reverse = TRUE} (meaning Kaplan-Meier is
-not used).
-}
-
 \section{Data used for Estimating Censoring Distribution}{
 
 
@@ -184,6 +165,16 @@ of a small constant \code{eps} instead, see Kvamme et al. (2023).
 Not using a \code{t_max} can lead to misleading evaluation, violations of properness
 and poor optimization outcomes when using this score for model tuning, see
 Sonabend et al. (2024).
+}
+
+\section{Implementation differences}{
+
+
+If comparing the integrated Graf score to other packages, e.g. \CRANpkg{pec},
+results may be very slightly different as this package uses \code{survfit} to estimate
+the censoring distribution, in line with the Graf 1999 paper; whereas some
+other packages use \code{prodlim} with \code{reverse = TRUE} (meaning Kaplan-Meier is
+not used).
 }
 
 \examples{
