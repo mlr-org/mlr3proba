@@ -82,8 +82,8 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \item{\code{id}}{(\code{character(1)})\cr
 Identifier for the new instance.}
 
-\item{\code{backend}}{(\link{DataBackend})\cr
-Either a \link{DataBackend}, a matrix-like object, or a numeric vector.
+\item{\code{backend}}{(\link[mlr3:DataBackend]{mlr3::DataBackend})\cr
+Either a \link[mlr3:DataBackend]{DataBackend}, a matrix-like object, or a numeric vector.
 If weights are used then two columns expected, otherwise one column. The weight column
 must be clearly specified (via \verb{[Task]$col_roles}) or the learners will break.}
 

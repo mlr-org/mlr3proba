@@ -22,8 +22,8 @@ TaskDens = R6Class("TaskDens",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    #' @param backend ([DataBackend])\cr
-    #' Either a [DataBackend], a matrix-like object, or a numeric vector.
+    #' @param backend ([mlr3::DataBackend])\cr
+    #' Either a [DataBackend][mlr3::DataBackend], a matrix-like object, or a numeric vector.
     #' If weights are used then two columns expected, otherwise one column. The weight column
     #' must be clearly specified (via `[Task]$col_roles`) or the learners will break.
     initialize = function(id, backend, label = NA_character_) {
