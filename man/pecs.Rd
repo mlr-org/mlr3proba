@@ -13,13 +13,12 @@ pecs(x, measure = c("graf", "logloss"), times, n, eps = NULL, ...)
   measure = c("graf", "logloss"),
   times,
   n,
-  eps = NULL,
+  eps = 0.001,
   task = NULL,
   row_ids = NULL,
   newdata = NULL,
   train_task = NULL,
   train_set = NULL,
-  proper = TRUE,
   ...
 )
 
@@ -28,10 +27,9 @@ pecs(x, measure = c("graf", "logloss"), times, n, eps = NULL, ...)
   measure = c("graf", "logloss"),
   times,
   n,
-  eps = 1e-15,
+  eps = 0.001,
   train_task = NULL,
   train_set = NULL,
-  proper = TRUE,
   ...
 )
 }
@@ -51,7 +49,7 @@ If \code{times} is missing or given as a range, then \code{n} provide number of 
 
 \item{eps}{(\code{numeric()}) \cr
 Small error value to prevent errors resulting from a log(0) or 1/0 calculation.
-Default is 1e-15 for log loss and 1e-3 for Graf.}
+Default value is \code{1e-3}.}
 
 \item{...}{Additional arguments.}
 
@@ -70,9 +68,6 @@ training data.}
 \item{train_set}{(\code{numeric()}) \cr
 If not NULL then passed to measures for computing estimate of censoring distribution on
 training data.}
-
-\item{proper}{(\code{logical(1)}) \cr
-Passed to \link{MeasureSurvGraf} or \link{MeasureSurvIntLogloss}.}
 }
 \description{
 Methods to plot prediction error curves (pecs) for either a \link{PredictionSurv} object
