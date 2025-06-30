@@ -4,110 +4,96 @@ using namespace Rcpp;
 using namespace std;
 
 // [[Rcpp::export]]
-NumericMatrix c_score_intslogloss(const NumericVector& truth,
-                                  const NumericVector& unique_times,
-                                  const NumericMatrix& cdf,
-                                  double eps) {
-  const int nr_obs = truth.length();
-  const int nc_times = unique_times.length();
-  NumericMatrix ll(nr_obs, nc_times);
+NumericMatrix c_score_logloss(const NumericVector& obs_times,
+                              const NumericVector& times,
+                              const NumericMatrix& cdf, // [times x obs]
+                              double eps) {
+  const int n_obs = obs_times.length();
+  const int n_times = times.length();
+  NumericMatrix logloss_mat(n_obs, n_times);
 
-  for (int i = 0; i < nr_obs; i++) {
-    for (int j = 0; j < nc_times; j++) {
-      const double tmp = (truth[i] > unique_times[j]) ? 1 - cdf(j, i) : cdf(j, i);
-      ll(i, j) = -log(max(tmp, eps));
+  for (int i = 0; i < n_obs; i++) {
+    for (int j = 0; j < n_times; j++) {
+      // Use S(t) for y > t, 1 - S(t) for y <= t
+      const double tmp = (obs_times[i] > times[j]) ? 1 - cdf(j, i) : cdf(j, i);
+      logloss_mat(i, j) = -std::log(std::max(tmp, eps));
     }
   }
 
-  return ll;
+  return logloss_mat;
 }
 
 // [[Rcpp::export]]
-NumericMatrix c_score_graf_schmid(const NumericVector& truth,
-                                  const NumericVector& unique_times,
-                                  const NumericMatrix& cdf,
+NumericMatrix c_score_graf_schmid(const NumericVector& obs_times,
+                                  const NumericVector& times,
+                                  const NumericMatrix& cdf, // [times x obs]
                                   int power = 2) {
-  const int nr_obs = truth.length();
-  const int nc_times = unique_times.length();
-  NumericMatrix igs(nr_obs, nc_times);
+  const int n_obs = obs_times.length();
+  const int n_times = times.length();
+  NumericMatrix score_mat(n_obs, n_times);
 
-  for (int i = 0; i < nr_obs; i++) {
-    for (int j = 0; j < nc_times; j++) {
-      const double tmp = (truth[i] > unique_times[j]) ? cdf(j, i) : 1 - cdf(j, i);
-      igs(i, j) = std::pow(tmp, power);
+  for (int i = 0; i < n_obs; i++) {
+    for (int j = 0; j < n_times; j++) {
+      // Use 1 - S(t) for y > t, S(t) for y <= t
+      const double tmp = (obs_times[i] > times[j]) ? cdf(j, i) : 1 - cdf(j, i);
+      score_mat(i, j) = std::pow(tmp, power);
     }
   }
 
-  return igs;
+  return score_mat;
 }
 
 // [[Rcpp::export]]
-NumericMatrix c_weight_survival_score(const NumericMatrix& score,
-                                      const NumericMatrix& truth,
-                                      const NumericVector& unique_times,
-                                      const NumericMatrix& cens,
-                                      bool proper, double eps) {
-  NumericVector times = truth(_, 0);
-  NumericVector status = truth(_, 1);
+NumericMatrix c_apply_ipcw_weights(const NumericMatrix& score,
+                                   const NumericMatrix& truth,
+                                   const NumericVector& unique_times,
+                                   const NumericMatrix& cens,
+                                   double eps) {
+  NumericVector times = truth(_, 0);   // observed times
+  NumericVector status = truth(_, 1);  // event indicators (1 = event, 0 = censored)
 
-  NumericVector cens_times = cens(_, 0);
-  NumericVector cens_surv = cens(_, 1);
+  NumericVector cens_times = cens(_, 0);  // increasing time points for G(t)
+  NumericVector cens_surv = cens(_, 1);   // G(t) values
 
-  const int nr = score.nrow();
-  const int nc = score.ncol();
+  const int nr = score.nrow();  // number of observations
+  const int nc = score.ncol();  // number of time points (unique_times)
 
-  NumericMatrix mat(nr, nc);
+  NumericMatrix mat(nr, nc);  // output matrix, initialized to all 0
 
   for (int i = 0; i < nr; i++) {
-    double k = 0.0;
-    // if censored and proper then zero-out and remove
-    if (proper && status[i] == 0) {
-      mat(i, _) = NumericVector(nc);
-      continue;
-    }
+    const double ti = times[i];
+    const int    di = status[i];
 
     for (int j = 0; j < nc; j++) {
-      // if alive and not proper then IPC weights are current time
-      if (!proper && times[i] > unique_times[j]) {
-        for (int l = 0; l < cens_times.length(); l++) {
-          if (unique_times[j] >= cens_times[l] &&
-            (l == cens_times.length() - 1 || unique_times[j] < cens_times[l + 1])) {
-            mat(i, j) = score(i, j) / cens_surv[l];
+      const double tau = unique_times[j];
+
+      // Censored and t_i <= tau => ignored (leave as 0)
+      if (di == 0 && ti <= tau) continue;
+
+      // Choose whether to weight by G(tau) or G(ti)
+      double w_time = (ti > tau) ? tau : ti;
+      double weight = 0.0; // IPCW
+
+      if (w_time < cens_times[0]) {
+      // G(t) = 1 (left constant interpolation)
+        weight = 1.0;
+      } else {
+      // Find weight using left-continuous, constant interpolation of G(t)
+      for (int k = 0; k < cens_times.length(); k++) {
+        // Exact or in interval [cens_times[k], cens_times[k + 1]) or right interpolation
+        if (w_time >= cens_times[k] &&
+           (k == cens_times.length() - 1 || w_time < cens_times[k + 1])) {
+            weight = cens_surv[k];
             break;
           }
         }
-        // if dead (or alive and proper) weight by event time
-        // if censored remove
-      } else {
-        if (status[i] == 0) {
-          mat(i, j) = 0;
-          continue;
-        }
-
-        if (k == 0) {
-          for (int l = 0; l < cens_times.length(); l++) {
-            // weight 1 if death occurs before first censoring time
-            if ((times[i] < cens_times[l]) && l == 0) {
-              k = 1;
-              break;
-            } else if (times[i] >= cens_times[l] &&
-              (l == cens_times.length() - 1 || times[i] < cens_times[l + 1])) {
-              k = cens_surv[l];
-              // k == 0 only if last obs censored, therefore mat is set to 0 anyway
-              // This division by eps can cause inflation of the score,
-              // due to a very large value for a particular (i-obs, j-time)
-              // Use 't_max' to filter 'cens' in that case
-              if (k == 0) {
-                k = eps;
-              }
-              break;
-            }
-          }
-        }
-
-        // weight by IPCW
-        mat(i, j) = score(i, j) / k;
       }
+
+      // Avoid divide-by-zero or score inflation for low G(t) values
+      if (weight == 0.0) weight = eps;
+
+      // Apply IPC weight
+      mat(i, j) = score(i, j) / weight;
     }
   }
 
