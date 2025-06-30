@@ -10,27 +10,31 @@
 ##
 ## Returns: matrix of scores with columns => evaluation times.
 ## Notes:
-## - Either all of `times`, `t_max`, `p_max` are NULL, or only one of them is not
-## - `times` is sorted (increasing), unique, positive time points
-## - `t_max` > 0
-## - `p_max` in [0,1]
-.weighted_survival_score = function(loss, truth, distribution, times = NULL,
-  t_max = NULL, p_max = NULL, proper, train = NULL, eps, remove_obs = FALSE) {
+## - Only one of `times`, `t_max`, `p_max` should be non-NULL.
+## - `times`: sorted, unique, positive.
+## - `t_max` > 0; `p_max` in [0,1]
+.weighted_survival_score = function(loss = "graf", truth, distribution, times = NULL,
+  t_max = NULL, p_max = NULL, train = NULL, eps = 1e-3) {
+  # input checks
+  assert_choice(loss, choices = c("graf", "schmid", "logloss"), null.ok = FALSE)
   assert_surv(truth)
-  # test set's (times, status)
-  test_times = truth[, "time"]
-  test_status = truth[, "status"]
+  assert_numeric(times, lower = 0, sorted = TRUE, unique = TRUE, null.ok = TRUE,
+                 any.missing = FALSE, min.len = 1)
+  assert_number(t_max, lower = 0, null.ok = TRUE)
+  assert_number(p_max, lower = 0, upper = 1, null.ok = TRUE)
+  assert_surv(train, null.ok = TRUE)
+  assert_number(eps, lower = 0)
 
-  # - `tmax_apply` = TRUE => one of `t_max`, `p_max` is given
-  # - `tmax_apply` = FALSE => `times` is given or all of `times`, `p_max` and `t_max` are NULL
-  # The `t_max` cutoff will be applied later in the predicted survival matrix
-  # to filter observations (rows) and time points (columns) + filter the
-  # (time, status) target on both train (if provided) and test data
+  # test set's (times, status)
+  test_times = truth[, 1L]
+  test_status = truth[, 2L]
+
+  # Determine time horizon if applicable
   tmax_apply = !(is.null(t_max) && is.null(p_max))
 
   # **IMPORTANT**: times to calculate the score at => evaluation times
   # We start with the unique, sorted, test set time points
-  unique_times = unique(sort(test_times))
+  eval_times = unique(sort(test_times))
 
   if (tmax_apply) {
     # one of `t_max`, `p_max` is given
@@ -48,30 +52,29 @@
     }
 
     # check that `t_max` is within evaluation time range
-    if (t_max < min(unique_times)) {
+    if (t_max < min(eval_times)) {
       stop("`t_max` is smaller than the minimum test time. Please increase value!")
     }
 
-    # filter `unique_times` in the test set up to `t_max`
-    unique_times = unique_times[unique_times <= t_max]
+    # filter `eval_times` in the test set up to `t_max`
+    eval_times = eval_times[eval_times <= t_max]
   } else {
     # `times` can be provided or it is NULL
     # If some requested times are outside the evaluation range, warn the user
-    # We assume that `times` are positive, unique and sorted
     if (!is.null(times)) {
-      outside_range = any(times < min(unique_times) | times > max(unique_times))
+      outside_range = any(times < min(eval_times) | times > max(eval_times))
       if (outside_range) {
-        warning("Some requested times are outside the evaluation range (unique, sorted test times).")
+        warning("Some requested times are outside the evaluation range (sorted unique test times).")
       }
     }
 
-    # Use requested times if given, else default to `unique_times`
-    unique_times = times %??% unique_times
+    # Use requested times if given, else default to `eval_times`
+    eval_times = times %??% eval_times
   }
 
-  # get the cdf matrix (rows => times, cols => obs)
+  # Get the CDF matrix [times x observations]
   if (inherits(distribution, "Distribution")) {
-    cdf = as.matrix(distribution$cdf(unique_times))
+    cdf = as.matrix(distribution$cdf(eval_times))
   }
   else if (inherits(distribution, "array")) {
     if (length(dim(distribution)) == 3L) {
@@ -84,62 +87,31 @@
     # `pred_times`: time points for which we have S(t)
     pred_times = as.numeric(colnames(surv_mat))
     extend_times = getFromNamespace("C_Vec_WeightedDiscreteCdf", ns = "distr6")
-    # `unique_times`: time points for which we want S(t)
-    cdf = extend_times(unique_times, pred_times, cdf = t(1 - surv_mat), TRUE, FALSE)
-    rownames(cdf) = unique_times # times x obs
+    # `eval_times`: time points for which we want S(t)
+    cdf = extend_times(eval_times, pred_times, cdf = t(1 - surv_mat), TRUE, FALSE)
+    rownames(cdf) = eval_times
   }
 
-  # apply `t_max` cutoff to remove observations as a preprocessing step to alleviate inflation
-  if (tmax_apply && remove_obs) {
-    true_times = test_times[test_times <= t_max]
-    true_status = test_status[test_times <= t_max]
-    cdf = cdf[, test_times <= t_max, drop = FALSE]
-  } else {
-    true_times = test_times
-    true_status = test_status
-  }
-  true_truth = Surv(true_times, true_status)
+  # check: CDF matrix is [times x test obs]
+  assert_matrix(cdf, nrows = length(eval_times), ncols = length(test_times), any.missing = FALSE)
 
-  assert_numeric(true_times, any.missing = FALSE)
-  assert_numeric(unique_times, any.missing = FALSE)
-  assert_matrix(cdf, nrows = length(unique_times), ncols = length(true_times),
-                any.missing = FALSE)
+  # Compute score matrix [obs x times], by using:
+  # - S^2 or (1-S)^2 for Graf score (ISBS)
+  # - S or (1-S) for Schmid score (ISS)
+  # - log(S) or log(1-S) for integrated LogLoss score (ISLL)
+  score = switch(loss,
+    logloss = c_score_logloss(test_times, eval_times, cdf, eps = eps),
+    schmid  = c_score_graf_schmid(test_times, eval_times, cdf, power = 1),
+    graf    = c_score_graf_schmid(test_times, eval_times, cdf, power = 2)
+  )
 
-  # Note that whilst we calculate the score for censored observations here,
-  # they are then corrected in the weighting function `c_weight_survival_score()`
-  if (loss == "graf") {
-    score = .score_graf_schmid(true_times, unique_times, cdf, power = 2)
-  } else if (loss == "schmid") {
-    score = .score_graf_schmid(true_times, unique_times, cdf, power = 1)
-  } else {
-    score = .score_intslogloss(true_times, unique_times, cdf, eps = eps)
-  }
+  # Compute G(t): KM estimate of the censoring distribution from train or test set
+  cens_source = if (is.null(train)) truth else train
+  cens_fit = survival::survfit(Surv(cens_source[, "time"], 1 - cens_source[, "status"]) ~ 1)
+  cens = matrix(c(cens_fit$time, cens_fit$surv), ncol = 2L)
 
-  # use the `truth` (time, status) information from the train or test set
-  if (is.null(train)) {
-    # no filtering of observations from test data: use ALL
-    cens = survival::survfit(Surv(test_times, 1 - test_status) ~ 1)
-  } else {
-    # no filtering of observations from train data: use ALL
-    train_times = train[, "time"]
-    train_status = train[, "status"]
-    cens = survival::survfit(Surv(train_times, 1 - train_status) ~ 1)
-  }
-  # G(t): KM estimate of the censoring distribution
-  cens = matrix(c(cens$time, cens$surv), ncol = 2L)
+  ipcw_score = c_apply_ipcw_weights(score, truth, eval_times, cens, eps)
+  colnames(ipcw_score) = eval_times
 
-  score = c_weight_survival_score(score, true_truth, unique_times, cens, proper, eps)
-  colnames(score) = unique_times
-
-  score
-}
-
-.score_intslogloss = function(true_times, unique_times, cdf, eps = eps) {
-  assert_number(eps, lower = 0)
-  c_score_intslogloss(true_times, unique_times, cdf, eps = eps)
-}
-
-.score_graf_schmid = function(true_times, unique_times, cdf, power = 2) {
-  assert_number(power)
-  c_score_graf_schmid(true_times, unique_times, cdf, power)
+  ipcw_score
 }
