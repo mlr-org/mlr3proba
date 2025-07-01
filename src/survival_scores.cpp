@@ -45,18 +45,18 @@ NumericMatrix c_score_graf_schmid(const NumericVector& obs_times,
 
 // [[Rcpp::export]]
 NumericMatrix c_apply_ipcw_weights(const NumericMatrix& score,
-                                   const NumericMatrix& truth,
                                    const NumericVector& unique_times,
+                                   const NumericMatrix& truth,
                                    const NumericMatrix& cens,
                                    double eps) {
+  const int n_obs = score.nrow(); // number of observations (rows)
+  const int n_times = score.ncol(); // number of time points (columns)
+
   NumericVector times = truth(_, 0); // observed times
   NumericVector status = truth(_, 1); // event indicators (1 = event, 0 = censored)
 
   NumericVector cens_times = cens(_, 0); // increasing time points for G(t)
   NumericVector cens_surv = cens(_, 1); // G(t) values
-
-  const int n_obs = score.nrow(); // number of observations (rows)
-  const int n_times = score.ncol(); // number of time points (columns)
 
   // Check: number of time points
   if (unique_times.size() != n_times) {

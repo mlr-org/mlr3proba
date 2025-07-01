@@ -110,7 +110,7 @@
   cens_fit = survival::survfit(Surv(cens_source[, "time"], 1 - cens_source[, "status"]) ~ 1)
   cens = matrix(c(cens_fit$time, cens_fit$surv), ncol = 2L)
 
-  ipcw_score = c_apply_ipcw_weights(score, truth, eval_times, cens, eps)
+  ipcw_score = c_apply_ipcw_weights(score, eval_times, truth, cens, eps)
   colnames(ipcw_score) = eval_times
 
   ipcw_score

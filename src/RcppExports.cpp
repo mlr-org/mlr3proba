@@ -50,17 +50,17 @@ BEGIN_RCPP
 END_RCPP
 }
 // c_apply_ipcw_weights
-NumericMatrix c_apply_ipcw_weights(const NumericMatrix& score, const NumericMatrix& truth, const NumericVector& unique_times, const NumericMatrix& cens, double eps);
-RcppExport SEXP _mlr3proba_c_apply_ipcw_weights(SEXP scoreSEXP, SEXP truthSEXP, SEXP unique_timesSEXP, SEXP censSEXP, SEXP epsSEXP) {
+NumericMatrix c_apply_ipcw_weights(const NumericMatrix& score, const NumericVector& unique_times, const NumericMatrix& truth, const NumericMatrix& cens, double eps);
+RcppExport SEXP _mlr3proba_c_apply_ipcw_weights(SEXP scoreSEXP, SEXP unique_timesSEXP, SEXP truthSEXP, SEXP censSEXP, SEXP epsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const NumericMatrix& >::type score(scoreSEXP);
-    Rcpp::traits::input_parameter< const NumericMatrix& >::type truth(truthSEXP);
     Rcpp::traits::input_parameter< const NumericVector& >::type unique_times(unique_timesSEXP);
+    Rcpp::traits::input_parameter< const NumericMatrix& >::type truth(truthSEXP);
     Rcpp::traits::input_parameter< const NumericMatrix& >::type cens(censSEXP);
     Rcpp::traits::input_parameter< double >::type eps(epsSEXP);
-    rcpp_result_gen = Rcpp::wrap(c_apply_ipcw_weights(score, truth, unique_times, cens, eps));
+    rcpp_result_gen = Rcpp::wrap(c_apply_ipcw_weights(score, unique_times, truth, cens, eps));
     return rcpp_result_gen;
 END_RCPP
 }

@@ -13,8 +13,8 @@ c_score_graf_schmid <- function(obs_times, times, cdf, power = 2L) {
     .Call(`_mlr3proba_c_score_graf_schmid`, obs_times, times, cdf, power)
 }
 
-c_apply_ipcw_weights <- function(score, truth, unique_times, cens, eps) {
-    .Call(`_mlr3proba_c_apply_ipcw_weights`, score, truth, unique_times, cens, eps)
+c_apply_ipcw_weights <- function(score, unique_times, truth, cens, eps) {
+    .Call(`_mlr3proba_c_apply_ipcw_weights`, score, unique_times, truth, cens, eps)
 }
 
 c_concordance <- function(time, status, crank, t_max, weight_meth, cens, surv, tiex) {
