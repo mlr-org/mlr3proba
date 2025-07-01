@@ -102,7 +102,7 @@ The density is estimated at \eqn{t_i} as follows:
 f_i(t_i) = -\frac{S_i(t_{i+1}) - S_i(t_i)}{t_{i+1} - t_i}
 }
 
-This corresponds to the (negative) slop of the \eqn{S_i(t)} between the closest
+This corresponds to the (negative) slope of the \eqn{S_i(t)} between the closest
 grid point after \eqn{t_i} and \eqn{t_i} itself.
 }
 
