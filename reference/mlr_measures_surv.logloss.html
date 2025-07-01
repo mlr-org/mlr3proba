@@ -5,7 +5,7 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Negative Log-Likelihood Survival Measure — mlr_measures_surv.logloss"><meta name="description" content="Calculates the cross-entropy, or negative log-likelihood (NLL) or logarithmic (log), loss."><meta property="og:description" content="Calculates the cross-entropy, or negative log-likelihood (NLL) or logarithmic (log), loss."></head><body>
+</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Negative Log-Likelihood Survival Measure — mlr_measures_surv.logloss"><meta name="description" content="Calculates the cross-entropy, or negative log-likelihood (NLL) or logarithmic (log) loss."><meta property="og:description" content="Calculates the cross-entropy, or negative log-likelihood (NLL) or logarithmic (log) loss."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,32 +53,28 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Negative Log-Likelihood Survival Measure</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/v0.8.0/R/MeasureSurvLogloss.R" class="external-link"><code>R/MeasureSurvLogloss.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/main/R/MeasureSurvLogloss.R" class="external-link"><code>R/MeasureSurvLogloss.R</code></a></small>
       <div class="d-none name"><code>mlr_measures_surv.logloss.Rd</code></div>
     </div>
 
     <div class="ref-description section level2">
-    <p>Calculates the cross-entropy, or negative log-likelihood (NLL) or logarithmic (log), loss.</p>
+    <p>Calculates the cross-entropy, or negative log-likelihood (NLL) or logarithmic (log) loss.</p>
     </div>
 
 
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The Log Loss, in the context of probabilistic predictions, is defined as the
-negative log probability density function, \(f\), evaluated at the
-observation time (event or censoring), \(t\),
-$$L_{NLL}(f, t) = -\log[f(t)]$$</p>
-<p>The standard error of the Log Loss, L, is approximated via,
-$$se(L) = sd(L)/\sqrt{N}$$
-where \(N\) are the number of observations in the test set, and \(sd\) is the standard
-deviation.</p>
-<p>The <strong>Re-weighted Negative Log-Likelihood</strong> (RNLL) or IPCW (Inverse Probability Censoring Weighted) Log Loss is defined by
-$$L_{RNLL}(f, t, \delta) = - \frac{\delta \log[f(t)]}{G(t)}$$
-where \(\delta\) is the censoring indicator and \(G(t)\) is the Kaplan-Meier estimator of the
-censoring distribution.
-So only observations that have experienced the event are taking into account
-for RNLL (i.e. \(\delta = 1\)) and both \(f(t), G(t)\) are calculated only at the event times.
-If only censored observations exist in the test set, <code>NaN</code> is returned.</p>
+    <p>The (observation-wise) Log-Likelihood is defined as the negative logarithm of
+the predicted probability density function \(f_i\), evaluated at the
+observation time \(t_i\) (event or censoring):</p>
+<p>$$L_{NLL}(S_i,t_i) = -\log{[f_i(t_i)]}$$</p>
+<p>This loss does not take into account the censoring status of an observation,
+treating all outcomes as events, and is also an improper scoring rule,
+see Sonabend et al. (2024).
+See section <strong>Interpolation</strong> for implementation details.</p>
+<p>To get a single score across all \(N\) observations of the test set, we
+return the average of the observation-wise scores:</p>
+<p>$$\sum_{i=1}^N L_{NLL}(S_i, t_i) / N$$</p>
     </div>
     <div class="section level2">
     <h2 id="dictionary">Dictionary<a class="anchor" aria-label="anchor" href="#dictionary"></a></h2>
@@ -93,7 +89,7 @@ If only censored observations exist in the test set, <code>NaN</code> is returne
     <div class="section level2">
     <h2 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a></h2>
 
-<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Levels</td><td>Range</td></tr><tr><td>eps</td><td>numeric</td><td>1e-15</td><td></td><td>\([0, 1]\)</td></tr><tr><td>se</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>IPCW</td><td>logical</td><td>TRUE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>ERV</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr></table></div>
+<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Levels</td><td>Range</td></tr><tr><td>eps</td><td>numeric</td><td>1e-06</td><td></td><td>\([0, 1]\)</td></tr><tr><td>ERV</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr></table></div>
     <div class="section level2">
     <h2 id="meta-information">Meta Information<a class="anchor" aria-label="anchor" href="#meta-information"></a></h2>
 
@@ -108,39 +104,47 @@ If only censored observations exist in the test set, <code>NaN</code> is returne
 
 
 <ul><li><p><code>eps</code> (<code>numeric(1)</code>)<br>
-Very small number to substitute zero values in order to prevent errors
+Very small number to substitute near-zero values in order to prevent errors
 in e.g. log(0) and/or division-by-zero calculations.
-Default value is 1e-15.</p></li>
-</ul><ul><li><p><code>se</code> (<code>logical(1)</code>)<br>
-If <code>TRUE</code> then returns standard error of the measure otherwise
-returns the mean across all individual scores, e.g. the mean of
-the per observation scores.
-Default is <code>FALSE</code> (returns the mean).</p></li>
+Default value is 1e-06.</p></li>
 </ul><ul><li><p><code>ERV</code> (<code>logical(1)</code>)<br>
 If <code>TRUE</code> then the Explained Residual Variation method is applied, which
 means the score is standardized against a Kaplan-Meier baseline.
 Default is <code>FALSE</code>.</p></li>
-</ul><ul><li><p><code>IPCW</code> (<code>logical(1)</code>)<br>
-If <code>TRUE</code> (default) then returns the \(L_{RNLL}\) score (which is proper), otherwise the \(L_{NLL}\) score (improper). See Sonabend et al. (2024) for more details.</p></li>
 </ul></div>
     <div class="section level2">
-    <h2 id="data-used-for-estimating-censoring-distribution">Data used for Estimating Censoring Distribution<a class="anchor" aria-label="anchor" href="#data-used-for-estimating-censoring-distribution"></a></h2>
+    <h2 id="interpolation">Interpolation<a class="anchor" aria-label="anchor" href="#interpolation"></a></h2>
 
 
 
-<p>If <code>task</code> and <code>train_set</code> are passed to <code>$score</code> then \(G(t)\) is fit using
-<strong>all observations</strong> from the train set, otherwise the test set is used.
-Using the train set is likely to reduce any bias caused by calculating parts of the
-measure on the test data it is evaluating.
-Also usually it means that more data is used for fitting the censoring
-distribution \(G(t)\) via the Kaplan-Meier.
-The training data is automatically used in scoring resamplings.</p>
+<p>To evaluate scores involving subject-specific survival functions
+\(S_i(t)\), we perform <strong>linear interpolation</strong> on the discrete survival
+values provided in the prediction.
+Duplicate survival values are removed prior to interpolation to ensure strict
+monotonicity and non-negative density values.
+Therefore we are left with the distinct survival time points
+\(t_0 &lt; \cdots &lt; t_k\) and the corresponding survival values \(S(t_j)\).</p>
+<p>Interpolation is performed using base R’s <code><a href="https://rdrr.io/r/stats/approxfun.html" class="external-link">approx()</a></code> with <code>method = "linear"</code>
+and <code>rule = 2</code>, ensuring:</p><ul><li><p><strong>Left extrapolation</strong> (for \(t &lt; t_0\)) assumes \(S(0) = 1\) and uses
+the slope from \((0, 1)\) to \((t_0, S(t_0))\).</p></li>
+<li><p><strong>Right extrapolation</strong> (for \(t &gt; t_k\)) uses the slope from the last
+interval \((t_{k-1}, S(t_{k-1}))\) to \((t_k, S(t_k))\), with results
+truncated at 0 to preserve non-negativity.</p></li>
+</ul><p>This ensures a continuous, piecewise-linear survival function \(S(t)\) that
+satisfies \(S(0) = 1\) and remains non-increasing and non-negative across
+the entire domain.</p>
+<p>The density is estimated at \(t_i\) as follows:</p>
+<p>$$
+f_i(t_i) = -\frac{S_i(t_{i+1}) - S_i(t_i)}{t_{i+1} - t_i}
+$$</p>
+<p>This corresponds to the (negative) slop of the \(S_i(t)\) between the closest
+grid point after \(t_i\) and \(t_i\) itself.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Sonabend, Raphael, Zobolas, John, Kopper, Philipp, Burk, Lukas, Bender, Andreas (2024).
 “Examining properness in the external validation of survival models with squared and logarithmic losses.”
-<a href="https://arxiv.org/abs/2212.05260v2" class="external-link">https://arxiv.org/abs/2212.05260v2</a>.</p>
+<a href="https://arxiv.org/abs/2212.05260v3" class="external-link">https://arxiv.org/abs/2212.05260v3</a>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

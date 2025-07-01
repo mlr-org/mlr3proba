@@ -15,7 +15,7 @@ or squared survival loss."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,7 +55,7 @@ or squared survival loss."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Integrated Brier Score Survival Measure</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/v0.8.0/R/MeasureSurvGraf.R" class="external-link"><code>R/MeasureSurvGraf.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/main/R/MeasureSurvGraf.R" class="external-link"><code>R/MeasureSurvGraf.R</code></a></small>
       <div class="d-none name"><code>mlr_measures_surv.graf.Rd</code></div>
     </div>
 
@@ -70,13 +70,13 @@ or squared survival loss.</p>
     <p>This measure has two dimensions: (test set) observations and time points.
 For a specific individual \(i\) from the test set, with observed survival
 outcome \((t_i, \delta_i)\) (time and censoring indicator) and predicted
-survival function \(S_i(t)\), the <em>observation-wise</em> loss integrated across
-the time dimension up to the time cutoff \(\tau^*\), is:</p>
+survival function \(S_i(t)\), the <em>observation-wise</em> estimator of the loss,
+integrated across the time dimension up to the time cutoff \(\tau^*\), is:</p>
 <p>$$L_{ISBS}(S_i, t_i, \delta_i) = \int^{\tau^*}_0  \frac{S_i^2(\tau) \text{I}(t_i \leq \tau, \delta_i=1)}{G(t_i)} + \frac{(1-S_i(\tau))^2 \text{I}(t_i &gt; \tau)}{G(\tau)} \ d\tau$$</p>
 <p>where \(G\) is the Kaplan-Meier estimate of the censoring distribution.</p>
-<p>The <strong>re-weighted ISBS</strong> (RISBS) is:</p>
-<p>$$L_{RISBS}(S_i, t_i, \delta_i) = \delta_i \frac{\int^{\tau^*}_0  S_i^2(\tau) \text{I}(t_i \leq \tau) + (1-S_i(\tau))^2 \text{I}(t_i &gt; \tau) \ d\tau}{G(t_i)}$$</p>
-<p>which is always weighted by \(G(t_i)\) and is equal to zero for a censored subject.</p>
+<p>The implementation uses the trapezoidal rule to approximate the integral over
+time and the integral is normalized by the range of available evaluation times
+(\(\tau_{\text{max}} - \tau_{\text{min}}\)).</p>
 <p>To get a single score across all \(N\) observations of the test set, we
 return the average of the time-integrated observation-wise scores:
 $$\sum_{i=1}^N L(S_i, t_i, \delta_i) / N$$</p>
@@ -94,7 +94,7 @@ $$\sum_{i=1}^N L(S_i, t_i, \delta_i) / N$$</p>
     <div class="section level2">
     <h2 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a></h2>
 
-<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Levels</td><td>Range</td></tr><tr><td>integrated</td><td>logical</td><td>TRUE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>times</td><td>untyped</td><td>-</td><td></td><td>-</td></tr><tr><td>t_max</td><td>numeric</td><td>-</td><td></td><td>\([0, \infty)\)</td></tr><tr><td>p_max</td><td>numeric</td><td>-</td><td></td><td>\([0, 1]\)</td></tr><tr><td>method</td><td>integer</td><td>2</td><td></td><td>\([1, 2]\)</td></tr><tr><td>se</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>proper</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>eps</td><td>numeric</td><td>0.001</td><td></td><td>\([0, 1]\)</td></tr><tr><td>ERV</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>remove_obs</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr></table></div>
+<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Levels</td><td>Range</td></tr><tr><td>integrated</td><td>logical</td><td>TRUE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>times</td><td>untyped</td><td>-</td><td></td><td>-</td></tr><tr><td>t_max</td><td>numeric</td><td>-</td><td></td><td>\([0, \infty)\)</td></tr><tr><td>p_max</td><td>numeric</td><td>-</td><td></td><td>\([0, 1]\)</td></tr><tr><td>eps</td><td>numeric</td><td>0.001</td><td></td><td>\([0, 1]\)</td></tr><tr><td>ERV</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr></table></div>
     <div class="section level2">
     <h2 id="meta-information">Meta Information<a class="anchor" aria-label="anchor" href="#meta-information"></a></h2>
 
@@ -123,59 +123,32 @@ If <code>t_max</code> is not specified, an <code>Inf</code> time horizon is assu
 </ul><ul><li><p><code>p_max</code> (<code>numeric(1)</code>)<br>
 The proportion of censoring to integrate up to in the given dataset.
 Mutually exclusive with <code>times</code> or <code>t_max</code>.</p></li>
-</ul><ul><li><p><code>method</code> (<code>integer(1)</code>)<br>
-If <code>integrate == TRUE</code>, this selects the integration weighting method.
-<code>method == 1</code> corresponds to weighting each time-point equally
-and taking the mean score over discrete time-points.
-<code>method == 2</code> corresponds to calculating a mean weighted by the
-difference between time-points.
-<code>method == 2</code> is the default value, to be in line with other packages.</p></li>
-</ul><ul><li><p><code>se</code> (<code>logical(1)</code>)<br>
-If <code>TRUE</code> then returns standard error of the measure otherwise
-returns the mean across all individual scores, e.g. the mean of
-the per observation scores.
-Default is <code>FALSE</code> (returns the mean).</p></li>
-</ul><ul><li><p><code>proper</code> (<code>logical(1)</code>)<br>
-If <code>TRUE</code> then weights scores by the censoring distribution at
-the observed event time, which results in a strictly proper scoring
-rule if censoring and survival time distributions are independent
-and a sufficiently large dataset is used, see Sonabend et al. (2024).
-If <code>FALSE</code> then weights scores by the Graf method which is the
-more common usage but the loss is not proper.
-See "Properness" section for more details.</p></li>
 </ul><ul><li><p><code>eps</code> (<code>numeric(1)</code>)<br>
-Very small number to substitute zero values in order to prevent errors
+Very small number to substitute near-zero values in order to prevent errors
 in e.g. log(0) and/or division-by-zero calculations.
 Default value is 0.001.</p></li>
 </ul><ul><li><p><code>ERV</code> (<code>logical(1)</code>)<br>
 If <code>TRUE</code> then the Explained Residual Variation method is applied, which
 means the score is standardized against a Kaplan-Meier baseline.
 Default is <code>FALSE</code>.</p></li>
-</ul><ul><li><p><code>remove_obs</code> (<code>logical(1)</code>)<br>
-Only effective when <code>t_max</code> or <code>p_max</code> is provided. Default is <code>FALSE</code>.
-If <code>TRUE</code>, then we <strong>remove test observations</strong> for which the observed time (event or censoring) is strictly larger than <code>t_max</code>.
-See "Time Cutoff Details" section for more details.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="properness">Properness<a class="anchor" aria-label="anchor" href="#properness"></a></h2>
 
 
-<p><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="figures/lifecycle-experimental.svg" alt="[Experimental]"></a></p>
-<p>RISBS is strictly proper when the censoring distribution is independent
-of the survival distribution and when \(G(t)\) is fit on a sufficiently large dataset.
-ISBS is never proper. Use <code>proper = FALSE</code> for ISBS and
-<code>proper = TRUE</code> for RISBS.
-Results may be very different if many observations are censored at the last
-observed time due to division by \(1/eps\) in <code>proper = TRUE</code>.</p>
-<p>See Sonabend et al. (2024) for more details.
-The use of <code>proper = TRUE</code> is considered experimental and should be used with caution.</p>
+
+<p>ISBS is not a proper scoring rule, see Sonabend et al. (2024) for more details.
+The assumptions for consistent estimation of the loss are that the censoring
+distribution \(G(t)\) is independent of the survival distribution and \(G(t)\)
+is fit on a sufficiently large dataset.</p>
     </div>
     <div class="section level2">
     <h2 id="time-points-used-for-evaluation">Time points used for evaluation<a class="anchor" aria-label="anchor" href="#time-points-used-for-evaluation"></a></h2>
 
 
-<p>If the <code>times</code> argument is not specified (<code>NULL</code>), then the unique (and
-sorted) time points from the <strong>test set</strong> are used for evaluation of the
+
+<p>If the <code>times</code> argument is not specified (<code>NULL</code>), then the sorted unique
+time points from the <strong>test set</strong> are used for evaluation of the
 time-integrated score.
 This was a design decision due to the fact that different predicted survival
 distributions \(S(t)\) usually have a <strong>discretized time domain</strong> which may
@@ -183,27 +156,15 @@ differ, i.e. in the case the survival predictions come from different survival
 learners.
 Essentially, using the same set of time points for the calculation of the score
 minimizes the bias that would come from using different time points.
-We note that \(S(t)\) is by default constantly interpolated for time points that fall
-outside its discretized time domain.</p>
+We note that we perform <strong>constant interpolation</strong> of \(S(t)\) for time points
+that fall outside its discretized time domain.</p>
 <p>Naturally, if the <code>times</code> argument is specified, then exactly these time
 points are used for evaluation.
 A warning is given to the user in case some of the specified <code>times</code> fall outside
 of the time point range of the test set.
 The assumption here is that if the test set is large enough, it should have a
 time domain/range similar to the one from the train set, and therefore time
-points outside that domain might lead to interpolation or extrapolation of \(S(t)\).</p>
-    </div>
-    <div class="section level2">
-    <h2 id="implementation-differences">Implementation differences<a class="anchor" aria-label="anchor" href="#implementation-differences"></a></h2>
-
-
-
-<p>If comparing the integrated graf score to other packages, e.g.
-<a href="https://CRAN.R-project.org/package=pec" class="external-link"><span class="pkg">pec</span></a>, then <code>method = 2</code> should be used. However the results may
-still be very slightly different as this package uses <code>survfit</code> to estimate
-the censoring distribution, in line with the Graf 1999 paper; whereas some
-other packages use <code>prodlim</code> with <code>reverse = TRUE</code> (meaning Kaplan-Meier is
-not used).</p>
+points outside that domain might lead to unwanted extrapolation of \(S(t)\).</p>
     </div>
     <div class="section level2">
     <h2 id="data-used-for-estimating-censoring-distribution">Data used for Estimating Censoring Distribution<a class="anchor" aria-label="anchor" href="#data-used-for-estimating-censoring-distribution"></a></h2>
@@ -224,22 +185,24 @@ The training data is automatically used in scoring resamplings.</p>
 
 
 <p>If <code>t_max</code> or <code>p_max</code> is given, then the predicted survival function \(S(t)\) is
-truncated at the time cutoff for all observations.</p>
-<p><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="figures/lifecycle-experimental.svg" alt="[Experimental]"></a></p>
-<p>Also, if <code>remove_obs = TRUE</code>, <strong>observations with observed times</strong> \(t &gt; t_{max}\) <strong>are removed</strong>.
-This data preprocessing step mitigates issues that arise when using IPCW
-in cases of administrative censoring, see Kvamme et al. (2023).
-Practically, this step, along with setting a time cutoff <code>t_max</code>, helps mitigate
-the <strong>inflation of the score</strong> observed when an observation is censored at the
-final time point. In such cases, \(G(t) = 0\), triggering the use of a
-small constant <code>eps</code> instead.
-This inflation particularly impacts the proper version of the score, see Sonabend et al. (2024)
-for more details.
-Note that the <code>t_max</code> and <code>remove_obs</code> parameters do not affect the estimation
-of the censoring distribution, i.e. <strong>always all the observations are used for estimating</strong> \(G(t)\).</p>
-<p>If <code>remove_obs = FALSE</code>, inflated scores may occur. While this aligns more closely
-with the definitions presented in the original papers, it can lead to misleading
-evaluation and poor optimization outcomes when using this score for model tuning.</p>
+truncated at the time cutoff for all observations. This helps mitigate
+<strong>inflation of the score</strong> which can occur when an observation is censored
+at the last observed time. In such cases, \(G(t) = 0\), triggering the use
+of a small constant <code>eps</code> instead, see Kvamme et al. (2023).
+Not using a <code>t_max</code> can lead to misleading evaluation, violations of properness
+and poor optimization outcomes when using this score for model tuning, see
+Sonabend et al. (2024).</p>
+    </div>
+    <div class="section level2">
+    <h2 id="implementation-differences">Implementation differences<a class="anchor" aria-label="anchor" href="#implementation-differences"></a></h2>
+
+
+
+<p>If comparing the integrated Graf score to other packages, e.g. <a href="https://CRAN.R-project.org/package=pec" class="external-link"><span class="pkg">pec</span></a>,
+results may be very slightly different as this package uses <code>survfit</code> to estimate
+the censoring distribution, in line with the Graf 1999 paper; whereas some
+other packages use <code>prodlim</code> with <code>reverse = TRUE</code> (meaning Kaplan-Meier is
+not used).</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -250,7 +213,7 @@ evaluation and poor optimization outcomes when using this score for model tuning
 .</p>
 <p>Sonabend, Raphael, Zobolas, John, Kopper, Philipp, Burk, Lukas, Bender, Andreas (2024).
 “Examining properness in the external validation of survival models with squared and logarithmic losses.”
-<a href="https://arxiv.org/abs/2212.05260v2" class="external-link">https://arxiv.org/abs/2212.05260v2</a>.</p>
+<a href="https://arxiv.org/abs/2212.05260v3" class="external-link">https://arxiv.org/abs/2212.05260v3</a>.</p>
 <p>Kvamme, Havard, Borgan, Ornulf (2023).
 “The Brier Score under Administrative Censoring: Problems and a Solution.”
 <em>Journal of Machine Learning Research</em>, <b>24</b>(2), 1–26.
@@ -399,21 +362,10 @@ Standardize measure against a Kaplan-Meier baseline
 <span class="r-out co"><span class="r-pr">#&gt;</span> surv.graf </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0.1984325 </span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># ISBS, use time cutoff and also remove observations</span></span></span>
-<span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.graf"</span>, t_max <span class="op">=</span> <span class="fl">700</span>, remove_obs <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>        task <span class="op">=</span> <span class="va">task</span>, train_set <span class="op">=</span> <span class="va">part</span><span class="op">$</span><span class="va">train</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> surv.graf </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.1765491 </span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># ISBS, use time cutoff corresponding to specific proportion of censoring on the test set</span></span></span>
 <span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.graf"</span>, p_max <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span>, task <span class="op">=</span> <span class="va">task</span>, train_set <span class="op">=</span> <span class="va">part</span><span class="op">$</span><span class="va">train</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surv.graf </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0.1990155 </span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># RISBS, G(t) calculated using the train set</span></span></span>
-<span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.graf"</span>, proper <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, task <span class="op">=</span> <span class="va">task</span>, train_set <span class="op">=</span> <span class="va">part</span><span class="op">$</span><span class="va">train</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> surv.graf </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.1129991 </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

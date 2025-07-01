@@ -6,20 +6,20 @@
     }
   };
 </script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Van Houwelingen's Calibration Alpha Survival Measure — mlr_measures_surv.calib_alpha"><meta name="description" content="This calibration method is defined by estimating
-$$\hat{\alpha} = \sum \delta_i / \sum H_i(T_i)$$
-where \(\delta\) is the observed censoring indicator from the test data,
-\(H_i\) is the predicted cumulative hazard, and \(T_i\) is the observed
-survival time (event or censoring).
+$$\hat{\alpha} = \frac{\sum_{i=1}^n \delta_i}{\sum_{i=1}^n H_i(T_i)}$$
+where \(\delta\) is the observed censoring indicator from the test data
+\(n\) observations), \(H_i\) is the predicted cumulative hazard, and \(T_i\)
+is the observed survival time (event or censoring).
 The standard error is given by
-$$\hat{\alpha_{se}} = exp(1/\sqrt{\sum \delta_i})$$
+$$\hat{\alpha_{se}} = e^{1/\sqrt{\sum \delta_i}}$$
 The model is well calibrated if the estimated \(\hat{\alpha}\) coefficient
 (returned score) is equal to 1."><meta property="og:description" content="This calibration method is defined by estimating
-$$\hat{\alpha} = \sum \delta_i / \sum H_i(T_i)$$
-where \(\delta\) is the observed censoring indicator from the test data,
-\(H_i\) is the predicted cumulative hazard, and \(T_i\) is the observed
-survival time (event or censoring).
+$$\hat{\alpha} = \frac{\sum_{i=1}^n \delta_i}{\sum_{i=1}^n H_i(T_i)}$$
+where \(\delta\) is the observed censoring indicator from the test data
+\(n\) observations), \(H_i\) is the predicted cumulative hazard, and \(T_i\)
+is the observed survival time (event or censoring).
 The standard error is given by
-$$\hat{\alpha_{se}} = exp(1/\sqrt{\sum \delta_i})$$
+$$\hat{\alpha_{se}} = e^{1/\sqrt{\sum \delta_i}}$$
 The model is well calibrated if the estimated \(\hat{\alpha}\) coefficient
 (returned score) is equal to 1."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -29,7 +29,7 @@ The model is well calibrated if the estimated \(\hat{\alpha}\) coefficient
 
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,18 +69,18 @@ The model is well calibrated if the estimated \(\hat{\alpha}\) coefficient
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Van Houwelingen's Calibration Alpha Survival Measure</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/v0.8.0/R/MeasureSurvCalibrationAlpha.R" class="external-link"><code>R/MeasureSurvCalibrationAlpha.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/main/R/MeasureSurvCalibrationAlpha.R" class="external-link"><code>R/MeasureSurvCalibrationAlpha.R</code></a></small>
       <div class="d-none name"><code>mlr_measures_surv.calib_alpha.Rd</code></div>
     </div>
 
     <div class="ref-description section level2">
     <p>This calibration method is defined by estimating
-$$\hat{\alpha} = \sum \delta_i / \sum H_i(T_i)$$
-where \(\delta\) is the observed censoring indicator from the test data,
-\(H_i\) is the predicted cumulative hazard, and \(T_i\) is the observed
-survival time (event or censoring).</p>
+$$\hat{\alpha} = \frac{\sum_{i=1}^n \delta_i}{\sum_{i=1}^n H_i(T_i)}$$
+where \(\delta\) is the observed censoring indicator from the test data
+\(n\) observations), \(H_i\) is the predicted cumulative hazard, and \(T_i\)
+is the observed survival time (event or censoring).</p>
 <p>The standard error is given by
-$$\hat{\alpha_{se}} = exp(1/\sqrt{\sum \delta_i})$$</p>
+$$\hat{\alpha_{se}} = e^{1/\sqrt{\sum \delta_i}}$$</p>
 <p>The model is well calibrated if the estimated \(\hat{\alpha}\) coefficient
 (returned score) is equal to 1.</p>
     </div>
@@ -114,7 +114,7 @@ $$\hat{\alpha_{se}} = exp(1/\sqrt{\sum \delta_i})$$</p>
 
 
 <ul><li><p><code>eps</code> (<code>numeric(1)</code>)<br>
-Very small number to substitute zero values in order to prevent errors
+Very small number to substitute near-zero values in order to prevent errors
 in e.g. log(0) and/or division-by-zero calculations.
 Default value is 0.001.</p></li>
 </ul><ul><li><p><code>se</code> (<code>logical(1)</code>)<br>

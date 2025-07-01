@@ -15,7 +15,7 @@ point-calibration (i.e. at a specific time point), see Austin et al. (2020)."></
 
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,7 +55,7 @@ point-calibration (i.e. at a specific time point), see Austin et al. (2020)."></
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Integrated Calibration Index Survival Measure</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/v0.8.0/R/MeasureSurvICI.R" class="external-link"><code>R/MeasureSurvICI.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/main/R/MeasureSurvICI.R" class="external-link"><code>R/MeasureSurvICI.R</code></a></small>
       <div class="d-none name"><code>mlr_measures_surv.calib_index.Rd</code></div>
     </div>
 
@@ -115,7 +115,7 @@ possible score is \(ICI = 1\).</p>
 
 
 <ul><li><p><code>eps</code> (<code>numeric(1)</code>)<br>
-Very small number to substitute zero values in order to prevent errors
+Very small number to substitute near-zero values in order to prevent errors
 in e.g. log(0) and/or division-by-zero calculations.
 Default value is 1e-04.</p></li>
 </ul><ul><li><p><code>time</code> (<code>numeric(1)</code>)<br>

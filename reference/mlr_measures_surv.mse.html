@@ -21,7 +21,7 @@ Censored observations in the test set are ignored."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,7 +61,7 @@ Censored observations in the test set are ignored."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Mean Squared Error Survival Measure</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/v0.8.0/R/MeasureSurvMSE.R" class="external-link"><code>R/MeasureSurvMSE.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/main/R/MeasureSurvMSE.R" class="external-link"><code>R/MeasureSurvMSE.R</code></a></small>
       <div class="d-none name"><code>mlr_measures_surv.mse.Rd</code></div>
     </div>
 
@@ -87,7 +87,9 @@ where \(t\) is the true value and \(\hat{t}\) is the prediction.</p>
     <div class="section level2">
     <h2 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a></h2>
 
-<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Levels</td></tr><tr><td>se</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td></tr></table></div>
+
+<p>Empty ParamSet</p>
+    </div>
     <div class="section level2">
     <h2 id="meta-information">Meta Information<a class="anchor" aria-label="anchor" href="#meta-information"></a></h2>
 
@@ -96,16 +98,6 @@ where \(t\) is the true value and \(\hat{t}\) is the prediction.</p>
 <li><p>Range: \([0, \infty)\)</p></li>
 <li><p>Minimize: <code>TRUE</code></p></li>
 <li><p>Required prediction: <code>response</code></p></li>
-</ul></div>
-    <div class="section level2">
-    <h2 id="parameter-details">Parameter details<a class="anchor" aria-label="anchor" href="#parameter-details"></a></h2>
-
-
-<ul><li><p><code>se</code> (<code>logical(1)</code>)<br>
-If <code>TRUE</code> then returns standard error of the measure otherwise
-returns the mean across all individual scores, e.g. the mean of
-the per observation scores.
-Default is <code>FALSE</code> (returns the mean).</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

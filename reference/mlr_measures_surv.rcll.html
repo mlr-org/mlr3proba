@@ -5,7 +5,9 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Right-Censored Log Loss Survival Measure — mlr_measures_surv.rcll"><meta name="description" content="Calculates the right-censored logarithmic (log), loss."><meta property="og:description" content="Calculates the right-censored logarithmic (log), loss."></head><body>
+</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Right-Censored Log Loss Survival Measure — mlr_measures_surv.rcll"><meta name="description" content="Calculates the right-censored log-likelihood (RCLL) or logarithmic loss,
+introduced by Avati et al. (2020)."><meta property="og:description" content="Calculates the right-censored log-likelihood (RCLL) or logarithmic loss,
+introduced by Avati et al. (2020)."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -13,7 +15,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,25 +55,29 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Right-Censored Log Loss Survival Measure</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/v0.8.0/R/MeasureSurvRCLL.R" class="external-link"><code>R/MeasureSurvRCLL.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/main/R/MeasureSurvRCLL.R" class="external-link"><code>R/MeasureSurvRCLL.R</code></a></small>
       <div class="d-none name"><code>mlr_measures_surv.rcll.Rd</code></div>
     </div>
 
     <div class="ref-description section level2">
-    <p>Calculates the right-censored logarithmic (log), loss.</p>
+    <p>Calculates the right-censored log-likelihood (RCLL) or logarithmic loss,
+introduced by Avati et al. (2020).</p>
     </div>
 
 
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The RCLL, in the context of probabilistic predictions, is defined by
-$$L(f, t, \Delta) = -log(\Delta f(t) + (1 - \Delta) S(t))$$
-where \(\Delta\) is the censoring indicator, \(f\) the probability
-density function and \(S\) the survival function.
-RCLL is proper given that censoring and survival distribution are independent, see Rindt et al. (2022).</p>
-<p><strong>Note</strong>: Even though RCLL is a proper scoring rule, the calculation of \(f(t)\) (which in our case is discrete, i.e. it is a <em>probability mass function</em>) for time points in the test set that don't exist in the predicted survival matrix (<code>distr</code>), results in 0 values, which are substituted by <code>"eps"</code> in our implementation, therefore skewing the result towards \(-log(eps)\).
-This problem is also discussed in Rindt et al. (2022), where the authors perform interpolation to get non-zero values for the \(f(t)\).
-Until this is handled in <code>mlr3proba</code> some way, we advise against using this measure for model evaluation.</p>
+    <p>The observation-wise RCLL is defined by:</p>
+<p>$$L_{RCLL}(S_i, t_i, \delta_i) = -log[\delta_i f_i(t_i) + (1 - \delta_i) S_i(t_i)]$$</p>
+<p>where \(\delta_i\) is the censoring indicator, \(f_i\) the predicted probability
+density function and \(S_i\) the predicted survival function for observation \(i\).
+RCLL is proper given that censoring and survival distribution are independent, see Rindt et al. (2022).
+Simulation studies by Sonabend et al. (2024) provide strong empirical evidence
+supporting the properness of this score.
+See section <strong>Interpolation</strong> for implementation details.</p>
+<p>To get a single score across all \(N\) observations of the test set, we
+return the average of the observation-wise scores:</p>
+<p>$$\sum_{i=1}^N L_{RCLL}(S_i, t_i, \delta_i) / N$$</p>
     </div>
     <div class="section level2">
     <h2 id="dictionary">Dictionary<a class="anchor" aria-label="anchor" href="#dictionary"></a></h2>
@@ -86,7 +92,7 @@ Until this is handled in <code>mlr3proba</code> some way, we advise against usin
     <div class="section level2">
     <h2 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a></h2>
 
-<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Levels</td><td>Range</td></tr><tr><td>eps</td><td>numeric</td><td>1e-15</td><td></td><td>\([0, 1]\)</td></tr><tr><td>se</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>ERV</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>na.rm</td><td>logical</td><td>TRUE</td><td>TRUE, FALSE</td><td>-</td></tr></table></div>
+<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Levels</td><td>Range</td></tr><tr><td>eps</td><td>numeric</td><td>1e-06</td><td></td><td>\([0, 1]\)</td></tr><tr><td>ERV</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr></table></div>
     <div class="section level2">
     <h2 id="meta-information">Meta Information<a class="anchor" aria-label="anchor" href="#meta-information"></a></h2>
 
@@ -101,21 +107,42 @@ Until this is handled in <code>mlr3proba</code> some way, we advise against usin
 
 
 <ul><li><p><code>eps</code> (<code>numeric(1)</code>)<br>
-Very small number to substitute zero values in order to prevent errors
+Very small number to substitute near-zero values in order to prevent errors
 in e.g. log(0) and/or division-by-zero calculations.
-Default value is 1e-15.</p></li>
-</ul><ul><li><p><code>se</code> (<code>logical(1)</code>)<br>
-If <code>TRUE</code> then returns standard error of the measure otherwise
-returns the mean across all individual scores, e.g. the mean of
-the per observation scores.
-Default is <code>FALSE</code> (returns the mean).</p></li>
+Default value is 1e-06.</p></li>
 </ul><ul><li><p><code>ERV</code> (<code>logical(1)</code>)<br>
 If <code>TRUE</code> then the Explained Residual Variation method is applied, which
 means the score is standardized against a Kaplan-Meier baseline.
 Default is <code>FALSE</code>.</p></li>
-</ul><ul><li><p><code>na.rm</code> (<code>logical(1)</code>)<br>
-If <code>TRUE</code> (default) then removes any NAs in individual score calculations.</p></li>
 </ul></div>
+    <div class="section level2">
+    <h2 id="interpolation">Interpolation<a class="anchor" aria-label="anchor" href="#interpolation"></a></h2>
+
+
+
+<p>To evaluate scores involving subject-specific survival functions
+\(S_i(t)\), we perform <strong>linear interpolation</strong> on the discrete survival
+values provided in the prediction.
+Duplicate survival values are removed prior to interpolation to ensure strict
+monotonicity and non-negative density values.
+Therefore we are left with the distinct survival time points
+\(t_0 &lt; \cdots &lt; t_k\) and the corresponding survival values \(S(t_j)\).</p>
+<p>Interpolation is performed using base R’s <code><a href="https://rdrr.io/r/stats/approxfun.html" class="external-link">approx()</a></code> with <code>method = "linear"</code>
+and <code>rule = 2</code>, ensuring:</p><ul><li><p><strong>Left extrapolation</strong> (for \(t &lt; t_0\)) assumes \(S(0) = 1\) and uses
+the slope from \((0, 1)\) to \((t_0, S(t_0))\).</p></li>
+<li><p><strong>Right extrapolation</strong> (for \(t &gt; t_k\)) uses the slope from the last
+interval \((t_{k-1}, S(t_{k-1}))\) to \((t_k, S(t_k))\), with results
+truncated at 0 to preserve non-negativity.</p></li>
+</ul><p>This ensures a continuous, piecewise-linear survival function \(S(t)\) that
+satisfies \(S(0) = 1\) and remains non-increasing and non-negative across
+the entire domain.</p>
+<p>The density is estimated at \(t_i\) as follows:</p>
+<p>$$
+f_i(t_i) = -\frac{S_i(t_{i+1}) - S_i(t_i)}{t_{i+1} - t_i}
+$$</p>
+<p>This corresponds to the (negative) slop of the \(S_i(t)\) between the closest
+grid point after \(t_i\) and \(t_i\) itself.</p>
+    </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Avati, Anand, Duan, Tony, Zhou, Sharon, Jung, Kenneth, Shah, H N, Ng, Y A (2020).
@@ -126,6 +153,9 @@ If <code>TRUE</code> (default) then removes any NAs in individual score calculat
 “Survival regression with proper scoring rules and monotonic neural networks.”
 <em>Proceedings of The 25th International Conference on Artificial Intelligence and Statistics</em>, <b>151</b>(4), 1190–1205.
 <a href="https://proceedings.mlr.press/v151/rindt22a.html" class="external-link">https://proceedings.mlr.press/v151/rindt22a.html</a>.</p>
+<p>Sonabend, Raphael, Zobolas, John, Kopper, Philipp, Burk, Lukas, Bender, Andreas (2024).
+“Examining properness in the external validation of survival models with squared and logarithmic losses.”
+<a href="https://arxiv.org/abs/2212.05260v3" class="external-link">https://arxiv.org/abs/2212.05260v3</a>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

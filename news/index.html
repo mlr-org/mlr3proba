@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,9 +53,23 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/mlr-org/mlr3proba/blob/v0.8.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/mlr-org/mlr3proba/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.8.1" id="mlr3proba-081">mlr3proba 0.8.1<a class="anchor" aria-label="anchor" href="#mlr3proba-081"></a></h2>
+<ul><li>feat: <code>surv.logloss</code> and <code>surv.rcll</code> now use linear interpolation of S(t) to calculate the density f(t)</li>
+<li>fix: <code>surv.mae</code>/<code>surv.mse</code>/<code>surv.rmse</code> scores return <code>NA</code> when test set has only censored observations</li>
+<li>fix: fix bug in msr(<code>surv.brier</code>) that resulted in 0 division instead of <code>eps</code> division (<code>Inf</code> values are filtered out so this was kinda masking the inflation of ISBS)</li>
+<li>refactor: remove <code>se</code> argument from most of the scores (not practically used)</li>
+<li>refactor: remove <code>method</code> argument from integrated survival scores (the previous default, <code>method = 2</code>, time-weighted integration, is now always used)</li>
+<li>
+<strong>BREACKING CHANGE</strong>: we removed all experimental <code>proper</code> scoring rules (and <code>remove_obs</code> argument). Scores yield the same results as before with the default option <code>proper = FALSE</code>
+</li>
+<li>refactor: all private functions start with <code>.</code> now and are adequately (privately) documented. Code was refactored for clarity</li>
+<li>refactor: all internal <code>Rcpp</code> measure functions</li>
+<li>refine doc in lots of measures</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.8.0" id="mlr3proba-080">mlr3proba 0.8.0<a class="anchor" aria-label="anchor" href="#mlr3proba-080"></a></h2>
 <ul><li>Compatibility with <code>mlr3</code> v1.0.0 (<code>weights_learner</code>) and <code>mlr3pipelines</code> v0.8.0</li>

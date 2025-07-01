@@ -8,14 +8,14 @@
 </script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Van Houwelingen's Calibration Beta Survival Measure — mlr_measures_surv.calib_beta"><meta name="description" content="This calibration method fits the predicted linear predictor from a Cox PH
 model as the only predictor in a new Cox PH model with the test data as
 the response.
-$$h(t|x) = h_0(t)exp(\beta \times lp)$$
+$$h(t|x) = h_0(t)e^{\beta \times lp}$$
 where \(lp\) is the predicted linear predictor on the test data.
 The model is well calibrated if the estimated \(\hat{\beta}\) coefficient
 (returned score) is equal to 1.
 Note: Assumes fitted model is Cox PH (i.e. has an lp prediction type)."><meta property="og:description" content="This calibration method fits the predicted linear predictor from a Cox PH
 model as the only predictor in a new Cox PH model with the test data as
 the response.
-$$h(t|x) = h_0(t)exp(\beta \times lp)$$
+$$h(t|x) = h_0(t)e^{\beta \times lp}$$
 where \(lp\) is the predicted linear predictor on the test data.
 The model is well calibrated if the estimated \(\hat{\beta}\) coefficient
 (returned score) is equal to 1.
@@ -27,7 +27,7 @@ Note: Assumes fitted model is Cox PH (i.e. has an lp prediction type)."></head><
 
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,7 +67,7 @@ Note: Assumes fitted model is Cox PH (i.e. has an lp prediction type)."></head><
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Van Houwelingen's Calibration Beta Survival Measure</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/v0.8.0/R/MeasureSurvCalibrationBeta.R" class="external-link"><code>R/MeasureSurvCalibrationBeta.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/main/R/MeasureSurvCalibrationBeta.R" class="external-link"><code>R/MeasureSurvCalibrationBeta.R</code></a></small>
       <div class="d-none name"><code>mlr_measures_surv.calib_beta.Rd</code></div>
     </div>
 
@@ -75,7 +75,7 @@ Note: Assumes fitted model is Cox PH (i.e. has an lp prediction type)."></head><
     <p>This calibration method fits the predicted linear predictor from a Cox PH
 model as the only predictor in a new Cox PH model with the test data as
 the response.
-$$h(t|x) = h_0(t)exp(\beta \times lp)$$
+$$h(t|x) = h_0(t)e^{\beta \times lp}$$
 where \(lp\) is the predicted linear predictor on the test data.</p>
 <p>The model is well calibrated if the estimated \(\hat{\beta}\) coefficient
 (returned score) is equal to 1.</p>
