@@ -5,16 +5,16 @@ c_assert_surv <- function(mat) {
     .Call(`_mlr3proba_c_assert_surv`, mat)
 }
 
-c_score_intslogloss <- function(truth, unique_times, cdf, eps) {
-    .Call(`_mlr3proba_c_score_intslogloss`, truth, unique_times, cdf, eps)
+c_score_logloss <- function(obs_times, times, cdf, eps) {
+    .Call(`_mlr3proba_c_score_logloss`, obs_times, times, cdf, eps)
 }
 
-c_score_graf_schmid <- function(truth, unique_times, cdf, power = 2L) {
-    .Call(`_mlr3proba_c_score_graf_schmid`, truth, unique_times, cdf, power)
+c_score_graf_schmid <- function(obs_times, times, cdf, power = 2L) {
+    .Call(`_mlr3proba_c_score_graf_schmid`, obs_times, times, cdf, power)
 }
 
-.c_weight_survival_score <- function(score, truth, unique_times, cens, proper, eps) {
-    .Call(`_mlr3proba_c_weight_survival_score`, score, truth, unique_times, cens, proper, eps)
+c_apply_ipcw_weights <- function(score, unique_times, truth, cens, eps) {
+    .Call(`_mlr3proba_c_apply_ipcw_weights`, score, unique_times, truth, cens, eps)
 }
 
 c_concordance <- function(time, status, crank, t_max, weight_meth, cens, surv, tiex) {

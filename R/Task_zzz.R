@@ -5,6 +5,7 @@
 #' @templateVar task_type survival
 #' @templateVar id gbsg
 #' @templateVar data gbsg
+#' @templateVar data_pkg survival
 #' @template task
 #' @template seealso_task
 #'
@@ -43,6 +44,7 @@ load_gbsg = function() {
 #' @templateVar task_type competing risks
 #' @templateVar id pbc
 #' @templateVar data pbc
+#' @templateVar data_pkg survival
 #' @template task
 #' @template seealso_task
 #'
@@ -83,6 +85,7 @@ load_pbc = function() {
 #' @templateVar task_type survival
 #' @templateVar id mgus
 #' @templateVar data mgus
+#' @templateVar data_pkg survival
 #' @template task
 #' @template seealso_task
 #'
@@ -113,6 +116,7 @@ load_mgus = function() {
 #' @templateVar task_type survival
 #' @templateVar id veteran
 #' @templateVar data veteran
+#' @templateVar data_pkg survival
 #' @template task
 #' @template seealso_task
 #'
@@ -144,6 +148,7 @@ load_veteran = function() {
 #' @templateVar task_type survival
 #' @templateVar id rats
 #' @templateVar data rats
+#' @templateVar data_pkg survival
 #' @template task
 #' @template seealso_task
 #'
@@ -172,6 +177,7 @@ load_rats = function() {
 #' @templateVar task_type survival
 #' @templateVar id lung
 #' @templateVar data lung
+#' @templateVar data_pkg survival
 #' @template task
 #' @template seealso_task
 #'

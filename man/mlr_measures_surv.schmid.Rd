@@ -11,18 +11,16 @@ Calculates the \strong{Integrated Schmid Score} (ISS), aka integrated absolute l
 This measure has two dimensions: (test set) observations and time points.
 For a specific individual \eqn{i} from the test set, with observed survival
 outcome \eqn{(t_i, \delta_i)} (time and censoring indicator) and predicted
-survival function \eqn{S_i(t)}, the \emph{observation-wise} loss integrated across
-the time dimension up to the time cutoff \eqn{\tau^*}, is:
+survival function \eqn{S_i(t)}, the \emph{observation-wise} estimator of the loss,
+integrated across the time dimension up to the time cutoff \eqn{\tau^*}, is:
 
 \deqn{L_{ISS}(S_i, t_i, \delta_i) = \int^{\tau^*}_0  \frac{S_i(\tau) \text{I}(t_i \leq \tau, \delta=1)}{G(t_i)} + \frac{(1-S_i(\tau)) \text{I}(t_i > \tau)}{G(\tau)} \ d\tau}
 
 where \eqn{G} is the Kaplan-Meier estimate of the censoring distribution.
 
-The \strong{re-weighted ISS} (RISS) is:
-
-\deqn{L_{RISS}(S_i, t_i, \delta_i) = \delta_i \frac{\int^{\tau^*}_0  S_i(\tau) \text{I}(t_i \leq \tau) + (1-S_i(\tau)) \text{I}(t_i > \tau) \ d\tau}{G(t_i)}}
-
-which is always weighted by \eqn{G(t_i)} and is equal to zero for a censored subject.
+The implementation uses the trapezoidal rule to approximate the integral over
+time and the integral is normalized by the range of available evaluation times
+(\eqn{\tau_{\text{max}} - \tau_{\text{min}}}).
 
 To get a single score across all \eqn{N} observations of the test set, we
 return the average of the time-integrated observation-wise scores:
@@ -46,12 +44,8 @@ msr("surv.schmid")
    times \tab untyped \tab - \tab  \tab - \cr
    t_max \tab numeric \tab - \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
    p_max \tab numeric \tab - \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
-   method \tab integer \tab 2 \tab  \tab \eqn{[1, 2]}{[1, 2]} \cr
-   se \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
-   proper \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    eps \tab numeric \tab 0.001 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    ERV \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
-   remove_obs \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
 }
 }
 
@@ -99,40 +93,8 @@ Mutually exclusive with \code{times} or \code{t_max}.
 
 
 \itemize{
-\item \code{method} (\code{integer(1)})\cr
-If \code{integrate == TRUE}, this selects the integration weighting method.
-\code{method == 1} corresponds to weighting each time-point equally
-and taking the mean score over discrete time-points.
-\code{method == 2} corresponds to calculating a mean weighted by the
-difference between time-points.
-\code{method == 2} is the default value, to be in line with other packages.
-}
-
-
-\itemize{
-\item \code{se} (\code{logical(1)})\cr
-If \code{TRUE} then returns standard error of the measure otherwise
-returns the mean across all individual scores, e.g. the mean of
-the per observation scores.
-Default is \code{FALSE} (returns the mean).
-}
-
-
-\itemize{
-\item \code{proper} (\code{logical(1)})\cr
-If \code{TRUE} then weights scores by the censoring distribution at
-the observed event time, which results in a strictly proper scoring
-rule if censoring and survival time distributions are independent
-and a sufficiently large dataset is used, see Sonabend et al. (2024).
-If \code{FALSE} then weights scores by the Graf method which is the
-more common usage but the loss is not proper.
-See "Properness" section for more details.
-}
-
-
-\itemize{
 \item \code{eps} (\code{numeric(1)})\cr
-Very small number to substitute zero values in order to prevent errors
+Very small number to substitute near-zero values in order to prevent errors
 in e.g. log(0) and/or division-by-zero calculations.
 Default value is 0.001.
 }
@@ -144,35 +106,22 @@ If \code{TRUE} then the Explained Residual Variation method is applied, which
 means the score is standardized against a Kaplan-Meier baseline.
 Default is \code{FALSE}.
 }
-
-
-\itemize{
-\item \code{remove_obs} (\code{logical(1)})\cr
-Only effective when \code{t_max} or \code{p_max} is provided. Default is \code{FALSE}.
-If \code{TRUE}, then we \strong{remove test observations} for which the observed time (event or censoring) is strictly larger than \code{t_max}.
-See "Time Cutoff Details" section for more details.
-}
 }
 
 \section{Properness}{
 
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-RISS is strictly proper when the censoring distribution is independent
-of the survival distribution and when \eqn{G(t)} is fit on a sufficiently large dataset.
-ISS is never proper. Use \code{proper = FALSE} for ISS and
-\code{proper = TRUE} for RISS.
-Results may be very different if many observations are censored at the last
-observed time due to division by \eqn{1/eps} in \code{proper = TRUE}.
-
-See Sonabend et al. (2024) for more details.
-The use of \code{proper = TRUE} is considered experimental and should be used with caution.
+ISS is not a proper scoring rule, see Sonabend et al. (2024) for more details.
+The assumptions for consistent estimation of the loss are that the censoring
+distribution \eqn{G(t)} is independent of the survival distribution and \eqn{G(t)}
+is fit on a sufficiently large dataset.
 }
 
 \section{Time points used for evaluation}{
 
-If the \code{times} argument is not specified (\code{NULL}), then the unique (and
-sorted) time points from the \strong{test set} are used for evaluation of the
+
+If the \code{times} argument is not specified (\code{NULL}), then the sorted unique
+time points from the \strong{test set} are used for evaluation of the
 time-integrated score.
 This was a design decision due to the fact that different predicted survival
 distributions \eqn{S(t)} usually have a \strong{discretized time domain} which may
@@ -180,8 +129,8 @@ differ, i.e. in the case the survival predictions come from different survival
 learners.
 Essentially, using the same set of time points for the calculation of the score
 minimizes the bias that would come from using different time points.
-We note that \eqn{S(t)} is by default constantly interpolated for time points that fall
-outside its discretized time domain.
+We note that we perform \strong{constant interpolation} of \eqn{S(t)} for time points
+that fall outside its discretized time domain.
 
 Naturally, if the \code{times} argument is specified, then exactly these time
 points are used for evaluation.
@@ -189,18 +138,7 @@ A warning is given to the user in case some of the specified \code{times} fall o
 of the time point range of the test set.
 The assumption here is that if the test set is large enough, it should have a
 time domain/range similar to the one from the train set, and therefore time
-points outside that domain might lead to interpolation or extrapolation of \eqn{S(t)}.
-}
-
-\section{Implementation differences}{
-
-
-If comparing the integrated graf score to other packages, e.g.
-\CRANpkg{pec}, then \code{method = 2} should be used. However the results may
-still be very slightly different as this package uses \code{survfit} to estimate
-the censoring distribution, in line with the Graf 1999 paper; whereas some
-other packages use \code{prodlim} with \code{reverse = TRUE} (meaning Kaplan-Meier is
-not used).
+points outside that domain might lead to unwanted extrapolation of \eqn{S(t)}.
 }
 
 \section{Data used for Estimating Censoring Distribution}{
@@ -219,25 +157,23 @@ The training data is automatically used in scoring resamplings.
 
 
 If \code{t_max} or \code{p_max} is given, then the predicted survival function \eqn{S(t)} is
-truncated at the time cutoff for all observations.
+truncated at the time cutoff for all observations. This helps mitigate
+\strong{inflation of the score} which can occur when an observation is censored
+at the last observed time. In such cases, \eqn{G(t) = 0}, triggering the use
+of a small constant \code{eps} instead, see Kvamme et al. (2023).
+Not using a \code{t_max} can lead to misleading evaluation, violations of properness
+and poor optimization outcomes when using this score for model tuning, see
+Sonabend et al. (2024).
+}
 
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+\section{Implementation differences}{
 
-Also, if \code{remove_obs = TRUE}, \strong{observations with observed times} \eqn{t > t_{max}} \strong{are removed}.
-This data preprocessing step mitigates issues that arise when using IPCW
-in cases of administrative censoring, see Kvamme et al. (2023).
-Practically, this step, along with setting a time cutoff \code{t_max}, helps mitigate
-the \strong{inflation of the score} observed when an observation is censored at the
-final time point. In such cases, \eqn{G(t) = 0}, triggering the use of a
-small constant \code{eps} instead.
-This inflation particularly impacts the proper version of the score, see Sonabend et al. (2024)
-for more details.
-Note that the \code{t_max} and \code{remove_obs} parameters do not affect the estimation
-of the censoring distribution, i.e. \strong{always all the observations are used for estimating} \eqn{G(t)}.
 
-If \code{remove_obs = FALSE}, inflated scores may occur. While this aligns more closely
-with the definitions presented in the original papers, it can lead to misleading
-evaluation and poor optimization outcomes when using this score for model tuning.
+If comparing the integrated Graf score to other packages, e.g. \CRANpkg{pec},
+results may be very slightly different as this package uses \code{survfit} to estimate
+the censoring distribution, in line with the Graf 1999 paper; whereas some
+other packages use \code{prodlim} with \code{reverse = TRUE} (meaning Kaplan-Meier is
+not used).
 }
 
 \examples{
@@ -275,15 +211,8 @@ p$score(msr("surv.schmid", times = c(125, 365, 450), integrated = TRUE),
 # ISS, use time cutoff
 p$score(msr("surv.schmid", t_max = 700), task = task, train_set = part$train)
 
-# ISS, use time cutoff and also remove observations
-p$score(msr("surv.schmid", t_max = 700, remove_obs = TRUE),
-        task = task, train_set = part$train)
-
 # ISS, use time cutoff corresponding to specific proportion of censoring on the test set
 p$score(msr("surv.schmid", p_max = 0.8), task = task, train_set = part$train)
-
-# RISS, G(t) calculated using the train set
-p$score(msr("surv.schmid", proper = TRUE), task = task, train_set = part$train)
 
 }
 \references{
@@ -299,7 +228,7 @@ Schmid, Matthias, Hielscher, Thomas, Augustin, Thomas, Gefeller, Olaf (2011).
 
 Sonabend, Raphael, Zobolas, John, Kopper, Philipp, Burk, Lukas, Bender, Andreas (2024).
 \dQuote{Examining properness in the external validation of survival models with squared and logarithmic losses.}
-\url{https://arxiv.org/abs/2212.05260v2}.
+\url{https://arxiv.org/abs/2212.05260v3}.
 
 Kvamme, Havard, Borgan, Ornulf (2023).
 \dQuote{The Brier Score under Administrative Censoring: Problems and a Solution.}

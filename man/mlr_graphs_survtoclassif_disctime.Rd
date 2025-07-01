@@ -41,7 +41,7 @@ Wrapper around \link{PipeOpTaskSurvClassifDiscTime} and \link{PipeOpPredClassifS
 The pipeline consists of the following steps:
 \enumerate{
 \item \link{PipeOpTaskSurvClassifDiscTime} Converts \link{TaskSurv} to a \link[mlr3:TaskClassif]{TaskClassif}.
-\item A \link{LearnerClassif} is fit and predicted on the new \code{TaskClassif}.
+\item A \link[mlr3:LearnerClassif]{LearnerClassif} is fit and predicted on the new \code{TaskClassif}.
 \item \link{PipeOpPredClassifSurvDiscTime} transforms the resulting \link[mlr3:PredictionClassif]{PredictionClassif} to \link{PredictionSurv}.
 \item Optionally: \link[mlr3pipelines:mlr_pipeops_modelmatrix]{PipeOpModelMatrix} is used to transform the formula of the task
 before fitting the learner.

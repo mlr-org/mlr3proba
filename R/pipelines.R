@@ -350,7 +350,7 @@ pipeline_probregr = function(learner, learner_se = NULL, dist = "Uniform",
 #' The pipeline consists of the following steps:
 #'
 #' 1. [PipeOpTaskSurvClassifDiscTime] Converts [TaskSurv] to a [TaskClassif][mlr3::TaskClassif].
-#' 2. A [LearnerClassif] is fit and predicted on the new `TaskClassif`.
+#' 2. A [LearnerClassif][mlr3::LearnerClassif] is fit and predicted on the new `TaskClassif`.
 #' 3. [PipeOpPredClassifSurvDiscTime] transforms the resulting [PredictionClassif][mlr3::PredictionClassif] to [PredictionSurv].
 #' 4. Optionally: [PipeOpModelMatrix][mlr3pipelines::PipeOpModelMatrix] is used to transform the formula of the task
 #' before fitting the learner.

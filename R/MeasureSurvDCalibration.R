@@ -89,26 +89,13 @@ MeasureSurvDCalibration = R6Class("MeasureSurvDCalibration",
       true_times = prediction$truth[, 1L]
 
       # predict individual probability of death at observed event time
-      # bypass distr6 construction if possible
-      if (inherits(prediction$data$distr, "array")) {
-        surv = prediction$data$distr
-        if (length(dim(surv)) == 3) {
-          # survival 3d array, extract median
-          surv = .ext_surv_mat(arr = surv, which.curve = 0.5)
-        }
-        times = as.numeric(colnames(surv))
+      surv = .get_surv_matrix(prediction)
+      times = as.numeric(colnames(surv))
 
-        extend_times = getFromNamespace("C_Vec_WeightedDiscreteCdf", ns = "distr6")
-        si = diag(extend_times(true_times, times, cdf = t(1 - surv), FALSE, FALSE))
-      } else {
-        distr = prediction$distr
-        if (inherits(distr, c("Matdist", "Arrdist"))) {
-          si = diag(distr$survival(true_times))
-        } else { # VectorDistribution or single Distribution, e.g. WeightDisc()
-          si = as.numeric(distr$survival(data = matrix(true_times, nrow = 1L)))
-        }
-      }
-      # remove zeros
+      extend_times = getFromNamespace("C_Vec_WeightedDiscreteCdf", ns = "distr6")
+      si = diag(extend_times(true_times, times, cdf = t(1 - surv), FALSE, FALSE))
+
+      # replace zeros
       si = map_dbl(si, function(.x) max(.x, 1e-5))
       # index of associated bucket
       js = ceiling(B * si)

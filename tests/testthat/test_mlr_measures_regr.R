@@ -1,7 +1,8 @@
-library(mlr3pipelines)
-l = as_learner(ppl("probregr", learner = lrn("regr.featureless")))
-task = tsk("mtcars")
-p = l$train(task)$predict(task)
-
-expect_measure(msr("regr.logloss"))
-expect_numeric(p$score(msr("regr.logloss")))
+test_that("mlr_measures", {
+  task = tsk("mtcars")
+  l = ppl("probregr", learner = lrn("regr.featureless"), graph_learner = TRUE)
+  p = l$train(task)$predict(task)
+  m = msr("regr.logloss")
+  expect_measure(m)
+  expect_numeric(p$score(m))
+})

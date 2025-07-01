@@ -12,7 +12,7 @@
 #'    `measure` over.
 #' @param eps (`numeric()`) \cr
 #'   Small error value to prevent errors resulting from a log(0) or 1/0 calculation.
-#'   Default is 1e-15 for log loss and 1e-3 for Graf.
+#'   Default value is `1e-3`.
 #' @param task ([TaskSurv])
 #' @param row_ids (`integer()`) \cr
 #'   Passed to `Learner$predict`.
@@ -24,8 +24,6 @@
 #' @param train_set (`numeric()`) \cr
 #'   If not NULL then passed to measures for computing estimate of censoring distribution on
 #'   training data.
-#' @param proper (`logical(1)`) \cr
-#'   Passed to [MeasureSurvGraf] or [MeasureSurvIntLogloss].
 #' @param ... Additional arguments.
 #'
 #' @details If `times` and `n` are missing then `measure` is evaluated over all observed time-points
@@ -33,28 +31,26 @@
 #' then all time-points between the range are returned.
 #'
 #' @examplesIf mlr3misc::require_namespaces(c("ggplot2"), quietly = TRUE)
-#' \dontrun{
-#'   #' library(mlr3)
-#'   task = tsk("rats")
-#'
 #'   # Prediction Error Curves for prediction object
-#'   learn = lrn("surv.coxph")
-#'   p = learn$train(task)$predict(task)
+#'   task = tsk("lung")
+#'   learner = lrn("surv.coxph")
+#'   p = learner$train(task)$predict(task)
 #'   pecs(p)
-#'   pecs(p, measure = "logloss", times = c(20, 40, 60, 80)) +
+#'   pecs(p, measure = "logloss", times = seq(0, 1000, 50)) +
 #'     ggplot2::geom_point() +
-#'     ggplot2::ggtitle("Logloss Prediction Error Curve for Cox PH")
+#'     ggplot2::labs(title = "Prediction Error Curve for Cox PH", y = "ISLL")
 #'
 #'   # Access underlying data
 #'   x = pecs(p)
 #'   x$data
 #'
 #'   # Prediction Error Curves for fitted learners
-#'   learns = lrns(c("surv.kaplan", "surv.coxph"))
-#'   lapply(learns, function(x) x$train(task))
-#'   pecs(learns, task = task, measure = "logloss", times = c(20, 90), n = 10)
-#' }
-#'
+#'   learners = lrns(c("surv.kaplan", "surv.coxph"))
+#'   lapply(learners, function(x) x$train(task))
+#'   pecs(learners, task = task, measure = "logloss", times = c(0, 1000), n = 100) +
+#'     ggplot2::labs(y = "ISLL")
+#'   pecs(learners, task = task, measure = "graf", times = c(0, 1000), n = 100) +
+#'     ggplot2::labs(y = "ISBS")
 #' @export
 pecs = function(x, measure = c("graf", "logloss"), times, n, eps = NULL, ...) {
   require_namespaces("ggplot2")
@@ -67,19 +63,13 @@ pecs = function(x, measure = c("graf", "logloss"), times, n, eps = NULL, ...) {
 
 #' @rdname pecs
 #' @export
-pecs.list = function(x, measure = c("graf", "logloss"), times, n, eps = NULL, task = NULL, # nolint
-  row_ids = NULL, newdata = NULL, train_task = NULL, train_set = NULL,
-  proper = TRUE, ...) {
+pecs.list = function(x, measure = c("graf", "logloss"), times, n, eps = 1e-3, task = NULL,
+  row_ids = NULL, newdata = NULL, train_task = NULL, train_set = NULL, ...) {
 
   measure = match.arg(measure)
-
-  if (is.null(eps)) {
-    eps = if (measure == "graf") 1e-3 else 1e-15
-  } else {
-    assert_numeric(eps, lower = -1, upper = 1)
-  }
-
+  assert_numeric(eps, lower = 0)
   assert_learners(x)
+
   if (any(map_lgl(x, function(y) is.null(y$model)))) {
     stopf("`x` must be a list of trained survival learners")
   }
@@ -112,21 +102,20 @@ pecs.list = function(x, measure = c("graf", "logloss"), times, n, eps = NULL, ta
 
   if (measure == "logloss") {
     scores = lapply(p, function(y) {
-      integrated_score(score = weighted_survival_score("intslogloss",
+      .integrated_score(score = .weighted_survival_score(
+        loss = "logloss",
         truth = task$truth(),
         distribution = y$data$distr,
-        times = times,
-        eps = eps, train = train,
-        proper = proper),
+        times = times, train = train, eps = eps),
       integrated = FALSE)
     })
   } else {
     scores = lapply(p, function(y) {
-      integrated_score(score = weighted_survival_score("graf",
+      .integrated_score(score = .weighted_survival_score(
+        loss = "graf",
         truth = task$truth(),
         distribution = y$data$distr,
-        times = times, train = train, eps = eps,
-        proper = proper),
+        times = times, train = train, eps = eps),
       integrated = FALSE)
     })
   }
@@ -144,15 +133,11 @@ pecs.list = function(x, measure = c("graf", "logloss"), times, n, eps = NULL, ta
 
 #' @rdname pecs
 #' @export
-pecs.PredictionSurv = function(x, measure = c("graf", "logloss"), times, n, eps = 1e-15, # nolint
-  train_task = NULL, train_set = NULL, proper = TRUE, ...) {
+pecs.PredictionSurv = function(x, measure = c("graf", "logloss"), times, n, eps = 1e-3,
+  train_task = NULL, train_set = NULL, ...) {
 
   measure = match.arg(measure)
-  if (is.null(eps)) {
-    eps = if (measure == "graf") 1e-3 else 1e-15
-  } else {
-    assert_numeric(eps, lower = -1, upper = 1)
-  }
+  assert_numeric(eps, lower = 0)
 
   true_times = sort(unique(x$truth[, 1L]))
   times = .pec_times(true_times = true_times, times = times, n = n)
@@ -167,20 +152,20 @@ pecs.PredictionSurv = function(x, measure = c("graf", "logloss"), times, n, eps 
   }
 
   if (measure == "logloss") {
-    scores = data.frame(logloss = integrated_score(
-      score = weighted_survival_score("intslogloss",
+    scores = data.frame(logloss = .integrated_score(
+      score = .weighted_survival_score(
+        loss = "logloss",
         truth = x$truth,
         distribution = x$data$distr,
-        times = times,
-        eps = eps, train = train, proper = proper),
+        times = times, train = train, eps = eps),
       integrated = FALSE))
   } else {
-    scores = data.frame(graf = integrated_score(
-      score = weighted_survival_score("graf",
+    scores = data.frame(graf = .integrated_score(
+      score = .weighted_survival_score(
+        loss = "graf",
         truth = x$truth,
         distribution = x$data$distr,
-        times = times, train = train, eps = eps,
-        proper = proper),
+        times = times, train = train, eps = eps),
       integrated = FALSE))
   }
 

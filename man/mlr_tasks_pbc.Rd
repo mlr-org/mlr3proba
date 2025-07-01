@@ -7,7 +7,7 @@
 \link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskCompRisks}.
 }
 \description{
-A competing risks task for the \link{pbc} data set.
+A competing risks task for the \link[survival:pbc]{pbc} data set.
 }
 \section{Dictionary}{
 

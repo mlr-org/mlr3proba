@@ -29,9 +29,9 @@ bibentries = c(
     pages = "187--202",
     doi = "10.1111/j.2517-6161.1972.tb00899.x"
   ),
-  goenen_2005 = bibentry("article",
+  gonen_2005 = bibentry("article",
     title = "Concordance probability and discriminatory power in proportional hazards regression",
-    author = "Mithat Goenen and Glenn Heller",
+    author = "Mithat Gonen and Glenn Heller",
     year  = 2005,
     month = "dec",
     journal = "Biometrika",
@@ -388,7 +388,7 @@ bibentries = c(
     author = "Sonabend, Raphael and Zobolas, John and Kopper, Philipp and Burk, Lukas and Bender, Andreas",
     month = "dec",
     title = "Examining properness in the external validation of survival models with squared and logarithmic losses",
-    url = "https://arxiv.org/abs/2212.05260v2",
+    url = "https://arxiv.org/abs/2212.05260v3",
     year = "2024"
   ),
   kvamme_2023 = bibentry("article",

@@ -135,7 +135,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \item{\code{id}}{(\code{character(1)})\cr
 Identifier for the new instance.}
 
-\item{\code{backend}}{(\link{DataBackend})\cr
+\item{\code{backend}}{(\link[mlr3:DataBackend]{mlr3::DataBackend})\cr
 Either a \link[mlr3:DataBackend]{DataBackend}, or any object which is convertible to a \link[mlr3:DataBackend]{DataBackend} with \code{as_data_backend()}.
 E.g., a \code{data.frame()} will be converted to a \link[mlr3:DataBackendDataTable]{DataBackendDataTable}.}
 

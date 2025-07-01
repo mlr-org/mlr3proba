@@ -1,3 +1,4 @@
+# construct `pred` object with all possible predict types for testing
 set.seed(1L)
 task = tsk("rats")$filter(sample(300, 50L))
 learner = suppressWarnings(lrn("surv.coxph")$train(task))
@@ -16,11 +17,7 @@ test_that("mlr_measures", {
     if (grepl("TNR|TPR|tpr|tnr", key)) {
       m = msr(key, times = 60L)
     } else {
-      if (key %in% c("surv.intlogloss", "surv.schmid", "surv.brier")) {
-        m = msr(key, proper = TRUE)
-      } else {
-        m = msr(key)
-      }
+      m = msr(key)
     }
 
     expect_measure(m)
@@ -29,29 +26,16 @@ test_that("mlr_measures", {
       perf = pred$score(m, task = task, train_set = task$row_ids, learner = learner)
     })
     expect_number(perf, na.ok = "na_score" %in% m$properties)
-
-    # test measures with squared-errors (se = TRUE)
-    if (key %in% paste0("surv.", c("schmid", "graf", "intlogloss", "logloss", "mae", "mse",
-      "rmse", "calib_alpha", "calib_beta"))) {
-      m = suppressWarnings(msr(key, se = TRUE))
-      perf = pred$score(m, task = task, train_set = task$row_ids, learner = learner)
-      expect_number(perf, na.ok = TRUE)
-    }
   }
 })
 
-test_that("unintegrated_prob_losses", {
-  msr = msr("surv.logloss")
-  expect_silent(pred$score(msr))
-})
-
-test_that("integrated losses with use of times", {
+test_that("integrated losses + times", {
   set.seed(1L)
   t = tsk("rats")$filter(sample(300, 50L))
   p = lrn("surv.kaplan")$train(t)$predict(t)
   losses = paste0("surv.", c("graf", "intlogloss", "schmid"))
   for (loss in losses) {
-    m = msr(loss, times = 39:80, integrated = FALSE, proper = TRUE)
+    m = msr(loss, times = 39:80, integrated = FALSE)
     expect_error(p$score(m), "scalar numeric")
   }
 
@@ -61,24 +45,100 @@ test_that("integrated losses with use of times", {
   expect_true(all(test_unique_times < 105))
 
   # no `times` => use test set's unique time points
-  expect_silent(pred$score(lapply(losses, msr, integrated = TRUE, proper = TRUE)))
+  expect_silent(pred$score(lapply(losses, msr, integrated = TRUE)))
   # all `times` outside the test set range
   for (loss in losses) {
-    expect_warning(pred$score(msr(loss, integrated = TRUE, proper = TRUE, times = 34:38)), "requested times")
+    expect_warning(pred$score(msr(loss, integrated = TRUE, times = 34:38)), "requested times")
   }
   # some `times` outside the test set range
   for (loss in losses) {
-    expect_warning(pred$score(msr(loss, integrated = TRUE, proper = TRUE, times = 100:110)), "requested times")
+    expect_warning(pred$score(msr(loss, integrated = TRUE, times = 100:110)), "requested times")
   }
   # one time point, inside the range, no warnings
-  expect_silent(pred$score(lapply(losses, msr, integrated = FALSE, proper = TRUE, times = 80)))
+  expect_silent(pred$score(lapply(losses, msr, integrated = FALSE, times = 80)))
 })
 
 test_that("dcalib works", {
+  # see if chisq statistic and associated p-value are correctedly calculated
+  dc1 = msr("surv.dcalib", B = 14, chisq = FALSE) # default
+  dc2 = msr("surv.dcalib", B = 14, chisq = TRUE)
   expect_equal(
-    pchisq(pred$score(msr("surv.dcalib", B = 14)), df = 13, lower.tail = FALSE),
-    suppressWarnings(pred$score(msr("surv.dcalib", B = 14, chisq = TRUE)))
+    pchisq(pred$score(dc1), df = 13, lower.tail = FALSE),
+    suppressWarnings(pred$score(dc2))
   )
+
+  set.seed(1L)
+  t = tsk("rats")$filter(sample(1:300, 50))
+  l = lrn("surv.coxph")
+  p = suppressWarnings(l$train(t)$predict(t))
+
+  m = msr("surv.dcalib", truncate = 20)
+  expect_true(m$minimize)
+  expect_equal(m$range, c(0, Inf))
+  expect_equal(m$param_set$values$B, 10)
+  expect_false(m$param_set$values$chisq)
+  expect_equal(m$param_set$values$truncate, 20)
+  KMscore = p$score(m)
+  expect_numeric(KMscore)
+
+  status = t$truth()[, 2L]
+  row_ids = t$row_ids
+  cens_ids = row_ids[status == 0]
+  event_ids = row_ids[status == 1]
+
+  # only censored rats in test set
+  p = l$predict(t, row_ids = cens_ids)
+  score = p$score(m)
+  expect_numeric(score)
+
+  # 1 censored test rat
+  p = p$filter(row_ids = cens_ids[1L])
+  score = p$score(m)
+  expect_numeric(score)
+
+  # only dead rats in test set
+  p = l$predict(t, row_ids = event_ids)
+  score = p$score(m)
+  expect_numeric(score)
+
+  # 1 dead rat
+  p = p$filter(row_ids = event_ids[1L])
+  score = p$score(m)
+  expect_numeric(score)
+
+  # Another edge case: some dead rats and 1 only censored
+  p = l$predict(t, row_ids = c(event_ids, cens_ids[1L]))
+  score = p$score(m)
+  expect_numeric(score)
+  expect_gt(score, 10)
+
+  score3 = p$score(msr("surv.dcalib", truncate = 10))
+  expect_equal(unname(score3), 10)
+  score4 = p$score(msr("surv.dcalib", truncate = 5))
+  expect_equal(unname(score4), 5)
+  score5 = p$score(msr("surv.dcalib", truncate = Inf, B = 20)) # B affects truncate
+  expect_gt(score5, score)
+})
+
+test_that("mae/mse/rmse work", {
+  is_event = pred$truth[, 2L] == 1
+  event_times = pred$truth[is_event, 1L]
+  surv_times  = pred$response[is_event]
+  errors = event_times - surv_times
+  mae = pred$score(msr("surv.mae"))
+  mse = pred$score(msr("surv.mse"))
+  rmse = pred$score(msr("surv.rmse"))
+
+  expect_equal(unname(mae), mean(abs(errors)))
+  expect_equal(unname(mse), mean(errors^2))
+  expect_equal(unname(rmse), sqrt(mean(errors^2)))
+
+  # only censored observations => return NA
+  cens_ids = pred$row_ids[pred$truth[, 2L] == 0]
+  p_cens = pred$clone()$filter(cens_ids)
+  expect_true(is.na(p_cens$score(msr("surv.mae"))))
+  expect_true(is.na(p_cens$score(msr("surv.mse"))))
+  expect_true(is.na(p_cens$score(msr("surv.rmse"))))
 })
 
 test_that("calib_beta works", {
@@ -146,24 +206,12 @@ test_that("calib_index works", {
 })
 
 test_that("graf training data for weights", {
-  m = msr("surv.graf", proper = TRUE)
+  m = msr("surv.graf")
   t = tsk("rats")
   l = lrn("surv.kaplan")
   s1 = l$train(t, 1:50)$predict(t, 51:100)$score(m)
   s2 = l$train(t, 1:50)$predict(t, 51:100)$score(m, task = t, train_set = 1:50)
   expect_false(identical(s1, s2))
-})
-
-test_that("graf proper option", {
-  set.seed(1L)
-  m1 = msr("surv.graf", proper = TRUE, method = 1)
-  m2 = suppressWarnings(msr("surv.graf", proper = FALSE, method = 1))
-  l = lrn("surv.kaplan")
-  p = l$train(tsk("rats"), row_ids = sample(300, 50))$
-    predict(tsk("rats"), row_ids = sample(300, 50))
-  s1 = p$score(m1)
-  s2 = p$score(m2)
-  expect_gt(s2, s1)
 })
 
 test_that("graf with 1 time point", {
@@ -188,7 +236,6 @@ test_that("graf: t_max, p_max, times", {
   m0 = p$score(msr("surv.graf")) # uses all test time points
   m1 = p$score(msr("surv.graf", times = times_flt)) # uses `times_flt`
   m2 = p$score(msr("surv.graf", t_max = t_max)) # 100
-  m22 = p$score(msr("surv.graf", t_max = t_max, remove_obs = TRUE)) # 100
   m3 = p$score(msr("surv.graf", t_max = max(times))) # 104
   m4 = p$score(msr("surv.graf", t_max = max(times) + 10)) # 105
 
@@ -196,8 +243,6 @@ test_that("graf: t_max, p_max, times", {
   expect_true(m0 != m1)
   # same time points are used, and no removal of observations (original Graf score)
   expect_equal(m1, m2)
-  # same time points are used, but observations with `t > t_max` are removed
-  expect_true(m2 != m22)
   # different `t_max` => different time points used
   expect_true(m2 != m3)
   # different `t_max` but after the max evaluation time point, so result stays the same
@@ -219,12 +264,10 @@ test_that("graf: t_max, p_max, times", {
   s2 = p_cox$score(msr("surv.graf", times = 92))
   s3 = p_cox$score(msr("surv.graf", times = 102))
   mean_score = (s1 + s2 + s3) / 3
-  # simple mean
-  s_all1 = p_cox$score(msr("surv.graf", method = 1, times = c(68, 92, 102)))
+
   # mean weighted by the difference between time-points
-  s_all2 = p_cox$score(msr("surv.graf", method = 2, times = c(68, 92, 102)))
-  expect_equal(s_all1, mean_score)
-  expect_true(s_all2 != mean_score)
+  s_all = p_cox$score(msr("surv.graf", times = c(68, 92, 102)))
+  expect_true(s_all != mean_score)
 })
 
 test_that("cindex: t_max, p_max", {
@@ -242,13 +285,15 @@ test_that("cindex: t_max, p_max", {
   expect_true(c1 != c3)
 })
 
-test_that("ERV works as expected", {
+test_that("ERV works", {
   set.seed(1L)
   t = tsk("rats")
   part = partition(t, 0.8)
   l = lrn("surv.kaplan")
   p = l$train(t, part$train)$predict(t, part$test)
   m = msr("surv.graf", ERV = TRUE)
+  # ERV = TRUE needs train task
+  expect_error(p$score(m))
   # KM is the baseline score, so ERV score = 0
   expect_equal(as.numeric(p$score(m, task = t, train_set = part$train)), 0)
 
@@ -257,18 +302,9 @@ test_that("ERV works as expected", {
   m = msr("surv.graf", ERV = TRUE)
   # Cox should do a little better than the KM baseline (ERV score > 0)
   expect_gt(as.numeric(p$score(m, task = t, train_set = part$train)), 0)
-
-  # some checks
-  set.seed(1L)
-  t = tsk("rats")$filter(sample(1:300, 50))
-  l = lrn("surv.kaplan")
-  p = l$train(t)$predict(t)
-  m = msr("surv.graf", ERV = TRUE, se = TRUE)
-  expect_error(p$score(m), "'task'")
-  expect_error(p$score(m, task = t, train_set = t$row_ids), "`se`")
 })
 
-test_that("ERV=TRUE changes some measure fields", {
+test_that("ERV=TRUE", {
   m = msr("surv.rcll")
   m_erv = msr("surv.rcll", ERV = TRUE)
   expect_false(m$param_set$values$ERV)
@@ -320,15 +356,12 @@ test_that("rcll works", {
   t = tsk("rats")$filter(sample(1:300, 50))
   l = lrn("surv.kaplan")
   p = l$train(t)$predict(t)
-  p2 = p$clone()
-  p2$data$distr = p2$distr # hack: test score via distribution
+
   m = msr("surv.rcll")
   expect_true(m$minimize)
   expect_equal(m$range, c(0, Inf))
   KMscore = p$score(m)
   expect_numeric(KMscore)
-  KMscore2 = p2$score(m)
-  expect_equal(KMscore, KMscore2)
 
   status = t$truth()[, 2L]
   row_ids = t$row_ids
@@ -339,37 +372,21 @@ test_that("rcll works", {
   p = l$predict(t, row_ids = cens_ids)
   score = p$score(m)
   expect_numeric(score)
-  p2 = p$clone() # test score via distribution
-  p2$data$distr = p2$distr
-  score2 = p2$score(m)
-  expect_equal(score, score2)
 
   # 1 censored test rat
   p = p$filter(row_ids = cens_ids[1L])
   score = p$score(m)
   expect_numeric(score)
-  p2 = p$clone() # test score via distribution
-  p2$data$distr = p2$distr
-  score2 = p2$score(m)
-  expect_equal(score, score2)
 
   # only dead rats in test set
   p = l$predict(t, row_ids = event_ids)
   score = p$score(m)
   expect_numeric(score)
-  p2 = p$clone() # test score via distribution
-  p2$data$distr = p2$distr # Matdist(1xY)
-  score2 = p2$score(m)
-  expect_equal(score, score2)
 
   # 1 dead rat
   p = p$filter(row_ids = event_ids[1L])
   score = p$score(m)
   expect_numeric(score)
-  p2 = p$clone() # test score via distribution
-  p2$data$distr = p2$distr[1L] # WeightDisc
-  score2 = p2$score(m)
-  expect_equal(score, score2)
 
   # Cox is better than baseline (Kaplan-Meier)
   l2 = lrn("surv.coxph")
@@ -380,168 +397,31 @@ test_that("rcll works", {
   p3 = p2$filter(row_ids = c(event_ids, cens_ids[1L]))
   score = p3$score(m)
   expect_numeric(score)
-  p3$data$distr = p3$distr
-  score2 = p3$score(m)
-  expect_equal(score, score2)
-})
-
-test_that("dcal works", {
-  set.seed(1L)
-  t = tsk("rats")$filter(sample(1:300, 50))
-  l = lrn("surv.coxph")
-  p = suppressWarnings(l$train(t)$predict(t))
-  p2 = p$clone()
-  p2$data$distr = p2$distr # hack: test score via distribution
-  m = msr("surv.dcalib", truncate = 20)
-  expect_true(m$minimize)
-  expect_equal(m$range, c(0, Inf))
-  expect_equal(m$param_set$values$B, 10)
-  expect_false(m$param_set$values$chisq)
-  expect_equal(m$param_set$values$truncate, 20)
-  KMscore = p$score(m)
-  expect_numeric(KMscore)
-  KMscore2 = p2$score(m)
-  expect_equal(KMscore, KMscore2)
-
-  status = t$truth()[, 2L]
-  row_ids = t$row_ids
-  cens_ids = row_ids[status == 0]
-  event_ids = row_ids[status == 1]
-
-  # only censored rats in test set
-  p = l$predict(t, row_ids = cens_ids)
-  score = p$score(m)
-  expect_numeric(score)
-  p2 = p$clone() # test score via distribution
-  p2$data$distr = p2$distr
-  score2 = p2$score(m)
-  expect_equal(score, score2)
-
-  # 1 censored test rat
-  p = p$filter(row_ids = cens_ids[1L])
-  score = p$score(m)
-  expect_numeric(score)
-  p2 = p$clone() # test score via distribution
-  p2$data$distr = p2$distr
-  score2 = p2$score(m)
-  expect_equal(score, score2)
-
-  # only dead rats in test set
-  p = l$predict(t, row_ids = event_ids)
-  score = p$score(m)
-  expect_numeric(score)
-  p2 = p$clone() # test score via distribution
-  p2$data$distr = p2$distr # Matdist(1xY)
-  score2 = p2$score(m)
-  expect_equal(score, score2)
-
-  # 1 dead rat
-  p = p$filter(row_ids = event_ids[1L])
-  score = p$score(m)
-  expect_numeric(score)
-  p2 = p$clone() # test score via distribution
-  p2$data$distr = p2$distr[1L] # WeightDisc
-  score2 = p2$score(m)
-  expect_equal(score, score2)
-
-  # Another edge case: some dead rats and 1 only censored
-  p = l$predict(t, row_ids = c(event_ids, cens_ids[1L]))
-  score = p$score(m)
-  expect_numeric(score)
-  p$data$distr = p$distr
-  score2 = p$score(m)
-  expect_equal(score, score2)
-  expect_gt(score, 10)
-
-  score3 = p$score(msr("surv.dcalib", truncate = 10))
-  expect_equal(unname(score3), 10)
-  score4 = p$score(msr("surv.dcalib", truncate = 5))
-  expect_equal(unname(score4), 5)
-  score5 = p$score(msr("surv.dcalib", truncate = Inf, B = 20)) # B affects truncate
-  expect_gt(score5, score)
 })
 
 test_that("logloss works", {
-  set.seed(1L)
-  t = tsk("rats")$filter(sample(1:300, 50))
-  l = lrn("surv.kaplan")
-  p = l$train(t)$predict(t)
-  p2 = p$clone()
-  p2$data$distr = p2$distr # hack: test score via distribution
-  m = msr("surv.logloss") # IPCW = TRUE (RNLL)
-  m2 = msr("surv.logloss", IPCW = FALSE) # NLL
+  t = tsk("lung")
+  kaplan = lrn("surv.kaplan")
+  cox = lrn("surv.coxph")
+  p_kaplan = kaplan$train(t)$predict(t)
+  p_cox = cox$train(t)$predict(t)
+
+  m = msr("surv.logloss")
   expect_true(m$minimize)
   expect_equal(m$range, c(0, Inf))
-  KMscore = p$score(m)
-  expect_numeric(KMscore)
-  KMscore2 = p2$score(m)
-  expect_equal(KMscore, KMscore2)
 
-  status = t$truth()[, 2L]
-  row_ids = t$row_ids
-  cens_ids = row_ids[status == 0]
-  event_ids = row_ids[status == 1]
+  kaplan_score = p_kaplan$score(m)
+  expect_numeric(kaplan_score)
+  cox_score = p_cox$score(m)
+  expect_numeric(cox_score)
 
-  # only censored rats in test set
-  p = l$predict(t, row_ids = cens_ids)
-  expect_true(is.nan(p$score(m))) # NaN
-  expect_false(is.nan(p$score(m2)))
-  p2 = p$clone() # test score via distribution
-  p2$data$distr = p2$distr
-  expect_true(is.nan(p2$score(m))) # NaN
-  expect_false(is.nan(p2$score(m2)))
+  # Cox is a bit better than baseline (Kaplan-Meier) in this dataset
+  expect_lt(cox_score, kaplan_score)
 
-  # 1 censored test rat
-  p = p$filter(row_ids = cens_ids[1L])
-  expect_true(is.nan(p$score(m)))
-  expect_false(is.nan(p$score(m2)))
-  p2 = p$clone() # test score via distribution
-  p2$data$distr = p2$distr
-  expect_true(is.nan(p2$score(m)))
-  expect_false(is.nan(p2$score(m2)))
-
-  # only dead rats in test set
-  p = l$predict(t, row_ids = event_ids)
-  score = p$score(m)
-  expect_numeric(score)
-  expect_equal(score, p$score(m2)) # as G_km(t) is 1
-  p2 = p$clone() # test score via distribution
-  p2$data$distr = p2$distr # Matdist(1xY)
-  score2 = p2$score(m)
-  expect_equal(score, score2)
-
-  # 1 dead rat
-  p = p$filter(row_ids = event_ids[1L])
-  score = p$score(m)
-  expect_numeric(score)
-  expect_equal(score, p$score(m2))
-  p2 = p$clone() # test score via distribution
-  p2$data$distr = p2$distr[1L] # WeightDisc
-  score2 = p2$score(m)
-  expect_equal(score, score2)
-
-  # Cox is better than baseline (Kaplan-Meier)
-  l2 = lrn("surv.coxph")
-  p2 = suppressWarnings(l2$train(t)$predict(t))
-  expect_lt(p2$score(m), KMscore)
-
-  # Another edge case: some dead rats and 1 only censored
-  p3 = p2$clone()$filter(row_ids = c(event_ids, cens_ids[1L]))
-  score = p3$score(m)
-  expect_numeric(score)
-  expect_true(score != p3$score(m2)) # since dead rats are removed
-  p3$data$distr = p3$distr
-  score2 = p3$score(m)
-  expect_equal(score, score2)
-
-  # Another edge case: some censored rats and 1 only dead
-  p4 = p2$clone()$filter(row_ids = c(cens_ids, event_ids[1L]))
-  score = p4$score(m)
-  expect_numeric(score)
-  expect_true(score != p4$score(m2)) # since the dead rat is removed
-  p4$data$distr = p4$distr
-  score2 = p4$score(m)
-  expect_equal(score, score2)
+  # ERV works as it should
+  m = msr("surv.logloss", ERV = TRUE)
+  expect_equal(unname(p_kaplan$score(m, task = t, train_set = t$row_ids)), 0)
+  expect_gt(unname(p_cox$score(m, task = t, train_set = t$row_ids)), 0)
 })
 
 test_that("distr measures work with 3d survival array", {

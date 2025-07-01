@@ -1,3 +1,16 @@
+# mlr3proba 0.8.1
+
+* feat: `surv.logloss` and `surv.rcll` now use linear interpolation of S(t) to calculate the density f(t)
+* fix: `surv.mae`/`surv.mse`/`surv.rmse` scores return `NA` when test set has only censored observations
+* fix: fix bug in msr(`surv.brier`) that resulted in 0 division instead of `eps` division (`Inf` values are filtered out so this was kinda masking the inflation of ISBS)
+* refactor: remove `se` argument from most of the scores (not practically used)
+* refactor: remove `method` argument from integrated survival scores (the previous default, `method = 2`, time-weighted integration, is now always used)
+* **BREACKING CHANGE**: we removed all experimental `proper` scoring rules (and `remove_obs` argument).
+Scores yield the same results as before with the default option `proper = FALSE`
+* refactor: all private functions start with `.` now and are adequately (privately) documented. Code was refactored for clarity
+* refactor: all internal `Rcpp` measure functions
+* refine doc in lots of measures
+
 # mlr3proba 0.8.0
 
 * Compatibility with `mlr3` v1.0.0 (`weights_learner`) and `mlr3pipelines` v0.8.0

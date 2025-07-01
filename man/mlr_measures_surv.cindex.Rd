@@ -69,7 +69,7 @@ msr("surv.cindex")
 
 \itemize{
 \item \code{eps} (\code{numeric(1)})\cr
-Very small number to substitute zero values in order to prevent errors
+Very small number to substitute near-zero values in order to prevent errors
 in e.g. log(0) and/or division-by-zero calculations.
 Default value is 0.001.
 }
@@ -119,7 +119,7 @@ Harrell, E F, Califf, M R, Pryor, B D, Lee, L K, Rosati, A R (1982).
 \dQuote{Evaluating the yield of medical tests.}
 \emph{Jama}, \bold{247}(18), 2543--2546.
 
-Goenen M, Heller G (2005).
+Gonen M, Heller G (2005).
 \dQuote{Concordance probability and discriminatory power in proportional hazards regression.}
 \emph{Biometrika}, \bold{92}(4), 965--970.
 \doi{10.1093/biomet/92.4.965}.

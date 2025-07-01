@@ -1,6 +1,6 @@
 Package: mlr3proba
 Title: Probabilistic Supervised Learning for 'mlr3'
-Version: 0.8.0
+Version: 0.8.1
 Authors@R: c(
     person("Raphael", "Sonabend", , "raphaelsonabend@gmail.com", role = "aut",
            comment = c(ORCID = "0000-0001-9225-4654")),
@@ -153,16 +153,14 @@ Collate:
     'autoplot.R'
     'bibentries.R'
     'breslow.R'
-    'cindex.R'
     'data.R'
+    'helper_measures.R'
     'helpers.R'
     'histogram.R'
-    'integrated_scores.R'
     'mlr3proba-package.R'
     'pecs.R'
     'pipelines.R'
     'plot_probregr.R'
-    'scoring_rule_erv.R'
-    'surv_measures.R'
     'surv_return.R'
+    'weighted_survival_score.R'
     'zzz.R'
