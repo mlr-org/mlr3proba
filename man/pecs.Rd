@@ -80,26 +80,25 @@ then all time-points between the range are returned.
 }
 \examples{
 \dontshow{if (mlr3misc::require_namespaces(c("ggplot2"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-\dontrun{
-  #' library(mlr3)
-  task = tsk("rats")
-
   # Prediction Error Curves for prediction object
-  learn = lrn("surv.coxph")
-  p = learn$train(task)$predict(task)
+  task = tsk("lung")
+  learner = lrn("surv.coxph")
+  p = learner$train(task)$predict(task)
   pecs(p)
-  pecs(p, measure = "logloss", times = c(20, 40, 60, 80)) +
-    ggplot2::geom_point() +
-    ggplot2::ggtitle("Logloss Prediction Error Curve for Cox PH")
+  pecs(p, measure = "logloss", times = seq(0, 1000, 50)) +
+    geom_point() +
+    labs(title = "Prediction Error Curve for Cox PH", y = "ISLL")
 
   # Access underlying data
   x = pecs(p)
   x$data
 
   # Prediction Error Curves for fitted learners
-  learns = lrns(c("surv.kaplan", "surv.coxph"))
-  lapply(learns, function(x) x$train(task))
-  pecs(learns, task = task, measure = "logloss", times = c(20, 90), n = 10)
-}
+  learners = lrns(c("surv.kaplan", "surv.coxph"))
+  lapply(learners, function(x) x$train(task))
+  pecs(learners, task = task, measure = "logloss", times = c(0, 1000), n = 100) +
+    labs(y = "ISLL")
+  pecs(learners, task = task, measure = "graf", times = c(0, 1000), n = 100) +
+    labs(y = "ISBS")
 \dontshow{\}) # examplesIf}
 }
