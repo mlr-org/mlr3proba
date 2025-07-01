@@ -7,7 +7,7 @@
 \link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskSurv}.
 }
 \description{
-A survival task for the \link{veteran} data set.
+A survival task for the \link[survival:veteran]{veteran} data set.
 }
 \section{Dictionary}{
 

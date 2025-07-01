@@ -1,5 +1,5 @@
 #' @description
-#' A <%=task_type%> task for the [<%=data%>] data set.
+#' A <%=task_type%> task for the [<%=data%>]<%=if(exists("data_pkg"))paste0("[", data_pkg, "::", data, "]")%> data set.
 #'
 #' @format [R6::R6Class] inheriting from [<%=paste0("Task",type)%>].
 #'
