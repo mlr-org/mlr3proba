@@ -37,8 +37,8 @@
 #'   p = learner$train(task)$predict(task)
 #'   pecs(p)
 #'   pecs(p, measure = "logloss", times = seq(0, 1000, 50)) +
-#'     geom_point() +
-#'     labs(title = "Prediction Error Curve for Cox PH", y = "ISLL")
+#'     ggplot2::geom_point() +
+#'     ggplot2::labs(title = "Prediction Error Curve for Cox PH", y = "ISLL")
 #'
 #'   # Access underlying data
 #'   x = pecs(p)
@@ -48,9 +48,9 @@
 #'   learners = lrns(c("surv.kaplan", "surv.coxph"))
 #'   lapply(learners, function(x) x$train(task))
 #'   pecs(learners, task = task, measure = "logloss", times = c(0, 1000), n = 100) +
-#'     labs(y = "ISLL")
+#'     ggplot2::labs(y = "ISLL")
 #'   pecs(learners, task = task, measure = "graf", times = c(0, 1000), n = 100) +
-#'     labs(y = "ISBS")
+#'     ggplot2::labs(y = "ISBS")
 #' @export
 pecs = function(x, measure = c("graf", "logloss"), times, n, eps = NULL, ...) {
   require_namespaces("ggplot2")
