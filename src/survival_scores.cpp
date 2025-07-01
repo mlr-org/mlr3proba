@@ -49,22 +49,32 @@ NumericMatrix c_apply_ipcw_weights(const NumericMatrix& score,
                                    const NumericVector& unique_times,
                                    const NumericMatrix& cens,
                                    double eps) {
-  NumericVector times = truth(_, 0);   // observed times
-  NumericVector status = truth(_, 1);  // event indicators (1 = event, 0 = censored)
+  NumericVector times = truth(_, 0); // observed times
+  NumericVector status = truth(_, 1); // event indicators (1 = event, 0 = censored)
 
-  NumericVector cens_times = cens(_, 0);  // increasing time points for G(t)
-  NumericVector cens_surv = cens(_, 1);   // G(t) values
+  NumericVector cens_times = cens(_, 0); // increasing time points for G(t)
+  NumericVector cens_surv = cens(_, 1); // G(t) values
 
-  const int nr = score.nrow();  // number of observations
-  const int nc = score.ncol();  // number of time points (unique_times)
+  const int n_obs = score.nrow(); // number of observations (rows)
+  const int n_times = score.ncol(); // number of time points (columns)
 
-  NumericMatrix mat(nr, nc);  // output matrix, initialized to all 0
+  // Check: number of time points
+  if (unique_times.size() != n_times) {
+    stop("Length of 'unique_times' must match number of columns in 'score'.");
+  }
 
-  for (int i = 0; i < nr; i++) {
+  // Check: number of observations
+  if (truth.nrow() != n_obs) {
+    stop("Number of rows in 'truth' must match number of rows in 'score'.");
+  }
+
+  NumericMatrix mat(n_obs, n_times);  // output matrix, initialized to all 0
+
+  for (int i = 0; i < n_obs; i++) {
     const double ti = times[i];
     const int    di = status[i];
 
-    for (int j = 0; j < nc; j++) {
+    for (int j = 0; j < n_times; j++) {
       const double tau = unique_times[j];
 
       // Censored and t_i <= tau => ignored (leave as 0)
