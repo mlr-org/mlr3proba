@@ -33,14 +33,13 @@ as_task_surv.data.frame = function(x, time = "time", event = "event", time2 = "t
                                    type = "right", id = deparse(substitute(x)), ...) {
   assert_data_frame(x, min.rows = 1L, min.cols = 1L, col.names = "unique")
 
-  # Determine which columns to check for Inf
-  check_cols = if (type == "interval") {
-    setdiff(names(keep(x, is.double)), c(time, time2))
-  } else {
-    names(keep(x, is.double))
+  x_dbl = keep(x, is.double)
+  if (type == "interval") {
+    # don't check `time` and `time2` columns as they should may have some Infs
+    x_dbl = x_dbl[setdiff(names(x_dbl), c(time, time2))]
   }
 
-  ii = which(map_lgl(x[check_cols], anyInfinite))
+  ii = which(map_lgl(x_dbl, anyInfinite))
   if (length(ii)) {
     warningf("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
   }
