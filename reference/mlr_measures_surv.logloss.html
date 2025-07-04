@@ -123,19 +123,20 @@ values provided in the prediction.
 Duplicate survival values are removed prior to interpolation to ensure strict
 monotonicity and non-negative density values.
 Therefore we are left with the distinct survival time points
-\(t_0 &lt; \cdots &lt; t_k\) and the corresponding survival values \(S(t_j)\).</p>
+\(t_0 &lt; \cdots &lt; t_n\) and the corresponding survival values \(S(t_j)\).</p>
 <p>Interpolation is performed using base R’s <code><a href="https://rdrr.io/r/stats/approxfun.html" class="external-link">approx()</a></code> with <code>method = "linear"</code>
 and <code>rule = 2</code>, ensuring:</p><ul><li><p><strong>Left extrapolation</strong> (for \(t &lt; t_0\)) assumes \(S(0) = 1\) and uses
 the slope from \((0, 1)\) to \((t_0, S(t_0))\).</p></li>
-<li><p><strong>Right extrapolation</strong> (for \(t &gt; t_k\)) uses the slope from the last
-interval \((t_{k-1}, S(t_{k-1}))\) to \((t_k, S(t_k))\), with results
+<li><p><strong>Right extrapolation</strong> (for \(t &gt; t_n\)) uses the slope from the last
+interval \((t_{n-1}, S(t_{n-1}))\) to \((t_n, S(t_n))\), with results
 truncated at 0 to preserve non-negativity.</p></li>
 </ul><p>This ensures a continuous, piecewise-linear survival function \(S(t)\) that
 satisfies \(S(0) = 1\) and remains non-increasing and non-negative across
 the entire domain.</p>
-<p>The density is estimated at \(t_i\) as follows:</p>
+<p>The density at time point \(t_k\), with \(t_i \le t_k &lt; t_{i+1}\), is
+estimated as follows:</p>
 <p>$$
-f_i(t_i) = -\frac{S_i(t_{i+1}) - S_i(t_i)}{t_{i+1} - t_i}
+f_i(t_k) = -\frac{S_i(t_{i+1}) - S_i(t_i)}{t_{i+1} - t_i}
 $$</p>
 <p>This corresponds to the (negative) slope of the \(S_i(t)\) between the closest
 grid point after \(t_i\) and \(t_i\) itself.</p>
