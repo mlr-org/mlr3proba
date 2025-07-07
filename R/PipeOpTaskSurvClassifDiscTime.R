@@ -120,18 +120,19 @@ PipeOpTaskSurvClassifDiscTime = R6Class("PipeOpTaskSurvClassifDiscTime",
       cut = assert_numeric(pv$cut, null.ok = TRUE, lower = 0)
       max_time = pv$max_time
 
-      res = .convert_to_disc_classif(task, cut = cut, max_time = max_time)
-      task_disc = res[[1L]]
-      self$state$cut = res[[2L]]
+      res = .discretize_surv_task(task, cut = cut, max_time = max_time, reduction_id = "disc")
+      task_disc = res$task
+      self$state$cut = res$cut
 
       # If internal validation task exists, transform it as well
       if (!is.null(task$internal_valid_task)) {
-        res_val = .convert_to_disc_classif(
+        res_val = .discretize_surv_task(
           task$internal_valid_task,
           cut = self$state$cut,
-          max_time = max_time
+          max_time = max_time,
+          reduction_id = "disc"
         )
-        task_disc$internal_valid_task = res_val[[1L]]
+        task_disc$internal_valid_task = res_val$task
       }
 
       list(task_disc, data.table())
@@ -193,51 +194,5 @@ PipeOpTaskSurvClassifDiscTime = R6Class("PipeOpTaskSurvClassifDiscTime",
     }
   )
 )
-
-## helper function to transform the survival to classif task using pammtools
-.convert_to_disc_classif = function(task, cut = NULL, max_time = NULL) {
-  assert_true(task$cens_type == "right")
-  data = task$data()
-
-  if ("disc_status" %in% colnames(data)) {
-    stop("\"disc_status\" can not be a column in the input data.")
-  }
-
-  time_var = task$target_names[1]
-  event_var = task$target_names[2]
-
-  # if cut is a vector already, this will never execute
-  if (test_int(cut, lower = 1)) {
-    cut = seq(0, data[get(event_var) == 1, max(get(time_var))], length.out = cut + 1)
-  }
-
-  if (!is.null(max_time)) {
-    assert(max_time > data[get(event_var) == 1, min(get(time_var))],
-           .var.name = "max_time must be greater than the minimum event time.")
-  }
-
-  form = formulate(sprintf("Surv(%s, %s)", time_var, event_var), ".")
-
-  long_data = pammtools::as_ped(data = data, formula = form,
-                                cut = cut, max_time = max_time)
-  long_data = as.data.table(long_data)
-  setnames(long_data, old = "ped_status", new = "disc_status")
-  long_data$disc_status = factor(long_data$disc_status, levels = c("0", "1"))
-
-  # remove some columns from `long_data`
-  long_data[, c("offset", "tstart", "interval") := NULL]
-  # keep id mapping
-  reps = table(long_data$id)
-  ids = rep(task$row_ids, times = reps)
-  id = NULL
-  long_data[, id := ids]
-
-  task_disc = TaskClassif$new(paste0(task$id, "_disc"), long_data,
-                              target = "disc_status", positive = "1")
-  task_disc$set_col_roles("id", roles = "original_ids")
-
-  # return the transformed classification task and the cut points that `as_ped()` used
-  list(task_disc, attributes(long_data)$trafo_args$cut)
-}
 
 register_pipeop("trafotask_survclassif_disctime", PipeOpTaskSurvClassifDiscTime)
