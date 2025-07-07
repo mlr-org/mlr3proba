@@ -3,12 +3,14 @@
 # SURVIVAL ----
 # S(t)/f(t) ESTIMATION/INTERPOLATION FUNCTIONS
 
-# Linearly interpolate (and extrapolate) a survival curve at arbitrary time points.
-# @param surv_data `survfit` object or a `list` with 2 elemnts:
-# `surv` (survival probabilities) and corresponding `time` (time points)
-# @param eval_times vector of times (unordered, possibly duplicated)
-# @param method type of interpolation to use - `linear` (default) or `constant`
-# @return interpolated S(t) values
+#' @description
+#' Linearly interpolate (and extrapolate) a survival curve at arbitrary time points.
+#' @param surv_data `survfit` object or a `list` with 2 elemnts:
+#' `surv` (survival probabilities) and corresponding `time` (time points)
+#' @param eval_times vector of times (unordered, possibly duplicated)
+#' @param method type of interpolation to use - `linear` (default) or `constant`
+#' @return interpolated S(t) values
+#' @noRd
 .interp_surv = function(surv_data, eval_times, method = "linear") {
   assert_choice(method, c("linear", "constant"))
 
@@ -60,11 +62,12 @@
   interp_surv
 }
 
-# PDF estimation from a survival curve
-# @param surv_data `survfit` object or a `list` with 2 elemnts:
-# `surv` (survival probabilities) and corresponding `time` (time points)
-# @param eval_times numeric vector (unordered, duplicated allowed)
-# @return numeric vector of density values f(t)
+#' @description PDF estimation from a survival curve
+#' @param surv_data `survfit` object or a `list` with 2 elemnts:
+#' `surv` (survival probabilities) and corresponding `time` (time points)
+#' @param eval_times numeric vector (unordered, duplicated allowed)
+#' @return numeric vector of density values f(t)
+#' @noRd
 .interp_pdf = function(surv_data, eval_times) {
   # keep all unique sorted times (predicted and requested) for pdf
   utimes = sort(unique(c(surv_data$time, eval_times)))
@@ -187,20 +190,22 @@
   c_concordance(time, status, crank[ord], t_max, weight_meth, cens, surv, tiex)
 }
 
-# Compute the Explained Residual Variation (ERV) of a survival prediction
-#
-# Calculates an R²-like statistic comparing the predictive performance of a learner
-# to a Kaplan–Meier baseline. The measure must support the `ERV` parameter flag.
-#
-# @param measure A `Measure` object (e.g., from `mlr3proba`) that supports the `ERV` parameter.
-# @param prediction A `PredictionSurv` object containing the learner's predictions on a test set.
-# @param task The `TaskSurv` object on which the learner and baseline are evaluated.
-# @param train_set Integer vector of row indices used for training the learner and baseline.
-#
-# @return A numeric value representing the explained residual variation:
-#   - `> 0` means the learner outperforms the Kaplan–Meier baseline.
-#   - `= 0` means the learner performs the same as the baseline.
-#   - `< 0` means the learner performs worse than the baseline.
+#' @description
+#' Compute the Explained Residual Variation (ERV) of a survival prediction
+#'
+#' Calculates an R²-like statistic comparing the predictive performance of a learner
+#' to a Kaplan–Meier baseline. The measure must support the `ERV` parameter flag.
+#'
+#' @param measure A `Measure` object (e.g., from `mlr3proba`) that supports the `ERV` parameter.
+#' @param prediction A `PredictionSurv` object containing the learner's predictions on a test set.
+#' @param task The `TaskSurv` object on which the learner and baseline are evaluated.
+#' @param train_set Integer vector of row indices used for training the learner and baseline.
+#'
+#' @return A numeric value representing the explained residual variation:
+#'   - `> 0` means the learner outperforms the Kaplan–Meier baseline.
+#'   - `= 0` means the learner performs the same as the baseline.
+#'   - `< 0` means the learner performs worse than the baseline.
+#' @noRd
 .scoring_rule_erv = function(measure, prediction, task, train_set) {
   if (is.null(task) || is.null(train_set)) {
     stop("'task' and 'train_set' are required if 'ERV' is 'TRUE'")
@@ -260,17 +265,19 @@
 }
 
 # COMPETING RISKS ----
-# Constant interpolation of CIF matrix to requested evaluation times
-# If all `eval_times` are already present in the predicted time points, no interpolation is done.
-#
-# @param cif_mat A numeric matrix of predicted CIF values (observations × time points).
-#                Column names must be the predicted time points.
-# @param eval_times A numeric vector of requested evaluation time points.
-#
-# @return A matrix of interpolated CIF values with rows = observations and
-#         columns = `eval_times`.
-#
-# @note Uses the internal `distr6::C_Vec_WeightedDiscreteCdf()` for constant interpolation.
+#' @description
+#' Constant interpolation of CIF matrix to requested evaluation times
+#' If all `eval_times` are already present in the predicted time points, no interpolation is done.
+#'
+#' @param cif_mat A numeric matrix of predicted CIF values (observations × time points).
+#'                Column names must be the predicted time points.
+#' @param eval_times A numeric vector of requested evaluation time points.
+#'
+#' @return A matrix of interpolated CIF values with rows = observations and
+#'         columns = `eval_times`.
+#'
+#' @note Uses the internal `distr6::C_Vec_WeightedDiscreteCdf()` for constant interpolation.
+#' @noRd
 .interp_cif = function(cif_mat, eval_times) {
   # predicted time points
   pred_times = as.numeric(colnames(cif_mat))
