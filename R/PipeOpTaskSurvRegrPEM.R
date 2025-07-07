@@ -7,6 +7,8 @@
 #' time into multiple time intervals for each observation.
 #' This transformation creates a new target variable `pem_status` that indicates
 #' whether an event occurred within each time interval.
+#' The piece-wise exponential modeling approach (PEM) facilitates survival analysis
+#' within a regression framework using discrete time intervals (Bender et al. 2018).
 #'
 #' @section Dictionary:
 #' This [PipeOp][mlr3pipelines::PipeOp] can be instantiated via the
