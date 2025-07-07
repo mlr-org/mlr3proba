@@ -45,7 +45,7 @@ create_grlrn = function(gr, graph_learner = FALSE) {
 #'
 #' @return list with:
 #'   - `task_{disc|pem}`: the new `TaskClassif` (DiscreteTime) or `TaskRegr` (PEM)
-#'   - `cut`: cut points used for discretization
+#'   - `cut`: cut points used for time discretization
 #' @noRd
 .discretize_surv_task = function(task, cut = NULL, max_time = NULL, reduction_id = "disc") {
   assert_choice(reduction_id, c("disc", "pem"))
