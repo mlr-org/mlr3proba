@@ -17,8 +17,12 @@ Calls \code{\link[riskRegression:Score]{riskRegression::Score()}} with:
 \item \code{cens.model = "km"}
 }
 
-Note that the IPC weights (estimated via the Kaplan-Meier) are calculated
-using the test data.
+Notes on the \code{riskRegression} implementation:
+\enumerate{
+\item IPCW weights are estimated using the \strong{test data only}.
+\item No extrapolation is supported: if \code{time_horizon} exceeds the maximum observed
+time on the test data, an error is thrown.
+}
 }
 \section{Dictionary}{
 
@@ -57,15 +61,15 @@ Integer number indicating which cause to use (Default: \code{1}).
 If \code{"mean"}, then the mean AUC(t) over all causes is returned.
 \item \code{time_horizon} (\code{numeric(1)})\cr
 Single time point at which to return the score.
-If \code{NULL}, we issue a warning and the median time from the test set is used.
+If \code{NULL}, the \strong{median time point} from the test set is used.
 }
 }
 
 \examples{
-\dontshow{if (mlr3misc::require_namespaces(c("riskRegression"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-t = tsk("pbc")
-l = lrn("cmprsk.aalen")
-p = l$train(t)$predict(t)
+\dontshow{if (mlr3misc::require_namespaces("riskRegression", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+task = tsk("pbc")
+learner = lrn("cmprsk.aalen")
+p = learner$train(task)$predict(task)
 
 p$score(msr("cmprsk.auc", time_horizon = 42))
 \dontshow{\}) # examplesIf}

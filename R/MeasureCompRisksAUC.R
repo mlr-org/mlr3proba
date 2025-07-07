@@ -15,8 +15,10 @@
 #' - `cens.method = "ipcw"`
 #' - `cens.model = "km"`
 #'
-#' Note that the IPC weights (estimated via the Kaplan-Meier) are calculated
-#' using the test data.
+#' Notes on the `riskRegression` implementation:
+#' 1. IPCW weights are estimated using the **test data only**.
+#' 2. No extrapolation is supported: if `time_horizon` exceeds the maximum observed
+#' time on the test data, an error is thrown.
 #'
 #' @section Parameter details:
 #' - `cause` (`numeric(1)`)\cr
@@ -24,15 +26,15 @@
 #'  If `"mean"`, then the mean AUC(t) over all causes is returned.
 #' - `time_horizon` (`numeric(1)`)\cr
 #'  Single time point at which to return the score.
-#'  If `NULL`, we issue a warning and the median time from the test set is used.
+#'  If `NULL`, the **median time point** from the test set is used.
 #'
 #' @references
 #' `r format_bib("blanche_2013")`
 #'
-#' @examplesIf mlr3misc::require_namespaces(c("riskRegression"), quietly = TRUE)
-#' t = tsk("pbc")
-#' l = lrn("cmprsk.aalen")
-#' p = l$train(t)$predict(t)
+#' @examplesIf mlr3misc::require_namespaces("riskRegression", quietly = TRUE)
+#' task = tsk("pbc")
+#' learner = lrn("cmprsk.aalen")
+#' p = learner$train(task)$predict(task)
 #'
 #' p$score(msr("cmprsk.auc", time_horizon = 42))
 #'
@@ -68,19 +70,20 @@ MeasureCompRisksAUC = R6Class(
     .score = function(prediction, task, ...) {
       pv = self$param_set$values
 
-      # data with (time, event) columns for IPCW calculation
-      # uses test set data as it needs to match predicted CIF rows/observations
-      data = data.table(time = prediction$truth[, 1L], event = prediction$truth[, 2L])
-      lhs = "Hist(time, event)"
-      form = formulate(lhs, rhs = "1", env = getNamespace("prodlim"))
+      # Prepare test set data (for IPCW)
+      # uses test set observations as it needs to match exactly the number of
+      # rows (observations) in the predicted CIF matrix
+      data = data.table(
+        time = prediction$truth[, 1L],
+        event = prediction$truth[, 2L]
+      )
+      form = formulate(lhs = "Hist(time, event)", rhs = "1", env = getNamespace("prodlim"))
 
-      # single time point for AUC or median time
-      if (is.null(pv$time)) {
-        # TODO: add the warning again when this is not the default measure
-        # warning("No time horizon specified. We use median time from the test set")
-        time_horizon = median(data$time)
+      # Define evaluation time (single time point for AUC)
+      time_horizon = if (is.null(pv$time_horizon)) {
+        median(data$time)
       } else {
-        time_horizon = assert_number(pv$time_horizon, lower = 0, finite = TRUE, na.ok = FALSE)
+        assert_number(pv$time_horizon, lower = 0, finite = TRUE, na.ok = FALSE)
       }
 
       # list of predicted CIF matrices
