@@ -81,7 +81,6 @@ create_grlrn = function(gr, graph_learner = FALSE) {
   if (reduction_id == "disc") {
     long_data[[col_status]] = factor(long_data[[col_status]], levels = c("0", "1"))
   }
-  long_data$disc_status = factor(long_data$disc_status, levels = c("0", "1"))
 
   # Remove internal columns
   cols_to_remove = c("tstart", "interval")
@@ -99,9 +98,9 @@ create_grlrn = function(gr, graph_learner = FALSE) {
   # Build task
   task_id = paste0(task$id, "_", reduction_id)
   if (reduction_id == "disc") {
-    new_task = TaskClassif$new(task_id, long_data, target = col_status, positive = "1")
-  } else if (reduction_id == "pem") {
-    new_task = TaskRegr$new(task_id, long_data, target = col_status)
+    new_task = TaskClassif$new(id = task_id, backend = long_data, target = col_status, positive = "1")
+  } else { # pem
+    new_task = TaskRegr$new(id = task_id, backend = long_data, target = col_status)
     new_task$set_col_roles("offset", roles = "offset")
   }
   new_task$set_col_roles("id", roles = "original_ids")
