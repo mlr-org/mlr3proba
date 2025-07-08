@@ -11,6 +11,10 @@ This transformation creates a new target variable \code{pem_status} that indicat
 whether an event occurred within each time interval.
 The piece-wise exponential modeling approach (PEM) facilitates survival analysis
 within a regression framework using discrete time intervals (Bender et al. 2018).
+
+Note that this data transformation is compatible with learners that support
+the \code{"validation"} property and can track performance on holdout data during
+training, enabling early stopping and logging.
 }
 \section{Dictionary}{
 

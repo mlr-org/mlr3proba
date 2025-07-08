@@ -10,6 +10,10 @@
 #' This approach facilitates survival analysis within a classification framework
 #' using discrete time intervals (Tutz et al. 2016).
 #'
+#' Note that this data transformation is compatible with learners that support
+#' the `"validation"` property and can track performance on holdout data during
+#' training, enabling early stopping and logging.
+#'
 #' @section Dictionary:
 #' This [PipeOp][mlr3pipelines::PipeOp] can be instantiated via the
 #' [dictionary][mlr3misc::Dictionary] [mlr3pipelines::mlr_pipeops]
