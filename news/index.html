@@ -57,6 +57,10 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.8.1.9000" id="mlr3proba-0819000">mlr3proba 0.8.1.9000<a class="anchor" aria-label="anchor" href="#mlr3proba-0819000"></a></h2>
+<ul><li>feat: The pipeops <code>PipeOpTaskSurvRegrPEM</code> and <code>PipeOpTaskSurvClassifDiscTime</code> now apply the data transformation on an internal validation task if it exists. This enables the use of e.g <code>xgboost</code> regression or classification learners with <code>early_stopping</code> on the corresponding pipelines.</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.8.1" id="mlr3proba-081">mlr3proba 0.8.1<a class="anchor" aria-label="anchor" href="#mlr3proba-081"></a></h2>
 <ul><li>feat: <code>surv.logloss</code> and <code>surv.rcll</code> now use linear interpolation of S(t) to calculate the density f(t)</li>
 <li>fix: <code>surv.mae</code>/<code>surv.mse</code>/<code>surv.rmse</code> scores return <code>NA</code> when test set has only censored observations</li>
