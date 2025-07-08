@@ -591,7 +591,9 @@ pipeline_survtoregr_pem = function(learner, cut = NULL, max_time = NULL,
 
   # check for poisson family in learner
   learner_args = learner$param_set$get_values()
-  if (!some(learner_args, function(x) any(grepl("poisson", as.character(x), ignore.case = TRUE)))){
+  char_args = learner_args[vapply(learner_args, is.character, logical(1))]
+
+  if (!any(grepl("poisson", unlist(char_args), ignore.case = TRUE))) {
     msg = paste(
       "Learner must explicitly support Poisson regression.",
       "PEM requires this; please define the objective/family accordingly.",
@@ -599,8 +601,8 @@ pipeline_survtoregr_pem = function(learner, cut = NULL, max_time = NULL,
     )
     warning(msg)
   }
-  if ('use_pred_offset' %in% learner$param_set$ids()){
-    if (learner$param_set$values$use_pred_offset == TRUE){
+  if ("use_pred_offset" %in% learner$param_set$ids()) {
+    if (learner$param_set$values$use_pred_offset == TRUE) {
       learner$param_set$set_values(use_pred_offset = FALSE)
       msg = paste(
         "Note: 'use_pred_offset' in learner was set to TRUE and has now been changed to FALSE.",

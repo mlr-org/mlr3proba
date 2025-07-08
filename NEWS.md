@@ -1,3 +1,7 @@
+# mlr3proba 0.8.1.9000
+
+* feat: The pipeops `PipeOpTaskSurvRegrPEM` and `PipeOpTaskSurvClassifDiscTime` now apply the data transformation on an internal validation task if it exists. This enables the use of e.g `xgboost` regression or classification learners with `early_stopping` on the corresponding pipelines.
+
 # mlr3proba 0.8.1
 
 * feat: `surv.logloss` and `surv.rcll` now use linear interpolation of S(t) to calculate the density f(t)
