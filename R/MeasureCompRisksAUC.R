@@ -42,18 +42,16 @@ MeasureCompRisksAUC = R6Class(
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       param_set = ps(
-        cause = p_int(lower = 1, default = 1, special_vals = list("mean")),
+        cause = p_int(lower = 1, init = "mean", special_vals = list("mean")),
         time_horizon = p_dbl(lower = 0, default = NULL, special_vals = list(NULL))
       )
-
-      param_set$set_values(cause = 1)
 
       super$initialize(
         id = "cmprsk.auc",
         param_set = param_set,
         range = c(0, 1),
         minimize = FALSE,
-        #properties = "requires_task", (only if we want `cen.model = cox`)
+        #properties = "requires_task", # only if `cen.model = cox` is implemented
         packages = "riskRegression",
         label = "Blanche's Time-dependent IPCW ROC-AUC score",
         man = "mlr3proba::mlr_measures_cmprsk.auc"
@@ -82,17 +80,18 @@ MeasureCompRisksAUC = R6Class(
       }
 
       # list of predicted CIF matrices
-      cif = prediction$cif
+      cif_list = prediction$cif
 
       cause = pv$cause
+      causes = names(cif_list)
       if (test_int(cause)) {
         # check if cause exists
-        if (cause %nin% names(cif)) {
-          stopf("Invalid cause. Use one of: %s", paste(names(cif), collapse = ", "))
+        if (as.character(cause) %nin% causes) {
+          stopf("Invalid cause. Use one of: %s", paste(causes, collapse = ", "))
         }
 
         # get cause-specific CIF
-        cif_mat = cif[[as.character(cause)]]
+        cif_mat = cif_list[[as.character(cause)]]
 
         # get CIF on the time horizon
         mat = .interp_cif(cif_mat, eval_times = time_horizon)
@@ -111,9 +110,9 @@ MeasureCompRisksAUC = R6Class(
         res$AUC$score[times == time_horizon][["AUC"]]
       } else {
         # iterate through cause-specific CIFs, get AUC(t), return the mean
-        AUCs = sapply(names(cif), function(cause) {
+        AUCs = sapply(causes, function(cause) {
           # get cause-specific CIF
-          cif_mat = cif[[cause]]
+          cif_mat = cif_list[[cause]]
 
           # get CIF on the time horizon
           mat = .interp_cif(cif_mat, eval_times = time_horizon)
