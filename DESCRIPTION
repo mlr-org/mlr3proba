@@ -15,7 +15,7 @@ Authors@R: c(
     person("Lukas", "Burk", , "github@quantenbrot.de", role = "ctb",
            comment = c(ORCID = "0000-0001-7528-3795")),
     person("Philip", "Studener", , "philip.studener@gmx.de", role = "aut"),
-    person("Maximilian", "Muecke", , "muecke.maximilian@gmail.com", role = "ctb",
+    person("Maximilian", "Mücke", , "muecke.maximilian@gmail.com", role = "ctb",
            comment = c(ORCID = "0009-0000-9432-9795")),
     person("Lee Xingzhuo", "Li", , "xingzhuo_li@yahoo.com.au", role = "ctb",
            comment = c(ORCID = "0000-0001-5259-5198")),
