@@ -31,13 +31,8 @@
 #' @references
 #' `r format_bib("blanche_2013")`
 #'
-#' @examplesIf mlr3misc::require_namespaces("riskRegression", quietly = TRUE)
-#' task = tsk("pbc")
-#' learner = lrn("cmprsk.aalen")
-#' p = learner$train(task)$predict(task)
-#'
-#' p$score(msr("cmprsk.auc", time_horizon = 42))
-#'
+#' @templateVar msr_id auc
+#' @template example_cmprsk
 #' @export
 MeasureCompRisksAUC = R6Class(
   "MeasureCompRisksAUC",

@@ -15,6 +15,8 @@
 #' @references
 #' `r format_bib("aalen_1978")`
 #'
+#' @templateVar msr_id all
+#' @template example_cmprsk
 #' @export
 LearnerCompRisksAalenJohansen = R6Class("LearnerCompRisksAalenJohansen",
   inherit = LearnerCompRisks,

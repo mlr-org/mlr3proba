@@ -67,11 +67,38 @@ If \code{NULL}, the \strong{median time point} from the test set is used.
 
 \examples{
 \dontshow{if (mlr3misc::require_namespaces("riskRegression", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-task = tsk("pbc")
-learner = lrn("cmprsk.aalen")
-p = learner$train(task)$predict(task)
+library(mlr3)
 
-p$score(msr("cmprsk.auc", time_horizon = 42))
+# Define the Learner
+learner = lrn("cmprsk.aalen")
+learner
+
+# Define a Task
+task = tsk("pbc")
+
+# Stratification based on event
+task$set_col_roles(cols = "status", add_to = "stratum")
+
+# Create train and test set
+part = partition(task)
+
+# Train the learner on the training set
+learner$train(task, row_ids = part$train)
+learner$model
+
+# Make predictions for the test set
+predictions = learner$predict(task, row_ids = part$test)
+predictions
+
+# Score the predictions
+
+## AUC(t = 100), 1st cause
+predictions$score(msr("cmprsk.auc", cause = 1, time_horizon = 100))
+## AUC(t = 100), 2nd cause
+predictions$score(msr("cmprsk.auc", cause = 2, time_horizon = 100))
+## AUC(t = 100), summary score across causes
+predictions$score(msr("cmprsk.auc", cause = "mean", time_horizon = 100))
+
 \dontshow{\}) # examplesIf}
 }
 \references{
