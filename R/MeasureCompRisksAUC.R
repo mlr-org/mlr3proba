@@ -90,10 +90,10 @@ MeasureCompRisksAUC = R6Class(
       cif = prediction$cif
 
       cause = pv$cause
-      if (test_integerish(cause)) {
+      if (test_int(cause)) {
         # check if cause exists
         if (cause %nin% names(cif)) {
-          stopf("Given cause (%i) is not included in the CIF causes", cause)
+          stopf("Invalid cause. Use one of: %s", paste(names(cif), collapse = ", "))
         }
 
         # get cause-specific CIF
