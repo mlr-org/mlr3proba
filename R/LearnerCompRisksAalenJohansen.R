@@ -7,8 +7,10 @@
 #'
 #' This learner estimates the Cumulative Incidence Function (CIF) for competing
 #' risks using the empirical Aalen-Johansen (AJ) estimator.
-#' The probability of transitioning to each competing event is computed via the
-#' [survfit][survival::survfit.formula()] function.
+#'
+#' Transition probabilities to each event are computed from the training data via
+#' the [survfit][survival::survfit.formula()] function and predictions are made
+#' at all unique times (both events and censoring) observed in the training set.
 #'
 #' @references
 #' `r format_bib("aalen_1978")`
