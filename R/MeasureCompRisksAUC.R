@@ -6,12 +6,12 @@
 #'
 #' @description
 #' Calculates the cause-specific time-dependent ROC-AUC at a **specific time point**,
-#' see Blanche et al. (2013).
+#' as described in Blanche et al. (2013).
 #'
-#' By default, this measure returns a **summary cause-independent AUC(t)** score,
-#' calculated as a weighted average of the individual cause-specific AUCs.
-#' The weights are proportional to the number of events of each cause, as per
-#' Equation (7) in Heyard et al. (2020).
+#' By default, this measure returns a **cause-independent AUC(t)** score,
+#' calculated as a weighted average of the cause-specific AUCs.
+#' The weights correspond to the relative event frequencies of each cause,
+#' following Equation (7) in Heyard et al. (2020).
 #'
 #' @details
 #' Calls [riskRegression::Score()] with:
@@ -23,11 +23,15 @@
 #' 1. IPCW weights are estimated using the **test data only**.
 #' 2. No extrapolation is supported: if `time_horizon` exceeds the maximum observed
 #' time on the test data, an error is thrown.
+#' 3. The choice of `time_horizon` is critical: if, at that time, no events of a
+#' given cause have occurred and all predicted CIFs are zero, `riskRegression`
+#' will return `NaN` for that cause-specific AUC (and subsequently for the
+#' summary AUC).
 #'
 #' @section Parameter details:
-#' - `cause` (`numeric(1)`)\cr
-#'  Integer number indicating which cause to use (Default: `1`).
-#'  If `"mean"`, then the mean AUC(t) over all causes is returned.
+#' - `cause` (`numeric(1)|"mean"`)\cr
+#'  Integer number indicating which cause to use.
+#'  Default value is `"mean"` which returns a weighted mean of the cause-specific AUCs.
 #' - `time_horizon` (`numeric(1)`)\cr
 #'  Single time point at which to return the score.
 #'  If `NULL`, the **median time point** from the test set is used.
@@ -55,7 +59,7 @@ MeasureCompRisksAUC = R6Class(
         param_set = param_set,
         range = c(0, 1),
         minimize = FALSE,
-        #properties = "requires_task", # only if `cen.model = cox` is implemented
+        properties = "na_score",
         packages = "riskRegression",
         label = "Blanche's Time-dependent IPCW ROC-AUC score",
         man = "mlr3proba::mlr_measures_cmprsk.auc"
