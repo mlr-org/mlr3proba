@@ -6,7 +6,7 @@
 \alias{mlr3proba-package}
 \title{mlr3proba: Probabilistic Supervised Learning for 'mlr3'}
 \description{
-Provides extensions for probabilistic supervised learning for 'mlr3'. This includes extending the regression task to probabilistic and interval regression, adding a survival task, and other specialized models, predictions, and measures.
+Provides extensions for probabilistic supervised learning for 'mlr3'. This currently includes survival analysis, competing risks and density estimation.
 }
 \seealso{
 Useful links:
