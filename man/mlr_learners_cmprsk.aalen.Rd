@@ -67,12 +67,14 @@ predictions
 
 # Score the predictions
 
-## AUC(t = 100), 1st cause
-predictions$score(msr("cmprsk.auc", cause = 1, time_horizon = 100))
-## AUC(t = 100), 2nd cause
-predictions$score(msr("cmprsk.auc", cause = 2, time_horizon = 100))
-## AUC(t = 100), summary score across causes
+# AUC(t = 100), weighted mean score across causes (default)
 predictions$score(msr("cmprsk.auc", cause = "mean", time_horizon = 100))
+
+# AUC(t = 100), 1st cause
+predictions$score(msr("cmprsk.auc", cause = 1, time_horizon = 100))
+
+# AUC(t = 100), 2nd cause
+predictions$score(msr("cmprsk.auc", cause = 2, time_horizon = 100))
 
 \dontshow{\}) # examplesIf}
 }
