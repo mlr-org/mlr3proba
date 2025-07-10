@@ -451,7 +451,7 @@ bibentries = c(
     year    = "2018"
   ),
   heyard_2020 = bibentry("article",
-    author  = "Heyard, Rachel and Timsit, Jean-François and Held, Leonhard",
+    author  = "Heyard, Rachel and Timsit, Jean-Francois and Held, Leonhard",
     title   = "Validation of discrete time-to-event prediction models in the presence of competing risks",
     journal = "Biometrical Journal",
     volume  = "62",

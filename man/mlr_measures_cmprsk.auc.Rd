@@ -117,7 +117,7 @@ Blanche, Paul, Dartigues, Francois J, Jacqmin-Gadda, Helene (2013).
 \emph{Statistics in Medicine}, \bold{32}(30), 5381--5397.
 ISSN 1097-0258, \doi{10.1002/SIM.5958}, \url{https://onlinelibrary.wiley.com/doi/10.1002/sim.5958}.
 
-Heyard, Rachel, Timsit, Jean-François, Held, Leonhard (2020).
+Heyard, Rachel, Timsit, Jean-Francois, Held, Leonhard (2020).
 \dQuote{Validation of discrete time-to-event prediction models in the presence of competing risks.}
 \emph{Biometrical Journal}, \bold{62}(3), 643--657.
 \url{https://doi.org/10.1002/BIMJ.201800293}.
