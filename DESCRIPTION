@@ -43,7 +43,6 @@ Imports:
     survival
 Suggests:
     abind,
-    coxed,
     GGally,
     glmnet,
     knitr,
@@ -64,6 +63,7 @@ Suggests:
 LinkingTo:
     Rcpp
 Remotes:
+    jkropko/coxed,
     xoopR/distr6,
     xoopR/param6,
     xoopR/set6

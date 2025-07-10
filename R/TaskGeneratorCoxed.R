@@ -5,7 +5,7 @@
 #' @description
 #' A [TaskGenerator][mlr3::TaskGenerator] calling [coxed::sim.survdata()].
 #'
-#' This generator creates a survival dataset using \CRANpkg{coxed}, and exposes
+#' This generator creates a survival dataset using `coxed`, and exposes
 #' some parameters from the `sim.survdata()` function.
 #' We don't include the parameters `X` (user-specified variables), `covariate`,
 #' `low`, `high`, `compare`, `beta` and `hazard.fun` for this generator.

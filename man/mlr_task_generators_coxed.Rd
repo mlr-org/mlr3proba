@@ -7,7 +7,7 @@
 \description{
 A \link[mlr3:TaskGenerator]{TaskGenerator} calling \code{\link[coxed:sim.survdata]{coxed::sim.survdata()}}.
 
-This generator creates a survival dataset using \CRANpkg{coxed}, and exposes
+This generator creates a survival dataset using \code{coxed}, and exposes
 some parameters from the \code{sim.survdata()} function.
 We don't include the parameters \code{X} (user-specified variables), \code{covariate},
 \code{low}, \code{high}, \code{compare}, \code{beta} and \code{hazard.fun} for this generator.
