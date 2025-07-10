@@ -5,9 +5,13 @@
 #' @aliases MeasureCompRisksAUC mlr_measures_cmprsk.auc
 #'
 #' @description
-#' Calculates the cause-specific ROC-AUC(t) at a **specific time point**,
+#' Calculates the cause-specific time-dependent ROC-AUC at a **specific time point**,
 #' see Blanche et al. (2013).
-#' Can also return the mean AUC(t) over all competing causes.
+#'
+#' By default, this measure returns a **summary cause-independent AUC(t)** score,
+#' calculated as a weighted average of the individual cause-specific AUCs.
+#' The weights are proportional to the number of events of each cause, as per
+#' Equation (7) in Heyard et al. (2020).
 #'
 #' @details
 #' Calls [riskRegression::Score()] with:
@@ -29,7 +33,7 @@
 #'  If `NULL`, the **median time point** from the test set is used.
 #'
 #' @references
-#' `r format_bib("blanche_2013")`
+#' `r format_bib("blanche_2013", "heyard_2020")`
 #'
 #' @templateVar msr_id auc
 #' @template example_cmprsk
@@ -81,17 +85,19 @@ MeasureCompRisksAUC = R6Class(
 
       # list of predicted CIF matrices
       cif_list = prediction$cif
+      causes = names(cif_list)
 
       cause = pv$cause
-      causes = names(cif_list)
       if (test_int(cause)) {
+        cause = as.character(cause)
+
         # check if cause exists
-        if (as.character(cause) %nin% causes) {
+        if (cause %nin% causes) {
           stopf("Invalid cause. Use one of: %s", paste(causes, collapse = ", "))
         }
 
         # get cause-specific CIF
-        cif_mat = cif_list[[as.character(cause)]]
+        cif_mat = cif_list[[cause]]
 
         # get CIF on the time horizon
         mat = .interp_cif(cif_mat, eval_times = time_horizon)
@@ -109,8 +115,8 @@ MeasureCompRisksAUC = R6Class(
         times = NULL # fix: no global binding
         res$AUC$score[times == time_horizon][["AUC"]]
       } else {
-        # iterate through cause-specific CIFs, get AUC(t), return the mean
-        AUCs = sapply(causes, function(cause) {
+        # iterate through cause-specific CIFs, get AUC(t)
+        aucs = vapply(causes, function(cause) {
           # get cause-specific CIF
           cif_mat = cif_list[[cause]]
 
@@ -129,10 +135,11 @@ MeasureCompRisksAUC = R6Class(
 
           times = NULL # fix: no global binding
           res$AUC$score[times == time_horizon][["AUC"]]
-        })
+        }, numeric(1L))
 
-        # return mean (weighted?)
-        mean(AUCs)
+        event = data[event != 0, event] # remove censored obs (if they exist)
+        w = prop.table(table(event)) # observed proportions per cause
+        sum(w[names(aucs)] * aucs) # weighted mean
       }
     }
   )
