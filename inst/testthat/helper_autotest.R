@@ -64,6 +64,7 @@ generate_tasks.LearnerCompRisks = function(learner, N = 20L, ...) {
   task = mlr3proba::TaskCompRisks$new(id = "proto", backend = mlr3::as_data_backend(data))
   tasks = generate_generic_tasks(learner, task)
 
+  # Generate sanity task
   # Ensure N is even
   if (N %% 2 == 1L) N = N + 1L
   N_half = N / 2L
@@ -72,9 +73,15 @@ generate_tasks.LearnerCompRisks = function(learner, N = 20L, ...) {
   times_group0 = seq(1, N_half)
   times_group1 = seq(max(times_group0) + 1, max(times_group0) + N_half)
 
-  # Events
-  event_group0 = rep(1L, N_half)
-  event_group1 = sample(c(2L, 0L), size = N_half, replace = TRUE, prob = c(0.7, 0.3))
+  # Generate time ranges
+  times_group0 = sort(rexp(N_half, rate = 0.3))
+  times_group1 = sort(rexp(N_half, rate = 0.3)) + max(times_group0)
+
+  # Events with some noise
+  # mostly 1s
+  event_group0 = sample(c(0, 1, 2), size = N_half, replace = TRUE, prob = c(0.2, 0.6, 0.2))
+  # mostly 2s
+  event_group1 = sample(c(0, 1, 2), size = N_half, replace = TRUE, prob = c(0.3, 0.1, 0.6))
 
   data = data.table::data.table(
     x = rep(0:1, each = N_half),
