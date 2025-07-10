@@ -18,7 +18,7 @@
 #' @template seealso_task_generator
 #' @references
 #' `r format_bib("harden_2019")`
-#' @examplesIf mlr3misc::require_namespaces(c("coxed"), quietly = TRUE)
+#' @examplesIf mlr3misc::require_namespaces("coxed", quietly = TRUE)
 #'   library(mlr3)
 #'
 #'   # time horizon = 365 days, censoring proportion = 60%, 6 covariates normally

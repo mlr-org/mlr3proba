@@ -39,7 +39,7 @@ tgen("coxed")
 }
 
 \examples{
-\dontshow{if (mlr3misc::require_namespaces(c("coxed"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (mlr3misc::require_namespaces("coxed", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
   library(mlr3)
 
   # time horizon = 365 days, censoring proportion = 60\%, 6 covariates normally
