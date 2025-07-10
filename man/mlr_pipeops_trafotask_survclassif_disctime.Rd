@@ -11,6 +11,10 @@ This transformation creates a new target variable \code{disc_status} that indica
 whether an event occurred within each time interval.
 This approach facilitates survival analysis within a classification framework
 using discrete time intervals (Tutz et al. 2016).
+
+Note that this data transformation is compatible with learners that support
+the \code{"validation"} property and can track performance on holdout data during
+training, enabling early stopping and logging.
 }
 \section{Dictionary}{
 

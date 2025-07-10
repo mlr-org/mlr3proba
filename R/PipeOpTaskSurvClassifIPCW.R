@@ -109,9 +109,8 @@ PipeOpTaskSurvClassifIPCW = R6Class("PipeOpTaskSurvClassifIPCW",
     initialize = function(id = "trafotask_survclassif_IPCW") {
       param_set = ps(
         tau = p_dbl(0),
-        eps = p_dbl(0, default = 1e-3)
+        eps = p_dbl(0, init = 1e-3)
       )
-      param_set$set_values(eps = 1e-3)
 
       super$initialize(
         id = id,
@@ -136,7 +135,7 @@ PipeOpTaskSurvClassifIPCW = R6Class("PipeOpTaskSurvClassifIPCW",
 
       # checks
       assert_true(task$cens_type == "right")
-      tau = assert_numeric(self$param_set$values$tau, null.ok = FALSE)
+      tau = assert_number(self$param_set$values$tau, null.ok = FALSE)
       max_event_time = max(task$unique_event_times())
       stopifnot(tau <= max_event_time)
 
@@ -183,7 +182,7 @@ PipeOpTaskSurvClassifIPCW = R6Class("PipeOpTaskSurvClassifIPCW",
                                   target = status_var, positive = "1")
       task_ipcw$set_col_roles("ipc_weights", roles = "weights_learner")
 
-      # keep this in the state just in case
+      # keep this in the state to show that pipeop was trained
       self$state = list()
       # pass on classif task
       list(task_ipcw, NULL)

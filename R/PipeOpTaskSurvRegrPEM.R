@@ -7,6 +7,12 @@
 #' time into multiple time intervals for each observation.
 #' This transformation creates a new target variable `pem_status` that indicates
 #' whether an event occurred within each time interval.
+#' The piece-wise exponential modeling approach (PEM) facilitates survival analysis
+#' within a regression framework using discrete time intervals (Bender et al. 2018).
+#'
+#' Note that this data transformation is compatible with learners that support
+#' the `"validation"` property and can track performance on holdout data during
+#' training, enabling early stopping and logging.
 #'
 #' @section Dictionary:
 #' This [PipeOp][mlr3pipelines::PipeOp] can be instantiated via the
@@ -101,9 +107,7 @@ PipeOpTaskSurvRegrPEM = R6Class("PipeOpTaskSurvRegrPEM",
     initialize = function(id = "trafotask_survregr_pem") {
       param_set = ps(
         cut = p_uty(default = NULL),
-        max_time = p_dbl(0, default = NULL, special_vals = list(NULL)),
-        censor_code = p_int(0L),
-        min_events = p_int(1L)
+        max_time = p_dbl(0, default = NULL, special_vals = list(NULL))
       )
       super$initialize(
         id = id,
@@ -126,46 +130,24 @@ PipeOpTaskSurvRegrPEM = R6Class("PipeOpTaskSurvRegrPEM",
   private = list(
     .train = function(input) {
       task = input[[1L]]
-      assert_true(task$cens_type == "right")
-      data = task$data()
+      pv = self$param_set$values
+      cut = assert_numeric(pv$cut, null.ok = TRUE, lower = 0)
+      max_time = pv$max_time
 
-      if ("pem_status" %in% colnames(task$data())) {
-        stop("\"pem_status\" can not be a column in the input data.")
+      res = .discretize_surv_task(task, cut = cut, max_time = max_time, reduction_id = "pem")
+      task_pem = res$task
+      self$state$cut = res$cut
+
+      # If internal validation task exists, transform it as well
+      if (!is.null(task$internal_valid_task)) {
+        res_val = .discretize_surv_task(
+          task$internal_valid_task,
+          cut = self$state$cut,
+          max_time = max_time,
+          reduction_id = "pem"
+        )
+        task_pem$internal_valid_task = res_val$task
       }
-
-      cut = assert_numeric(self$param_set$values$cut, null.ok = TRUE, lower = 0)
-      max_time = self$param_set$values$max_time
-
-      time_var = task$target_names[1]
-      event_var = task$target_names[2]
-      if (testInt(cut, lower = 1)) {
-        cut = seq(0, data[get(event_var) == 1, max(get(time_var))], length.out = cut + 1)
-      }
-
-      if (!is.null(max_time)) {
-        assert(max_time > data[get(event_var) == 1, min(get(time_var))],
-               .var.name = "max_time must be greater than the minimum event time.")
-      }
-
-      ped_formula = formulate(sprintf("Surv(%s, %s)", time_var, event_var), ".")
-      long_data = pammtools::as_ped(data = data, formula = ped_formula,
-                                    cut = cut, max_time = max_time)
-      long_data = as.data.table(long_data)
-      self$state$cut = attributes(long_data)$trafo_args$cut
-      setnames(long_data, old = "ped_status", new = "pem_status")
-
-      # remove some columns from `long_data`
-      long_data[, c("tstart", "interval") := NULL]
-      # keep id mapping
-      reps = table(long_data$id)
-      ids = rep(task$row_ids, times = reps)
-      id = NULL
-      long_data[, id := ids]
-      # create TaskRegr and set column roles
-      task_pem = TaskRegr$new(paste0(task$id, "_pem"), long_data,
-                              target = "pem_status")
-      task_pem$set_col_roles("id", roles = "original_ids")
-      task_pem$set_col_roles("offset", roles = "offset")
 
       list(task_pem, data.table())
     },

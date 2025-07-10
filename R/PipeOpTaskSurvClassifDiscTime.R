@@ -10,6 +10,10 @@
 #' This approach facilitates survival analysis within a classification framework
 #' using discrete time intervals (Tutz et al. 2016).
 #'
+#' Note that this data transformation is compatible with learners that support
+#' the `"validation"` property and can track performance on holdout data during
+#' training, enabling early stopping and logging.
+#'
 #' @section Dictionary:
 #' This [PipeOp][mlr3pipelines::PipeOp] can be instantiated via the
 #' [dictionary][mlr3misc::Dictionary] [mlr3pipelines::mlr_pipeops]
@@ -116,47 +120,24 @@ PipeOpTaskSurvClassifDiscTime = R6Class("PipeOpTaskSurvClassifDiscTime",
   private = list(
     .train = function(input) {
       task = input[[1L]]
-      assert_true(task$cens_type == "right")
-      data = task$data()
+      pv = self$param_set$values
+      cut = assert_numeric(pv$cut, null.ok = TRUE, lower = 0)
+      max_time = pv$max_time
 
-      if ("disc_status" %in% colnames(task$data())) {
-        stop("\"disc_status\" can not be a column in the input data.")
+      res = .discretize_surv_task(task, cut = cut, max_time = max_time, reduction_id = "disc")
+      task_disc = res$task
+      self$state$cut = res$cut
+
+      # If internal validation task exists, transform it as well
+      if (!is.null(task$internal_valid_task)) {
+        res_val = .discretize_surv_task(
+          task$internal_valid_task,
+          cut = self$state$cut,
+          max_time = max_time,
+          reduction_id = "disc"
+        )
+        task_disc$internal_valid_task = res_val$task
       }
-
-      cut = assert_numeric(self$param_set$values$cut, null.ok = TRUE, lower = 0)
-      max_time = self$param_set$values$max_time
-
-      time_var = task$target_names[1]
-      event_var = task$target_names[2]
-      if (testInt(cut, lower = 1)) {
-        cut = seq(0, data[get(event_var) == 1, max(get(time_var))], length.out = cut + 1)
-      }
-
-      if (!is.null(max_time)) {
-        assert(max_time > data[get(event_var) == 1, min(get(time_var))],
-               .var.name = "max_time must be greater than the minimum event time.")
-      }
-
-      form = formulate(sprintf("Surv(%s, %s)", time_var, event_var), ".")
-
-      long_data = pammtools::as_ped(data = data, formula = form,
-                                    cut = cut, max_time = max_time)
-      self$state$cut = attributes(long_data)$trafo_args$cut
-      long_data = as.data.table(long_data)
-      setnames(long_data, old = "ped_status", new = "disc_status")
-      long_data$disc_status = factor(long_data$disc_status, levels = c("0", "1"))
-
-      # remove some columns from `long_data`
-      long_data[, c("offset", "tstart", "interval") := NULL]
-      # keep id mapping
-      reps = table(long_data$id)
-      ids = rep(task$row_ids, times = reps)
-      id = NULL
-      long_data[, id := ids]
-
-      task_disc = TaskClassif$new(paste0(task$id, "_disc"), long_data,
-                                  target = "disc_status", positive = "1")
-      task_disc$set_col_roles("id", roles = "original_ids")
 
       list(task_disc, data.table())
     },
