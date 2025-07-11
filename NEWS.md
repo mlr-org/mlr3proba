@@ -1,5 +1,6 @@
 # mlr3proba 0.8.2
 
+* fix: `coxed` package was removed from CRAN so now we install the latest working CRAN version (`0.3.3`) from GitHub
 * feat: event-weighted mean AUC(t) as default score in `msr("cmprsk.auc")`
 * feat: The pipeops `PipeOpTaskSurvRegrPEM` and `PipeOpTaskSurvClassifDiscTime` now apply the data transformation on an internal validation task if it exists. This enables the use of e.g `xgboost` regression or classification learners with `early_stopping` on the corresponding pipelines.
 
