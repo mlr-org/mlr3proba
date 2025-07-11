@@ -70,11 +70,7 @@ TaskGeneratorCoxed = R6Class("TaskGeneratorCoxed",
 
   private = list(
     .generate = function(n) {
-      if (!requireNamespace("coxed", quietly = TRUE)) {
-        stop("TaskGeneratorCoxed requires the 'coxed' package. Install it via:\n",
-             "remotes::install_github('jkropko/coxed')")
-      }
-
+      require_namespaces("coxed")
       sim_survdata = getFromNamespace("sim.survdata", ns = "coxed")
       data = invoke(sim_survdata, N = n, .args = self$param_set$values)[[1]]
       data = map_at(data, "failed", as.integer)
