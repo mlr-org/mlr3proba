@@ -64,7 +64,7 @@ Suggests:
 LinkingTo:
     Rcpp
 Remotes:
-    jkropko/coxed,
+    jkropko/coxed@bc92e25,
     xoopR/distr6,
     xoopR/param6,
     xoopR/set6
