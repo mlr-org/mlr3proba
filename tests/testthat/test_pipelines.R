@@ -1,5 +1,5 @@
-task = tsk("rats")$filter(sample(300, 50L))
-task_regr = tgen("friedman1")$generate(20L)
+set.seed(42)
+task = tsk("rats")$filter(sample(300, 100L))
 
 test_that("survaverager", {
   learners = list(lrn("surv.kaplan"), lrn("surv.kaplan", id = "k2"))

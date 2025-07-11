@@ -5,9 +5,13 @@
 \alias{MeasureCompRisksAUC}
 \title{Blanche's AUC Competing Risks Measure}
 \description{
-Calculates the cause-specific ROC-AUC(t) at a \strong{specific time point},
-see Blanche et al. (2013).
-Can also return the mean AUC(t) over all competing causes.
+Calculates the cause-specific time-dependent ROC-AUC at a \strong{specific time point},
+as described in Blanche et al. (2013).
+
+By default, this measure returns a \strong{cause-independent AUC(t)} score,
+calculated as a weighted average of the cause-specific AUCs.
+The weights correspond to the relative event frequencies of each cause,
+following Equation (7) in Heyard et al. (2020).
 }
 \details{
 Calls \code{\link[riskRegression:Score]{riskRegression::Score()}} with:
@@ -17,8 +21,16 @@ Calls \code{\link[riskRegression:Score]{riskRegression::Score()}} with:
 \item \code{cens.model = "km"}
 }
 
-Note that the IPC weights (estimated via the Kaplan-Meier) are calculated
-using the test data.
+Notes on the \code{riskRegression} implementation:
+\enumerate{
+\item IPCW weights are estimated using the \strong{test data only}.
+\item No extrapolation is supported: if \code{time_horizon} exceeds the maximum observed
+time on the test data, an error is thrown.
+\item The choice of \code{time_horizon} is critical: if, at that time, no events of a
+given cause have occurred and all predicted CIFs are zero, \code{riskRegression}
+will return \code{NaN} for that cause-specific AUC (and subsequently for the
+summary AUC).
+}
 }
 \section{Dictionary}{
 
@@ -34,7 +46,7 @@ msr("cmprsk.auc")
 \section{Parameters}{
 \tabular{llll}{
    Id \tab Type \tab Default \tab Range \cr
-   cause \tab integer \tab 1 \tab \eqn{[1, \infty)}{[1, Inf)} \cr
+   cause \tab integer \tab - \tab \eqn{[1, \infty)}{[1, Inf)} \cr
    time_horizon \tab numeric \tab NULL \tab \eqn{[0, \infty)}{[0, Inf)} \cr
 }
 }
@@ -52,22 +64,51 @@ msr("cmprsk.auc")
 \section{Parameter details}{
 
 \itemize{
-\item \code{cause} (\code{numeric(1)})\cr
-Integer number indicating which cause to use (Default: \code{1}).
-If \code{"mean"}, then the mean AUC(t) over all causes is returned.
+\item \code{cause} (\code{numeric(1)|"mean"})\cr
+Integer number indicating which cause to use.
+Default value is \code{"mean"} which returns a weighted mean of the cause-specific AUCs.
 \item \code{time_horizon} (\code{numeric(1)})\cr
 Single time point at which to return the score.
-If \code{NULL}, we issue a warning and the median time from the test set is used.
+If \code{NULL}, the \strong{median time point} from the test set is used.
 }
 }
 
 \examples{
-\dontshow{if (mlr3misc::require_namespaces(c("riskRegression"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-t = tsk("pbc")
-l = lrn("cmprsk.aalen")
-p = l$train(t)$predict(t)
+\dontshow{if (mlr3misc::require_namespaces("riskRegression", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+library(mlr3)
 
-p$score(msr("cmprsk.auc", time_horizon = 42))
+# Define the Learner
+learner = lrn("cmprsk.aalen")
+learner
+
+# Define a Task
+task = tsk("pbc")
+
+# Stratification based on event
+task$set_col_roles(cols = "status", add_to = "stratum")
+
+# Create train and test set
+part = partition(task)
+
+# Train the learner on the training set
+learner$train(task, row_ids = part$train)
+learner$model
+
+# Make predictions for the test set
+predictions = learner$predict(task, row_ids = part$test)
+predictions
+
+# Score the predictions
+
+# AUC(t = 100), weighted mean score across causes (default)
+predictions$score(msr("cmprsk.auc", cause = "mean", time_horizon = 100))
+
+# AUC(t = 100), 1st cause
+predictions$score(msr("cmprsk.auc", cause = 1, time_horizon = 100))
+
+# AUC(t = 100), 2nd cause
+predictions$score(msr("cmprsk.auc", cause = 2, time_horizon = 100))
+
 \dontshow{\}) # examplesIf}
 }
 \references{
@@ -75,6 +116,11 @@ Blanche, Paul, Dartigues, Francois J, Jacqmin-Gadda, Helene (2013).
 \dQuote{Estimating and comparing time-dependent areas under receiver operating characteristic curves for censored event times with competing risks.}
 \emph{Statistics in Medicine}, \bold{32}(30), 5381--5397.
 ISSN 1097-0258, \doi{10.1002/SIM.5958}, \url{https://onlinelibrary.wiley.com/doi/10.1002/sim.5958}.
+
+Heyard, Rachel, Timsit, Jean-Francois, Held, Leonhard (2020).
+\dQuote{Validation of discrete time-to-event prediction models in the presence of competing risks.}
+\emph{Biometrical Journal}, \bold{62}(3), 643--657.
+\url{https://doi.org/10.1002/BIMJ.201800293}.
 }
 \concept{Competing risks measures}
 \section{Super classes}{
