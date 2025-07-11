@@ -43,6 +43,7 @@ Imports:
     survival
 Suggests:
     abind,
+    coxed,
     GGally,
     glmnet,
     knitr,

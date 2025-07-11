@@ -6,7 +6,7 @@
 #' A [TaskGenerator][mlr3::TaskGenerator] calling [coxed::sim.survdata()].
 #'
 #' This generator creates a survival dataset using `coxed`, and exposes
-#' some parameters from the `sim.survdata()` function.
+#' some parameters from the [coxed::sim.survdata()] function.
 #' We don't include the parameters `X` (user-specified variables), `covariate`,
 #' `low`, `high`, `compare`, `beta` and `hazard.fun` for this generator.
 #' The latter means that no user-specified hazard function can be used and the
@@ -71,8 +71,8 @@ TaskGeneratorCoxed = R6Class("TaskGeneratorCoxed",
   private = list(
     .generate = function(n) {
       require_namespaces("coxed")
-      sim_survdata = getFromNamespace("sim.survdata", ns = "coxed")
-      data = invoke(sim_survdata, N = n, .args = self$param_set$values)[[1]]
+
+      data = invoke(coxed::sim.survdata, N = n, .args = self$param_set$values)[[1]]
       data = map_at(data, "failed", as.integer)
 
       TaskSurv$new(id = self$id, backend = data, time = "y",
