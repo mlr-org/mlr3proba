@@ -459,5 +459,15 @@ bibentries = c(
     pages   = "643--657",
     year    = "2020",
     url     = "https://doi.org/10.1002/BIMJ.201800293"
+  ),
+  schoop_2011 = bibentry("article",
+    author  = "Schoop, Roland and Beyersmann, Jan and Schumacher, Martin and Binder, Harald",
+    title   = "Quantifying the predictive accuracy of time-to-event models in the presence of competing risks",
+    journal = "Biometrical Journal",
+    volume  = "53",
+    number  = "1",
+    pages   = "88--112",
+    year    = "2011",
+    url     = "https://doi.org/10.1002/BIMJ.201000073"
   )
 )
