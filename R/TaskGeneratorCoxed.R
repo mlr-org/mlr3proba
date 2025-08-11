@@ -5,8 +5,8 @@
 #' @description
 #' A [TaskGenerator][mlr3::TaskGenerator] calling [coxed::sim.survdata()].
 #'
-#' This generator creates a survival dataset using \CRANpkg{coxed}, and exposes
-#' some parameters from the `sim.survdata()` function.
+#' This generator creates a survival dataset using `coxed`, and exposes
+#' some parameters from the [coxed::sim.survdata()] function.
 #' We don't include the parameters `X` (user-specified variables), `covariate`,
 #' `low`, `high`, `compare`, `beta` and `hazard.fun` for this generator.
 #' The latter means that no user-specified hazard function can be used and the
@@ -18,7 +18,7 @@
 #' @template seealso_task_generator
 #' @references
 #' `r format_bib("harden_2019")`
-#' @examplesIf mlr3misc::require_namespaces(c("coxed"), quietly = TRUE)
+#' @examplesIf mlr3misc::require_namespaces("coxed", quietly = TRUE)
 #'   library(mlr3)
 #'
 #'   # time horizon = 365 days, censoring proportion = 60%, 6 covariates normally
@@ -72,8 +72,7 @@ TaskGeneratorCoxed = R6Class("TaskGeneratorCoxed",
     .generate = function(n) {
       require_namespaces("coxed")
 
-      pv = self$param_set$values
-      data = invoke(coxed::sim.survdata, N = n, .args = pv)[[1]]
+      data = invoke(coxed::sim.survdata, N = n, .args = self$param_set$values)[[1]]
       data = map_at(data, "failed", as.integer)
 
       TaskSurv$new(id = self$id, backend = data, time = "y",

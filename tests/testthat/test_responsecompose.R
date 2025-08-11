@@ -15,9 +15,9 @@ test_that("basic properties", {
 })
 
 set.seed(42)
-task = tgen("coxed", T = 99)$generate(20L)
+task = tsk("lung")$filter(1:20)
 pcox = lrn("surv.coxph")$train(task)$predict(task)
-pcox$data$response = rexp(20) # hack: add survival time predictions to cox model!
+pcox$data$response = rexp(20,rate = 0.01) # hack: add survival time predictions to cox model!
 
 test_that("overwrite", {
   # no overwrite
@@ -53,9 +53,9 @@ test_that("different methods, different responses", {
 
 test_that("different cutoffs, different rmst", {
   por1 = po("responsecompose", overwrite = TRUE, method = "rmst")
-  por2 = po("responsecompose", overwrite = TRUE, method = "rmst", tau = 100) # t_max = 99 in the generated data
-  por3 = po("responsecompose", overwrite = TRUE, method = "rmst", tau = 65)
-  por4 = po("responsecompose", overwrite = TRUE, method = "rmst", tau = 25)
+  por2 = po("responsecompose", overwrite = TRUE, method = "rmst", tau = 1500) # tau > t_max
+  por3 = po("responsecompose", overwrite = TRUE, method = "rmst", tau = 550)
+  por4 = po("responsecompose", overwrite = TRUE, method = "rmst", tau = 250)
 
   por1$train(list(NULL))
   por2$train(list(NULL))

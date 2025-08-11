@@ -32,15 +32,15 @@ The output is the input \link[mlr3:PredictionClassif]{PredictionClassif} transfo
 to a \link{PredictionSurv}.
 Each input classification probability prediction corresponds to the
 probability of having the event up to the specified cutoff time
-\eqn{\hat{\pi}(\bold{X}_i) = P(T_i < \tau|\bold{X}_i)},
+\eqn{\hat{\pi}(\textbf{X}_i) = P(T_i < \tau|\textbf{X}_i)},
 see Vock et al. (2016) and \link{PipeOpTaskSurvClassifIPCW}.
 Therefore, these predictions serve as \strong{continuous risk scores} that can be
 directly interpreted as \code{crank} predictions in the right-censored survival
 setting. We also map them to the survival distribution prediction \code{distr},
 at the specified cutoff time point \eqn{\tau}, i.e. as
-\eqn{S_i(\tau) = 1 - \hat{\pi}(\bold{X}_i)}.
+\eqn{S_i(\tau) = 1 - \hat{\pi}(\textbf{X}_i)}.
 Survival measures that use the survival distribution (eg \link[=mlr_measures_surv.brier]{ISBS})
-should be evaluated exactly at the cutoff time point \eqn{\tau}, see example.
+should be evaluated exactly at the cutoff time point \eqn{\tau}.
 }
 
 \references{

@@ -7,12 +7,16 @@
 #'
 #' This learner estimates the Cumulative Incidence Function (CIF) for competing
 #' risks using the empirical Aalen-Johansen (AJ) estimator.
-#' The probability of transitioning to each competing event is computed via the
-#' [survfit][survival::survfit.formula()] function.
+#'
+#' Transition probabilities to each event are computed from the training data via
+#' the [survfit][survival::survfit.formula()] function and predictions are made
+#' at all unique times (both events and censoring) observed in the training set.
 #'
 #' @references
 #' `r format_bib("aalen_1978")`
 #'
+#' @templateVar msr_id all
+#' @template example_cmprsk
 #' @export
 LearnerCompRisksAalenJohansen = R6Class("LearnerCompRisksAalenJohansen",
   inherit = LearnerCompRisks,
@@ -54,10 +58,10 @@ LearnerCompRisksAalenJohansen = R6Class("LearnerCompRisksAalenJohansen",
 
       times = self$model$time # unique train set time points
       n_obs = task$nrow # number of test observations
-      CIF = stats::setNames(vector("list", ncol(trans_mat)), colnames(trans_mat))
+      cif_list = stats::setNames(vector("list", ncol(trans_mat)), colnames(trans_mat))
 
-      for (i in seq_along(CIF)) {
-        CIF[[i]] = matrix(
+      for (i in seq_along(cif_list)) {
+        cif_list[[i]] = matrix(
           data = rep(trans_mat[, i], times = n_obs),
           nrow = n_obs,
           byrow = TRUE,
@@ -65,7 +69,7 @@ LearnerCompRisksAalenJohansen = R6Class("LearnerCompRisksAalenJohansen",
         )
       }
 
-      list(cif = CIF)
+      list(cif = cif_list)
     }
   )
 )
