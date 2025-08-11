@@ -51,7 +51,7 @@ registerS3method("generate_tasks", "LearnerSurv", generate_tasks.LearnerSurv)
 
 sanity_check.PredictionSurv = function(prediction, ...) {
   # sanity check discrimination
-  prediction$score() > 0.5
+  prediction$score() >= 0.6
 }
 registerS3method("sanity_check", "PredictionSurv", sanity_check.PredictionSurv)
 
