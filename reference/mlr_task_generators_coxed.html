@@ -7,13 +7,13 @@
   };
 </script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Survival Task Generator for Package 'coxed' — mlr_task_generators_coxed"><meta name="description" content="A TaskGenerator calling coxed::sim.survdata().
 This generator creates a survival dataset using coxed, and exposes
-some parameters from the sim.survdata() function.
+some parameters from the coxed::sim.survdata() function.
 We don't include the parameters X (user-specified variables), covariate,
 low, high, compare, beta and hazard.fun for this generator.
 The latter means that no user-specified hazard function can be used and the
 generated datasets always use the flexible-hazard method from the package."><meta property="og:description" content="A TaskGenerator calling coxed::sim.survdata().
 This generator creates a survival dataset using coxed, and exposes
-some parameters from the sim.survdata() function.
+some parameters from the coxed::sim.survdata() function.
 We don't include the parameters X (user-specified variables), covariate,
 low, high, compare, beta and hazard.fun for this generator.
 The latter means that no user-specified hazard function can be used and the
@@ -25,7 +25,7 @@ generated datasets always use the flexible-hazard method from the package."></he
 
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,8 +71,8 @@ generated datasets always use the flexible-hazard method from the package."></he
 
     <div class="ref-description section level2">
     <p>A <a href="https://mlr3.mlr-org.com/reference/TaskGenerator.html" class="external-link">TaskGenerator</a> calling <code><a href="https://rdrr.io/pkg/coxed/man/sim.survdata.html" class="external-link">coxed::sim.survdata()</a></code>.</p>
-<p>This generator creates a survival dataset using <a href="https://CRAN.R-project.org/package=coxed" class="external-link"><span class="pkg">coxed</span></a>, and exposes
-some parameters from the <code>sim.survdata()</code> function.
+<p>This generator creates a survival dataset using <code>coxed</code>, and exposes
+some parameters from the <code><a href="https://rdrr.io/pkg/coxed/man/sim.survdata.html" class="external-link">coxed::sim.survdata()</a></code> function.
 We don't include the parameters <code>X</code> (user-specified variables), <code>covariate</code>,
 <code>low</code>, <code>high</code>, <code>compare</code>, <code>beta</code> and <code>hazard.fun</code> for this generator.
 The latter means that no user-specified hazard function can be used and the

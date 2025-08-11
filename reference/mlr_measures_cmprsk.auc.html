@@ -5,11 +5,17 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Blanche's AUC Competing Risks Measure — mlr_measures_cmprsk.auc"><meta name="description" content="Calculates the cause-specific ROC-AUC(t) at a specific time point,
-see Blanche et al. (2013).
-Can also return the mean AUC(t) over all competing causes."><meta property="og:description" content="Calculates the cause-specific ROC-AUC(t) at a specific time point,
-see Blanche et al. (2013).
-Can also return the mean AUC(t) over all competing causes."></head><body>
+</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Blanche's AUC Competing Risks Measure — mlr_measures_cmprsk.auc"><meta name="description" content="Calculates the cause-specific time-dependent ROC-AUC at a specific time point,
+as described in Blanche et al. (2013).
+By default, this measure returns a cause-independent AUC(t) score,
+calculated as a weighted average of the cause-specific AUCs.
+The weights correspond to the relative event frequencies of each cause,
+following Equation (7) in Heyard et al. (2020)."><meta property="og:description" content="Calculates the cause-specific time-dependent ROC-AUC at a specific time point,
+as described in Blanche et al. (2013).
+By default, this measure returns a cause-independent AUC(t) score,
+calculated as a weighted average of the cause-specific AUCs.
+The weights correspond to the relative event frequencies of each cause,
+following Equation (7) in Heyard et al. (2020)."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -17,7 +23,7 @@ Can also return the mean AUC(t) over all competing causes."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,9 +68,12 @@ Can also return the mean AUC(t) over all competing causes."></head><body>
     </div>
 
     <div class="ref-description section level2">
-    <p>Calculates the cause-specific ROC-AUC(t) at a <strong>specific time point</strong>,
-see Blanche et al. (2013).
-Can also return the mean AUC(t) over all competing causes.</p>
+    <p>Calculates the cause-specific time-dependent ROC-AUC at a <strong>specific time point</strong>,
+as described in Blanche et al. (2013).</p>
+<p>By default, this measure returns a <strong>cause-independent AUC(t)</strong> score,
+calculated as a weighted average of the cause-specific AUCs.
+The weights correspond to the relative event frequencies of each cause,
+following Equation (7) in Heyard et al. (2020).</p>
     </div>
 
 
@@ -73,9 +82,14 @@ Can also return the mean AUC(t) over all competing causes.</p>
     <p>Calls <code><a href="https://rdrr.io/pkg/riskRegression/man/Score.html" class="external-link">riskRegression::Score()</a></code> with:</p><ul><li><p><code>metric = "auc"</code></p></li>
 <li><p><code>cens.method = "ipcw"</code></p></li>
 <li><p><code>cens.model = "km"</code></p></li>
-</ul><p>Note that the IPC weights (estimated via the Kaplan-Meier) are calculated
-using the test data.</p>
-    </div>
+</ul><p>Notes on the <code>riskRegression</code> implementation:</p><ol><li><p>IPCW weights are estimated using the <strong>test data only</strong>.</p></li>
+<li><p>No extrapolation is supported: if <code>time_horizon</code> exceeds the maximum observed
+time on the test data, an error is thrown.</p></li>
+<li><p>The choice of <code>time_horizon</code> is critical: if, at that time, no events of a
+given cause have occurred and all predicted CIFs are zero, <code>riskRegression</code>
+will return <code>NaN</code> for that cause-specific AUC (and subsequently for the
+summary AUC).</p></li>
+</ol></div>
     <div class="section level2">
     <h2 id="dictionary">Dictionary<a class="anchor" aria-label="anchor" href="#dictionary"></a></h2>
 
@@ -89,7 +103,7 @@ using the test data.</p>
     <div class="section level2">
     <h2 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a></h2>
 
-<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Range</td></tr><tr><td>cause</td><td>integer</td><td>1</td><td>\([1, \infty)\)</td></tr><tr><td>time_horizon</td><td>numeric</td><td>NULL</td><td>\([0, \infty)\)</td></tr></table></div>
+<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Range</td></tr><tr><td>cause</td><td>integer</td><td>-</td><td>\([1, \infty)\)</td></tr><tr><td>time_horizon</td><td>numeric</td><td>NULL</td><td>\([0, \infty)\)</td></tr></table></div>
     <div class="section level2">
     <h2 id="meta-information">Meta Information<a class="anchor" aria-label="anchor" href="#meta-information"></a></h2>
 
@@ -103,12 +117,12 @@ using the test data.</p>
     <h2 id="parameter-details">Parameter details<a class="anchor" aria-label="anchor" href="#parameter-details"></a></h2>
 
 
-<ul><li><p><code>cause</code> (<code>numeric(1)</code>)<br>
-Integer number indicating which cause to use (Default: <code>1</code>).
-If <code>"mean"</code>, then the mean AUC(t) over all causes is returned.</p></li>
+<ul><li><p><code>cause</code> (<code>numeric(1)|"mean"</code>)<br>
+Integer number indicating which cause to use.
+Default value is <code>"mean"</code> which returns a weighted mean of the cause-specific AUCs.</p></li>
 <li><p><code>time_horizon</code> (<code>numeric(1)</code>)<br>
 Single time point at which to return the score.
-If <code>NULL</code>, we issue a warning and the median time from the test set is used.</p></li>
+If <code>NULL</code>, the <strong>median time point</strong> from the test set is used.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -117,6 +131,10 @@ If <code>NULL</code>, we issue a warning and the median time from the test set i
 <em>Statistics in Medicine</em>, <b>32</b>(30), 5381–5397.
 ISSN 1097-0258, <a href="https://doi.org/10.1002/SIM.5958" class="external-link">doi:10.1002/SIM.5958</a>
 , <a href="https://onlinelibrary.wiley.com/doi/10.1002/sim.5958" class="external-link">https://onlinelibrary.wiley.com/doi/10.1002/sim.5958</a>.</p>
+<p>Heyard, Rachel, Timsit, Jean-Francois, Held, Leonhard (2020).
+“Validation of discrete time-to-event prediction models in the presence of competing risks.”
+<em>Biometrical Journal</em>, <b>62</b>(3), 643–657.
+<a href="https://doi.org/10.1002/BIMJ.201800293" class="external-link">https://doi.org/10.1002/BIMJ.201800293</a>.</p>
     </div>
     <div class="section level2">
     <h2 id="super-classes">Super classes<a class="anchor" aria-label="anchor" href="#super-classes"></a></h2>
@@ -165,13 +183,73 @@ ISSN 1097-0258, <a href="https://doi.org/10.1002/SIM.5958" class="external-link"
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">t</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">tsk</a></span><span class="op">(</span><span class="st">"pbc"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">l</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"cmprsk.aalen"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">p</span> <span class="op">=</span> <span class="va">l</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">t</span><span class="op">)</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">t</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mlr3.mlr-org.com" class="external-link">mlr3</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"cmprsk.auc"</span>, time_horizon <span class="op">=</span> <span class="fl">42</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Define the Learner</span></span></span>
+<span class="r-in"><span><span class="va">learner</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"cmprsk.aalen"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">learner</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="color: #0000BB; font-weight: bold;">&lt;LearnerCompRisksAalenJohansen&gt;</span><span style="font-weight: bold;"> (cmprsk.aalen): Aalen Johansen Estimator</span> <span style="color: #00BBBB;">────</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> • Model: -</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> • Parameters: list()</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> • Packages: <span style="color: #0000BB;">mlr3</span>, <span style="color: #0000BB;">mlr3proba</span>, and <span style="color: #0000BB;">survival</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> • Predict Types: [cif]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> • Feature Types: logical, integer, numeric, and factor</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> • Encapsulation: none (fallback: -)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> • Properties: weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> • Other settings: use_weights = 'use'</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Define a Task</span></span></span>
+<span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">tsk</a></span><span class="op">(</span><span class="st">"pbc"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Stratification based on event</span></span></span>
+<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">set_col_roles</span><span class="op">(</span>cols <span class="op">=</span> <span class="st">"status"</span>, add_to <span class="op">=</span> <span class="st">"stratum"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Create train and test set</span></span></span>
+<span class="r-in"><span><span class="va">part</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/partition.html" class="external-link">partition</a></span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Train the learner on the training set</span></span></span>
+<span class="r-in"><span><span class="va">learner</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span>, row_ids <span class="op">=</span> <span class="va">part</span><span class="op">$</span><span class="va">train</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">learner</span><span class="op">$</span><span class="va">model</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Call: survfit(formula = task$formula(1), data = task$data(cols = task$target_names))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        n nevent    rmean se(rmean)*</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (s0) 184      0 90.68602   4.209205</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    184     12  7.97298   2.218065</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    184     74 49.34100   4.196810</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    *restricted mean time in state (max time = 148 )</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Make predictions for the test set</span></span></span>
+<span class="r-in"><span><span class="va">predictions</span> <span class="op">=</span> <span class="va">learner</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span>, row_ids <span class="op">=</span> <span class="va">part</span><span class="op">$</span><span class="va">test</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">predictions</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="color: #0000BB; font-weight: bold;">&lt;PredictionCompRisks&gt;</span><span style="font-weight: bold;"> for </span><span style="color: #0000BB; font-weight: bold;">92</span><span style="font-weight: bold;"> observations:</span> <span style="color: #00BBBB;">──────────────────────────────────</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  row_ids time event       CIF</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        1   13     2 &lt;list[2]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        3   33     2 &lt;list[2]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        8   78     2 &lt;list[2]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      ---  ---   ---       ---</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      213   47     1 &lt;list[2]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      230   50     1 &lt;list[2]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      256   29     1 &lt;list[2]&gt;</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Score the predictions</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># AUC(t = 100), weighted mean score across causes (default)</span></span></span>
+<span class="r-in"><span><span class="va">predictions</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"cmprsk.auc"</span>, cause <span class="op">=</span> <span class="st">"mean"</span>, time_horizon <span class="op">=</span> <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> cmprsk.auc </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        0.5 </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># AUC(t = 100), 1st cause</span></span></span>
+<span class="r-in"><span><span class="va">predictions</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"cmprsk.auc"</span>, cause <span class="op">=</span> <span class="fl">1</span>, time_horizon <span class="op">=</span> <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> cmprsk.auc </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        0.5 </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># AUC(t = 100), 2nd cause</span></span></span>
+<span class="r-in"><span><span class="va">predictions</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"cmprsk.auc"</span>, cause <span class="op">=</span> <span class="fl">2</span>, time_horizon <span class="op">=</span> <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> cmprsk.auc </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        0.5 </span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

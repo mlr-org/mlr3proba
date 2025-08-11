@@ -15,7 +15,7 @@ Assumes Cox PH model specification."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -228,19 +228,19 @@ If <code>integrated == FALSE</code> then a single time point at which to return 
 <span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.chambless_auc"</span><span class="op">)</span>, task <span class="op">=</span> <span class="va">task</span>,</span></span>
 <span class="r-in"><span>        train_set <span class="op">=</span> <span class="va">part</span><span class="op">$</span><span class="va">train</span>, learner <span class="op">=</span> <span class="va">cox</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surv.chambless_auc </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          0.7042986 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          0.7347905 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># AUC at specific time point</span></span></span>
 <span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.chambless_auc"</span>, times <span class="op">=</span> <span class="fl">600</span><span class="op">)</span>, task <span class="op">=</span> <span class="va">task</span>,</span></span>
 <span class="r-in"><span>        train_set <span class="op">=</span> <span class="va">part</span><span class="op">$</span><span class="va">train</span>, learner <span class="op">=</span> <span class="va">cox</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surv.chambless_auc </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          0.7528927 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          0.8008161 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Integrated AUC at specific time points</span></span></span>
 <span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.chambless_auc"</span>, times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">200</span>, <span class="fl">300</span>, <span class="fl">400</span>, <span class="fl">500</span><span class="op">)</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>        task <span class="op">=</span> <span class="va">task</span>, train_set <span class="op">=</span> <span class="va">part</span><span class="op">$</span><span class="va">train</span>, learner <span class="op">=</span> <span class="va">cox</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surv.chambless_auc </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            0.69559 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          0.7275001 </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

@@ -17,7 +17,7 @@ method by Vock et al. (2016)."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -91,15 +91,15 @@ during the prediction phase.</p>
 to a <a href="PredictionSurv.html">PredictionSurv</a>.
 Each input classification probability prediction corresponds to the
 probability of having the event up to the specified cutoff time
-\(\hat{\pi}(\bold{X}_i) = P(T_i &lt; \tau|\bold{X}_i)\),
+\(\hat{\pi}(\textbf{X}_i) = P(T_i &lt; \tau|\textbf{X}_i)\),
 see Vock et al. (2016) and <a href="mlr_pipeops_trafotask_survclassif_IPCW.html">PipeOpTaskSurvClassifIPCW</a>.
 Therefore, these predictions serve as <strong>continuous risk scores</strong> that can be
 directly interpreted as <code>crank</code> predictions in the right-censored survival
 setting. We also map them to the survival distribution prediction <code>distr</code>,
 at the specified cutoff time point \(\tau\), i.e. as
-\(S_i(\tau) = 1 - \hat{\pi}(\bold{X}_i)\).
+\(S_i(\tau) = 1 - \hat{\pi}(\textbf{X}_i)\).
 Survival measures that use the survival distribution (eg <a href="mlr_measures_surv.graf.html">ISBS</a>)
-should be evaluated exactly at the cutoff time point \(\tau\), see example.</p>
+should be evaluated exactly at the cutoff time point \(\tau\).</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
