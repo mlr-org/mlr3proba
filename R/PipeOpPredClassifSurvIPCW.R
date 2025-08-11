@@ -26,15 +26,15 @@
 #' to a [PredictionSurv].
 #' Each input classification probability prediction corresponds to the
 #' probability of having the event up to the specified cutoff time
-#' \eqn{\hat{\pi}(\bold{X}_i) = P(T_i < \tau|\bold{X}_i)},
+#' \eqn{\hat{\pi}(\textbf{X}_i) = P(T_i < \tau|\textbf{X}_i)},
 #' see Vock et al. (2016) and [PipeOpTaskSurvClassifIPCW].
 #' Therefore, these predictions serve as **continuous risk scores** that can be
 #' directly interpreted as `crank` predictions in the right-censored survival
 #' setting. We also map them to the survival distribution prediction `distr`,
 #' at the specified cutoff time point \eqn{\tau}, i.e. as
-#' \eqn{S_i(\tau) = 1 - \hat{\pi}(\bold{X}_i)}.
+#' \eqn{S_i(\tau) = 1 - \hat{\pi}(\textbf{X}_i)}.
 #' Survival measures that use the survival distribution (eg [ISBS][mlr_measures_surv.brier])
-#' should be evaluated exactly at the cutoff time point \eqn{\tau}, see example.
+#' should be evaluated exactly at the cutoff time point \eqn{\tau}.
 #'
 #' @references
 #' `r format_bib("vock_2016")`
