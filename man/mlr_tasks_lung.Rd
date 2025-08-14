@@ -57,7 +57,6 @@ Other Task:
 \code{\link{mlr_tasks_gbsg}},
 \code{\link{mlr_tasks_grace}},
 \code{\link{mlr_tasks_mgus}},
-\code{\link{mlr_tasks_pbc}},
 \code{\link{mlr_tasks_precip}},
 \code{\link{mlr_tasks_rats}},
 \code{\link{mlr_tasks_veteran}},

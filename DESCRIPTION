@@ -145,7 +145,6 @@ Collate:
     'as_prediction_cmprsk.R'
     'as_prediction_dens.R'
     'as_prediction_surv.R'
-    'as_task_cmprisk.R'
     'as_task_dens.R'
     'as_task_surv.R'
     'assertions.R'

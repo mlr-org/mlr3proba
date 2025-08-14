@@ -55,7 +55,6 @@ Other Task:
 \code{\link{mlr_tasks_grace}},
 \code{\link{mlr_tasks_lung}},
 \code{\link{mlr_tasks_mgus}},
-\code{\link{mlr_tasks_pbc}},
 \code{\link{mlr_tasks_rats}},
 \code{\link{mlr_tasks_veteran}},
 \code{\link{mlr_tasks_whas}}
