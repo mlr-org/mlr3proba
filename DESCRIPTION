@@ -154,6 +154,7 @@ Collate:
     'bibentries.R'
     'breslow.R'
     'data.R'
+    'default_fallback.R'
     'helper_measures.R'
     'helpers.R'
     'histogram.R'
