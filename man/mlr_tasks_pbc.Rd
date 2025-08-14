@@ -20,14 +20,7 @@ tsk("pbc")
 
 \section{Meta Information}{
 
-\itemize{
-\item Task type: \dQuote{cmprsk}
-\item Dimensions: 276x19
-\item Properties: -
-\item Has Missings: \code{FALSE}
-\item Target: \dQuote{time}, \dQuote{status}
-\item Features: \dQuote{age}, \dQuote{albumin}, \dQuote{alk.phos}, \dQuote{ascites}, \dQuote{ast}, \dQuote{bili}, \dQuote{chol}, \dQuote{copper}, \dQuote{edema}, \dQuote{hepato}, \dQuote{platelet}, \dQuote{protime}, \dQuote{sex}, \dQuote{spiders}, \dQuote{stage}, \dQuote{trig}, \dQuote{trt}
-}
+\verb{r mlr3misc::rd_info(mlr3::tsk("pbc"))}
 }
 
 \section{Pre-processing}{
@@ -53,7 +46,6 @@ to \code{factor}s.
 }
 
 Other Task: 
-\code{\link{TaskCompRisks}},
 \code{\link{TaskDens}},
 \code{\link{TaskSurv}},
 \code{\link{mlr_tasks_actg}},

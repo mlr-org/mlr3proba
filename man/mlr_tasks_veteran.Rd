@@ -49,7 +49,6 @@ values are \code{no}/\code{yes} instead of 0/10.
 }
 
 Other Task: 
-\code{\link{TaskCompRisks}},
 \code{\link{TaskDens}},
 \code{\link{TaskSurv}},
 \code{\link{mlr_tasks_actg}},

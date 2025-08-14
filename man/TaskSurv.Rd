@@ -57,7 +57,6 @@ Grambsch, Patricia, Therneau, Terry (1994).
 }
 \seealso{
 Other Task: 
-\code{\link{TaskCompRisks}},
 \code{\link{TaskDens}},
 \code{\link{mlr_tasks_actg}},
 \code{\link{mlr_tasks_faithful}},

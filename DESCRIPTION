@@ -136,7 +136,6 @@ Collate:
     'PredictionDens.R'
     'PredictionSurv.R'
     'RcppExports.R'
-    'TaskCompRisks.R'
     'TaskDens.R'
     'TaskGeneratorCoxed.R'
     'TaskGeneratorSimdens.R'

@@ -49,7 +49,6 @@ converted to \code{integer}.
 }
 
 Other Task: 
-\code{\link{TaskCompRisks}},
 \code{\link{TaskDens}},
 \code{\link{TaskSurv}},
 \code{\link{mlr_tasks_actg}},
