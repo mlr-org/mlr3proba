@@ -46,25 +46,21 @@ register_reflections = function() {
   x$task_types = setkeyv(rbind(x$task_types, rowwise_table(
     ~type,  ~package,     ~task,      ~learner,      ~prediction,       ~prediction_data,     ~measure,
     "surv", "mlr3proba",  "TaskSurv", "LearnerSurv", "PredictionSurv",  "PredictionDataSurv", "MeasureSurv",
-    "dens", "mlr3proba",  "TaskDens", "LearnerDens", "PredictionDens",  "PredictionDataDens", "MeasureDens",
-    "cmprsk", "mlr3proba",  "TaskCompRisks", "LearnerCompRisks", "PredictionCompRisks",  "PredictionDataCompRisks", "MeasureCompRisks"
+    "dens", "mlr3proba",  "TaskDens", "LearnerDens", "PredictionDens",  "PredictionDataDens", "MeasureDens"
   )), "type")
 
   # task column roles
   x$task_col_roles$surv = x$task_col_roles$regr
-  x$task_col_roles$cmprsk = x$task_col_roles$regr
   x$task_col_roles$dens = c("feature", "target", "label", "order", "group", "weights_learner", "stratum")
   x$task_col_roles$classif = unique(c(x$task_col_roles$classif, "original_ids")) # for discrete time
   x$task_col_roles$regr = unique(c(x$task_col_roles$regr, "original_ids")) # for pem
 
   # task properties
   x$task_properties$surv = x$task_properties$regr
-  x$task_properties$cmprsk = x$task_properties$regr
   x$task_properties$dens = x$task_properties$regr
 
   # learner properties
   x$learner_properties$surv = x$learner_properties$regr
-  x$learner_properties$cmprsk = x$learner_properties$regr
   x$learner_properties$dens = x$learner_properties$regr
 
   # learner predict types
@@ -75,7 +71,6 @@ register_reflections = function() {
     lp = c("crank", "lp", "distr", "response"),
     response = c("crank", "lp", "distr", "response")
   )
-  x$learner_predict_types$cmprsk = list(cif = "cif")
   x$learner_predict_types$dens = list(
     pdf = c("pdf", "cdf", "distr"),
     cdf = c("pdf", "cdf", "distr"),
@@ -84,10 +79,8 @@ register_reflections = function() {
 
   # measure
   x$measure_properties$surv = x$measure_properties$regr
-  x$measure_properties$cmprsk = x$measure_properties$regr
   x$measure_properties$dens = x$measure_properties$regr
   x$default_measures$surv = "surv.cindex"
-  x$default_measures$cmprsk = "cmprsk.auc"
   x$default_measures$dens = "dens.logloss"
 }
 
