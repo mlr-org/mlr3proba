@@ -42,7 +42,7 @@ register_reflections = function() {
   x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
 
   # task types
-  x$task_types = x$task_types[!c("surv", "dens", "cmprsk")]
+  x$task_types = x$task_types[!c("surv", "dens")]
   x$task_types = setkeyv(rbind(x$task_types, rowwise_table(
     ~type,  ~package,     ~task,      ~learner,      ~prediction,       ~prediction_data,     ~measure,
     "surv", "mlr3proba",  "TaskSurv", "LearnerSurv", "PredictionSurv",  "PredictionDataSurv", "MeasureSurv",

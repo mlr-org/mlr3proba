@@ -30,7 +30,6 @@ lrn("surv.coxph")
 }
 \seealso{
 Other Learner: 
-\code{\link{LearnerCompRisks}},
 \code{\link{LearnerDens}}
 }
 \concept{Learner}

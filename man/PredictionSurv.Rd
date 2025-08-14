@@ -26,7 +26,6 @@ p$distr$survival(c(20, 100))
 }
 \seealso{
 Other Prediction: 
-\code{\link{PredictionCompRisks}},
 \code{\link{PredictionDens}}
 }
 \concept{Prediction}
