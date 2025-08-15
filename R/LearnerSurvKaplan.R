@@ -49,6 +49,10 @@ LearnerSurvKaplan = R6Class("LearnerSurvKaplan",
     #'
     #' @return `character(0)`.
     selected_features = function() {
+      if (is.null(self$model)) {
+        stopf("No model stored")
+      }
+
       character()
     }
   ),
