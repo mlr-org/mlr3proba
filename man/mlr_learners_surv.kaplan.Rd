@@ -58,6 +58,8 @@ Other survival learners:
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-LearnerSurvKaplan-new}{\code{LearnerSurvKaplan$new()}}
+\item \href{#method-LearnerSurvKaplan-importance}{\code{LearnerSurvKaplan$importance()}}
+\item \href{#method-LearnerSurvKaplan-selected_features}{\code{LearnerSurvKaplan$selected_features()}}
 \item \href{#method-LearnerSurvKaplan-clone}{\code{LearnerSurvKaplan$clone()}}
 }
 }
@@ -73,7 +75,6 @@ Other survival learners:
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict_newdata"><a href='../../mlr3/html/Learner.html#method-Learner-predict_newdata'><code>mlr3::Learner$predict_newdata()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="print"><a href='../../mlr3/html/Learner.html#method-Learner-print'><code>mlr3::Learner$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="reset"><a href='../../mlr3/html/Learner.html#method-Learner-reset'><code>mlr3::Learner$reset()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="selected_features"><a href='../../mlr3/html/Learner.html#method-Learner-selected_features'><code>mlr3::Learner$selected_features()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="train"><a href='../../mlr3/html/Learner.html#method-Learner-train'><code>mlr3::Learner$train()</code></a></span></li>
 </ul>
 </details>
@@ -87,6 +88,37 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \if{html}{\out{<div class="r">}}\preformatted{LearnerSurvKaplan$new()}\if{html}{\out{</div>}}
 }
 
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-LearnerSurvKaplan-importance"></a>}}
+\if{latex}{\out{\hypertarget{method-LearnerSurvKaplan-importance}{}}}
+\subsection{Method \code{importance()}}{
+All features have a score of \code{0} for this learner.
+#' This method exists solely for compatibility with the \code{mlr3} ecosystem,
+as this learner is used as a fallback for other survival learners that
+require an \code{importance()} method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerSurvKaplan$importance()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+Named \code{numeric()}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-LearnerSurvKaplan-selected_features"></a>}}
+\if{latex}{\out{\hypertarget{method-LearnerSurvKaplan-selected_features}{}}}
+\subsection{Method \code{selected_features()}}{
+Selected features are always the empty set for this learner.
+This method is implemented only for compatibility with the \code{mlr3} API,
+as this learner does not perform feature selection.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerSurvKaplan$selected_features()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+\code{character(0)}.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-LearnerSurvKaplan-clone"></a>}}
