@@ -19,7 +19,7 @@ LearnerSurvKaplan = R6Class("LearnerSurvKaplan",
         id = "surv.kaplan",
         predict_types = c("crank", "distr"),
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
-        properties = c("missings", "importance", "selected_features"),
+        properties = c("missings", "weights", "importance", "selected_features"),
         packages = c("survival", "distr6"),
         label = "Kaplan-Meier Estimator",
         man = "mlr3proba::mlr_learners_surv.kaplan"
@@ -59,9 +59,15 @@ LearnerSurvKaplan = R6Class("LearnerSurvKaplan",
 
   private = list(
     .train = function(task) {
-      list(model = invoke(survival::survfit, formula = task$formula(1),
-                          data = task$data(cols = task$target_names)),
-           features = task$feature_names) # keep for importance
+      fit = invoke(
+        survival::survfit,
+        formula = task$formula(1),
+        data = task$data(),
+        .args = list(weights = private$.get_weights(task))
+      )
+
+      # keep features for importance
+      list(model = fit, features = task$feature_names)
     },
 
     .predict = function(task) {
