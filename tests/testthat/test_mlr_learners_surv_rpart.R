@@ -4,7 +4,7 @@ test_that("autotest", {
   with_seed(42L, {
     learner = mlr_learners$get("surv.rpart")
     expect_learner(learner)
-    result = run_autotest(learner, check_replicable = FALSE)
+    result = suppress_fallback_warnings(run_autotest(learner, check_replicable = FALSE))
     expect_true(result, info = result$error)
   })
 })

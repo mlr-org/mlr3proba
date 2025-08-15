@@ -64,6 +64,7 @@ Suggests:
 LinkingTo:
     Rcpp
 Remotes:
+    mlr-org/mlr3@autotest_surv,
     jkropko/coxed@bc92e25,
     xoopR/distr6,
     xoopR/param6,

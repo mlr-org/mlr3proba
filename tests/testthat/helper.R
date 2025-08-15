@@ -50,3 +50,4 @@ gen_cif = function(n = 20, n_events = 2, n_times = 20) {
 
   cif_list
 }
+
