@@ -1,7 +1,7 @@
 # mlr3proba dev
 
 * feat: add `default_fallback()` (returns `surv.kaplan`)
-* feat: add `importance` and `selected_features` properties in Kaplan-Meier for compatibility with other survival learners when it is used as a fallback learner
+* feat: add `importance`, `weights` and `selected_features` properties in Kaplan-Meier for compatibility with other survival learners when it is used as a fallback learner
 
 # mlr3proba 0.8.2
 
