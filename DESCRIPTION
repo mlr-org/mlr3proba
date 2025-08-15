@@ -49,6 +49,7 @@ Suggests:
     knitr,
     lgr,
     lifecycle,
+    mirai,
     mlr3learners (>= 0.10.0),
     mlr3viz,
     pammtools,
