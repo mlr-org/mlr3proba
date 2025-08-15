@@ -8,7 +8,7 @@ NULL
 #' @import distr6
 #' @import ggplot2
 #' @import mlr3
-#' @importFrom mlr3 default_fallback
+# @importFrom mlr3 default_fallback
 #' @import mlr3misc
 #' @import paradox
 #' @importFrom R6 R6Class
