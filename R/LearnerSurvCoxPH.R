@@ -54,7 +54,7 @@ LearnerSurvCoxPH = R6Class("LearnerSurvCoxPH",
       # Get linear predictors
       lp = invoke(predict, self$model, type = "lp", newdata = newdata)
 
-      .surv_return(times = fit$time, surv = t(fit$surv), lp = lp)
+      surv_return(times = fit$time, surv = t(fit$surv), lp = lp)
     }
   )
 )

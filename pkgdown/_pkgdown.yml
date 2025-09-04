@@ -129,10 +129,8 @@ reference:
       - whas
   - title: Internal
     contents:
-      - .surv_return
+      - surv_return
       - breslow
-      - assert_surv
       - assert_surv_matrix
-      - assert_cif_list
       - get_mortality
       - MeasureSurvAUC
