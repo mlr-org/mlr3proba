@@ -16,7 +16,6 @@ Predefined measures can be found in the \link[mlr3misc:Dictionary]{dictionary} \
 Default density measures: \code{\link[=mlr_measures_dens.logloss]{dens.logloss}}
 
 Other Measure: 
-\code{\link{MeasureCompRisks}},
 \code{\link{MeasureSurv}}
 }
 \concept{Measure}

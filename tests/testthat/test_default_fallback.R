@@ -20,10 +20,4 @@ test_that("fallback = default_fallback() works", {
   fallback = default_fallback(learner)
   expect_class(fallback, "LearnerDensHistogram")
   expect_equal(fallback$predict_type, "pdf")
-
-  # competing risk learners
-  learner = lrn("cmprsk.aalen")
-  fallback = default_fallback(learner)
-  expect_class(fallback, "LearnerCompRisksAalenJohansen")
-  expect_equal(fallback$predict_type, "cif")
 })

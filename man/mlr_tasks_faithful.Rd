@@ -46,7 +46,6 @@ tsk("faithful")
 }
 
 Other Task: 
-\code{\link{TaskCompRisks}},
 \code{\link{TaskDens}},
 \code{\link{TaskSurv}},
 \code{\link{mlr_tasks_actg}},
@@ -55,7 +54,6 @@ Other Task:
 \code{\link{mlr_tasks_grace}},
 \code{\link{mlr_tasks_lung}},
 \code{\link{mlr_tasks_mgus}},
-\code{\link{mlr_tasks_pbc}},
 \code{\link{mlr_tasks_precip}},
 \code{\link{mlr_tasks_rats}},
 \code{\link{mlr_tasks_veteran}},

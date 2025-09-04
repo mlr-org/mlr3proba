@@ -38,8 +38,6 @@ navbar:
           href: https://mlr3book.mlr-org.com/chapters/chapter13/beyond_regression_and_classification.html#sec-density
         - text: Survival Modeling using BART
           href: https://mlr-org.com/gallery/technical/2023-10-25-bart-survival/
-        - text: Neural Networks for Survival Analysis
-          href: https://towardsdatascience.com/neural-networks-for-survival-analysis-in-r-1e0421584ab
     book:
       text: mlr3book
       icon: fa fa-book
@@ -68,10 +66,6 @@ reference:
       - LearnerSurv
       - PredictionSurv
       - MeasureSurv
-      - TaskCompRisks
-      - LearnerCompRisks
-      - PredictionCompRisks
-      - MeasureCompRisks
       - TaskDens
       - LearnerDens
       - PredictionDens
@@ -102,15 +96,6 @@ reference:
   - title: Survival Pipelines
     contents:
       - starts_with("mlr_graphs")
-  - title: Competing Risk Learners
-    contents:
-      - starts_with("mlr_learners_cmprsk")
-  - title: Competing Risk Measures
-    contents:
-      - starts_with("mlr_measures_cmprsk")
-  - title: Competing Risk Tasks
-    contents:
-      - mlr_tasks_pbc
   - title: Density Learners
     contents:
       - starts_with("mlr_learners_dens")
@@ -142,10 +127,8 @@ reference:
       - whas
   - title: Internal
     contents:
-      - .surv_return
+      - surv_return
       - breslow
-      - assert_surv
       - assert_surv_matrix
-      - assert_cif_list
       - get_mortality
       - MeasureSurvAUC

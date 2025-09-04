@@ -33,22 +33,22 @@
 #' surv_mat = t(apply(mat, 1L, function(row) sort(row, decreasing = TRUE)))
 #'
 #' # crank is expected mortality, distr is the survival matrix
-#' .surv_return(times = 1:k, surv = surv_mat)
+#' surv_return(times = 1:k, surv = surv_mat)
 #'
 #' # if crank is set, it's not overwritten
-#' .surv_return(times = 1:k, surv = surv_mat, crank = rnorm(n))
+#' surv_return(times = 1:k, surv = surv_mat, crank = rnorm(n))
 #'
 #' # lp = crank
-#' .surv_return(lp = rnorm(n))
+#' surv_return(lp = rnorm(n))
 #'
 #' # if response is set and no crank, crank = -response
-#' .surv_return(response = sample(1:100, n))
+#' surv_return(response = sample(1:100, n))
 #'
 #' # if both are set, they are not overwritten
-#' .surv_return(crank = rnorm(n), response = sample(1:100, n))
+#' surv_return(crank = rnorm(n), response = sample(1:100, n))
 #'
 #' @export
-.surv_return = function(times = NULL, surv = NULL, crank = NULL, lp = NULL,
+surv_return = function(times = NULL, surv = NULL, crank = NULL, lp = NULL,
   response = NULL, which.curve = NULL) {
 
   if (!is.null(surv)) {

@@ -179,7 +179,7 @@ PipeOpDistrCompositor = R6Class("PipeOpDistrCompositor",
           cdf[survmat == 1] = 0
         }
 
-        distr = .surv_return(times = times, surv = 1 - cdf)$distr
+        distr = surv_return(times = times, surv = 1 - cdf)$distr
 
         p = PredictionSurv$new(
           row_ids = pred$row_ids,
