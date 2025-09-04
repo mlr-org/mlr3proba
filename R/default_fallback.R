@@ -1,7 +1,3 @@
-default_fallback = function(learner, ...) {
-  UseMethod("default_fallback")
-}
-
 #' @export
 default_fallback.LearnerSurv = function(learner, ...) {
   fallback = lrn("surv.kaplan")

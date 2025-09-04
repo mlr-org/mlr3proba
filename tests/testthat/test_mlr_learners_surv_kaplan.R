@@ -14,3 +14,15 @@ test_that("single prediction", {
   learner$train(task)
   expect_prediction_surv(learner$predict(task, task$row_ids[1]))
 })
+
+test_that("importance/selected", {
+  learner = lrn("surv.kaplan")
+  expect_error(learner$importance(), "No model stored")
+  expect_error(learner$selected_features(), "No model stored")
+
+  task = tsk("rats")
+  learner$train(task)
+  expect_character(learner$selected_features(), len = 0)
+  expect_named(learner$importance(), expected = task$feature_names)
+  expect_true(all(learner$importance() == 0))
+})

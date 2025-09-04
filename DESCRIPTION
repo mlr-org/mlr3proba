@@ -49,6 +49,7 @@ Suggests:
     knitr,
     lgr,
     lifecycle,
+    mirai,
     mlr3learners (>= 0.10.0),
     mlr3viz,
     pammtools,
@@ -64,6 +65,7 @@ Suggests:
 LinkingTo:
     Rcpp
 Remotes:
+    mlr-org/mlr3,
     jkropko/coxed@bc92e25,
     xoopR/distr6,
     xoopR/param6,
