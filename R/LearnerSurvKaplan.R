@@ -28,7 +28,7 @@ LearnerSurvKaplan = R6Class("LearnerSurvKaplan",
 
     #' @description
     #' All features have a score of `0` for this learner.
-    #' #' This method exists solely for compatibility with the `mlr3` ecosystem,
+    #' This method exists solely for compatibility with the `mlr3` ecosystem,
     #' as this learner is used as a fallback for other survival learners that
     #' require an `importance()` method.
     #'
