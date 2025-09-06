@@ -29,17 +29,15 @@ Probabilistic Supervised Learning for **[mlr3](https://github.com/mlr-org/mlr3/)
 
 It currently supports:
 
-1. **Predictive survival analysis**: with support for right-censoring single-event and competing risks.
-2. **Unconditional distribution estimation**: including density and unconditional survival estimation.
+1. **Predictive survival analysis** for single-event tasks with right-censoring.
+2. **Unsupervised density estimation** for single variable tasks.
 3. **Probabilistic supervised regression**: Supervised regression with a predictive distribution as the return type.
-
-The survival analysis part is considered in a mature state, the rest are in early stages of development.
 
 ## Feature Overview
 
 Key features of `mlr3proba` focus on survival analysis and are:
 
-- Task frameworks for survival analysis (`TaskSurv`, `TaskCompetingRisks`)
+- Task frameworks for survival analysis (`TaskSurv`)
 - A comprehensive **selection of survival learners** (mostly via
   [mlr3extralearners](https://github.com/mlr-org/mlr3extralearners/))
 - A unified `$train()`/`$predict()` model interface to any probabilistic predictive model (frequentist, Bayesian, Deep Learning, or other)
@@ -56,27 +54,27 @@ Please follow one of the two following methods to install it:
 ### R-universe
 
 Install the latest released version:
-```r
+```{r eval = FALSE}
 install.packages("mlr3proba", repos = "https://mlr-org.r-universe.dev")
 ```
 
 ### GitHub
 
 Install the latest development version:
-```r
-remotes::install_github("mlr-org/mlr3proba")
+```{r eval = FALSE}
+# install.packages("pak")
+pak::pak("mlr-org/mlr3proba")
 ```
 
 ## Learners
 
-- [Core learners](https://mlr3proba.mlr-org.com/reference/index.html#survival-learners) are implemented in `mlr3proba` and include the Kaplan-Meier Estimator, the Cox Proportional Hazards model, the Survival Tree learner and the Aalen-Johansen estimator for competing risks.
+- [Core learners](https://mlr3proba.mlr-org.com/reference/index.html#survival-learners) are implemented in `mlr3proba` and include the Kaplan-Meier Estimator, the Cox Proportional Hazards model and the Survival Tree learner.
 - In [mlr3extralearners](https://github.com/mlr-org/mlr3extralearners) we have interfaced several more advanced ML learners.
 Use the [interactive search table](https://mlr-org.com/learners.html) to search for the available survival learners and see the [learner status page](https://mlr3extralearners.mlr-org.com/articles/learner_status.html) for their live status.
 
 ## Measures
 
 For density estimation and probabilistic regression only the **log-loss** is currently implemented.
-For competing risk, see list [here](https://mlr3proba.mlr-org.com/reference/index.html#competing-risk-measures).
 For survival analysis, see list [here](https://mlr3proba.mlr-org.com/reference/index.html#survival-measures).
 
 Some commonly used measures for right-censored single-event tasks are the following:
