@@ -56,6 +56,7 @@ Please follow one of the two following methods to install it:
 ### R-universe
 
 Install the latest released version:
+
 ```r
 install.packages("mlr3proba", repos = "https://mlr-org.r-universe.dev")
 ```
@@ -63,8 +64,10 @@ install.packages("mlr3proba", repos = "https://mlr-org.r-universe.dev")
 ### GitHub
 
 Install the latest development version:
+
 ```r
-remotes::install_github("mlr-org/mlr3proba")
+# install.packages("pak")
+pak::pak("mlr-org/mlr3proba")
 ```
 
 ## Learners
@@ -93,7 +96,7 @@ Some commonly used measures for right-censored single-event tasks are the follow
 
 ## Bugs, Questions, Feedback
 
-**mlr3proba** is a free and open source software project that encourages participation and feedback. 
+**mlr3proba** is a free and open source software project that encourages participation and feedback.
 If you have any issues, questions, suggestions or feedback, please do not hesitate to open an
 "issue" about it on the [GitHub page](https://github.com/mlr-org/mlr3proba/issues)\!
 

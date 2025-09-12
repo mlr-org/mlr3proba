@@ -75,7 +75,8 @@ install.packages("mlr3proba", repos = "https://mlr-org.r-universe.dev")
 Install the latest development version:
 
 ``` r
-remotes::install_github("mlr-org/mlr3proba")
+# install.packages("pak")
+pak::pak("mlr-org/mlr3proba")
 ```
 
 ## Learners
