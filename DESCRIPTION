@@ -55,6 +55,7 @@ Suggests:
     pammtools,
     param6 (>= 0.2.4),
     polspline,
+    pracma,
     rpart,
     set6 (>= 0.2.6),
     simsurv,
