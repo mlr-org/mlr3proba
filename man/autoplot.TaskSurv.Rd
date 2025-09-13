@@ -47,10 +47,7 @@ Color is set to target column.
 }
 }
 \examples{
-\dontshow{if (mlr3misc::require_namespaces(c("mlr3viz", "ggplot2"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-library(mlr3)
-library(mlr3viz)
-library(mlr3proba)
+\dontshow{if (mlr3misc::require_namespaces("ggplot2", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(ggplot2)
 
 task = tsk("lung")

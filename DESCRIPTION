@@ -51,7 +51,6 @@ Suggests:
     lifecycle,
     mirai,
     mlr3learners (>= 0.10.0),
-    mlr3viz,
     pammtools,
     param6 (>= 0.2.4),
     polspline,
