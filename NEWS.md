@@ -1,5 +1,6 @@
 # mlr3proba 0.8.2
 
+* Update `mlr3` at `v1.2.0` and `mlr3misc` at `v0.19.0`
 * feat: add `default_fallback()` (returns `surv.kaplan`)
 * feat: add `importance`, `weights` and `selected_features` properties in Kaplan-Meier for compatibility with other survival learners when it is used as a fallback learner
 * **BREAKING CHANGE**: Removed all competing risks support, we now have a separate package in the `mlr3` universe for it, called `mlr3cmprsk`. So cheers!
