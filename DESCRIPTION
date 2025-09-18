@@ -28,14 +28,14 @@ License: LGPL-3
 URL: https://mlr3proba.mlr-org.com, https://github.com/mlr-org/mlr3proba
 BugReports: https://github.com/mlr-org/mlr3proba/issues
 Depends:
-    mlr3 (>= 1.0.0),
+    mlr3 (>= 1.2.0),
     R (>= 3.5.0)
 Imports:
     checkmate,
     data.table,
     distr6 (>= 1.8.4),
     ggplot2,
-    mlr3misc (>= 0.8.0),
+    mlr3misc (>= 0.19.0),
     mlr3pipelines (>= 0.7.0),
     paradox (>= 1.0.0),
     R6,
@@ -64,7 +64,6 @@ LinkingTo:
     Rcpp
 Remotes:
     jkropko/coxed@bc92e25,
-    mlr-org/mlr3,
     xoopR/distr6,
     xoopR/param6,
     xoopR/set6
