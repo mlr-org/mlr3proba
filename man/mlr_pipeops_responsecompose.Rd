@@ -70,7 +70,7 @@ This is \strong{not a good estimate to use in general}, only a reasonable substi
 }
 
 \examples{
-\dontshow{if (mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (mlr3misc::require_namespaces(c("mlr3pipelines"), quietly = TRUE)) withAutoprint(\{ # examplesIf}
 \dontrun{
   library(mlr3pipelines)
   task = tsk("rats")

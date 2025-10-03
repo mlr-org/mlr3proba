@@ -79,7 +79,7 @@ from the \link{PredictionSurv} or \link{TaskSurv} object. If a range is provided
 then all time-points between the range are returned.
 }
 \examples{
-\dontshow{if (mlr3misc::require_namespaces(c("ggplot2"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (mlr3misc::require_namespaces(c("ggplot2"), quietly = TRUE)) withAutoprint(\{ # examplesIf}
   # Prediction Error Curves for prediction object
   task = tsk("lung")
   learner = lrn("surv.coxph")

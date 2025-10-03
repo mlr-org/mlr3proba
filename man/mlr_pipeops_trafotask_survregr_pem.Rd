@@ -73,7 +73,7 @@ Needs to be greater than the minimum event time in the given task.
 }
 
 \examples{
-\dontshow{if ((mlr3misc::require_namespaces(c("mlr3pipelines", "mlr3extralearners"), quietly = TRUE))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if ((mlr3misc::require_namespaces(c("mlr3pipelines", "mlr3extralearners"), quietly = TRUE))) withAutoprint(\{ # examplesIf}
 \dontrun{
   library(mlr3)
   library(mlr3learners)
