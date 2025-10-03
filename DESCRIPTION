@@ -58,7 +58,7 @@ Suggests:
     rpart,
     set6 (>= 0.2.6),
     simsurv,
-    survAUC,
+    survAUC (>= 1.4-0),
     testthat (>= 3.0.0)
 LinkingTo:
     Rcpp

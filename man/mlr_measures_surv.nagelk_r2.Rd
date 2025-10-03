@@ -5,7 +5,7 @@
 \alias{MeasureSurvNagelkR2}
 \title{Nagelkerke's R2 Survival Measure}
 \description{
-Calls \code{\link[survAUC:OXS]{survAUC::Nagelk()}}.
+Calls \code{\link[survAUC:R2_type_Coef]{survAUC::Nagelk()}}.
 
 Assumes Cox PH model specification.
 }

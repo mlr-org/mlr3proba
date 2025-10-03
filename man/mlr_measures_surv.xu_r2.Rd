@@ -5,7 +5,7 @@
 \alias{MeasureSurvXuR2}
 \title{Xu and O'Quigley's R2 Survival Measure}
 \description{
-Calls \code{\link[survAUC:OXS]{survAUC::XO()}}.
+Calls \code{\link[survAUC:R2_type_Coef]{survAUC::XO()}}.
 
 Assumes Cox PH model specification.
 }
