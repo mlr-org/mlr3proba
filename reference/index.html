@@ -27,7 +27,6 @@
     <li><a class="external-link dropdown-item" href="https://mlr3book.mlr-org.com/chapters/chapter13/beyond_regression_and_classification.html#sec-survival">Survival Analysis (mlr3 book)</a></li>
     <li><a class="external-link dropdown-item" href="https://mlr3book.mlr-org.com/chapters/chapter13/beyond_regression_and_classification.html#sec-density">Density Estimation (mlr3 book)</a></li>
     <li><a class="external-link dropdown-item" href="https://mlr-org.com/gallery/technical/2023-10-25-bart-survival/">Survival Modeling using BART</a></li>
-    <li><a class="external-link dropdown-item" href="https://towardsdatascience.com/neural-networks-for-survival-analysis-in-r-1e0421584ab">Neural Networks for Survival Analysis</a></li>
   </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -107,30 +106,6 @@
 
         </dt>
         <dd>Survival Measure</dd>
-      </dl><dl><dt>
-
-          <code><a href="TaskCompRisks.html">TaskCompRisks</a></code>
-
-        </dt>
-        <dd>Competing Risks Task</dd>
-      </dl><dl><dt>
-
-          <code><a href="LearnerCompRisks.html">LearnerCompRisks</a></code>
-
-        </dt>
-        <dd>Competing Risks Learner</dd>
-      </dl><dl><dt>
-
-          <code><a href="PredictionCompRisks.html">PredictionCompRisks</a></code>
-
-        </dt>
-        <dd>Prediction Object for Competing Risks</dd>
-      </dl><dl><dt>
-
-          <code><a href="MeasureCompRisks.html">MeasureCompRisks</a></code>
-
-        </dt>
-        <dd>Competing Risks Measure</dd>
       </dl><dl><dt>
 
           <code><a href="TaskDens.html">TaskDens</a></code>
@@ -565,57 +540,6 @@
         </dt>
         <dd>Survival to Poisson Regression Reduction Pipeline</dd>
       </dl></div><div class="section level2">
-      <h2 id="competing-risk-learners">Competing Risk Learners<a class="anchor" aria-label="anchor" href="#competing-risk-learners"></a></h2>
-
-
-
-
-    </div><div class="section level2">
-
-
-
-
-      <dl><dt>
-
-          <code><a href="mlr_learners_cmprsk.aalen.html">mlr_learners_cmprsk.aalen</a></code> <code><a href="mlr_learners_cmprsk.aalen.html">LearnerCompRisksAalenJohansen</a></code>
-
-        </dt>
-        <dd>Aalen Johansen Competing Risks Learner</dd>
-      </dl></div><div class="section level2">
-      <h2 id="competing-risk-measures">Competing Risk Measures<a class="anchor" aria-label="anchor" href="#competing-risk-measures"></a></h2>
-
-
-
-
-    </div><div class="section level2">
-
-
-
-
-      <dl><dt>
-
-          <code><a href="mlr_measures_cmprsk.auc.html">mlr_measures_cmprsk.auc</a></code> <code><a href="mlr_measures_cmprsk.auc.html">MeasureCompRisksAUC</a></code>
-
-        </dt>
-        <dd>Blanche's AUC Competing Risks Measure</dd>
-      </dl></div><div class="section level2">
-      <h2 id="competing-risk-tasks">Competing Risk Tasks<a class="anchor" aria-label="anchor" href="#competing-risk-tasks"></a></h2>
-
-
-
-
-    </div><div class="section level2">
-
-
-
-
-      <dl><dt>
-
-          <code><a href="mlr_tasks_pbc.html">mlr_tasks_pbc</a></code>
-
-        </dt>
-        <dd>Primary Biliary Cholangitis Competing Risks Task</dd>
-      </dl></div><div class="section level2">
       <h2 id="density-learners">Density Learners<a class="anchor" aria-label="anchor" href="#density-learners"></a></h2>
 
 
@@ -714,12 +638,6 @@
 
       <dl><dt>
 
-          <code><a href="as_prediction_cmprsk.html">as_prediction_cmprsk()</a></code>
-
-        </dt>
-        <dd>Convert to a Competing Risk Prediction</dd>
-      </dl><dl><dt>
-
           <code><a href="as_prediction_dens.html">as_prediction_dens()</a></code>
 
         </dt>
@@ -730,12 +648,6 @@
 
         </dt>
         <dd>Convert to a Survival Prediction</dd>
-      </dl><dl><dt>
-
-          <code><a href="as_task_cmprsk.html">as_task_cmprsk()</a></code>
-
-        </dt>
-        <dd>Convert to a Competing Risks Task</dd>
       </dl><dl><dt>
 
           <code><a href="as_task_dens.html">as_task_dens()</a></code>
@@ -837,7 +749,7 @@
 
       <dl><dt>
 
-          <code><a href="dot-surv_return.html">.surv_return()</a></code>
+          <code><a href="surv_return.html">surv_return()</a></code>
 
         </dt>
         <dd>Get Survival Predict Types</dd>
@@ -849,22 +761,10 @@
         <dd>Survival probabilities using Breslow's estimator</dd>
       </dl><dl><dt>
 
-          <code><a href="assert_surv.html">assert_surv()</a></code>
-
-        </dt>
-        <dd>Assert survival object</dd>
-      </dl><dl><dt>
-
           <code><a href="assert_surv_matrix.html">assert_surv_matrix()</a></code>
 
         </dt>
         <dd>Assert survival matrix</dd>
-      </dl><dl><dt>
-
-          <code><a href="assert_cif_list.html">assert_cif_list()</a></code>
-
-        </dt>
-        <dd>Assert CIF list</dd>
       </dl><dl><dt>
 
           <code><a href="get_mortality.html">get_mortality()</a></code>
