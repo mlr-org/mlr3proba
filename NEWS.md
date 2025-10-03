@@ -1,12 +1,20 @@
 # mlr3proba 0.8.2
 
+## Breaking Changes
+
+* Removed all competing risks support, we now have a separate package in the `mlr3` universe for it, see [mlr3cmprsk](https://github.com/mlr-org/mlr3cmprsk).
+
+## New Features
+
+* Add `default_fallback()` (returns `surv.kaplan`)
+* Add `importance`, `weights` and `selected_features` properties in Kaplan-Meier for compatibility with other survival learners when it is used as a fallback learner
+* The pipeops `PipeOpTaskSurvRegrPEM` and `PipeOpTaskSurvClassifDiscTime` now apply the data transformation on an internal validation task if it exists. This enables the use of e.g `xgboost` regression or classification learners with `early_stopping` on the corresponding pipelines.
+
+## Other
+
+* `coxed` package was removed from CRAN so now we install the latest working CRAN version (`0.3.3`) from GitHub
+* Renamed `.surv_return()` to `surv_return()` as it is exported and used by other packages (e.g. `mlr3extralearners`)
 * Update `mlr3` at `v1.2.0` and `mlr3misc` at `v0.19.0`
-* feat: add `default_fallback()` (returns `surv.kaplan`)
-* feat: add `importance`, `weights` and `selected_features` properties in Kaplan-Meier for compatibility with other survival learners when it is used as a fallback learner
-* **BREAKING CHANGE**: Removed all competing risks support, we now have a separate package in the `mlr3` universe for it, called `mlr3cmprsk`. So cheers!
-* refactor: renamed `.surv_return()` to `surv_return()` as it is exported and used by other packages (e.g. `mlr3extralearners`)
-* fix: `coxed` package was removed from CRAN so now we install the latest working CRAN version (`0.3.3`) from GitHub
-* feat: The pipeops `PipeOpTaskSurvRegrPEM` and `PipeOpTaskSurvClassifDiscTime` now apply the data transformation on an internal validation task if it exists. This enables the use of e.g `xgboost` regression or classification learners with `early_stopping` on the corresponding pipelines.
 
 # mlr3proba 0.8.1
 
