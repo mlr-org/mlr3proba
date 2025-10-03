@@ -6,7 +6,7 @@
 
 ## New Features
 
-* Add `default_fallback()` (returns `surv.kaplan`)
+* Add `default_fallback()`
 * Add `importance`, `weights` and `selected_features` properties in Kaplan-Meier for compatibility with other survival learners when it is used as a fallback learner
 * The pipeops `PipeOpTaskSurvRegrPEM` and `PipeOpTaskSurvClassifDiscTime` now apply the data transformation on an internal validation task if it exists. This enables the use of e.g `xgboost` regression or classification learners with `early_stopping` on the corresponding pipelines.
 
@@ -14,7 +14,7 @@
 
 * `coxed` package was removed from CRAN so now we install the latest working CRAN version (`0.3.3`) from GitHub
 * Renamed `.surv_return()` to `surv_return()` as it is exported and used by other packages (e.g. `mlr3extralearners`)
-* Update `mlr3` at `v1.2.0` and `mlr3misc` at `v0.19.0`
+* Update `mlr3` to `v1.2.0` and `mlr3misc` to `v0.19.0`
 
 # mlr3proba 0.8.1
 
