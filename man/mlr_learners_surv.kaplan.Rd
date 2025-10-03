@@ -94,7 +94,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \if{latex}{\out{\hypertarget{method-LearnerSurvKaplan-importance}{}}}
 \subsection{Method \code{importance()}}{
 All features have a score of \code{0} for this learner.
-#' This method exists solely for compatibility with the \code{mlr3} ecosystem,
+This method exists solely for compatibility with the \code{mlr3} ecosystem,
 as this learner is used as a fallback for other survival learners that
 require an \code{importance()} method.
 \subsection{Usage}{

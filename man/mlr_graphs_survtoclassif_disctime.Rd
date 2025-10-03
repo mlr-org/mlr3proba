@@ -58,7 +58,7 @@ ppl("survtoclassif_disctime")
 }
 
 \examples{
-\dontshow{if (mlr3misc::require_namespaces(c("mlr3pipelines", "mlr3learners"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (mlr3misc::require_namespaces(c("mlr3pipelines", "mlr3learners"), quietly = TRUE)) withAutoprint(\{ # examplesIf}
 \dontrun{
   library(mlr3)
   library(mlr3learners)

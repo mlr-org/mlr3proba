@@ -90,7 +90,7 @@ PipeOpPredClassifSurvDiscTime = R6Class("PipeOpPredClassifSurvDiscTime",
 
       unique_end_times = sort(unique(data$tend))
       # coerce to distribution and crank
-      pred_list = .surv_return(times = unique_end_times, surv = surv)
+      pred_list = surv_return(times = unique_end_times, surv = surv)
 
       # select the real tend values by only selecting the last row of each id
       # basically a slightly more complex unique()

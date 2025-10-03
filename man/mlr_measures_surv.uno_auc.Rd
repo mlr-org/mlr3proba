@@ -5,7 +5,7 @@
 \alias{MeasureSurvUnoAUC}
 \title{Uno's AUC Survival Measure}
 \description{
-Calls \code{\link[survAUC:AUC.uno]{survAUC::AUC.uno()}}.
+Calls \code{\link[survAUC:survAUC_Uno]{survAUC::AUC.uno()}}.
 
 Assumes random censoring.
 }

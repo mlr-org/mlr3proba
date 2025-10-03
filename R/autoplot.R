@@ -27,10 +27,7 @@
 #'
 #' @template section_theme
 #'
-#' @examplesIf mlr3misc::require_namespaces(c("mlr3viz", "ggplot2"), quietly = TRUE)
-#' library(mlr3)
-#' library(mlr3viz)
-#' library(mlr3proba)
+#' @examplesIf mlr3misc::require_namespaces("ggplot2", quietly = TRUE)
 #' library(ggplot2)
 #'
 #' task = tsk("lung")
@@ -99,11 +96,9 @@ plot.TaskSurv = function(x, ...) {
 #'
 #' @template section_theme
 #'
-#' @examplesIf mlr3misc::require_namespaces(c("mlr3viz", "ggplot2"), quietly = TRUE)
-#' library(mlr3)
-#' library(mlr3proba)
-#' library(mlr3viz)
+#' @examplesIf mlr3misc::require_namespaces("ggplot2", quietly = TRUE)
 #' library(ggplot2)
+#'
 #' task = tsk("precip")
 #' task$head()
 #'
@@ -213,10 +208,8 @@ plot.TaskDens = function(x, ...) {
 #' @references
 #' `r format_bib("haider_2020", "austin_2020")`
 #'
-#' @examplesIf mlr3misc::require_namespaces(c("mlr3viz", "ggplot2"), quietly = TRUE)
-#' library(mlr3)
-#' library(mlr3proba)
-#' library(mlr3viz)
+#' @examplesIf mlr3misc::require_namespaces("ggplot2", quietly = TRUE)
+#' library(ggplot2)
 #'
 #' learner = lrn("surv.coxph")
 #' task = tsk("gbcs")

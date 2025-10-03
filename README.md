@@ -24,22 +24,17 @@ ecosystem.
 
 It currently supports:
 
-1.  **Predictive survival analysis**: with support for right-censoring
-    single-event and competing risks.
-2.  **Unconditional distribution estimation**: including density and
-    unconditional survival estimation.
+1.  **Predictive survival analysis** for single-event tasks with
+    right-censoring.
+2.  **Unsupervised density estimation** for single variable tasks.
 3.  **Probabilistic supervised regression**: Supervised regression with
     a predictive distribution as the return type.
-
-The survival analysis part is considered in a mature state, the rest are
-in early stages of development.
 
 ## Feature Overview
 
 Key features of `mlr3proba` focus on survival analysis and are:
 
-- Task frameworks for survival analysis (`TaskSurv`,
-  `TaskCompetingRisks`)
+- Task frameworks for survival analysis (`TaskSurv`)
 - A comprehensive **selection of survival learners** (mostly via
   [mlr3extralearners](https://github.com/mlr-org/mlr3extralearners/))
 - A unified `$train()`/`$predict()` model interface to any probabilistic
@@ -84,8 +79,7 @@ pak::pak("mlr-org/mlr3proba")
 - [Core
   learners](https://mlr3proba.mlr-org.com/reference/index.html#survival-learners)
   are implemented in `mlr3proba` and include the Kaplan-Meier Estimator,
-  the Cox Proportional Hazards model, the Survival Tree learner and the
-  Aalen-Johansen estimator for competing risks.
+  the Cox Proportional Hazards model and the Survival Tree learner.
 - In [mlr3extralearners](https://github.com/mlr-org/mlr3extralearners)
   we have interfaced several more advanced ML learners. Use the
   [interactive search table](https://mlr-org.com/learners.html) to
@@ -96,9 +90,7 @@ pak::pak("mlr-org/mlr3proba")
 ## Measures
 
 For density estimation and probabilistic regression only the
-**log-loss** is currently implemented. For competing risk, see list
-[here](https://mlr3proba.mlr-org.com/reference/index.html#competing-risk-measures).
-For survival analysis, see list
+**log-loss** is currently implemented. For survival analysis, see list
 [here](https://mlr3proba.mlr-org.com/reference/index.html#survival-measures).
 
 Some commonly used measures for right-censored single-event tasks are

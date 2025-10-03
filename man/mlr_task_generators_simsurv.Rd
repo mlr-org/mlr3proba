@@ -39,7 +39,7 @@ tgen("simsurv")
 }
 
 \examples{
-\dontshow{if (mlr3misc::require_namespaces(c("simsurv"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (mlr3misc::require_namespaces(c("simsurv"), quietly = TRUE)) withAutoprint(\{ # examplesIf}
   # generate 20 samples with Weibull survival distribution
   gen = tgen("simsurv")
   task = gen$generate(20)

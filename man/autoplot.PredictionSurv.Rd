@@ -81,10 +81,8 @@ though its still conceptually the same.
 }
 
 \examples{
-\dontshow{if (mlr3misc::require_namespaces(c("mlr3viz", "ggplot2"), quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-library(mlr3)
-library(mlr3proba)
-library(mlr3viz)
+\dontshow{if (mlr3misc::require_namespaces("ggplot2", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+library(ggplot2)
 
 learner = lrn("surv.coxph")
 task = tsk("gbcs")

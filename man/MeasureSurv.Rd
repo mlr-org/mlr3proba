@@ -16,7 +16,6 @@ Predefined measures can be found in the \link[mlr3misc:Dictionary]{dictionary} \
 Default survival measure: \code{\link[=mlr_measures_surv.cindex]{surv.cindex}}
 
 Other Measure: 
-\code{\link{MeasureCompRisks}},
 \code{\link{MeasureDens}}
 }
 \concept{Measure}

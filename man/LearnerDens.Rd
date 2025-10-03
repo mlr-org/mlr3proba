@@ -27,7 +27,6 @@ lrn("dens.hist")
 }
 \seealso{
 Other Learner: 
-\code{\link{LearnerCompRisks}},
 \code{\link{LearnerSurv}}
 }
 \concept{Learner}
