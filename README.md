@@ -1,8 +1,7 @@
 
 # mlr3proba
 
-Probabilistic Supervised Learning for
-**[mlr3](https://github.com/mlr-org/mlr3/)**
+Probabilistic Learning for **[mlr3](https://github.com/mlr-org/mlr3/)**
 ([website](https://mlr3proba.mlr-org.com/)).
 
 <!-- badges: start -->
@@ -18,11 +17,9 @@ Discussions](https://img.shields.io/github/discussions/mlr-org/mlr3proba?logo=gi
 
 ## What is mlr3proba?
 
-`mlr3proba` is a machine learning toolkit for **probabilistic supervised
-learning** within the **[mlr3](https://github.com/mlr-org/mlr3)**
-ecosystem.
-
-It currently supports:
+`mlr3proba` is a machine learning toolkit for probabilistic learning
+within the [mlr3](https://github.com/mlr-org/mlr3) ecosystem. It
+supports:
 
 1.  **Predictive survival analysis** for single-event tasks with
     right-censoring.
@@ -30,32 +27,28 @@ It currently supports:
 3.  **Probabilistic supervised regression**: Supervised regression with
     a predictive distribution as the return type.
 
-## Feature Overview
+## Main Features
 
-Key features of `mlr3proba` focus on survival analysis and are:
+Key features of `mlr3proba` focus on **survival analysis** and are:
 
-- Task frameworks for survival analysis (`TaskSurv`)
-- A comprehensive **selection of survival learners** (mostly via
-  [mlr3extralearners](https://github.com/mlr-org/mlr3extralearners/))
+- A task framework for survival analysis (`TaskSurv`)
 - A unified `$train()`/`$predict()` model interface to any probabilistic
   predictive model (frequentist, Bayesian, Deep Learning, or other)
-- Use of the
-  **[distr6](https://github.com/alan-turing-institute/distr6)**
-  interface for the survival probability distribution prediction
-- A comprehensive selection of **measures** for evaluating the
-  performance of survival learners, with respect to prognostic index
-  (continuous rank) prediction, and probabilistic (distribution)
-  prediction
+- Use of the [distr6](https://github.com/xoopR/distr6) interface for the
+  survival probability distribution prediction
+- A comprehensive selection of **measures** for evaluating model
+  performance, with respect to prognostic index (continuous rank)
+  prediction, and probabilistic (distribution) prediction
 - Basic **ML pipeline building** integrated with
-  **[mlr3pipelines](https://github.com/mlr-org/mlr3pipelines)**
-  (e.g. transform prediction types)
+  [mlr3pipelines](https://github.com/mlr-org/mlr3pipelines) (e.g. to
+  transform prediction types)
 - **Reduction strategies** to transform survival to
-  classification/regression problems
+  classification/regression tasks
 
 ## Installation
 
-`mlr3proba` is not currently on CRAN. Please follow one of the two
-following methods to install it:
+`mlr3proba` will not be on CRAN. Please follow one of the two following
+methods to install it:
 
 ### R-universe
 
@@ -76,21 +69,38 @@ pak::pak("mlr-org/mlr3proba")
 
 ## Learners
 
-- [Core
+### Survival Analysis
+
+- [Core survival
   learners](https://mlr3proba.mlr-org.com/reference/index.html#survival-learners)
   are implemented in `mlr3proba` and include the Kaplan-Meier Estimator,
   the Cox Proportional Hazards model and the Survival Tree learner.
 - In [mlr3extralearners](https://github.com/mlr-org/mlr3extralearners)
-  we have interfaced several more advanced ML learners. Use the
-  [interactive search table](https://mlr-org.com/learners.html) to
-  search for the available survival learners and see the [learner status
+  we have interfaced several more advanced ML learners suited for
+  survival tasks. Use the [interactive search
+  table](https://mlr-org.com/learners.html) to search for the available
+  survival learners and see the [learner status
   page](https://mlr3extralearners.mlr-org.com/articles/learner_status.html)
   for their live status.
+
+### Density Estimation
+
+See list of available density learners
+[here](https://mlr3proba.mlr-org.com/reference/index.html#density-learners).
+
+### Probabilistic Regression
+
+Probabilistic regression is enabled via
+[mlr3pipelines](https://github.com/mlr-org/mlr3pipelines). See the
+available
+[pipeline](https://mlr3proba.mlr-org.com/reference/mlr_graphs_probregr.html)
+and associated distribution composition
+[PipeOp](http://mlr3proba.mlr-org.com/reference/mlr_pipeops_compose_probregr.html).
 
 ## Measures
 
 For density estimation and probabilistic regression only the
-**log-loss** is currently implemented. For survival analysis, see list
+**log-loss** is implemented. For survival analysis, see list
 [here](https://mlr3proba.mlr-org.com/reference/index.html#survival-measures).
 
 Some commonly used measures for right-censored single-event tasks are
