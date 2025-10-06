@@ -6,13 +6,13 @@ test_that("autotest", {
   expect_true(result, info = result$error)
 })
 
-x = c(0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6)
-task = TaskDens$new(id = "task", x)
-lrn = lrn("dens.hist", breaks = 5)
-p = lrn$train(task)
-dist = p$model$dist
+test_that("pdf and cdf work", {
+  x = c(0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6)
+  task = TaskDens$new(id = "task", x)
+  lrn = lrn("dens.hist", breaks = 5)
+  p = lrn$train(task)
+  dist = p$model$dist
 
-test_that("pdf", {
   expect_equal(dist$pdf(0), 0.5)
   expect_equal(dist$pdf(0.5), 0.5)
   expect_equal(dist$pdf(1.0), 0.75)
@@ -20,9 +20,7 @@ test_that("pdf", {
   expect_equal(dist$pdf(2.0), 0.25)
   expect_equal(dist$pdf(-1), 0)
   expect_equal(dist$pdf(3), 0)
-})
 
-test_that("cdf", {
   expect_equal(dist$cdf(0), 0)
   expect_equal(dist$cdf(0.5), 0.25)
   expect_equal(dist$cdf(1.0), 0.5)
