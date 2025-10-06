@@ -1,3 +1,7 @@
+# mlr3proba 0.8.3
+
+* Moved all density learners from `mlr3extralearners` here.
+
 # mlr3proba 0.8.2
 
 ## Breaking Changes
