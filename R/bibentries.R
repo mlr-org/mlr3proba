@@ -445,13 +445,13 @@ bibentries = c(
     year = "2017",
     publisher = "Taylor & Francis"
   ),
-  loader2006local = bibentry("book",
+  loader_2006 = bibentry("book",
     title = "Local regression and likelihood",
     author = "Loader, Clive",
     year = "2006",
     publisher = "Springer Science & Business Media"
   ),
-  kooperberg1992logspline = bibentry("article",
+  kooperberg_1992 = bibentry("article",
     title = "Logspline density estimation for censored data",
     author = "Kooperberg, Charles and Stone, Charles J",
     journal = "Journal of Computational and Graphical Statistics",
@@ -461,7 +461,7 @@ bibentries = c(
     year = "1992",
     publisher = "Taylor & Francis"
   ),
-  li2003nonparametric = bibentry("article",
+  li_2003 = bibentry("article",
     title = "Nonparametric estimation of distributions with categorical and continuous data",
     author = "Li, Qi and Racine, Jeff",
     journal = "journal of multivariate analysis",
@@ -471,7 +471,7 @@ bibentries = c(
     year = "2003",
     publisher = "Elsevier"
   ),
-  schellhase2012density = bibentry("article",
+  schellhase_2012 = bibentry("article",
     title = "Density estimation and comparison with a penalized mixture approach",
     author = "Schellhase, Christian and Kauermann, G\xc3\xb6ran",
     journal = "Computational Statistics",
@@ -481,7 +481,7 @@ bibentries = c(
     year = "2012",
     publisher = "Springer"
   ),
-  engel1994iterative = bibentry("article",
+  engel_1994 = bibentry("article",
     title = "An iterative bandwidth selector for kernel estimation of densities and their derivatives",
     author = "Engel, Joachim and Herrmann, Eva and Gasser, Theo",
     journal = "Journaltitle of Nonparametric Statistics",
@@ -491,7 +491,7 @@ bibentries = c(
     year = "1994",
     publisher = "Taylor & Francis"
   ),
-  bowman1997applied = bibentry("book",
+  bowman_1997 = bibentry("book",
     title = "Applied Smoothing Techniques for Data Analysis: The Kernel Approach with S-Plus Illustrations",
     author = "Bowman, A.W. and Azzalini, A.",
     isbn = "9780191545696",
