@@ -41,8 +41,9 @@ LearnerDensKDE = R6Class("LearnerDensKDE",
   private = list(
     .train = function(task) {
 
-      if (self$param_set$values$kernel == "Norm" && !requireNamespace("pracma", quietly = TRUE)) {
-        stop("{pracma} is required for Normal kernel, reverting to Epanechnikov.")
+      if (self$param_set$values$kernel == "Norm" &&
+          !requireNamespace("pracma", quietly = TRUE)) {
+        warning_config("{pracma} is required for Normal kernel, reverting to Epanechnikov.")
         self$param_set$values$kernel == "Epan"
       }
 
@@ -53,7 +54,6 @@ LearnerDensKDE = R6Class("LearnerDensKDE",
         ShortName == self$param_set$values$kernel,
         ClassName)))$new()
 
-
       bw = if (isTRUE(self$param_set$values$bandwidth == "silver")) {
         0.9 * min(sd(data), stats::IQR(data, na.rm = TRUE) / 1.349, na.rm = TRUE) *
           length(data)^-0.2
@@ -61,7 +61,7 @@ LearnerDensKDE = R6Class("LearnerDensKDE",
         self$param_set$values$bandwidth
       }
 
-      pdf = function(x) {} # nolint
+      pdf = function(x) {}
 
       body(pdf) = substitute({
         if (length(x) == 1L) {
@@ -85,8 +85,7 @@ LearnerDensKDE = R6Class("LearnerDensKDE",
     },
 
     .predict = function(task) {
-      list(pdf = self$model$pdf(task$data()[[1L]]),
-        distr = self$model)
+      list(pdf = self$model$pdf(task$data()[[1L]]), distr = self$model)
     }
   )
 )

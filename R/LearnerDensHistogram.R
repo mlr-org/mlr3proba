@@ -33,8 +33,12 @@ LearnerDensHistogram = R6Class("LearnerDensHistogram",
 
     .predict = function(task) {
       newdata = task$data()[[1L]]
-      list(pdf = self$model$distr$pdf(newdata), cdf = self$model$distr$cdf(newdata),
-           distr = self$model$distr)
+
+      list(
+        pdf = self$model$distr$pdf(newdata),
+        cdf = self$model$distr$cdf(newdata),
+        distr = self$model$distr
+      )
     }
   )
 )

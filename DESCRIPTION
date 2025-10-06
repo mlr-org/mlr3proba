@@ -46,15 +46,22 @@ Suggests:
     coxed,
     GGally,
     glmnet,
+    gss,
     knitr,
+    ks,
     lgr,
     lifecycle,
     mirai,
     mlr3learners (>= 0.10.0),
+    np,
     pammtools,
     param6 (>= 0.2.4),
+    pendensity,
+    plugdensity,
     polspline,
     pracma,
+    locfit,
+    logspline,
     rpart,
     set6 (>= 0.2.6),
     simsurv,
@@ -79,6 +86,8 @@ Collate:
     'aaa.R'
     'LearnerDensHistogram.R'
     'LearnerDensKDE.R'
+    'LearnerDensKDEks.R'
+    'LearnerDensSpline.R'
     'LearnerSurv.R'
     'LearnerSurvCoxPH.R'
     'LearnerSurvKaplan.R'
