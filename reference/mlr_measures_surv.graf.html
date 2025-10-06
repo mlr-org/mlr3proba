@@ -333,38 +333,38 @@ Standardize measure against a Kaplan-Meier baseline
 <span class="r-in"><span><span class="co"># ISBS, G(t) calculated using the test set</span></span></span>
 <span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.graf"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surv.graf </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.1470095 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.1532456 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># ISBS, G(t) calculated using the train set (always recommended)</span></span></span>
 <span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.graf"</span><span class="op">)</span>, task <span class="op">=</span> <span class="va">task</span>, train_set <span class="op">=</span> <span class="va">part</span><span class="op">$</span><span class="va">train</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surv.graf </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.1542891 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.1548128 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># ISBS, ERV score (comparing with KM baseline)</span></span></span>
 <span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.graf"</span>, ERV <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, task <span class="op">=</span> <span class="va">task</span>, train_set <span class="op">=</span> <span class="va">part</span><span class="op">$</span><span class="va">train</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  surv.graf </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.05110544 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> surv.graf </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.076671 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># ISBS at specific time point</span></span></span>
 <span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.graf"</span>, times <span class="op">=</span> <span class="fl">365</span><span class="op">)</span>, task <span class="op">=</span> <span class="va">task</span>, train_set <span class="op">=</span> <span class="va">part</span><span class="op">$</span><span class="va">train</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surv.graf </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.2220704 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.228065 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># ISBS at multiple time points (integrated)</span></span></span>
 <span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.graf"</span>, times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">125</span>, <span class="fl">365</span>, <span class="fl">450</span><span class="op">)</span>, integrated <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>        task <span class="op">=</span> <span class="va">task</span>, train_set <span class="op">=</span> <span class="va">part</span><span class="op">$</span><span class="va">train</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surv.graf </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.1791957 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.2046499 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># ISBS, use time cutoff</span></span></span>
 <span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.graf"</span>, t_max <span class="op">=</span> <span class="fl">700</span><span class="op">)</span>, task <span class="op">=</span> <span class="va">task</span>, train_set <span class="op">=</span> <span class="va">part</span><span class="op">$</span><span class="va">train</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surv.graf </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.1659517 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.1951457 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># ISBS, use time cutoff corresponding to specific proportion of censoring on the test set</span></span></span>
 <span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.graf"</span>, p_max <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span>, task <span class="op">=</span> <span class="va">task</span>, train_set <span class="op">=</span> <span class="va">part</span><span class="op">$</span><span class="va">train</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surv.graf </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.1646522 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.2032645 </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

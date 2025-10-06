@@ -226,19 +226,19 @@ If <code>integrated == FALSE</code> then a single time point at which to return 
 <span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.hung_auc"</span><span class="op">)</span>, task <span class="op">=</span> <span class="va">task</span>,</span></span>
 <span class="r-in"><span>        train_set <span class="op">=</span> <span class="va">part</span><span class="op">$</span><span class="va">train</span>, learner <span class="op">=</span> <span class="va">cox</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surv.hung_auc </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     0.7897654 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     0.9036999 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># AUC at specific time point</span></span></span>
 <span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.hung_auc"</span>, times <span class="op">=</span> <span class="fl">600</span><span class="op">)</span>, task <span class="op">=</span> <span class="va">task</span>,</span></span>
 <span class="r-in"><span>        train_set <span class="op">=</span> <span class="va">part</span><span class="op">$</span><span class="va">train</span>, learner <span class="op">=</span> <span class="va">cox</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surv.hung_auc </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     0.9061688 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     0.5733684 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Integrated AUC at specific time points</span></span></span>
 <span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.hung_auc"</span>, times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">200</span>, <span class="fl">300</span>, <span class="fl">400</span>, <span class="fl">500</span><span class="op">)</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>        task <span class="op">=</span> <span class="va">task</span>, train_set <span class="op">=</span> <span class="va">part</span><span class="op">$</span><span class="va">train</span>, learner <span class="op">=</span> <span class="va">cox</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surv.hung_auc </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     0.6698144 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     0.6810468 </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
