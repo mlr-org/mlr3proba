@@ -1,7 +1,8 @@
 #' <% learner = get(fullname)$new() %>
 #' <% id = learner$id %>
+#' <% learner_pkgs = paste0('c("', paste(learner$packages, collapse = '", "'), '")') %>
 #'
-#' @examplesIf mlr3misc::require_namespaces(learner$packages, quietly = TRUE)
+#' @examplesIf mlr3misc::require_namespaces(<%= learner_pkgs %>, quietly = TRUE)
 #' # Define the Learner
 #' <%= sprintf("learner = lrn(\"%s\")", id)%>
 #' print(learner)

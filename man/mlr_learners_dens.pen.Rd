@@ -33,7 +33,7 @@ lrn("dens.pen")
 }
 
 \examples{
-\dontshow{if (mlr3misc::require_namespaces(learner$packages, quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\dontshow{if (mlr3misc::require_namespaces(c("mlr3", "mlr3proba", "pendensity", "distr6"), quietly = TRUE)) withAutoprint(\{ # examplesIf}
 # Define the Learner
 learner = lrn("dens.pen")
 print(learner)

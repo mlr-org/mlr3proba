@@ -33,7 +33,7 @@ lrn("dens.plug")
 }
 
 \examples{
-\dontshow{if (mlr3misc::require_namespaces(learner$packages, quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\dontshow{if (mlr3misc::require_namespaces(c("mlr3", "mlr3proba", "plugdensity", "distr6"), quietly = TRUE)) withAutoprint(\{ # examplesIf}
 # Define the Learner
 learner = lrn("dens.plug")
 print(learner)
