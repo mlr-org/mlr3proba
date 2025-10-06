@@ -51,6 +51,8 @@ Suggests:
     ks,
     lgr,
     lifecycle,
+    locfit,
+    logspline,
     mirai,
     mlr3learners (>= 0.10.0),
     np,
@@ -60,11 +62,10 @@ Suggests:
     plugdensity,
     polspline,
     pracma,
-    locfit,
-    logspline,
     rpart,
     set6 (>= 0.2.6),
     simsurv,
+    sm,
     survAUC (>= 1.4-0),
     testthat (>= 3.0.0)
 LinkingTo:
