@@ -15,7 +15,7 @@ Assumes random censoring."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,7 +54,7 @@ Assumes random censoring."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Uno's AUC Survival Measure</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/v0.8.2/R/MeasureSurvUnoAUC.R" class="external-link"><code>R/MeasureSurvUnoAUC.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/main/R/MeasureSurvUnoAUC.R" class="external-link"><code>R/MeasureSurvUnoAUC.R</code></a></small>
       <div class="d-none name"><code>mlr_measures_surv.uno_auc.Rd</code></div>
     </div>
 
@@ -227,19 +227,19 @@ If <code>integrated == FALSE</code> then a single time point at which to return 
 <span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.uno_auc"</span><span class="op">)</span>, task <span class="op">=</span> <span class="va">task</span>,</span></span>
 <span class="r-in"><span>        train_set <span class="op">=</span> <span class="va">part</span><span class="op">$</span><span class="va">train</span>, learner <span class="op">=</span> <span class="va">cox</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surv.uno_auc </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    0.7550267 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    0.6361884 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># AUC at specific time point</span></span></span>
 <span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.uno_auc"</span>, times <span class="op">=</span> <span class="fl">600</span><span class="op">)</span>, task <span class="op">=</span> <span class="va">task</span>,</span></span>
 <span class="r-in"><span>        train_set <span class="op">=</span> <span class="va">part</span><span class="op">$</span><span class="va">train</span>, learner <span class="op">=</span> <span class="va">cox</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surv.uno_auc </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     0.810047 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    0.6084501 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Integrated AUC at specific time points</span></span></span>
 <span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.uno_auc"</span>, times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">200</span>, <span class="fl">300</span>, <span class="fl">400</span>, <span class="fl">500</span><span class="op">)</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>        task <span class="op">=</span> <span class="va">task</span>, train_set <span class="op">=</span> <span class="va">part</span><span class="op">$</span><span class="va">train</span>, learner <span class="op">=</span> <span class="va">cox</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surv.uno_auc </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    0.7284974 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    0.6315888 </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

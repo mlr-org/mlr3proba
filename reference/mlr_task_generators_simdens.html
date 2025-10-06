@@ -17,7 +17,7 @@ See distr6::listDistributions() for the names of the available distributions."><
 
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,7 +56,7 @@ See distr6::listDistributions() for the names of the available distributions."><
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Density Task Generator for Package 'distr6'</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/v0.8.2/R/TaskGeneratorSimdens.R" class="external-link"><code>R/TaskGeneratorSimdens.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/main/R/TaskGeneratorSimdens.R" class="external-link"><code>R/TaskGeneratorSimdens.R</code></a></small>
       <div class="d-none name"><code>mlr_task_generators_simdens.Rd</code></div>
     </div>
 
@@ -153,21 +153,21 @@ See <code><a href="https://xoopr.github.io/distr6/reference/listDistributions.ht
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="va">dens_gen</span><span class="op">$</span><span class="fu">generate</span><span class="op">(</span><span class="fl">20</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             x</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;num&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: -0.2094141</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:  1.5225869</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  1.0393685</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:  0.3863074</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: -0.4040270</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: -0.3834346</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              x</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          &lt;num&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: -0.06136386</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: -1.07644359</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  0.50430429</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:  0.53622455</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: -1.35497729</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:  0.22750631</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># generate 50 samples from a Binomial distribution with specific parameters</span></span></span>
 <span class="r-in"><span><span class="va">dens_gen</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">tgen</a></span><span class="op">(</span><span class="st">"simdens"</span>, distribution <span class="op">=</span> <span class="st">"Bernoulli"</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="va">dens_gen</span><span class="op">$</span><span class="fu">generate</span><span class="op">(</span><span class="fl">50</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span><span class="op">)</span><span class="op">[[</span><span class="st">"x"</span><span class="op">]</span><span class="op">]</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 1 1 1 1 0 1 1 1 1 1 0 1 1 1 1 1 1 1 0 0 1 1 1 1 0 1 1 1 1 1 1 1 1 1 0 0 1 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [39] 1 0 1 1 1 1 0 0 1 0 1 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 1 1 1 1 1 1 1 1 0 1 1 1 1 0 1 1 0 1 1 1 1 1 1 1 1 0 1 1 1 1 0 1 1 0 1 1 1 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [39] 1 1 0 0 1 1 1 1 1 0 1 1</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

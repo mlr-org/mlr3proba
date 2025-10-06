@@ -15,7 +15,7 @@ point-calibration (i.e. at a specific time point), see Austin et al. (2020)."></
 
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,7 +54,7 @@ point-calibration (i.e. at a specific time point), see Austin et al. (2020)."></
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Integrated Calibration Index Survival Measure</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/v0.8.2/R/MeasureSurvICI.R" class="external-link"><code>R/MeasureSurvICI.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/main/R/MeasureSurvICI.R" class="external-link"><code>R/MeasureSurvICI.R</code></a></small>
       <div class="d-none name"><code>mlr_measures_surv.calib_index.Rd</code></div>
     </div>
 
@@ -243,17 +243,17 @@ ISSN 10970258, <a href="https://doi.org/10.1002/SIM.8570" class="external-link">
 <span class="r-in"><span><span class="co"># ICI at median test set time</span></span></span>
 <span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.calib_index"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surv.calib_index </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        0.1847447 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        0.0414541 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># ICI at specific time point</span></span></span>
 <span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.calib_index"</span>, time <span class="op">=</span> <span class="fl">365</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surv.calib_index </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        0.2121609 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0.03079888 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># E50 at specific time point</span></span></span>
 <span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.calib_index"</span>, method <span class="op">=</span> <span class="st">"E50"</span>, time <span class="op">=</span> <span class="fl">365</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surv.calib_index </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         0.163473 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0.02219644 </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

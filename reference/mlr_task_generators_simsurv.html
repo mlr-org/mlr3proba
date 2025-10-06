@@ -33,7 +33,7 @@ The last one, by default generates samples which are administratively censored a
 
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -72,7 +72,7 @@ The last one, by default generates samples which are administratively censored a
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Survival Task Generator for Package 'simsurv'</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/v0.8.2/R/TaskGeneratorSimsurv.R" class="external-link"><code>R/TaskGeneratorSimsurv.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/main/R/TaskGeneratorSimsurv.R" class="external-link"><code>R/TaskGeneratorSimsurv.R</code></a></small>
       <div class="d-none name"><code>mlr_task_generators_simsurv.Rd</code></div>
     </div>
 
@@ -177,12 +177,12 @@ The last one, by default generates samples which are administratively censored a
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    eventtime status   height treatment   weight</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        &lt;num&gt;  &lt;int&gt;    &lt;num&gt;     &lt;int&gt;    &lt;num&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:  5.000000      0 160.7772         1 81.51398</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:  3.115235      1 166.3654         1 75.69885</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  3.617802      1 184.3636         0 75.72600</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:  5.000000      0 176.5140         1 81.85540</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5:  2.111236      1 158.0891         0 81.25849</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6:  3.239635      1 175.2187         1 97.71068</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 5.0000000      0 177.8056         1 77.56845</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 5.0000000      0 168.1457         0 78.16281</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 1.1898473      1 166.2858         1 85.64549</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 3.6881577      1 166.2409         0 73.54337</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 2.7676619      1 159.5023         0 60.15802</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 0.2678001      1 171.3551         0 70.67189</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># generate 100 samples with exponential survival distribution and tau = 40</span></span></span>
 <span class="r-in"><span>  <span class="va">gen</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">tgen</a></span><span class="op">(</span><span class="st">"simsurv"</span>, dist <span class="op">=</span> <span class="st">"exponential"</span>, gammas <span class="op">=</span> <span class="cn">NULL</span>, maxt <span class="op">=</span> <span class="fl">40</span><span class="op">)</span></span></span>
@@ -190,12 +190,12 @@ The last one, by default generates samples which are administratively censored a
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    eventtime status   height treatment   weight</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        &lt;num&gt;  &lt;int&gt;    &lt;num&gt;     &lt;int&gt;    &lt;num&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:  3.757799      1 172.2228         0 72.83009</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 17.654184      1 168.4340         0 75.22834</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  8.427633      1 174.3516         1 79.26343</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:  7.602541      1 164.8427         1 75.55971</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 22.442834      1 176.8871         1 82.52734</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6:  5.217024      1 163.8816         1 84.40342</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:  1.673698      1 179.7952         1 81.40398</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:  2.968999      1 155.6498         1 82.56211</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  1.683753      1 167.4161         0 80.48480</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:  5.208242      1 177.4330         1 88.09603</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:  9.564871      1 172.5742         0 81.57021</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:  7.092984      1 173.5190         0 84.55768</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

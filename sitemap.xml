@@ -39,6 +39,14 @@
 <url><loc>https://mlr3proba.mlr-org.com/reference/mlr_graphs_survtoregr_pem.html</loc></url>
 <url><loc>https://mlr3proba.mlr-org.com/reference/mlr_learners_dens.hist.html</loc></url>
 <url><loc>https://mlr3proba.mlr-org.com/reference/mlr_learners_dens.kde.html</loc></url>
+<url><loc>https://mlr3proba.mlr-org.com/reference/mlr_learners_dens.kde_ks.html</loc></url>
+<url><loc>https://mlr3proba.mlr-org.com/reference/mlr_learners_dens.locfit.html</loc></url>
+<url><loc>https://mlr3proba.mlr-org.com/reference/mlr_learners_dens.logspline.html</loc></url>
+<url><loc>https://mlr3proba.mlr-org.com/reference/mlr_learners_dens.mixed.html</loc></url>
+<url><loc>https://mlr3proba.mlr-org.com/reference/mlr_learners_dens.nonpar.html</loc></url>
+<url><loc>https://mlr3proba.mlr-org.com/reference/mlr_learners_dens.pen.html</loc></url>
+<url><loc>https://mlr3proba.mlr-org.com/reference/mlr_learners_dens.plug.html</loc></url>
+<url><loc>https://mlr3proba.mlr-org.com/reference/mlr_learners_dens.spline.html</loc></url>
 <url><loc>https://mlr3proba.mlr-org.com/reference/mlr_learners_surv.coxph.html</loc></url>
 <url><loc>https://mlr3proba.mlr-org.com/reference/mlr_learners_surv.kaplan.html</loc></url>
 <url><loc>https://mlr3proba.mlr-org.com/reference/mlr_learners_surv.rpart.html</loc></url>
