@@ -67,7 +67,6 @@ LearnerDensSpline = R6Class("LearnerDensSpline",
         invoke(gss::qssden, object = fit, p = p)
       })
 
-
       distr6::Distribution$new(
         name = "Smoothing Spline Density Estimator",
         short_name = "splineDens",

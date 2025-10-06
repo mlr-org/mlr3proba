@@ -57,6 +57,12 @@ predictions$score()
 Other density estimators: 
 \code{\link{mlr_learners_dens.kde}},
 \code{\link{mlr_learners_dens.kde_ks}},
+\code{\link{mlr_learners_dens.locfit}},
+\code{\link{mlr_learners_dens.logspline}},
+\code{\link{mlr_learners_dens.mixed}},
+\code{\link{mlr_learners_dens.nonpar}},
+\code{\link{mlr_learners_dens.pen}},
+\code{\link{mlr_learners_dens.plug}},
 \code{\link{mlr_learners_dens.spline}}
 }
 \concept{density estimators}
