@@ -76,7 +76,6 @@ LearnerDensLogspline = R6Class("LearnerDensLogspline",
 
     .predict = function(task) {
       newdata = task$data()[[1]]
-
       list(pdf = self$model$pdf(newdata), cdf = self$model$cdf(newdata))
     }
   )

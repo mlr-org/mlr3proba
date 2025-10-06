@@ -86,7 +86,8 @@ LearnerDensKDE = R6Class("LearnerDensKDE",
     },
 
     .predict = function(task) {
-      list(pdf = self$model$pdf(task$data()[[1L]]), distr = self$model)
+      newdata = task$data()[[1]]
+      list(pdf = self$model$pdf(newdata), distr = self$model)
     }
   )
 )

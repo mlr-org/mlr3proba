@@ -70,7 +70,8 @@ LearnerDensLocfit = R6Class("LearnerDensLocfit",
     },
 
     .predict = function(task) {
-      list(pdf = self$model$pdf(task$data()[[1]]))
+      newdata = task$data()[[1]]
+      list(pdf = self$model$pdf(newdata))
     }
   )
 )
