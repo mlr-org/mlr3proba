@@ -6,6 +6,7 @@
 #' @references
 #' `r format_bib("gramacki_2017")`
 #'
+#' @template example_dens
 #' @export
 LearnerDensKDEks = R6Class("LearnerDensKDEks",
   inherit = LearnerDens,
@@ -31,7 +32,7 @@ LearnerDensKDEks = R6Class("LearnerDensKDEks",
         approx.cont = p_lgl(default = TRUE, tags = "train"),
         unit.interval = p_lgl(default = FALSE, tags = "train"),
         verbose = p_lgl(default = FALSE, tags = "train"),
-        density = p_lgl(defdens.kde_ksault = FALSE, tags = "train")
+        density = p_lgl(default = FALSE, tags = "train")
       )
 
       super$initialize(

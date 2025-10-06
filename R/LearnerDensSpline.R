@@ -6,6 +6,7 @@
 #' @references
 #' `r format_bib("gu_2003")`
 #'
+#' @template example_dens
 #' @export
 LearnerDensSpline = R6Class("LearnerDensSpline",
   inherit = LearnerDens,

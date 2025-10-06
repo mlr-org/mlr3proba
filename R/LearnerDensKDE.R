@@ -10,6 +10,7 @@
 #' @references
 #' `r format_bib("silverman_1986")`
 #'
+#' @template example_dens
 #' @export
 LearnerDensKDE = R6Class("LearnerDensKDE",
   inherit = LearnerDens,

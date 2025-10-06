@@ -3,6 +3,7 @@
 #' @templateVar fullname LearnerDensHistogram
 #' @templateVar caller [graphics::hist()]
 #'
+#' @template example_dens
 #' @export
 LearnerDensHistogram = R6Class("LearnerDensHistogram",
   inherit = LearnerDens,

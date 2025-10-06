@@ -7,7 +7,6 @@
 #' @description
 #' Calls <%=caller%> and the result is coerced to a [distr6::Distribution].
 #'
-#'
 #' @section Dictionary:
 #' This [Learner][mlr3::Learner] can be instantiated via the [dictionary][mlr3misc::Dictionary]
 #' [mlr_learners][mlr3::mlr_learners] or with the associated sugar function [lrn()][mlr3::lrn]:
