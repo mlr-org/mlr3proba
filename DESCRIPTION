@@ -1,6 +1,6 @@
 Package: mlr3proba
 Title: Probabilistic Supervised Learning for 'mlr3'
-Version: 0.8.3
+Version: 0.8.4
 Authors@R: c(
     person("Raphael", "Sonabend", , "raphaelsonabend@gmail.com", role = "aut",
            comment = c(ORCID = "0000-0001-9225-4654")),
@@ -67,6 +67,7 @@ Suggests:
     simsurv,
     sm,
     survAUC (>= 1.4-0),
+    survminer,
     testthat (>= 3.0.0)
 LinkingTo:
     Rcpp

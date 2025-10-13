@@ -1,27 +1,26 @@
 #' @title Plot for Survival Tasks
 #'
 #' @description
-#' Generates plots for [mlr3proba::TaskSurv], depending on argument `type`:
+#' Generates plots for [TaskSurv], depending on argument `type`:
 #'   * `"target"`: Calls [GGally::ggsurv()] on a [survival::survfit()] object.
 #'   This computes the **Kaplan-Meier survival curve** for the observations if this task.
 #'   * `"duo"`: Passes data and additional arguments down to [GGally::ggduo()].
 #'     `columnsX` is target, `columnsY` is features.
-#'   * `"pairs"`: Passes data and additional arguments down to
-#'   [GGally::ggpairs()].
+#'   * `"pairs"`: Passes data and additional arguments down to [GGally::ggpairs()].
 #'     Color is set to target column.
 #'
-#' @param object ([mlr3proba::TaskSurv]).
-#' @param type (`character(1)`):\cr
-#'   Type of the plot. See above for available choices.
+#' @param object ([TaskSurv]).
+#' @param type (`character(1)`)\cr
+#'  Type of the plot. See Description for available choices.
 #' @template param_theme
 #' @param reverse (`logical()`)\cr
-#' If `TRUE` and `type = 'target'`, it plots the Kaplan-Meier curve of the
-#' censoring distribution. Default is `FALSE`.
-#' @param ... (`any`):
-#'   Additional arguments.
-#'   `rhs` is passed down to `$formula` of [mlr3proba::TaskSurv] for stratification
-#'   for type `"target"`. Other arguments are passed to the respective underlying plot
-#'   functions.
+#'  If `TRUE` and `type = 'target'`, it plots the Kaplan-Meier curve of the
+#'  censoring distribution. Default is `FALSE`.
+#' @param ... (`any`)\cr
+#'  Additional arguments.
+#'  `rhs` is passed down to `$formula` of [TaskSurv] for stratification
+#'  for type `"target"`. Other arguments are passed to the respective
+#'  underlying plot functions.
 #'
 #' @return [ggplot2::ggplot()] object.
 #'
@@ -79,18 +78,18 @@ plot.TaskSurv = function(x, ...) {
 #' @title Plot for Density Tasks
 #'
 #' @description
-#' Generates plots for [mlr3proba::TaskDens].
+#' Generates plots for [TaskDens].
 #'
-#' @param object ([mlr3proba::TaskDens]).
-#' @param type (`character(1)`):
-#'   Type of the plot. Available choices:
+#' @param object ([TaskDens]).
+#' @param type (`character(1)`)\cr
+#'  Type of the plot. Available choices:
 #'   * `"dens"`: histogram density estimator (default) with [ggplot2::geom_histogram()].
 #'   * `"freq"`: histogram frequency plot with [ggplot2::geom_histogram()].
 #'   * `"overlay"`: histogram with overlaid density plot with [ggplot2::geom_histogram()] and
 #'   [ggplot2::geom_density()].
 #'   * `"freqpoly"`: frequency polygon plot with [ggplot2::geom_freqpoly].
 #' @template param_theme
-#' @param ... (`any`):
+#' @param ... (`any`)\cr
 #'   Additional arguments, possibly passed down to the underlying plot functions.
 #' @return [ggplot2::ggplot()] object.
 #'
@@ -152,7 +151,7 @@ plot.TaskDens = function(x, ...) {
 #' @title Plot for PredictionSurv
 #'
 #' @description
-#' Generates plots for [mlr3proba::PredictionSurv], depending on argument `type`:
+#' Generates plots for [PredictionSurv], depending on argument `type`:
 #'
 #' - `"calib"` (default): **Calibration plot** comparing the average predicted
 #' survival distribution (`Pred`) to a Kaplan-Meier prediction (`KM`), this is
@@ -184,7 +183,7 @@ plot.TaskDens = function(x, ...) {
 #' 2. `type = "dcalib"` is drawn a bit differently from Haider et al. (2020),
 #' though its still conceptually the same.
 #'
-#' @param object ([mlr3proba::PredictionSurv]).
+#' @param object ([PredictionSurv]).
 #' @param type (`character(1)`) \cr
 #'  Type of the plot, see Description.
 #' @param row_ids (`integer()`) \cr
@@ -200,8 +199,8 @@ plot.TaskDens = function(x, ...) {
 #'  If `type = "scalib"`, a specific time point at which the smoothed calibration
 #'  plot is constructed.
 #' @template param_theme
-#' @param ... (`any`):
-#'   Additional arguments, currently unused.
+#' @param ... (`any`)\cr
+#'  Additional arguments, currently unused.
 #'
 #' @template section_theme
 #'
@@ -392,4 +391,52 @@ autoplot.PredictionSurv = function(object, type = "calib",
 
     stopf("Unknown plot type '%s'", type)
   )
+}
+
+#' @title Plots for Cox Proportional Hazards Learner
+#'
+#' @description
+#' Visualizations for [LearnerSurvCoxPH].
+#'
+#' The argument `type` controls what kind of plot is drawn.
+#' The only possible choice right now is `"ggforest"` which is a Forest Plot,
+#' using [ggforest][survminer::ggforest()].
+#' This plot displays the estimated hazard ratios (HRs) and their confidence
+#' intervals (CIs) for different variables included in the trained model.
+#'
+#' @param object ([LearnerSurvCoxPH]).
+#' @param type (character(1))\cr
+#'  Type of the plot. See description.
+#' @param ... Additional parameters passed down to `ggforest`.
+#'
+#' @return [ggplot2::ggplot()].
+#'
+#' @examplesIf mlr3misc::require_namespaces("survminer", quietly = TRUE)
+#' task = tsk("lung")
+#' learner = lrn("surv.coxph")
+#' learner$train(task)
+#' autoplot(learner)
+#'
+#' @export
+autoplot.LearnerSurvCoxPH = function(object, type = "ggforest", ...) {
+  assert_choice(type, choices = c("ggforest"), null.ok = FALSE)
+  assert_class(object, classes = "LearnerSurvCoxPH", null.ok = FALSE)
+
+  if (is.null(object$model)) {
+    stopf("Learner '%s' must be trained first", learner$id)
+  }
+
+  switch(type,
+    "ggforest" = {
+      require_namespaces("survminer")
+      suppressWarnings(survminer::ggforest(object$model, ...))
+    },
+
+    stopf("Unknown plot type '%s'", type)
+  )
+}
+
+#' @export
+plot.LearnerSurvCoxPH = function(x, ...) {
+  print(autoplot(x, ...))
 }

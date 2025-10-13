@@ -9,7 +9,7 @@
 \arguments{
 \item{object}{(\link{TaskDens}).}
 
-\item{type}{(\code{character(1)}):
+\item{type}{(\code{character(1)})\cr
 Type of the plot. Available choices:
 \itemize{
 \item \code{"dens"}: histogram density estimator (default) with \code{\link[ggplot2:geom_histogram]{ggplot2::geom_histogram()}}.
@@ -22,7 +22,7 @@ Type of the plot. Available choices:
 \item{theme}{(\code{\link[ggplot2:theme]{ggplot2::theme()}})\cr
 The \code{\link[ggplot2:ggtheme]{ggplot2::theme_minimal()}} is applied by default to all plots.}
 
-\item{...}{(\code{any}):
+\item{...}{(\code{any})\cr
 Additional arguments, possibly passed down to the underlying plot functions.}
 }
 \value{

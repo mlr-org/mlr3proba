@@ -15,8 +15,8 @@
 \arguments{
 \item{object}{(\link{TaskSurv}).}
 
-\item{type}{(\code{character(1)}):\cr
-Type of the plot. See above for available choices.}
+\item{type}{(\code{character(1)})\cr
+Type of the plot. See Description for available choices.}
 
 \item{theme}{(\code{\link[ggplot2:theme]{ggplot2::theme()}})\cr
 The \code{\link[ggplot2:ggtheme]{ggplot2::theme_minimal()}} is applied by default to all plots.}
@@ -25,11 +25,11 @@ The \code{\link[ggplot2:ggtheme]{ggplot2::theme_minimal()}} is applied by defaul
 If \code{TRUE} and \code{type = 'target'}, it plots the Kaplan-Meier curve of the
 censoring distribution. Default is \code{FALSE}.}
 
-\item{...}{(\code{any}):
+\item{...}{(\code{any})\cr
 Additional arguments.
 \code{rhs} is passed down to \verb{$formula} of \link{TaskSurv} for stratification
-for type \code{"target"}. Other arguments are passed to the respective underlying plot
-functions.}
+for type \code{"target"}. Other arguments are passed to the respective
+underlying plot functions.}
 }
 \value{
 \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object.
@@ -41,8 +41,7 @@ Generates plots for \link{TaskSurv}, depending on argument \code{type}:
 This computes the \strong{Kaplan-Meier survival curve} for the observations if this task.
 \item \code{"duo"}: Passes data and additional arguments down to \code{\link[GGally:ggduo]{GGally::ggduo()}}.
 \code{columnsX} is target, \code{columnsY} is features.
-\item \code{"pairs"}: Passes data and additional arguments down to
-\code{\link[GGally:ggpairs]{GGally::ggpairs()}}.
+\item \code{"pairs"}: Passes data and additional arguments down to \code{\link[GGally:ggpairs]{GGally::ggpairs()}}.
 Color is set to target column.
 }
 }
