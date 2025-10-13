@@ -19,6 +19,7 @@
 <url><loc>https://mlr3proba.mlr-org.com/reference/as_task_dens.html</loc></url>
 <url><loc>https://mlr3proba.mlr-org.com/reference/as_task_surv.html</loc></url>
 <url><loc>https://mlr3proba.mlr-org.com/reference/assert_surv_matrix.html</loc></url>
+<url><loc>https://mlr3proba.mlr-org.com/reference/autoplot.LearnerSurvCoxPH.html</loc></url>
 <url><loc>https://mlr3proba.mlr-org.com/reference/autoplot.PredictionSurv.html</loc></url>
 <url><loc>https://mlr3proba.mlr-org.com/reference/autoplot.TaskDens.html</loc></url>
 <url><loc>https://mlr3proba.mlr-org.com/reference/autoplot.TaskSurv.html</loc></url>
