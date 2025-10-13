@@ -1,8 +1,15 @@
-skip_if_not_installed("mlr3proba")
-require_namespaces("mlr3proba")
-task = tsk("rats")
+skip_if_not_installed("ggplot2")
+skip_if_not_installed("GGally")
+skip_if_not_installed("survminer")
+skip_if_not_installed("polspline")
 
-test_that("autoplot.TaskSurv", {
+test_that("autoplot functions work", {
+  # survival tasks
+  task = tsk("rats")
+  learner = suppressWarnings(lrn("surv.coxph")$train(task))
+  prediction = learner$predict(task)
+
+  # TaskSurv
   p = autoplot(task, type = "target")
   expect_true(is_ggplot(p))
 
@@ -11,12 +18,12 @@ test_that("autoplot.TaskSurv", {
 
   p = autoplot(task, type = "duo")
   expect_s3_class(p, "ggmatrix")
-})
 
-test_that("autoplot.PredictionSurv", {
-  learner = suppressWarnings(mlr3::lrn("surv.coxph")$train(task))
-  prediction = learner$predict(task)
+  # LearnerSurvCoxPH
+  p = autoplot(learner)
+  expect_true(is_ggplot(p))
 
+  # PredictionSurv
   p = autoplot(prediction, type = "calib")
   expect_true(is_ggplot(p))
 
@@ -28,23 +35,19 @@ test_that("autoplot.PredictionSurv", {
 
   p = autoplot(prediction, type = "isd", row_ids = sample(task$row_ids, size = 5))
   expect_true(is_ggplot(p))
-})
 
-test_that("autoplot.TaskDens", {
-  skip_if_not_installed("mlr3proba")
-  require_namespaces("mlr3proba")
+  # TaskDens
+  task_dens = tsk("precip")
 
-  task = tsk("precip")
-
-  p = autoplot(task, type = "dens")
+  p = autoplot(task_dens, type = "dens")
   expect_true(is_ggplot(p))
 
-  p = autoplot(task, type = "freq")
+  p = autoplot(task_dens, type = "freq")
   expect_true(is_ggplot(p))
 
-  p = autoplot(task, type = "overlay")
+  p = autoplot(task_dens, type = "overlay")
   expect_true(is_ggplot(p))
 
-  p = autoplot(task, type = "freqpoly")
+  p = autoplot(task_dens, type = "freqpoly")
   expect_true(is_ggplot(p))
 })
