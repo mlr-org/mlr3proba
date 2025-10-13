@@ -28,6 +28,8 @@ intervals (CIs) for different variables included in the trained model.
 }
 \examples{
 \dontshow{if (mlr3misc::require_namespaces(c("ggplot2", "survminer"), quietly = TRUE)) withAutoprint(\{ # examplesIf}
+library(ggplot2)
+
 task = tsk("lung")
 learner = lrn("surv.coxph")
 learner$train(task)

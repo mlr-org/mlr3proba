@@ -412,6 +412,8 @@ autoplot.PredictionSurv = function(object, type = "calib",
 #' @return [ggplot2::ggplot()].
 #'
 #' @examplesIf mlr3misc::require_namespaces(c("ggplot2", "survminer"), quietly = TRUE)
+#' library(ggplot2)
+#'
 #' task = tsk("lung")
 #' learner = lrn("surv.coxph")
 #' learner$train(task)
