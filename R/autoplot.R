@@ -309,7 +309,7 @@ autoplot.PredictionSurv = function(object, type = "calib",
     },
 
     "scalib" = {
-      requireNamespace("polspline")
+      require_namespaces("polspline")
       # test set survival outcome
       times  = object$truth[, 1L]
       status = object$truth[, 2L]
@@ -411,25 +411,24 @@ autoplot.PredictionSurv = function(object, type = "calib",
 #'
 #' @return [ggplot2::ggplot()].
 #'
-#' @examplesIf mlr3misc::require_namespaces("survminer", quietly = TRUE)
+#' @examplesIf mlr3misc::require_namespaces(c("ggplot2", "survminer"), quietly = TRUE)
 #' task = tsk("lung")
 #' learner = lrn("surv.coxph")
 #' learner$train(task)
 #' autoplot(learner)
-#'
 #' @export
 autoplot.LearnerSurvCoxPH = function(object, type = "ggforest", ...) {
   assert_choice(type, choices = c("ggforest"), null.ok = FALSE)
   assert_class(object, classes = "LearnerSurvCoxPH", null.ok = FALSE)
 
   if (is.null(object$model)) {
-    stopf("Learner '%s' must be trained first", learner$id)
+    stopf("Learner '%s' must be trained first", object$id)
   }
 
   switch(type,
     "ggforest" = {
       require_namespaces("survminer")
-      suppressWarnings(survminer::ggforest(object$model, ...))
+      suppressWarnings(survminer::ggforest(object$model, data = object$model$model, ...))
     },
 
     stopf("Unknown plot type '%s'", type)

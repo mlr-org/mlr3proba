@@ -27,7 +27,7 @@ This plot displays the estimated hazard ratios (HRs) and their confidence
 intervals (CIs) for different variables included in the trained model.
 }
 \examples{
-\dontshow{if (mlr3misc::require_namespaces("survminer", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\dontshow{if (mlr3misc::require_namespaces(c("ggplot2", "survminer"), quietly = TRUE)) withAutoprint(\{ # examplesIf}
 task = tsk("lung")
 learner = lrn("surv.coxph")
 learner$train(task)
