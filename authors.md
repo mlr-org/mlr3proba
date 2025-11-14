@@ -32,7 +32,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/mlr-org/mlr3proba/blob/main/inst/CITATION)
+[`inst/CITATION`](https://github.com/mlr-org/mlr3proba/blob/0.8.5/inst/CITATION)
 
 Sonabend R, Király FJ, Bender A, Bischl B, Lang M (2021). “mlr3proba: An
 R Package for Machine Learning in Survival Analysis.” *Bioinformatics*.
