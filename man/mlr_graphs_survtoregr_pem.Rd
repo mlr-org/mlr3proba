@@ -74,6 +74,7 @@ to \link{PredictionSurv}.
 \dontrun{
   library(mlr3)
   library(mlr3learners)
+  library(mlr3extralearners)
   library(mlr3pipelines)
 
   task = tsk("lung")

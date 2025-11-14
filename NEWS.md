@@ -1,3 +1,7 @@
+# mlr3proba 0.8.5
+
+* Fix compatibility with latest `mlr3pipelines` (0.10.0) and `mlr3tuning` (1.5.0) CRAN versions
+
 # mlr3proba 0.8.4
 
 * Add autoplot for `surv.coxph` learner

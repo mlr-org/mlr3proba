@@ -528,6 +528,7 @@ pipeline_survtoclassif_IPCW = function(learner, tau = NULL, eps = 1e-3, graph_le
 #' \dontrun{
 #'   library(mlr3)
 #'   library(mlr3learners)
+#'   library(mlr3extralearners)
 #'   library(mlr3pipelines)
 #'
 #'   task = tsk("lung")

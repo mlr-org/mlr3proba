@@ -71,7 +71,7 @@ PipeOpPredClassifSurvIPCW = R6Class("PipeOpPredClassifSurvIPCW",
     #' @field predict_type (`character(1)`)\cr
     #' Returns the active predict type of this PipeOp, which is `"crank"`
     predict_type = function(rhs) {
-      assert_ro_binding(rhs)
+      if (!missing(rhs) && !identical(rhs, "crank")) stop("predict_type is read-only")
       "crank"
     }
   ),
