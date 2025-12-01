@@ -53,7 +53,6 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   minimize = NA,
   average = "macro",
   aggregator = NULL,
-  obs_loss = NULL,
   properties = character(),
   predict_type = "distr",
   predict_sets = "test",
@@ -100,9 +99,6 @@ The function in \verb{$aggregator} is not used in this case.}
 Function to aggregate individual performance scores \code{x} where \code{x} is a numeric vector.
 If \code{NULL}, defaults to \code{\link[=mean]{mean()}}.}
 
-\item{\code{obs_loss}}{(\code{function} or \code{NULL})\cr
-The observation-wise loss function, e.g. \link[mlr3measures:zero_one]{zero-one} for classification error.}
-
 \item{\code{properties}}{(\code{character()})\cr
 Properties of the measure.
 Must be a subset of \link[mlr3:mlr_reflections]{mlr_reflections$measure_properties}.
@@ -139,11 +135,6 @@ Label for the new instance.}
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 The referenced help package can be opened via method \verb{$help()}.}
-
-\item{\code{trafo}}{(\code{list()} or \code{NULL})\cr
-An optional list with two elements, containing the transformation \code{"fn"} and its derivative \code{"deriv"}.
-The transformation function is the function that is applied after aggregating the pointwise losses, i.e.
-this requires an \verb{$obs_loss} to be present. An example is \code{sqrt} for RMSE (regression).}
 }
 \if{html}{\out{</div>}}
 }
