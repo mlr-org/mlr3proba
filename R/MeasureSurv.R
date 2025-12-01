@@ -34,7 +34,7 @@ MeasureSurv = R6Class("MeasureSurv",
     initialize = function(id, param_set = ps(), range, minimize = NA, average = "macro",
       aggregator = NULL, properties = character(), predict_type = "distr",
       predict_sets = "test", task_properties = character(), packages = character(),
-      label = NA_character_, man = NA_character_ {
+      label = NA_character_, man = NA_character_, trafo = NULL) {
 
       super$initialize(
         id,
