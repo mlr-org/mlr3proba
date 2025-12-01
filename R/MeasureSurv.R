@@ -21,12 +21,6 @@
 #' @template param_packages
 #' @template param_label
 #' @template param_man
-#' @param obs_loss (`function` or `NULL`)\cr
-#'   The observation-wise loss function, e.g. [zero-one][mlr3measures::zero_one] for classification error.
-#' @param trafo (`list()` or `NULL`)\cr
-#'   An optional list with two elements, containing the transformation `"fn"` and its derivative `"deriv"`.
-#'   The transformation function is the function that is applied after aggregating the pointwise losses, i.e.
-#'   this requires an `$obs_loss` to be present. An example is `sqrt` for RMSE (regression).
 #'
 #' @family Measure
 #' @seealso
@@ -38,9 +32,9 @@ MeasureSurv = R6Class("MeasureSurv",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id, param_set = ps(), range, minimize = NA, average = "macro",
-      aggregator = NULL, obs_loss = NULL, properties = character(), predict_type = "distr",
+      aggregator = NULL, properties = character(), predict_type = "distr",
       predict_sets = "test", task_properties = character(), packages = character(),
-      label = NA_character_, man = NA_character_, trafo = NULL) {
+      label = NA_character_, man = NA_character_ {
 
       super$initialize(
         id,
@@ -50,15 +44,13 @@ MeasureSurv = R6Class("MeasureSurv",
         minimize = minimize,
         average = average,
         aggregator = aggregator,
-        obs_loss = obs_loss,
         properties = properties,
         predict_type = predict_type,
         predict_sets = predict_sets,
         task_properties = task_properties,
         packages = c("mlr3proba", packages),
         label = label,
-        man = man,
-        trafo = NULL
+        man = man
       )
     }
   )
