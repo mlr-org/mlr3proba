@@ -58,7 +58,6 @@ Creates a new instance of this
       minimize = NA,
       average = "macro",
       aggregator = NULL,
-      obs_loss = NULL,
       properties = character(),
       predict_type = "distr",
       predict_sets = "test",
@@ -121,13 +120,6 @@ Creates a new instance of this
   Function to aggregate individual performance scores `x` where `x` is a
   numeric vector. If `NULL`, defaults to
   [`mean()`](https://rdrr.io/r/base/mean.html).
-
-- `obs_loss`:
-
-  (`function` or `NULL`)  
-  The observation-wise loss function, e.g.
-  [zero-one](https://mlr3measures.mlr-org.com/reference/zero_one.html)
-  for classification error.
 
 - `properties`:
 
@@ -196,15 +188,6 @@ Creates a new instance of this
   String in the format `[pkg]::[topic]` pointing to a manual page for
   this object. The referenced help package can be opened via method
   `$help()`.
-
-- `trafo`:
-
-  ([`list()`](https://rdrr.io/r/base/list.html) or `NULL`)  
-  An optional list with two elements, containing the transformation
-  `"fn"` and its derivative `"deriv"`. The transformation function is
-  the function that is applied after aggregating the pointwise losses,
-  i.e. this requires an `$obs_loss` to be present. An example is `sqrt`
-  for RMSE (regression).
 
 ------------------------------------------------------------------------
 

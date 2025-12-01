@@ -1,5 +1,9 @@
 # Changelog
 
+## mlr3proba 0.8.6
+
+- Fix compatibility with `mlr3` (1.3.0)
+
 ## mlr3proba 0.8.5
 
 - Fix compatibility with latest `mlr3pipelines` (0.10.0) and
