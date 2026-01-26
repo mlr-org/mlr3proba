@@ -68,7 +68,7 @@ training, enabling early stopping and logging.'></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>PipeOpTaskSurvClassifDiscTime</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/v0.8.6/R/PipeOpTaskSurvClassifDiscTime.R" class="external-link"><code>R/PipeOpTaskSurvClassifDiscTime.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/main/R/PipeOpTaskSurvClassifDiscTime.R" class="external-link"><code>R/PipeOpTaskSurvClassifDiscTime.R</code></a></small>
       <div class="d-none name"><code>mlr_pipeops_trafotask_survclassif_disctime.Rd</code></div>
     </div>
 
@@ -109,11 +109,11 @@ in each time interval.
 An additional numeric feature named <code>"tend"</code> contains the end time point of each interval.
 Lastly, the "output" task has a column with the original observation ids,
 under the role <code>"original_ids"</code>.
-The "transformed_data" is an empty <a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a>.</p>
+The "transformed_data" is an empty <a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table</a>.</p>
 <p>During prediction, the "input" <a href="TaskSurv.html">TaskSurv</a> is transformed to the "output"
 <a href="https://mlr3.mlr-org.com/reference/TaskClassif.html" class="external-link">TaskClassif</a> with <code>"disc_status"</code> as target and the <code>"tend"</code>
 feature included.
-The "transformed_data" is a <a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a> with columns
+The "transformed_data" is a <a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table</a> with columns
 the <code>"disc_status"</code> target of the "output" task, the <code>"id"</code> (original observation ids),
 <code>"obs_times"</code> (observed times per <code>"id"</code>) and <code>"tend"</code> (end time of each interval).
 This "transformed_data" is only meant to be used with the <a href="mlr_pipeops_trafopred_classifsurv_disctime.html">PipeOpPredClassifSurvDiscTime</a>.</p>

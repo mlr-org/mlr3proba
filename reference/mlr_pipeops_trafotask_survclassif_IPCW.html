@@ -72,7 +72,7 @@ Observations that are censored prior to \(\tau\) are assigned zero weights, i.e.
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>PipeOpTaskSurvClassifIPCW</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/v0.8.6/R/PipeOpTaskSurvClassifIPCW.R" class="external-link"><code>R/PipeOpTaskSurvClassifIPCW.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/main/R/PipeOpTaskSurvClassifIPCW.R" class="external-link"><code>R/PipeOpTaskSurvClassifIPCW.R</code></a></small>
       <div class="d-none name"><code>mlr_pipeops_trafotask_survclassif_IPCW.Rd</code></div>
     </div>
 
@@ -118,7 +118,7 @@ The "data" is <code>NULL</code>.</p>
 <p>During prediction, the "input" <a href="TaskSurv.html">TaskSurv</a> is transformed to the "output"
 <a href="https://mlr3.mlr-org.com/reference/TaskClassif.html" class="external-link">TaskClassif</a> with <code>"status"</code> as target (again indicating
 if the event occurred before the cutoff time).
-The "data" is a <a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a> containing the observed <code>times</code> \(T_i\) and
+The "data" is a <a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table</a> containing the observed <code>times</code> \(T_i\) and
 censoring indicators/<code>status</code> \(\delta_i\) of each subject as well as the corresponding
 <code>row_ids</code>.
 This "data" is only meant to be used with the <a href="mlr_pipeops_trafopred_classifsurv_IPCW.html">PipeOpPredClassifSurvIPCW</a>.</p>

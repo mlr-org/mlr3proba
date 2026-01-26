@@ -76,7 +76,7 @@
   `mlr3pipelines` v0.8.0
 - fix: allow cloning of measure objects
 - fix:
-  [`as.data.table()`](https://rdatatable.gitlab.io/data.table/reference/as.data.table.html)
+  [`as.data.table()`](https://rdrr.io/pkg/data.table/man/as.data.table.html)
   for `PredictionSurv` objects holds now one survival curve per
   observation as it should
 - refactor: `TaskSurv` uses only right, left or interval censoring,

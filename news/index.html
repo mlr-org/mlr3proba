@@ -52,7 +52,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/mlr-org/mlr3proba/blob/v0.8.6/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/mlr-org/mlr3proba/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
     <div class="section level2">
@@ -111,7 +111,7 @@
 <h2 class="pkg-version" data-toc-text="0.8.0" id="mlr3proba-080">mlr3proba 0.8.0<a class="anchor" aria-label="anchor" href="#mlr3proba-080"></a></h2>
 <ul><li>Compatibility with <code>mlr3</code> v1.0.0 (<code>weights_learner</code>) and <code>mlr3pipelines</code> v0.8.0</li>
 <li>fix: allow cloning of measure objects</li>
-<li>fix: <code><a href="https://rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table()</a></code> for <code>PredictionSurv</code> objects holds now one survival curve per observation as it should</li>
+<li>fix: <code><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html" class="external-link">as.data.table()</a></code> for <code>PredictionSurv</code> objects holds now one survival curve per observation as it should</li>
 <li>refactor: <code>TaskSurv</code> uses only right, left or interval censoring, simplified code a lot in the methods</li>
 <li>feat: add <code>TaskCompRisks</code> class and <code>as_task_cmprk()</code> S3 methods (support for right-censored data only)</li>
 <li>feat: New <code>PipeOp</code>s: <code>PipeOpTaskSurvRegrPEM</code>, <code>PipeOpPredRegrPEM</code>

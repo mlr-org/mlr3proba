@@ -51,7 +51,7 @@ transformed to the "output"
 [TaskClassif](https://mlr3.mlr-org.com/reference/TaskClassif.html) with
 `"status"` as target (again indicating if the event occurred before the
 cutoff time). The "data" is a
-[data.table](https://rdatatable.gitlab.io/data.table/reference/data.table.html)
+[data.table](https://rdrr.io/pkg/data.table/man/data.table.html)
 containing the observed `times` \\T_i\\ and censoring
 indicators/`status` \\\delta_i\\ of each subject as well as the
 corresponding `row_ids`. This "data" is only meant to be used with the

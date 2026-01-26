@@ -42,7 +42,7 @@ occurred in each time interval. An additional numeric feature named
 `"tend"` contains the end time point of each interval. Lastly, the
 "output" task has a column with the original observation ids, under the
 role `"original_ids"`. The "transformed_data" is an empty
-[data.table](https://rdatatable.gitlab.io/data.table/reference/data.table.html).
+[data.table](https://rdrr.io/pkg/data.table/man/data.table.html).
 
 During prediction, the "input"
 [TaskSurv](https://mlr3proba.mlr-org.com/reference/TaskSurv.md) is
@@ -50,8 +50,8 @@ transformed to the "output"
 [TaskClassif](https://mlr3.mlr-org.com/reference/TaskClassif.html) with
 `"disc_status"` as target and the `"tend"` feature included. The
 "transformed_data" is a
-[data.table](https://rdatatable.gitlab.io/data.table/reference/data.table.html)
-with columns the `"disc_status"` target of the "output" task, the `"id"`
+[data.table](https://rdrr.io/pkg/data.table/man/data.table.html) with
+columns the `"disc_status"` target of the "output" task, the `"id"`
 (original observation ids), `"obs_times"` (observed times per `"id"`)
 and `"tend"` (end time of each interval). This "transformed_data" is
 only meant to be used with the

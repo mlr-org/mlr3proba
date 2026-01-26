@@ -42,7 +42,7 @@ contains the end time point of each interval. Lastly, the "output" task
 has an offset column `"offset"`. The offset, also referred to as
 *exposure*, is the **logarithm of time spent in interval** \\j\\, i.e.
 \\log(t_j)\\. The "transformed_data" is an empty
-[data.table](https://rdatatable.gitlab.io/data.table/reference/data.table.html).
+[data.table](https://rdrr.io/pkg/data.table/man/data.table.html).
 
 During prediction, the "input"
 [TaskSurv](https://mlr3proba.mlr-org.com/reference/TaskSurv.md) is
@@ -51,8 +51,8 @@ transformed to the "output"
 `"pem_status"` as target, `"tend"` included as feature and and the
 `"offset"` column which is assigned the offset `"col_role"`. The
 "transformed_data" is a
-[data.table](https://rdatatable.gitlab.io/data.table/reference/data.table.html)
-with columns the `"pem_status"` target of the "output" task, the `"id"`
+[data.table](https://rdrr.io/pkg/data.table/man/data.table.html) with
+columns the `"pem_status"` target of the "output" task, the `"id"`
 (original observation ids), `"obs_times"` (observed times per `"id"`)
 and `"tend"` (end time of each interval). This "transformed_data" is
 only meant to be used with the

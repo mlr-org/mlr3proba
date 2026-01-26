@@ -68,7 +68,7 @@ training, enabling early stopping and logging.'></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>PipeOpTaskSurvRegrPEM</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/v0.8.6/R/PipeOpTaskSurvRegrPEM.R" class="external-link"><code>R/PipeOpTaskSurvRegrPEM.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/main/R/PipeOpTaskSurvRegrPEM.R" class="external-link"><code>R/PipeOpTaskSurvRegrPEM.R</code></a></small>
       <div class="d-none name"><code>mlr_pipeops_trafotask_survregr_pem.Rd</code></div>
     </div>
 
@@ -109,11 +109,11 @@ in each time interval.
 An additional numeric feature named <code>"tend"</code> contains the end time point of each interval.
 Lastly, the "output" task has an offset column <code>"offset"</code>.
 The offset, also referred to as <em>exposure</em>, is the <strong>logarithm of time spent in interval</strong> \(j\), i.e. \(log(t_j)\).
-The "transformed_data" is an empty <a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a>.</p>
+The "transformed_data" is an empty <a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table</a>.</p>
 <p>During prediction, the "input" <a href="TaskSurv.html">TaskSurv</a> is transformed to the "output"
 <a href="https://mlr3.mlr-org.com/reference/TaskRegr.html" class="external-link">TaskRegr</a> with <code>"pem_status"</code> as target, <code>"tend"</code> included as feature and
 and the <code>"offset"</code> column which is assigned the offset <code>"col_role"</code>.
-The "transformed_data" is a <a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a> with columns the <code>"pem_status"</code>
+The "transformed_data" is a <a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table</a> with columns the <code>"pem_status"</code>
 target of the "output" task, the <code>"id"</code> (original observation ids),
 <code>"obs_times"</code> (observed times per <code>"id"</code>) and <code>"tend"</code> (end time of each interval).
 This "transformed_data" is only meant to be used with the <a href="mlr_pipeops_trafopred_regrsurv_pem.html">PipeOpPredRegrSurvPEM</a>.</p>
