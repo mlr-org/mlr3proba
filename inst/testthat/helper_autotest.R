@@ -54,3 +54,10 @@ sanity_check.PredictionSurv = function(prediction, ...) {
   prediction$score() > 0.5
 }
 registerS3method("sanity_check", "PredictionSurv", sanity_check.PredictionSurv)
+
+
+check_encapsulation.LearnerSurv = function(learner, task, ...) {
+  if (learner$predict_type %in% c("lp", "response")) return(TRUE)
+  NextMethod()
+}
+registerS3method("check_encapsulation", "LearnerSurv", check_encapsulation.LearnerSurv)
