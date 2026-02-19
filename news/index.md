@@ -1,5 +1,9 @@
 # Changelog
 
+## mlr3proba 0.8.7
+
+- Fix `dictionar6` and `ooplah` CRAN removal
+
 ## mlr3proba 0.8.6
 
 - Fix compatibility with `mlr3` (1.3.0)
