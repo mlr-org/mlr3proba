@@ -84,7 +84,7 @@ Inherited methods
 ### Method `new()`
 
 Creates a new instance of this
-[R6](https://rdrr.io/pkg/R6/man/R6Class.html) class.
+[R6](https://r6.r-lib.org/reference/R6Class.html) class.
 
 #### Usage
 

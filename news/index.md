@@ -1,5 +1,10 @@
 # Changelog
 
+## mlr3proba 0.8.8
+
+- Use `mlr-org` forks of `xoopR` packages for stable future
+  installations of `mlr3proba`
+
 ## mlr3proba 0.8.7
 
 - Fix `dictionar6` and `ooplah` CRAN removal
