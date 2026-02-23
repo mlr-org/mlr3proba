@@ -75,9 +75,9 @@ LinkingTo:
     Rcpp
 Remotes:
     jkropko/coxed@bc92e25,
-    xoopR/ooplah,
-    xoopR/dictionar6,
-    xoopR/set6,
+    mlr-org/ooplah,
+    mlr-org/dictionar6,
+    mlr-org/set6,
     mlr-org/param6,
     mlr-org/distr6
 ByteCompile: true
