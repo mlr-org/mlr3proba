@@ -78,7 +78,7 @@ Remotes:
     xoopR/ooplah,
     xoopR/dictionar6,
     xoopR/set6,
-    xoopR/param6,
+    mlr-org/param6,
     mlr-org/distr6
 ByteCompile: true
 Config/testthat/edition: 3
