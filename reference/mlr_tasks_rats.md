@@ -5,8 +5,8 @@ A survival task for the
 
 ## Format
 
-[R6::R6Class](https://r6.r-lib.org/reference/R6Class.html) inheriting
-from [TaskSurv](https://mlr3proba.mlr-org.com/reference/TaskSurv.md).
+[R6::R6Class](https://rdrr.io/pkg/R6/man/R6Class.html) inheriting from
+[TaskSurv](https://mlr3proba.mlr-org.com/reference/TaskSurv.md).
 
 ## Dictionary
 
