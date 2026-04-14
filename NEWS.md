@@ -1,3 +1,8 @@
+# mlr3proba 0.8.9
+
+* Created `attic` folder for deprecated code
+* Removed `LearnerDensPenalized` as `pendensity` was removed from CRAN (14/4/2026)
+
 # mlr3proba 0.8.8
 
 * Use `mlr-org` forks of `xoopR` packages for stable future installations of `mlr3proba`
