@@ -2,6 +2,7 @@
 
 * Created `attic` folder for deprecated code
 * Removed `LearnerDensPenalized` as `pendensity` was removed from CRAN (14/4/2026)
+* Update `README` with links to `survdistr` and `mlr3cmprsk` as these have matured now
 
 # mlr3proba 0.8.8
 
