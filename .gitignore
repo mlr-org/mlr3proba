@@ -106,3 +106,6 @@ CRAN-RELEASE
 .vscode
 check/*
 docs
+
+/.quarto/
+**/*.quarto_ipynb
