@@ -67,7 +67,6 @@ Other density estimators:
 \code{\link{mlr_learners_dens.locfit}},
 \code{\link{mlr_learners_dens.logspline}},
 \code{\link{mlr_learners_dens.mixed}},
-\code{\link{mlr_learners_dens.pen}},
 \code{\link{mlr_learners_dens.plug}},
 \code{\link{mlr_learners_dens.spline}}
 }

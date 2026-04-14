@@ -70,7 +70,6 @@ Other density estimators:
 \code{\link{mlr_learners_dens.logspline}},
 \code{\link{mlr_learners_dens.mixed}},
 \code{\link{mlr_learners_dens.nonpar}},
-\code{\link{mlr_learners_dens.pen}},
 \code{\link{mlr_learners_dens.spline}}
 }
 \concept{density estimators}
