@@ -96,7 +96,6 @@ Collate:
     'LearnerDensLogspline.R'
     'LearnerDensMixed.R'
     'LearnerDensNonparametric.R'
-    'LearnerDensPenalized.R'
     'LearnerDensPlugin.R'
     'LearnerDensSpline.R'
     'LearnerSurv.R'
