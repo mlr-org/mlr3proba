@@ -164,6 +164,7 @@ Inherited methods
 - [`mlr3::Measure$aggregate()`](https://mlr3.mlr-org.com/reference/Measure.html#method-aggregate)
 - [`mlr3::Measure$format()`](https://mlr3.mlr-org.com/reference/Measure.html#method-format)
 - [`mlr3::Measure$help()`](https://mlr3.mlr-org.com/reference/Measure.html#method-help)
+- [`mlr3::Measure$obs_loss()`](https://mlr3.mlr-org.com/reference/Measure.html#method-obs_loss)
 - [`mlr3::Measure$print()`](https://mlr3.mlr-org.com/reference/Measure.html#method-print)
 - [`mlr3::Measure$score()`](https://mlr3.mlr-org.com/reference/Measure.html#method-score)
 
@@ -206,21 +207,21 @@ p = learner$predict(task, part$test)
 # Harrell's C-index
 p$score(msr("surv.cindex")) # same as `p$score()`
 #> surv.cindex 
-#>   0.7654723 
+#>   0.8439636 
 
 # Uno's C-index
 p$score(msr("surv.cindex", weight_meth = "G2"),
         task = task, train_set = part$train)
 #> surv.cindex 
-#>   0.8161425 
+#>   0.8642846 
 
 # Harrell's C-index evaluated up to a specific time horizon
 p$score(msr("surv.cindex", t_max = 97))
 #> surv.cindex 
-#>   0.7285714 
+#>   0.8386714 
 
 # Harrell's C-index evaluated up to the time corresponding to 30% of censoring
 p$score(msr("surv.cindex", p_max = 0.3))
 #> surv.cindex 
-#>   0.7285714 
+#>   0.8136986 
 ```

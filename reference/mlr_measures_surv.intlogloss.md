@@ -240,6 +240,7 @@ Inherited methods
 - [`mlr3::Measure$aggregate()`](https://mlr3.mlr-org.com/reference/Measure.html#method-aggregate)
 - [`mlr3::Measure$format()`](https://mlr3.mlr-org.com/reference/Measure.html#method-format)
 - [`mlr3::Measure$help()`](https://mlr3.mlr-org.com/reference/Measure.html#method-help)
+- [`mlr3::Measure$obs_loss()`](https://mlr3.mlr-org.com/reference/Measure.html#method-obs_loss)
 - [`mlr3::Measure$print()`](https://mlr3.mlr-org.com/reference/Measure.html#method-print)
 - [`mlr3::Measure$score()`](https://mlr3.mlr-org.com/reference/Measure.html#method-score)
 
@@ -299,36 +300,36 @@ p = cox$predict(task, row_ids = part$test)
 # ISLL, G(t) calculated using the test set
 p$score(msr("surv.intlogloss"))
 #> surv.intlogloss 
-#>       0.4735348 
+#>       0.4670948 
 
 # ISLL, G(t) calculated using the train set (always recommended)
 p$score(msr("surv.intlogloss"), task = task, train_set = part$train)
 #> surv.intlogloss 
-#>       0.5077323 
+#>       0.4650023 
 
 # ISLL, ERV score (comparing with KM baseline)
 p$score(msr("surv.intlogloss", ERV = TRUE), task = task, train_set = part$train)
 #> surv.intlogloss 
-#>      0.02874462 
+#>      0.07346003 
 
 # ISLL at specific time point
 p$score(msr("surv.intlogloss", times = 365), task = task, train_set = part$train)
 #> surv.intlogloss 
-#>        0.720241 
+#>       0.6635655 
 
 # ISLL at multiple time points (integrated)
 p$score(msr("surv.intlogloss", times = c(125, 365, 450), integrated = TRUE),
         task = task, train_set = part$train)
 #> surv.intlogloss 
-#>       0.6371147 
+#>       0.5957225 
 
 # ISLL, use time cutoff
 p$score(msr("surv.intlogloss", t_max = 700), task = task, train_set = part$train)
 #> surv.intlogloss 
-#>       0.5574095 
+#>       0.5746693 
 
 # ISLL, use time cutoff corresponding to specific proportion of censoring on the test set
 p$score(msr("surv.intlogloss", p_max = 0.8), task = task, train_set = part$train)
 #> surv.intlogloss 
-#>       0.5982395 
+#>       0.5866824 
 ```

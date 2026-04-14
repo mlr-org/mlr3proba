@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.8</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.9</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,7 +52,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Nonparametric Density Estimator</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/v0.8.8/R/LearnerDensNonparametric.R" class="external-link"><code>R/LearnerDensNonparametric.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/main/R/LearnerDensNonparametric.R" class="external-link"><code>R/LearnerDensNonparametric.R</code></a></small>
       <div class="d-none name"><code>mlr_learners_dens.nonpar.Rd</code></div>
     </div>
 
@@ -97,7 +97,6 @@ ISBN 9780191545696, <a href="https://books.google.de/books?id=7WBMrZ9umRYC" clas
 <code><a href="mlr_learners_dens.locfit.html">mlr_learners_dens.locfit</a></code>,
 <code><a href="mlr_learners_dens.logspline.html">mlr_learners_dens.logspline</a></code>,
 <code><a href="mlr_learners_dens.mixed.html">mlr_learners_dens.mixed</a></code>,
-<code><a href="mlr_learners_dens.pen.html">mlr_learners_dens.pen</a></code>,
 <code><a href="mlr_learners_dens.plug.html">mlr_learners_dens.plug</a></code>,
 <code><a href="mlr_learners_dens.spline.html">mlr_learners_dens.spline</a></code></p></div>
     </div>
@@ -166,7 +165,7 @@ ISBN 9780191545696, <a href="https://books.google.de/books?id=7WBMrZ9umRYC" clas
 <span class="r-out co"><span class="r-pr">#&gt;</span> • Feature Types: integer and numeric</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> • Encapsulation: none (fallback: -)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> • Properties: weights</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> • Other settings: use_weights = 'use'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> • Other settings: use_weights = 'use', predict_raw = 'FALSE'</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Define a Task</span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">tsk</a></span><span class="op">(</span><span class="st">"faithful"</span><span class="op">)</span></span></span>
@@ -186,7 +185,7 @@ ISBN 9780191545696, <a href="https://books.google.de/books?id=7WBMrZ9umRYC" clas
 <span class="r-in"><span><span class="co"># Score the predictions</span></span></span>
 <span class="r-in"><span><span class="va">predictions</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> dens.logloss </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      1.20037 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     1.172377 </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

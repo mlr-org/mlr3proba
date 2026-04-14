@@ -118,19 +118,19 @@ dens_gen$param_set
 
 task = dens_gen$generate(20)
 head(task)
-#>             x
-#>         <num>
-#> 1: -0.7994923
-#> 2: -0.0871060
-#> 3:  1.2420805
-#> 4:  1.1361390
-#> 5: -1.1946120
-#> 6: -0.4110691
+#>               x
+#>           <num>
+#> 1:  0.564468572
+#> 2: -0.175321385
+#> 3: -0.002574686
+#> 4:  0.588749938
+#> 5:  0.175317158
+#> 6:  1.396922971
 
 # generate 50 samples from a Binomial distribution with specific parameters
 dens_gen = tgen("simdens", distribution = "Bernoulli", pars = list(prob = 0.8))
 task = dens_gen$generate(50)
 task$data()[["x"]]
-#>  [1] 1 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1
-#> [39] 0 1 1 1 0 1 1 1 1 1 1 0
+#>  [1] 1 0 1 1 0 1 1 1 1 1 0 0 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1
+#> [39] 1 0 1 1 1 1 1 1 1 1 0 1
 ```

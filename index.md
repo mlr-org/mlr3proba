@@ -1,12 +1,16 @@
 # mlr3proba
 
 ![](reference/figures/warning.png) This package **will be archived**
-somewhere in 2026. It should work with other mlr3-packages on the
+somewhere in 2026. It should work with other `mlr3`-packages on the
 following versions: `mlr3` (1.2.0/1.3.0), `mlr3pipelines` (0.10.0),
-`mlr3tuning` (1.5.0) and `mlr3extralearners` (1.3.0). Development
-efforts for `mlr3`-compatible survival analysis continues in packages
-`survdistr`, `mlr3survival`, `mlr3cmprsk` (CRAN releases hopefully
-within 2026).
+`mlr3tuning` (1.5.0) and `mlr3extralearners` (1.3.0).
+
+Development efforts for `mlr3`-compatible survival analysis continues in
+the following packages:
+
+- [survdistr](https://github.com/mlr-org/survdistr)
+- [mlr3cmprsk](https://github.com/mlr-org/mlr3cmprsk)
+- `mlr3survival` - `mlr3proba` successor, coming soon :)
 
 Probabilistic Learning for **[mlr3](https://github.com/mlr-org/mlr3/)**
 ([website](https://mlr3proba.mlr-org.com/)).

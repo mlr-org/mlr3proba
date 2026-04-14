@@ -244,6 +244,7 @@ Inherited methods
 - [`mlr3::Measure$aggregate()`](https://mlr3.mlr-org.com/reference/Measure.html#method-aggregate)
 - [`mlr3::Measure$format()`](https://mlr3.mlr-org.com/reference/Measure.html#method-format)
 - [`mlr3::Measure$help()`](https://mlr3.mlr-org.com/reference/Measure.html#method-help)
+- [`mlr3::Measure$obs_loss()`](https://mlr3.mlr-org.com/reference/Measure.html#method-obs_loss)
 - [`mlr3::Measure$print()`](https://mlr3.mlr-org.com/reference/Measure.html#method-print)
 - [`mlr3::Measure$score()`](https://mlr3.mlr-org.com/reference/Measure.html#method-score)
 
@@ -303,36 +304,36 @@ p = cox$predict(task, row_ids = part$test)
 # ISS, G(t) calculated using the test set
 p$score(msr("surv.schmid"))
 #> surv.schmid 
-#>   0.3163985 
+#>   0.2726693 
 
 # ISS, G(t) calculated using the train set (always recommended)
 p$score(msr("surv.schmid"), task = task, train_set = part$train)
 #> surv.schmid 
-#>   0.3454207 
+#>   0.2710003 
 
 # ISS, ERV score (comparing with KM baseline)
 p$score(msr("surv.schmid", ERV = TRUE), task = task, train_set = part$train)
 #> surv.schmid 
-#>  0.05421433 
+#>  0.07103341 
 
 # ISS at specific time point
 p$score(msr("surv.schmid", times = 365), task = task, train_set = part$train)
 #> surv.schmid 
-#>   0.4580939 
+#>   0.4249428 
 
 # ISS at multiple time points (integrated)
 p$score(msr("surv.schmid", times = c(125, 365, 450), integrated = TRUE),
         task = task, train_set = part$train)
 #> surv.schmid 
-#>    0.387498 
+#>   0.3644014 
 
 # ISS, use time cutoff
 p$score(msr("surv.schmid", t_max = 700), task = task, train_set = part$train)
 #> surv.schmid 
-#>   0.3692835 
+#>   0.3363752 
 
 # ISS, use time cutoff corresponding to specific proportion of censoring on the test set
 p$score(msr("surv.schmid", p_max = 0.8), task = task, train_set = part$train)
 #> surv.schmid 
-#>   0.3669306 
+#>   0.3511755 
 ```

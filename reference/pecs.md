@@ -294,7 +294,7 @@ time-points between the range are returned.
 #> • Feature Types: logical, integer, numeric, character, factor, and ordered
 #> • Encapsulation: none (fallback: -)
 #> • Properties: importance, missings, selected_features, and weights
-#> • Other settings: use_weights = 'use'
+#> • Other settings: use_weights = 'use', predict_raw = 'FALSE'
 #> 
 #> $surv.coxph
 #> 
@@ -306,7 +306,7 @@ time-points between the range are returned.
 #> • Feature Types: logical, integer, numeric, and factor
 #> • Encapsulation: none (fallback: -)
 #> • Properties: weights
-#> • Other settings: use_weights = 'use'
+#> • Other settings: use_weights = 'use', predict_raw = 'FALSE'
 #> 
   pecs(learners, task = task, measure = "logloss", times = c(0, 1000), n = 100) +
     ggplot2::labs(y = "ISLL")

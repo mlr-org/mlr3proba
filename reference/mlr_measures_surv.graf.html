@@ -15,7 +15,7 @@ or squared survival loss."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">mlr3proba</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.8</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.9</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,7 +54,7 @@ or squared survival loss."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Integrated Brier Score Survival Measure</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/v0.8.8/R/MeasureSurvGraf.R" class="external-link"><code>R/MeasureSurvGraf.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3proba/blob/main/R/MeasureSurvGraf.R" class="external-link"><code>R/MeasureSurvGraf.R</code></a></small>
       <div class="d-none name"><code>mlr_measures_surv.graf.Rd</code></div>
     </div>
 
@@ -270,9 +270,10 @@ ISSN 1533-7928, <a href="http://jmlr.org/papers/v24/19-1030.html" class="externa
 
 <ul><li><p><a href="#method-MeasureSurvGraf-new"><code>MeasureSurvGraf$new()</code></a></p></li>
 <li><p><a href="#method-MeasureSurvGraf-clone"><code>MeasureSurvGraf$clone()</code></a></p></li>
-</ul></div><p><details open><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate"><a href="https://mlr3.mlr-org.com/reference/Measure.html#method-aggregate"><code>mlr3::Measure$aggregate()</code></a></span></li>
+</ul></div><p><details><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate"><a href="https://mlr3.mlr-org.com/reference/Measure.html#method-aggregate"><code>mlr3::Measure$aggregate()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format"><a href="https://mlr3.mlr-org.com/reference/Measure.html#method-format"><code>mlr3::Measure$format()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help"><a href="https://mlr3.mlr-org.com/reference/Measure.html#method-help"><code>mlr3::Measure$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="obs_loss"><a href="https://mlr3.mlr-org.com/reference/Measure.html#method-obs_loss"><code>mlr3::Measure$obs_loss()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print"><a href="https://mlr3.mlr-org.com/reference/Measure.html#method-print"><code>mlr3::Measure$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score"><a href="https://mlr3.mlr-org.com/reference/Measure.html#method-score"><code>mlr3::Measure$score()</code></a></span></li>
 </ul></details></p><hr><a id="method-MeasureSurvGraf-new"></a><div class="section">
@@ -333,38 +334,38 @@ Standardize measure against a Kaplan-Meier baseline
 <span class="r-in"><span><span class="co"># ISBS, G(t) calculated using the test set</span></span></span>
 <span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.graf"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surv.graf </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.1532456 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.1581138 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># ISBS, G(t) calculated using the train set (always recommended)</span></span></span>
 <span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.graf"</span><span class="op">)</span>, task <span class="op">=</span> <span class="va">task</span>, train_set <span class="op">=</span> <span class="va">part</span><span class="op">$</span><span class="va">train</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surv.graf </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.1548128 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.1665078 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># ISBS, ERV score (comparing with KM baseline)</span></span></span>
 <span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.graf"</span>, ERV <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, task <span class="op">=</span> <span class="va">task</span>, train_set <span class="op">=</span> <span class="va">part</span><span class="op">$</span><span class="va">train</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> surv.graf </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.076671 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   surv.graf </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -0.07971927 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># ISBS at specific time point</span></span></span>
 <span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.graf"</span>, times <span class="op">=</span> <span class="fl">365</span><span class="op">)</span>, task <span class="op">=</span> <span class="va">task</span>, train_set <span class="op">=</span> <span class="va">part</span><span class="op">$</span><span class="va">train</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surv.graf </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.228065 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.27917 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># ISBS at multiple time points (integrated)</span></span></span>
 <span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.graf"</span>, times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">125</span>, <span class="fl">365</span>, <span class="fl">450</span><span class="op">)</span>, integrated <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>        task <span class="op">=</span> <span class="va">task</span>, train_set <span class="op">=</span> <span class="va">part</span><span class="op">$</span><span class="va">train</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surv.graf </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.2046499 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.21413 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># ISBS, use time cutoff</span></span></span>
 <span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.graf"</span>, t_max <span class="op">=</span> <span class="fl">700</span><span class="op">)</span>, task <span class="op">=</span> <span class="va">task</span>, train_set <span class="op">=</span> <span class="va">part</span><span class="op">$</span><span class="va">train</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surv.graf </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.1951457 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.1997295 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># ISBS, use time cutoff corresponding to specific proportion of censoring on the test set</span></span></span>
 <span class="r-in"><span><span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"surv.graf"</span>, p_max <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span>, task <span class="op">=</span> <span class="va">task</span>, train_set <span class="op">=</span> <span class="va">part</span><span class="op">$</span><span class="va">train</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surv.graf </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.2032645 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.1910183 </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

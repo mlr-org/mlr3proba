@@ -146,9 +146,9 @@ library(mlr3)
 # get all density learners from mlr_learners:
 lrns = mlr_learners$mget(mlr_learners$keys("^dens"))
 names(lrns)
-#>  [1] "dens.hist"      "dens.kde"       "dens.kde_ks"    "dens.locfit"   
-#>  [5] "dens.logspline" "dens.mixed"     "dens.nonpar"    "dens.pen"      
-#>  [9] "dens.plug"      "dens.spline"   
+#> [1] "dens.hist"      "dens.kde"       "dens.kde_ks"    "dens.locfit"   
+#> [5] "dens.logspline" "dens.mixed"     "dens.nonpar"    "dens.plug"     
+#> [9] "dens.spline"   
 
 # get a specific learner from mlr_learners:
 mlr_learners$get("dens.hist")
@@ -161,7 +161,7 @@ mlr_learners$get("dens.hist")
 #> • Feature Types: integer and numeric
 #> • Encapsulation: none (fallback: -)
 #> • Properties:
-#> • Other settings: use_weights = 'error'
+#> • Other settings: use_weights = 'error', predict_raw = 'FALSE'
 lrn("dens.hist")
 #> 
 #> ── <LearnerDensHistogram> (dens.hist): Histogram Density Estimator ─────────────
@@ -172,5 +172,5 @@ lrn("dens.hist")
 #> • Feature Types: integer and numeric
 #> • Encapsulation: none (fallback: -)
 #> • Properties:
-#> • Other settings: use_weights = 'error'
+#> • Other settings: use_weights = 'error', predict_raw = 'FALSE'
 ```

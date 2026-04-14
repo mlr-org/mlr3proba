@@ -240,6 +240,7 @@ Inherited methods
 - [`mlr3::Measure$aggregate()`](https://mlr3.mlr-org.com/reference/Measure.html#method-aggregate)
 - [`mlr3::Measure$format()`](https://mlr3.mlr-org.com/reference/Measure.html#method-format)
 - [`mlr3::Measure$help()`](https://mlr3.mlr-org.com/reference/Measure.html#method-help)
+- [`mlr3::Measure$obs_loss()`](https://mlr3.mlr-org.com/reference/Measure.html#method-obs_loss)
 - [`mlr3::Measure$print()`](https://mlr3.mlr-org.com/reference/Measure.html#method-print)
 - [`mlr3::Measure$score()`](https://mlr3.mlr-org.com/reference/Measure.html#method-score)
 
@@ -299,36 +300,36 @@ p = cox$predict(task, row_ids = part$test)
 # ISBS, G(t) calculated using the test set
 p$score(msr("surv.graf"))
 #> surv.graf 
-#> 0.1532456 
+#> 0.1581138 
 
 # ISBS, G(t) calculated using the train set (always recommended)
 p$score(msr("surv.graf"), task = task, train_set = part$train)
 #> surv.graf 
-#> 0.1548128 
+#> 0.1665078 
 
 # ISBS, ERV score (comparing with KM baseline)
 p$score(msr("surv.graf", ERV = TRUE), task = task, train_set = part$train)
-#> surv.graf 
-#>  0.076671 
+#>   surv.graf 
+#> -0.07971927 
 
 # ISBS at specific time point
 p$score(msr("surv.graf", times = 365), task = task, train_set = part$train)
 #> surv.graf 
-#>  0.228065 
+#>   0.27917 
 
 # ISBS at multiple time points (integrated)
 p$score(msr("surv.graf", times = c(125, 365, 450), integrated = TRUE),
         task = task, train_set = part$train)
 #> surv.graf 
-#> 0.2046499 
+#>   0.21413 
 
 # ISBS, use time cutoff
 p$score(msr("surv.graf", t_max = 700), task = task, train_set = part$train)
 #> surv.graf 
-#> 0.1951457 
+#> 0.1997295 
 
 # ISBS, use time cutoff corresponding to specific proportion of censoring on the test set
 p$score(msr("surv.graf", p_max = 0.8), task = task, train_set = part$train)
 #> surv.graf 
-#> 0.2032645 
+#> 0.1910183 
 ```

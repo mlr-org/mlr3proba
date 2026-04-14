@@ -40,7 +40,6 @@ Other density estimators:
 [`mlr_learners_dens.logspline`](https://mlr3proba.mlr-org.com/reference/mlr_learners_dens.logspline.md),
 [`mlr_learners_dens.mixed`](https://mlr3proba.mlr-org.com/reference/mlr_learners_dens.mixed.md),
 [`mlr_learners_dens.nonpar`](https://mlr3proba.mlr-org.com/reference/mlr_learners_dens.nonpar.md),
-[`mlr_learners_dens.pen`](https://mlr3proba.mlr-org.com/reference/mlr_learners_dens.pen.md),
 [`mlr_learners_dens.plug`](https://mlr3proba.mlr-org.com/reference/mlr_learners_dens.plug.md),
 [`mlr_learners_dens.spline`](https://mlr3proba.mlr-org.com/reference/mlr_learners_dens.spline.md)
 
@@ -114,7 +113,7 @@ print(learner)
 #> • Feature Types: integer and numeric
 #> • Encapsulation: none (fallback: -)
 #> • Properties:
-#> • Other settings: use_weights = 'error'
+#> • Other settings: use_weights = 'error', predict_raw = 'FALSE'
 
 # Define a Task
 task = tsk("faithful")
@@ -134,11 +133,11 @@ print(learner$model)
 #> [1] 1.5 2.0 2.5 3.0 3.5 4.0 4.5 5.0 5.5
 #> 
 #> $counts
-#> [1] 37 31  1  7 18 53 32  3
+#> [1] 32 31  2  4 23 49 39  2
 #> 
 #> $density
-#> [1] 0.40659341 0.34065934 0.01098901 0.07692308 0.19780220 0.58241758 0.35164835
-#> [8] 0.03296703
+#> [1] 0.35164835 0.34065934 0.02197802 0.04395604 0.25274725 0.53846154 0.42857143
+#> [8] 0.02197802
 #> 
 #> $mids
 #> [1] 1.75 2.25 2.75 3.25 3.75 4.25 4.75 5.25
@@ -161,5 +160,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> dens.logloss 
-#>     1.170993 
+#>     1.135704 
 ```

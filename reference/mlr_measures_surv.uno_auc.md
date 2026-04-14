@@ -135,6 +135,7 @@ Inherited methods
 - [`mlr3::Measure$aggregate()`](https://mlr3.mlr-org.com/reference/Measure.html#method-aggregate)
 - [`mlr3::Measure$format()`](https://mlr3.mlr-org.com/reference/Measure.html#method-format)
 - [`mlr3::Measure$help()`](https://mlr3.mlr-org.com/reference/Measure.html#method-help)
+- [`mlr3::Measure$obs_loss()`](https://mlr3.mlr-org.com/reference/Measure.html#method-obs_loss)
 - [`mlr3::Measure$print()`](https://mlr3.mlr-org.com/reference/Measure.html#method-print)
 - [`mlr3::Measure$score()`](https://mlr3.mlr-org.com/reference/Measure.html#method-score)
 
@@ -187,17 +188,17 @@ p = cox$predict(task, row_ids = part$test)
 p$score(msr("surv.uno_auc"), task = task,
         train_set = part$train, learner = cox)
 #> surv.uno_auc 
-#>    0.5788296 
+#>    0.6882169 
 
 # AUC at specific time point
 p$score(msr("surv.uno_auc", times = 600), task = task,
         train_set = part$train, learner = cox)
 #> surv.uno_auc 
-#>    0.5578532 
+#>    0.6256248 
 
 # Integrated AUC at specific time points
 p$score(msr("surv.uno_auc", times = c(100, 200, 300, 400, 500)),
         task = task, train_set = part$train, learner = cox)
 #> surv.uno_auc 
-#>    0.6051487 
+#>    0.6831122 
 ```

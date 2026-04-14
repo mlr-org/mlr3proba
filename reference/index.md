@@ -225,9 +225,6 @@
 - [`mlr_learners_dens.nonpar`](https://mlr3proba.mlr-org.com/reference/mlr_learners_dens.nonpar.md)
   [`LearnerDensNonparametric`](https://mlr3proba.mlr-org.com/reference/mlr_learners_dens.nonpar.md)
   : Nonparametric Density Estimator
-- [`mlr_learners_dens.pen`](https://mlr3proba.mlr-org.com/reference/mlr_learners_dens.pen.md)
-  [`LearnerDensPenalized`](https://mlr3proba.mlr-org.com/reference/mlr_learners_dens.pen.md)
-  : Penalized Density Estimator
 - [`mlr_learners_dens.plug`](https://mlr3proba.mlr-org.com/reference/mlr_learners_dens.plug.md)
   [`LearnerDensPlugin`](https://mlr3proba.mlr-org.com/reference/mlr_learners_dens.plug.md)
   : Plug-in Kernel Density Estimator
