@@ -41,6 +41,8 @@ register_graph = function(name, constructor) {
 register_reflections = function() {
   x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
 
+  x$loaded_packages = c(x$loaded_packages, "mlr3proba")
+
   # task types
   x$task_types = x$task_types[!c("surv", "dens")]
   x$task_types = setkeyv(rbind(x$task_types, rowwise_table(
