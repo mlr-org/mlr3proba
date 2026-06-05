@@ -55,6 +55,7 @@ methods to install it:
 Install the latest released version:
 
 ``` r
+
 install.packages("mlr3proba", repos = "https://mlr-org.r-universe.dev")
 ```
 
@@ -63,6 +64,7 @@ install.packages("mlr3proba", repos = "https://mlr-org.r-universe.dev")
 Install the latest development version:
 
 ``` r
+
 # install.packages("pak")
 pak::pak("mlr-org/mlr3proba")
 ```
@@ -106,15 +108,15 @@ For density estimation and probabilistic regression only the
 Some commonly used measures for right-censored single-event tasks are
 the following:
 
-| ID                                                                                             | Measure                   | Package     | Category       | Prediction Type |
-|:-----------------------------------------------------------------------------------------------|:--------------------------|:------------|:---------------|:----------------|
-| [surv.dcalib](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.dcalib.html)           | D-Calibration             | `mlr3proba` | Calibration    | `distr`         |
-| [surv.calib_index](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.calib_index.html) | One-point Calibration     | `mlr3proba` | Calibration    | `distr`         |
-| [surv.cindex](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.cindex.html)           | Concordance Index         | `mlr3proba` | Discrimination | `crank`         |
-| [surv.uno_auc](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.uno_auc.html)         | Uno’s AUC                 | `survAUC`   | Discrimination | `lp`            |
-| [surv.graf](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.graf.html)               | Integrated Brier Score    | `mlr3proba` | Scoring Rule   | `distr`         |
-| [surv.rcll](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.rcll.html)               | Right-Censored Log loss   | `mlr3proba` | Scoring Rule   | `distr`         |
-| [surv.intlogloss](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.intlogloss.html)   | Integrated Log-Likelihood | `mlr3proba` | Scoring Rule   | `distr`         |
+| ID | Measure | Package | Category | Prediction Type |
+|:---|:---|:---|:---|:---|
+| [surv.dcalib](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.dcalib.html) | D-Calibration | `mlr3proba` | Calibration | `distr` |
+| [surv.calib_index](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.calib_index.html) | One-point Calibration | `mlr3proba` | Calibration | `distr` |
+| [surv.cindex](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.cindex.html) | Concordance Index | `mlr3proba` | Discrimination | `crank` |
+| [surv.uno_auc](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.uno_auc.html) | Uno’s AUC | `survAUC` | Discrimination | `lp` |
+| [surv.graf](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.graf.html) | Integrated Brier Score | `mlr3proba` | Scoring Rule | `distr` |
+| [surv.rcll](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.rcll.html) | Right-Censored Log loss | `mlr3proba` | Scoring Rule | `distr` |
+| [surv.intlogloss](https://mlr3proba.mlr-org.com/reference/mlr_measures_surv.intlogloss.html) | Integrated Log-Likelihood | `mlr3proba` | Scoring Rule | `distr` |
 
 ## Bugs, Questions, Feedback
 

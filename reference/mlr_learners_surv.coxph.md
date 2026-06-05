@@ -39,13 +39,13 @@ with the associated sugar function
 
 ## Parameters
 
-|             |           |         |                                    |              |
-|-------------|-----------|---------|------------------------------------|--------------|
-| Id          | Type      | Default | Levels                             | Range        |
-| ties        | character | efron   | efron, breslow, exact              | \-           |
-| singular.ok | logical   | TRUE    | TRUE, FALSE                        | \-           |
-| type        | character | efron   | efron, aalen, kalbfleisch-prentice | \-           |
-| stype       | integer   | 2       |                                    | \\\[1, 2\]\\ |
+|  |  |  |  |  |
+|----|----|----|----|----|
+| Id | Type | Default | Levels | Range |
+| ties | character | efron | efron, breslow, exact | \- |
+| singular.ok | logical | TRUE | TRUE, FALSE | \- |
+| type | character | efron | efron, aalen, kalbfleisch-prentice | \- |
+| stype | integer | 2 |  | \\\[1, 2\]\\ |
 
 ## References
 

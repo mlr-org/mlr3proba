@@ -25,11 +25,11 @@ or with the associated sugar function
 
 ## Parameters
 
-|              |           |         |                                                                                                                                                             |
-|--------------|-----------|---------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Id           | Type      | Default | Levels                                                                                                                                                      |
-| distribution | character | Normal  | Arcsine, Arrdist, Bernoulli, Beta, BetaNoncentral, Binomial, Categorical, Cauchy, ChiSquared, ChiSquaredNoncentral, [...](https://rdrr.io/r/base/dots.html) |
-| pars         | untyped   | \-      |                                                                                                                                                             |
+|  |  |  |  |
+|----|----|----|----|
+| Id | Type | Default | Levels |
+| distribution | character | Normal | Arcsine, Arrdist, Bernoulli, Beta, BetaNoncentral, Binomial, Categorical, Cauchy, ChiSquared, ChiSquaredNoncentral, [...](https://rdrr.io/r/base/dots.html) |
+| pars | untyped | \- |  |
 
 ## See also
 

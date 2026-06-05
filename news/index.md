@@ -1,5 +1,9 @@
 # Changelog
 
+## mlr3proba 0.8.10
+
+- Internal: register `mlr3proba` in `mlr_reflections$loaded_packages`
+
 ## mlr3proba 0.8.9
 
 - Created `attic` folder for deprecated code

@@ -36,7 +36,7 @@ Source:
 
 Sonabend R, Király FJ, Bender A, Bischl B, Lang M (2021). “mlr3proba: An
 R Package for Machine Learning in Survival Analysis.” *Bioinformatics*.
-ISSN 1367-4803,
+ISSN 1367-4803.
 [doi:10.1093/bioinformatics/btab039](https://doi.org/10.1093/bioinformatics/btab039).
 
     @Article{,

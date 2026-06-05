@@ -136,7 +136,6 @@ print(learner$model)
 
 # Make predictions for the test rows
 predictions = learner$predict(task, row_ids = ids$test)
-#> Multistart 1 of 1 |Multistart 1 of 1 |Multistart 1 of 1 |Multistart 1 of 1 /Multistart 1 of 1 |Multistart 1 of 1 |                   
 
 # Score the predictions
 predictions$score()

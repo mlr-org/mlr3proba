@@ -1,7 +1,7 @@
 # KS Kernel Density Estimator
 
-Calls [`ks::kde()`](https://rdrr.io/pkg/ks/man/kde.html) and the result
-is coerced to a
+Calls [`ks::kde()`](https://mvstat.net/ks/reference/kde.html) and the
+result is coerced to a
 [distr6::Distribution](https://xoopr.github.io/distr6/reference/Distribution.html).
 
 ## Dictionary
