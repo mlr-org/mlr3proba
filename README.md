@@ -12,7 +12,7 @@ the following packages:
 
 - [survdistr](https://github.com/mlr-org/survdistr)
 - [mlr3cmprsk](https://github.com/mlr-org/mlr3cmprsk)
-- `mlr3survival` - `mlr3proba` successor, coming soon :)
+- [mlr3survival](https://github.com/mlr-org/mlr3survival) - `mlr3proba` successor, coming soon :)
 
 Probabilistic Learning for **[mlr3](https://github.com/mlr-org/mlr3/)**
 ([website](https://mlr3proba.mlr-org.com/)).
