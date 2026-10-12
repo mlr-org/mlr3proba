@@ -141,5 +141,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> dens.logloss 
-#>     1.172377 
+#>      1.21229 
 ```
