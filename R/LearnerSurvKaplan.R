@@ -61,7 +61,7 @@ LearnerSurvKaplan = R6Class("LearnerSurvKaplan",
     .train = function(task) {
       fit = invoke(
         survival::survfit,
-        formula = task$formula(1),
+        formula = task$formula("1"),
         data = task$data(),
         .args = list(weights = private$.get_weights(task))
       )
