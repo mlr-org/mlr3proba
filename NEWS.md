@@ -1,4 +1,4 @@
-# mlr3proba (development version)
+# mlr3proba 0.9.0
 
 * Fix: `autoplot()` for `TaskSurv`, `TaskSurv$kaplan()`, and `lrn("surv.kaplan")` no longer fail with `mlr3misc` >= 0.24.0, which requires a character `rhs` in `formulate()`
 
