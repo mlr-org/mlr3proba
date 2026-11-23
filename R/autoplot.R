@@ -46,7 +46,7 @@ autoplot.TaskSurv = function(object, type = "target", theme = theme_minimal(), r
       ddd = list(...)
 
       sf = survival::survfit(
-        object$formula(rhs = ddd$rhs %??% 1, reverse = reverse),
+        object$formula(rhs = ddd$rhs %??% "1", reverse = reverse),
         data = object$data()
       )
 
