@@ -217,7 +217,7 @@ TaskSurv = R6Class("TaskSurv",
     #' @return [survival::survfit.object].
     kaplan = function(strata = NULL, rows = NULL, reverse = FALSE, ...) {
       assert_character(strata, null.ok = TRUE)
-      f = self$formula(strata %??% 1, reverse)
+      f = self$formula(strata %??% "1", reverse)
       cols = c(self$target_names, intersect(self$backend$colnames, strata))
       data = self$data(rows = rows, cols = cols)
       survival::survfit(f, data = data, ...)
