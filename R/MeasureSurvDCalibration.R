@@ -109,7 +109,7 @@ MeasureSurvDCalibration = R6Class("MeasureSurvDCalibration",
           bj[ji] = bj[ji] + 1
         } else {
           # censored observations spread across buckets with most weighting on penultimate
-          for (k in seq.int(ji - 1)) {
+          for (k in seq_len(ji - 1)) {
             bj[k] = bj[k] + 1 / (B * si[[i]])
           }
           bj[ji] = bj[ji] + (1 - (ji - 1) / (B * si[[i]]))
