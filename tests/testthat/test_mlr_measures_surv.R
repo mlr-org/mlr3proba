@@ -120,6 +120,30 @@ test_that("dcalib works", {
   expect_gt(score5, score)
 })
 
+test_that("dcalib handles censored observations in the first bucket", {
+  # Single censored observation with S(c) <= 1/B lies entirely in bucket 1:
+  # bj = (1, 0, ..., 0), so s = (B / 1) * ((1 - 1/B)^2 + (B - 1) * (1/B)^2) = B - 1
+  surv_mat = matrix(c(0.5, 0.05), nrow = 1, dimnames = list(NULL, c("1", "2")))
+  p_small = PredictionSurv$new(row_ids = 1L, truth = survival::Surv(2, 0), crank = 0, distr = surv_mat)
+  expect_equal(unname(p_small$score(msr("surv.dcalib", B = 10L))), 9)
+
+  # S(c) = 0 (clamped to 1e-5) also lies in bucket 1 and contributes mass 1
+  surv_mat0 = matrix(c(0.5, 0.0), nrow = 1, dimnames = list(NULL, c("1", "2")))
+  p_zero = PredictionSurv$new(row_ids = 1L, truth = survival::Surv(2, 0), crank = 0, distr = surv_mat0)
+  expect_equal(unname(p_zero$score(msr("surv.dcalib", B = 10L))), 9)
+
+  # B = 1 puts all observations in bucket 1, yielding s = 0
+  expect_equal(unname(p_small$score(msr("surv.dcalib", B = 1L))), 0)
+
+  # Real survival task with censored observations in bucket 1:
+  # total bucket mass equals n, so chisq = TRUE matches pchisq(s, B - 1, lower.tail = FALSE)
+  t_lung = tsk("lung")
+  p_lung = suppressWarnings(lrn("surv.coxph")$train(t_lung)$predict(t_lung))
+  s_lung = p_lung$score(msr("surv.dcalib", B = 10L, chisq = FALSE))
+  p_val = suppressWarnings(p_lung$score(msr("surv.dcalib", B = 10L, chisq = TRUE)))
+  expect_equal(unname(pchisq(s_lung, df = 9L, lower.tail = FALSE)), unname(p_val))
+})
+
 test_that("mae/mse/rmse work", {
   is_event = pred$truth[, 2L] == 1
   event_times = pred$truth[is_event, 1L]
